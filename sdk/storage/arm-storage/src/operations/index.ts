@@ -21,3 +21,7 @@ export * from "./blobServices";
 export * from "./blobContainers";
 export * from "./fileServices";
 export * from "./fileShares";
+export * from "./queueServices";
+export * from "./queue";
+export * from "./tableServices";
+export * from "./tableOperations";

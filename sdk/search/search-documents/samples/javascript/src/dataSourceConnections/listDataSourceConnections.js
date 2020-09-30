@@ -12,13 +12,16 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running List Datasource Connections Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   const listOfDataSourceConnections = await client.listDataSourceConnections();
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`)
-  for(let ds of listOfDataSourceConnections) {
+  for(const ds of listOfDataSourceConnections) {
     console.log(`Name: ${ds.name}`);
     console.log(`Description: ${ds.description}`);
     console.log(`Connection String: ${ds.connectionString}`);
@@ -32,4 +35,6 @@ async function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

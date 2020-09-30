@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { env, isPlaybackMode, Recorder, delay, isRecordMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
@@ -90,24 +90,23 @@ describe("Certificates client - restore certificates and recover backups", () =>
       );
       await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
-      await testClient.flushCertificate(certificateName);
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        try {
-          await client.restoreCertificateBackup(backup as Uint8Array);
-          break;
-        } catch (e) {
-          console.log("Can't restore the certificate since it's not fully deleted:", e.message);
-          console.log("Retrying in one second...");
-          await delay(1000);
-        }
-      }
-      const getResult = await client.getCertificate(certificateName);
-      assert.equal(
-        getResult.properties.name,
+      const deletePoller = await client.beginDeleteCertificate(
         certificateName,
-        "Unexpected certificate name in result from getCertificate()."
+        testPollerProperties
       );
+      await deletePoller.pollUntilDone();
+      await client.purgeDeletedCertificate(certificateName);
+
+      // One would normally do this, but this can't immediately happen after the resource is purged:
+      // await client.restoreCertificateBackup(backup as Uint8Array);
+
+      // This test implementation of a restore poller only applies for backups that have been recently deleted.
+      // Backups might not be ready to be restored in an unknown amount of time.
+      // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
+      const restorePoller = await testClient.beginRestoreCertificateBackup(backup as Uint8Array);
+      const restoredCertificate = await restorePoller.pollUntilDone();
+
+      assert.equal(restoredCertificate.name, certificateName);
       await testClient.flushCertificate(certificateName);
     });
   }

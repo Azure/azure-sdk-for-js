@@ -104,6 +104,7 @@ export interface HttpsClient {
 export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
 }
 
 // @public
@@ -129,6 +130,12 @@ export interface LogPolicyOptions {
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
+
+// @public
+export function ndJsonPolicy(): PipelinePolicy;
+
+// @public
+export const ndJsonPolicyName = "ndJsonPolicy";
 
 // @public
 export interface Pipeline {

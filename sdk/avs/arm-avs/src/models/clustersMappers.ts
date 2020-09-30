@@ -7,19 +7,21 @@
  */
 
 export {
-  ApiError,
-  ApiErrorBase,
   BaseResource,
   Circuit,
+  CloudError,
   Cluster,
   ClusterList,
-  ClusterProperties,
-  DefaultClusterProperties,
+  ClusterUpdate,
+  ClusterUpdateProperties,
   Endpoints,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   ExpressRouteAuthorization,
+  HcxEnterpriseSite,
   IdentitySource,
+  ManagementCluster,
   PrivateCloud,
-  PrivateCloudProperties,
   Resource,
   Sku,
   TrackedResource

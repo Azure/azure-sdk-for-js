@@ -148,6 +148,48 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
+  it("conditional tags for appendBlockFromURL's destination blob", async () => {
+    const newBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob"));
+    const tags2 = {
+      tag: "val"
+    };
+    await newBlobClient.create({ tags: tags2 });
+
+    const content = "Hello World!";
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+    // Get a SAS for blobURL
+    const factories = (blockBlobClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r")
+      },
+      credential
+    );
+
+    let exceptionCaught = false;
+    try {
+      await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
+        conditions: { tagConditions: "tag1 = 'val2'" }
+      });
+    } catch (err) {
+      assert.equal(err.details?.errorCode, "ConditionNotMet");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
+      conditions: { tagConditions: "tag = 'val'" }
+    });
+  });
+
   it("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
     const cResp = await appendBlobClient.create({
       customerProvidedKey: Test_CPK_INFO

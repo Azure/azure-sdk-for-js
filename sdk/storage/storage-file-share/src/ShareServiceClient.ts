@@ -15,6 +15,7 @@ import {
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
+import { ShareClientInternal } from "./ShareClientInternal";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -106,12 +107,20 @@ export interface ServiceListSharesOptions extends CommonOptions {
   includeMetadata?: boolean;
 
   /**
-   * Specifies that share metadata should be returned in the response.
+   * Specifies that share snapshot should be returned in the response.
    *
    * @type {boolean}
    * @memberof ServiceListSharesOptions
    */
   includeSnapshots?: boolean;
+
+  /**
+   * Specifies that share soft deleted should be returned in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListSharesOptions
+   */
+  includeDeleted?: boolean;
 }
 
 /**
@@ -144,6 +153,23 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link ShareServiceClient.undelete} operation.
+ *
+ * @export
+ * @interface ServiceUndeleteShareOptions
+ */
+export interface ServiceUndeleteShareOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceUndeleteShareOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -543,6 +569,9 @@ export class ShareServiceClient extends StorageClient {
     if (options.includeSnapshots) {
       include.push("snapshots");
     }
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
 
     const updatedOptions: ServiceListSharesSegmentOptions = {
       ...options,
@@ -609,6 +638,46 @@ export class ShareServiceClient extends StorageClient {
         ...options,
         spanOptions
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restores a previously deleted share.
+   * This API is only functional if Share Soft Delete is enabled
+   * for the storage account associated with the share.
+   *
+   * @param deletedShareName The name of the previously deleted share.
+   * @param deletedShareVersion The version of the previously deleted share.
+   * @param {ShareUndeleteOptions} [options] Options to Share undelete operation.
+   * @returns {Promise<ShareClient>} Restored share.
+   * @memberof ShareServiceClient
+   */
+  public async undeleteShare(
+    deletedShareName: string,
+    deletedShareVersion: string,
+    options: ServiceUndeleteShareOptions = {}
+  ): Promise<ShareClient> {
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-undeleteShare",
+      options.tracingOptions
+    );
+    try {
+      const shareClient = this.getShareClient(deletedShareName);
+      await new ShareClientInternal(shareClient.url, this.pipeline).restore({
+        deletedShareName: deletedShareName,
+        deletedShareVersion: deletedShareVersion,
+        aborterSignal: options.abortSignal,
+        spanOptions
+      });
+      return shareClient;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

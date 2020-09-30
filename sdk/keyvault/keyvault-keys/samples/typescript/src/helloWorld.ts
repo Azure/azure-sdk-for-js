@@ -15,8 +15,7 @@ export async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
   const uniqueString = new Date().getTime();
@@ -46,7 +45,7 @@ export async function main(): Promise<void> {
 
   // Update the key
   const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
-    enabled: false
+    enabled: false,
   });
   console.log("updated key: ", updatedKey);
 

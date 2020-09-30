@@ -72,22 +72,22 @@
     "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/coreArm.js.map'\" -o ./dist/coreArm.min.js ./dist/coreArm.js",
     "build:test": "npm run build",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist",
     "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts -f html -o core-arm-lintReport.html || exit 0",
-    "lint:terminal": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts",
+    "lint:fix": "echo skipped",
+    "lint": "echo skipped",
     "test:browser": "npm run build && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build && npm run unit-test && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "nyc mocha --require ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors \"test/**/*.ts\"",
+    "unit-test:node": "mocha --require ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors \"test/**/*.ts\"",
+    "cover:unit:node": "nyc npm run unit-test:node",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"
   },
@@ -101,7 +101,7 @@
     ]
   },
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

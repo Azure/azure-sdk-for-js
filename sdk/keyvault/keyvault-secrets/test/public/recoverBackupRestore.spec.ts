@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
-import { env, isPlaybackMode, Recorder, delay, isRecordMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
@@ -143,24 +143,20 @@ describe("Secret client - restore secrets and recover backups", () => {
       );
       await client.setSecret(secretName, "RSA");
       const backup = await client.backupSecret(secretName);
-      await testClient.flushSecret(secretName);
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        try {
-          await client.restoreSecretBackup(backup as Uint8Array);
-          break;
-        } catch (e) {
-          console.log("Can't restore the secret since it's not fully deleted:", e.message);
-          console.log("Retrying in one second...");
-          await delay(1000);
-        }
-      }
-      const getResult = await client.getSecret(secretName);
-      assert.equal(
-        getResult.name,
-        secretName,
-        "Unexpected secret name in result from getSecret()."
-      );
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await client.purgeDeletedSecret(secretName);
+
+      // One would normally do this, but this can't immediately happen after the resource is purged:
+      // await client.restoreSecretBackup(backup as Uint8Array);
+
+      // This test implementation of a restore poller only applies for backups that have been recently deleted.
+      // Backups might not be ready to be restored in an unknown amount of time.
+      // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
+      const restorePoller = await testClient.beginRestoreSecretBackup(backup as Uint8Array);
+      const restoredSecretProperties = await restorePoller.pollUntilDone();
+
+      assert.equal(restoredSecretProperties.name, secretName);
       await testClient.flushSecret(secretName);
     });
   }

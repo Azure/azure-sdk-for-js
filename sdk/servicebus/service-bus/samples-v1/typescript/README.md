@@ -97,5 +97,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
 [package-next]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md
-[package-latest]: https://github.com/Azure/azure-sdk-for-js/blob/hotfix/service-bus-1.1.7/sdk/servicebus/service-bus/README.md
+[package-latest]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.9/sdk/servicebus/service-bus/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

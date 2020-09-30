@@ -8,13 +8,19 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  RestError
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import { DetectLanguageInput, TextDocumentInput } from "./generated/models";
+import {
+  DetectLanguageInput,
+  GeneratedClientEntitiesRecognitionPiiOptionalParams,
+  GeneratedClientSentimentOptionalParams,
+  TextDocumentInput
+} from "./generated/models";
 import {
   DetectLanguageResultArray,
   makeDetectLanguageResultArray
@@ -32,12 +38,17 @@ import {
   ExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
+  RecognizePiiEntitiesResultArray,
+  makeRecognizePiiEntitiesResultArray
+} from "./recognizePiiEntitiesResultArray";
+import {
   RecognizeLinkedEntitiesResultArray,
   makeRecognizeLinkedEntitiesResultArray
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { addStrEncodingParam } from "./util";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -86,7 +97,39 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the analyze sentiment operation.
  */
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Whether to mine the opinions of a sentence and conduct more  granular
+   * analysis around the aspects of a product or service (also known as
+   * aspect-based sentiment analysis). If set to true, the returned
+   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * the result of this analysis.
+   * More information about the feature can be found here: https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
+   */
+  includeOpinionMining?: boolean;
+}
+
+/**
+ * The types of PII domains the user can choose from.
+ */
+export enum PiiEntityDomainType {
+  /**
+   * See https://aka.ms/tanerpii for more information.
+   */
+  PROTECTED_HEALTH_INFORMATION = "PHI"
+}
+
+/**
+ * Options for the recognize PII entities operation.
+ */
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Filters entities to ones only included in the specified domain (e.g., if
+   * set to 'PHI', entities in the Protected Healthcare Information domain will
+   * only be returned). See https://aka.ms/tanerpii for more information.
+   */
+  domainFilter?: PiiEntityDomainType;
+}
 
 /**
  * Options for the extract key phrases operation.
@@ -339,7 +382,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(
@@ -350,11 +393,27 @@ export class TextAnalyticsClient {
         result.statistics
       );
     } catch (e) {
+      let backwardCompatibleException;
+      /**
+       * This special logic handles REST exception with code
+       * InvalidDocumentBatch and is needed to maintain backward compatability
+       * with sdk v5.0.0 and earlier. In general, REST exceptions are thrown as
+       * is and include both outer and inner exception codes. However, the
+       * earlier versions were throwing an exception that included the inner
+       * code only.
+       */
+      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
+      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
+      if (innerCode === "InvalidDocumentBatch") {
+        backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
+      } else {
+        backwardCompatibleException = e;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: backwardCompatibleException.message
       });
-      throw e;
+      throw backwardCompatibleException;
     } finally {
       span.end();
     }
@@ -397,7 +456,7 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultArray> {
-    let realOptions: AnalyzeSentimentOptions;
+    let realOptions: GeneratedClientSentimentOptionalParams;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -407,10 +466,18 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = options || {};
+      realOptions = {
+        includeStatistics: options?.includeStatistics,
+        modelVersion: options?.modelVersion,
+        opinionMining: options?.includeOpinionMining
+      };
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
+      realOptions = {
+        includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
+        modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
+        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.includeOpinionMining
+      };
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -423,16 +490,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeAnalyzeSentimentResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeAnalyzeSentimentResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -527,6 +588,84 @@ export class TextAnalyticsClient {
   }
 
   /**
+   * Runs a predictive model to identify a collection of entities containing
+   * personally identifiable information found in the passed-in input strings,
+   * and categorize those entities into types such as US social security
+   * number, drivers license number, or credit card number.
+   * For a list of languages supported by this operation, see
+   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
+   * @param inputs The input strings to analyze.
+   * @param language The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.  
+        If set to an empty string, the service will apply a model
+        where the lanuage is explicitly set to "None".
+   * @param options Optional parameters for the operation.
+   */
+  public async recognizePiiEntities(
+    inputs: string[],
+    language?: string,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray>;
+  /**
+   * Runs a predictive model to identify a collection of entities containing
+   * personally identifiable information found in the passed-in input documents,
+   * and categorize those entities into types such as US social security
+   * number, drivers license number, or credit card number.
+   * For a list of languages supported by this operation, see
+   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
+   * @param inputs The input documents to analyze.
+   * @param options Optional parameters for the operation.
+   */
+  public async recognizePiiEntities(
+    inputs: TextDocumentInput[],
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray>;
+  public async recognizePiiEntities(
+    inputs: string[] | TextDocumentInput[],
+    languageOrOptions?: string | RecognizePiiEntitiesOptions,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray> {
+    let realOptions: GeneratedClientEntitiesRecognitionPiiOptionalParams;
+    let realInputs: TextDocumentInput[];
+
+    if (isStringArray(inputs)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(inputs, language);
+      realOptions = options || {};
+      realOptions.domain = options?.domainFilter;
+    } else {
+      realInputs = inputs;
+      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
+      realOptions.domain = (languageOrOptions as RecognizePiiEntitiesOptions)?.domainFilter;
+    }
+
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-recognizePiiEntities",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.entitiesRecognitionPii(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+      );
+
+      return makeRecognizePiiEntitiesResultArray(realInputs, result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
@@ -589,7 +728,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeLinkedEntitiesResultArray(

@@ -3,12 +3,13 @@
     "module": "commonjs",
     "target": "ES2015",
     "moduleResolution": "node",
-
+    "lib": ["ESNext.AsyncIterable", "DOM"],
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
 
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

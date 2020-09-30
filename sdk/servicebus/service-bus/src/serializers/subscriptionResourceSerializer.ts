@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -10,6 +10,7 @@ import {
 import * as Constants from "../util/constants";
 import {
   EntityStatus,
+  EntityAvailabilityStatus,
   getBoolean,
   getMessageCountDetails,
   getInteger,
@@ -27,12 +28,12 @@ import {
  * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscription: SubscriptionProperties
+  subscription: CreateSubscriptionOptions
 ): InternalSubscriptionOptions {
   return {
     LockDuration: subscription.lockDuration,
     RequiresSession: getStringOrUndefined(subscription.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTimeToLive),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscription.deadLetteringOnMessageExpiration
     ),
@@ -45,7 +46,8 @@ export function buildSubscriptionOptions(
     ForwardTo: getStringOrUndefined(subscription.forwardTo),
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
-    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
+    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
+    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
   };
 }
 
@@ -70,9 +72,9 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
@@ -91,7 +93,12 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
     forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus
+    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
+
+    availabilityStatus: getString(
+      rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+      "availabilityStatus"
+    ) as EntityAvailabilityStatus
   };
 }
 
@@ -115,7 +122,7 @@ export function buildSubscriptionRuntimeProperties(
     transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
     transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawSubscription[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -123,17 +130,7 @@ export function buildSubscriptionRuntimeProperties(
 /**
  * Represents settable options on a subscription
  */
-export interface SubscriptionProperties {
-  /**
-   * Name of the subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * Name of the topic
-   */
-  topicName: string;
-
+export interface CreateSubscriptionOptions extends OperationOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
@@ -160,7 +157,7 @@ export interface SubscriptionProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -229,6 +226,130 @@ export interface SubscriptionProperties {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
+}
+
+/**
+ * Represents the input for updateSubscription.
+ *
+ * @export
+ * @interface SubscriptionProperties
+ */
+export interface SubscriptionProperties {
+  /**
+   * Name of the subscription
+   */
+  readonly subscriptionName: string;
+
+  /**
+   * Name of the topic
+   */
+  readonly topicName: string;
+
+  /**
+   * The default lock duration is applied to subscriptions that do not define a lock
+   * duration. Settable only at subscription creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  lockDuration: string;
+
+  /**
+   * If set to true, the subscription will be session-aware and only SessionReceiver
+   * will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
+   */
+  readonly requiresSession: boolean;
+
+  /**
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  defaultMessageTimeToLive: string;
+
+  /**
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue.
+   * Settable only at subscription creation time.
+   */
+  deadLetteringOnMessageExpiration: boolean;
+
+  /**
+   * Determines how the Service Bus handles a message that causes an exception during
+   * a subscription’s filter evaluation. If the value is set to true, the message that
+   * caused the exception will be moved to the subscription’s dead-letter sub-queue.
+   * Otherwise, it will be discarded. By default this parameter is set to true,
+   * allowing the user a chance to investigate the cause of the exception.
+   * It can occur from a malformed message or some incorrect assumptions being made
+   * in the filter about the form of the message. Settable only at topic creation time.
+   */
+  deadLetteringOnFilterEvaluationExceptions: boolean;
+
+  /**
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
+
+  /**
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  forwardTo?: string;
+
+  /**
+   * The user provided metadata information associated with the subscription.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
+   */
+  userMetadata: string;
+
+  /**
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  autoDeleteOnIdle: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -332,6 +453,11 @@ export interface InternalSubscriptionOptions {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  EntityAvailabilityStatus?: string;
 }
 
 /**
@@ -382,7 +508,7 @@ export interface SubscriptionRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

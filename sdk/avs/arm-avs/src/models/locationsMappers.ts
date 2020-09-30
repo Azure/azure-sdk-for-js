@@ -7,8 +7,9 @@
  */
 
 export {
-  ApiError,
-  ApiErrorBase,
+  CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   Quota,
   Trial
 } from "../models/mappers";

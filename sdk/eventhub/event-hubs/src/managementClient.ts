@@ -521,7 +521,7 @@ export class ManagementClient extends LinkEntity {
 
     span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._context.config.entityPath);
-    span.setAttribute("peer.address", this._context.config.endpoint);
+    span.setAttribute("peer.address", this._context.config.host);
 
     return span;
   }

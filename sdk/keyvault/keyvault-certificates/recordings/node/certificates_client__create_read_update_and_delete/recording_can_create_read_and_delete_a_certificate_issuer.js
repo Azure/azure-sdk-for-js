@@ -120,7 +120,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending?api-version=7.1-preview&request_id=8d99a31b3972489bbe9b5ce3dcf0e6b6',
+  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending?api-version=7.1&request_id=8d99a31b3972489bbe9b5ce3dcf0e6b6',
   'Retry-After',
   '10',
   'x-ms-keyvault-region',

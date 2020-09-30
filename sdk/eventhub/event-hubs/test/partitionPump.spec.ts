@@ -14,7 +14,7 @@ const should = chai.should();
 describe("PartitionPump", () => {
   describe("telemetry", () => {
     const eventHubProperties = {
-      endpoint: "theendpoint",
+      host: "thehost",
       eventHubName: "theeventhubname"
     };
 
@@ -55,8 +55,8 @@ describe("PartitionPump", () => {
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.EventHub",
-        "message_bus.destination": "theeventhubname",
-        "peer.address": "theendpoint"
+        "message_bus.destination": eventHubProperties.eventHubName,
+        "peer.address": eventHubProperties.host
       });
 
       resetTracer();

@@ -26,15 +26,14 @@ export async function main() {
       console.log(`analyzing status: ${state.status}`);
     }
   });
-  const receipts = await poller.pollUntilDone();
 
-  if (!receipts || receipts.length <= 0) {
+  const [receipt] = await poller.pollUntilDone();
+
+  if (receipt === undefined) {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  const receipt = receipts[0];
-  console.log("First receipt:");
-  // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(

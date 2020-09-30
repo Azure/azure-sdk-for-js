@@ -96,8 +96,8 @@ function intoTextAnalyticsError(
 ): TextAnalyticsError {
   // Return the deepest error. This will always be at most
   // one level for TextAnalytics
-  if (errorModel.innerError !== undefined) {
-    return intoTextAnalyticsError(errorModel.innerError);
+  if (errorModel.innererror !== undefined) {
+    return intoTextAnalyticsError(errorModel.innererror);
   }
 
   return {

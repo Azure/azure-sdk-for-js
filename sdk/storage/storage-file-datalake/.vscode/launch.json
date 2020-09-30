@@ -7,78 +7,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Javascript Samples",
-      "program": "${workspaceFolder}/samples/javascript/basic.js",
-      "preLaunchTask": "npm: build:js-samples"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Typescript Samples",
-      "program": "${workspaceFolder}/samples/typescript/basic.ts",
-      "preLaunchTask": "npm: build:ts-samples",
-      "outFiles": ["${workspaceFolder}/dist-esm/samples/typescript/*.js"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Mocha Test [Without Rollup]",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        "-r",
-        "ts-node/register",
-        "--timeout",
-        "999999",
-        "--colors",
-        "${workspaceFolder}/test/*.spec.ts",
-        "${workspaceFolder}/test/node/*.spec.ts"
+      "name": "Current JS file",
+      "skipFiles": [
+        "<node_internals>/**"
       ],
-      "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }",
-        "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
-       },
-      "envFile": "${workspaceFolder}/.env",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "protocol": "inspector"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Current Mocha Test File [Without Rollup]",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        "-r",
-        "ts-node/register",
-        "--timeout",
-        "999999",
-        "--colors",
-        "${relativeFile}",
-      ],
-      "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }",
-        "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
-       },
-      "envFile": "${workspaceFolder}/../.env",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "protocol": "inspector"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Unit Tests",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        "-u",
-        "tdd",
-        "--timeout",
-        "999999",
-        "--colors",
-        "${workspaceFolder}/dist-test/index.node.js"
-      ],
-      "internalConsoleOptions": "openOnSessionStart",
-      "preLaunchTask": "npm: build:test"
+      "program": "${file}",
+      "cwd": "${fileDirname}",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
     }
   ]
 }

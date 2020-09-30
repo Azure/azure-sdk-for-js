@@ -58,9 +58,30 @@ export const modelVersion: OperationQueryParameter = {
 export const includeStatistics: OperationQueryParameter = {
   parameterPath: ["options", "includeStatistics"],
   mapper: {
-    serializedName: "showStats",
+    serializedName: "includeStatistics",
     type: {
       name: "Boolean"
+    }
+  }
+};
+
+export const stringIndexType: OperationQueryParameter = {
+  parameterPath: ["options", "stringIndexType"],
+  mapper: {
+    defaultValue: "TextElements_v8",
+    serializedName: "stringIndexType",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const domain: OperationQueryParameter = {
+  parameterPath: ["options", "domain"],
+  mapper: {
+    serializedName: "domain",
+    type: {
+      name: "String"
     }
   }
 };
@@ -68,4 +89,14 @@ export const includeStatistics: OperationQueryParameter = {
 export const input1: OperationParameter = {
   parameterPath: "input",
   mapper: LanguageBatchInputMapper
+};
+
+export const opinionMining: OperationQueryParameter = {
+  parameterPath: ["options", "opinionMining"],
+  mapper: {
+    serializedName: "opinionMining",
+    type: {
+      name: "Boolean"
+    }
+  }
 };

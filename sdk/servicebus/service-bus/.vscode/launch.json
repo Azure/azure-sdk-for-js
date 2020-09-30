@@ -7,29 +7,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug sample",
-      "program": "${file}",
-      "preLaunchTask": "npm: build:samples",
-      "outFiles": ["${workspaceFolder}/dist-esm/**/*.js"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Unit Tests",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        "-r",
-        "esm",
-        "--require",
-        "source-map-support/register",
-        "--timeout",
-        "120000",
-        "--full-trace",
-        "dist-esm/test/*.spec.js",
-        "dist-esm/test/**/*.spec.js"
+      "name": "Current JS file",
+      "skipFiles": [
+        "<node_internals>/**"
       ],
-      "internalConsoleOptions": "openOnSessionStart",
-      "preLaunchTask": "npm: build:test"
+      "program": "${file}",
+      "cwd": "${fileDirname}",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
     }
   ]
 }

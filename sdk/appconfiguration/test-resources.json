@@ -34,7 +34,7 @@
     }
   ],
   "outputs": {
-    "AZ_CONFIG_CONNECTION": {
+    "APPCONFIG_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores', variables('accountName')), variables('configurationApiVersion')).value[0].connectionString]"
     },

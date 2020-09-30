@@ -34,6 +34,7 @@ export {
   ConflictResolutionPolicy,
   ConsistencyPolicy,
   ContainerPartitionKey,
+  CorsPolicy,
   CreateUpdateOptions,
   DatabaseAccountCreateUpdateParameters,
   DatabaseAccountGetResults,

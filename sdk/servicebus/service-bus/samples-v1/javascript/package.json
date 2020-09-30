@@ -30,7 +30,7 @@
   "dependencies": {
     "@azure/abort-controller": "latest",
     "@azure/ms-rest-nodeauth": "^3.0.0",
-    "@azure/service-bus": "^1.1.6",
+    "@azure/service-bus": "^1.1.9",
     "dotenv": "^8.2.0",
     "https-proxy-agent": "^5.0.0",
     "ws": "^7.0.0"

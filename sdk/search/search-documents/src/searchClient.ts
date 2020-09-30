@@ -248,7 +248,7 @@ export class SearchClient<T> {
 
       const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
 
-      let modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
+      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
       const converted: SearchDocumentsPageResult<T> = {
         results: modifiedResults,
@@ -345,7 +345,7 @@ export class SearchClient<T> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
-      const pageResult = await this.searchDocuments(searchText, options);
+      const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
       const { count, coverage, facets } = pageResult;
 

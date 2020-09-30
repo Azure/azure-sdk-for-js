@@ -4,4 +4,10 @@ extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
     PackageName: "@azure/storage-file-datalake"
-    TestSamples: false
+    ResourceServiceDirectory: storage
+    TimeoutInMinutes: 90
+    ResourceGroupLocation: canadacentral
+    EnvVars:
+      AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+      AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+      AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

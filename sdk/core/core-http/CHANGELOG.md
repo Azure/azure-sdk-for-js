@@ -1,7 +1,24 @@
 # Release History
 
-## 1.1.5 (Unreleased)
+## 1.1.9 (Unreleased)
 
+
+## 1.1.8 (2020-09-08)
+
+- `URLQuery` parsing now accepts `=` in query parameter values and no longer drops such query parameter name/value pairs. This fixes [issue 11014](https://github.com/Azure/azure-sdk-for-js/issues/11014)
+
+## 1.1.7 (2020-09-02)
+
+- `BearerTokenAuthenticationPolicy` now starts trying to refresh the token 30 seconds before the token expires. It will only try to refresh said token on each request when refreshing is not in progress. In the mean time, requests will use the existing token. This fixes [issue 10084](https://github.com/Azure/azure-sdk-for-js/issues/10084).
+- Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
+
+## 1.1.6 (2020-08-04)
+
+- Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+
+## 1.1.5 (2020-08-04)
+
+- The global `fetch()` is no longer overridden by node-fetch. This fixed an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
 
 ## 1.1.4 (2020-07-02)
 

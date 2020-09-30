@@ -12,7 +12,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Create Or Update SynonymMap Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Synonym Map my-synonymmap`);
   const sm = await client.getSynonymMap("my-synonymmap");
@@ -21,4 +24,6 @@ async function main() {
   await client.createOrUpdateSynonymMap(sm);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

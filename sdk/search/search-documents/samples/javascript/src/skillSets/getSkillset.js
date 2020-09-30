@@ -9,7 +9,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Get Skillset Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Getting Skillset my-azureblob-skillset`);
   const skillset = await client.getSkillset("my-azureblob-skillset");
@@ -17,19 +20,21 @@ async function main() {
   console.log(`Description: ${skillset.description}`);
   console.log(`Skills`);
   console.log(`******`);
-  for(let skill of skillset.skills) {
+  for(const skill of skillset.skills) {
     console.log(`ODataType: ${skill.odatatype}`);
     console.log(`Inputs`);
-    for(let input of skill.inputs) {
+    for(const input of skill.inputs) {
       console.log(`\tName: ${input.name}`);
       console.log(`\tSource: ${input.source}`);
     }
     console.log(`Outputs`);
-    for(let output of skill.outputs) {
+    for(const output of skill.outputs) {
       console.log(`\tName: ${output.name}`);
       console.log(`\tTarget Name: ${output.targetName}`);
     }
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

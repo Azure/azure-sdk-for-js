@@ -9,16 +9,22 @@
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const containerSasUrl = process.env["LABELED_CONTAINER_SAS_URL"] || "<url/path to the labeled training documents>";
+  const containerSasUrl =
+    process.env["LABELED_CONTAINER_SAS_URL"] ||
+    "<url to Azure blob container storing the labeled training documents>";
 
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
+  // The second positional argument to `beginTraining` indidcates whether or
+  // not the training process should look for label data in the training
+  // container
   const poller = await trainingClient.beginTraining(containerSasUrl, true, {
     onProgress: (state) => {
       console.log(`training status: ${state.status}`);

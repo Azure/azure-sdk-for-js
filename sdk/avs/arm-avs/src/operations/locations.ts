@@ -103,7 +103,7 @@ const checkTrialAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Trial
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -127,7 +127,7 @@ const checkQuotaAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Quota
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

@@ -91,6 +91,10 @@ export interface Entity {
    */
   subCategory?: string;
   /**
+   * Start position for the entity text.
+   */
+  offset: number;
+  /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
   confidenceScore: number;
@@ -151,7 +155,7 @@ export interface TextAnalyticsError {
   /**
    * Inner error contains more specific information.
    */
-  innerError?: InnerError;
+  innererror?: InnerError;
   /**
    * Details about specific errors that led to this reported error.
    */
@@ -178,7 +182,7 @@ export interface InnerError {
   /**
    * Inner error contains more specific information.
    */
-  innerError?: InnerError;
+  innererror?: InnerError;
 }
 
 /**
@@ -201,6 +205,55 @@ export interface TextDocumentBatchStatistics {
    * Number of transactions for the request.
    */
   transactionCount: number;
+}
+
+export interface ErrorResponse {
+  /**
+   * Document Error.
+   */
+  error: TextAnalyticsError;
+}
+
+export interface PiiEntitiesResult {
+  /**
+   * Response by document
+   */
+  documents: PiiDocumentEntities[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+export interface PiiDocumentEntities {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * Recognized entities in the document.
+   */
+  entities: Entity[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the document payload.
+   */
+  statistics?: TextDocumentStatistics;
+  /**
+   * Returns redacted text.
+   */
+  redactedText: string;
 }
 
 export interface EntityLinkingResult {
@@ -269,6 +322,10 @@ export interface LinkedEntity {
    * Data source used to extract entity linking, such as Wiki/Bing etc.
    */
   dataSource: string;
+  /**
+   * Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity Search API to fetch additional relevant information.
+   */
+  bingEntitySearchApiId?: string;
 }
 
 /**
@@ -283,6 +340,10 @@ export interface Match {
    * Entity text as appears in the request.
    */
   text: string;
+  /**
+   * Start position for the entity match text.
+   */
+  offset: number;
 }
 
 export interface KeyPhraseResult {
@@ -466,8 +527,92 @@ export interface SentenceSentiment {
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
   confidenceScores: SentimentConfidenceScores;
+  /**
+   * The sentence offset from the start of the document.
+   */
+  offset: number;
+  /**
+   * The array of aspect object for the sentence.
+   */
+  aspects?: SentenceAspect[];
+  /**
+   * The array of opinion object for the sentence.
+   */
+  opinions?: SentenceOpinion[];
 }
 
+export interface SentenceAspect {
+  /**
+   * Aspect level sentiment for the aspect in the sentence.
+   */
+  sentiment: TokenSentimentValue;
+  /**
+   * Aspect level sentiment confidence scores for the aspect in the sentence.
+   */
+  confidenceScores: AspectConfidenceScoreLabel;
+  /**
+   * The aspect offset from the start of the sentence.
+   */
+  offset: number;
+  /**
+   * The aspect text detected.
+   */
+  text: string;
+  /**
+   * The array of either opinion or aspect object which is related to the aspect.
+   */
+  relations: AspectRelation[];
+}
+
+/**
+ * Represents the confidence scores across all sentiment classes: positive, neutral, negative.
+ */
+export interface AspectConfidenceScoreLabel {
+  positive: number;
+  negative: number;
+}
+
+export interface AspectRelation {
+  /**
+   * The type related to the aspect.
+   */
+  relationType: AspectRelationType;
+  /**
+   * The JSON pointer indicating the linked object.
+   */
+  ref: string;
+}
+
+export interface SentenceOpinion {
+  /**
+   * Opinion level sentiment for the aspect in the sentence.
+   */
+  sentiment: TokenSentimentValue;
+  /**
+   * Opinion level sentiment confidence scores for the aspect in the sentence.
+   */
+  confidenceScores: AspectConfidenceScoreLabel;
+  /**
+   * The opinion offset from the start of the sentence.
+   */
+  offset: number;
+  /**
+   * The aspect text detected.
+   */
+  text: string;
+  /**
+   * The indicator representing if the opinion is negated.
+   */
+  isNegated: boolean;
+}
+
+/**
+ * Defines values for StringIndexType.
+ */
+export type StringIndexType =
+  | "TextElements_v8"
+  | "UnicodeCodePoint"
+  | "Utf16CodeUnit";
 /**
  * Defines values for WarningCode.
  */
@@ -505,6 +650,14 @@ export type DocumentSentimentLabel =
  * Defines values for SentenceSentimentLabel.
  */
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
+/**
+ * Defines values for TokenSentimentValue.
+ */
+export type TokenSentimentValue = "positive" | "mixed" | "negative";
+/**
+ * Defines values for AspectRelationType.
+ */
+export type AspectRelationType = "opinion" | "aspect";
 
 /**
  * Optional parameters.
@@ -516,9 +669,13 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -544,6 +701,49 @@ export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult &
 /**
  * Optional parameters.
  */
+export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain request and document level statistics.
+   */
+  includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * (Optional) if set to 'PHI', response will contain only PHI entities.
+   */
+  domain?: string;
+}
+
+/**
+ * Contains response data for the entitiesRecognitionPii operation.
+ */
+export type GeneratedClientEntitiesRecognitionPiiResponse = PiiEntitiesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PiiEntitiesResult;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
 export interface GeneratedClientEntitiesLinkingOptionalParams
   extends coreHttp.OperationOptions {
   /**
@@ -551,9 +751,13 @@ export interface GeneratedClientEntitiesLinkingOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -586,7 +790,7 @@ export interface GeneratedClientKeyPhrasesOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
 }
@@ -621,7 +825,7 @@ export interface GeneratedClientLanguagesOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
 }
@@ -656,9 +860,17 @@ export interface GeneratedClientSentimentOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results.
+   */
+  opinionMining?: boolean;
 }
 
 /**

@@ -1,13 +1,13 @@
 # Azure Event Hubs client library for Javascript
 
-Azure Event Hubs is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications. If you would like to know more about Azure Event Hubs, you may wish to review: [What is Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about)?
+Azure Event Hubs is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications. If you would like to know more about Azure Event Hubs, you may wish to review: [What is Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about)?
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
 [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
-[Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
+[Product documentation](https://azure.microsoft.com/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
@@ -30,7 +30,7 @@ Install the Azure Event Hubs client library using npm
 ### Prerequisites
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
+[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 #### Configure Typescript
@@ -52,7 +52,7 @@ There are constructor overloads to support different ways of instantiating these
 
 #### Use connection string for the Event Hubs namespace
 
-One of the constructor overloads takes a connection string of the form `Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;` and entity name to your Event Hub instance. You can create a consumer group and get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
+One of the constructor overloads takes a connection string of the form `Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;` and entity name to your Event Hub instance. You can create a consumer group and get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
 ```javascript
 const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
@@ -83,7 +83,7 @@ const consumerClient = new EventHubConsumerClient(
 
 #### Use the Event Hubs namespace and Azure Identity
 
-This constructor overload takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-azure-active-directory).
+This constructor overload takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://docs.microsoft.com/azure/event-hubs/authorize-access-azure-active-directory).
 
 ```javascript
 const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
@@ -109,7 +109,7 @@ const consumerClient = new EventHubConsumerClient(
 
 - A **consumer group** is a view of an entire Event Hub. Consumer groups enable multiple consuming applications to each have a separate view of the event stream, and to read the stream independently at their own pace and from their own position. There can be at most 5 concurrent readers on a partition per consumer group; however it is recommended that there is only one active consumer for a given partition and consumer group pairing. Each active reader receives all of the events from its partition; If there are multiple readers on the same partition, then they will receive duplicate events.
 
-For more concepts and deeper discussion, see: [Event Hubs Features](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features)
+For more concepts and deeper discussion, see: [Event Hubs Features](https://docs.microsoft.com/azure/event-hubs/event-hubs-features)
 
 ### Guidance around retries
 
@@ -128,7 +128,8 @@ network connection issue.
 For example, if you need to know when there is a network issue right away you can lower the
 values for `maxRetries` and `retryDelayInMs`.
 
-After executing the `processError` function, the client invokes the user-provided `processClose` function.
+After executing the `processError` function, the client continues to receive events from the partition as long
+as the error was a retryable one. Otherwise, the client invokes the user-provided `processClose` function.
 This function is also invoked when either you stop the subscription or when the client stops reading
 events from the current partition due to it being picked up by another instance of your application
 as part of load balancing.
@@ -305,42 +306,62 @@ const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { ContainerClient } = require("@azure/storage-blob");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
+const storageAccountConnectionString = "storage-account-connection-string";
+const containerName = "container-name";
+const eventHubConnectionString = "eventhub-connection-string";
+const consumerGroup = "my-consumer-group";
+const eventHubName = "eventHubName";
+
 async function main() {
-  const blobContainerClient = new ContainerClient("storage-connection-string", "container-name");
-  await blobContainerClient.create(); // This can be skipped if the container already exists
+  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
+
+  if (!(await blobContainerClient.exists())) {
+    await blobContainerClient.create();
+  }
+
   const checkpointStore = new BlobCheckpointStore(blobContainerClient);
   const consumerClient = new EventHubConsumerClient(
-    "my-consumer-group",
-    "connectionString",
-    "eventHubName",
+    consumerGroup,
+    eventHubConnectionString,
+    eventHubName,
     checkpointStore
   );
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
       // event processing code goes here
+      if (events.length === 0) {
+        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+        // will pass you an empty array.
+        return;
+      }
 
-      // Mark the last event in the batch as processed, so that when the program is restarted
-      // or when the partition is picked up by another process, it can start from the next event
+      // Checkpointing will allow your service to pick up from
+      // where it left off when restarting.
+      //
+      // You'll want to balance how often you checkpoint with the
+      // performance of your underlying checkpoint store.
       await context.updateCheckpoint(events[events.length - 1]);
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
+    processError: async (err, context) => {
+      // handle any errors that occur during the course of
+      // this subscription
+      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
     }
   });
 
   // Wait for a few seconds to receive events before closing
-  setTimeout(async () => {
-    await subscription.close();
-    await consumerClient.close();
-    console.log(`Exiting sample`);
-  }, 3 * 1000);
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+  await subscription.close();
+  await consumerClient.close();
+  console.log(`Exiting sample`);
 }
 
 main();
 ```
 
-Please see [Balance partition load across multiple instances of your application](https://docs.microsoft.com/en-us/azure/event-hubs/event-processor-balance-partition-load)
+Please see [Balance partition load across multiple instances of your application](https://docs.microsoft.com/azure/event-hubs/event-processor-balance-partition-load)
 to learn more.
 
 #### Consume events from a single partition
@@ -401,7 +422,7 @@ The associated connection string will not have send claims,
 hence sending events is not possible.
 
 - Please notice that the connection string needs to be for an
-  [Event Hub-compatible endpoint](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
+  [Event Hub-compatible endpoint](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
   (e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name")
 
 ```javascript
@@ -477,7 +498,7 @@ export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 directory for detailed examples of how to use this library to send and receive events to/from
-[Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about).
+[Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about).
 
 ## Contributing
 

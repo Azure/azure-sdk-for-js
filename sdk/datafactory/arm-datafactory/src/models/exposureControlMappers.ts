@@ -9,6 +9,8 @@
 export {
   discriminators,
   CloudError,
+  ExposureControlBatchRequest,
+  ExposureControlBatchResponse,
   ExposureControlRequest,
   ExposureControlResponse
 } from "../models/mappers";

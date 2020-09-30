@@ -110,7 +110,7 @@ describe("utils NodeJS only", () => {
     bufferStream.end(data);
 
     try {
-      (await streamToBuffer(bufferStream, 2 * 1024 * 1024)) as Buffer;
+      await streamToBuffer(bufferStream, 2 * 1024 * 1024);
       throw new Error("An error should have been thrown");
     } catch (err) {
       assert.equal(

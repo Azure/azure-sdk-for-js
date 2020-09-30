@@ -53,6 +53,10 @@ export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
+export function getSoftDeleteBSU(): ShareServiceClient {
+  return getGenericBSU("SOFT_DELETE_");
+}
+
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];

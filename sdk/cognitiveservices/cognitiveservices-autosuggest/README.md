@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample gets suggestions from Bing for the given query **Microsoft Azure**. To know more, refer to the [Azure Documentation on Bing Auto Suggest](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-autosuggest/)
+The following sample gets suggestions from Bing for the given query **Microsoft Azure**. To know more, refer to the [Azure Documentation on Bing Auto Suggest](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/)
 
 ```javascript
 const { AutoSuggestClient } = require("@azure/cognitiveservices-autosuggest");

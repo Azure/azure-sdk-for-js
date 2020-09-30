@@ -14,7 +14,9 @@ import { TokenCredential } from '@azure/core-auth';
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+    includeOpinionMining?: boolean;
+}
 
 // @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -30,6 +32,22 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
+}
+
+// @public
+export interface AspectConfidenceScoreLabel {
+    // (undocumented)
+    negative: number;
+    // (undocumented)
+    positive: number;
+}
+
+// @public
+export interface AspectSentiment {
+    confidenceScores: AspectConfidenceScoreLabel;
+    offset: number;
+    sentiment: TokenSentimentValue;
+    text: string;
 }
 
 export { AzureKeyCredential }
@@ -81,6 +99,7 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface Entity {
     category: string;
     confidenceScore: number;
+    offset: number;
     subCategory?: string;
     text: string;
 }
@@ -116,6 +135,7 @@ export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyF
 
 // @public
 export interface LinkedEntity {
+    bingEntitySearchApiId?: string;
     dataSource: string;
     dataSourceEntityId?: string;
     language: string;
@@ -127,7 +147,27 @@ export interface LinkedEntity {
 // @public
 export interface Match {
     confidenceScore: number;
+    offset: number;
     text: string;
+}
+
+// @public
+export interface MinedOpinion {
+    aspect: AspectSentiment;
+    opinions: OpinionSentiment[];
+}
+
+// @public
+export interface OpinionSentiment extends SentenceOpinion {
+}
+
+// @public
+export interface PiiEntity extends Entity {
+}
+
+// @public
+export enum PiiEntityDomainType {
+    PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
 // @public
@@ -171,8 +211,42 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
+export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    domainFilter?: PiiEntityDomainType;
+}
+
+// @public
+export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: PiiEntity[];
+    redactedText: string;
+}
+
+// @public (undocumented)
+export interface SentenceOpinion {
+    confidenceScores: AspectConfidenceScoreLabel;
+    isNegated: boolean;
+    offset: number;
+    sentiment: TokenSentimentValue;
+    text: string;
+}
+
+// @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
+    minedOpinions: MinedOpinion[];
+    offset: number;
     sentiment: SentenceSentimentLabel;
     text: string;
 }
@@ -206,6 +280,8 @@ export class TextAnalyticsClient {
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
+    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
 }
 
 // @public
@@ -270,6 +346,9 @@ export interface TextDocumentStatistics {
     characterCount: number;
     transactionCount: number;
 }
+
+// @public
+export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";

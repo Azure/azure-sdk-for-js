@@ -32,6 +32,15 @@ export class AuthenticationError extends Error {
 export const AuthenticationErrorName = "AuthenticationError";
 
 // @public
+export interface AuthenticationRecord {
+    authority?: string;
+    environment: string;
+    homeAccountId: string;
+    tenantId: string;
+    username: string;
+}
+
+// @public
 export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
@@ -64,9 +73,14 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, certificatePath: string, options?: TokenCredentialOptions);
+    constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+    includeX5c?: boolean;
+}
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
@@ -85,12 +99,13 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+    managedIdentityClientId?: string;
     tenantId?: string;
 }
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: TokenCredentialOptions);
+    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -129,10 +144,17 @@ export { GetTokenOptions }
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
+    }
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
+    authenticationRecord?: AuthenticationRecord;
+    cacheOptions?: {
+        cachePlugin?: {
+            readFromStorage: () => Promise<string>;
+            writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
+        };
+    };
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);
@@ -164,13 +186,13 @@ export class UsernamePasswordCredential implements TokenCredential {
     }
 
 // @public
-export class VSCodeCredential implements TokenCredential {
-    constructor(options?: VSCodeCredentialOptions);
+export class VisualStudioCodeCredential implements TokenCredential {
+    constructor(options?: VisualStudioCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
-export interface VSCodeCredentialOptions extends TokenCredentialOptions {
+export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
     tenantId?: string;
 }
 

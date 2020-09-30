@@ -8,7 +8,7 @@
 
 import { ServiceBusClient } from "@azure/service-bus";
 import WebSocket from "ws";
-import HttpsProxyAgent from "https-proxy-agent";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

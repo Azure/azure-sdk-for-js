@@ -18,11 +18,11 @@ npm install @azure/cognitiveservices-customvision-prediction
 #### nodejs - Authentication, client creation and classifyImageUrl as an example written in TypeScript.
 
 ##### Sample code
-The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
+The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/azure/cognitive-services/custom-vision-service/home).
 
 ```javascript
 const { PredictionAPIClient } = require("@azure/cognitiveservices-customvision-prediction");
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { ApiKeyCredentials } = require("@azure/ms-rest-js");
 
 async function main() {
   const customVisionPredictionKey =
@@ -32,8 +32,8 @@ async function main() {
     "<customVisionPredictionEndPoint>";
   const projectId = process.env["projectId"] || "<projectId>";
 
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionPredictionKey);
-  const client = new PredictionAPIClient(cognitiveServiceCredentials, customVisionPredictionEndPoint);
+  const credentials = new ApiKeyCredentials({ inHeader: {"Prediction-key": customVisionPredictionKey } });
+  const client = new PredictionAPIClient(credentials, customVisionPredictionEndPoint);
 
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";

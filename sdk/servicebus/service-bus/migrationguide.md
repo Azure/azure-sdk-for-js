@@ -1,4 +1,4 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.3
+# Guide to migrate from @azure/service-bus v1 to v7.preview.6
 
 This document is intended for users that would like to try out preview 7
 for @azure/service-bus. As the package is in preview, these details might
@@ -62,30 +62,32 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
 
   // for queues
   const queueSender = serviceBusClient.createSender("queue");
-  const queueReceiver = serviceBusClient.createReceiver("queue", "peekLock");
+  // receiveMode is optional, with "peekLock" as the default mode
+  const queueReceiver = serviceBusClient.createReceiver("queue");
 
   // for topics
   const topicSender = serviceBusClient.createSender("topic");
 
   // for subscriptions
-  const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription", "peekLock");
+  // receiveMode is optional, with "peekLock" as the default mode
+  const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription");
   ```
 
-- `createSessionReceiver()` is now an async method. 
-  - The promise returned by this method is resolved when a receiver link has been initialized with a session in the service.
+- `createSessionReceiver()` method is now split into two async methods `acceptSession()` and `acceptNextSession()` 
+  - The promise returned by these methods is resolved when a receiver link has been initialized with a session in the service.
   - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
-receiver link to the session was only initialized when the async methods on the `SessionReceiver`
-were first called.
+    receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`
+    were first called.
 
 ### Receiving messages
 
-* `peek()` and `peekBySequenceNumber()` methods are collapsed into a single method `peekMessages()`. 
-The options passed to this new method accommodates both number of messages to be peeked and the sequence number to peek from.
+- `peek()` and `peekBySequenceNumber()` methods are collapsed into a single method `peekMessages()`.
+  The options passed to this new method accommodates both number of messages to be peeked and the sequence number to peek from.
 
-* `receiveBatch()` method is renamed to `receiveMessages()` to be consistent in usage of the `Messages` suffix in other methods
-on the receiver and the sender.
+- `receiveBatch()` method is renamed to `receiveMessages()` to be consistent in usage of the `Messages` suffix in other methods
+  on the receiver and the sender.
 
-* `registerMessageHandler` on `Receiver` has been renamed to `subscribe` and takes different arguments.
+- `registerMessageHandler` on `Receiver` has been renamed to `subscribe`(on `ServiceBusReceiver` and `ServiceBusSessionReceiver`) and takes different arguments.
 
   In V1:
 
@@ -107,8 +109,8 @@ on the receiver and the sender.
 
 ### Rule management
 
-* The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusManagementClient` class which will be supporting 
-Create, Get, Update and Delete operations on Queues, Topics, Subscriptions and Rules.
+- The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusAdministrationClient` class which will be supporting
+  Create, Get, Update and Delete operations on Queues, Topics, Subscriptions and Rules.
 
   In V1:
 
@@ -121,12 +123,10 @@ Create, Get, Update and Delete operations on Queues, Topics, Subscriptions and R
   In V7:
 
   ```typescript
-  const serviceBusManagementClient = new ServiceBusManagementClient(connectionString);
-  await serviceBusManagementClient.createRule();
-  await serviceBusManagementClient.getRules();
-  await serviceBusManagementClient.deleteRule();
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  await serviceBusAdministrationClient.createRule();
+  await serviceBusAdministrationClient.getRules();
+  await serviceBusAdministrationClient.deleteRule();
   ```
-
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)

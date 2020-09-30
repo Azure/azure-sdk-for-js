@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Read body from downloading operation methods to string.
  * Work on both Node.js and browser environment.

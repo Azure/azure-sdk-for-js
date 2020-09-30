@@ -166,7 +166,7 @@ function makeBeginTrainingPollOperation(
           const additionalInfo = model.trainingDocuments
             ?.map(
               (d) =>
-                `  document: ${d.documentName}, status: ${d.status}, errors: ${d.errors
+                `  document: ${d.name}, status: ${d.status}, errors: ${d.errors
                   ?.map((e) => `code ${e.code}, message: '${e.message}'`)
                   .join("\n")}`
             )

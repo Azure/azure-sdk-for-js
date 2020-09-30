@@ -6,7 +6,7 @@ The Azure Cognitive Search client does not have any recorded tests and so, all t
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Cognitive Search](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search) account.
+- An [Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-what-is-azure-search) account.
 
 To run the live tests, you will also need to set the below environment variables:
 

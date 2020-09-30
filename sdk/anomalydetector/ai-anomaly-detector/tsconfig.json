@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types"
+  },
+  "exclude": [
+    "node_modules",
+    "types",
+    "temp",
+    "browser",
+    "dist*",
+    "./samples/**/*.ts",
+    "./dom-shims.d.ts"
+  ]
+}

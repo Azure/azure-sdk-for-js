@@ -23,7 +23,7 @@ async function main() {
   // - If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
   // - See session.ts for how to receive using sessions.
-  const receiver = sbClient.createReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName);
 
   const processMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);

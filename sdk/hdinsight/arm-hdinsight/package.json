@@ -2,7 +2,7 @@
   "name": "@azure/arm-hdinsight",
   "author": "Microsoft Corporation",
   "description": "HDInsightManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",

@@ -1,7 +1,18 @@
 # Release History
 
-## 12.1.0 (Unreleased)
+## 12.1.2 (Unreleased)
 
+
+## 12.1.1 (2020-09-17)
+
+- Bug fix - Fixes an issue where`DataLakeFileClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).
+
+## 12.1.0 (2020-09-08)
+
+- Fixed `DataLakeFileClient.uploadStream()` to support `chunkSize` larger than `buffer.constants.MAX_LENGTH`.
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Supported Quick Query. Added a new API `DataLakeFileClient.query()`.
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
 ## 12.1.0-preview.1 (2020.07)
 

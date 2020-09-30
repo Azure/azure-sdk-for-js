@@ -13,7 +13,7 @@ describe("Shard", async () => {
 
   async function* fakeListBlobsFlat(option: { prefix: string }) {
     for (let i = 0; i < 5; i++) {
-      yield { name: `${option.prefix}000${i}.avro` };
+      yield { name: `${option.prefix}0000${i}.avro` };
     }
   }
 
@@ -33,19 +33,25 @@ describe("Shard", async () => {
     const shardPath = "$blobchangefeed/log/00/2019/02/22/1810/";
     const chunkIndex = 2;
     const shardCursor: ShardCursor = {
-      chunkIndex,
-      blockOffset: 0,
-      eventIndex: 0
+      CurrentChunkPath: `log/00/2019/02/22/1810/0000${chunkIndex}.avro`,
+      BlockOffset: 0,
+      EventIndex: 0
     };
 
     // build shard correctly
+    const shardPathWithoutContainer = shardPath.substr("$blobchangefeed/".length);
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
-    const shard = await shardFactory.create(containerClientSub as any, shardPath, shardCursor);
-    assert.ok(
-      chunkFactoryStub.create.calledWith(containerClientSub, `${shardPath}000${chunkIndex}.avro`)
+    const shard = await shardFactory.create(
+      containerClientSub as any,
+      shardPathWithoutContainer,
+      shardCursor
     );
-    const cursor = shard.getCursor();
-    assert.deepStrictEqual(cursor.chunkIndex, shardCursor.chunkIndex);
+    assert.ok(
+      chunkFactoryStub.create.calledWith(
+        containerClientSub,
+        `${shardPathWithoutContainer}0000${chunkIndex}.avro`
+      )
+    );
 
     // shift to next chunk when currentChunk is done
     chunkStub.hasNext.returns(false);
@@ -53,35 +59,37 @@ describe("Shard", async () => {
     nextChunkStub.hasNext.returns(true);
     const event = { id: "a" };
     nextChunkStub.getChange.resolves(event as any);
+    (nextChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 1}.avro`;
     chunkFactoryStub.create.returns(nextChunkStub);
 
     const change = await shard.getChange();
     assert.ok(
       chunkFactoryStub.create.calledWith(
         containerClientSub,
-        `${shardPath}000${chunkIndex + 1}.avro`
+        `${shardPathWithoutContainer}0000${chunkIndex + 1}.avro`
       )
     );
     assert.deepStrictEqual(change, event);
     const cursor2 = shard.getCursor();
-    assert.deepStrictEqual(cursor2.chunkIndex, shardCursor.chunkIndex + 1);
+    assert.deepStrictEqual(cursor2?.CurrentChunkPath, nextChunkStub.chunkPath);
 
     // chunks used up
     nextChunkStub.hasNext.returns(false);
     nextChunkStub.getChange.resolves(undefined);
     const lastChunkStub = sinon.createStubInstance(Chunk);
     lastChunkStub.hasNext.returns(false);
+    (lastChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 2}.avro`;
     chunkFactoryStub.create.returns(lastChunkStub);
 
     const change2 = await shard.getChange();
     assert.ok(
       chunkFactoryStub.create.calledWith(
         containerClientSub,
-        `${shardPath}000${chunkIndex + 2}.avro`
+        `${shardPathWithoutContainer}0000${chunkIndex + 2}.avro`
       )
     );
     assert.equal(change2, undefined);
     const cursor3 = shard.getCursor();
-    assert.deepStrictEqual(cursor3.chunkIndex, shardCursor.chunkIndex + 2);
+    assert.deepStrictEqual(cursor3?.CurrentChunkPath, lastChunkStub.chunkPath);
   });
 });

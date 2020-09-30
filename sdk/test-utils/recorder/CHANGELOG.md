@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2020-08-21
+
+- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. Fixtures are now overridden before being saved as recordings by decoding the hex values into the buffer as expected if the "Content-Type" is "avro/binary".
+  [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048)
+
 ## 2020-07-10
 
 - [Bug Fix] Fixed an issue where the browser-recording file is saved before all the recorded requests are pushed to the array of recordings(request-response pairs).

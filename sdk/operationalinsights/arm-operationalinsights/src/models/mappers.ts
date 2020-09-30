@@ -410,7 +410,9 @@ export const LinkedStorageAccountsResource: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "CustomLogs",
-            "AzureWatson"
+            "AzureWatson",
+            "Query",
+            "Alerts"
           ]
         }
       },
@@ -802,7 +804,7 @@ export const Workspace: msRest.CompositeMapper = {
         serializedName: "properties.retentionInDays",
         constraints: {
           InclusiveMaximum: 730,
-          InclusiveMinimum: -1
+          InclusiveMinimum: 30
         },
         type: {
           name: "Number"
@@ -883,7 +885,7 @@ export const WorkspacePatch: msRest.CompositeMapper = {
         serializedName: "properties.retentionInDays",
         constraints: {
           InclusiveMaximum: 730,
-          InclusiveMinimum: -1
+          InclusiveMinimum: 30
         },
         type: {
           name: "Number"

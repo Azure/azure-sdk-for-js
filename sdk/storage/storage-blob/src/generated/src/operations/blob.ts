@@ -1359,7 +1359,6 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.sourceContentMD5,
     Parameters.blobTagsString,
-    Parameters.sealBlob,
     Parameters.xMsRequiresSync,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
@@ -1432,7 +1431,8 @@ const setTierOperationSpec: coreHttp.OperationSpec = {
     Parameters.rehydratePriority,
     Parameters.version,
     Parameters.requestId,
-    Parameters.leaseId0
+    Parameters.leaseId0,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1497,7 +1497,8 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: [

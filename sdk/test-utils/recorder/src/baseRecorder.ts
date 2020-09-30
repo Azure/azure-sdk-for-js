@@ -15,7 +15,8 @@ import {
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
   nodeRequireRecordingIfExists,
-  windowLens
+  windowLens,
+  decodeHexEncodingIfExistsInNockFixture
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -63,6 +64,12 @@ export abstract class BaseRecorder {
     queryParametersToSkip: []
   };
   protected hash: string;
+  private defaultCustomizationsOnRecordings = !isBrowser()
+    ? [
+        // Decodes "hex" strings in the response from the recorded fixture if any exists.
+        decodeHexEncodingIfExistsInNockFixture
+      ]
+    : [];
 
   constructor(
     platform: "node" | "browsers",
@@ -91,10 +98,13 @@ export abstract class BaseRecorder {
   protected filterSecrets(content: any): any {
     const recordingFilterMethod =
       typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+
     return recordingFilterMethod(
       content,
       this.environmentSetup.replaceableVariables,
-      this.environmentSetup.customizationsOnRecordings
+      this.defaultCustomizationsOnRecordings.concat(
+        this.environmentSetup.customizationsOnRecordings
+      )
     );
   }
 
@@ -151,7 +161,7 @@ export class NockRecorder extends BaseRecorder {
         JSON.stringify(this.uniqueTestInfo) +
         "\n";
 
-      const fixtures = nock.recorder.play();
+      const fixtures: string[] = nock.recorder.play();
 
       // Create the directories recursively incase they don't exist
       try {

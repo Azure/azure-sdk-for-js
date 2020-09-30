@@ -175,6 +175,32 @@ export class SqlResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>
+   */
+  migrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse> {
+    return this.beginMigrateSqlDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>
+   */
+  migrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse> {
+    return this.beginMigrateSqlDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
+  }
+
+  /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -334,6 +360,34 @@ export class SqlResources {
   updateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse> {
     return this.beginUpdateSqlContainerThroughput(resourceGroupName,accountName,databaseName,containerName,updateThroughputParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>
+   */
+  migrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse> {
+    return this.beginMigrateSqlContainerToAutoscale(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>
+   */
+  migrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse> {
+    return this.beginMigrateSqlContainerToManualThroughput(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
   }
 
   /**
@@ -749,6 +803,46 @@ export class SqlResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateSqlDatabaseToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateSqlDatabaseToManualThroughputOperationSpec,
+      options);
+  }
+
+  /**
    * Create or update an Azure Cosmos DB SQL container
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -817,6 +911,50 @@ export class SqlResources {
         options
       },
       beginUpdateSqlContainerThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      beginMigrateSqlContainerToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      beginMigrateSqlContainerToManualThroughputOperationSpec,
       options);
   }
 
@@ -1390,6 +1528,60 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
@@ -1474,6 +1666,62 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults

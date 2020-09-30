@@ -27,7 +27,7 @@ import {
   FormField,
   Point2D,
   FormModelResponse,
-  CustomFormField,
+  CustomFormModelField,
   CustomFormSubmodel
 } from "./models";
 import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
@@ -57,9 +57,6 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
       };
     })
   };
-  line.words = line.words.map((w) => {
-    return { ...w, containingLine: line };
-  });
 
   return line;
 }
@@ -122,22 +119,28 @@ export function toFormFieldFromKeyValuePairModel(
   };
 }
 
-export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
+export function toFormTable(
+  original: DataTableModel,
+  readResults: FormPage[],
+  pageNumber: number
+): FormTable {
   return {
     rowCount: original.rows,
     columnCount: original.columns,
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
-      columnSpan: cell.columnSpan || 1,
-      confidence: cell.confidence || 1,
-      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults!)),
-      isFooter: cell.isFooter || false,
-      isHeader: cell.isHeader || false,
+      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults)),
       rowIndex: cell.rowIndex,
-      rowSpan: cell.rowSpan || 1,
-      text: cell.text
-    }))
+      columnSpan: cell.columnSpan ?? 1,
+      rowSpan: cell.rowSpan ?? 1,
+      isHeader: cell.isHeader ?? false,
+      isFooter: cell.isFooter ?? false,
+      confidence: cell.confidence ?? 1,
+      text: cell.text,
+      pageNumber
+    })),
+    pageNumber
   };
 }
 
@@ -155,7 +158,9 @@ export function toFormPages(
     if (readResult) {
       const pageResult = pageMap.get(pageNumber);
       if (pageResult) {
-        readResult.tables = pageResult.tables?.map((table) => toFormTable(table, transformed));
+        readResult.tables = pageResult.tables?.map((table) =>
+          toFormTable(table, transformed!, pageNumber)
+        );
         result.push(readResult);
       }
     }
@@ -396,7 +401,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
     // training with forms and labels, populate from trainingResult.fields
-    const fields: { [propertyName: string]: CustomFormField } = {};
+    const fields: Record<string, CustomFormModelField> = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
@@ -415,7 +420,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     const submodels: CustomFormSubmodel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
-      const fields: { [propertyName: string]: CustomFormField } = {};
+      const fields: Record<string, CustomFormModelField> = {};
 
       for (let i = 0; i < cluster.length; i++) {
         fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };

@@ -72,6 +72,24 @@ describe("serialization.deserialize", () => {
     assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
   });
 
+  it("doesn't deserialize as Date if text before", () => {
+    const value = "before 1975-04-04T00:00:00.000Z";
+    const result = deserialize({ a: value });
+    assert.deepEqual(result, { a: value });
+  });
+
+  it("doesn't deserialize as Date if text after", () => {
+    const value = "1975-04-04T00:00:00.000Z after";
+    const result = deserialize({ a: value });
+    assert.deepEqual(result, { a: value });
+  });
+
+  it("doesn't deserialize as Date if text before and after", () => {
+    const value = "before 1975-04-04T00:00:00.000Z after";
+    const result = deserialize({ a: value });
+    assert.deepEqual(result, { a: value });
+  });
+
   it("GeographyPoint", () => {
     const result: { location: GeographyPoint } = deserialize({
       location: {

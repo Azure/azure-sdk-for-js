@@ -5,7 +5,11 @@ import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { FormRecognizerClient, AzureKeyCredential } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
+import {
+  createRecordedRecognizerClient,
+  testEnv,
+  testPollingOptions
+} from "../util/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
@@ -13,6 +17,7 @@ describe("FormRecognizerClient browser only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
@@ -27,7 +32,7 @@ describe("FormRecognizerClient browser only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeContentFromUrl(url);
+    const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect non-empty pages but got ${pages}`);
@@ -38,7 +43,7 @@ describe("FormRecognizerClient browser only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeReceiptsFromUrl(url);
+    const poller = await client.beginRecognizeReceiptsFromUrl(url, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
@@ -61,7 +66,7 @@ describe("FormRecognizerClient browser only", () => {
     const data = await blob.blobBody;
 
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await client.beginRecognizeReceipts(data!);
+    const poller = await client.beginRecognizeReceipts(data!, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);

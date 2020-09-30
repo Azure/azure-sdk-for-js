@@ -1102,18 +1102,18 @@ export class ShareFileClient extends StorageClient {
    * const downloadFileResponse = await fileClient.download();
    * console.log(
    *   "Downloaded file content:",
-   *   await streamToString(downloadFileResponse.readableStreamBody)}
+   *   (await streamToBuffer(downloadFileResponse.readableStreamBody)).toString()}
    * );
    *
    * // A helper method used to read a Node.js readable stream into string
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });

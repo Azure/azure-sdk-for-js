@@ -26,7 +26,8 @@ export interface CredsAndEndpoint {
 export function startRecorder(that: any) {
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
-      AZ_CONFIG_CONNECTION: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
+      APPCONFIG_CONNECTION_STRING:
+        "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -72,13 +73,13 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 export function createAppConfigurationClientForTests(
   options?: InternalAppConfigurationClientOptions
 ): AppConfigurationClient | undefined {
-  const connectionString = env["AZ_CONFIG_CONNECTION"];
+  const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
       connectionStringNotPresentWarning = true;
       console.log(
-        "Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate"
+        "Functional tests not running - set APPCONFIG_CONNECTION_STRING to a valid AppConfig connection string to activate"
       );
     }
     return undefined;

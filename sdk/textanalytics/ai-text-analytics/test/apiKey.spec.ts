@@ -69,4 +69,12 @@ describe("[API Key] TextAnalyticsClient", function() {
     assert.equal(results.length, 1);
     assertAllSuccess(results);
   });
+
+  it("#recognizePiiEntities", async () => {
+    const results = await client.recognizePiiEntities([
+      "Your social-security number is 078-05-1120."
+    ]);
+    assert.equal(results.length, 1);
+    assertAllSuccess(results);
+  });
 });

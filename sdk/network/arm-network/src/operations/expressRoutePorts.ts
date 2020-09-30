@@ -173,6 +173,42 @@ export class ExpressRoutePorts {
   }
 
   /**
+   * Generate a letter of authorization for the requested ExpressRoutePort resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param expressRoutePortName The name of ExpressRoutePort.
+   * @param request Request parameters supplied to generate a letter of authorization.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExpressRoutePortsGenerateLOAResponse>
+   */
+  generateLOA(resourceGroupName: string, expressRoutePortName: string, request: Models.GenerateExpressRoutePortsLOARequest, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsGenerateLOAResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param expressRoutePortName The name of ExpressRoutePort.
+   * @param request Request parameters supplied to generate a letter of authorization.
+   * @param callback The callback
+   */
+  generateLOA(resourceGroupName: string, expressRoutePortName: string, request: Models.GenerateExpressRoutePortsLOARequest, callback: msRest.ServiceCallback<Models.GenerateExpressRoutePortsLOAResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param expressRoutePortName The name of ExpressRoutePort.
+   * @param request Request parameters supplied to generate a letter of authorization.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  generateLOA(resourceGroupName: string, expressRoutePortName: string, request: Models.GenerateExpressRoutePortsLOARequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenerateExpressRoutePortsLOAResult>): void;
+  generateLOA(resourceGroupName: string, expressRoutePortName: string, request: Models.GenerateExpressRoutePortsLOARequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateExpressRoutePortsLOAResult>, callback?: msRest.ServiceCallback<Models.GenerateExpressRoutePortsLOAResult>): Promise<Models.ExpressRoutePortsGenerateLOAResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        expressRoutePortName,
+        request,
+        options
+      },
+      generateLOAOperationSpec,
+      callback) as Promise<Models.ExpressRoutePortsGenerateLOAResponse>;
+  }
+
+  /**
    * Deletes the specified ExpressRoutePort resource.
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
@@ -365,6 +401,38 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const generateLOAOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.expressRoutePortName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "request",
+    mapper: {
+      ...Mappers.GenerateExpressRoutePortsLOARequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.GenerateExpressRoutePortsLOAResult
     },
     default: {
       bodyMapper: Mappers.CloudError

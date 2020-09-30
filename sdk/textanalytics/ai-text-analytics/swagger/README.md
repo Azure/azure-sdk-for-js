@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.0/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.2/TextAnalytics.json
 add-credentials: false
-package-version: 5.0.1
+package-version: 5.1.0-beta.2
 v3: true
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200618.1"
@@ -41,6 +41,16 @@ directive:
     where: $.definitions.DocumentStatistics.properties.transactionsCount
     transform: >
       $["x-ms-client-name"] = "transactionCount";
+```
+
+### Rename BingId to bingEntitySearchApiId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LinkedEntity.properties.bingId
+    transform: >
+      $["x-ms-client-name"] = "bingEntitySearchApiId";
 ```
 
 ### Rename plurals in RequestStatistics
@@ -82,7 +92,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics
     transform: >
-        $["x-ms-client-name"] = "TextDocumentStatistics";
+      $["x-ms-client-name"] = "TextDocumentStatistics";
 ```
 
 ### RequestStatistics => TextDocumentBatchStatistics
@@ -92,7 +102,7 @@ directive:
   - from: swagger-document
     where: $.definitions.RequestStatistics
     transform: >
-     $["x-ms-client-name"] = "TextDocumentBatchStatistics";
+      $["x-ms-client-name"] = "TextDocumentBatchStatistics";
 ```
 
 ### Rename showStats -> includeStatistics
@@ -100,11 +110,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.paths..parameters[*]
+    where: $.parameters.ShowStats
     transform: >
-      if ($.name === "showStats") {
-        $["x-ms-client-name"] = "includeStatistics";
-      }
+      $["name"] = "includeStatistics";
   - from: swagger-document
     where: $.definitions[*]
     transform: >
@@ -113,7 +121,7 @@ directive:
       }
 ```
 
-### Rename {Document,Sentence}SentimentValue -> Label 
+### Rename {Document,Sentence}SentimentValue -> Label
 
 ```yaml
 directive:
@@ -154,9 +162,8 @@ directive:
   - from: swagger-document
     where: $.definitions..properties
     transform: >
-      if ($.length !== undefined && $.offset !== undefined) {
+      if ($.length !== undefined) {
         $.length = undefined;
-        $.offset = undefined;
       }
 ```
 
@@ -167,7 +174,7 @@ directive:
   - from: swagger-document
     where: $.definitions.SentimentConfidenceScorePerLabel
     transform: >
-     $["x-ms-client-name"] = "SentimentConfidenceScores";
+      $["x-ms-client-name"] = "SentimentConfidenceScores";
 ```
 
 ### Change some casing to use camelCase
@@ -178,14 +185,6 @@ directive:
     where: $.definitions.Entity.properties.subcategory
     transform: >
       $["x-ms-client-name"] = "subCategory";
-  - from: swagger-document
-    where: $.definitions.TextAnalyticsError.properties.innererror
-    transform: >
-      $["x-ms-client-name"] = "innerError";
-  - from: swagger-document
-    where: $.definitions.InnerError.properties.innererror
-    transform: >
-      $["x-ms-client-name"] = "innerError";
 ```
 
 ### WarningCodeValue => WarningCode

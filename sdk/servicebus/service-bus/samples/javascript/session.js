@@ -10,7 +10,7 @@
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
   sessions in Service Bus.
 */
 const { ServiceBusClient, delay } = require("@azure/service-bus");
@@ -75,10 +75,8 @@ async function sendMessage(sbClient, scientist, sessionId) {
 }
 
 async function receiveMessages(sbClient, sessionId) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const receiver = await sbClient.createSessionReceiver(queueName, "peekLock", {
-    sessionId: sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const receiver = await sbClient.acceptSession(queueName, sessionId);
 
   const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);

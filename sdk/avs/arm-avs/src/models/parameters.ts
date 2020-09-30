@@ -25,6 +25,19 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const authorizationName: msRest.OperationURLParameter = {
+  parameterPath: "authorizationName",
+  mapper: {
+    required: true,
+    serializedName: "authorizationName",
     type: {
       name: "String"
     }
@@ -35,6 +48,16 @@ export const clusterName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "clusterName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const hcxEnterpriseSiteName: msRest.OperationURLParameter = {
+  parameterPath: "hcxEnterpriseSiteName",
+  mapper: {
+    required: true,
+    serializedName: "hcxEnterpriseSiteName",
     type: {
       name: "String"
     }
@@ -76,6 +99,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
@@ -86,6 +114,9 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }

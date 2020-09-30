@@ -8,10 +8,9 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { ServiceBusClient } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -25,8 +24,8 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in SessionReceiver", function(): void {
-    let sender: Sender;
-    let receiver: SessionReceiver<ReceivedMessageWithLock>;
+    let sender: ServiceBusSender;
+    let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -39,35 +38,16 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-        sessionId: TestMessage.sessionId
-      });
+      receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+        entityNames,
+        TestMessage.sessionId
+      );
 
       await sender.sendMessages(TestMessage.getSessionSample());
     });
 
     after(() => {
       return serviceBusClient.test.afterEach();
-    });
-
-    it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-      let errorCaught: string = "";
-      try {
-        const { queue } = serviceBusClient.test.getTestEntities(
-          TestClientType.PartitionedQueueWithSessions
-        );
-
-        await serviceBusClient.createSessionReceiver(queue!, undefined as any, {
-          sessionId: TestMessage.sessionId
-        });
-      } catch (error) {
-        errorCaught = error.message;
-      }
-      should.equal(
-        errorCaught,
-        "Invalid receiveMode provided",
-        "Did not throw error if created a client with invalid receiveMode."
-      );
     });
 
     it("SessionReceiver: Throws error if created a client with invalid receiveMode", async function(): Promise<
@@ -79,15 +59,15 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.createSessionReceiver(queue!, 123 as any, {
-          sessionId: TestMessage.sessionId
+        await serviceBusClient.acceptSession(queue!, TestMessage.sessionId, {
+          receiveMode: 123 as any
         });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        "Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
       );
     });
@@ -232,35 +212,35 @@ describe("invalid parameters", () => {
     const mockConnectionString =
       "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
     const sbClient = new ServiceBusClient(mockConnectionString);
-    const receiver = sbClient.createReceiver("dummyQueue", "peekLock");
-
-    it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
-      let errorCaught: string = "";
-      try {
-        // @ts-expect-error
-        sbClient.createReceiver("dummyQueue");
-      } catch (error) {
-        errorCaught = error.message;
-      }
-      should.equal(
-        errorCaught,
-        "Invalid receiveMode provided",
-        "Did not throw error if created a client with invalid receiveMode."
-      );
-    });
+    const receiver = sbClient.createReceiver("dummyQueue");
 
     it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
       let errorCaught: string = "";
       try {
         // @ts-expect-error
-        sbClient.createReceiver("dummyQueue", 123);
+        sbClient.createReceiver("dummyQueue", { receiveMode: 123 });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        "Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
+      );
+    });
+
+    it("Receiver: Invalid SubQueue", async function(): Promise<void> {
+      let errorCaught: string = "";
+      try {
+        // @ts-expect-error
+        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+      } catch (error) {
+        errorCaught = error.message;
+      }
+      should.equal(
+        errorCaught,
+        `Invalid subQueue '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
+        "Did not throw error if created a client with invalid subQueue."
       );
     });
 

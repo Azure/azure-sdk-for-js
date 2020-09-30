@@ -6,13 +6,17 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ReceivedMessage, ReceivedMessageWithLock, Receiver } from "../src";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
+  ServiceBusReceiver
+} from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let deadLetterReceiver: Receiver<ReceivedMessage>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -41,10 +45,13 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
+      serviceBusClient.createReceiver(entityNames.queue, {
+        receiveMode: "receiveAndDelete",
+        subQueue: "deadLetter"
+      })
     );
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -163,8 +170,8 @@ describe("dead lettering", () => {
 
 describe("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -191,7 +198,7 @@ describe("abandoning", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -273,7 +280,7 @@ describe("abandoning", () => {
   });
 
   async function checkAbandonedMessage(
-    abandonedMessage: ReceivedMessageWithLock,
+    abandonedMessage: ServiceBusReceivedMessageWithLock,
     expected: { customProperty?: string }
   ) {
     should.exist(abandonedMessage);
@@ -286,8 +293,8 @@ describe("abandoning", () => {
 
 describe("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -314,7 +321,7 @@ describe("deferring", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 

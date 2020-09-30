@@ -7,8 +7,8 @@ import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,7 +18,10 @@ import {
   EntityName,
   getRandomTestClientType
 } from "./utils/testutils2";
-import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock
+} from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
 
@@ -31,13 +34,13 @@ const anyRandomTestClientType = getRandomTestClientType();
 
 let serviceBusClient: ServiceBusClientForTests;
 let entityNames: EntityName;
-let sender: Sender;
-let receiver: Receiver<ReceivedMessageWithLock>;
-let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+let sender: ServiceBusSender;
+let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -136,7 +139,7 @@ describe("Batching Receiver", () => {
 
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
-    ): Promise<ReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessageWithLock> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
 
@@ -392,7 +395,7 @@ describe("Batching Receiver", () => {
 
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
-    ): Promise<ReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessageWithLock> {
       await sender.sendMessages(testMessage);
       const batch = await receiver.receiveMessages(1);
 
@@ -433,7 +436,7 @@ describe("Batching Receiver", () => {
 
     async function completeDeadLetteredMessage(
       testMessage: ServiceBusMessage,
-      deadletterClient: Receiver<ReceivedMessageWithLock>,
+      deadletterClient: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
@@ -726,10 +729,14 @@ describe("Batching Receiver", () => {
       // the message lands back in the queue/subscription to be picked up again.
       if (entityNames.usesSessions) {
         await receiver.close();
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          autoRenewLockDurationInMs: 0
-        });
+
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       let batch = await receiver.receiveMessages(1);
@@ -748,10 +755,13 @@ describe("Batching Receiver", () => {
       // landed back in the queue/subscription.
       if (entityNames.usesSessions) {
         await delay(31000);
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          autoRenewLockDurationInMs: 0
-        });
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       batch = await receiver.receiveMessages(1);
@@ -865,8 +875,10 @@ describe("Batching Receiver", () => {
 
   describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
     let serviceBusClient: ServiceBusClientForTests;
-    let sender: Sender;
-    let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+    let sender: ServiceBusSender;
+    let receiver:
+      | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
+      | ServiceBusReceiver<ServiceBusReceivedMessage>;
 
     async function beforeEachTest(
       receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
@@ -874,9 +886,9 @@ describe("Batching Receiver", () => {
       serviceBusClient = createServiceBusClientForTests();
       const entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
       if (receiveMode == "receiveAndDelete") {
-        receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+        receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       } else {
-        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
       }
 
       sender = serviceBusClient.test.addToCleanup(
@@ -900,7 +912,9 @@ describe("Batching Receiver", () => {
 
       let settledMessageCount = 0;
 
-      const messages1 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveMessages(1, {
+      const messages1 = await (receiver as ServiceBusReceiver<
+        ServiceBusReceivedMessageWithLock
+      >).receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
       for (const message of messages1) {
@@ -910,7 +924,7 @@ describe("Batching Receiver", () => {
 
       settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
 
-      const connectionContext = (receiver as any)["_context"].namespace;
+      const connectionContext = (receiver as any)["_context"];
       const refreshConnection = connectionContext.refreshConnection;
       let refreshConnectionCalled = 0;
       connectionContext.refreshConnection = function(...args: any) {
@@ -919,15 +933,17 @@ describe("Batching Receiver", () => {
       };
 
       // Simulate a disconnect being called with a non-retryable error.
-      (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].namespace.connection[
-        "_connection"
-      ].idle();
+      (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>)[
+        "_context"
+      ].connection["_connection"].idle();
 
       // send a second message to trigger the message handler again.
       await sender.sendMessages(TestMessage.getSample());
 
       // wait for the 2nd message to be received.
-      const messages2 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveMessages(1, {
+      const messages2 = await (receiver as ServiceBusReceiver<
+        ServiceBusReceivedMessageWithLock
+      >).receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
       for (const message of messages2) {
@@ -948,8 +964,14 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_batchingReceiver"
+      ];
+
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -965,22 +987,20 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
-          ReceiverEvents.receiverDrained
-        );
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
-      receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["link"]!.addCredit;
+      batchingReceiver["link"]!.addCredit = function(credits) {
         addCredit.call(this, credits);
-        if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        if (batchingReceiver["link"]!.drain) {
           didRequestDrain = true;
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }
       };
 
@@ -1009,9 +1029,14 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_batchingReceiver"
+      ];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -1027,22 +1052,20 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
-          ReceiverEvents.receiverDrained
-        );
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
-      receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["link"]!.addCredit;
+      batchingReceiver["link"]!.addCredit = function(credits) {
         didRequestDrain = true;
         addCredit.call(this, credits);
-        if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        if (batchingReceiver["link"]!.drain) {
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }
       };
 
@@ -1078,9 +1101,14 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
+      const receiverContext = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_context"
+      ];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_batchingReceiver"
+      ];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -1088,10 +1116,10 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(TestMessage.getSample());
 
       // Simulate a disconnect after a message has been received.
-      receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+      batchingReceiver["link"]!.once("message", function() {
         setTimeout(() => {
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }, 0);
       });
 
@@ -1119,16 +1147,21 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_batchingReceiver"
+      ];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
       // Simulate a disconnect
       setTimeout(() => {
         // Simulate a disconnect being called with a non-retryable error.
-        receiverContext.namespace.connection["_connection"].idle();
+        receiverContext.connection["_connection"].idle();
       }, 0);
 
       // Purposefully request more messages than what's available

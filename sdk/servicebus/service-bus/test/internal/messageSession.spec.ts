@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../src/session/messageSession";
-import { createClientEntityContextForTests, defer } from "./unittestUtils";
+import { createConnectionContextForTests, defer } from "./unittestUtils";
 import sinon from "sinon";
 import { EventEmitter } from "events";
 import {
@@ -15,7 +15,7 @@ import {
   SessionEvents
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
-import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -32,8 +32,8 @@ describe("Message session unit tests", () => {
       clock.restore();
     });
 
-    [ReceiveMode.peekLock, ReceiveMode.receiveAndDelete].forEach((lockMode) => {
-      describe(`${ReceiveMode[lockMode]} receive, exit paths`, () => {
+    [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
+      describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
         const bigTimeout = 60 * 1000;
         const littleTimeout = 30 * 1000;
         let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -47,9 +47,14 @@ describe("Message session unit tests", () => {
         });
 
         it("1. We received 'max messages'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            undefined,
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
@@ -71,9 +76,14 @@ describe("Message session unit tests", () => {
         // in the new world the overall timeout firing means we've received _no_ messages
         // because otherwise it'd be one of the others.
         it("2. We've waited 'max wait time'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            undefined,
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
@@ -92,12 +102,17 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this check.
-        (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              undefined,
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -134,12 +149,17 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-        (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
+        (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
           `3b. (without idle timeout)`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              undefined,
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -181,12 +201,17 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can enable this test for all modes.
-        (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           "4. sanity check that we're using getRemainingWaitTimeInMs",
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              undefined,
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -296,7 +321,7 @@ describe("Message session unit tests", () => {
         }
       } as RheaReceiver;
 
-      batchingReceiver["_receiver"] = fakeRheaReceiver;
+      batchingReceiver["_link"] = fakeRheaReceiver;
 
       batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {

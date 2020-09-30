@@ -367,6 +367,19 @@ export class Deployments {
   }
 
   /**
+   * Returns changes that will be made by the deployment if executed at the scope of the tenant
+   * group.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsWhatIfAtTenantScopeResponse>
+   */
+  whatIfAtTenantScope(deploymentName: string, parameters: Models.ScopedDeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsWhatIfAtTenantScopeResponse> {
+    return this.beginWhatIfAtTenantScope(deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsWhatIfAtTenantScopeResponse>;
+  }
+
+  /**
    * Exports the template used for specified deployment.
    * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
@@ -563,6 +576,20 @@ export class Deployments {
   validateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.ScopedDeployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse> {
     return this.beginValidateAtManagementGroupScope(groupId,deploymentName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Returns changes that will be made by the deployment if executed at the scope of the management
+   * group.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsWhatIfAtManagementGroupScopeResponse>
+   */
+  whatIfAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.ScopedDeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsWhatIfAtManagementGroupScopeResponse> {
+    return this.beginWhatIfAtManagementGroupScope(groupId,deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsWhatIfAtManagementGroupScopeResponse>;
   }
 
   /**
@@ -1211,6 +1238,25 @@ export class Deployments {
   }
 
   /**
+   * Returns changes that will be made by the deployment if executed at the scope of the tenant
+   * group.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginWhatIfAtTenantScope(deploymentName: string, parameters: Models.ScopedDeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        deploymentName,
+        parameters,
+        options
+      },
+      beginWhatIfAtTenantScopeOperationSpec,
+      options);
+  }
+
+  /**
    * A template deployment that is currently running cannot be deleted. Deleting a template
    * deployment removes the associated deployment operations. This is an asynchronous operation that
    * returns a status of 202 until the template deployment is successfully deleted. The Location
@@ -1274,6 +1320,27 @@ export class Deployments {
         options
       },
       beginValidateAtManagementGroupScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * Returns changes that will be made by the deployment if executed at the scope of the management
+   * group.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginWhatIfAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.ScopedDeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        groupId,
+        deploymentName,
+        parameters,
+        options
+      },
+      beginWhatIfAtManagementGroupScopeOperationSpec,
       options);
   }
 
@@ -2392,6 +2459,41 @@ const beginValidateAtTenantScopeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginWhatIfAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}/whatIf",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ScopedDeploymentWhatIf,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.WhatIfOperationResult,
+      headersMapper: Mappers.DeploymentsWhatIfAtTenantScopeHeaders
+    },
+    202: {
+      headersMapper: Mappers.DeploymentsWhatIfAtTenantScopeHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfAtTenantScopeHeaders
+    }
+  },
+  serializer
+};
+
 const beginDeleteAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
@@ -2479,6 +2581,42 @@ const beginValidateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginWhatIfAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ScopedDeploymentWhatIf,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.WhatIfOperationResult,
+      headersMapper: Mappers.DeploymentsWhatIfAtManagementGroupScopeHeaders
+    },
+    202: {
+      headersMapper: Mappers.DeploymentsWhatIfAtManagementGroupScopeHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfAtManagementGroupScopeHeaders
     }
   },
   serializer
@@ -2605,7 +2743,8 @@ const beginWhatIfAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
     }
   },
   serializer
@@ -2736,7 +2875,8 @@ const beginWhatIfOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DeploymentsWhatIfHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfHeaders
     }
   },
   serializer

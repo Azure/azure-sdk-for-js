@@ -29,18 +29,18 @@ export class PrivateClouds {
 
   /**
    * @summary List private clouds in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListResponse>
    */
   list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -81,20 +81,20 @@ export class PrivateClouds {
 
   /**
    * @summary Get a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsGetResponse>
    */
   get(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsGetResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
   get(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.PrivateCloud>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
@@ -113,7 +113,7 @@ export class PrivateClouds {
 
   /**
    * @summary Create or update a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param privateCloud The private cloud
    * @param [options] The optional parameters
@@ -126,20 +126,20 @@ export class PrivateClouds {
 
   /**
    * @summary Update a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloudUpdate The private cloud properties to be updated
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsUpdateResponse>
    */
-  update(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,privateCloudName,privateCloud,options)
+  update(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: Models.PrivateCloudUpdate, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,privateCloudName,privateCloudUpdate,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateCloudsUpdateResponse>;
   }
 
   /**
    * @summary Delete a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -151,20 +151,20 @@ export class PrivateClouds {
 
   /**
    * @summary List the admin credentials for the private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListAdminCredentialsResponse>
    */
   listAdminCredentials(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListAdminCredentialsResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
   listAdminCredentials(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.AdminCredentials>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
@@ -183,7 +183,7 @@ export class PrivateClouds {
 
   /**
    * @summary Create or update a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param privateCloud The private cloud
    * @param [options] The optional parameters
@@ -203,18 +203,18 @@ export class PrivateClouds {
 
   /**
    * @summary Update a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloudUpdate The private cloud properties to be updated
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: Models.PrivateCloudUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         privateCloudName,
-        privateCloud,
+        privateCloudUpdate,
         options
       },
       beginUpdateOperationSpec,
@@ -223,7 +223,7 @@ export class PrivateClouds {
 
   /**
    * @summary Delete a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -316,7 +316,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloudList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -339,7 +339,7 @@ const listInSubscriptionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloudList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -364,7 +364,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloud
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -389,7 +389,7 @@ const listAdminCredentialsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AdminCredentials
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -424,7 +424,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloud
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -445,9 +445,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "privateCloud",
+    parameterPath: "privateCloudUpdate",
     mapper: {
-      ...Mappers.PrivateCloud,
+      ...Mappers.PrivateCloudUpdate,
       required: true
     }
   },
@@ -459,7 +459,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloud
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -484,7 +484,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -505,7 +505,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloudList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -526,7 +526,7 @@ const listInSubscriptionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateCloudList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

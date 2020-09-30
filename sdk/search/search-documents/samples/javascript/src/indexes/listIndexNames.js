@@ -9,7 +9,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running List Indexes Names Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.listIndexesNames();
   let listOfIndexNames = await result.next();
@@ -22,4 +25,6 @@ async function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

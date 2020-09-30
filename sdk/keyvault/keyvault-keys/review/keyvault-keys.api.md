@@ -71,7 +71,7 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends CryptographyOptions {
+export interface DecryptOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -99,10 +99,10 @@ export interface DeletedKey {
 export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "A128GCM" | "A192GCM" | "A256GCM" | "A128KW" | "A192KW" | "A256KW" | "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
 
 // @public
-export interface EncryptOptions extends CryptographyOptions {
+export interface EncryptOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -175,7 +175,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -183,6 +183,13 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
 export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey" | "import";
+
+// @public
+export interface KeyOperationsOptions extends CryptographyOptions {
+    additionalAuthenticatedData?: Uint8Array;
+    iv?: Uint8Array;
+    tag?: Uint8Array;
+}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -209,7 +216,7 @@ export interface KeyProperties {
 }
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 // @public
 export interface KeyVaultKey {
@@ -219,6 +226,14 @@ export interface KeyVaultKey {
     keyType?: KeyType;
     name: string;
     properties: KeyProperties;
+}
+
+// @public
+export interface KeyVaultKeyId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
 }
 
 // @public
@@ -237,11 +252,26 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
+export class LocalCryptographyClient {
+    constructor(key: JsonWebKey);
+    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
+    key: JsonWebKey;
+    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
+    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
+}
+
+// @public
+export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
+
+// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export function parseKeyVaultKeyId(id: string): KeyVaultKeyId;
 
 export { PipelineOptions }
 
@@ -272,7 +302,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends CryptographyOptions {
+export interface UnwrapKeyOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -303,7 +333,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends CryptographyOptions {
+export interface WrapKeyOptions extends KeyOperationsOptions {
 }
 
 // @public

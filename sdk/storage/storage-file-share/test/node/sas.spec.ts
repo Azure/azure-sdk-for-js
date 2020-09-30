@@ -58,10 +58,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new ShareServiceClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new ShareServiceClient(sasURL, newPipeline());
 
     (
       await serviceClientWithSAS

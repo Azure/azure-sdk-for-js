@@ -3,7 +3,13 @@
 import assert from "assert";
 import { CosmosClient, DatabaseDefinition, Database } from "../../src/index";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { addEntropy, removeAllDatabases, getTestDatabase } from "../common/TestHelpers";
+import {
+  addEntropy,
+  removeAllDatabases,
+  getTestDatabase,
+  assertThrowsAsync
+} from "../common/TestHelpers";
+import { DatabaseRequest } from "../../dist-esm/client/Database/DatabaseRequest";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
@@ -125,7 +131,7 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeAPI should fail on contains '#'", async function() {
-      // Id shoudn't contain "#".
+      // Id shouldn't contain "#".
       try {
         await client.databases.create({ id: "id_with_illegal#_char" });
         assert.fail("Must throw if id contains illegal characters");
@@ -156,5 +162,26 @@ describe("database.readOffer", function() {
       const offer: any = await offerDatabase.readOffer();
       assert.equal(offer.resource.offerVersion, "V2");
     });
+  });
+});
+
+describe("database.create", function() {
+  it("uses autoscale", async function() {
+    const maxThroughput = 50000;
+    const databaseRequest: DatabaseRequest = {
+      maxThroughput
+    };
+    const database = await getTestDatabase("autoscale db", undefined, databaseRequest);
+    const { resource: offer } = await database.readOffer();
+    console.log({ offer: offer.content });
+    const settings = offer.content.offerAutopilotSettings;
+    assert.equal(settings.maxThroughput, maxThroughput);
+  });
+  it("throws with maxThroughput and throughput", function() {
+    const databaseRequest: DatabaseRequest = {
+      throughput: 400,
+      maxThroughput: 4000
+    };
+    assertThrowsAsync(() => getTestDatabase("autoscale db", undefined, databaseRequest));
   });
 });

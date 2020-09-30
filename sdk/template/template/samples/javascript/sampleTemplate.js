@@ -5,7 +5,7 @@
  * Demonstrates something
  */
 
-import { AzureKeyCredential } from "@azure/template";
+const { AzureKeyCredential } = require("@azure/template");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");

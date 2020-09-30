@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs a news search on 'Microsoft Azure' with conditions such as the freshness must be within a Month, etc. To know more, refer to the [Azure Documentation on Bing News Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/)
+The following sample performs a news search on 'Microsoft Azure' with conditions such as the freshness must be within a Month, etc. To know more, refer to the [Azure Documentation on Bing News Search](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/)
 
 ```javascript
 const { NewsSearchClient } = require("@azure/cognitiveservices-newssearch");

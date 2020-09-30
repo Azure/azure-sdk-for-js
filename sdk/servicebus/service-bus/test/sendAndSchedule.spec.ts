@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay, ServiceBusClient } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,8 +18,8 @@ import {
   EntityName,
   getRandomTestClientType
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -27,8 +27,8 @@ const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -42,7 +42,7 @@ describe("Sender Tests", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityName = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
@@ -274,7 +274,13 @@ describe("Sender Tests", () => {
     await testCancelMultipleScheduleMessages();
   });
 
-  it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
+  // This test occasionally fails on macOS.
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/9912
+  // Failure - The queue is initially empty, we schedule 3 messages and get their sequence numbers, receive the 3 messages,
+  //           the error is that one of the sequence numbers do not have a counterpart in the received messages.
+  // To be un-skipped once the root cause is found, the bug is fixed.
+  // Being investigated at https://github.com/Azure/azure-sdk-for-js/pull/10053.
+  it.skip(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     const date = new Date();
     const messages = [
@@ -282,7 +288,7 @@ describe("Sender Tests", () => {
       { body: "Hello, again!" },
       { body: "Hello, again and again!!" }
     ];
-    let [result1, result2, result3] = await Promise.all([
+    const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
       sender.scheduleMessages(date, messages[0]),
       sender.scheduleMessages(date, messages[1]),
@@ -324,7 +330,7 @@ describe("Sender Tests", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiver: Receiver<ReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
@@ -374,10 +380,14 @@ describe("Sender Tests", () => {
 });
 
 describe("ServiceBusMessage validations", function(): void {
-  const sbClient = new ServiceBusClient(
-    "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-  );
-  const sender = sbClient.createSender("dummyQueue");
+  let sbClient: ServiceBusClient;
+  let sender: ServiceBusSender;
+
+  before(() => {
+    sbClient = new ServiceBusClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;");
+    sender = sbClient.createSender("dummyQueue");
+  });
+
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
 

@@ -1,34 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientEntityContext } from "../clientEntityContext";
-import {
-  MessageHandlers,
-  ReceiveMessagesOptions,
-  ReceivedMessage,
-  SessionMessageHandlerOptions,
-  SubscribeOptions
-} from "..";
+import { ConnectionContext } from "../connectionContext";
+import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
 import {
   PeekMessagesOptions,
-  CreateSessionReceiverOptions,
-  GetMessageIteratorOptions
+  GetMessageIteratorOptions,
+  MessageHandlerOptionsBase,
+  SessionSubscribeOptions
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
-import { Receiver, defaultMaxTimeAfterFirstMessageForBatchingMs } from "./receiver";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
-import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   Constants,
   RetryConfig,
@@ -45,9 +40,9 @@ import { AmqpError } from "rhea-promise";
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<
-  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
-> extends Receiver<ReceivedMessageT> {
+export interface ServiceBusSessionReceiver<
+  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
+> extends ServiceBusReceiver<ReceivedMessageT> {
   /**
    * The session ID.
    */
@@ -62,7 +57,24 @@ export interface SessionReceiver<
    *
    * @readonly
    */
-  sessionLockedUntilUtc: Date | undefined;
+  readonly sessionLockedUntilUtc: Date;
+
+  /**
+   * Streams messages to message handlers.
+   * @param handlers A handler that gets called for messages and errors.
+   * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
+   */
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SessionSubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Renews the lock on the session.
@@ -71,17 +83,17 @@ export interface SessionReceiver<
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<any>} The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(options?: OperationOptionsBase): Promise<any>;
+  getSessionState(options?: OperationOptionsBase): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
@@ -90,16 +102,16 @@ export interface SessionReceiver<
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any, options?: OperationOptionsBase): Promise<void>;
+  setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 /**
  * @internal
  * @ignore
  */
-export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements SessionReceiver<ReceivedMessageT> {
-  public entityPath: string;
+export class ServiceBusSessionReceiverImpl<
+  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
+> implements ServiceBusSessionReceiver<ReceivedMessageT> {
   public sessionId: string;
 
   /**
@@ -112,50 +124,24 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection is closed.
    * @throws Error if an open receiver is already existing for given sessionId.
    */
-  private constructor(
+  constructor(
     private _messageSession: MessageSession,
-    private _context: ClientEntityContext,
+    private _context: ConnectionContext,
+    public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _retryOptions: RetryOptions = {}
   ) {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    this.entityPath = this._context.entityPath;
+    throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
   }
 
-  static async createInitializedSessionReceiver<
-    ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
-  >(
-    context: ClientEntityContext,
-    receiveMode: "peekLock" | "receiveAndDelete",
-    sessionOptions: CreateSessionReceiverOptions,
-    retryOptions: RetryOptions = {}
-  ): Promise<SessionReceiver<ReceivedMessageT>> {
-    context.isSessionEnabled = true;
-    if (sessionOptions.sessionId != undefined) {
-      sessionOptions.sessionId = String(sessionOptions.sessionId);
-    }
-    const messageSession = await MessageSession.create(context, {
-      sessionId: sessionOptions.sessionId,
-      autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
-      receiveMode: convertToInternalReceiveMode(receiveMode)
-    });
-    const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
-      messageSession,
-      context,
-      receiveMode,
-      retryOptions
-    );
-    return sessionReceiver;
-  }
-
   private _throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
       if (this._isClosed) {
-        const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId);
+        const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
+        logError(error, `[${this._context.connectionId}] %O`, error);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -168,9 +154,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   private _throwIfAlreadyReceiving(): void {
     if (this._isReceivingMessages()) {
-      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
+      const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -178,7 +164,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   public get isClosed(): boolean {
     return (
       this._isClosed ||
-      !this._context.messageSessions[this.sessionId] ||
+      !this._context.messageSessions[this._messageSession.name] ||
       !this._messageSession.isOpen()
     );
   }
@@ -190,14 +176,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    *
    * When the lock on the session expires
    * - The current receiver can no longer be used to receive more messages.
-   * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
+   * Create a new receiver using `ServiceBusClient.acceptSession()` or `ServiceBusClient.acceptNextSession()`.
    * - Messages that were received in `peekLock` mode with this receiver but not yet settled
    * will land back in the Queue/Subscription with their delivery count incremented.
    *
    * @readonly
    */
-  public get sessionLockedUntilUtc(): Date | undefined {
-    return this._messageSession ? this._messageSession.sessionLockedUntilUtc : undefined;
+  public get sessionLockedUntilUtc(): Date {
+    return this._messageSession.sessionLockedUntilUtc;
   }
 
   /**
@@ -206,7 +192,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    *
    * When the lock on the session expires
    * - The current receiver can no longer be used to receive mode messages.
-   * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
+   * Create a new receiver using `ServiceBusClient.acceptSession()` or `ServiceBusClient.acceptNextSession()`.
    * - Messages that were received in `peekLock` mode with this receiver but not yet settled
    * will land back in the Queue/Subscription with their delivery count incremented.
    *
@@ -218,19 +204,19 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     const renewSessionLockOperationPromise = async () => {
-      this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-        this.sessionId,
-        {
+      this._messageSession!.sessionLockedUntilUtc = await this._context
+        .getManagementClient(this.entityPath)
+        .renewSessionLock(this.sessionId, {
           ...options,
+          associatedLinkName: this._messageSession.name,
           requestName: "renewSessionLock",
           timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+        });
       return this._messageSession!.sessionLockedUntilUtc!;
     };
     const config: RetryConfig<Date> = {
       operation: renewSessionLockOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -240,26 +226,29 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any, options: OperationOptionsBase = {}): Promise<void> {
+  async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
-      await this._context.managementClient!.setSessionState(this.sessionId!, state, {
-        ...options,
-        requestName: "setState",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      await this._context
+        .getManagementClient(this.entityPath)
+        .setSessionState(this.sessionId!, state, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "setState",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return;
     };
     const config: RetryConfig<void> = {
       operation: setSessionStateOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -269,25 +258,26 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<any> The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(options: OperationOptionsBase = {}): Promise<any> {
+  async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
-      return this._context.managementClient!.getSessionState(this.sessionId, {
+      return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
         ...options,
+        associatedLinkName: this._messageSession.name,
         requestName: "getState",
         timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -298,7 +288,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async peekMessages(
     maxMessageCount: number,
     options: PeekMessagesOptions = {}
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
     if (maxMessageCount == undefined) {
@@ -307,34 +297,35 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const managementRequestOptions = {
       ...options,
+      associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
-        return await this._context.managementClient!.peekBySequenceNumber(
-          options.fromSequenceNumber,
-          maxMessageCount,
-          this.sessionId,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peekBySequenceNumber(
+            options.fromSequenceNumber,
+            maxMessageCount,
+            this.sessionId,
+            managementRequestOptions
+          );
       } else {
-        return await this._context.managementClient!.peekMessagesBySession(
-          this.sessionId,
-          maxMessageCount,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
       }
     };
 
-    const config: RetryConfig<ReceivedMessage[]> = {
+    const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       operation: peekOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config);
   }
 
   async receiveDeferredMessages(
@@ -343,12 +334,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
     throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
@@ -357,21 +348,24 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       ? sequenceNumbers
       : [sequenceNumbers];
     const receiveDeferredMessagesOperationPromise = async () => {
-      const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-        deferredSequenceNumbers,
-        convertToInternalReceiveMode(this.receiveMode),
-        this.sessionId,
-        {
-          ...options,
-          requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+      const deferredMessages = await this._context
+        .getManagementClient(this.entityPath)
+        .receiveDeferredMessages(
+          deferredSequenceNumbers,
+          convertToInternalReceiveMode(this.receiveMode),
+          this.sessionId,
+          {
+            ...options,
+            associatedLinkName: this._messageSession.name,
+            requestName: "receiveDeferredMessages",
+            timeoutInMs: this._retryOptions.timeoutInMs
+          }
+        );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveDeferredMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -402,7 +396,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveBatchOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.receiveMessage,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -412,7 +406,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SubscribeOptions
+    options?: SessionSubscribeOptions
   ): {
     close(): Promise<void>;
   } {
@@ -431,7 +425,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     return {
       close: async (): Promise<void> => {
-        return this._messageSession?.receiverHelper.stopReceivingMessages();
+        return this._messageSession?.receiverHelper.suspend();
       }
     };
   }
@@ -461,11 +455,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: SessionMessageHandlerOptions
+    options?: MessageHandlerOptionsBase
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    const connId = this._context.namespace.connectionId;
+    const connId = this._context.connectionId;
     throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
     throwTypeErrorIfParameterMissing(connId, "onError", onError);
     if (typeof onMessage !== "function") {
@@ -490,11 +484,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     try {
       await this._messageSession.close();
     } catch (err) {
-      log.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.sessionId,
-        this._context.entityPath,
+        this.entityPath,
         err
       );
       throw err;

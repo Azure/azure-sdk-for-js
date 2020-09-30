@@ -11,9 +11,12 @@ dotenv.config();
 const endpoint = process.env.SEARCH_API_ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_KEY || "";
 
-async function main(): Promise<void> {
+export async function main() {
   console.log(`Running Get Service Statistics Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   const {counters, limits} = await client.getServiceStatistics();
   console.log(`Counters`);
@@ -45,4 +48,6 @@ async function main(): Promise<void> {
   console.log(`\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

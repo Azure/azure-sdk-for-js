@@ -413,6 +413,97 @@ describe("BlobBatch", () => {
     }
   });
 
+  it("submitBatch should work for batch set tier with versioning", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+
+    // Upload blobs.
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Create versioning.
+    const metadata = { a: "a" };
+    let blockBlobClientsWithVersion: BlockBlobClient[] = [];
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      const resp = await blockBlobClients[i].setMetadata(metadata);
+      blockBlobClientsWithVersion[i] = blockBlobClients[i].withVersion(
+        resp.versionId!
+      ) as BlockBlobClient;
+    }
+
+    // Assemble batch set tier request.
+    let batchSetTierRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClientsWithVersion[i], "Cool");
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobClients.length);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobClients.length);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithVersion[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClientsWithVersion[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it("submitBatch should work for batch set tier with snapshot", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+
+    // Upload blobs.
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Create snapshot.
+    let blockBlobClientsWithSnapshot: BlockBlobClient[] = [];
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      const resp = await blockBlobClients[i].createSnapshot();
+      blockBlobClientsWithSnapshot[i] = blockBlobClients[i].withSnapshot(
+        resp.snapshot!
+      ) as BlockBlobClient;
+    }
+
+    // Assemble batch set tier request.
+    let batchSetTierRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClientsWithSnapshot[i], "Cool");
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobClients.length);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobClients.length);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithSnapshot[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClientsWithSnapshot[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
   it("submitBatch should work with multiple types of credentials for subrequests", async function() {
     recorder.skip(
       undefined,

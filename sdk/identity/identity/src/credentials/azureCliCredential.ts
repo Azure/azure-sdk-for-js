@@ -22,8 +22,12 @@ function getSafeWorkingDir(): string {
 const logger = credentialLogger("AzureCliCredential");
 
 /**
- * Provides the user access token and expire time
+ * This credential will use the currently logged-in user login information
+ * via the Azure CLI ('az') commandline tool.
+ * To do so, it will read the user access token and expire time
  * with Azure CLI command "az account get-access-token".
+ * To be able to use this credential, ensure that you have already logged
+ * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
   /**

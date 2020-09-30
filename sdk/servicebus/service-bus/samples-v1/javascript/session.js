@@ -7,7 +7,7 @@ in Service Bus.
 
 Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
 sessions in Service Bus.
 */
 

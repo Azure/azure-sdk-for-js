@@ -2,19 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates different ways to iterate through the list of models in
+ * This sample demonstrates how to manage the custom models in
  * a cognitive service account.
  */
 
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   // First, we see how many custom models we have, and what our limit is
@@ -26,18 +28,14 @@ async function main() {
   // Next, we get a paged async iterator of all of our custom models
   const result = client.listCustomModels();
 
-  // We could print out information about first ten models
-  // and save the first model id for later use
-  let i = 0;
-  let firstModel;
+  // We can iterate over all the models and print their ID
+  // We'll also save the first model to get some detailed information
+  // in the next step;
+  let firstModel = undefined;
   for await (const model of result) {
-    console.log(`model ${i++}:`);
-    console.log(model);
-    if (i === 1) {
+    console.log(`- Model:`, model.modelId);
+    if (firstModel === undefined) {
       firstModel = model;
-    }
-    if (i > 10) {
-      break;
     }
   }
 
@@ -50,13 +48,13 @@ async function main() {
 
   // Now we'll get the first custom model in the paged list
   const model = await client.getCustomModel(firstModel.modelId);
+  console.log("--- First Custom Model ---");
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log("Documents used in training: [");
+  console.log("Documents used in training:");
   for (const doc of model.trainingDocuments || []) {
-    console.log(`  ${doc.documentName}`);
+    console.log(`- ${doc.name}`);
   }
-  console.log("]");
 
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
   //   await client.deleteModel(firstModel.modelId);

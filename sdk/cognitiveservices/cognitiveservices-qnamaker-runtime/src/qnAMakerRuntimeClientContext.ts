@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-qnamaker-runtime";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.1";
 
 export class QnAMakerRuntimeClientContext extends msRest.ServiceClient {
   runtimeEndpoint: string;

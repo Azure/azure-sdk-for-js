@@ -144,6 +144,25 @@ export class EventHubProducerClient {
   /**
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new EventHubProducerClient(connectionString);
+   * let batch = await client.createBatch();
+   * for (let i = 0; i < messages.length; i++) {
+   *  if (!batch.tryAdd(messages[i])) {
+   *    await client.sendBatch(batch);
+   *    batch = await client.createBatch();
+   *    if (!batch.tryAdd(messages[i])) {
+   *      throw new Error("Message too big to fit")
+   *    }
+   *    if (i === messages.length - 1) {
+   *      await client.sendBatch(batch);
+   *    }
+   *   }
+   * }
+   * ```
+   *
    * @param options  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
@@ -195,6 +214,12 @@ export class EventHubProducerClient {
   /**
    * Sends an array of events to the associated Event Hub.
    *
+   * Example usage:
+   * ```ts
+   * const client = new EventHubProducerClient(connectionString);
+   * await client.sendBatch(messages);
+   * ```
+   *
    * @param batch An array of {@link EventData}.
    * @param options A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -211,6 +236,23 @@ export class EventHubProducerClient {
   /**
    * Sends a batch of events to the associated Event Hub.
    *
+   * Example usage:
+   * ```ts
+   * const client = new EventHubProducerClient(connectionString);
+   * let batch = await client.createBatch();
+   * for (let i = 0; i < messages.length; i++) {
+   *  if (!batch.tryAdd(messages[i])) {
+   *    await client.sendBatch(batch);
+   *    batch = await client.createBatch();
+   *    if (!batch.tryAdd(messages[i])) {
+   *      throw new Error("Message too big to fit")
+   *    }
+   *    if (i === messages.length - 1) {
+   *      await client.sendBatch(batch);
+   *    }
+   *   }
+   * }
+   * ```
    * @param batch A batch of events that you can create using the {@link createBatch} method.
    * @param options A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -265,7 +307,10 @@ export class EventHubProducerClient {
       for (let i = 0; i < batch.length; i++) {
         const event = batch[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(getParentSpan(options.tracingOptions));
+          const messageSpan = createMessageSpan(
+            getParentSpan(options.tracingOptions),
+            this._context.config
+          );
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one

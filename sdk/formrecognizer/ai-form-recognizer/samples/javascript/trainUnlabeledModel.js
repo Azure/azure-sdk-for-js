@@ -3,20 +3,22 @@
 
 /**
  * This sample demonstrates how to train a custom model with unlabeled data.
- * See recognizeForm.js to recognize forms using a custom model.
+ * See recognizeForm.ts to recognize forms using a custom model.
  */
 
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-
-  const containerSasUrl = process.env["UNLABELED_CONTAINER_SAS_URL"] || "<SAS url to the blob container storing training documents>";
+  const containerSasUrl =
+    process.env["UNLABELED_CONTAINER_SAS_URL"] ||
+    "<url to Azure blob container storing the training documents>";
 
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
@@ -40,8 +42,7 @@ async function main() {
     for (const submodel of model.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
-      for (const key in submodel.fields) {
-        const field = submodel.fields[key];
+      for (const [_, field] of Object.entries(submodel.fields)) {
         console.log(`The model found field '${field.name}'`);
       }
     }
@@ -49,10 +50,14 @@ async function main() {
   // Training document information
   if (model.trainingDocuments) {
     for (const doc of model.trainingDocuments) {
-      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document name: ${doc.name}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
-      console.log(`Document errors: ${doc.errors}`);
+      console.log(
+        `Document errors: ${doc.errors
+          .map((e) => `error code ${e.code} '${e.message}'`)
+          .join("\n")}`
+      );
     }
   }
 }

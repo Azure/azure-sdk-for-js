@@ -1,48 +1,105 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ChunkFactory } from "./ChunkFactory";
 import { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import { Chunk } from "./Chunk";
+import { AbortSignalLike } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./utils/tracing";
+
+/**
+ * Options to configure {@link ShardFactory.create} operation.
+ *
+ * @export
+ * @interface CreateShardOptions
+ */
+export interface CreateShardOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof CreateShardOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class ShardFactory {
-  private readonly _chunkFactory: ChunkFactory;
+  private readonly chunkFactory: ChunkFactory;
 
   constructor(chunkFactory: ChunkFactory) {
-    this._chunkFactory = chunkFactory;
+    this.chunkFactory = chunkFactory;
   }
 
   public async create(
     containerClient: ContainerClient,
     shardPath: string,
-    shardCursor?: ShardCursor
+    shardCursor?: ShardCursor,
+    options: CreateShardOptions = {}
   ): Promise<Shard> {
-    const chunks: string[] = [];
-    const chunkIndex: number = shardCursor?.chunkIndex || 0;
-    const blockOffset: number = shardCursor?.blockOffset || 0;
-    const eventIndex: number = shardCursor?.eventIndex || 0;
+    const { span, spanOptions } = createSpan("ShardFactory-create", options.tracingOptions);
+    try {
+      const chunks: string[] = [];
+      const blockOffset: number = shardCursor?.BlockOffset || 0;
+      const eventIndex: number = shardCursor?.EventIndex || 0;
 
-    for await (const blobItem of containerClient.listBlobsFlat({ prefix: shardPath })) {
-      chunks.push(blobItem.name);
+      for await (const blobItem of containerClient.listBlobsFlat({
+        prefix: shardPath,
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      })) {
+        chunks.push(blobItem.name);
+      }
+
+      const currentChunkPath = shardCursor?.CurrentChunkPath;
+      let chunkIndex = -1;
+      let currentChunk: Chunk | undefined = undefined;
+      // Chunks can be empty right after hour flips.
+      if (chunks.length !== 0) {
+        // Fast forward to current Chunk
+        if (currentChunkPath) {
+          for (let i = 0; i < chunks.length; i++) {
+            if (chunks[i] === currentChunkPath) {
+              chunkIndex = i;
+              break;
+            }
+          }
+          if (chunkIndex === -1) {
+            throw new Error(`Chunk ${currentChunkPath} not found.`);
+          }
+        } else {
+          chunkIndex = 0;
+        }
+
+        // Fast forward to current Chunk.
+        if (chunkIndex > 0) {
+          chunks.splice(0, chunkIndex);
+        }
+
+        currentChunk = await this.chunkFactory.create(
+          containerClient,
+          chunks.shift()!,
+          blockOffset,
+          eventIndex,
+          {
+            abortSignal: options.abortSignal,
+            tracingOptions: { ...options.tracingOptions, spanOptions }
+          }
+        );
+      }
+
+      return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (chunks.length === 0) {
-      throw new Error(`No chunk under directory ${shardPath}.`);
-    }
-
-    if (chunkIndex < 0 || chunkIndex >= chunks.length) {
-      throw new Error(`Invalid chunkIndex for ${shardPath}.`);
-    }
-
-    // Fast forward to current Chunk.
-    if (chunkIndex > 0) {
-      chunks.splice(0, chunkIndex);
-    }
-
-    const currentChunk = await this._chunkFactory.create(
-      containerClient,
-      chunks.shift()!,
-      blockOffset,
-      eventIndex
-    );
-    return new Shard(containerClient, this._chunkFactory, chunks, currentChunk, chunkIndex);
   }
 }

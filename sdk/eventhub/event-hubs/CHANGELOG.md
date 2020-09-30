@@ -1,10 +1,32 @@
 # Release History
 
-## 5.3.0-preview.2 (Unreleased)
+## 5.3.1 (Unreleased)
+
+
+## 5.3.0 (2020-09-08)
+
+### New features:
+
+- Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
+  how aggressively the client claims partitions while load balancing.
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706)).
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
+### Bug fixes:
 
 - Fixes issue [#9704](https://github.com/Azure/azure-sdk-for-js/issues/9704)
   where events could be _skipped_ while receiving messages.
   Previously this could occur when a retryable error was encountered and retries were exhausted while receiving a batch of events.
+
+### Tracing updates:
+
+- Fixes issue [#10298](https://github.com/Azure/azure-sdk-for-js/issues/10298)
+  where spans had inconsistent `peer.address` attributes by removing the scheme
+  (i.e. `sb://`) from EventHub `peer.address` span attributes
+- Addresses [#10276](https://github.com/Azure/azure-sdk-for-js/issues/10276): adds
+  `message_bus.destination` and `peer.address` attributes to `Azure.EventHubs.message` spans.
+  ([PR 10389](https://github.com/Azure/azure-sdk-for-js/pull/10389))
 
 ## 5.3.0-preview.1 (2020-07-07)
 
@@ -147,7 +169,7 @@ Construction of both objects is the same as it was for the previous client.
 ### Breaking changes
 
 - Removed the `createFromIotHubConnectionString` method from `EventHubClient`. ([PR #5311](https://github.com/Azure/azure-sdk-for-js/pull/5311)).
-  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
+  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
   when instantiating an `EventHubClient` to read properties or events from an IoT Hub.
 
   Previously:

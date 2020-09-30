@@ -22,7 +22,7 @@ export async function main() {
   const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
 
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
+  const fileName = path.join(__dirname, "../assets/Form_1.jpg");
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -31,27 +31,25 @@ export async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
+    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
   const forms = await poller.pollUntilDone();
 
-  console.log("Forms:");
-  let i = 0;
   for (const form of forms || []) {
-    console.log(`  Form #${i++} has type ${form.formType}`);
+    console.log(`- Form has type ${form.formType}`);
     console.log("  Fields:");
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
-      const field = form.fields[fieldName];
       const boundingBox =
         field.valueData && field.valueData.boundingBox
           ? field.valueData.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
           : "N/A";
       console.log(
-        `    Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
+        `    Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
       );
     }
     console.log("  Pages:");

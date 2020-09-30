@@ -9,7 +9,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Create Skillset Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   const skillset = {
     name: `my-azureblob-skillset`,
@@ -47,4 +50,6 @@ async function main() {
   await client.createSkillset(skillset);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

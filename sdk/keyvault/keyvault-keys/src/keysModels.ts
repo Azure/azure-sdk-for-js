@@ -3,22 +3,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./generated/models";
-
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
- * @readonly
- * @enum {string}
- */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- * @enum {string}
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+import { KeyCurveName } from "./cryptographyClientModels";
 
 /**
  * Defines values for KeyOperation.
@@ -37,11 +22,11 @@ export type KeyOperation =
 
 /**
  * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 /**
  * @internal
@@ -72,9 +57,9 @@ export interface KeyClientInterface {
 }
 
 /**
- * The latest supported KeyVault service API version
+ * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.1-preview";
+export const LATEST_API_VERSION = "7.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -83,7 +68,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1-preview";
+  serviceVersion?: "7.0" | "7.1";
 }
 
 /**
@@ -102,7 +87,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   kty?: KeyType;
   /**
@@ -166,7 +151,7 @@ export interface JsonWebKey {
 }
 
 /**
- * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -184,7 +169,7 @@ export interface KeyVaultKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -265,7 +250,7 @@ export interface KeyProperties {
 }
 
 /**
- * An interface representing a deleted KeyVault Key.
+ * An interface representing a deleted Key Vault Key.
  */
 export interface DeletedKey {
   /**
@@ -283,7 +268,7 @@ export interface DeletedKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**

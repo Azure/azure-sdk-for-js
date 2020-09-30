@@ -5,7 +5,7 @@ Licensed under the MIT Licence.
 This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
 appear on a Service Bus Queue/Subscription at a later time.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
+See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
 to learn about scheduling messages.
 */
 

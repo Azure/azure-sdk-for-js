@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "./log";
+import { logger } from "./log";
 import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
@@ -13,23 +13,41 @@ import {
   delay
 } from "@azure/core-amqp";
 import { ServiceBusClientOptions } from "./constructorHelpers";
-import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import { MessageSender } from "./core/messageSender";
+import { MessageSession } from "./session/messageSession";
+import { MessageReceiver } from "./core/messageReceiver";
+import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
+import { logError } from "./util/errors";
 
 /**
  * @internal
+ * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property A dictionary of ClientEntityContext
-   * objects for each of the client in the `clients` dictionary
+   * @property A map of active Service Bus Senders with sender name as key.
    */
-  clientContexts: { [name: string]: ClientEntityContext };
-
+  senders: { [name: string]: MessageSender };
+  /**
+   * @property A map of active Service Bus receivers for non session enabled queues/subscriptions
+   * with receiver name as key.
+   */
+  messageReceivers: { [name: string]: MessageReceiver };
+  /**
+   * @property A map of active Service Bus receivers for session enabled queues/subscriptions
+   * with receiver name as key.
+   */
+  messageSessions: { [name: string]: MessageSession };
+  /**
+   * @property A map of ManagementClient instances for operations over the $management link
+   * with key as the entity path.
+   */
+  managementClients: { [name: string]: ManagementClient };
   /**
    * Function returning a promise that resolves once the connectionContext is ready to open an AMQP link.
    * ConnectionContext will be ready to open an AMQP link when:
@@ -40,6 +58,28 @@ export interface ConnectionContext extends ConnectionContextBase {
    * is in the process of closing or disconnecting.
    */
   readyToOpenLink(): Promise<void>;
+  /**
+   * Fetches the receiver from the cache in ConnectionContext based on the receiverName given.
+   * Useful for when a message needs to be settled or have its lock renewed.
+   *
+   * TODO: Track the right receiver on the message instead of the ConnectionContext to remove
+   * the need for this helper.
+   */
+  getReceiverFromCache(
+    receiverName: string,
+    sessionId?: string
+  ): MessageReceiver | MessageSession | undefined;
+  /**
+   * Gets the management client for given entity path from the cache
+   * Creates one if none exists in the cache
+   */
+  getManagementClient(entityPath: string): ManagementClient;
+  /**
+   * Indicates whether the connection is in the process of closing.
+   * When this returns `true`, a `disconnected` event will be received
+   * after the connection is closed.
+   */
+  isConnectionClosing(): boolean;
 }
 
 /**
@@ -49,13 +89,6 @@ export interface ConnectionContext extends ConnectionContextBase {
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
-  /**
-   * Indicates whether the connection is in the process of closing.
-   * When this returns `true`, a `disconnected` event will be received
-   * after the connection is closed.
-   *
-   */
-  isConnectionClosing(): boolean;
   /**
    * Resolves once the context's connection emits a `disconnected` event.
    */
@@ -68,14 +101,20 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 }
 
 /**
+ * @internal
+ * @ignore
  * Helper type to get the names of all the functions on an object.
  */
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
+ * @internal
+ * @ignore
  * Helper type to get the types of all the functions on an object.
  */
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 /**
+ * @internal
+ * @ignore
  * Helper type to get the types of all the functions on ConnectionContext
  * and the internal methods from ConnectionContextInternalMembers.
  * Note that this excludes the functions that ConnectionContext inherits.
@@ -89,6 +128,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
+ * @ignore
  */
 export namespace ConnectionContext {
   export function create(
@@ -114,7 +154,10 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
-    connectionContext.clientContexts = {};
+    connectionContext.senders = {};
+    connectionContext.messageReceivers = {};
+    connectionContext.messageSessions = {};
+    connectionContext.managementClients = {};
 
     let waitForConnectionRefreshResolve: () => void;
     let waitForConnectionRefreshPromise: Promise<void> | undefined;
@@ -125,22 +168,27 @@ export namespace ConnectionContext {
         return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
       },
       async readyToOpenLink() {
-        log.error(`[${this.connectionId}] Waiting until the connection is ready to open link.`);
+        logger.verbose(
+          `[${this.connectionId}] Waiting until the connection is ready to open link.`
+        );
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
+          logger.verbose(
+            `[${this.connectionId}] Connection is closing, waiting for disconnected event`
+          );
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
 
         // Wait for the connection to be reset.
         await this.waitForConnectionReset();
-        log.error(`[${this.connectionId}] Connection is ready to open link.`);
+        logger.verbose(`[${this.connectionId}] Connection is ready to open link.`);
       },
       waitForDisconnectedEvent() {
         return new Promise((resolve) => {
-          log.error(
+          logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
               ` but the connection is in the process of closing.` +
               ` Waiting for the disconnect event before continuing.`
@@ -151,9 +199,55 @@ export namespace ConnectionContext {
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.
         if (waitForConnectionRefreshPromise) {
+          logger.verbose(`[${this.connectionId}] Waiting for connection reset`);
           return waitForConnectionRefreshPromise;
         }
+
+        logger.verbose(
+          `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`
+        );
         return Promise.resolve();
+      },
+      getReceiverFromCache(
+        receiverName: string,
+        sessionId?: string
+      ): MessageReceiver | MessageSession | undefined {
+        if (sessionId != null && this.messageSessions[receiverName]) {
+          return this.messageSessions[receiverName];
+        }
+
+        if (this.messageReceivers[receiverName]) {
+          return this.messageReceivers[receiverName];
+        }
+
+        let existingReceivers = "";
+        if (sessionId != null) {
+          for (const messageSessionName of Object.keys(this.messageSessions)) {
+            if (this.messageSessions[messageSessionName].sessionId === sessionId) {
+              existingReceivers = this.messageSessions[messageSessionName].name;
+              break;
+            }
+          }
+        } else {
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + Object.keys(this.messageReceivers).join(",");
+        }
+
+        logger.verbose(
+          "[%s] Failed to find receiver '%s' among existing receivers: %s",
+          this.connectionId,
+          receiverName,
+          existingReceivers
+        );
+        return;
+      },
+      getManagementClient(entityPath: string): ManagementClient {
+        if (!this.managementClients[entityPath]) {
+          this.managementClients[entityPath] = new ManagementClient(this, entityPath, {
+            address: `${entityPath}/$management`
+          });
+        }
+        return this.managementClients[entityPath];
       }
     });
 
@@ -161,7 +255,7 @@ export namespace ConnectionContext {
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = () => {
       connectionContext.wasConnectionCloseCalled = false;
-      log.connectionCtxt(
+      logger.verbose(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id,
         connectionContext.wasConnectionCloseCalled
@@ -172,6 +266,7 @@ export namespace ConnectionContext {
       if (waitForConnectionRefreshPromise) {
         return;
       }
+
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });
@@ -179,7 +274,8 @@ export namespace ConnectionContext {
       const connectionError =
         context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
-        log.error(
+        logError(
+          connectionError,
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           connectionError
@@ -187,7 +283,8 @@ export namespace ConnectionContext {
       }
       const contextError = context.error;
       if (contextError) {
-        log.error(
+        logError(
+          contextError,
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           contextError
@@ -195,10 +292,14 @@ export namespace ConnectionContext {
       }
       const state: Readonly<{
         wasConnectionCloseCalled: boolean;
-        numClients: number;
+        numSenders: number;
+        numReceivers: number;
       }> = {
         wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numClients: Object.keys(connectionContext.clientContexts).length
+        numSenders: Object.keys(connectionContext.senders).length,
+        numReceivers:
+          Object.keys(connectionContext.messageReceivers).length +
+          Object.keys(connectionContext.messageSessions).length
       };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
@@ -209,11 +310,8 @@ export namespace ConnectionContext {
       await connectionContext.cbsSession.close();
 
       // Close the management sessions to ensure all the event handlers are released.
-      for (const id of Object.keys(connectionContext.clientContexts)) {
-        const clientContext = connectionContext.clientContexts[id];
-        if (clientContext.managementClient) {
-          await clientContext.managementClient.close();
-        }
+      for (const entityPath of Object.keys(connectionContext.managementClients)) {
+        await connectionContext.managementClients[entityPath].close();
       }
 
       await refreshConnection(connectionContext);
@@ -221,44 +319,85 @@ export namespace ConnectionContext {
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
-      log.error("[%s] state: %O", connectionContext.connectionId, state);
-      if (!state.wasConnectionCloseCalled && state.numClients) {
-        log.error(
+      logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
+      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
+        logger.verbose(
           "[%s] connection.close() was not called from the sdk and there were some " +
-            "clients. We should reconnect.",
+            "senders and/or receivers. We should reconnect.",
           connectionContext.connection.id
         );
         await delay(Constants.connectionReconnectDelay);
-        // reconnect clients if any
-        for (const id of Object.keys(connectionContext.clientContexts)) {
-          const clientContext = connectionContext.clientContexts[id];
-          log.error(
-            "[%s] calling detached on client '%s'.",
-            connectionContext.connection.id,
-            clientContext.clientId
-          );
-          clientContext.onDetached(connectionError || contextError).catch((err) => {
-            log.error(
-              "[%s] An error occurred while reconnecting the sender '%s': %O.",
+
+        const detachCalls: Promise<void>[] = [];
+
+        // Call onDetached() on sender so that it can gracefully shutdown
+        for (const senderName of Object.keys(connectionContext.senders)) {
+          const sender = connectionContext.senders[senderName];
+          if (sender) {
+            logger.verbose(
+              "[%s] calling detached on sender '%s'.",
               connectionContext.connection.id,
-              clientContext.clientId,
-              err
+              sender.name
             );
-          });
+            detachCalls.push(
+              sender.onDetached().catch((err) => {
+                logError(
+                  err,
+                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
+                  connectionContext.connection.id,
+                  sender.name,
+                  err
+                );
+              })
+            );
+          }
         }
+
+        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+        // and streaming receivers can decide whether to reconnect or not.
+        for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
+          const receiver = connectionContext.messageReceivers[receiverName];
+          if (receiver) {
+            logger.verbose(
+              "[%s] calling detached on %s receiver '%s'.",
+              connectionContext.connection.id,
+              receiver.receiverType,
+              receiver.name
+            );
+            const causedByDisconnect = true;
+            detachCalls.push(
+              receiver
+                .onDetached(connectionError || contextError, causedByDisconnect)
+                .catch((err) => {
+                  logError(
+                    err,
+                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s': %O.",
+                    connectionContext.connection.id,
+                    receiver.receiverType,
+                    receiver.name,
+                    err
+                  );
+                })
+            );
+          }
+        }
+
+        await Promise.all(detachCalls);
       }
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        log.error(
+        logError(
+          context.connection.error,
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
-          context.connection && context.connection.error
+          context.connection.error
         );
       }
       if (context.error) {
-        log.error(
+        logError(
+          context.error,
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.error
@@ -268,14 +407,16 @@ export namespace ConnectionContext {
 
     const error: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        log.error(
+        logError(
+          context.connection.error,
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
-        log.error(
+        logError(
+          context.error,
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.error
@@ -288,7 +429,8 @@ export namespace ConnectionContext {
       try {
         await cleanConnectionContext(connectionContext);
       } catch (err) {
-        log.error(
+        logError(
+          err,
           `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err
         );
@@ -296,7 +438,7 @@ export namespace ConnectionContext {
       // Create a new connection, id, locks, and cbs client.
       connectionContext.refreshConnection();
       addConnectionListeners(connectionContext.connection);
-      log.error(
+      logger.verbose(
         `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
       );
     }
@@ -324,10 +466,7 @@ export namespace ConnectionContext {
 
     addConnectionListeners(connectionContext.connection);
 
-    log.connectionCtxt(
-      "[%s] Created connection context successfully.",
-      connectionContext.connectionId
-    );
+    logger.verbose("[%s] Created connection context successfully.", connectionContext.connectionId);
 
     return connectionContext;
   }
@@ -344,22 +483,38 @@ export namespace ConnectionContext {
   export async function close(context: ConnectionContext): Promise<void> {
     try {
       if (context.connection.isOpen()) {
-        log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
+        logger.verbose("Closing the amqp connection '%s' on the client.", context.connectionId);
 
-        // Close all the clients.
-        for (const id of Object.keys(context.clientContexts)) {
-          const clientContext = context.clientContexts[id];
-          await clientContext.close();
+        // Close all the senders.
+        for (const senderName of Object.keys(context.senders)) {
+          await context.senders[senderName].close();
         }
+
+        // Close all MessageReceiver instances
+        for (const receiverName of Object.keys(context.messageReceivers)) {
+          await context.messageReceivers[receiverName].close();
+        }
+
+        // Close all MessageSession instances
+        for (const messageSessionName of Object.keys(context.messageSessions)) {
+          await context.messageSessions[messageSessionName].close();
+        }
+
+        // Close all the ManagementClients.
+        for (const entityPath of Object.keys(context.managementClients)) {
+          await context.managementClients[entityPath].close();
+        }
+
         await context.cbsSession.close();
 
         await context.connection.close();
         context.wasConnectionCloseCalled = true;
-        log.ns("Closed the amqp connection '%s' on the client.", context.connectionId);
+        logger.verbose("Closed the amqp connection '%s' on the client.", context.connectionId);
       }
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(
+      logError(
+        err,
         `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
       );
       throw errObj;

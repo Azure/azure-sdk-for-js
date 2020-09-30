@@ -16,23 +16,6 @@
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Unit Tests",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        "--timeout",
-        "999999",
-        "--colors",
-        "${workspaceFolder}/dist-test/index.node.js"
-      ],
-      "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": [
-        "<node_internals>/**/async_hooks.js",
-        "<node_internals>/**/*.js"
-      ]
     }
   ]
 }

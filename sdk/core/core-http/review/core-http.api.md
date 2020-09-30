@@ -24,6 +24,13 @@ export interface AccessTokenCache {
 }
 
 // @public
+export class AccessTokenRefresher {
+    constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
+    isReady(): boolean;
+    refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
+    }
+
+// @public
 export interface ApiKeyCredentialOptions {
     inHeader?: {
         [x: string]: any;
@@ -47,30 +54,20 @@ export type Authenticator = (challenge: object) => Promise<string>;
 
 // @public (undocumented)
 export interface BaseMapper {
-    // (undocumented)
     constraints?: MapperConstraints;
-    // (undocumented)
     defaultValue?: any;
-    // (undocumented)
     isConstant?: boolean;
-    // (undocumented)
     nullable?: boolean;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     serializedName?: string;
-    // (undocumented)
     type: MapperType;
-    // (undocumented)
     xmlElementName?: string;
-    // (undocumented)
     xmlIsAttribute?: boolean;
-    // (undocumented)
     xmlIsWrapped?: boolean;
-    // (undocumented)
     xmlName?: string;
+    xmlNamespace?: string;
+    xmlNamespacePrefix?: string;
 }
 
 // @public (undocumented)
@@ -97,12 +94,6 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
     // (undocumented)
     userName: string;
 }
-
-// @public
-export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
-    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    }
 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
@@ -138,6 +129,8 @@ export const Constants: {
     HTTPS: string;
     HTTP_PROXY: string;
     HTTPS_PROXY: string;
+    NO_PROXY: string;
+    ALL_PROXY: string;
     HttpConstants: {
         HttpVerbs: {
             PUT: string;
@@ -168,9 +161,11 @@ export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptio
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
     //
     // (undocumented)
-    fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+    fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
@@ -211,12 +206,6 @@ export interface DictionaryMapperType {
     name: "Dictionary";
     // (undocumented)
     value: Mapper;
-}
-
-// @public
-export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -354,6 +343,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
 }
 
 // @public
@@ -371,12 +361,6 @@ export function isValidUuid(uuid: string): boolean;
 export interface KeepAliveOptions {
     // (undocumented)
     enable: boolean;
-}
-
-// @public
-export class KeepAlivePolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, keepAliveOptions: KeepAliveOptions);
-    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public (undocumented)

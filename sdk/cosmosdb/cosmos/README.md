@@ -10,7 +10,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 - Create, read, update, and delete the items (JSON documents) in your containers
 - Query the documents in your database using SQL-like syntax
 
-[Package (npm)][npm] | [API reference documentation](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/?view=azure-node-lates) | [Product documentation][cosmos_docs]
+[Package (npm)][npm] | [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates) | [Product documentation][cosmos_docs]
 
 ## Getting started
 
@@ -49,7 +49,7 @@ az cosmosdb list-keys --resource-group <your-resource-group> --name <your-accoun
 
 ### Create an instance of `CosmosClient`
 
-Interaction with Cosmos DB starts with an instance of the [CosmosClient](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest) class
+Interaction with Cosmos DB starts with an instance of the [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest) class
 
 ```js
 const { CosmosClient } = require("@azure/cosmos");
@@ -69,17 +69,17 @@ main().catch((error) => {
 
 For simplicity we have included the `key` and `endpoint` directly in the code but you will likely want to load these from a file not in source control using a project such as [dotenv](https://www.npmjs.com/package/dotenv) or loading from environment variables
 
-In production environments, secrets like keys should be stored in [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)
+In production environments, secrets like keys should be stored in [Azure Key Vault](https://azure.microsoft.com/services/key-vault/)
 
 ## Key concepts
 
-Once you've initialized a [CosmosClient](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-lates), you can interact with the primary resource types in Cosmos DB:
+Once you've initialized a [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-lates), you can interact with the primary resource types in Cosmos DB:
 
-- [Database](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/database?view=azure-node-latest): A Cosmos DB account can contain multiple databases. When you create a database, you specify the API you'd like to use when interacting with its documents: SQL, MongoDB, Gremlin, Cassandra, or Azure Table. Use the [Database](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/database?view=azure-node-latest) object to manage its containers.
+- [Database](https://docs.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest): A Cosmos DB account can contain multiple databases. When you create a database, you specify the API you'd like to use when interacting with its documents: SQL, MongoDB, Gremlin, Cassandra, or Azure Table. Use the [Database](https://docs.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest) object to manage its containers.
 
-- [Container](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/container?view=azure-node-latest): A container is a collection of JSON documents. You create (insert), read, update, and delete items in a container by using methods on the [Container](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/container?view=azure-node-latest) object.
+- [Container](https://docs.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest): A container is a collection of JSON documents. You create (insert), read, update, and delete items in a container by using methods on the [Container](https://docs.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest) object.
 
-- [Item](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item must include an `id` key with a value that uniquely identifies the item within the container. If you do not provide an `id`, the SDK will generate one automatically.
+- [Item](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item must include an `id` key with a value that uniquely identifies the item within the container. If you do not provide an `id`, the SDK will generate one automatically.
 
 For more information about these resources, see [Working with Azure Cosmos databases, containers and items][cosmos_resources].
 
@@ -96,7 +96,7 @@ The following sections provide several code snippets covering some of the most c
 
 ### Create a database
 
-After authenticating your [CosmosClient](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a SQL API database.
+After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a SQL API database.
 
 ```js
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -114,7 +114,7 @@ console.log(container.id);
 
 ### Insert items
 
-To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
+To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
 
 This example inserts several items into the container
 
@@ -131,7 +131,7 @@ for (const city of cities) {
 
 ### Read an item
 
-To read a single item from a container, use [Item.read](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
+To read a single item from a container, use [Item.read](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
 
 ```js
 await container.item("1").read();
@@ -139,7 +139,7 @@ await container.item("1").read();
 
 ### Delete an item
 
-To delete items from a container, use [Item.delete](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
+To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
 
 ```js
 // Delete the first item returned by the query above
@@ -148,7 +148,7 @@ await container.item("1").delete();
 
 ### Query the database
 
-A Cosmos DB SQL API database supports querying the items in a container with [Items.query](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-) using SQL-like syntax:
+A Cosmos DB SQL API database supports querying the items in a container with [Items.query](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-) using SQL-like syntax:
 
 ```js
 const { resources } = await container.items
@@ -159,7 +159,7 @@ for (const city of resources) {
 }
 ```
 
-Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
+Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
 
 ```js
 const { resources } = await container.items
@@ -209,7 +209,7 @@ While working with Cosmos DB, you might encounter transient failures caused by [
 
 ### More sample code
 
-Several samples are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered while working with Cosmos DB:
+[Several samples][cosmos_samples] are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered while working with Cosmos DB:
 
 - Database Operations
 - Container Operations
@@ -226,14 +226,14 @@ For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos
 
 ## Useful links
 
-- [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
-- [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started)
-- [Tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application)
+- [Welcome to Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/community)
+- [Quick start](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-get-started)
+- [Tutorial](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-application)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples)
-- [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-resources)
-- [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query)
-- [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
-- [API Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/cosmos/?view=azure-node-latest)
+- [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources)
+- [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-sql-query)
+- [Partitioning](https://docs.microsoft.com/azure/cosmos-db/sql-api-partition-data)
+- [API Documentation](https://docs.microsoft.com/javascript/api/%40azure/cosmos/?view=azure-node-latest)
 
 ## Contributing
 
@@ -259,6 +259,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [cosmos_item]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-items
 [cosmos_request_units]: https://docs.microsoft.com/azure/cosmos-db/request-units
 [cosmos_resources]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items
+[cosmos_samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples
 [cosmos_sql_queries]: https://docs.microsoft.com/azure/cosmos-db/how-to-sql-query
 [cosmos_ttl]: https://docs.microsoft.com/azure/cosmos-db/time-to-live
 [npm]: https://www.npmjs.com/package/@azure/cosmos

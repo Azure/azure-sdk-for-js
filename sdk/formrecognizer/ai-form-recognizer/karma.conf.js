@@ -37,8 +37,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "test-browser/index.js",
-      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude

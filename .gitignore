@@ -64,6 +64,7 @@ temp
 # Rush files
 common/temp/**
 package-deps.json
+common/autoinstallers/*/.npmrc
 
 ## END Rush .gitignore
 
@@ -146,3 +147,6 @@ sdk/cosmosdb/cosmos/lib
 
 # autorest generated files
 swagger/*.json
+
+#autorest artifacts
+code-model-*

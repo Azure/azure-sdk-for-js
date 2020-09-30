@@ -49,7 +49,7 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad connection string", function() {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
-    it("throws on a bad endpoint", function () {
+    it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
   });

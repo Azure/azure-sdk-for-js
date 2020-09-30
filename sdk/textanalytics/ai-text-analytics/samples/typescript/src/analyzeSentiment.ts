@@ -34,11 +34,11 @@ export async function main() {
     if (!result.error) {
       console.log(`  Document text: ${documents[i]}`);
       console.log(`  Overall Sentiment: ${result.sentiment}`);
-      console.log(`  Sentiment confidence scores: ${result.confidenceScores}`);
+      console.log("  Sentiment confidence scores:", result.confidenceScores);
       console.log("  Sentences");
       for (const { sentiment, confidenceScores } of result.sentences) {
         console.log(`  - Sentence sentiment: ${sentiment}`);
-        console.log(`    Confidence scores: ${confidenceScores}`);
+        console.log("    Confidence scores:", confidenceScores);
       }
     } else {
       console.error(`  Error: ${result.error}`);

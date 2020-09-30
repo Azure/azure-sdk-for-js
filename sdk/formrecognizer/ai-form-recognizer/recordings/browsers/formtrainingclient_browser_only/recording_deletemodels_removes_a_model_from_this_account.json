@@ -2,39 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/ea88b32f-7643-4333-ba9e-d8b5751f8a29",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/6491d792-5623-40ff-b5c4-4ff5d3e92591",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "19edb3d3-9c78-4141-8236-a28d3d1ea672",
+    "apim-request-id": "4e22d08f-bc00-4b1c-afd8-a3e132148a68",
     "content-length": "0",
-    "date": "Sat, 02 May 2020 19:34:39 GMT",
+    "date": "Tue, 18 Aug 2020 18:49:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "18"
+    "x-envoy-upstream-service-time": "32"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/ea88b32f-7643-4333-ba9e-d8b5751f8a29",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/6491d792-5623-40ff-b5c4-4ff5d3e92591",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=ea88b32f-7643-4333-ba9e-d8b5751f8a29' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=6491d792-5623-40ff-b5c4-4ff5d3e92591' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "0c06969f-e3b0-45f0-80ec-a570dd25ea54",
+    "apim-request-id": "8f9fe843-4ee2-4f45-b3f3-fadd5bb32d81",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:39 GMT",
+    "date": "Tue, 18 Aug 2020 18:49:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "14"
+    "x-envoy-upstream-service-time": "15"
    }
   }
  ],
@@ -42,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a089a7a161db64f8fde836f4893d670a"
+ "hash": "a5820d0582e4632f98a564a3b17e7bf4"
 }

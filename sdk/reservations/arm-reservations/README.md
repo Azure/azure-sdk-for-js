@@ -15,7 +15,7 @@ npm install @azure/arm-reservations
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list reservation as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get quota as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,17 +26,17 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
-```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureReservationAPI, AzureReservationAPIModels, AzureReservationAPIMappers } from "@azure/arm-reservations";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+```javascript
+const { AzureReservationAPI } = require("@azure/arm-reservations");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AzureReservationAPI(creds, subscriptionId);
-  const reservationOrderId = "testreservationOrderId";
-  client.reservation.list(reservationOrderId).then((result) => {
+interactiveLogin().then((creds) => {
+  const client = new AzureReservationAPI(creds);
+  const subscriptionId = "testsubscriptionId";
+  const providerId = "testproviderId";
+  const location = "westus";
+  const resourceName = "testresourceName";
+  client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list reservation as an example written in JavaScript.
+#### browser - Authentication, client creation and get quota as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -68,7 +68,6 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-reservations/dist/arm-reservations.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
@@ -78,9 +77,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds, subscriptionId);
-        const reservationOrderId = "testreservationOrderId";
-        client.reservation.list(reservationOrderId).then((result) => {
+        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds);
+        const subscriptionId = "testsubscriptionId";
+        const providerId = "testproviderId";
+        const location = "westus";
+        const resourceName = "testresourceName";
+        client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -98,4 +100,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Freservations%2Farm-reservations%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/reservations/arm-reservations/README.png)

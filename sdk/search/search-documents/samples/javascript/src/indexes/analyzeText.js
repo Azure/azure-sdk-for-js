@@ -15,6 +15,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Analyze Text Sample....`);
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   const index = await client.getIndex("example-index");
 
@@ -31,4 +35,6 @@ async function main() {
 
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

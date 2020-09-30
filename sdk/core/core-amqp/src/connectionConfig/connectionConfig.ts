@@ -131,14 +131,24 @@ export const ConnectionConfig = {
     }
     config.entityPath = String(config.entityPath);
 
-    if (!config.sharedAccessKeyName) {
-      throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
-    }
-    config.sharedAccessKeyName = String(config.sharedAccessKeyName);
+    if (!isSharedAccessSignature(config.connectionString)) {
+      if (!config.sharedAccessKeyName) {
+        throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
+      }
+      config.sharedAccessKeyName = String(config.sharedAccessKeyName);
 
-    if (!config.sharedAccessKey) {
-      throw new TypeError("Missing 'sharedAccessKey' in configuration");
+      if (!config.sharedAccessKey) {
+        throw new TypeError("Missing 'sharedAccessKey' in configuration");
+      }
+      config.sharedAccessKey = String(config.sharedAccessKey);
     }
-    config.sharedAccessKey = String(config.sharedAccessKey);
   }
 };
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isSharedAccessSignature(connectionString: string): boolean {
+  return connectionString.match(/;{0,1}SharedAccessSignature=SharedAccessSignature /) != null;
+}

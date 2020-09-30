@@ -10,8 +10,10 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
+  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  TextAnalyticsOperationOptions
+  TextAnalyticsOperationOptions,
+  PiiEntityDomainType
 } from "./textAnalyticsClient";
 export {
   DetectLanguageResult,
@@ -25,11 +27,22 @@ export {
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
-  AnalyzeSentimentSuccessResult
+  AnalyzeSentimentSuccessResult,
+  SentenceSentiment,
+  MinedOpinion,
+  AspectSentiment,
+  OpinionSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
@@ -61,7 +74,6 @@ export {
   DetectLanguageInput,
   TextDocumentBatchStatistics,
   Entity,
-  SentenceSentiment,
   DocumentSentimentLabel,
   SentenceSentimentLabel,
   ErrorCodeValue,
@@ -69,5 +81,8 @@ export {
   WarningCode,
   LinkedEntity,
   Match,
-  TextAnalyticsWarning
+  TextAnalyticsWarning,
+  TokenSentimentValue,
+  AspectConfidenceScoreLabel,
+  SentenceOpinion
 } from "./generated/models";

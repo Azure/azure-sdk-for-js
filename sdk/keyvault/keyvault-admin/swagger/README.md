@@ -16,3 +16,18 @@ input-file:
 output-folder: ../
 source-code-folder-path: ./src/generated
 ```
+
+### Hide LROs
+``` yaml
+directive:
+- from: swagger-document
+  where: $["paths"]
+  transform: >
+    for (var path in $) {
+        for (var op of Object.values($[path])) {
+            if (op["x-ms-long-running-operation"]) {
+                delete op["x-ms-long-running-operation"];
+            }
+        }
+    }
+```

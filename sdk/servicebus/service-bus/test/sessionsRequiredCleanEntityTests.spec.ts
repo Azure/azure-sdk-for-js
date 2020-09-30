@@ -8,10 +8,10 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { ServiceBusMessage, SessionReceiver } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
 import { TestMessage } from "./utils/testUtils";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -22,10 +22,10 @@ const should = chai.should();
 // but it'll allow them to be reliable.
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachNoSessionTest(): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
@@ -74,10 +74,14 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
-      // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-        sessionId: useSessionId ? testMessage.sessionId! : undefined
-      });
+      if (useSessionId) {
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessage.sessionId!
+        );
+      } else {
+        receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+      }
 
       // At this point AMQP receiver link has not been established.
       // peekMessages() will not establish the link if sessionId was provided
@@ -146,7 +150,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await sender.sendMessages(testMessagesWithDifferentSessionIds[1]);
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       let msgs = await receiver.receiveMessages(2);
 
@@ -166,7 +170,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await receiver.close();
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       msgs = await receiver.receiveMessages(2);
 
@@ -219,9 +223,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-        sessionId: ""
-      });
+      receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, "");
 
       const msgs = await receiver.receiveMessages(2);
 

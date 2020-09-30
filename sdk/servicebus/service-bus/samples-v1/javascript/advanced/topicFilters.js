@@ -10,7 +10,7 @@ and the rest of the messages to the third subscription.
 
 Setup: To run this sample, you would need a Topic with 3 subscriptions.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters to learn aboout
+See https://docs.microsoft.com/azure/service-bus-messaging/topic-filters to learn aboout
 Topic filters and actions.
 */
 

@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { OperationOptions, RestError } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Span, SpanKind, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
 
 /**
+ * @internal
+ * @ignore
  * Creates a span using the global tracer.
  * @param name The name of the operation being performed.
  * @param operationOptions The options for the underlying http request.
@@ -44,6 +46,10 @@ export function createSpan(
   };
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export function getCanonicalCode(err: Error) {
   if (err instanceof RestError) {
     switch (err.statusCode) {

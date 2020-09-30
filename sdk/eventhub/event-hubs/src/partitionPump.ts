@@ -95,7 +95,7 @@ export class PartitionPump {
           receivedEvents,
           {
             eventHubName: this._context.config.entityPath,
-            endpoint: this._context.config.endpoint
+            host: this._context.config.host
           },
           this._processorOptions
         );
@@ -174,7 +174,7 @@ export class PartitionPump {
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: { eventHubName: string; endpoint: string },
+  eventHubProperties: { eventHubName: string; host: string },
   options?: OperationOptions
 ): Span {
   const links: Link[] = [];
@@ -203,7 +203,7 @@ export function createProcessingSpan(
   span.setAttributes({
     "az.namespace": "Microsoft.EventHub",
     "message_bus.destination": eventHubProperties.eventHubName,
-    "peer.address": eventHubProperties.endpoint
+    "peer.address": eventHubProperties.host
   });
 
   return span;

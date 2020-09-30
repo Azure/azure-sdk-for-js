@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReadable, AvroReadableFromStream } from "../../../storage-internal-avro/src";
 
 /**
@@ -29,9 +32,6 @@ export async function bodyToString(
   });
 }
 
-export function bodyToAvroReadable(response: {
-  readableStreamBody?: NodeJS.ReadableStream;
-  blobBody?: Promise<Blob>;
-}): AvroReadable {
-  return new AvroReadableFromStream(response.readableStreamBody!);
+export function streamToAvroReadable(readableStream: NodeJS.ReadableStream): AvroReadable {
+  return new AvroReadableFromStream(readableStream);
 }

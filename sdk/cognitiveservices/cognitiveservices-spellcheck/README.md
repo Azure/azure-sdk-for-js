@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs a spell check on the text - 'Bill Gatos'. The result will return a suggestion of 'Gates'. To know more, refer to the [Azure Documentation on Spell Check](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/)
+The following sample performs a spell check on the text - 'Bill Gatos'. The result will return a suggestion of 'Gates'. To know more, refer to the [Azure Documentation on Spell Check](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/)
 
 ```javascript
 const { SpellCheckClient } = require("@azure/cognitiveservices-spellcheck");

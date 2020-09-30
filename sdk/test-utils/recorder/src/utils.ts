@@ -498,3 +498,67 @@ export const windowLens: {
     return this.set(propertyPath.slice(1), propertyValue, root[propertyPath[0]]);
   }
 };
+
+/**
+ * Returns true if the given string is a hexadecimal value
+ *
+ * @export
+ * @param {string} value
+ * @returns {boolean}
+ */
+export function isHex(value: string): boolean {
+  if (/^[0-9a-fA-F]+$/.test(value)) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Meant for node recordings only!
+ * Returns true if the content-type in the `fixture` matches with
+ * any of the strings provided in the expected content types.
+ *
+ * @private
+ * @param {string} fixture
+ * @param {string} expectedContentTypes
+ * @returns {boolean}
+ */
+export function isContentTypeInNockFixture(
+  fixture: string,
+  expectedContentTypes: string[]
+): boolean {
+  for (const contentType of expectedContentTypes) {
+    if (fixture.replace(/(\r\n|\n|\r|\s)/gm, "").includes(`'Content-Type','${contentType}'`)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Meant for node recordings only!
+ * Decodes "hex" strings in the response from the recorded fixture if any exists.
+ * For example, the following part of the nock fixture/recording would be updated.
+ * from `.reply(200, "4f626a01", [`
+ * to   `.reply(200, Buffer.from("4f626a01", "hex"), [`
+ *
+ * @private
+ * @param {string} fixture
+ */
+export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string {
+  // Matching with 200 status code since only they have the responses with hex encoding
+  // Replaces only if the content-type is binary(Currently, "avro/binary" is considered)
+  if (!isBrowser() && isContentTypeInNockFixture(fixture, binaryContentTypes)) {
+    const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
+    if (matches && isHex(matches[1])) {
+      fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
+    }
+  }
+  return fixture;
+}
+
+/**
+ * List of binary content types.
+ * Currently, "avro/binary" is the only one present.
+ */
+export const binaryContentTypes = ["avro/binary"];

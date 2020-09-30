@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/mergeCertificateName-canimportacertificatefromacertificatesbase64secretvalue-0/pending?api-version=7.1-preview&request_id=7d2a6fd25ecb4acb91ddb6a8a70e060e',
+  'https://keyvault_name.vault.azure.net/certificates/mergeCertificateName-canimportacertificatefromacertificatesbase64secretvalue-0/pending?api-version=7.1&request_id=7d2a6fd25ecb4acb91ddb6a8a70e060e',
   'Retry-After',
   '10',
   'x-ms-keyvault-region',

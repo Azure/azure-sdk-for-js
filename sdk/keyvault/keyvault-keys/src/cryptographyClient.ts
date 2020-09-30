@@ -2,17 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  JsonWebKey,
-  GetKeyOptions,
-  CryptographyOptions,
-  KeyVaultKey,
-  EncryptionAlgorithm,
-  CryptographyClientOptions,
-  LATEST_API_VERSION
-} from "./keysModels";
-import {
   TokenCredential,
-  isNode,
   createPipelineFromOptions,
   isTokenCredential,
   RequestOptionsBase,
@@ -22,13 +12,73 @@ import {
 
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
+
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./generated/utils";
 import { SDK_VERSION } from "./generated/utils/constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
-import * as constants from "constants";
+
+import {
+  LocalSupportedAlgorithmName,
+  localSupportedAlgorithms,
+  LocalCryptographyOperationFunction,
+  isLocallySupported
+} from "./localCryptography/algorithms";
+
+import { LocalCryptographyClient } from "./localCryptographyClient";
+
+import {
+  JsonWebKey,
+  GetKeyOptions,
+  KeyVaultKey,
+  LATEST_API_VERSION,
+  CryptographyClientOptions,
+  KeyOperation
+} from "./keysModels";
+
+import {
+  EncryptionAlgorithm,
+  KeyWrapAlgorithm,
+  WrapResult,
+  UnwrapResult,
+  DecryptResult,
+  SignatureAlgorithm,
+  SignResult,
+  VerifyResult,
+  EncryptResult,
+  EncryptOptions,
+  DecryptOptions,
+  WrapKeyOptions,
+  UnwrapKeyOptions,
+  SignOptions,
+  VerifyOptions
+} from "./cryptographyClientModels";
+import { KeyBundle } from "./generated/models";
+import { parseKeyVaultKeyId } from "./identifier";
+
+/**
+ * Checks whether a key can be used at that specific moment,
+ * by comparing the current date with the bundle's notBefore and expires values.
+ */
+export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
+  const attributes = keyBundle?.attributes || {};
+  const { notBefore, expires } = attributes;
+  const now = new Date();
+
+  if (!keyId) {
+    throw new Error(
+      "Only local cryptography operations can be performed on JsonWebKeys without kid"
+    );
+  }
+
+  if (notBefore && now < notBefore) {
+    throw new Error(`Key ${keyId} can't be used before ${notBefore.toISOString()}`);
+  }
+
+  if (expires && now > expires) {
+    throw new Error(`Key ${keyId} expired at ${expires.toISOString()}`);
+  }
+}
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -54,13 +104,14 @@ export class CryptographyClient {
       if (!this.name || this.name === "") {
         throw new Error("getKey requires a key with a name");
       }
-      const key = await this.client.getKey(
+      const keyBundle = await this.client.getKey(
         this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
         this.setParentSpan(span, requestOptions)
       );
-      return key.key! as JsonWebKey;
+      this.keyBundle = keyBundle;
+      return keyBundle.key! as JsonWebKey;
     } else {
       return this.key;
     }
@@ -83,52 +134,27 @@ export class CryptographyClient {
     plaintext: Uint8Array,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
+    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("encrypt", requestOptions);
 
-    if (isNode) {
-      await this.fetchFullKeyIfPossible();
+    await this.checkPermissions("encrypt");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
-      if (typeof this.key !== "string") {
-        switch (algorithm) {
-          case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
-              span.end();
-              throw new Error("Key does not support the encrypt operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-            const encrypted = publicEncrypt(padded, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid };
-          }
-          case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
-              span.end();
-              throw new Error("Key does not support the encrypt operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const encrypted = publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid };
-          }
+    if (localCryptographyClient && isLocallySupported(algorithm)) {
+      try {
+        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+      } catch (e) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
+          span.end();
+          throw e;
         }
       }
     }
 
     // Default to the service
+
     let result;
     try {
       result = await this.client.encrypt(
@@ -156,7 +182,7 @@ export class CryptographyClient {
    * ```
    * @param {EncryptionAlgorithm} algorithm The algorithm to use.
    * @param {Uint8Array} ciphertext The text to decrypt.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {DecryptOptions} [options] Additional options.
    */
 
   public async decrypt(
@@ -166,6 +192,12 @@ export class CryptographyClient {
   ): Promise<DecryptResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
+
+    await this.checkPermissions("decrypt");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
+
+    // Default to the service
 
     let result;
     try {
@@ -194,59 +226,34 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
    * @param {Uint8Array} key The key to wrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {WrapKeyOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
+    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("wrapKey", requestOptions);
+    const span = this.createSpan("decrypt", requestOptions);
 
-    if (isNode) {
-      await this.fetchFullKeyIfPossible();
+    await this.checkPermissions("wrapKey");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
-      if (typeof this.key !== "string") {
-        switch (algorithm) {
-          case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
-              span.end();
-              throw new Error("Key does not support the wrapKey operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-            const encrypted = publicEncrypt(padded, Buffer.from(key));
-            return { result: encrypted, algorithm, keyID: this.getKeyID() };
-          }
-          case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
-              span.end();
-              throw new Error("Key does not support the wrapKey operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const encrypted = publicEncrypt(keyPEM, Buffer.from(key));
-            return { result: encrypted, algorithm, keyID: this.getKeyID() };
-          }
+    if (localCryptographyClient && isLocallySupported(algorithm)) {
+      try {
+        return localCryptographyClient.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
+      } catch (e) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
+          span.end();
+          throw e;
         }
       }
     }
 
     // Default to the service
+
     let result;
     try {
       result = await this.client.wrapKey(
@@ -274,7 +281,7 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
    * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {UnwrapKeyOptions} [options] Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -283,6 +290,12 @@ export class CryptographyClient {
   ): Promise<UnwrapResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
+
+    await this.checkPermissions("unwrapKey");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
+
+    // Default to the service
 
     let result;
     try {
@@ -311,7 +324,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} digest The digest of the data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -320,6 +333,10 @@ export class CryptographyClient {
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("sign", requestOptions);
+
+    await this.checkPermissions("sign");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     let result;
     try {
@@ -349,7 +366,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
    * @param {Uint8Array} digest The digest to verify.
    * @param {Uint8Array} signature The signature to verify the digest against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -359,6 +376,10 @@ export class CryptographyClient {
   ): Promise<VerifyResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("verify", requestOptions);
+
+    await this.checkPermissions("verify");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     let response;
     try {
@@ -388,7 +409,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} data The data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -396,36 +417,24 @@ export class CryptographyClient {
     options: SignOptions = {}
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("signData", requestOptions);
+    const span = this.createSpan("unwrapKey", requestOptions);
 
-    let digest;
-    switch (algorithm) {
-      case "ES256":
-      case "ES256K":
-      case "PS256":
-      case "RS256":
-        {
-          digest = await createHash("sha256", data);
-        }
-        break;
-      case "ES384":
-      case "PS384":
-      case "RS384":
-        {
-          digest = await createHash("sha384", data);
-        }
-        break;
-      case "ES512":
-      case "PS512":
-      case "RS512":
-        {
-          digest = await createHash("sha512", data);
-        }
-        break;
-      default: {
-        throw new Error("Unsupported signature algorithm");
-      }
+    await this.checkPermissions("sign");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
+
+    if (!isLocallySupported(algorithm)) {
+      throw new Error(`Unsupported algorithm ${algorithm}`);
     }
+    const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
+
+    // Not supported locally yet
+
+    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
+      ?.operations.createHash as LocalCryptographyOperationFunction;
+    const digest = await createHash("", Buffer.from(data));
+
+    // Default to the service
 
     let result;
     try {
@@ -455,7 +464,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
    * @param {Uint8Array} data The signed block of data to verify.
    * @param {Uint8Array} signature The signature to verify the block against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
@@ -463,106 +472,35 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
+    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("verifyData", requestOptions);
+    const span = this.createSpan("decrypt", requestOptions);
 
-    if (isNode) {
-      await this.fetchFullKeyIfPossible();
+    await this.checkPermissions("verify");
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
-      if (typeof this.key !== "string") {
-        switch (algorithm) {
-          case "RS256": {
-            if (this.key.kty !== "RSA") {
-              throw new Error("Key type does not match algorithm");
-            }
+    if (!isLocallySupported(algorithm)) {
+      throw new Error(`Unsupported algorithm ${algorithm}`);
+    }
+    const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
 
-            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
-              throw new Error("Key does not support the verify operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const verifier = createVerify("SHA256");
-            verifier.update(Buffer.from(data));
-            verifier.end();
-
-            return {
-              result: verifier.verify(keyPEM, Buffer.from(signature)),
-              keyID: this.getKeyID()
-            };
-          }
-          case "RS384": {
-            if (this.key.kty !== "RSA") {
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
-              throw new Error("Key does not support the verify operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const verifier = createVerify("SHA384");
-            verifier.update(Buffer.from(data));
-            verifier.end();
-
-            return {
-              result: verifier.verify(keyPEM, Buffer.from(signature)),
-              keyID: this.getKeyID()
-            };
-          }
-          case "RS512": {
-            if (this.key.kty !== "RSA") {
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
-              throw new Error("Key does not support the verify operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const verifier = createVerify("SHA512");
-            verifier.update(Buffer.from(data));
-            verifier.end();
-
-            return {
-              result: verifier.verify(keyPEM, Buffer.from(signature)),
-              keyID: this.getKeyID()
-            };
-          }
+    if (localCryptographyClient) {
+      try {
+        return localCryptographyClient.verifyData(localAlgorithm, data, signature);
+      } catch (e) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
+          span.end();
+          throw e;
         }
       }
     }
 
-    let digest: Buffer;
-    switch (algorithm) {
-      case "ES256":
-      case "ES256K":
-      case "PS256":
-      case "RS256":
-        {
-          digest = await createHash("sha256", data);
-        }
-        break;
-      case "ES384":
-      case "PS384":
-      case "RS384":
-        {
-          digest = await createHash("sha384", data);
-        }
-        break;
-      case "ES512":
-      case "PS512":
-      case "RS512":
-        {
-          digest = await createHash("sha512", data);
-        }
-        break;
-      default: {
-        throw new Error("Unsupported signature algorithm");
-      }
-    }
+    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
+      ?.operations.createHash as LocalCryptographyOperationFunction;
+    const digest = await createHash("", Buffer.from(data));
+
+    // Default to the service
 
     let result;
     try {
@@ -580,22 +518,6 @@ export class CryptographyClient {
     }
 
     return { result: result.value!, keyID: this.getKeyID() };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Attempts to fetch the key from the service.
-   */
-  private async fetchFullKeyIfPossible(): Promise<void> {
-    if (!this.hasTriedToGetKey) {
-      try {
-        this.key = await this.getKey();
-      } catch {
-        // Nothing to do here.
-      }
-      this.hasTriedToGetKey = true;
-    }
   }
 
   /**
@@ -627,8 +549,13 @@ export class CryptographyClient {
   private readonly client: KeyVaultClient;
 
   /**
+   * Other relevant information of the Key Vault Key that will be used for cryptographic operations.
+   */
+  private keyBundle: KeyBundle | undefined;
+
+  /**
    * A reference to the key used for the cryptographic operations.
-   * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
+   * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a Key Vault Key, or an already parsed {@link JsonWebKey}.
    */
   private key: string | JsonWebKey;
 
@@ -643,9 +570,24 @@ export class CryptographyClient {
   private version: string;
 
   /**
-   * Has the client tried to fetch the full key yet
+   * Tries to load the full Key Vault Key and then creates the Local Cryptography Client
    */
-  private hasTriedToGetKey: boolean;
+  private _localCryptographyClientPromise?: Promise<LocalCryptographyClient>;
+
+  /**
+   * Returns a promise that resolves once the Local Cryptography Client is available.
+   */
+  private getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
+    if (!this._localCryptographyClientPromise) {
+      this._localCryptographyClientPromise = this.configureLocalCryptographyClient();
+    }
+    return this._localCryptographyClientPromise;
+  }
+
+  private async configureLocalCryptographyClient(): Promise<LocalCryptographyClient> {
+    this.key = await this.getKey();
+    return new LocalCryptographyClient(this.key as JsonWebKey);
+  }
 
   /**
    * Constructs a new instance of the Cryptography client for the given key
@@ -709,17 +651,18 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
 
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyvaultIdentifier("keys", this.key);
-      this.hasTriedToGetKey = false;
+      parsed = parseKeyVaultKeyId(this.key);
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
-      this.hasTriedToGetKey = true;
+      parsed = parseKeyVaultKeyId(this.key.kid!);
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."
@@ -786,277 +729,16 @@ export class CryptographyClient {
       return options;
     }
   }
-}
 
-/**
- * @internal
- * @ignore
- * Encodes a length of a packet in DER format
- */
-function encodeLength(length: number): Uint8Array {
-  if (length <= 127) {
-    return Uint8Array.of(length);
-  } else if (length < 256) {
-    return Uint8Array.of(0x81, length);
-  } else if (length < 65536) {
-    return Uint8Array.of(0x82, length >> 8, length & 0xff);
-  } else {
-    throw new Error("Unsupported length to encode");
-  }
-}
+  /**
+   * Checks whether the internal key can be used to execute a given operation, by the operation's name.
+   * @param operation The name of the operation that is expected to be viable
+   */
+  private async checkPermissions(operation: KeyOperation): Promise<void> {
+    await this.getLocalCryptographyClient();
 
-/**
- * @internal
- * @ignore
- * Encodes a buffer for DER, as sets the id to the given id
- */
-function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
-  if (buffer.length === 0) {
-    return buffer;
-  }
-
-  let result = new Uint8Array(buffer);
-
-  // If the high bit is set, prepend a 0
-  if ((result[0] & 0x80) === 0x80) {
-    const array = new Uint8Array(result.length + 1);
-    array[0] = 0;
-    array.set(result, 1);
-    result = array;
-  }
-
-  // Prepend the DER header for this buffer
-  const encodedLength = encodeLength(result.length);
-
-  const totalLength = 1 + encodedLength.length + result.length;
-
-  const outputBuffer = new Uint8Array(totalLength);
-  outputBuffer[0] = bufferId;
-  outputBuffer.set(encodedLength, 1);
-  outputBuffer.set(result, 1 + encodedLength.length);
-
-  return outputBuffer;
-}
-
-/**
- * @internal
- * @ignore
- * Encode a JWK to PEM format. To do so, it internally repackages the JWK as a DER
- * that is then encoded as a PEM.
- */
-export function convertJWKtoPEM(key: JsonWebKey): string {
-  if (!key.n || !key.e) {
-    throw new Error("Unsupported key format for local operations");
-  }
-  const encoded_n = encodeBuffer(key.n, 0x2); // INTEGER
-  const encoded_e = encodeBuffer(key.e, 0x2); // INTEGER
-
-  const encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
-  encoded_ne.set(encoded_n, 0);
-  encoded_ne.set(encoded_e, encoded_n.length);
-
-  const full_encoded = encodeBuffer(encoded_ne, 0x30); // SEQUENCE
-
-  const buffer = Buffer.from(full_encoded).toString("base64");
-
-  const beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
-  const endBanner = "-----END RSA PUBLIC KEY-----";
-
-  /*
-   Fill in the PEM with 64 character lines as per RFC:
-
-   "To represent the encapsulated text of a PEM message, the encoding
-   function's output is delimited into text lines (using local
-   conventions), with each line except the last containing exactly 64
-   printable characters and the final line containing 64 or fewer
-   printable characters."
-  */
-  let outputString = beginBanner;
-  const lines = buffer.match(/.{1,64}/g);
-
-  if (lines) {
-    for (const line of lines) {
-      outputString += line;
-      outputString += "\n";
-    }
-  } else {
-    throw new Error("Could not create correct PEM");
-  }
-  outputString += endBanner;
-
-  return outputString;
-}
-
-/**
- * @internal
- * @ignore
- * Use the platform-local hashing functionality
- */
-async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
-  if (isNode) {
-    const hash = cryptoCreateHash(algorithm);
-    hash.update(Buffer.from(data));
-    const digest = hash.digest();
-    return digest;
-  } else {
-    if (window && window.crypto && window.crypto.subtle) {
-      return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
-    } else {
-      throw new Error("Browser does not support cryptography functions");
+    if (typeof this.key !== "string" && this.key.keyOps && !this.key.keyOps.includes(operation)) {
+      throw new Error(`Operation ${operation} is not supported on key ${this.getKeyID()}`);
     }
   }
-}
-
-/**
- * Supported algorithms for key wrapping/unwrapping
- */
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-/**
- * Defines values for SignatureAlgorithm.
- * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512',
- * 'ES256', 'ES384', 'ES512', 'ES256K'
- * @readonly
- * @enum {string}
- */
-export type SignatureAlgorithm =
-  | "PS256"
-  | "PS384"
-  | "PS512"
-  | "RS256"
-  | "RS384"
-  | "RS512"
-  | "ES256"
-  | "ES384"
-  | "ES512"
-  | "ES256K";
-
-/**
- * Options for {@link encrypt}.
- */
-export interface EncryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link decrypt}.
- */
-export interface DecryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link sign}.
- */
-export interface SignOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link verify}.
- */
-export interface VerifyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link wrapKey}.
- */
-export interface WrapKeyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link unwrapKey}.
- */
-export interface UnwrapKeyOptions extends CryptographyOptions {}
-
-/**
- * Result of the {@link decrypt} operation.
- */
-export interface DecryptResult {
-  /**
-   * Result of the {@link decrypt} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The ID of the KeyVault Key used to decrypt the encrypted data.
-   */
-  keyID?: string;
-  /**
-   * The {@link EncryptionAlgorithm} used to decrypt the encrypted data.
-   */
-  algorithm: EncryptionAlgorithm;
-}
-
-/**
- * Result of the {@link encrypt} operation.
- */
-export interface EncryptResult {
-  /**
-   * Result of the {@link encrypt} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The {@link EncryptionAlgorithm} used to encrypt the data.
-   */
-  algorithm: EncryptionAlgorithm;
-  /**
-   * The ID of the KeyVault Key used to encrypt the data.
-   */
-  keyID?: string;
-}
-
-/**
- * Result of the {@link sign} operation.
- */
-export interface SignResult {
-  /**
-   * Result of the {@link sign} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The ID of the KeyVault Key used to sign the data.
-   */
-  keyID?: string;
-  /**
-   * The {@link EncryptionAlgorithm} used to sign the data.
-   */
-  algorithm: SignatureAlgorithm;
-}
-
-/**
- * Result of the {@link verify} operation.
- */
-export interface VerifyResult {
-  /**
-   * Result of the {@link verify} operation in bytes.
-   */
-  result: boolean;
-  /**
-   * The ID of the KeyVault Key used to verify the data.
-   */
-  keyID?: string;
-}
-
-/**
- * Result of the {@link wrap} operation.
- */
-export interface WrapResult {
-  /**
-   * Result of the {@link wrap} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The ID of the KeyVault Key used to wrap the data.
-   */
-  keyID?: string;
-  /**
-   * The {@link EncryptionAlgorithm} used to wrap the data.
-   */
-  algorithm: KeyWrapAlgorithm;
-}
-
-/**
- * Result of the {@link unwrap} operation.
- */
-export interface UnwrapResult {
-  /**
-   * Result of the {@link unwrap} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The ID of the KeyVault Key used to unwrap the data.
-   */
-  keyID?: string;
 }

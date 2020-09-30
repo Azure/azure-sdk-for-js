@@ -16,11 +16,9 @@ Next, install `@azure/eslint-plugin-azure-sdk`:
 npm install @azure/eslint-plugin-azure-sdk --save-dev
 ```
 
-## Usage
+## Configuration
 
-The `azure-sdk-for-js` repository contains a base `.eslintrc.json` file at the root of the `sdk` directory.
-
-To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add another `.eslintrc.json` file at the same location as your `package.json` file as follows: (note that the path to the base `.eslintrc.json` file may be different)
+To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add it to the list of `devDependencies` in your `package.json`. ESLint will automatically use the configuration file `sdk/.eslintrc.json` as explained in the [docs](https://eslint.org/docs/user-guide/configuring#using-configuration-files-2). Optionally, you can have a custom `.eslintrc.json` file at the same location as your `package.json` file. A very simple one looks as follows: (note that the path to the base `.eslintrc.json` file may be different)
 
 ```json
 {

@@ -21,11 +21,13 @@ class AvsClient extends AvsClientContext {
   locations: operations.Locations;
   privateClouds: operations.PrivateClouds;
   clusters: operations.Clusters;
+  hcxEnterpriseSites: operations.HcxEnterpriseSites;
+  authorizations: operations.Authorizations;
 
   /**
    * Initializes a new instance of the AvsClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Unique identifier for the Azure subscription
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AvsClientOptions) {
@@ -34,6 +36,8 @@ class AvsClient extends AvsClientContext {
     this.locations = new operations.Locations(this);
     this.privateClouds = new operations.PrivateClouds(this);
     this.clusters = new operations.Clusters(this);
+    this.hcxEnterpriseSites = new operations.HcxEnterpriseSites(this);
+    this.authorizations = new operations.Authorizations(this);
   }
 }
 

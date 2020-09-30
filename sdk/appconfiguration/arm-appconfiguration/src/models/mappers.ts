@@ -367,6 +367,12 @@ export const ConfigurationStoreUpdateParameters: msRest.CompositeMapper = {
           className: "EncryptionProperties"
         }
       },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {

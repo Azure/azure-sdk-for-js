@@ -52,13 +52,11 @@ import {
   CryptographyOptions,
   DeletedKey,
   DeleteKeyOptions,
-  EncryptionAlgorithm,
   GetDeletedKeyOptions,
   GetKeyOptions,
   ImportKeyOptions,
   JsonWebKey,
   KeyClientInterface,
-  KeyCurveName,
   KeyOperation,
   KeyPollerOptions,
   KeyType,
@@ -77,28 +75,37 @@ import {
   LATEST_API_VERSION,
   CryptographyClientOptions
 } from "./keysModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./generated/utils";
+
+import { CryptographyClient } from "./cryptographyClient";
+
+import { LocalCryptographyClient } from "./localCryptographyClient";
 
 import {
-  CryptographyClient,
-  DecryptOptions,
   DecryptResult,
-  EncryptOptions,
-  EncryptResult,
+  KeyCurveName,
+  EncryptionAlgorithm,
   SignatureAlgorithm,
   KeyWrapAlgorithm,
-  SignOptions,
   SignResult,
-  UnwrapKeyOptions,
   UnwrapResult,
-  VerifyOptions,
   VerifyResult,
-  WrapKeyOptions,
-  WrapResult
-} from "./cryptographyClient";
+  WrapResult,
+  KeyOperationsOptions,
+  EncryptResult,
+  DecryptOptions,
+  EncryptOptions,
+  SignOptions,
+  UnwrapKeyOptions,
+  VerifyOptions,
+  WrapKeyOptions
+} from "./cryptographyClientModels";
+import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
+
+import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 
 export {
   CryptographyClientOptions,
+  KeyOperationsOptions,
   KeyClientOptions,
   BackupKeyOptions,
   CreateEcKeyOptions,
@@ -121,6 +128,7 @@ export {
   KeyOperation,
   KeyType,
   KeyPollerOptions,
+  parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -130,8 +138,11 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
+  LocalCryptographyClient,
+  LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
+  KeyVaultKeyId,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -165,7 +176,7 @@ export class KeyClient {
   /**
    * @internal
    * @ignore
-   * A reference to the auto-generated KeyVault HTTP client.
+   * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
 
@@ -239,15 +250,18 @@ export class KeyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
   }
 
   /**
    * @internal
    * @ignore
-   * Sends a delete request for the given KeyVault Key's name to the KeyVault service.
-   * Since the KeyVault Key won't be immediately deleted, we have {@link beginDeleteKey}.
-   * @param {string} name The name of the KeyVault Key.
+   * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
+   * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
+   * @param {string} name The name of the Key Vault Key.
    * @param {DeleteKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
@@ -271,9 +285,9 @@ export class KeyClient {
   /**
    * @internal
    * @ignore
-   * Sends a request to recover a deleted KeyVault Key based on the given name.
-   * Since the KeyVault Key won't be immediately recover the deleted key, we have {@link beginRecoverDeletedKey}.
-   * @param {string} name The name of the KeyVault Key.
+   * Sends a request to recover a deleted Key Vault Key based on the given name.
+   * Since the Key Vault Key won't be immediately recover the deleted key, we have {@link beginRecoverDeletedKey}.
+   * @param {string} name The name of the Key Vault Key.
    * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async recoverDeletedKey(
@@ -829,7 +843,7 @@ export class KeyClient {
    * @internal
    * @ignore
    * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
-   * @param {string} name The name of the KeyVault Key.
+   * @param {string} name The name of the Key Vault Key.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
    * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
    */
@@ -850,7 +864,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -861,7 +875,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -872,7 +886,7 @@ export class KeyClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
-   * @param {string} name The name of the KeyVault Key.
+   * @param {string} name The name of the Key Vault Key.
    * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeyVersionsAll(
@@ -948,7 +962,7 @@ export class KeyClient {
       const currentSetResponse = await this.client.getKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -958,7 +972,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -1042,7 +1056,7 @@ export class KeyClient {
       const currentSetResponse = await this.client.getDeletedKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -1052,7 +1066,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
       } else {
         break;
       }
@@ -1125,10 +1139,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = parseKeyvaultEntityIdentifier(
-      "keys",
-      keyBundle.key ? keyBundle.key.kid : undefined
-    );
+    const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1140,13 +1151,13 @@ export class KeyClient {
       keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
-        id: keyBundle.key ? keyBundle.key.kid : undefined,
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
         ...keyBundle,
+        ...attributes,
         ...parsedId,
-        ...attributes
+        id: keyBundle.key ? keyBundle.key.kid : undefined
       }
     };
 
@@ -1177,19 +1188,19 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
     const abstractProperties: any = {
-      id: keyItem.kid,
       deletedOn: (attributes as any).deletedDate,
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       ...keyItem,
+      ...keyItem.attributes,
       ...parsedId,
-      ...keyItem.attributes
+      id: keyItem.kid
     };
 
     if (abstractProperties.deletedDate) {
@@ -1220,7 +1231,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 

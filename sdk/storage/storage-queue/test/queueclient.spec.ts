@@ -277,4 +277,10 @@ describe("QueueClient - Verify Name Properties", () => {
       queueName
     );
   });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new QueueClient(`https://customdomain.com/${queueName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+  });
 });

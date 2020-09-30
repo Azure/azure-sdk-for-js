@@ -625,6 +625,22 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy with empty delimiter should throw error", async () => {
+    try {
+      await containerClient
+        .listBlobsByHierarchy("", { prefix: "" })
+        .byPage()
+        .next();
+      assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
+    } catch (error) {
+      assert.equal(
+        "delimiter should contain one or more characters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
   it("uploadBlockBlob and deleteBlob", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     const options = {
@@ -826,5 +842,15 @@ describe("ContainerClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ContainerClient(`https://customdomain.com/${containerName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
   });
 });

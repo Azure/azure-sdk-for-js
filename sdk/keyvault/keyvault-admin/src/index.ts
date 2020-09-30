@@ -1,5 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./generated/keyVaultClient";
-export * from "./generated/keyVaultClientContext";
+export * from "./accessControlClient";
+export * from "./accessControlModels";
+
+export * from "./backupClient";
+export * from "./backupClientModels";
+
+export * from "./constants";

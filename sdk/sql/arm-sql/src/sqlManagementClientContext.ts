@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-sql";
-const packageVersion = "7.0.1";
+const packageVersion = "7.0.2";
 
 export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -63,22 +63,17 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
    * When this library is regenerated, this override needs to be brought back
    * This override adds the header "Accept: application/json" to every request
    */
-  sendOperationRequest(
-    operationArguments: msRest.OperationArguments,
-    operationSpec: msRest.OperationSpec,
-    callback?: msRest.ServiceCallback<any>
-  ): Promise<msRest.RestResponse> {
-    const options = {
-      ...operationArguments,
-      options: {
-        ...operationArguments.options,
-        customHeaders: {
-          ...operationArguments.options?.customHeaders,
-          accept: "application/json",
-        },
-      },
-    };
+  sendRequest(options: msRest.RequestPrepareOptions | msRest.WebResourceLike) {
+    if(!options.headers) {
+      options.headers = {accept: "application/json"};
+    } else {
+      if (options.headers.set) {
+        options.headers.set("accept", "application/json");
+      } else {
+        (options.headers as {[key: string]: any})["accept"] = "application/json"
+      }
+    }
 
-    return super.sendOperationRequest(options, operationSpec, callback);
+    return super.sendRequest(options);
   }
 }

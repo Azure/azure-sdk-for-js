@@ -296,7 +296,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options.parentSpan);
+      const messageSpan = createMessageSpan(options.parentSpan, this._context.config);
       eventData = instrumentEventData(eventData, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();

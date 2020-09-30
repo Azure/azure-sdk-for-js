@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureCliCredential } from "../src/credentials/azureCliCredential";
+import { AzureCliCredential } from "../src";
 
 interface MockCredentialClient {
   stdout: string;

@@ -12,3 +12,5 @@ export * from "./operations";
 export * from "./locations";
 export * from "./privateClouds";
 export * from "./clusters";
+export * from "./hcxEnterpriseSites";
+export * from "./authorizations";

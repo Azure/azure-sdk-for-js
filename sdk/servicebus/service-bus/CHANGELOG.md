@@ -1,19 +1,92 @@
 # Release History
 
-## 7.0.0-preview.5 (Unreleased)
+## 7.0.0-preview.7 (Unreleased)
+
+### New features:
+
+- Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
+  [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
+- `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
+  [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
+- "properties" in the correlation rule filter now supports `Date`.
+  [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
+
+### Breaking changes
+
+- `ServiceBusClient.createSessionReceiver` has been split into two methods:
+  - `acceptSession`, which opens a session by name
+  - `acceptNextSession`, which opens the next available session, determined by Service Bus.
+  - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
+
+## 7.0.0-preview.6 (2020-09-10)
+
+### New features:
+
+- Support using the SharedAccessSignature from the connection string.
+  [PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)
+- Added a new field `amqpAnnotatedMessage` to the received message which will hold the received
+  message in its raw form, complete with all parts of the message as per the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf).
+- Added `ServiceBusAdministrationClient.ruleExists()`
+- Options to create a queue and topic now support `enableExpress` boolean property. `enableExpress` indicates whether Express Entities are enabled on a queue or topic. An express queue holds a message in memory temporarily before writing it to persistent storage.
+  [PR 10984](https://github.com/Azure/azure-sdk-for-js/pull/10984)
+
+### Breaking Changes
+
+#### API changes
+
+- `SessionReceiver.sessionLockedUntilUtc` is readonly and never undefined.
+  [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
+- `ServiceBusClient.createDeadLetterReceiver()` has been absorbed into `createReceiver()`.
+  To create a dead letter receiver:
+
+  ```typescript
+  // this same method will work with subscriptions as well.
+  serviceBusClient.createReceiver(<queue>, {
+    subQueue: "deadLetter"
+  });
+  ```
+
+#### Renames
+
+- The `ServiceBusManagementClient` has been renamed to `ServiceBusAdministrationClient`. See
+  [Issue 11012](https://github.com/Azure/azure-sdk-for-js/issues/11012) for more details.
+- Sender, Receivers and the ReceivedMessage interfaces are now prefixed with `ServiceBus`: `ServiceBusSender`, `ServiceBusReceiver`, `ServiceBusSessionReceiver`, `ServiceBusReceivedMessage` and `ServiceBusReceivedMessageWithLock`.
+- Lock duration fields for receivers have been renamed to apply to message locks and session locks:
+  - `maxMessageAutoRenewLockDurationInMs` to `maxAutoRenewLockDurationInMs`
+  - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+- `SessionReceiver.{get,set}State` has been renamed to `SessionReceiver.{get,set}SessionState`
+- Administration API:
+  - Property `defaultMessageTtl` renamed to `defaultMessageTimeToLive` (Wherever applicable)
+  - `updatedAt` renamed to `modifiedAt`
+  - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
+  - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
+
+## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
   Example user-agent string if the prefix `SampleApp` is provided to `ServiceBusManagementClient`:
   `SampleApp azsdk-js-azureservicebus/7.0.0-preview.5 core-http/1.1.5 Node/v12.16.0 OS/(x64-Windows_NT-10.0.18363)`
   [PR 10092](https://github.com/Azure/azure-sdk-for-js/pull/10092)
-- Adding `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+- Added `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+
   OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
   NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
+
   [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
-- Adds tracing support to the methods under `ServiceBusManagementClient`.
+
+- Added tracing support to the methods under `ServiceBusManagementClient`.
   [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
 
 ### Breaking Changes
+
+- `receiveMode` parameter in the `createReceiver()`, `createSessionReceiver()` and `createDeadletterReceiver()` methods has been moved into the options bag with the default value `"peekLock"` mode.
+
+  Example:
+
+  - OLD: `createReceiver(<queue-name>, "peekLock")` and `createReceiver(<queue-name>, "receiveAndDelete")`
+  - NEW: `createReceiver(<queue-name>)` and `createReceiver(<queue-name>, {receiveMode: "receiveAndDelete"})`
+
+  [PR 10102](https://github.com/Azure/azure-sdk-for-js/pull/10102)
 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
@@ -26,7 +99,7 @@
   [PR 10107](https://github.com/Azure/azure-sdk-for-js/pull/10107)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
-- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+- Fixed [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
   where attempting to create AMQP links when the AMQP connection was in the
   process of closing resulted in a `TypeError` in an uncaught exception.
 
@@ -71,7 +144,7 @@
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

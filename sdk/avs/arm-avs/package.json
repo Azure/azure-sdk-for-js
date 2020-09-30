@@ -2,7 +2,7 @@
   "name": "@azure/arm-avs",
   "author": "Microsoft Corporation",
   "description": "AvsClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",

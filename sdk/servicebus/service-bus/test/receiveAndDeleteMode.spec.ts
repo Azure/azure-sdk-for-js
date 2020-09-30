@@ -6,12 +6,12 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceivedMessage, Receiver, ServiceBusMessage } from "../src";
+import { ServiceBusReceivedMessage, ServiceBusMessage, ServiceBusReceiver } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -20,15 +20,15 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("receive and delete", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessage>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -50,9 +50,9 @@ describe("receive and delete", () => {
       serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
     );
     if (receiveMode === "peekLock") {
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
+      receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
     } else {
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityName);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
     }
 
     errorWasThrown = false;
@@ -123,11 +123,11 @@ describe("receive and delete", () => {
       await sender.sendMessages(testMessages);
 
       const errors: string[] = [];
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
 
       receiver.subscribe(
         {
-          async processMessage(message: ReceivedMessage): Promise<void> {
+          async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
             receivedMsgs.push(message);
           },
           async processError(err: Error): Promise<void> {
@@ -212,7 +212,9 @@ describe("receive and delete", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
+    async function sendReceiveMsg(
+      testMessages: ServiceBusMessage
+    ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
 
@@ -241,7 +243,7 @@ describe("receive and delete", () => {
         : TestMessage.getSample();
       // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
       // as your lock mode.
-      const msg = (await sendReceiveMsg(testMessages)) as ReceivedMessageWithLock;
+      const msg = (await sendReceiveMsg(testMessages)) as ServiceBusReceivedMessageWithLock;
 
       try {
         if (operation === DispositionType.complete) {
@@ -307,7 +309,7 @@ describe("receive and delete", () => {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
       // have to cast it - the type system doesn't allow us to call into this method otherwise.
-      await (msg as ReceivedMessageWithLock).renewLock().catch((err) => {
+      await (msg as ServiceBusReceivedMessageWithLock).renewLock().catch((err) => {
         should.equal(
           err.message,
           getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
@@ -328,13 +330,16 @@ describe("receive and delete", () => {
   });
 
   describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
-    let sequenceNumber: Long;
+    let entityNames: EntityName;
 
     afterEach(async () => {
       await afterEachTest();
     });
-    async function deferMessage(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function deferMessage(testClientType: TestClientType): Promise<Long> {
+      entityNames = await beforeEachTest(testClientType, "peekLock");
+      const testMessages = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       await sender.sendMessages(testMessages);
       const batch = await receiver.receiveMessages(1);
       const msgs = batch;
@@ -349,11 +354,17 @@ describe("receive and delete", () => {
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-      sequenceNumber = msgs[0].sequenceNumber!;
-      await (msgs[0] as ReceivedMessageWithLock).defer();
+      await (msgs[0] as ServiceBusReceivedMessageWithLock).defer();
+      return msgs[0].sequenceNumber!;
     }
 
-    async function receiveDeferredMessage(): Promise<void> {
+    async function testDeferredMessage(
+      testClientType: TestClientType
+    ): Promise<ServiceBusReceivedMessage> {
+      const sequenceNumber = await deferMessage(testClientType);
+      await receiver.close();
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
         throw `No message received for sequence number ${sequenceNumber}`;
@@ -361,14 +372,8 @@ describe("receive and delete", () => {
 
       should.equal(deferredMsg!.deliveryCount, 1, "DeliveryCount is different than expected");
       await testPeekMsgsLength(receiver, 0);
-    }
 
-    async function deferAndReceiveMessage(testClientType: TestClientType) {
-      const entityNames = await beforeEachTest(testClientType, "peekLock");
-      await deferMessage(entityNames.usesSessions);
-      await receiver.close();
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
-      await receiveDeferredMessage();
+      return deferredMsg;
     }
 
     /*
@@ -376,33 +381,157 @@ describe("receive and delete", () => {
     it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await deferAndReceiveMessage(TestClientType.PartitionedQueue);
+      await testDeferredMessage(TestClientType.PartitionedQueue);
     });
 
     it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await deferAndReceiveMessage(TestClientType.PartitionedSubscription);
+      await testDeferredMessage(TestClientType.PartitionedSubscription);
     });
     */
 
     it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await deferAndReceiveMessage(TestClientType.UnpartitionedQueue);
+      await testDeferredMessage(TestClientType.UnpartitionedQueue);
     });
 
     it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await deferAndReceiveMessage(TestClientType.UnpartitionedSubscription);
+      await testDeferredMessage(TestClientType.UnpartitionedSubscription);
     });
 
     it(
       withSessionTestClientType + ": No settlement of the message removes message",
       async function(): Promise<void> {
-        await deferAndReceiveMessage(withSessionTestClientType);
+        await testDeferredMessage(withSessionTestClientType);
       }
     );
+  });
+
+  describe("Settlement of deferred msg in ReceiveAndDelete mode", () => {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    let entityNames: EntityName;
+
+    async function testDeferredMessage(
+      testClientType: TestClientType
+    ): Promise<ServiceBusReceivedMessage> {
+      entityNames = await beforeEachTest(testClientType, "peekLock");
+
+      // send message
+      const testMessage = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
+      await sender.sendMessages(testMessage);
+
+      // receive and defer the message
+      const [msg] = await receiver.receiveMessages(1);
+      await (msg as ServiceBusReceivedMessageWithLock).defer();
+      const sequenceNumber = msg.sequenceNumber!;
+      await receiver.close();
+
+      // Receive the deferred message in ReceiveAndDelete mode
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+      const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+      if (!deferredMsg) {
+        throw `No message received for sequence number ${sequenceNumber}`;
+      }
+
+      return deferredMsg;
+    }
+
+    const testError = (err: Error, operation: DispositionType): void => {
+      expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
+        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
+      );
+    };
+
+    async function testSettlement(
+      testClienttype: TestClientType,
+      operation: DispositionType
+    ): Promise<void> {
+      const deferredMsg = await testDeferredMessage(testClienttype);
+      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
+      // as your lock mode.
+      const msg = deferredMsg as ServiceBusReceivedMessageWithLock;
+
+      try {
+        if (operation === DispositionType.complete) {
+          await msg.complete();
+        } else if (operation === DispositionType.abandon) {
+          await msg.abandon();
+        } else if (operation === DispositionType.deadletter) {
+          await msg.deadLetter();
+        } else if (operation === DispositionType.defer) {
+          await msg.defer();
+        }
+      } catch (err) {
+        errorWasThrown = true;
+        testError(err, operation);
+      }
+
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    }
+
+    it(noSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+      await testSettlement(noSessionTestClientType, DispositionType.complete);
+    });
+
+    it(withSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+      await testSettlement(withSessionTestClientType, DispositionType.complete);
+    });
+
+    it(noSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+      await testSettlement(noSessionTestClientType, DispositionType.abandon);
+    });
+
+    it(withSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+      await testSettlement(withSessionTestClientType, DispositionType.abandon);
+    });
+
+    it(noSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+      await testSettlement(noSessionTestClientType, DispositionType.defer);
+    });
+
+    it(withSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+      await testSettlement(withSessionTestClientType, DispositionType.defer);
+    });
+
+    it(noSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+      await testSettlement(noSessionTestClientType, DispositionType.deadletter);
+    });
+
+    it(withSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+      await testSettlement(withSessionTestClientType, DispositionType.deadletter);
+    });
+
+    async function testRenewLock(testClienttype: TestClientType): Promise<void> {
+      const deferredMsg = await testDeferredMessage(testClienttype);
+      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
+      // as your lock mode.
+
+      // have to cast it - the type system doesn't allow us to call into this method otherwise.
+      await (deferredMsg as ServiceBusReceivedMessageWithLock).renewLock().catch((err) => {
+        should.equal(
+          err.message,
+          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
+          "ErrorMessage is different than expected"
+        );
+        errorWasThrown = true;
+      });
+
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    }
+
+    it(noSessionTestClientType + ": Renew message lock throws error", async function(): Promise<
+      void
+    > {
+      await testRenewLock(noSessionTestClientType);
+    });
   });
 });

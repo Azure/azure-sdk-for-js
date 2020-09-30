@@ -6,15 +6,27 @@ import {
   Constants,
   SharedKeyCredential,
   TokenType,
-  defaultLock
+  defaultLock,
+  RequestResponseLink,
+  MessagingError
 } from "@azure/core-amqp";
-import { ClientEntityContext } from "../clientEntityContext";
-import * as log from "../log";
-import { AwaitableSender, Receiver } from "rhea-promise";
-import { getUniqueName } from "../util/utils";
+import { ConnectionContext } from "../connectionContext";
+import { logger } from "../log";
+import {
+  AwaitableSender,
+  AwaitableSenderOptions,
+  generate_uuid,
+  Receiver,
+  ReceiverOptions,
+  SenderOptions
+} from "rhea-promise";
+import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { logError } from "../util/errors";
 
 /**
  * @internal
+ * @ignore
  * Options passed to the constructor of LinkEntity
  */
 export interface LinkEntityOptions {
@@ -29,11 +41,61 @@ export interface LinkEntityOptions {
 }
 
 /**
+ * A simple grouping of the sender and receiver options. Only used
+ * with the ManagementClient today.
+ *
  * @internal
- * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
- * @class ClientEntity
+ * @ignore
  */
-export class LinkEntity {
+export interface RequestResponseLinkOptions {
+  senderOptions: SenderOptions;
+  receiverOptions: ReceiverOptions;
+  name?: string;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export type ReceiverType =
+  | "br" // batching receiver
+  | "sr" // streaming receiver;
+  | "ms"; // message session
+
+/**
+ * @internal
+ * @ignore
+ */
+type LinkOptionsT<
+  LinkT extends Receiver | AwaitableSender | RequestResponseLink
+> = LinkT extends Receiver
+  ? ReceiverOptions
+  : LinkT extends AwaitableSender
+  ? AwaitableSenderOptions
+  : LinkT extends RequestResponseLink
+  ? RequestResponseLinkOptions
+  : never;
+
+/**
+ * @internal
+ * @ignore
+ */
+type LinkTypeT<
+  LinkT extends Receiver | AwaitableSender | RequestResponseLink
+> = LinkT extends Receiver
+  ? ReceiverType
+  : LinkT extends AwaitableSender
+  ? "s" // sender
+  : LinkT extends RequestResponseLink
+  ? "m" // management link
+  : never;
+
+/**
+ * @internal
+ * @ignore
+ * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
+ */
+export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
    * @property {string} id The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
@@ -71,186 +133,228 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
-   * (establishing) itself. Default value: `false`.
-   */
-  isConnecting: boolean = false;
-  /**
-   * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
+   * @property _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
-  protected _context: ClientEntityContext;
+  protected _context: ConnectionContext;
   /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
-  protected _tokenRenewalTimer?: NodeJS.Timer;
+  private _tokenRenewalTimer?: NodeJS.Timer;
   /**
    * @property _tokenTimeout Indicates token timeout
    */
   protected _tokenTimeout?: number;
+
+  /**
+   * The actual rhea link (of type Receiver or AwaitableSender) or RequestResponseLink
+   */
+  private _link?: LinkT;
+
+  /**
+   * The log prefix for any log messages.
+   */
+  private _logPrefix: string;
+
+  protected get logPrefix(): string {
+    return this._logPrefix;
+  }
+
+  /**
+   * Indicates that close() has been called on this link and
+   * that it should not be allowed to reopen.
+   */
+  private _wasClosedPermanently: boolean = false;
+
+  /**
+   * A lock that ensures that opening and closing this
+   * link properly cooperate.
+   */
+  private _openLock: string = generate_uuid();
+
   /**
    * Creates a new ClientEntity instance.
    * @constructor
-   * @param {ClientEntityContext} context The connection context.
-   * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
+   * @param context The connection context.
+   * @param options Options that can be provided while creating the LinkEntity.
    */
-  constructor(name: string, context: ClientEntityContext, options?: LinkEntityOptions) {
+  constructor(
+    name: string,
+    context: ConnectionContext,
+    private _linkType: LinkTypeT<LinkT>,
+    options?: LinkEntityOptions
+  ) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
+    this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
   }
 
   /**
-   * Negotiates the cbs claim for the ClientEntity.
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
+   * Determines whether the AMQP link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
    */
-  protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    // Wait for the connectionContext to be ready to open the link.
-    await this._context.namespace.readyToOpenLink();
-    // Acquire the lock and establish a cbs session if it does not exist on the connection.
-    // Although node.js is single threaded, we need a locking mechanism to ensure that a
-    // race condition does not happen while creating a shared resource (in this case the
-    // cbs session, since we want to have exactly 1 cbs session per connection).
-    log.link(
-      "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
-        "'%s' with address: '%s'.",
-      this._context.namespace.connectionId,
-      this._context.namespace.cbsSession.cbsLock,
-      this._type,
-      this.name,
-      this.address
+  isOpen(): boolean {
+    const result: boolean = this._link ? this._link.isOpen() : false;
+    logger.verbose(`${this._logPrefix} is open? ${result}`);
+    return result;
+  }
+
+  /**
+   * Initializes this LinkEntity, setting this._link with the result of  `createRheaLink`, which
+   * is implemented by child classes.
+   *
+   * @returns A Promise that resolves when the link has been properly initialized
+   */
+  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+    // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
+    await this._context.readyToOpenLink();
+
+    logger.verbose(
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
     );
-    await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
-      return this._context.namespace.cbsSession.init();
+    return defaultLock.acquire(this._openLock, () => {
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
+      return this._initLinkImpl(options, abortSignal);
     });
-    let tokenObject: AccessToken;
-    let tokenType: TokenType;
-    if (this._context.namespace.tokenCredential instanceof SharedKeyCredential) {
-      tokenObject = this._context.namespace.tokenCredential.getToken(this.audience);
-      tokenType = TokenType.CbsTokenTypeSas;
-      // renew sas token in every 45 minutess
-      this._tokenTimeout = (3600 - 900) * 1000;
-    } else {
-      const aadToken = await this._context.namespace.tokenCredential.getToken(
-        Constants.aadServiceBusScope
-      );
-      if (!aadToken) {
-        throw new Error(`Failed to get token from the provided "TokenCredential" object`);
+  }
+
+  private async _initLinkImpl(
+    options: LinkOptionsT<LinkT>,
+    abortSignal?: AbortSignalLike
+  ): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
       }
-      tokenObject = aadToken;
-      tokenType = TokenType.CbsTokenTypeJwt;
-      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
-    }
-    log.link(
-      "[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.namespace.connectionId,
-      this._type,
-      this.audience
-    );
-    // Acquire the lock to negotiate the CBS claim.
-    log.link(
-      "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
-      this._context.namespace.connectionId,
-      this._context.namespace.negotiateClaimLock,
-      this._type,
-      this.name,
-      this.address
-    );
-    if (!tokenObject) {
-      throw new Error("Token cannot be null");
-    }
-    await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(
-        this.audience,
-        tokenObject,
-        tokenType
-      );
-    });
-    log.link(
-      "[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.namespace.connectionId,
-      this._type,
-      this.name,
-      this.address
-    );
-    if (setTokenRenewal) {
-      this._ensureTokenRenewal();
-    }
-  }
+    };
 
-  /**
-   * Ensures that the token is renewed within the predefined renewal margin.
-   * @returns {void}
-   */
-  protected _ensureTokenRenewal(): void {
-    if (!this._tokenTimeout) {
+    const connectionId = this._context.connectionId;
+    checkAborted();
+
+    if (options.name) {
+      this.name = options.name;
+      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}]`;
+    }
+
+    if (this._wasClosedPermanently) {
+      logger.verbose(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
+      throw new AbortError(`Link has been permanently closed. Not reopening.`);
+    }
+
+    if (this.isOpen()) {
+      logger.verbose(`${this._logPrefix} Link is already open. Returning.`);
       return;
     }
-    // Clear the existing token renewal timer.
-    // This scenario can happen if the connection goes down and is brought back up
-    // before the `nextRenewalTimeout` was reached.
-    if (this._tokenRenewalTimer) {
-      clearTimeout(this._tokenRenewalTimer);
+
+    logger.verbose(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
+
+    try {
+      await this._negotiateClaim();
+
+      checkAborted();
+      this.checkIfConnectionReady();
+
+      logger.verbose(`${this._logPrefix} Creating with options %O`, options);
+      this._link = await this.createRheaLink(options);
+      checkAborted();
+
+      this._ensureTokenRenewal();
+
+      logger.verbose(`${this._logPrefix} Link has been created.`);
+    } catch (err) {
+      logError(err, `${this._logPrefix} Error thrown when creating the link:`, err);
+      await this.closeLinkImpl();
+      throw err;
     }
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim(true);
-      } catch (err) {
-        log.error(
-          "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.namespace.connectionId,
-          this._type,
-          this.name,
-          this.address,
-          err
-        );
-      }
-    }, this._tokenTimeout);
-    log.link(
-      "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
-      this._context.namespace.connectionId,
-      this._type,
-      this.name,
-      this.address,
-      this._tokenTimeout,
-      new Date(Date.now() + this._tokenTimeout).toString()
-    );
   }
 
   /**
-   * Closes the Sender|Receiver link and it's underlying session and also removes it from the
-   * internal map.
-   *
-   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
-   * removed.
+   * Clears token renewal for current link, removes current LinkEntity instance from cache,
+   * and closes the underlying AMQP link.
+   * Once closed, this instance of LinkEntity is not meant to be re-used.
    */
-  protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
+  async close(): Promise<void> {
+    // Set the flag to indicate that this instance of LinkEntity is not meant to be re-used.
+    this._wasClosedPermanently = true;
+
+    logger.verbose(
+      "[%s] Closing the %s for entity '%s'.",
+      this._context.connectionId,
+      this._type,
+      this.address
+    );
+
+    // Remove the underlying AMQP link from the cache
+    switch (this._linkType) {
+      case "s": {
+        delete this._context.senders[this.name];
+        break;
+      }
+      case "br":
+      case "sr": {
+        delete this._context.messageReceivers[this.name];
+        break;
+      }
+      case "ms": {
+        delete this._context.messageSessions[this.name];
+        break;
+      }
+    }
+
+    logger.verbose(
+      "[%s] Deleted the %s '%s' from the client cache.",
+      this._context.connectionId,
+      this._type,
+      this.name
+    );
+
+    await this.closeLink();
+  }
+
+  /**
+   * NOTE: This method should be implemented by any child classes to actually create the underlying
+   * Rhea link (AwaitableSender or Receiver or RequestResponseLink)
+   *
+   * @param _options
+   */
+  protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
+
+  /**
+   * Closes the internally held rhea link, stops the token renewal timer and sets
+   * the this._link field to undefined.
+   */
+  protected closeLink(): Promise<void> {
+    logger.verbose(
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
+    );
+    return defaultLock.acquire(this._openLock, () => {
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+      return this.closeLinkImpl();
+    });
+  }
+
+  private async closeLinkImpl(): Promise<void> {
+    logger.verbose(`${this._logPrefix} closeLinkImpl() called`);
+
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
+    this._tokenRenewalTimer = undefined;
+
+    if (this._link) {
       try {
+        const link = this._link;
+        this._link = undefined;
+
         // This should take care of closing the link and it's underlying session. This should also
         // remove them from the internal map.
         await link.close();
-        log.link(
-          "[%s] %s '%s' with address '%s' closed.",
-          this._context.namespace.connectionId,
-          this._type,
-          this.name,
-          this.address
-        );
+
+        logger.verbose(`${this._logPrefix} closed.`);
       } catch (err) {
-        log.error(
-          "[%s] An error occurred while closing the %s '%s': %O",
-          this._context.namespace.connectionId,
-          this._type,
-          this.name,
-          this.address,
-          err
-        );
+        logError(err, `${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }
     }
   }
@@ -265,5 +369,152 @@ export class LinkEntity {
       result = (this as any).constructor.name;
     }
     return result;
+  }
+
+  protected get wasClosedPermanently(): boolean {
+    return this._wasClosedPermanently;
+  }
+
+  protected get link(): LinkT | undefined {
+    return this._link;
+  }
+
+  /**
+   * Negotiates the cbs claim for the ClientEntity.
+   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
+   * @return {Promise<void>} Promise<void>
+   */
+  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+    logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
+
+    // Wait for the connectionContext to be ready to open the link.
+    this.checkIfConnectionReady();
+
+    // Acquire the lock and establish a cbs session if it does not exist on the connection.
+    // Although node.js is single threaded, we need a locking mechanism to ensure that a
+    // race condition does not happen while creating a shared resource (in this case the
+    // cbs session, since we want to have exactly 1 cbs session per connection).
+    logger.verbose(
+      "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
+        "'%s' with address: '%s'.",
+      this._context.connectionId,
+      this._context.cbsSession.cbsLock,
+      this._type,
+      this.name,
+      this.address
+    );
+    await defaultLock.acquire(this._context.cbsSession.cbsLock, async () => {
+      this.checkIfConnectionReady();
+      return this._context.cbsSession.init();
+    });
+    let tokenObject: AccessToken;
+    let tokenType: TokenType;
+    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+      tokenObject = this._context.tokenCredential.getToken(this.audience);
+      tokenType = TokenType.CbsTokenTypeSas;
+
+      // expiresOnTimestamp can be 0 if the token is not meant to be renewed
+      // (ie, SharedAccessSignatureCredential)
+      if (tokenObject.expiresOnTimestamp > 0) {
+        // renew sas token in every 45 minutes
+        this._tokenTimeout = (3600 - 900) * 1000;
+      }
+    } else {
+      const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
+      if (!aadToken) {
+        throw new Error(`Failed to get token from the provided "TokenCredential" object`);
+      }
+      tokenObject = aadToken;
+      tokenType = TokenType.CbsTokenTypeJwt;
+      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
+    }
+    logger.verbose(
+      "[%s] %s: calling negotiateClaim for audience '%s'.",
+      this._context.connectionId,
+      this._type,
+      this.audience
+    );
+    // Acquire the lock to negotiate the CBS claim.
+    logger.verbose(
+      "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
+      this._context.connectionId,
+      this._context.negotiateClaimLock,
+      this._type,
+      this.name,
+      this.address
+    );
+    if (!tokenObject) {
+      throw new Error("Token cannot be null");
+    }
+    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
+      this.checkIfConnectionReady();
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+    });
+    logger.verbose(
+      "[%s] Negotiated claim for %s '%s' with with address: %s",
+      this._context.connectionId,
+      this._type,
+      this.name,
+      this.address
+    );
+    if (setTokenRenewal) {
+      this._ensureTokenRenewal();
+    }
+  }
+
+  /**
+   * Checks to see if the connection is in a "reopening" state. If it is
+   * we need to _not_ use it otherwise we'll trigger some race conditions
+   * within rhea (for instance, errors about _process not being defined).
+   */
+  private checkIfConnectionReady() {
+    if (!this._context.isConnectionClosing()) {
+      return;
+    }
+
+    logger.verbose(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
+    const err = new MessagingError("Connection is reopening, aborting link initialization.");
+    err.retryable = true;
+    throw err;
+  }
+
+  /**
+   * Ensures that the token is renewed within the predefined renewal margin.
+   * @returns {void}
+   */
+  private _ensureTokenRenewal(): void {
+    if (!this._tokenTimeout) {
+      return;
+    }
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
+    }
+    this._tokenRenewalTimer = setTimeout(async () => {
+      try {
+        await this._negotiateClaim(true);
+      } catch (err) {
+        logError(
+          err,
+          "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
+          this._context.connectionId,
+          this._type,
+          this.name,
+          this.address,
+          err
+        );
+      }
+    }, this._tokenTimeout);
+    logger.verbose(
+      "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
+      this._context.connectionId,
+      this._type,
+      this.name,
+      this.address,
+      this._tokenTimeout,
+      new Date(Date.now() + this._tokenTimeout).toString()
+    );
   }
 }

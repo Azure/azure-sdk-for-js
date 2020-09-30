@@ -16,6 +16,8 @@ import {
   MultiLanguageBatchInput,
   GeneratedClientEntitiesRecognitionGeneralOptionalParams,
   GeneratedClientEntitiesRecognitionGeneralResponse,
+  GeneratedClientEntitiesRecognitionPiiOptionalParams,
+  GeneratedClientEntitiesRecognitionPiiResponse,
   GeneratedClientEntitiesLinkingOptionalParams,
   GeneratedClientEntitiesLinkingResponse,
   GeneratedClientKeyPhrasesOptionalParams,
@@ -60,6 +62,28 @@ class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * The API returns a list of entities with personal information (\"SSN\", \"Bank Account\" etc) in the
+   * document. For the list of supported entity types, check <a href="https://aka.ms/tanerpii">Supported
+   * Entity Types in Text Analytics API</a>. See the <a href="https://aka.ms/talangs">Supported languages
+   * in Text Analytics API</a> for the list of enabled languages.
+   *
+   * @param input Collection of documents to analyze.
+   * @param options The options parameters.
+   */
+  entitiesRecognitionPii(
+    input: MultiLanguageBatchInput,
+    options?: GeneratedClientEntitiesRecognitionPiiOptionalParams
+  ): Promise<GeneratedClientEntitiesRecognitionPiiResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { input, options: operationOptions },
+      entitiesRecognitionPiiOperationSpec
+    ) as Promise<GeneratedClientEntitiesRecognitionPiiResponse>;
+  }
+
+  /**
    * The API returns a list of recognized entities with links to a well-known knowledge base. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
@@ -83,8 +107,7 @@ class GeneratedClient extends GeneratedClientContext {
    * The API returns a list of strings denoting the key phrases in the input text. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
-   * @param input Collection of documents to analyze. Documents can now contain a language field to
-   *              indicate the text language
+   * @param input Collection of documents to analyze.
    * @param options The options parameters.
    */
   keyPhrases(
@@ -105,7 +128,7 @@ class GeneratedClient extends GeneratedClientContext {
    * indicate 100% certainty that the identified language is true. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
-   * @param input Collection of documents to analyze.
+   * @param input Collection of documents to analyze for language endpoint.
    * @param options The options parameters.
    */
   languages(
@@ -122,10 +145,9 @@ class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * The API returns a sentiment prediction, as well as sentiment scores for each sentiment class
-   * (Positive, Negative, and Neutral) for the document and each sentence within it. See the <a
-   * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
-   * languages.
+   * The API returns a detailed sentiment analysis for the input text. The analysis is done in multiple
+   * levels of granularity, start from the a document level, down to sentence and key terms (aspects) and
+   * opinions.
    * @param input Collection of documents to analyze.
    * @param options The options parameters.
    */
@@ -154,11 +176,38 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntitiesResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType
+  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
+  path: "/entities/recognition/pii",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PiiEntitiesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.input,
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType,
+    Parameters.domain
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -172,11 +221,15 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntityLinkingResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -190,7 +243,7 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyPhraseResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -208,7 +261,7 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.LanguageResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input1,
@@ -226,11 +279,16 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.SentimentResponse
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType,
+    Parameters.opinionMining
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
   mediaType: "json",

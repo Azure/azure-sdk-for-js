@@ -1584,6 +1584,16 @@ export interface ExposureControlRequest {
 }
 
 /**
+ * A list of exposure control features.
+ */
+export interface ExposureControlBatchRequest {
+  /**
+   * List of exposure control features.
+   */
+  exposureControlRequests: ExposureControlRequest[];
+}
+
+/**
  * The exposure control response.
  */
 export interface ExposureControlResponse {
@@ -1597,6 +1607,16 @@ export interface ExposureControlResponse {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: string;
+}
+
+/**
+ * A list of exposure control feature values.
+ */
+export interface ExposureControlBatchResponse {
+  /**
+   * List of exposure control feature values.
+   */
+  exposureControlResponses: ExposureControlResponse[];
 }
 
 /**
@@ -1712,9 +1732,9 @@ export interface DataFlowStagingInfo {
    */
   linkedService?: LinkedServiceReference;
   /**
-   * Folder path for staging blob.
+   * Folder path for staging blob. Type: string (or Expression with resultType string)
    */
-  folderPath?: string;
+  folderPath?: any;
 }
 
 /**
@@ -1930,6 +1950,103 @@ export interface DataFlowReference {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * The connection state of a managed private endpoint
+ */
+export interface ConnectionStateProperties {
+  /**
+   * The actions required on the managed private endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+  /**
+   * The managed private endpoint description
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The approval status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * Properties of a managed private endpoint
+ */
+export interface ManagedPrivateEndpoint {
+  /**
+   * The managed private endpoint connection state
+   */
+  connectionState?: ConnectionStateProperties;
+  /**
+   * Fully qualified domain names
+   */
+  fqdns?: string[];
+  /**
+   * The groupId to which the managed private endpoint is created
+   */
+  groupId?: string;
+  /**
+   * Denotes whether the managed private endpoint is reserved
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isReserved?: boolean;
+  /**
+   * The ARM resource ID of the resource to which the managed private endpoint is created
+   */
+  privateLinkResourceId?: string;
+  /**
+   * The managed private endpoint provisioning state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed private endpoint resource type.
+ */
+export interface ManagedPrivateEndpointResource extends SubResource {
+  /**
+   * Managed private endpoint properties.
+   */
+  properties: ManagedPrivateEndpoint;
+}
+
+/**
+ * A managed Virtual Network associated with the Azure Data Factory
+ */
+export interface ManagedVirtualNetwork {
+  /**
+   * Managed Virtual Network ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vNetId?: string;
+  /**
+   * Managed Virtual Network alias.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed Virtual Network resource type.
+ */
+export interface ManagedVirtualNetworkResource extends SubResource {
+  /**
+   * Managed Virtual Network properties.
+   */
+  properties: ManagedVirtualNetwork;
 }
 
 /**
@@ -2643,6 +2760,11 @@ export interface AzureDatabricksLinkedService {
    */
   newClusterCustomTags?: { [propertyName: string]: any };
   /**
+   * Specify a location to deliver Spark driver, worker, and event logs. Type: string (or
+   * Expression with resultType string).
+   */
+  newClusterLogDestination?: any;
+  /**
    * The driver node type for the new job cluster. This property is ignored in instance pool
    * configurations. Type: string (or Expression with resultType string).
    */
@@ -2953,10 +3075,15 @@ export interface SalesforceMarketingCloudLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Salesforce Marketing Cloud. It is mutually exclusive with any
+   * other properties in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The client ID associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
@@ -3088,9 +3215,14 @@ export interface ZohoLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Zoho. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The access token for Zoho authentication.
    */
@@ -3142,9 +3274,14 @@ export interface XeroLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Xero. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Xero server. (i.e. api.xero.com)
    */
-  host: any;
+  host?: any;
   /**
    * The consumer key associated with the Xero application.
    */
@@ -3202,13 +3339,18 @@ export interface SquareLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Square. It is mutually exclusive with any other properties in
+   * the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The URL of the Square instance. (i.e. mystore.mysquare.com)
    */
-  host: any;
+  host?: any;
   /**
    * The client ID associated with your Square application.
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with your Square application.
    */
@@ -3216,7 +3358,7 @@ export interface SquareLinkedService {
   /**
    * The redirect URL assigned in the Square application dashboard. (i.e. http://localhost:2500)
    */
-  redirectUri: any;
+  redirectUri?: any;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -3481,29 +3623,34 @@ export interface QuickBooksLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to QuickBooks. It is mutually exclusive with any other properties
+   * in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the QuickBooks server. (i.e. quickbooks.api.intuit.com)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The company ID of the QuickBooks company to authorize.
    */
-  companyId: any;
+  companyId?: any;
   /**
    * The consumer key for OAuth 1.0 authentication.
    */
-  consumerKey: any;
+  consumerKey?: any;
   /**
    * The consumer secret for OAuth 1.0 authentication.
    */
-  consumerSecret: SecretBaseUnion;
+  consumerSecret?: SecretBaseUnion;
   /**
    * The access token for OAuth 1.0 authentication.
    */
-  accessToken: SecretBaseUnion;
+  accessToken?: SecretBaseUnion;
   /**
    * The access token secret for OAuth 1.0 authentication.
    */
-  accessTokenSecret: SecretBaseUnion;
+  accessTokenSecret?: SecretBaseUnion;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -5306,6 +5453,12 @@ export interface RestServiceLinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The resource you are requesting authorization to use.
    */
   aadResourceId?: any;
@@ -5344,23 +5497,28 @@ export interface SapOpenHubLinkedService {
    * Host name of the SAP BW instance where the open hub destination is located. Type: string (or
    * Expression with resultType string).
    */
-  server: any;
+  server?: any;
   /**
    * System number of the BW system where the open hub destination is located. (Usually a two-digit
    * decimal number represented as a string.) Type: string (or Expression with resultType string).
    */
-  systemNumber: any;
+  systemNumber?: any;
   /**
    * Client ID of the client on the BW system where the open hub destination is located. (Usually a
    * three-digit decimal number represented as a string) Type: string (or Expression with
    * resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * Language of the BW system where the open hub destination is located. The default value is EN.
    * Type: string (or Expression with resultType string).
    */
   language?: any;
+  /**
+   * SystemID of the SAP system where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  systemId?: any;
   /**
    * Username to access the SAP BW server where the open hub destination is located. Type: string
    * (or Expression with resultType string).
@@ -5370,6 +5528,19 @@ export interface SapOpenHubLinkedService {
    * Password to access the SAP BW server where the open hub destination is located.
    */
   password?: SecretBaseUnion;
+  /**
+   * The hostname of the SAP Message Server. Type: string (or Expression with resultType string).
+   */
+  messageServer?: any;
+  /**
+   * The service name or port number of the Message Server. Type: string (or Expression with
+   * resultType string).
+   */
+  messageServerService?: any;
+  /**
+   * The Logon Group for the SAP System. Type: string (or Expression with resultType string).
+   */
+  logonGroup?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -5683,6 +5854,12 @@ export interface AzureBlobFSLinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -5731,6 +5908,12 @@ export interface AzureDataLakeStoreLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * Data Lake Store account name. Type: string (or Expression with resultType string).
    */
@@ -6115,6 +6298,12 @@ export interface ODataLinkedService {
    * string (or Expression with resultType string).
    */
   servicePrincipalId?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * Specify the resource you are requesting authorization to use Directory. Type: string (or
    * Expression with resultType string).
@@ -6919,6 +7108,10 @@ export interface AzureFileStorageLinkedService {
    */
   fileShare?: any;
   /**
+   * The azure file share snapshot version. Type: string (or Expression with resultType string).
+   */
+  snapshot?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -7484,6 +7677,12 @@ export interface AzureSqlMILinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -7536,6 +7735,12 @@ export interface AzureSqlDatabaseLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -7634,6 +7839,12 @@ export interface AzureSqlDWLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -7751,6 +7962,12 @@ export interface AzureBlobStorageLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -13955,6 +14172,16 @@ export interface XmlReadSettings {
    */
   validationMode?: any;
   /**
+   * Indicates whether type detection is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  detectDataType?: any;
+  /**
+   * Indicates whether namespace is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  namespaces?: any;
+  /**
    * Namespace uri to prefix mappings to override the prefixes in column names when namespace is
    * enabled, if no prefix is defined for a namespace uri, the prefix of xml element/attribute name
    * in the xml data file will be used. Example: "{"http://www.example.com/xml":"prefix"}" Type:
@@ -14093,6 +14320,11 @@ export interface HdfsReadSettings {
    * Specifies Distcp-related settings.
    */
   distcpSettings?: DistcpSettings;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
 }
 
 /**
@@ -15834,6 +16066,11 @@ export interface CosmosDbSqlApiSource {
    * Preferred regions. Type: array of strings (or Expression with resultType array of strings).
    */
   preferredRegions?: any;
+  /**
+   * Whether detect primitive values as datetime values. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  detectDatetime?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -17938,6 +18175,11 @@ export interface SapTableSource {
    */
   customRfcReadTableFunctionModule?: any;
   /**
+   * The single character that will be used as delimiter passed to SAP RFC as well as splitting the
+   * output data retrieved. Type: string (or Expression with resultType string).
+   */
+  sapDataColumnDelimiter?: any;
+  /**
    * The partition mechanism that will be used for SAP table read in parallel. Possible values
    * include: 'None', 'PartitionOnInt', 'PartitionOnCalendarYear', 'PartitionOnCalendarMonth',
    * 'PartitionOnCalendarDate', 'PartitionOnTime'
@@ -17992,6 +18234,16 @@ export interface SapOpenHubSource {
    * with resultType integer ).
    */
   baseRequestId?: any;
+  /**
+   * Specifies the custom RFC function module that will be used to read data from SAP Table. Type:
+   * string (or Expression with resultType string).
+   */
+  customRfcReadTableFunctionModule?: any;
+  /**
+   * The single character that will be used as delimiter passed to SAP RFC as well as splitting the
+   * output data retrieved. Type: string (or Expression with resultType string).
+   */
+  sapDataColumnDelimiter?: any;
 }
 
 /**
@@ -19706,7 +19958,7 @@ export interface StagingSettings {
 /**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureMySqlSink | AzurePostgreSqlSink | OrcSink | JsonSink | DelimitedTextSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureMySqlSink | AzurePostgreSqlSink | RestSink | OrcSink | JsonSink | DelimitedTextSink;
 
 /**
  * A copy activity sink.
@@ -20941,7 +21193,7 @@ export interface BlobSink {
 /**
  * Contains the possible cases for StoreWriteSettings.
  */
-export type StoreWriteSettingsUnion = StoreWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
+export type StoreWriteSettingsUnion = StoreWriteSettings | AzureFileStorageWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
 
 /**
  * Connector write settings.
@@ -20964,6 +21216,25 @@ export interface StoreWriteSettings {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * Azure File Storage write settings.
+ */
+export interface AzureFileStorageWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureFileStorageWriteSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The type of copy behavior for copy sink.
+   */
+  copyBehavior?: any;
 }
 
 /**
@@ -21478,6 +21749,69 @@ export interface AzurePostgreSqlSink {
 }
 
 /**
+ * A copy activity Rest service Sink.
+ */
+export interface RestSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "RestSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression
+   * with resultType string).
+   */
+  requestMethod?: any;
+  /**
+   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
+   * with resultType string).
+   */
+  additionalHeaders?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:01:40. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+  /**
+   * The time to await before sending next request, in milliseconds
+   */
+  requestInterval?: any;
+  /**
+   * Compression Type to Send data in compressed format with Optimal Compression Level, Default is
+   * None. And The Only Supported option is Gzip.
+   */
+  compressionType?: any;
+  /**
+   * Wraps Request Array Json into an Object before calling the rest endpoint , Default is false.
+   * ex: if true request content sample format is { rows:[]} else the format is []
+   */
+  wrapRequestJsonInAnObject?: any;
+}
+
+/**
  * A copy activity ORC sink.
  */
 export interface OrcSink {
@@ -21781,8 +22115,8 @@ export interface WebHookActivity {
    */
   authentication?: WebActivityAuthentication;
   /**
-   * When set to true, statusCode, output and error in callback request body will be consumed by
-   * activity. The activity can be marked as failed by setting statusCode >= 400 in callback
+   * When set to true, statusCode, output and error in callback request body will be consumed by
+   * activity. The activity can be marked as failed by setting statusCode >= 400 in callback
    * request. Default is false. Type: boolean (or Expression with resultType boolean).
    */
   reportStatusOnCallBack?: any;
@@ -22661,7 +22995,7 @@ export interface PackageStore {
 /**
  * Contains the possible cases for CustomSetupBase.
  */
-export type CustomSetupBaseUnion = CustomSetupBase | ComponentSetup | EnvironmentVariableSetup | CmdkeySetup;
+export type CustomSetupBaseUnion = CustomSetupBase | AzPowerShellSetup | ComponentSetup | EnvironmentVariableSetup | CmdkeySetup;
 
 /**
  * The base definition of the custom setup.
@@ -22671,6 +23005,20 @@ export interface CustomSetupBase {
    * Polymorphic Discriminator
    */
   type: "CustomSetupBase";
+}
+
+/**
+ * The express custom setup of installing Azure PowerShell.
+ */
+export interface AzPowerShellSetup {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzPowerShellSetup";
+  /**
+   * The required version of Azure PowerShell to install.
+   */
+  version: string;
 }
 
 /**
@@ -23569,6 +23917,50 @@ export interface DataFlowsGetOptionalParams extends msRest.RequestOptionsBase {
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
  * An interface representing DataFactoryManagementClientOptions.
  */
 export interface DataFactoryManagementClientOptions extends AzureServiceClientOptions {
@@ -23697,6 +24089,30 @@ export interface DataFlowListResponse extends Array<DataFlowResource> {
  * @extends Array<DataFlowDebugSessionInfo>
  */
 export interface QueryDataFlowDebugSessionsResponse extends Array<DataFlowDebugSessionInfo> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed Virtual Network resources.
+ * @extends Array<ManagedVirtualNetworkResource>
+ */
+export interface ManagedVirtualNetworkListResponse extends Array<ManagedVirtualNetworkResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed private endpoint resources.
+ * @extends Array<ManagedPrivateEndpointResource>
+ */
+export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivateEndpointResource> {
   /**
    * The link to the next page of results, if any remaining results exist.
    */
@@ -24617,6 +25033,26 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
        * The response body as parsed JSON or XML
        */
       parsedBody: ExposureControlResponse;
+    };
+};
+
+/**
+ * Contains response data for the queryFeatureValuesByFactory operation.
+ */
+export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlBatchResponse;
     };
 };
 
@@ -25727,5 +26163,165 @@ export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugS
        * The response body as parsed JSON or XML
        */
       parsedBody: QueryDataFlowDebugSessionsResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedVirtualNetworksGetResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
     };
 };

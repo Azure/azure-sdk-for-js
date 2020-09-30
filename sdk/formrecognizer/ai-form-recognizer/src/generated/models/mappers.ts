@@ -54,7 +54,7 @@ export const TrainSourceFilter: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      includeSubFolders: {
+      includeSubfolders: {
         serializedName: "includeSubFolders",
         type: {
           name: "Boolean"
@@ -239,7 +239,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TrainingDocumentInfo",
     modelProperties: {
-      documentName: {
+      name: {
         serializedName: "documentName",
         required: true,
         type: {

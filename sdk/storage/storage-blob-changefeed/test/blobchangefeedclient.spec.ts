@@ -1,27 +1,30 @@
 import * as assert from "assert";
-import { record } from "@azure/test-utils-recorder";
-import { BlobServiceClient } from "@azure/storage-blob";
-import { getBSU, recorderEnvSetup } from "./utils";
+import { record, isPlaybackMode } from "@azure/test-utils-recorder";
+import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
+import { AbortController } from "@azure/abort-controller";
+import { TestTracer, setTracer } from "@azure/core-tracing";
+import { Pipeline } from "@azure/storage-blob";
+import { SDK_VERSION } from "../src/utils/constants";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
+const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
 describe("BlobChangeFeedClient", async () => {
   let recorder: any;
   let changeFeedClient: BlobChangeFeedClient;
-  let blobServiceClient: BlobServiceClient;
 
   before(async function() {
-    if (process.env.CHANGE_FEED_ENABLED !== "1") {
+    if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+    changeFeedClient = getBlobChangeFeedClient();
   });
 
   afterEach(async function() {
@@ -36,7 +39,7 @@ describe("BlobChangeFeedClient", async () => {
         assert.ok(event.data.blobType);
       }
     }
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("next(): with start and end time", async () => {
     let i = 0;
@@ -109,23 +112,78 @@ describe("BlobChangeFeedClient", async () => {
       assert.ok(lastEvent.eventTime < endRounded);
     }
   });
+
+  it("could abort", async () => {
+    const maxPageSize = 2;
+    const iter = changeFeedClient
+      .listChanges({ abortSignal: AbortController.timeout(1) })
+      .byPage({ maxPageSize });
+    try {
+      await iter.next();
+      assert.fail("Should have been aborted.");
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  function fetchTelemetryString(pipeline: Pipeline): string {
+    for (const factory of pipeline.factories) {
+      if ((factory as any).telemetryString) {
+        return (factory as any).telemetryString;
+      }
+    }
+    return "";
+  }
+
+  it("user agent set correctly", async () => {
+    const blobServiceClient = (changeFeedClient as any).blobServiceClient;
+    const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
+    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+
+    const userAgentPrefix = "test/1";
+    const changeFeedClient2 = new BlobChangeFeedClient(
+      blobServiceClient.url,
+      blobServiceClient.credential,
+      {
+        userAgentOptions: { userAgentPrefix }
+      }
+    );
+    const blobServiceClient2 = (changeFeedClient2 as any).blobServiceClient;
+    const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
+    assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
+  });
+
+  it("tracing", async () => {
+    // recorder.skip(undefined, "recorder issue not understood. #10009");
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const rootSpan = tracer.startSpan("root");
+
+    const pageIter = changeFeedClient.listChanges({
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+    });
+    await pageIter.next();
+
+    rootSpan.end();
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+  });
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: any;
   let changeFeedClient: BlobChangeFeedClient;
-  let blobServiceClient: BlobServiceClient;
 
   before(async function() {
-    if (process.env.CHANGE_FEED_ENABLED === "1") {
+    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+    changeFeedClient = getBlobChangeFeedClient();
   });
 
   afterEach(async function() {

@@ -21,6 +21,15 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
+// @public (undocumented)
+export const BulkOperationType: {
+    readonly Create: "Create";
+    readonly Upsert: "Upsert";
+    readonly Read: "Read";
+    readonly Delete: "Delete";
+    readonly Replace: "Replace";
+};
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
@@ -328,6 +337,7 @@ export const Constants: {
         MaxResourceQuota: string;
         OfferType: string;
         OfferThroughput: string;
+        AutoscaleSettings: string;
         DisableRUPerMinuteUsage: string;
         IsRUPerMinuteUsed: string;
         OfferIsRUPerMinuteThroughputEnabled: string;
@@ -431,6 +441,14 @@ export interface ContainerDefinition {
 // @public (undocumented)
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
     // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
+    // (undocumented)
     partitionKey?: string | PartitionKeyDefinition;
     // (undocumented)
     throughput?: number;
@@ -494,8 +512,22 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: "Create";
+    operationType: typeof BulkOperationType.Create;
 };
+
+// @public (undocumented)
+export interface CreateOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Create;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
 
 // @public
 export class Database {
@@ -547,6 +579,14 @@ export interface DatabaseDefinition {
 
 // @public (undocumented)
 export interface DatabaseRequest extends DatabaseDefinition {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
     throughput?: number;
 }
 
@@ -583,9 +623,19 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: "Delete";
+    operationType: typeof BulkOperationType.Delete;
     id: string;
 };
+
+// @public (undocumented)
+export interface DeleteOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Delete;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+}
 
 // @public (undocumented)
 export interface ErrorBody {
@@ -806,7 +856,7 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends Array<JSONValue> {
+export interface JSONArray extends ArrayLike<JSONValue> {
 }
 
 // @public (undocumented)
@@ -849,6 +899,16 @@ export interface OfferDefinition {
     content?: {
         offerThroughput: number;
         offerIsRUPerMinuteThroughputEnabled: boolean;
+        offerMinimumThroughputParameters?: {
+            maxThroughputEverProvisioned: number;
+            maxConsumedStorageEverInKB: number;
+        };
+        offerAutopilotSettings?: {
+            tier: number;
+            maximumTierThroughput: number;
+            autoUpgrade: boolean;
+            maxThroughput: number;
+        };
     };
     // (undocumented)
     id?: string;
@@ -892,16 +952,7 @@ export interface OperationBase {
 }
 
 // @public (undocumented)
-export interface OperationInput {
-    // (undocumented)
-    ifMatch?: string;
-    // (undocumented)
-    ifNoneMatch?: string;
-    // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
-    // (undocumented)
-    resourceBody?: JSONObject;
-}
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -1200,15 +1251,39 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: "Read";
+    operationType: typeof BulkOperationType.Read;
     id: string;
 };
 
 // @public (undocumented)
+export interface ReadOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Read;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+}
+
+// @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: "Replace";
+    operationType: typeof BulkOperationType.Replace;
     id: string;
 };
+
+// @public (undocumented)
+export interface ReplaceOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Replace;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
 
 // @public (undocumented)
 export interface RequestContext {
@@ -1670,8 +1745,22 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: "Upsert";
+    operationType: typeof BulkOperationType.Upsert;
 };
+
+// @public (undocumented)
+export interface UpsertOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Upsert;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
 
 // @public
 export class User {

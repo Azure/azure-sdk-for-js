@@ -8,7 +8,7 @@
   This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
   to learn about scheduling messages.
 */
 
@@ -67,7 +67,7 @@ async function sendScheduledMessages(sbClient) {
 async function receiveMessages(sbClient) {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
   const processMessage = async (brokeredMessage) => {
@@ -91,7 +91,7 @@ async function receiveMessages(sbClient) {
   await delay(5000);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
-  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName);
   queueReceiver.subscribe({
     processMessage,
     processError

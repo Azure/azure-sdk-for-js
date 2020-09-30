@@ -220,6 +220,33 @@ export interface ApiProperties {
 }
 
 /**
+ * The CORS policy for the Cosmos DB database account.
+ */
+export interface CorsPolicy {
+  /**
+   * The origin domains that are permitted to make a request against the service via CORS.
+   */
+  allowedOrigins: string;
+  /**
+   * The methods (HTTP request verbs) that the origin domain may use for a CORS request.
+   */
+  allowedMethods?: string;
+  /**
+   * The request headers that the origin domain may specify on the CORS request.
+   */
+  allowedHeaders?: string;
+  /**
+   * The response headers that may be sent in the response to the CORS request and exposed by the
+   * browser to the request issuer.
+   */
+  exposedHeaders?: string;
+  /**
+   * The maximum amount time that a browser should cache the preflight OPTIONS request.
+   */
+  maxAgeInSeconds?: number;
+}
+
+/**
  * The core properties of ARM resources.
  */
 export interface ARMResourceProperties extends BaseResource {
@@ -357,6 +384,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The CORS policy for the Cosmos DB database account.
+   */
+  cors?: CorsPolicy[];
 }
 
 /**
@@ -621,6 +652,10 @@ export interface SqlContainerGetPropertiesResource {
    * The conflict resolution policy for the container.
    */
   conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1446,6 +1481,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The CORS policy for the Cosmos DB database account.
+   */
+  cors?: CorsPolicy[];
 }
 
 /**
@@ -1526,6 +1565,10 @@ export interface DatabaseAccountUpdateParameters {
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The CORS policy for the Cosmos DB database account.
+   */
+  cors?: CorsPolicy[];
 }
 
 /**
@@ -1715,6 +1758,10 @@ export interface SqlContainerResource {
    * The conflict resolution policy for the container.
    */
   conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
 }
 
 /**
@@ -3598,6 +3645,46 @@ export type SqlResourcesUpdateSqlDatabaseThroughputResponse = ThroughputSettings
 };
 
 /**
+ * Contains response data for the migrateSqlDatabaseToAutoscale operation.
+ */
+export type SqlResourcesMigrateSqlDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateSqlDatabaseToManualThroughput operation.
+ */
+export type SqlResourcesMigrateSqlDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the listSqlContainers operation.
  */
 export type SqlResourcesListSqlContainersResponse = SqlContainerListResult & {
@@ -3681,6 +3768,46 @@ export type SqlResourcesGetSqlContainerThroughputResponse = ThroughputSettingsGe
  * Contains response data for the updateSqlContainerThroughput operation.
  */
 export type SqlResourcesUpdateSqlContainerThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateSqlContainerToAutoscale operation.
+ */
+export type SqlResourcesMigrateSqlContainerToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateSqlContainerToManualThroughput operation.
+ */
+export type SqlResourcesMigrateSqlContainerToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3918,6 +4045,46 @@ export type SqlResourcesBeginUpdateSqlDatabaseThroughputResponse = ThroughputSet
 };
 
 /**
+ * Contains response data for the beginMigrateSqlDatabaseToAutoscale operation.
+ */
+export type SqlResourcesBeginMigrateSqlDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateSqlDatabaseToManualThroughput operation.
+ */
+export type SqlResourcesBeginMigrateSqlDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateSqlContainer operation.
  */
 export type SqlResourcesBeginCreateUpdateSqlContainerResponse = SqlContainerGetResults & {
@@ -3941,6 +4108,46 @@ export type SqlResourcesBeginCreateUpdateSqlContainerResponse = SqlContainerGetR
  * Contains response data for the beginUpdateSqlContainerThroughput operation.
  */
 export type SqlResourcesBeginUpdateSqlContainerThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateSqlContainerToAutoscale operation.
+ */
+export type SqlResourcesBeginMigrateSqlContainerToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateSqlContainerToManualThroughput operation.
+ */
+export type SqlResourcesBeginMigrateSqlContainerToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -4118,6 +4325,46 @@ export type MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse = Throughput
 };
 
 /**
+ * Contains response data for the migrateMongoDBDatabaseToAutoscale operation.
+ */
+export type MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateMongoDBDatabaseToManualThroughput operation.
+ */
+export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the listMongoDBCollections operation.
  */
 export type MongoDBResourcesListMongoDBCollectionsResponse = MongoDBCollectionListResult & {
@@ -4218,6 +4465,46 @@ export type MongoDBResourcesUpdateMongoDBCollectionThroughputResponse = Throughp
 };
 
 /**
+ * Contains response data for the migrateMongoDBCollectionToAutoscale operation.
+ */
+export type MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateMongoDBCollectionToManualThroughput operation.
+ */
+export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateMongoDBDatabase operation.
  */
 export type MongoDBResourcesBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults & {
@@ -4258,6 +4545,46 @@ export type MongoDBResourcesBeginUpdateMongoDBDatabaseThroughputResponse = Throu
 };
 
 /**
+ * Contains response data for the beginMigrateMongoDBDatabaseToAutoscale operation.
+ */
+export type MongoDBResourcesBeginMigrateMongoDBDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateMongoDBDatabaseToManualThroughput operation.
+ */
+export type MongoDBResourcesBeginMigrateMongoDBDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateMongoDBCollection operation.
  */
 export type MongoDBResourcesBeginCreateUpdateMongoDBCollectionResponse = MongoDBCollectionGetResults & {
@@ -4281,6 +4608,46 @@ export type MongoDBResourcesBeginCreateUpdateMongoDBCollectionResponse = MongoDB
  * Contains response data for the beginUpdateMongoDBCollectionThroughput operation.
  */
 export type MongoDBResourcesBeginUpdateMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateMongoDBCollectionToAutoscale operation.
+ */
+export type MongoDBResourcesBeginMigrateMongoDBCollectionToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateMongoDBCollectionToManualThroughput operation.
+ */
+export type MongoDBResourcesBeginMigrateMongoDBCollectionToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -4398,6 +4765,46 @@ export type TableResourcesUpdateTableThroughputResponse = ThroughputSettingsGetR
 };
 
 /**
+ * Contains response data for the migrateTableToAutoscale operation.
+ */
+export type TableResourcesMigrateTableToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateTableToManualThroughput operation.
+ */
+export type TableResourcesMigrateTableToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateTable operation.
  */
 export type TableResourcesBeginCreateUpdateTableResponse = TableGetResults & {
@@ -4421,6 +4828,46 @@ export type TableResourcesBeginCreateUpdateTableResponse = TableGetResults & {
  * Contains response data for the beginUpdateTableThroughput operation.
  */
 export type TableResourcesBeginUpdateTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateTableToAutoscale operation.
+ */
+export type TableResourcesBeginMigrateTableToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateTableToManualThroughput operation.
+ */
+export type TableResourcesBeginMigrateTableToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -4538,6 +4985,46 @@ export type CassandraResourcesUpdateCassandraKeyspaceThroughputResponse = Throug
 };
 
 /**
+ * Contains response data for the migrateCassandraKeyspaceToAutoscale operation.
+ */
+export type CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateCassandraKeyspaceToManualThroughput operation.
+ */
+export type CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the listCassandraTables operation.
  */
 export type CassandraResourcesListCassandraTablesResponse = CassandraTableListResult & {
@@ -4638,6 +5125,46 @@ export type CassandraResourcesUpdateCassandraTableThroughputResponse = Throughpu
 };
 
 /**
+ * Contains response data for the migrateCassandraTableToAutoscale operation.
+ */
+export type CassandraResourcesMigrateCassandraTableToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateCassandraTableToManualThroughput operation.
+ */
+export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateCassandraKeyspace operation.
  */
 export type CassandraResourcesBeginCreateUpdateCassandraKeyspaceResponse = CassandraKeyspaceGetResults & {
@@ -4678,6 +5205,46 @@ export type CassandraResourcesBeginUpdateCassandraKeyspaceThroughputResponse = T
 };
 
 /**
+ * Contains response data for the beginMigrateCassandraKeyspaceToAutoscale operation.
+ */
+export type CassandraResourcesBeginMigrateCassandraKeyspaceToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateCassandraKeyspaceToManualThroughput operation.
+ */
+export type CassandraResourcesBeginMigrateCassandraKeyspaceToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateCassandraTable operation.
  */
 export type CassandraResourcesBeginCreateUpdateCassandraTableResponse = CassandraTableGetResults & {
@@ -4701,6 +5268,46 @@ export type CassandraResourcesBeginCreateUpdateCassandraTableResponse = Cassandr
  * Contains response data for the beginUpdateCassandraTableThroughput operation.
  */
 export type CassandraResourcesBeginUpdateCassandraTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateCassandraTableToAutoscale operation.
+ */
+export type CassandraResourcesBeginMigrateCassandraTableToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateCassandraTableToManualThroughput operation.
+ */
+export type CassandraResourcesBeginMigrateCassandraTableToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -4818,6 +5425,46 @@ export type GremlinResourcesUpdateGremlinDatabaseThroughputResponse = Throughput
 };
 
 /**
+ * Contains response data for the migrateGremlinDatabaseToAutoscale operation.
+ */
+export type GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateGremlinDatabaseToManualThroughput operation.
+ */
+export type GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the listGremlinGraphs operation.
  */
 export type GremlinResourcesListGremlinGraphsResponse = GremlinGraphListResult & {
@@ -4918,6 +5565,46 @@ export type GremlinResourcesUpdateGremlinGraphThroughputResponse = ThroughputSet
 };
 
 /**
+ * Contains response data for the migrateGremlinGraphToAutoscale operation.
+ */
+export type GremlinResourcesMigrateGremlinGraphToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the migrateGremlinGraphToManualThroughput operation.
+ */
+export type GremlinResourcesMigrateGremlinGraphToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateGremlinDatabase operation.
  */
 export type GremlinResourcesBeginCreateUpdateGremlinDatabaseResponse = GremlinDatabaseGetResults & {
@@ -4958,6 +5645,46 @@ export type GremlinResourcesBeginUpdateGremlinDatabaseThroughputResponse = Throu
 };
 
 /**
+ * Contains response data for the beginMigrateGremlinDatabaseToAutoscale operation.
+ */
+export type GremlinResourcesBeginMigrateGremlinDatabaseToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateGremlinDatabaseToManualThroughput operation.
+ */
+export type GremlinResourcesBeginMigrateGremlinDatabaseToManualThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateGremlinGraph operation.
  */
 export type GremlinResourcesBeginCreateUpdateGremlinGraphResponse = GremlinGraphGetResults & {
@@ -4981,6 +5708,46 @@ export type GremlinResourcesBeginCreateUpdateGremlinGraphResponse = GremlinGraph
  * Contains response data for the beginUpdateGremlinGraphThroughput operation.
  */
 export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateGremlinGraphToAutoscale operation.
+ */
+export type GremlinResourcesBeginMigrateGremlinGraphToAutoscaleResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrateGremlinGraphToManualThroughput operation.
+ */
+export type GremlinResourcesBeginMigrateGremlinGraphToManualThroughputResponse = ThroughputSettingsGetResults & {
   /**
    * The underlying HTTP response.
    */

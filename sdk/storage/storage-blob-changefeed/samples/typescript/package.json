@@ -30,8 +30,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
     "@azure/storage-blob": "latest",
     "@azure/storage-blob-changefeed": "latest",
     "dotenv": "^8.2.0"

@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/create",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "",
    "status": 401,
@@ -54,7 +54,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/create",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
@@ -65,7 +65,7 @@
     "content-type": "application/json; charset=utf-8",
     "date": "Thu, 02 Jul 2020 18:54:01 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending?api-version=7.1-preview&request_id=43ce1da8c6cd49eea9ade842072440e0",
+    "location": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending?api-version=7.1&request_id=43ce1da8c6cd49eea9ade842072440e0",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "202",
@@ -83,7 +83,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -111,7 +111,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -139,7 +139,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -167,7 +167,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -195,7 +195,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -223,7 +223,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -251,7 +251,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -279,7 +279,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -307,7 +307,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -335,7 +335,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -363,7 +363,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -391,7 +391,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -419,7 +419,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -447,7 +447,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -475,7 +475,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -503,7 +503,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -531,7 +531,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -559,7 +559,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -587,7 +587,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -615,7 +615,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -642,7 +642,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0/",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -669,7 +669,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/create",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
@@ -680,7 +680,7 @@
     "content-type": "application/json; charset=utf-8",
     "date": "Thu, 02 Jul 2020 18:54:39 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending?api-version=7.1-preview&request_id=74d24f053cf14f1693c1ae288975c287",
+    "location": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending?api-version=7.1&request_id=74d24f053cf14f1693c1ae288975c287",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "202",
@@ -698,7 +698,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -726,7 +726,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -754,7 +754,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -782,7 +782,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -810,7 +810,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -838,7 +838,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -866,7 +866,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -894,7 +894,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -922,7 +922,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -950,7 +950,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -978,7 +978,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/pending",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1005,7 +1005,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1/",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1033,7 +1033,7 @@
    "url": "https://keyvault_name.vault.azure.net/certificates",
    "query": {
     "includePending": "true",
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1060,7 +1060,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1087,7 +1087,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1114,7 +1114,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1141,7 +1141,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1168,7 +1168,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1195,7 +1195,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1222,7 +1222,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1249,7 +1249,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1276,7 +1276,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1303,7 +1303,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1330,7 +1330,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1357,7 +1357,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1384,7 +1384,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1411,7 +1411,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1438,7 +1438,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1465,7 +1465,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1492,7 +1492,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-0",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 204,
@@ -1517,7 +1517,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1544,7 +1544,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1571,7 +1571,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1598,7 +1598,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1625,7 +1625,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1652,7 +1652,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1679,7 +1679,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1706,7 +1706,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1733,7 +1733,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1760,7 +1760,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1787,7 +1787,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,
@@ -1814,7 +1814,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -1841,7 +1841,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/listCertificateName-canlistcertificates-1",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 204,

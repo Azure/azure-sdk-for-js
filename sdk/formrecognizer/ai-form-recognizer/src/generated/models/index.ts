@@ -37,7 +37,7 @@ export interface TrainSourceFilter {
   /**
    * A flag to indicate if sub folders within the set of prefix folders will also need to be included when searching for content to be preprocessed.
    */
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 }
 
 export interface ErrorResponse {
@@ -128,7 +128,7 @@ export interface TrainingDocumentInfo {
   /**
    * Training document name.
    */
-  documentName: string;
+  name: string;
   /**
    * Total number of pages trained.
    */
@@ -451,6 +451,7 @@ export interface FieldValue {
   valueDate?: Date;
   /**
    * Time value.
+   * This value should be an ISO-8601 formatted string representing time. E.g. "HH:MM:SS" or "HH:MM:SS.mm".
    */
   valueTime?: string;
   /**
@@ -607,6 +608,9 @@ export interface ModelsSummary {
  * Defines headers for GeneratedClient_trainCustomModelAsync operation.
  */
 export interface GeneratedClientTrainCustomModelAsyncHeaders {
+  /**
+   * Location and ID of the model being trained. The status of model training is specified in the status property at the model location.
+   */
   location?: string;
 }
 
@@ -614,6 +618,9 @@ export interface GeneratedClientTrainCustomModelAsyncHeaders {
  * Defines headers for GeneratedClient_analyzeWithCustomModel operation.
  */
 export interface GeneratedClientAnalyzeWithCustomModelHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 
@@ -621,6 +628,9 @@ export interface GeneratedClientAnalyzeWithCustomModelHeaders {
  * Defines headers for GeneratedClient_copyCustomModel operation.
  */
 export interface GeneratedClientCopyCustomModelHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the copy operation.
+   */
   operationLocation?: string;
 }
 
@@ -628,6 +638,9 @@ export interface GeneratedClientCopyCustomModelHeaders {
  * Defines headers for GeneratedClient_generateModelCopyAuthorization operation.
  */
 export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
+  /**
+   * Location and ID of the model being copied. The status of model copy is specified in the status property at the model location.
+   */
   location?: string;
 }
 
@@ -635,6 +648,9 @@ export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
  * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
  */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 
@@ -642,6 +658,9 @@ export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
  * Defines headers for GeneratedClient_analyzeLayoutAsync operation.
  */
 export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 

@@ -9,13 +9,16 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running List Indexers Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   const listOfIndexers = await client.listIndexers();
 
   console.log(`\tList of Indexers`);
   console.log(`\t****************`);
-  for(let indexer of listOfIndexers) {
+  for(const indexer of listOfIndexers) {
     console.log(`Name: ${indexer.name}`);
     console.log(`Description: ${indexer.description}`);
     console.log(`Data Source Name: ${indexer.dataSourceName}`);
@@ -27,4 +30,6 @@ async function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

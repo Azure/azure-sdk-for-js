@@ -35,6 +35,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
+    contentType?: FormContentType;
 };
 
 // @public
@@ -42,7 +43,11 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeFormsOperationState) => void;
     resumeFrom?: string;
+    contentType?: FormContentType;
 };
+
+// @public
+export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & {
@@ -64,17 +69,12 @@ export interface CommonFieldValue {
 export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
 
 // @public
-export interface CopyAuthorization extends CopyAuthorizationResultModel {
+export interface CopyAuthorization {
+    accessToken: string;
     expiresOn: Date;
+    modelId: string;
     resourceId: string;
     resourceRegion: string;
-}
-
-// @public
-export interface CopyAuthorizationResultModel {
-    accessToken: string;
-    expirationDateTimeTicks: number;
-    modelId: string;
 }
 
 // @public
@@ -85,13 +85,6 @@ export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
 // @public
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
-export interface CustomFormField {
-    accuracy?: number;
-    label: string | null;
-    name: string;
-}
-
 // @public
 export interface CustomFormModel {
     errors?: FormRecognizerError[];
@@ -101,6 +94,13 @@ export interface CustomFormModel {
     trainingCompletedOn: Date;
     trainingDocuments?: TrainingDocumentInfo[];
     trainingStartedOn: Date;
+}
+
+// @public (undocumented)
+export interface CustomFormModelField {
+    accuracy?: number;
+    label: string | null;
+    name: string;
 }
 
 // @public
@@ -114,9 +114,7 @@ export interface CustomFormModelInfo {
 // @public
 export interface CustomFormSubmodel {
     accuracy?: number;
-    fields: {
-        [propertyName: string]: CustomFormField;
-    };
+    fields: Record<string, CustomFormModelField>;
     formType: string;
 }
 
@@ -172,9 +170,7 @@ export type FormField = {
     value?: FormField[];
     valueType?: "array";
 } | {
-    value?: {
-        [propertyName: string]: FormField;
-    };
+    value?: Record<string, FormField>;
     valueType?: "object";
 });
 
@@ -225,12 +221,12 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginRecognizeContent(form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
+    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
     }
 
@@ -255,6 +251,7 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 export interface FormTable {
     cells: FormTableCell[];
     columnCount: number;
+    pageNumber: number;
     rowCount: number;
 }
 
@@ -262,13 +259,14 @@ export interface FormTable {
 export interface FormTableCell {
     boundingBox: Point2D[];
     columnIndex: number;
-    columnSpan?: number;
+    columnSpan: number;
     confidence: number;
     fieldElements?: FormElement[];
-    isFooter?: boolean;
-    isHeader?: boolean;
+    isFooter: boolean;
+    isHeader: boolean;
+    pageNumber: number;
     rowIndex: number;
-    rowSpan?: number;
+    rowSpan: number;
     text: string;
 }
 
@@ -289,7 +287,6 @@ export class FormTrainingClient {
 // @public
 export interface FormWord extends FormElementCommon {
     confidence?: number;
-    containingLine?: FormLine;
     kind: "word";
 }
 
@@ -391,9 +388,7 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
 export interface RecognizedForm {
-    fields: {
-        [propertyName: string]: FormField;
-    };
+    fields: Record<string, FormField>;
     formType: string;
     pageRange: FormPageRange;
     pages: FormPage[];
@@ -417,8 +412,8 @@ export { RestResponse }
 
 // @public
 export interface TrainingDocumentInfo {
-    documentName: string;
     errors: FormRecognizerError[];
+    name: string;
     pageCount: number;
     status: TrainingStatus;
 }
@@ -426,7 +421,7 @@ export interface TrainingDocumentInfo {
 // @public
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
     prefix?: string;
-    includeSubFolders?: boolean;
+    includeSubfolders?: boolean;
 };
 
 // @public

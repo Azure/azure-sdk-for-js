@@ -1,6 +1,6 @@
 # App Configuration client library for JavaScript
 
-[Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
+[Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
 Use the client library for App Configuration to:
 
@@ -11,7 +11,7 @@ Use the client library for App Configuration to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
@@ -24,7 +24,7 @@ npm install @azure/app-configuration
 
 ### Prerequisites
 
-- You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
+- You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/) resource to use this package.
 - Node.js version 8.x.x or higher
 
 ### Create an App Configuration resource
@@ -134,7 +134,7 @@ async function run() {
     value: "testvalue",
     // Labels allow you to create variants of a key tailored
     // for specific use-cases like supporting multiple environments.
-    // https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys
+    // https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
     label: "optional-label"
   });
 
@@ -171,7 +171,7 @@ This module's tests are a mixture of live and unit tests, which require you to h
 1. `rush update`
 2. `rush build -t @azure/app-configuration`
 3. Create a .env file with these contents in the `sdk\appconfiguration\app-configuration` folder:
-   `AZ_CONFIG_CONNECTION=connection string for your App Configuration instance`
+   `APPCONFIG_CONNECTION_STRING=connection string for your App Configuration instance`
 4. `cd sdk\appconfiguration\app-configuration`
 5. `npm run test`.
 
@@ -181,6 +181,6 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview)
+- [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)

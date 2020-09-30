@@ -333,6 +333,51 @@ export const ApiProperties: msRest.CompositeMapper = {
   }
 };
 
+export const CorsPolicy: msRest.CompositeMapper = {
+  serializedName: "CorsPolicy",
+  type: {
+    name: "Composite",
+    className: "CorsPolicy",
+    modelProperties: {
+      allowedOrigins: {
+        required: true,
+        serializedName: "allowedOrigins",
+        type: {
+          name: "String"
+        }
+      },
+      allowedMethods: {
+        serializedName: "allowedMethods",
+        type: {
+          name: "String"
+        }
+      },
+      allowedHeaders: {
+        serializedName: "allowedHeaders",
+        type: {
+          name: "String"
+        }
+      },
+      exposedHeaders: {
+        serializedName: "exposedHeaders",
+        type: {
+          name: "String"
+        }
+      },
+      maxAgeInSeconds: {
+        serializedName: "maxAgeInSeconds",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ARMResourceProperties: msRest.CompositeMapper = {
   serializedName: "ARMResourceProperties",
   type: {
@@ -591,6 +636,18 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
         }
       }
     }
@@ -1060,6 +1117,12 @@ export const SqlContainerGetPropertiesResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ConflictResolutionPolicy"
+        }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
         }
       },
       _rid: {
@@ -2509,6 +2572,18 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
+        }
       }
     }
   }
@@ -2657,6 +2732,18 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
         }
       }
     }
@@ -2959,6 +3046,12 @@ export const SqlContainerResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ConflictResolutionPolicy"
+        }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
         }
       }
     }

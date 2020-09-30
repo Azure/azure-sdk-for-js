@@ -125,7 +125,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: Models.SnapshotsCreateOptionalParams): Promise<Models.SnapshotsCreateResponse> {
+  create(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsCreateResponse> {
     return this.beginCreate(resourceGroupName,accountName,poolName,volumeName,snapshotName,location,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsCreateResponse>;
   }
@@ -175,7 +175,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: Models.SnapshotsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -319,11 +319,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      location: "location",
-      fileSystemId: [
-        "options",
-        "fileSystemId"
-      ]
+      location: "location"
     },
     mapper: {
       ...Mappers.Snapshot,
