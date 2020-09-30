@@ -1,7 +1,8 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.3 (2020-09-30)
 
+- Also pack `esm` build in addition to `commonjs` build. This fixes the warning about `core-paging` in Angular 10 applications [Issue 11550](https://github.com/Azure/azure-sdk-for-js/issues/11550).
 
 ## 1.1.2 (2020-09-02)
 
