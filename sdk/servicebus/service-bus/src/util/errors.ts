@@ -61,7 +61,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`
   );
 }
 

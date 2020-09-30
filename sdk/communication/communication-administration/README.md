@@ -65,7 +65,7 @@ const { token } = await client.issueToken(user, ["chat"]);
 ## Next steps
 
 Please take a look at the
-[samples]<!--(https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples)-->
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing

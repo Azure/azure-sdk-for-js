@@ -32,6 +32,15 @@ export class AuthenticationError extends Error {
 export const AuthenticationErrorName = "AuthenticationError";
 
 // @public
+export interface AuthenticationRecord {
+    authority?: string;
+    environment: string;
+    homeAccountId: string;
+    tenantId: string;
+    username: string;
+}
+
+// @public
 export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
@@ -139,6 +148,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
+    authenticationRecord?: AuthenticationRecord;
+    cacheOptions?: {
+        cachePlugin?: {
+            readFromStorage: () => Promise<string>;
+            writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
+        };
+    };
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);

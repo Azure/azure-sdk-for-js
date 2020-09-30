@@ -15,12 +15,15 @@ import {
   createAbortSignalForTest,
   createCountdownAbortSignal
 } from "../utils/abortSignalTestUtils";
-import { createConnectionContextForTests } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId
+} from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { Constants } from "@azure/core-amqp";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { MessageSession } from "../../src/session/messageSession";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
@@ -325,25 +328,15 @@ describe("AbortSignal", () => {
      * code isn't running there. So we have to check this separately from Receiver.
      */
     it("SessionReceiver.subscribe", async () => {
-      const session = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            (receiver as any).source = {
-              filter: {
-                [Constants.sessionFilterName]: "hello"
-              }
-            };
+      const connectionContext = createConnectionContextForTestsWithSessionId();
 
-            (receiver as any).properties = {
-              ["com.microsoft:locked-until-utc"]: Date.now()
-            };
-          }
-        }),
+      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+
+      const session = new ServiceBusSessionReceiverImpl(
+        messageSession,
+        connectionContext,
         "entityPath",
-        "peekLock",
-        {
-          sessionId: "hello"
-        }
+        "peekLock"
       );
 
       try {
