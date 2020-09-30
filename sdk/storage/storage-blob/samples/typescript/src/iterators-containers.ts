@@ -102,10 +102,14 @@ export async function main() {
     .listContainers()
     .byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();
-  // Prints 10 container names
-  if (response.value.containerItems) {
-    for (const container of response.value.containerItems) {
-      console.log(`Container ${i++}: ${container.name}`);
+  if (response.done) {
+    console.log("List done.");
+  } else {
+    // Prints 10 container names
+    if (response.value.containerItems) {
+      for (const container of response.value.containerItems) {
+        console.log(`Container ${i++}: ${container.name}`);
+      }
     }
   }
 }

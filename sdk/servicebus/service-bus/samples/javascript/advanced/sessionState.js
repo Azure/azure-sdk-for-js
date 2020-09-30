@@ -71,10 +71,9 @@ async function runScenario() {
   await getSessionState("bob");
 }
 async function getSessionState(sessionId) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
-    sessionId: sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
+
   const sessionState = await sessionReceiver.getSessionState();
   if (sessionState) {
     // Get list of items

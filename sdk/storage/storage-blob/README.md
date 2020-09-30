@@ -202,6 +202,18 @@ See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 [Note - Above steps are only for Node.js]
 
+#### using connection string
+
+Alternatively, you can instantiate a `BlobServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.) [ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```javascript
+const { BlobServiceClient } = require("@azure/storage-blob");
+
+const connStr = "<connection string>";
+
+const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
+```
+
 #### with `StorageSharedKeyCredential`
 
 Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)

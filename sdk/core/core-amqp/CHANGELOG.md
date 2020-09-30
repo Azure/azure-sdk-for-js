@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.7 (Unreleased)
+
+
 ## 1.1.6 (2020-09-08)
 
 - Support using the SharedAccessSignature from the connection string.

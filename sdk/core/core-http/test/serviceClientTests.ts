@@ -26,7 +26,7 @@ import {
   OperationSpec
 } from "../src/coreHttp";
 import { ParameterPath } from "../src/operationParameter";
-import { requestBody1 } from "./testMappers";
+import * as Mappers from "./testMappers";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -483,6 +483,41 @@ describe("ServiceClient", function() {
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
 
+    it("should serialize additional properties when the mapper is refd by className", () => {
+      const httpRequest = new WebResource();
+      const body = [
+        {
+          version: 1,
+          name: "Test",
+          time: new Date("2020-09-24T17:31:35.034Z"),
+          data: {
+            baseData: {
+              test: "Hello!",
+              extraProp: "FooBar"
+            }
+          }
+        }
+      ];
+
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          body
+        },
+        {
+          httpMethod: "POST",
+          requestBody: Mappers.body,
+          responses: { 200: {} },
+          serializer: new Serializer(Mappers)
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
+      );
+    });
+
     it("should serialize a JSON String request body with namespace, ignoring namespace", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
@@ -937,12 +972,15 @@ describe("ServiceClient", function() {
         {
           requestBody: {
             updated: new Date("2020-08-12T23:36:18.308Z"),
-            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } }
+            content: {
+              type: "application/xml",
+              queueDescription: { maxDeliveryCount: 15 }
+            }
           }
         },
         {
           httpMethod: "POST",
-          requestBody: requestBody1,
+          requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML */),
           isXML: true
@@ -962,12 +1000,15 @@ describe("ServiceClient", function() {
         {
           requestBody: {
             updated: new Date("2020-08-12T23:36:18.308Z"),
-            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } }
+            content: {
+              type: "application/xml",
+              queueDescription: { maxDeliveryCount: 15 }
+            }
           }
         },
         {
           httpMethod: "POST",
-          requestBody: requestBody1,
+          requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: new Serializer()
         }

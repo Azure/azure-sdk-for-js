@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CompositeMapper, OperationParameter } from "../src/coreHttp";
 
 const QueueDescription: CompositeMapper = {
@@ -263,4 +266,120 @@ const CreateQueueBody: CompositeMapper = {
 export const requestBody1: OperationParameter = {
   parameterPath: "requestBody",
   mapper: CreateQueueBody
+};
+
+export const TelemetryItem: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryItem",
+    modelProperties: {
+      version: {
+        defaultValue: 1,
+        serializedName: "ver",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      sampleRate: {
+        defaultValue: 100,
+        serializedName: "sampleRate",
+        type: {
+          name: "Number"
+        }
+      },
+      sequence: {
+        constraints: {
+          MaxLength: 64
+        },
+        serializedName: "seq",
+        type: {
+          name: "String"
+        }
+      },
+      instrumentationKey: {
+        serializedName: "iKey",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Composite",
+          className: "MonitorBase"
+        }
+      }
+    }
+  }
+};
+
+export const MonitorBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorBase",
+    modelProperties: {
+      baseType: {
+        serializedName: "baseType",
+        type: {
+          name: "String"
+        }
+      },
+      baseData: {
+        serializedName: "baseData",
+        type: {
+          name: "Composite",
+          className: "MonitorDomain"
+        }
+      }
+    }
+  }
+};
+
+export const MonitorDomain: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorDomain",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      test: {
+        serializedName: "test",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: { type: { name: "Composite", className: "TelemetryItem" } }
+    }
+  }
 };

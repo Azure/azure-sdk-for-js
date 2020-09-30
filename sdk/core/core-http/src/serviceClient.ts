@@ -59,6 +59,7 @@ import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -710,6 +711,10 @@ export function createPipelineFromOptions(
   authPolicyFactory?: RequestPolicyFactory
 ): ServiceClientOptions {
   const requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  if (pipelineOptions.sendStreamingJson) {
+    requestPolicyFactories.push(ndJsonPolicy());
+  }
 
   let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {

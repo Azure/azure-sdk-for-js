@@ -29,6 +29,9 @@ parameters:
 - name: ResourceGroupLocation
   type: string
   default: ""
+- name: ResourceGroupLocationCanary
+  type: string
+  default: "centraluseuap"
 - name: ArmTemplateParameters
   type: string
   default: "@{}"
@@ -42,6 +45,9 @@ parameters:
   type: boolean
   default: false
 - name: TestSame
+  type: boolean
+  default: false
+- name: TestCanary
   type: boolean
   default: false
 - name: Matrix
@@ -127,7 +133,17 @@ jobs:
             TestType: "node"
             DependencyVersion: same
             NodeTestVersion: "12.x"
-            TestResultsFiles: "**/test-results.xml"            
+            TestResultsFiles: "**/test-results.xml"   
+
+        # Add matrix entry for canary testing
+        ${{ if eq(parameters.TestCanary, 'true') }}:
+          CanaryTest_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+            ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
     pool:
       vmImage: "$(OSVmImage)"
 

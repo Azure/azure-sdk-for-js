@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "38568a561a9367195ba6479a285309dc";
+module.exports.hash = "c4cc48e8a62dd4dcfcc76b664b751075";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .put('/skillsets(%27my-azureblob-skillset-3%27)', {"name":"my-azureblob-skillset-3","description":"Skillset description","skills":[{"inputs":[{"name":"text","source":"/document/merged_content"},{"name":"languageCode","source":"/document/language"}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}],"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill"}]})
   .query(true)
-  .reply(201, {"@odata.context":"https://endpoint/$metadata#skillsets/$entity","@odata.etag":"\"0x8D8495D52FA5E66\"","name":"my-azureblob-skillset-3","description":"Skillset description","skills":[{"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","name":null,"description":null,"context":null,"categories":[],"defaultLanguageCode":null,"minimumPrecision":null,"includeTypelessEntities":null,"inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}]}],"cognitiveServices":null,"knowledgeStore":null,"encryptionKey":null}, [ 'Cache-Control',
+  .reply(201, {"@odata.context":"https://endpoint/$metadata#skillsets/$entity","@odata.etag":"\"0x8D862481A5C9F18\"","name":"my-azureblob-skillset-3","description":"Skillset description","skills":[{"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","name":null,"description":null,"context":null,"categories":[],"defaultLanguageCode":null,"minimumPrecision":null,"includeTypelessEntities":null,"inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}]}],"cognitiveServices":null,"knowledgeStore":null,"encryptionKey":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -16,13 +16,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8495D52FA5E66"',
+  'W/"0x8D862481A5C9F18"',
   'Location',
   'https://endpoint/skillsets(\'my-azureblob-skillset-3\')?api-version=2020-06-30',
   'request-id',
-  '5679176f-bb7e-47f4-bf51-fc33c65581ec',
+  '707e44e9-f29a-4eb6-b410-fb0cb8fed10b',
   'elapsed-time',
-  '83',
+  '70',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,14 +30,14 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:14:04 GMT',
+  'Sat, 26 Sep 2020 18:15:08 GMT',
   'Content-Length',
   '822' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/skillsets(%27my-azureblob-skillset-3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0ff61fde7f7a7fefd9f1fdd34f3ffd7d3fa256cb6c91d3d78bebedec07eb3a9f94d564db40dbbe470d667933ad8b555b544b6af75abf4afd8f471fc91b1f3dfa9e1d507bbd02dc1fffa298d655539db7637975fc8686393e65245fe5d3ea625900067f4980149d1fdfa5dffd2e1e2dd76539fac891e9eeac9aae1734586a38cddafca2aa8b1c187cf432af1b7a63f4d14fac33ee867efdb2bec896c50f328635fae8ab57cfe9dfd34556a0cfe71501902f9e12a43705a1f07d747f9eadcbf679b6bc586717f949350366399a2d8a65b1582f5ed6f9b468f0a6a2572ca7e57a96bfa1b19779d3f028192bf3f56addd25f44251d270f86c857adeb29feb6a3babbc8eb8b7cf6fbf3807990d2e6047fd33b5d88dfff25230bb4f431362fd2e70eb86961bf1d064b84a8d6adfe69bb58318d1b7abfcd08cff685f9b85a95f9471e2e9547f85ef3f04befad5267a4f786fbe297306aca3f97f9ebbcbe2ca68ed46f97d55599cf2ef2d76d55d39bf269be9cd6d7cc50bf577e2d1ffe92ff078172a38683030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0f3edddb3fd83dbe7ff2f0d9eec1effb11b55a668b9cbe5e5c6f673f58d7f9a4ac26db06daf63d6a30cb9b695dacdaa25a52bbd7fa55ea7f3cfa48def8e8d1f7ec80daeb15e0fef817c5b4ae9aeabc1dcbabe33734ccf12923f92a9f5617cb0230f84b02a4e8fcf82efdee77f168b92ecbd1478e4c7767d574bda0c152c369d6e617555de4c0e0a39779ddd01ba38f7e629d7137f4eb97f545b62c7e9031acd1475fbd7a4eff9e2eb2027d3eaf08807cf19420bd290885efa3fbf36c5db6cfb3e5c53abbc84faa1930cbd16c512c8bc57af1b2cea745833715bd62392dd7b3fc0d8dbdcc9b8647c95899af57eb96fe222ae938793044be6a5d4ff1b71dd5dd455e5fe4b3df9f07cc83943627f89bdee942fcfe2f1959a0a58fb179913e77c04d0bfbed30582244b56ef54fdbc58a69dcd0fb6d4678b62fccc7d5aacc3ff270a93cc2f79a875f7a6f953a23bd37dc17bf845153feb9cc5fe7f5653175a47ebbacaeca7c7691bf6eab9ade944ff3e5b4be6686fabdf26bf9f097fc3f967bdeed83030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -48,13 +48,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8495D52FA5E66"',
+  'W/"0x8D862481A5C9F18"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '180791ee-fd1b-4086-900b-f37c7260baca',
+  '950124c7-0122-4a8c-8ef0-eed8a2cf32a6',
   'elapsed-time',
-  '56',
+  '34',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -62,9 +62,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:14:04 GMT',
+  'Sat, 26 Sep 2020 18:15:08 GMT',
   'Content-Length',
-  '587' ]);
+  '586' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .delete('/skillsets(%27my-azureblob-skillset-3%27)')
@@ -76,10 +76,10 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '1dac2011-fc7c-4c10-a6a6-4f19eb03e94a',
+  '039a59aa-efbb-4c78-a721-ddd16835b28b',
   'elapsed-time',
-  '49',
+  '46',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:14:04 GMT' ]);
+  'Sat, 26 Sep 2020 18:15:08 GMT' ]);

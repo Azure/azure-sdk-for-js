@@ -2,6 +2,16 @@
 // Licensed under the MIT license.
 
 import {
+  ACSChatMessageReceivedEventData,
+  ACSChatMessageEditedEventData,
+  ACSChatMessageDeletedEventData,
+  ACSChatThreadCreatedWithUserEventData,
+  ACSChatThreadWithUserDeletedEventData,
+  ACSChatThreadPropertiesUpdatedPerUserEventData,
+  ACSChatMemberAddedToThreadWithUserEventData,
+  ACSChatMemberRemovedFromThreadWithUserEventData,
+  AcssmsDeliveryReportReceivedEventData,
+  AcssmsReceivedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryImagePushedEventData,
@@ -90,6 +100,16 @@ import { CloudEvent, EventGridEvent } from "./models";
 export type KnownSystemEventTypes =
   | "Microsoft.AppConfiguration.KeyValueDeleted"
   | "Microsoft.AppConfiguration.KeyValueModified"
+  | "Microsoft.Communication.ChatMessageReceived"
+  | "Microsoft.Communication.ChatMessageEdited"
+  | "Microsoft.Communication.ChatMessageDeleted"
+  | "Microsoft.Communication.ChatThreadCreatedWithUser"
+  | "Microsoft.Communication.ChatThreadWithUserDeleted"
+  | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser"
+  | "Microsoft.Communication.ChatMemberAddedToThreadWithUser"
+  | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser"
+  | "Microsoft.Communication.SMSDeliveryReportReceived"
+  | "Microsoft.Communication.SMSReceived"
   | "Microsoft.ContainerRegistry.ImagePushed"
   | "Microsoft.ContainerRegistry.ImageDeleted"
   | "Microsoft.ContainerRegistry.ChartDeleted"
@@ -172,6 +192,26 @@ export type KnownSystemEventTypes =
  * @ignore
  */
 export interface SystemEventNameToEventData {
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
+  "Microsoft.Communication.ChatMessageReceived": ACSChatMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */
+  "Microsoft.Communication.ChatMessageEdited": ACSChatMessageEditedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeleted" event. */
+  "Microsoft.Communication.ChatMessageDeleted": ACSChatMessageDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreatedWithUser" event. */
+  "Microsoft.Communication.ChatThreadCreatedWithUser": ACSChatThreadCreatedWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
+  "Microsoft.Communication.ChatThreadWithUserDeleted": ACSChatThreadWithUserDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
+  "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": ACSChatThreadPropertiesUpdatedPerUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMemberAddedToThreadWithUser" event. */
+  "Microsoft.Communication.ChatMemberAddedToThreadWithUser": ACSChatMemberAddedToThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" event. */
+  "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": ACSChatMemberRemovedFromThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.SMSDeliveryReportReceived" event. */
+  "Microsoft.Communication.SMSDeliveryReportReceived": AcssmsDeliveryReportReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
+  "Microsoft.Communication.SMSReceived": AcssmsReceivedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueDeleted" event. */
   "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueModified" event. */

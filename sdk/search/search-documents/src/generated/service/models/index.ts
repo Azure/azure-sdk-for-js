@@ -1627,6 +1627,102 @@ export interface IndexingSchedule {
 }
 
 /**
+ * A dictionary of indexer-specific configuration properties. Each name is the name of a specific
+ * property. Each value must be of a primitive type.
+ */
+export interface IndexingParametersConfiguration {
+  /**
+   * Possible values include: 'Default', 'Text', 'DelimitedText', 'Json', 'JsonArray', 'JsonLines'.
+   * Default value: 'default'.
+   */
+  parsingMode?: BlobIndexerParsingMode;
+  /**
+   * Comma-delimited list of filename extensions to ignore when processing from Azure blob storage.
+   * For example, you could exclude ".png, .mp4" to skip over those files during indexing. Default
+   * value: ''.
+   */
+  excludedFileNameExtensions?: string;
+  /**
+   * Comma-delimited list of filename extensions to select when processing from Azure blob storage.
+   * For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to
+   * specifically include those file types. Default value: ''.
+   */
+  indexedFileNameExtensions?: string;
+  /**
+   * For Azure blobs, set to false if you want to continue indexing when an unsupported content
+   * type is encountered, and you don't know all the content types (file extensions) in advance.
+   * Default value: false.
+   */
+  failOnUnsupportedContentType?: boolean;
+  /**
+   * For Azure blobs, set to false if you want to continue indexing if a document fails indexing.
+   * Default value: false.
+   */
+  failOnUnprocessableDocument?: boolean;
+  /**
+   * For Azure blobs, set this property to true to still index storage metadata for blob content
+   * that is too large to process. Oversized blobs are treated as errors by default. For limits on
+   * blob size, see https://docs.microsoft.com/azure/search/search-limits-quotas-capacity. Default
+   * value: false.
+   */
+  indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+  /**
+   * For CSV blobs, specifies a comma-delimited list of column headers, useful for mapping source
+   * fields to destination fields in an index.
+   */
+  delimitedTextHeaders?: string;
+  /**
+   * For CSV blobs, specifies the end-of-line single-character delimiter for CSV files where each
+   * line starts a new document (for example, "|").
+   */
+  delimitedTextDelimiter?: string;
+  /**
+   * For CSV blobs, indicates that the first (non-blank) line of each blob contains headers.
+   * Default value: true.
+   */
+  firstLineContainsHeaders?: boolean;
+  /**
+   * For JSON arrays, given a structured or semi-structured document, you can specify a path to the
+   * array using this property.
+   */
+  documentRoot?: string;
+  /**
+   * Possible values include: 'StorageMetadata', 'AllMetadata', 'ContentAndMetadata'. Default
+   * value: 'contentAndMetadata'.
+   */
+  dataToExtract?: BlobIndexerDataToExtract;
+  /**
+   * Possible values include: 'None', 'GenerateNormalizedImages', 'GenerateNormalizedImagePerPage'.
+   * Default value: 'none'.
+   */
+  imageAction?: BlobIndexerImageAction;
+  /**
+   * If true, will create a path //document//file_data that is an object representing the original
+   * file data downloaded from your blob data source.  This allows you to pass the original file
+   * data to a custom skill for processing within the enrichment pipeline, or to the Document
+   * Extraction skill. Default value: false.
+   */
+  allowSkillsetToReadFileData?: boolean;
+  /**
+   * Possible values include: 'None', 'DetectAngles'. Default value: 'none'.
+   */
+  pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+  /**
+   * Possible values include: 'standard', 'private'. Default value: 'standard'.
+   */
+  executionEnvironment?: IndexerExecutionEnvironment;
+  /**
+   * Increases the timeout beyond the 5-minute default for Azure SQL database data sources,
+   * specified in the format "hh:mm:ss". Default value: '00:05:00'.
+   */
+  queryTimeout?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
  * Represents parameters for indexer execution.
  */
 export interface IndexingParameters {
@@ -1645,11 +1741,7 @@ export interface IndexingParameters {
    * considered successful. -1 means no limit. Default is 0. Default value: 0.
    */
   maxFailedItemsPerBatch?: number;
-  /**
-   * A dictionary of indexer-specific configuration properties. Each name is the name of a specific
-   * property. Each value must be of a primitive type.
-   */
-  configuration?: { [propertyName: string]: any };
+  configuration?: IndexingParametersConfiguration;
 }
 
 /**
@@ -3770,6 +3862,46 @@ export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bu
  * @enum {string}
  */
 export type SearchIndexerDataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
+
+/**
+ * Defines values for BlobIndexerParsingMode.
+ * Possible values include: 'Default', 'Text', 'DelimitedText', 'Json', 'JsonArray', 'JsonLines'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerParsingMode = 'default' | 'text' | 'delimitedText' | 'json' | 'jsonArray' | 'jsonLines';
+
+/**
+ * Defines values for BlobIndexerDataToExtract.
+ * Possible values include: 'StorageMetadata', 'AllMetadata', 'ContentAndMetadata'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerDataToExtract = 'storageMetadata' | 'allMetadata' | 'contentAndMetadata';
+
+/**
+ * Defines values for BlobIndexerImageAction.
+ * Possible values include: 'None', 'GenerateNormalizedImages', 'GenerateNormalizedImagePerPage'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerImageAction = 'none' | 'generateNormalizedImages' | 'generateNormalizedImagePerPage';
+
+/**
+ * Defines values for BlobIndexerPDFTextRotationAlgorithm.
+ * Possible values include: 'None', 'DetectAngles'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerPDFTextRotationAlgorithm = 'none' | 'detectAngles';
+
+/**
+ * Defines values for IndexerExecutionEnvironment.
+ * Possible values include: 'standard', 'private'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexerExecutionEnvironment = 'standard' | 'private';
 
 /**
  * Defines values for IndexerExecutionStatus.

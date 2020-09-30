@@ -10,8 +10,14 @@ import {
   RequestPrepareOptions,
   GetTokenOptions,
   createPipelineFromOptions,
-  isNode
+  isNode,
+  OperationArguments,
+  OperationSpec,
+  RawHttpHeaders,
+  HttpHeaders
 } from "@azure/core-http";
+import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+
 import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
@@ -36,7 +42,7 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
-export class IdentityClient extends ServiceClient {
+export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
@@ -182,6 +188,36 @@ export class IdentityClient extends ServiceClient {
     } finally {
       span.end();
     }
+  }
+
+  sendGetRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
+
+    return this.sendRequest(webResource).then((response) => {
+      return {
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
+      };
+    });
+  }
+
+  sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
+
+    return this.sendRequest(webResource).then((response) => {
+      return {
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
+      };
+    });
   }
 
   static getDefaultOptions(): TokenCredentialOptions {
