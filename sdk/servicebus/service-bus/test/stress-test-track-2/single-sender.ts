@@ -1,24 +1,28 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
+import { delay } from "rhea-promise";
+import parsedArgs from "minimist";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { delay } from "rhea-promise";
 dotenv.config();
+
+interface ScenarioSimpleSendOptions {
+  testDurationInMs?: number;
+  numberOfMessagesPerSend?: number;
+  delayBetweenSendsInMs?: number;
+  totalNumberOfMessagesToSend?: number;
+}
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-// Pass in the following args to the file
-// - test duration in minutes (default = 60 min)
-// - number of messages to send in each send (default = 1)
-// - delay between sends in seconds (default = 0 seconds)
-// - total number of messages to send (default = Infinite... meaning program stops after the specified testDuration)
 
-function getCommandLineInputs() {
+function sanitizeOptions(options: ScenarioSimpleSendOptions): Required<ScenarioSimpleSendOptions> {
   return {
-    testDurationInMs: (process.argv[2] ? Number(process.argv[2]) : 60) * 60 * 1000, // Default = 60 minutes
-    numberOfMessagesPerSend: process.argv[3] ? Number(process.argv[3]) : 1,
-    delayBetweenSendsInMs: process.argv[4] ? Number(process.argv[4]) * 1000 : 0,
-    totalNumberOfMessagesToSend: process.argv[5] ? Number(process.argv[5]) : Infinity
+    testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
+    numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
+    delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
   };
 }
 
@@ -28,7 +32,7 @@ async function main() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = getCommandLineInputs();
+  } = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
 
   const stressBase = new SBStressTestsBase();
   const sbClient = new ServiceBusClient(connectionString);

@@ -1,38 +1,47 @@
-import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
+import {
+  ReceiveMode,
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
+import { delay } from "rhea-promise";
+import parsedArgs from "minimist";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { delay } from "rhea-promise";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-// Pass in the following args to the file
-// - test duration in minutes (default = 60 min)
-// - receiveMode - "peekLock" or "receiveAndDelete" (default = "peekLock")
-// - maxMessageCount per receive (default = 10)
-// - maxWaitTime per receive in seconds (default = 10 seconds)
-// - delay between receives in seconds (default = 0 seconds)
-// - number of messages to send in each send (default = 1)
-// - delay between sends in seconds (default = 0 seconds)
-// - total number of messages to send (default = Infinite... meaning program stops after the specified testDuration)
-function getCommandLineInputs() {
+interface ScenarioReceiveBatchOptions {
+  testDurationInMs?: number;
+  receiveMode?: ReceiveMode;
+  receiveBatchMaxMessageCount?: number;
+  receiveBatchMaxWaitTimeInMs?: number;
+  delayBetweenReceivesInMs?: number;
+  numberOfMessagesPerSend?: number;
+  delayBetweenSendsInMs?: number;
+  totalNumberOfMessagesToSend?: number;
+}
+
+function sanitizeOptions(
+  options: ScenarioReceiveBatchOptions
+): Required<ScenarioReceiveBatchOptions> {
   return {
-    testDurationInMs: (process.argv[2] ? Number(process.argv[2]) : 60) * 60 * 1000, // Default = 60 minutes
-    receiveMode: (process.argv[3] ? process.argv[3] : "peekLock") as
-      | "receiveAndDelete"
-      | "peekLock",
-    receiveBatchMaxMessageCount: process.argv[4] ? Number(process.argv[4]) : 10,
-    receiveBatchMaxWaitTimeInMs: process.argv[5] ? Number(process.argv[5]) * 1000 : 10000,
-    delayBetweenReceivesInMs: process.argv[6] ? Number(process.argv[6]) * 1000 : 0,
-    numberOfMessagesPerSend: process.argv[7] ? Number(process.argv[7]) : 1,
-    delayBetweenSendsInMs: process.argv[8] ? Number(process.argv[8]) * 1000 : 0,
-    totalNumberOfMessagesToSend: process.argv[9] ? Number(process.argv[9]) : Infinity
+    testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
+    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
+    receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
+    receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
+    delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
+    numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
+    delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
   };
 }
 
-export async function main() {
+export async function scenarioReceiveBatch() {
   const {
     testDurationInMs,
     receiveMode,
@@ -41,7 +50,8 @@ export async function main() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = getCommandLineInputs();
+  } = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
+
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase();
@@ -49,7 +59,15 @@ export async function main() {
 
   await stressBase.init();
   const sender = sbClient.createSender(stressBase.queueName);
-  const receiver = sbClient.createReceiver(stressBase.queueName, {});
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+
+  if (receiveMode === "receiveAndDelete") {
+    receiver = sbClient.createReceiver(stressBase.queueName, {
+      receiveMode: "receiveAndDelete"
+    });
+  } else {
+    receiver = sbClient.createReceiver(stressBase.queueName);
+  }
 
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -78,6 +96,6 @@ export async function main() {
   await stressBase.end();
 }
 
-main().catch((err) => {
+scenarioReceiveBatch().catch((err) => {
   console.log("Error occurred: ", err);
 });

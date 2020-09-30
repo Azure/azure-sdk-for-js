@@ -10,14 +10,26 @@ Before running the code,
 
 Here are the scenarios being covered and how you can run them.
 
-1. Single sender keeps sending messages in series.
+1. Single sender that keeps sending messages in series.
    `ts-node single-sender.ts` (runs with defaults)
-   `ts-node single-sender.ts 1 100 0.1 10000`
-   Command-line arguments in order
+   `ts-node single-sender.ts --numberOfMessagesPerSend=100 delayBetweenSendsInMs=50`(with flags)
+   Flags that can be set
 
-   - test duration in minutes (default = 60 min)
-   - number of messages to send in each send (default = 1)
-   - delay between sends in seconds (default = 0 seconds)
-   - total number of messages to send (default = Infinite... meaning program stops after the specified testDuration)
+   - testDurationInMs (default = 3600000) // 60 minutes
+   - numberOfMessagesPerSend (default = 1)
+   - delayBetweenSendsInMs (default = 0)
+   - totalNumberOfMessagesToSend (default = Infinity)
 
-2.
+2. Batch receive with a streaming sender
+   `ts-node single-sender-single-receiver.ts` (runs with defaults)
+   `ts-node single-sender-single-receiver.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   Flags that can be set
+
+   - testDurationInMs (default = 3600000) // 1hr
+   - receiveMode (default = "peekLock")
+   - receiveBatchMaxMessageCount (default = 10)
+   - receiveBatchMaxWaitTimeInMs (default = 10000)
+   - delayBetweenReceivesInMs (default = 0)
+   - numberOfMessagesPerSend (default = 1)
+   - delayBetweenSendsInMs (default = 0)
+   - totalNumberOfMessagesToSend (default = Infinity)
