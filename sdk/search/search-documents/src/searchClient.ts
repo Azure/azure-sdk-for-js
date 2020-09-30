@@ -620,7 +620,7 @@ export class SearchClient<T> {
 
   /**
    * Gets an instance of SearchIndexingBufferedSender.
-   * 
+   *
    * @param options SearchIndexingBufferedSender Options
    */
 
