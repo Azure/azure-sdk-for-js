@@ -198,7 +198,7 @@ export class SBStressTestsBase {
       } catch (error) {
         this.sessionLockRenewalInfo.numberOfFailedLockRenewals++;
         this.sessionLockRenewalInfo.errorsInLockRenewal.push(error);
-        console.error("Error in message lock renewal: ", error);
+        console.error("Error in session lock renewal: ", error);
       }
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
   }
