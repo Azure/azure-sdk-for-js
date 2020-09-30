@@ -47,6 +47,7 @@ parameters:
 jobs:
 - job: 'NPM_Admin_Job'
   displayName: NPM package management
+  environment: npmadmin
 
   pool:
     vmImage: 'windows-2019'
