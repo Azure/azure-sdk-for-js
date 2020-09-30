@@ -46,7 +46,9 @@ export async function main() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase();
+  const stressBase = new SBStressTestsBase({
+    snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
+  });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init();

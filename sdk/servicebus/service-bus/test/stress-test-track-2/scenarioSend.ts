@@ -34,7 +34,7 @@ async function main() {
     totalNumberOfMessagesToSend
   } = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
 
-  const stressBase = new SBStressTestsBase();
+  const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info"] });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init();

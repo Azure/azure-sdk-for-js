@@ -55,7 +55,7 @@ export async function scenarioReceiveBatch() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase();
+  const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info", "receive-info"] });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init();

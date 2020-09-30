@@ -32,15 +32,21 @@ interface LockRenewalInfo {
    */
   renewalCount: { [key: string]: number };
 }
-
-// TODO: Add readme describing the scenarios and the commands to run the specific scenario
-// (along with the args to pass in for the sample/program)
+interface SnapshotOptions {
+  snapshotFocus?: (
+    | "send-info"
+    | "receive-info"
+    | "message-lock-renewal-info"
+    | "session-lock-renewal-info"
+  )[];
+  snapshotIntervalInMs?: number;
+}
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
   messagesReceived: ServiceBusMessage[] = [];
   snapshotTimer: NodeJS.Timer;
   startedAt!: Date;
-  // TODO: Take snapshot options from the sample to customize logging
+
   // Send metrics
   sendInfo: SendInfo = {
     numberOfSuccessfulSends: 0,
@@ -76,14 +82,24 @@ export class SBStressTestsBase {
   queueName!: string;
 
   constructor(
-    snapshotIntervalInMs = 5000 //Snapshots are taken every 5s
+    private snapshotOptions: SnapshotOptions = {
+      snapshotIntervalInMs: 5000 //Snapshots are taken every 5s
+    }
   ) {
-    // TODO: Add snapshot logging options - opt-in for only the info that you're looking for-
-    //       "send-info", "receive-info", "message-lock-info", etc
-    // TODO: snapshot options - grouping
+    if (!this.snapshotOptions.snapshotFocus) {
+      this.snapshotOptions.snapshotFocus = [
+        "send-info",
+        "receive-info",
+        "message-lock-renewal-info",
+        "session-lock-renewal-info"
+      ];
+    }
     this.startedAt = new Date();
     this.messagesSent = [];
-    this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
+    this.snapshotTimer = setInterval(
+      this.snapshot.bind(this),
+      snapshotOptions.snapshotIntervalInMs
+    );
   }
 
   public async init(queueNamePrefix?: string, options?: CreateQueueOptions | undefined) {
@@ -211,46 +227,55 @@ export class SBStressTestsBase {
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
     console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
     console.log("Number of messages sent so far : ", this.messagesSent.length);
-    console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccessfulSends);
-    console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailedSends);
-    console.log(
-      "(Avg)Number of sends per sec: ",
-      this.sendInfo.numberOfSuccessfulSends / elapsedTimeInSeconds
-    );
     console.log("Number of messages received so far : ", this.messagesReceived.length);
-    console.log(
-      "Number of successful receives so far : ",
-      this.receiveInfo.numberOfSuccessfulReceives
-    );
-    console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailedReceives);
-    console.log(
-      "(Avg)Number of receives per sec: ",
-      this.receiveInfo.numberOfSuccessfulReceives / elapsedTimeInSeconds
-    );
-    console.log(
-      "Number of successful message lock renewals so far : ",
-      this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals
-    );
-    console.log(
-      "Number of failed message lock renewals so far : ",
-      this.messageLockRenewalInfo.numberOfFailedLockRenewals
-    );
-    console.log(
-      "(Avg)Number of message lock renewals per sec: ",
-      this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
-    );
-    console.log(
-      "Number of successful session lock renewals so far : ",
-      this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals
-    );
-    console.log(
-      "Number of failed session lock renewals so far : ",
-      this.sessionLockRenewalInfo.numberOfFailedLockRenewals
-    );
-    console.log(
-      "(Avg)Number of session lock renewals per sec: ",
-      this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
-    );
+
+    if (this.snapshotOptions.snapshotFocus.includes("send-info")) {
+      console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccessfulSends);
+      console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailedSends);
+      console.log(
+        "(Avg)Number of sends per sec: ",
+        this.sendInfo.numberOfSuccessfulSends / elapsedTimeInSeconds
+      );
+    }
+    if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
+      console.log(
+        "Number of successful receives so far : ",
+        this.receiveInfo.numberOfSuccessfulReceives
+      );
+      console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailedReceives);
+      console.log(
+        "(Avg)Number of receives per sec: ",
+        this.receiveInfo.numberOfSuccessfulReceives / elapsedTimeInSeconds
+      );
+    }
+    if (this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")) {
+      console.log(
+        "Number of successful message lock renewals so far : ",
+        this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals
+      );
+      console.log(
+        "Number of failed message lock renewals so far : ",
+        this.messageLockRenewalInfo.numberOfFailedLockRenewals
+      );
+      console.log(
+        "(Avg)Number of message lock renewals per sec: ",
+        this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
+      );
+    }
+    if (this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")) {
+      console.log(
+        "Number of successful session lock renewals so far : ",
+        this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals
+      );
+      console.log(
+        "Number of failed session lock renewals so far : ",
+        this.sessionLockRenewalInfo.numberOfFailedLockRenewals
+      );
+      console.log(
+        "(Avg)Number of session lock renewals per sec: ",
+        this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
+      );
+    }
     console.log("\n");
   }
 

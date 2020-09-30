@@ -50,7 +50,9 @@ export async function scenarioRenewSessionLock() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase();
+  const stressBase = new SBStressTestsBase({
+    snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"]
+  });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init(undefined, { requiresSession: true });
