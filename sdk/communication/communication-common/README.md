@@ -73,7 +73,7 @@ const userCredential = new AzureCommunicationUserCredential({
 
 ## Next steps
 
-- [Read more about Communication user access tokens](https://review.docs.microsoft.com/azure/project-spool/concepts/authentication?branch=pr-en-us-104477&tabs=javascript)
+- [Read more about Communication user access tokens](https://docs.microsoft.com/azure/communication-services/concepts/authentication?tabs=javascript)
 
 ## Contributing
 
