@@ -7,7 +7,7 @@ import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage
 import { logError } from "../util/errors";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { LinkEntity } from "./linkEntity";
-import { ReceiveOptions } from "./messageReceiver";
+import { OnError, ReceiveOptions } from "./messageReceiver";
 
 /**
  * @internal
@@ -98,7 +98,7 @@ export class AutoLockRenewer {
    *
    * @param bMessage The message whose lock renewal we will start.
    */
-  start(bMessage: RenewableMessageProperties) {
+  start(bMessage: RenewableMessageProperties, onError: OnError) {
     const logPrefix = this._linkEntity.logPrefix;
 
     if (bMessage.lockToken == null) {
@@ -166,7 +166,7 @@ export class AutoLockRenewer {
                   err,
                   `${logPrefix} An error occured while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
                 );
-                throw err;
+                onError(err);
               }
             }, amount)
           );

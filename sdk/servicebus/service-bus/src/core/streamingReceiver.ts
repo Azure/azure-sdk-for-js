@@ -258,7 +258,11 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode
       );
 
-      this._autolockRenewer?.start(bMessage);
+      this._autolockRenewer?.start(bMessage, (err) => {
+        if (this._onError) {
+          this._onError(err);
+        }
+      });
 
       try {
         await this._onMessage(bMessage);
