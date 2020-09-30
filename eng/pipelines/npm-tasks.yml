@@ -45,7 +45,7 @@ parameters:
     default: ''
 
 jobs:
-- job: 'NPM_Admin_Job'
+- deployment: 'NPM_Admin_Job'
   displayName: NPM package management
   environment: npmadmin
 
