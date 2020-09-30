@@ -24,14 +24,42 @@ const RETRY_COUNT: number = 3;
  * including adding, updating, and removing them.
  */
 export class SearchIndexingBufferedSender<T> {
+  /**
+   * Search Client used to call the underlying IndexBatch operations.
+   */
   private client: SearchClient<T>;
+  /**
+   * Indicates if autoFlush is enabled.
+   */
   private autoFlush: boolean;
+  /**
+   * Interval between flushes (in milliseconds).
+   */
   private flushWindowInMs: number;
+  /**
+   * Size of the batch.
+   */
   private batchSize: number;
+  /**
+   * Batch object used to complete the service call.
+   */
   private batchObject: IndexDocumentsBatch<T>;
+  /**
+   * Clean up for the timer 
+   */
   private cleanupTimer?: () => void;
+  /**
+   * Event emitter/publisher used in the Buffered Sender
+   */
   private readonly emitter = new EventEmitter();
 
+  /**
+   * Creates a new instance of SearchIndexingBufferedSender.
+   * 
+   * @param client Search Client used to call the underlying IndexBatch operations.
+   * @param options Options to modify batch size, auto flush and flush window.
+   * 
+   */
   constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
     this.autoFlush = options.autoFlush ?? false;
@@ -47,6 +75,12 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
+  /**
+   * Uploads the documents/Adds the documents to the upload queue.
+   * 
+   * @param documents Documents to be uploaded.
+   * @param options Upload options.
+   */
   public async uploadDocuments(
     documents: T[],
     options: SearchIndexingBufferedSenderUploadDocumentsOptions = {}
@@ -73,6 +107,12 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
+  /**
+   * Merges the documents/Adds the documents to the merge queue.
+   * 
+   * @param documents Documents to be merged.
+   * @param options Upload options.
+   */
   public async mergeDocuments(
     documents: T[],
     options: SearchIndexingBufferedSenderMergeDocumentsOptions = {}
@@ -99,6 +139,12 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
+  /**
+   * Merges/Uploads the documents/Adds the documents to the merge/upload queue.
+   * 
+   * @param documents Documents to be merged/uploaded.
+   * @param options Upload options.
+   */
   public async mergeOrUploadDocuments(
     documents: T[],
     options: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = {}
@@ -125,6 +171,12 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
+  /**
+   * Deletes the documents/Adds the documents to the delete queue.
+   * 
+   * @param documents Documents to be deleted.
+   * @param options Upload options.
+   */
   public async deleteDocuments(
     documents: T[],
     options: SearchIndexingBufferedSenderDeleteDocumentsOptions = {}
@@ -151,11 +203,16 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
+  /**
+   * Flushes the queue manually.
+   * 
+   * @param options Flush options.
+   */
   public async flush(
     options: SearchIndexingBufferedSenderFlushDocumentsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexingBufferedSender-deleteDocuments",
+      "SearchIndexingBufferedSender-flush",
       options
     );
     try {
@@ -180,19 +237,70 @@ export class SearchIndexingBufferedSender<T> {
     this.cleanupTimer && this.cleanupTimer();
   }
 
-  public on(event: "batchAdded", listener: (e: IndexDocumentsResult) => void): void;
+  /**
+   * Attach Batch Added Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
+  public on(event: "batchAdded", listener: (e: {action: string, documents: T[]}) => void): void;
+  /**
+   * Attach Batch Sent Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
+  public on(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+  /**
+   * Attach Batch Succeeded Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
   public on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+  /**
+   * Attach Batch Failed Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
   public on(event: "batchFailed", listener: (e: RestError) => void): void;
   public on(
-    event: "batchAdded" | "batchSucceeded" | "batchFailed",
+    event: "batchAdded" | "batchSent" | "batchSucceeded" | "batchFailed",
     listener: (e: any) => void
   ): void {
     this.emitter.on(event, listener);
   }
 
+  /**
+   * Detach Batch Added Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
+  public off(event: "batchAdded", listener: (e: {action: string, documents: T[]}) => void): void;
+  /**
+   * Detach Batch Sent Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
+  public off(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+  /**
+   * Detach Batch Succeeded Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
   public off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+  /**
+   * Detach Batch Failed Event
+   * 
+   * @param event Event to be emitted
+   * @param listener Event Listener
+   */
   public off(event: "batchFailed", listener: (e: RestError) => void): void;
-  public off(event: "batchSucceeded" | "batchFailed", listener: (e: any) => void): void {
+  public off(event: "batchAdded" | "batchSent" | "batchSucceeded" | "batchFailed", listener: (e: any) => void): void {
     this.emitter.removeListener(event, listener);
   }
 
@@ -218,6 +326,7 @@ export class SearchIndexingBufferedSender<T> {
     retryAttempt: number = 0
   ): Promise<void> {
     try {
+      this.emitter.emit("batchSent", actionsToSend);
       const result = await this.client.indexDocuments(
         new IndexDocumentsBatch<T>(actionsToSend),
         options
