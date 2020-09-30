@@ -13,9 +13,9 @@ urlFragment: communication-sms-javascript
 
 This sample program shows how to use the JavaScript client libraries for Azure Communication Service SMS to send SMS messages.
 
-| **File Name**                | **Description**                           |
-| ---------------------------- | ----------------------------------------- |
-| [sendSms.js]<!--[sendsms]--> | uses the SmsClient to send an SMS message |
+| **File Name**         | **Description**                           |
+| --------------------- | ----------------------------------------- |
+| [sendSms.js][sendsms] | uses the SmsClient to send an SMS message |
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ The sample is compatible with Node.js >= 8.0.0.
 
 You need [an Azure subscription][freesub] and [an Azure Communication Service Instance][azcomsvc] to run these sample program.
 
-Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README]<!--[package]-->.
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
 ## Setup
 
@@ -51,15 +51,10 @@ npx cross-env CONNECTION_STRING="<connection string>" node sendSms.js
 
 ## Next Steps
 
-Take a look at our [API Documentation]<!--[apiref]--> for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/javascript/sendSms.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-sms
-[azcomsvc]: https://docs.microsoft.com/azure
+[azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/README.md
-
-## ! TODO
-
-- Get correct url for azcomsvc
-- Uncomment urls when merged and apirefs available

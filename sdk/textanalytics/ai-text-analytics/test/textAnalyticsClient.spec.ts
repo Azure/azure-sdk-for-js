@@ -185,7 +185,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
           assert.equal(aspect.offset, 32);
-          assert.equal(aspect.length, 6);
+          assert.equal(aspect.text.length, 6);
 
           const sleekOpinion = opinion.opinions[0];
           assert.equal("sleek", sleekOpinion.text);
@@ -194,7 +194,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
           assert.equal(sleekOpinion.offset, 9);
-          assert.equal(sleekOpinion.length, 5);
+          assert.equal(sleekOpinion.text.length, 5);
 
           const premiumOpinion = opinion.opinions[1];
           assert.equal("premium", premiumOpinion.text);
@@ -203,7 +203,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
           assert.equal(premiumOpinion.offset, 15);
-          assert.equal(premiumOpinion.length, 7);
+          assert.equal(premiumOpinion.text.length, 7);
         })
       );
     });
@@ -679,7 +679,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -689,7 +689,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 10);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -699,7 +699,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 17);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -709,7 +709,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 25);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -719,7 +719,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 9);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -729,7 +729,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 10);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -739,7 +739,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -749,7 +749,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
 
@@ -759,7 +759,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 121);
-        assert.equal(result.entities[0].length, 11);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
   });

@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "23fbbcf7b6740f9ed2b8b343f3ced079";
+module.exports.hash = "dcce0b7a95010d0214a1ad01f870f73b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .put('/datasources(%27my-data-source-3%27)', {"name":"my-data-source-3","type":"cosmosdb","credentials":{"connectionString":"AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData"},"container":{"name":"hotels"}})
   .query(true)
-  .reply(201, {"@odata.context":"https://endpoint/$metadata#datasources/$entity","@odata.etag":"\"0x8D8495D20C29594\"","name":"my-data-source-3","description":null,"type":"cosmosdb","subtype":null,"credentials":{"connectionString":null},"container":{"name":"hotels","query":null},"dataChangeDetectionPolicy":null,"dataDeletionDetectionPolicy":null,"encryptionKey":null}, [ 'Cache-Control',
+  .reply(201, {"@odata.context":"https://endpoint/$metadata#datasources/$entity","@odata.etag":"\"0x8D86247F2BA65D4\"","name":"my-data-source-3","description":null,"type":"cosmosdb","subtype":null,"credentials":{"connectionString":null},"container":{"name":"hotels","query":null},"dataChangeDetectionPolicy":null,"dataDeletionDetectionPolicy":null,"encryptionKey":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -16,13 +16,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8495D20C29594"',
+  'W/"0x8D86247F2BA65D4"',
   'Location',
   'https://endpoint/datasources(\'my-data-source-3\')?api-version=2020-06-30',
   'request-id',
-  '4bbd4463-9dfd-4cd1-89f5-3864fd03c504',
+  'e42f0a91-7ddc-4c5a-a954-1aa9868497fb',
   'elapsed-time',
-  '44',
+  '64',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,14 +30,14 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:12:40 GMT',
+  'Sat, 26 Sep 2020 18:14:02 GMT',
   'Content-Length',
   '381' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/datasources(%27my-data-source-3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fcd354eb7a9a37777fb77cd916edf54723039b1a5d10e0dff7a39d77074f0ff61fde7fbab773b2f7f0fec3fddff7236ab5cc16397dbdb8de46eb6d01b37d8fbe99e5cdb42e566d512d3f7ab45c97e5e8a3f67a85c6d3aa5954cd6c428d9af5443e9406d33a9f0181ac6c3e7af48ba9e172994f01e1755b174bc203cd7e09b5a30167c532afd14a5198576d4eaf8d3efa45ebbcbeb64d81d6c93c5b5ee44ff35680bdacca62aa2da4c1d3bcccf1cd40937c39adaf7924bf57ae1ffe92ff077b9a690b7d010000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fcd354eb7a9a37777fb77cd916edf54723039b1a5d10e0dff7a39d77074f0f3edddb7ff06cefc9f1a7f79feeffbe1f51ab65b6c8e9ebc5f5365a6f0b98ed7bf4cd2c6fa675b16a8b6af9d1a3e5ba2c471fb5d72b349e56cda26a66136ad4ac27f2a13498d6f90c086465f3d1a35f4c0d97cb7c0a08afdbba58121e68f64ba81d0d382b96798d568ac2bc6a737a6df4d12f5ae7f5b56d0ab44ee6d9f2227f9ab702ec655516536d210d9ee6658e6f069ae4cb697dcd23f9bd72fdf097fc3fc08b16c57d010000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -48,13 +48,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8495D20C29594"',
+  'W/"0x8D86247F2BA65D4"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'ab45456a-2c22-4c79-b9a8-08031a7c8663',
+  'ea744781-f187-4a43-8f47-b72c96487d5a',
   'elapsed-time',
-  '24',
+  '29',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -62,7 +62,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:12:40 GMT',
+  'Sat, 26 Sep 2020 18:14:02 GMT',
   'Content-Length',
   '367' ]);
 
@@ -76,10 +76,10 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'a255060f-eb41-4760-acf4-c24b7f1fa33b',
+  'ec3b5856-ae32-4b76-8f35-fc4347e3ebdf',
   'elapsed-time',
-  '26',
+  '17',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:12:40 GMT' ]);
+  'Sat, 26 Sep 2020 18:14:02 GMT' ]);

@@ -12,6 +12,7 @@ export {
   FieldMappingFunction,
   IndexerExecutionResult,
   IndexingParameters,
+  IndexingParametersConfiguration,
   IndexingSchedule,
   ListIndexersResult,
   SearchError,

@@ -51,7 +51,7 @@ describe("dead lettering", () => {
       })
     );
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -198,7 +198,7 @@ describe("abandoning", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -321,7 +321,7 @@ describe("deferring", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
