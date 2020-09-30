@@ -31,7 +31,7 @@ export class TestMessage {
     };
   }
 
-  static getSessionSample(): ServiceBusMessage {
+  static getSessionSample(): ServiceBusMessage & Required<Pick<ServiceBusMessage, "sessionId">> {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,

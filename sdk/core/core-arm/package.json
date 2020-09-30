@@ -81,7 +81,6 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "echo skipped",
     "lint": "echo skipped",
-    "lint:terminal": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts",
     "test:browser": "npm run build && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build && npm run unit-test && npm run integration-test",

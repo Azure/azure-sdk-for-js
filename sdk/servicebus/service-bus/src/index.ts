@@ -19,7 +19,7 @@ export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
   CreateReceiverOptions,
-  CreateSessionReceiverOptions,
+  AcceptSessionOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlerOptionsBase,

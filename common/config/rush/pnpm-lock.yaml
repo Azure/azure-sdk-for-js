@@ -256,23 +256,23 @@ packages:
     dev: false
     resolution:
       integrity: sha512-aFHRw/IHhg3I9ZJW+Va4L+sCirFHMVIu6B7lFdL5mGLfG3xC5vDIdd957LRXFgy2OiKFRUC0QaKknd0YCsQIqA==
-  /@azure/msal-common/1.2.0:
+  /@azure/msal-common/1.4.0:
     dependencies:
       debug: 4.1.1
     dev: false
     engines:
       node: '>=0.8.0'
     resolution:
-      integrity: sha512-5MjxcUoalIxGo29MBHCdwMo6HCsCBt25HDkg+Du7x6nG7Y3NAUb9jM8oibLTth9iIRDaWYVvLfxnpXTKwBGs+A==
-  /@azure/msal-node/1.0.0-alpha.5:
+      integrity: sha512-Z0zZc0nDkym/usNugB0BYDGyX5ymwlRXJJT0xfpE921H8/lHDzBfrO/NVw0lljH3Ex5CVE+PpdAGahQQ4zWzKQ==
+  /@azure/msal-node/1.0.0-alpha.8:
     dependencies:
-      '@azure/msal-common': 1.2.0
+      '@azure/msal-common': 1.4.0
       axios: 0.19.2
       debug: 4.1.1
       jsonwebtoken: 8.5.1
     dev: false
     resolution:
-      integrity: sha512-DkoEmnGy+PF5UZbViuLrO8qJVKRBftIojEP3xf8ck6q/vjOY18NUGXxrcKkRXfhRmTe4P2mRGCFuiil8+12IbA==
+      integrity: sha512-iUPcvTPXTntKMPJ0UgKmLRYpv/buFMgpo6RRvXEN0gkz48hix8WQl6g2/9Y1z0bnjvk01rIeJzZgv3VvtKydvQ==
   /@azure/schema-registry/1.0.0-beta.1:
     dependencies:
       '@azure/core-http': 1.1.8
@@ -10415,7 +10415,8 @@ packages:
   'file:projects/identity.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
-      '@azure/msal-node': 1.0.0-alpha.5
+      '@azure/msal-common': 1.4.0
+      '@azure/msal-node': 1.0.0-alpha.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -10470,7 +10471,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-p2S2EGVa4KNgoTYoBYBKogF8arkQ843Rybs+dy6lLxootEKXWKE3N5q0gRP5FXuXvigpQKt3IE1jVqx3UuddoQ==
+      integrity: sha512-AXu7sk6kiFIEUv/K3u6e9AECU1L1qChu+Hi+rm4DrF6KRmZ9L8KJOGeUmAvvk/Wl7hLwZg9l1nZiA1Q4A9vDyw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':

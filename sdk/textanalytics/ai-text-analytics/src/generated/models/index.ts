@@ -95,10 +95,6 @@ export interface Entity {
    */
   offset: number;
   /**
-   * Length for the entity text.
-   */
-  length: number;
-  /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
   confidenceScore: number;
@@ -348,10 +344,6 @@ export interface Match {
    * Start position for the entity match text.
    */
   offset: number;
-  /**
-   * Length for the entity match text.
-   */
-  length: number;
 }
 
 export interface KeyPhraseResult {
@@ -540,10 +532,6 @@ export interface SentenceSentiment {
    */
   offset: number;
   /**
-   * The length of the sentence.
-   */
-  length: number;
-  /**
    * The array of aspect object for the sentence.
    */
   aspects?: SentenceAspect[];
@@ -566,10 +554,6 @@ export interface SentenceAspect {
    * The aspect offset from the start of the sentence.
    */
   offset: number;
-  /**
-   * The length of the aspect.
-   */
-  length: number;
   /**
    * The aspect text detected.
    */
@@ -612,10 +596,6 @@ export interface SentenceOpinion {
    * The opinion offset from the start of the sentence.
    */
   offset: number;
-  /**
-   * The length of the opinion.
-   */
-  length: number;
   /**
    * The aspect text detected.
    */

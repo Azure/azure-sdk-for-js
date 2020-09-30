@@ -33,7 +33,7 @@ describe("Message Lock Renewal", () => {
 
   beforeEach(async () => {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -339,7 +339,7 @@ describe("Message Lock Renewal", () => {
       // Clean up any left over messages
       await receiver.close();
 
-      receiver = await serviceBusClient.test.getPeekLockReceiver(
+      receiver = await serviceBusClient.test.createPeekLockReceiver(
         await serviceBusClient.test.createTestEntities(testClientType)
       );
 

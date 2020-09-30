@@ -50,25 +50,24 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+    function prepareMessages(): ServiceBusMessage[] {
       const messagesToSend: ServiceBusMessage[] = [];
       for (let i = 0; i < 1000; i++) {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession` : undefined
+          sessionId: entityNames.usesSessions ? `someSession` : undefined
         });
       }
       return messagesToSend;
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await sender.createBatch({ maxSizeInBytes });
 
@@ -82,21 +81,17 @@ describe("Send Batch", () => {
       }
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await testSendBatch(false);
+      await testSendBatch();
     });
 
     it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await testSendBatch(true);
+      await testSendBatch();
     });
   });
 
@@ -119,12 +114,11 @@ describe("Send Batch", () => {
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await sender.createBatch({ maxSizeInBytes });
 
@@ -138,11 +132,7 @@ describe("Send Batch", () => {
       }
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     // Not allowed for partitioned entities
@@ -160,12 +150,12 @@ describe("Send Batch", () => {
 
     it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
+      await testSendBatch();
     });
 
     it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
+      await testSendBatch();
     });
   });
 
@@ -174,33 +164,32 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+    function prepareMessages(): ServiceBusMessage[] {
       const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-2`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-3`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       return messagesToSend;
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await sender.createBatch({ maxSizeInBytes });
 
@@ -214,21 +203,17 @@ describe("Send Batch", () => {
       }
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await testSendBatch(false);
+      await testSendBatch();
     });
 
     it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await testSendBatch(true);
+      await testSendBatch();
     });
   });
 
@@ -247,9 +232,9 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(useSessions: boolean): Promise<void> {
+    async function testSendBatch(): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await sender.createBatch();
 
@@ -263,21 +248,17 @@ describe("Send Batch", () => {
       }
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await testSendBatch(false);
+      await testSendBatch();
     });
 
     it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await testSendBatch(true);
+      await testSendBatch();
     });
   });
 
@@ -331,11 +312,7 @@ describe("Send Batch", () => {
       }
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
@@ -380,12 +357,11 @@ describe("Send Batch", () => {
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const batchMessage = await sender.createBatch({ maxSizeInBytes });
 
       should.equal(
@@ -410,19 +386,17 @@ describe("Send Batch", () => {
       );
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, useSessions, [
-        messagesToSend[0]
-      ]);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, [messagesToSend[0]]);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await testSendBatch(false, 5000);
+      await testSendBatch(5000);
     });
 
     it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await testSendBatch(true, 5000);
+      await testSendBatch(5000);
     });
   });
 
@@ -498,6 +472,6 @@ describe("Send Batch", () => {
     }
 
     await sender.sendMessages(batch);
-    await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, false, messagesToSend);
+    await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
   });
 });
