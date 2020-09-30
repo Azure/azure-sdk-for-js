@@ -1,4 +1,5 @@
 import {
+  CreateQueueOptions,
   ServiceBusAdministrationClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
@@ -85,10 +86,10 @@ export class SBStressTestsBase {
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
   }
 
-  public async init() {
-    // TODO(stretch - low priority): arguments for init - name-prefix and CreateQueueOptions
-    this.queueName = `unpartitioned-queue-${Math.ceil(Math.random() * 100000)}`;
-    await this.serviceBusAdministrationClient.createQueue(this.queueName);
+  public async init(queueNamePrefix?: string, options?: CreateQueueOptions | undefined) {
+    this.queueName =
+      (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
+    await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
   }
 
   public async sendMessages(
