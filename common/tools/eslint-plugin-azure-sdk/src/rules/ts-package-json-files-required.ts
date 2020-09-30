@@ -24,11 +24,10 @@ function addRequiredPattern(pattern: string, suggestion?: string): void {
  * patterns that should not be in package.json's files list and requiredPatterns
  * is the list of patterns that should be.
  */
-const badPatterns: string[] = ["src"];
-let requiredPatterns: string[];
+const badPatterns = ["src"];
 addRequiredPattern("dist");
 addRequiredPattern("dist-esm", "src");
-requiredPatterns = Array.from(requiredPatternSuggestionMap.keys());
+const requiredPatterns = Array.from(requiredPatternSuggestionMap.keys());
 
 export = {
   meta: getRuleMetaData(
