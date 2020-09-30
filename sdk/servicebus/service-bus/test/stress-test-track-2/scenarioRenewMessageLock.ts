@@ -1,11 +1,5 @@
-import {
-  ReceiveMode,
-  ServiceBusClient,
-  ServiceBusReceivedMessage,
-  ServiceBusReceiver
-} from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
-import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
 
 // Load the .env file if it exists
@@ -15,9 +9,8 @@ dotenv.config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-interface ScenarioReceiveBatchOptions {
+interface ScenarioRenewMessageLockOptions {
   testDurationInMs?: number;
-  receiveMode?: ReceiveMode;
   receiveBatchMaxMessageCount?: number;
   receiveBatchMaxWaitTimeInMs?: number;
   delayBetweenReceivesInMs?: number;
@@ -27,11 +20,10 @@ interface ScenarioReceiveBatchOptions {
 }
 
 function sanitizeOptions(
-  options: ScenarioReceiveBatchOptions
-): Required<ScenarioReceiveBatchOptions> {
+  options: ScenarioRenewMessageLockOptions
+): Required<ScenarioRenewMessageLockOptions> {
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
-    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
@@ -41,17 +33,16 @@ function sanitizeOptions(
   };
 }
 
-export async function scenarioReceiveBatch() {
+export async function main() {
   const {
     testDurationInMs,
-    receiveMode,
     receiveBatchMaxMessageCount,
     receiveBatchMaxWaitTimeInMs,
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
+  } = sanitizeOptions(parsedArgs<ScenarioRenewMessageLockOptions>(process.argv));
 
   const startedAt = new Date();
 
@@ -60,15 +51,7 @@ export async function scenarioReceiveBatch() {
 
   await stressBase.init();
   const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
-
-  if (receiveMode === "receiveAndDelete") {
-    receiver = sbClient.createReceiver(stressBase.queueName, {
-      receiveMode: "receiveAndDelete"
-    });
-  } else {
-    receiver = sbClient.createReceiver(stressBase.queueName);
-  }
+  const receiver = sbClient.createReceiver(stressBase.queueName, { receiveMode: "peekLock" });
 
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -85,12 +68,13 @@ export async function scenarioReceiveBatch() {
   async function receiveMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (elapsedTime < testDurationInMs) {
-      await stressBase.receiveMessages(
+      const messages = await stressBase.receiveMessages(
         receiver,
         receiveBatchMaxMessageCount,
         receiveBatchMaxWaitTimeInMs
       );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      messages.map((msg) => stressBase.renewMessageLockUntil(msg, testDurationInMs - elapsedTime));
       await delay(delayBetweenReceivesInMs);
     }
   }
@@ -101,6 +85,6 @@ export async function scenarioReceiveBatch() {
   await stressBase.end();
 }
 
-scenarioReceiveBatch().catch((err) => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
