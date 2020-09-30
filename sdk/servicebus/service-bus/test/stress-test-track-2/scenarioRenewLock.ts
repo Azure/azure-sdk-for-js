@@ -1,5 +1,6 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
