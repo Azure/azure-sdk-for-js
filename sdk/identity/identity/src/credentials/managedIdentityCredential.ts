@@ -216,9 +216,11 @@ export class ManagedIdentityCredential implements TokenCredential {
         if (
           (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
-          err.code === "ECONNREFUSED"
+          err.code === "ECONNREFUSED" || // connection refused
+          err.code === "EHOSTDOWN" // host is down
         ) {
-          // Either request failed or IMDS endpoint isn't available
+          // If the request failed, or NodeJS was unable to establish a connection,
+          // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
             code: CanonicalCode.UNAVAILABLE,
