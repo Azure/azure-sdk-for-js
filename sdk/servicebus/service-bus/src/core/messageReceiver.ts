@@ -19,6 +19,7 @@ import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 import { logError } from "../util/errors";
+import { AutoLockRenewer } from "./lockRenewer";
 
 /**
  * @internal
@@ -101,18 +102,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   autoComplete: boolean;
   /**
-   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
-   * lock will be renewed automatically. This value should be greater than the longest message
-   * lock duration; for example, the `lockDuration` property on the received message.
-   *
-   * Default: `300 * 1000` (5 minutes);
-   */
-  maxAutoRenewDurationInMs: number;
-  /**
-   * @property {boolean} autoRenewLock Should lock renewal happen automatically.
-   */
-  autoRenewLock: boolean;
-  /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
@@ -131,24 +120,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
-  /**
-   * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
-   * the lock is automatically renewed.
-   */
-  protected _messageRenewLockTimers: Map<string, NodeJS.Timer | undefined> = new Map<
-    string,
-    NodeJS.Timer | undefined
-  >();
-  /**
-   * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
-   * specific messageId.
-   */
-  protected _clearMessageLockRenewTimer: (messageId: string) => void;
-  /**
-   * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for all
-   * the active messages.
-   */
-  protected _clearAllMessageLockRenewTimers: () => void;
+  private _autolockRenewer: AutoLockRenewer | undefined;
 
   constructor(
     context: ConnectionContext,
@@ -167,12 +139,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
-        : 300 * 1000;
-    this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
+
+    this._autolockRenewer = AutoLockRenewer.create(this, this._context, options);
+
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
