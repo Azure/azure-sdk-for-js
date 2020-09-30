@@ -40,7 +40,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const spy = sinon.spy(baseHttpClient, "sendRequest");
 
     await client.configurePhoneNumberTest({
-      phoneNumber: "+18765432109",
+      phoneNumber: "+18005551234",
       callbackUrl: "https://callback/"
     });
     sinon.assert.calledOnce(spy);
@@ -64,14 +64,14 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const spy = sinon.spy(baseHttpClient, "sendRequest");
 
     await client.configurePhoneNumberTest({
-      phoneNumber: "+18765432109",
+      phoneNumber: "+18005551234",
       callbackUrl: "https://callback/"
     });
     sinon.assert.calledOnce(spy);
 
     const request = spy.getCall(0).args[0];
     const expected: NumberConfiguration = {
-      phoneNumber: "+18765432109",
+      phoneNumber: "+18005551234",
       pstnConfiguration: {
         callbackUrl: "https://callback/"
       }
@@ -83,12 +83,12 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const client = new TestPhoneNumberAdministrationClient();
     const spy = sinon.spy(baseHttpClient, "sendRequest");
 
-    await client.unconfigurePhoneNumberTest("+18765432109");
+    await client.unconfigurePhoneNumberTest("+18005551234");
     sinon.assert.calledOnce(spy);
 
     const request = spy.getCall(0).args[0];
     const expected: NumberConfigurationPhoneNumber = {
-      phoneNumber: "+18765432109"
+      phoneNumber: "+18005551234"
     };
     assert.deepEqual(JSON.parse(request.body), expected);
   });
@@ -97,7 +97,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const client = new TestPhoneNumberAdministrationClient();
     const spy = sinon.spy(phoneNumbersCapabilitiesHttpClient, "sendRequest");
     const phoneNumberCapabilitiesUpdate: PhoneNumberCapabilitiesUpdates = {
-      "+18765432109": { add: ["Calling"], remove: ["Office365"] }
+      "+18005551234": { add: ["Calling"], remove: ["Office365"] }
     };
     const response = await client.updatePhoneNumberCapabilitiesTest(phoneNumberCapabilitiesUpdate);
 
@@ -126,7 +126,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
 
   it("sends list of phone numbers in releasePhoneNumbers request", async () => {
     const client = new TestPhoneNumberAdministrationClient();
-    const phoneNumbers = ["+18765432109", "+18766789012"];
+    const phoneNumbers = ["+18005551234", "+1800555555"];
     const spy = sinon.spy(releasePhoneNumbersHttpClient, "sendRequest");
     const response = await client.releasePhoneNumbersTest(phoneNumbers);
 

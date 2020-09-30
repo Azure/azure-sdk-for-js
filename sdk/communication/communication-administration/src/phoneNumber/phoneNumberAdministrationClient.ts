@@ -71,7 +71,10 @@ import {
   GetReleaseOptions,
   ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
-  SearchOptions
+  CancelSearchOptions,
+  GetSearchOptions,
+  PurchaseSearchOptions,
+  RefreshSearchOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
@@ -379,18 +382,18 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Gets a list of the supported area codes based on location.
-   * @param searchRequest Request properties to constraint the search scope.
+   * @param request Request properties to constraint the search scope.
    * @param options Additional request options.
    */
   public async getAreaCodes(
-    searchRequest: GetAreaCodesRequest,
+    request: GetAreaCodesRequest,
     options: GetAreaCodesOptions = {}
   ): Promise<GetAreaCodesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
       options
     );
-    const { countryCode: country, locationType, phonePlanId } = searchRequest;
+    const { countryCode: country, locationType, phonePlanId } = request;
     try {
       const { _response, ...rest } = await this.client.getAllAreaCodes(
         locationType,
@@ -932,18 +935,18 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Gets the location options for a given phone plan.
-   * @param searchRequest Request properties to constraint the search scope.
+   * @param request Request properties to constraint the search scope.
    * @param options Additional request options.
    */
   public async getPhonePlanLocationOptions(
-    searchRequest: GetPhonePlanLocationOptionsRequest,
+    request: GetPhonePlanLocationOptionsRequest,
     options: GetPhonePlanLocationOptionsOptions = {}
   ): Promise<GetPhonePlanLocationOptionsResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getPhonePlanLocationOptions",
       options
     );
-    const { countryCode, phonePlanGroupId, phonePlanId } = searchRequest;
+    const { countryCode, phonePlanGroupId, phonePlanId } = request;
     try {
       const { locationOptions, _response } = await this.client.getPhonePlanLocationOptions(
         countryCode,
@@ -971,7 +974,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getSearch(
     searchId: string,
-    options: SearchOptions = {}
+    options: GetSearchOptions = {}
   ): Promise<GetSearchResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getSearch",
@@ -999,7 +1002,10 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async refreshSearch(searchId: string, options: SearchOptions = {}): Promise<VoidResponse> {
+  public async refreshSearch(
+    searchId: string,
+    options: RefreshSearchOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-refreshSearch",
       options
@@ -1026,7 +1032,10 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async cancelSearch(searchId: string, options: SearchOptions = {}): Promise<VoidResponse> {
+  public async cancelSearch(
+    searchId: string,
+    options: CancelSearchOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-cancelSearch",
       options
@@ -1055,7 +1064,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async purchaseSearch(
     searchId: string,
-    options: SearchOptions = {}
+    options: PurchaseSearchOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-purchaseSearch",

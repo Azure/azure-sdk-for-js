@@ -183,9 +183,24 @@ export type GetReleaseOptions = OperationOptions;
 export type GetPhoneNumberConfigurationOptions = OperationOptions;
 
 /**
- * Additional request option for search operations
+ * Additional request option for get search operations.
  */
-export type SearchOptions = OperationOptions;
+export type GetSearchOptions = OperationOptions;
+
+/**
+ * Additional request option for refresh search operations.
+ */
+export type RefreshSearchOptions = OperationOptions;
+
+/**
+ * Additional request option for cancel search operations.
+ */
+export type CancelSearchOptions = OperationOptions;
+
+/**
+ * Additional request option for get search operations.
+ */
+export type PurchaseSearchOptions = OperationOptions;
 
 /**
  * The capabilities update for each of a set of phone numbers.
@@ -236,7 +251,7 @@ export interface GetPhonePlanLocationOptionsRequest extends PageableLocalization
 export type GetPhonePlanLocationOptionsOptions = PageableLocalizationOptions;
 
 /**
- * Represents the response from updating the capabilities for a list of phone numbers
+ * Represents the response from updating the capabilities for a list of phone numbers.
  */
 export type UpdateNumbersCapabilitiesResponse = WithResponse<UpdateNumberCapabilitiesResponse>;
 
@@ -246,7 +261,7 @@ export type UpdateNumbersCapabilitiesResponse = WithResponse<UpdateNumberCapabil
 export type GetCapabilitiesUpdateResponse = WithResponse<UpdatePhoneNumberCapabilitiesResponse>;
 
 /**
- * Represents the response from requesting the release of a list of acquired phone numbers
+ * Represents the response from requesting the release of a list of acquired phone numbers.
  */
 export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
 
@@ -256,26 +271,26 @@ export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
 export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 
 /**
- * Represents the response from starting a search for phone numbers
+ * Represents the response from starting a search for phone numbers.
  */
 export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
 
 /**
- * Represents the response from getting a list of the supported area codes
+ * Represents the response from getting a list of the supported area codes.
  */
 export type GetAreaCodesResponse = WithResponse<AreaCodes>;
 
 /**
- * Represents the response from getting the configuration for a given number
+ * Represents the response from getting the configuration for a given number.
  */
 export type GetPhoneNumberConfigurationResponse = WithResponse<NumberConfigurationResponse>;
 
 /**
- * Represents the response from getting the location options for a given phone plan
+ * Represents the response from getting the location options for a given phone plan.
  */
 export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsResponse>;
 
 /**
- * Represents the response from getting the search associated with a given id
+ * Represents the response from getting the search associated with a given id.
  */
 export type GetSearchResponse = WithResponse<PhoneNumberSearch>;

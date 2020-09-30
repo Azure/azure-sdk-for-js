@@ -42,6 +42,9 @@ export interface AreaCodes {
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
 // @public
+export type CancelSearchOptions = OperationOptions;
+
+// @public
 export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
 
 // @public
@@ -171,6 +174,9 @@ export type GetReleaseOptions = OperationOptions;
 export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 
 // @public
+export type GetSearchOptions = OperationOptions;
+
+// @public
 export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
 
 // @public
@@ -264,23 +270,23 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
-    cancelSearch(searchId: string, options?: SearchOptions): Promise<VoidResponse>;
+    cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
-    getAreaCodes(searchRequest: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
+    getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
-    getPhonePlanLocationOptions(searchRequest: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
+    getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
     getRelease(releaseId: string, options?: GetReleaseOptions): Promise<GetReleaseResponse>;
-    getSearch(searchId: string, options?: SearchOptions): Promise<GetSearchResponse>;
+    getSearch(searchId: string, options?: GetSearchOptions): Promise<GetSearchResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
     listPhonePlans(planGroupInfo: ListPhonePlansRequest, options?: ListPhonePlansOptions): PagedAsyncIterableIterator<PhonePlan>;
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    purchaseSearch(searchId: string, options?: SearchOptions): Promise<VoidResponse>;
-    refreshSearch(searchId: string, options?: SearchOptions): Promise<VoidResponse>;
+    purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
+    refreshSearch(searchId: string, options?: RefreshSearchOptions): Promise<VoidResponse>;
     releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
@@ -469,11 +475,17 @@ export interface PstnConfiguration {
 }
 
 // @public
+export type PurchaseSearchOptions = OperationOptions;
+
+// @public
 export interface RateInformation {
     currencyType?: CurrencyType;
     monthlyRate?: number;
     rateErrorMessage?: string;
 }
+
+// @public
+export type RefreshSearchOptions = OperationOptions;
 
 // @public
 export type ReleasePhoneNumberOptions = OperationOptions;
@@ -488,9 +500,6 @@ export interface ReleaseResponse {
 
 // @public
 export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
-
-// @public
-export type SearchOptions = OperationOptions;
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
