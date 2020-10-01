@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
-export { SearchIndexingBufferedSender, DEFAULT_BATCH_SIZE, DEFAULT_FLUSH_WINDOW, DEFAULT_RETRY_COUNT } from "./searchIndexingBufferedSender";
+export {
+  SearchIndexingBufferedSender,
+  DEFAULT_BATCH_SIZE,
+  DEFAULT_FLUSH_WINDOW,
+  DEFAULT_RETRY_COUNT
+} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,

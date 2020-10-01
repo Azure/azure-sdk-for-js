@@ -338,7 +338,7 @@ export class SearchIndexingBufferedSender<T> {
     retryAttempt: number = 0
   ): Promise<void> {
     try {
-      for(const action of actionsToSend) {
+      for (const action of actionsToSend) {
         this.emitter.emit("beforeDocumentSent", action);
       }
       const result = await this.client.indexDocuments(
