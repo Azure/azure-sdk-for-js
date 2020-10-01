@@ -132,7 +132,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     receiverType: ReceiverType,
     options?: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(entityPath, context, receiverType, {
+    super(entityPath, entityPath, context, receiverType, {
       address: entityPath,
       audience: `${context.config.endpoint}${entityPath}`
     });
@@ -155,7 +155,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     handlers: ReceiverHandlers
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this.entityPath) : this.name,
+      name: useNewName ? getUniqueName(this.baseName) : this.name,
       autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,

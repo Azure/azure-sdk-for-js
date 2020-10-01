@@ -176,11 +176,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Creates a new ClientEntity instance.
    * @constructor
+   * @param baseName The base name to use for the link. A unique ID will be appended to this.
+   * @param entityPath The entity path (ex: 'your-queue')
    * @param context The connection context.
    * @param options Options that can be provided while creating the LinkEntity.
    */
   constructor(
-    public entityPath: string,
+    public readonly baseName: string,
+    public readonly entityPath: string,
     context: ConnectionContext,
     private _linkType: LinkTypeT<LinkT>,
     options?: LinkEntityOptions
@@ -189,7 +192,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.name = getUniqueName(entityPath);
+    this.name = getUniqueName(baseName);
     this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
   }
 

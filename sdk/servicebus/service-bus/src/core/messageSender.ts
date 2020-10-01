@@ -68,10 +68,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _onSessionClose: OnAmqpEvent;
   private _retryOptions: RetryOptions;
 
-  constructor(context: ConnectionContext, private _entityPath: string, retryOptions: RetryOptions) {
-    super(_entityPath, context, "s", {
-      address: _entityPath,
-      audience: `${context.config.endpoint}${_entityPath}`
+  constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
+    super(entityPath, entityPath, context, "s", {
+      address: entityPath,
+      audience: `${context.config.endpoint}${entityPath}`
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
@@ -140,7 +140,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
-    if (newName) this.name = getUniqueName(this._entityPath);
+    if (newName) this.name = getUniqueName(this.baseName);
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
