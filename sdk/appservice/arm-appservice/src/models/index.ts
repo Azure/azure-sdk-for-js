@@ -759,8 +759,8 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
  */
 export interface ManagedServiceIdentity {
   /**
-   * Type of managed service identity. Possible values include: 'None', 'SystemAssigned',
-   * 'UserAssigned'
+   * Type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned', 'None'
    */
   type?: ManagedServiceIdentityType;
   /**
@@ -1314,6 +1314,10 @@ export interface SiteConfig {
    */
   nodeVersion?: string;
   /**
+   * Version of PowerShell.
+   */
+  powerShellVersion?: string;
+  /**
    * Linux App Framework and version
    */
   linuxFxVersion?: string;
@@ -1341,6 +1345,14 @@ export interface SiteConfig {
    * <code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.
    */
   httpLoggingEnabled?: boolean;
+  /**
+   * Flag to use Managed Identity Creds for ACR pull
+   */
+  acrUseManagedIdentityCreds?: boolean;
+  /**
+   * If using user managed identity, the user managed identity ClientId
+   */
+  acrUserManagedIdentityID?: string;
   /**
    * HTTP logs directory size limit.
    */
@@ -4286,7 +4298,8 @@ export interface ApiKVReference {
   secretName?: string;
   secretVersion?: string;
   /**
-   * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
+   * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+   * 'None'
    */
   identityType?: ManagedServiceIdentityType;
   details?: string;
@@ -4361,6 +4374,16 @@ export interface ApplicationLogsConfig {
    * Application logs to blob storage configuration.
    */
   azureBlobStorage?: AzureBlobStorageApplicationLogsConfig;
+}
+
+/**
+ * A wrapper for an ARM resource id
+ */
+export interface ArmIdWrapper {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
 }
 
 /**
@@ -4745,6 +4768,30 @@ export interface CsmCopySlotEntity {
 }
 
 /**
+ * Publishing Credentials Policies parameters.
+ */
+export interface CsmPublishingCredentialsPoliciesEntity extends ProxyOnlyResource {
+  /**
+   * <code>true</code> to allow access to a publishing method; otherwise, <code>false</code>.
+   */
+  allow: boolean;
+}
+
+/**
+ * Publishing Credentials Policies collection.
+ */
+export interface CsmPublishingCredentialsPoliciesCollection extends ProxyOnlyResource {
+  /**
+   * Whether FTP is allowed.
+   */
+  ftp: CsmPublishingCredentialsPoliciesEntity;
+  /**
+   * Whether Scm Basic Auth is allowed.
+   */
+  scm: CsmPublishingCredentialsPoliciesEntity;
+}
+
+/**
  * Publishing options for requested profile.
  */
 export interface CsmPublishingProfileOptions {
@@ -5115,7 +5162,8 @@ export interface KeyVaultReferenceResource extends ProxyOnlyResource {
   secretName?: string;
   secretVersion?: string;
   /**
-   * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
+   * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+   * 'None'
    */
   identityType?: ManagedServiceIdentityType;
   details?: string;
@@ -5489,6 +5537,90 @@ export interface PrivateAccess extends ProxyOnlyResource {
    * The Virtual Networks (and subnets) allowed to access the site privately.
    */
   virtualNetworks?: PrivateAccessVirtualNetwork[];
+}
+
+/**
+ * The state of a private link connection
+ */
+export interface PrivateLinkConnectionState {
+  /**
+   * Status of a private link connection
+   */
+  status?: string;
+  /**
+   * Description of a private link connection
+   */
+  description?: string;
+  /**
+   * ActionsRequired for a private link connection
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * Private Endpoint Connection ARM resource.
+ */
+export interface PrivateEndpointConnectionResource extends ProxyOnlyResource {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * PrivateEndpoint of a remote private endpoint connection
+   */
+  privateEndpoint?: ArmIdWrapper;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+}
+
+/**
+ * Private Endpoint Connection Approval ARM resource.
+ */
+export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+}
+
+/**
+ * Properties of a private link resource
+ */
+export interface PrivateLinkResourceProperties {
+  /**
+   * GroupId of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * RequiredMembers of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * RequiredZoneNames of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  id: string;
+  /**
+   * Name of a private link resource
+   */
+  name: string;
+  type: string;
+  /**
+   * Properties of a private link resource
+   */
+  properties: PrivateLinkResourceProperties;
+}
+
+/**
+ * Wrapper for a collection of private link resources
+ */
+export interface PrivateLinkResourcesWrapper {
+  value: PrivateLinkResource[];
 }
 
 /**
@@ -6057,6 +6189,10 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   nodeVersion?: string;
   /**
+   * Version of PowerShell.
+   */
+  powerShellVersion?: string;
+  /**
    * Linux App Framework and version
    */
   linuxFxVersion?: string;
@@ -6084,6 +6220,14 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    * <code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.
    */
   httpLoggingEnabled?: boolean;
+  /**
+   * Flag to use Managed Identity Creds for ACR pull
+   */
+  acrUseManagedIdentityCreds?: boolean;
+  /**
+   * If using user managed identity, the user managed identity ClientId
+   */
+  acrUserManagedIdentityID?: string;
   /**
    * HTTP logs directory size limit.
    */
@@ -7876,8 +8020,9 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
    */
   readonly resourceGroup?: string;
   /**
-   * If Linux app service plan <code>true</code>, <code>false</code> otherwise. Default value:
-   * false.
+   * This needs to set to <code>true</code> when creating a Linux App Service Plan, along with
+   * <code>kind</code> set to <code>Linux</code>. It should be <code>false</code> otherwise.
+   * Default value: false.
    */
   reserved?: boolean;
   /**
@@ -9554,11 +9699,12 @@ export type RouteType = 'DEFAULT' | 'INHERITED' | 'STATIC';
 
 /**
  * Defines values for ManagedServiceIdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export type ManagedServiceIdentityType = 'None' | 'SystemAssigned' | 'UserAssigned';
+export type ManagedServiceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for IpFilterTag.
@@ -12752,6 +12898,106 @@ export type WebAppsListBackupStatusSecretsResponse = BackupItem & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BackupItem;
+    };
+};
+
+/**
+ * Contains response data for the getBasicPublishingCredentialsPolicies operation.
+ */
+export type WebAppsGetBasicPublishingCredentialsPoliciesResponse = CsmPublishingCredentialsPoliciesCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesCollection;
+    };
+};
+
+/**
+ * Contains response data for the getFtpAllowed operation.
+ */
+export type WebAppsGetFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the updateFtpAllowed operation.
+ */
+export type WebAppsUpdateFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the getScmAllowed operation.
+ */
+export type WebAppsGetScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the updateScmAllowed operation.
+ */
+export type WebAppsUpdateScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
     };
 };
 
@@ -17064,6 +17310,91 @@ export type WebAppsPutPrivateAccessVnetSlotResponse = PrivateAccess & {
 };
 
 /**
+ * Contains response data for the getPrivateEndpointConnection operation.
+ */
+export type WebAppsGetPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
+};
+
+/**
+ * Contains response data for the approveOrRejectPrivateEndpointConnection operation.
+ */
+export type WebAppsApproveOrRejectPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
+};
+
+/**
+ * Contains response data for the deletePrivateEndpointConnection operation.
+ */
+export type WebAppsDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateLinkResources operation.
+ */
+export type WebAppsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
+    };
+};
+
+/**
  * Contains response data for the listProcessesSlot operation.
  */
 export type WebAppsListProcessesSlotResponse = ProcessInfoCollection & {
@@ -18472,6 +18803,51 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<Ne
        * The response body as parsed JSON or XML
        */
       parsedBody: NetworkTrace[];
+    };
+};
+
+/**
+ * Contains response data for the beginApproveOrRejectPrivateEndpointConnection operation.
+ */
+export type WebAppsBeginApproveOrRejectPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
+};
+
+/**
+ * Contains response data for the beginDeletePrivateEndpointConnection operation.
+ */
+export type WebAppsBeginDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
 

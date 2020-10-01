@@ -40,7 +40,7 @@ let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -729,10 +729,14 @@ describe("Batching Receiver", () => {
       // the message lands back in the queue/subscription to be picked up again.
       if (entityNames.usesSessions) {
         await receiver.close();
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          maxAutoRenewLockDurationInMs: 0
-        });
+
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       let batch = await receiver.receiveMessages(1);
@@ -751,10 +755,13 @@ describe("Batching Receiver", () => {
       // landed back in the queue/subscription.
       if (entityNames.usesSessions) {
         await delay(31000);
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          maxAutoRenewLockDurationInMs: 0
-        });
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       batch = await receiver.receiveMessages(1);
@@ -879,9 +886,9 @@ describe("Batching Receiver", () => {
       serviceBusClient = createServiceBusClientForTests();
       const entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
       if (receiveMode == "receiveAndDelete") {
-        receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+        receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       } else {
-        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
       }
 
       sender = serviceBusClient.test.addToCleanup(

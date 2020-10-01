@@ -39,9 +39,11 @@ describe("session tests", () => {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-      sessionId
-    });
+    if (sessionId != null) {
+      receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, sessionId);
+    } else {
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+    }
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -70,7 +72,7 @@ describe("session tests", () => {
   });
 
   describe(`${testClientType}: Session Receiver Tests`, function(): void {
-    it("createSessionReceiver() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
+    it("acceptNextSession() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
       void
     > {
       let expectedErrorThrown = false;
@@ -96,16 +98,16 @@ describe("session tests", () => {
       await serviceBusClient.close();
     });
 
-    it("createSessionReceiver() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
+    it("acceptSession() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
       void
     > {
       let expectedErrorThrown = false;
       let unexpectedError;
       await beforeEachTest("boo");
       try {
-        await serviceBusClient.test.getSessionPeekLockReceiver(
+        await serviceBusClient.test.acceptSessionWithPeekLock(
           { queue: receiver.entityPath, usesSessions: true },
-          { sessionId: "boo" }
+          "boo"
         );
       } catch (error) {
         if (isMessagingError(error) && error.code === "SessionCannotBeLockedError") {
@@ -138,7 +140,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       msgs = await receiver.receiveMessages(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -176,7 +178,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       receivedMsgs = [];
       receiver.subscribe(
@@ -235,7 +237,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       msgs = await receiver.receiveMessages(2);
 
@@ -337,10 +339,13 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    const receiver = await serviceBusClient.createSessionReceiver(entityName.queue!, {
-      sessionId: testMessage.sessionId,
-      maxAutoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
-    });
+    const receiver = await serviceBusClient.acceptSession(
+      entityName.queue!,
+      testMessage.sessionId,
+      {
+        maxAutoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+      }
+    );
     const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(testMessage);

@@ -42,7 +42,7 @@ describe("Sender Tests", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityName = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
@@ -384,9 +384,7 @@ describe("ServiceBusMessage validations", function(): void {
   let sender: ServiceBusSender;
 
   before(() => {
-    sbClient = new ServiceBusClient(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;"
-    );
+    sbClient = new ServiceBusClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;");
     sender = sbClient.createSender("dummyQueue");
   });
 

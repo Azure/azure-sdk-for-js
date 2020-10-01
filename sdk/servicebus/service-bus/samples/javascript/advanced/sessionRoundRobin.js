@@ -77,7 +77,7 @@ async function receiveFromNextSession(serviceBusClient) {
   let sessionReceiver;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
+    sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
       maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {

@@ -11,12 +11,15 @@ const assert = chai.assert;
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { createConnectionContextForTests } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId
+} from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { Constants } from "@azure/core-amqp";
+import { MessageSession } from "../../src/session/messageSession";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -267,23 +270,19 @@ describe("Receiver unit tests", () => {
     });
 
     it("abortSignal is passed through (session receiver)", async () => {
-      const impl = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            (receiver as any).source = {
-              filter: {
-                [Constants.sessionFilterName]: "hello"
-              }
-            };
+      const connectionContext = createConnectionContextForTestsWithSessionId();
+      const messageSession = await MessageSession.create(
+        connectionContext,
+        "entity path",
+        undefined
+      );
 
-            (receiver as any).properties = {
-              ["com.microsoft:locked-until-utc"]: Date.now()
-            };
-          }
-        }),
+      const impl = new ServiceBusSessionReceiverImpl(
+        messageSession,
+        connectionContext,
         "entity path",
         "peekLock",
-        {}
+        undefined
       );
 
       const abortSignal = createAbortSignalForTest(true);
