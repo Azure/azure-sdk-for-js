@@ -16,7 +16,8 @@ import {
   TableEntityQueryOptions,
   CreateTableOptions,
   CreateTableItemResponse,
-  TableServiceClientOptions as TableClientOptions
+  TableServiceClientOptions as TableClientOptions,
+  TableBatch
 } from "./models";
 import {
   DeleteTableOptions,
@@ -40,12 +41,13 @@ import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
-  ServiceClientOptions
+  ServiceClientOptions,
+  generateUuid
 } from "@azure/core-http";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { TableBatch } from "./TableBatch";
+import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -496,7 +498,17 @@ export class TableClient {
    * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
   public createBatch(partitionKey: string): TableBatch {
-    return new TableBatch(this.url, this.tableName, partitionKey, this.credential);
+    const batchId = generateUuid();
+    const innerBatchRequest = createInnerBatchRequest(batchId);
+    const interceptClient = new TableClient(this.url, this.tableName, { innerBatchRequest });
+    return new TableBatchImpl(
+      this.url,
+      partitionKey,
+      interceptClient,
+      batchId,
+      innerBatchRequest,
+      this.credential
+    );
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {

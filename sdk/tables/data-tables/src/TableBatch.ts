@@ -15,10 +15,10 @@ import {
   TableEntity,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableBatchLike,
-  InnerBatchRequest
+  TableBatch,
+  InnerBatchRequest,
+  TableClientLike
 } from "./models";
-import { TableClient } from "./TableClient";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
@@ -30,8 +30,8 @@ import {
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
  */
-export class TableBatch implements TableBatchLike {
-  private interceptClient: TableClient;
+export class TableBatchImpl implements TableBatch {
+  private interceptClient: TableClientLike;
   private batchGuid: string;
   private batchRequest: InnerBatchRequest;
   private url: string;
@@ -45,26 +45,25 @@ export class TableBatch implements TableBatchLike {
 
   /**
    * @param url Tables account url
-   * @param tableName name of the table to target the operations
    * @param partitionKey partition key
    * @param credential credential to authenticate the batch request
    */
   constructor(
     url: string,
-    tableName: string,
     partitionKey: string,
+    interceptClient: TableClientLike,
+    batchGuid: string,
+    batchRequest: InnerBatchRequest,
     credential?: TablesSharedKeyCredentialLike
   ) {
     this.credential = credential;
     this.partitionKey = partitionKey;
     this.url = url;
-    this.batchGuid = generateUuid();
-    this.batchRequest = createInnerBatchRequest(this.batchGuid);
+    this.batchGuid = batchGuid;
+    this.batchRequest = batchRequest;
     this.pendingOperations = [];
 
-    this.interceptClient = new TableClient(url, tableName, {
-      innerBatchRequest: this.batchRequest
-    });
+    this.interceptClient = interceptClient;
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
@@ -178,11 +177,9 @@ export class TableBatch implements TableBatchLike {
  * @returns {(string | undefined)}
  */
 function getSubRequestUrl(url: string): string {
-  console.log(url);
   const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
   const urlParsed = new URL(url);
   sasTokenParts.forEach((part) => urlParsed.searchParams.delete(part));
-  console.log(urlParsed.toString());
   return urlParsed.toString();
 }
 
@@ -190,7 +187,7 @@ function getSubRequestUrl(url: string): string {
  * This method creates a batch request object that provides functions to build the envelope and body for a batch request
  * @param batchGuid Id of the batch
  */
-function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
+export function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
   const HTTP_LINE_ENDING = "\r\n";
   const HTTP_VERSION_1_1 = "HTTP/1.1";
   const changesetGuid = generateUuid();

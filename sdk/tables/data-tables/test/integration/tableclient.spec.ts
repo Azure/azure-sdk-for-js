@@ -27,7 +27,12 @@ describe("TableClient", () => {
   before(async () => {
     if (!isPlaybackMode()) {
       client = createTableClient(tableName, authMode);
-      await client.create();
+
+      try {
+        await client.create();
+      } catch (error) {
+        console.warn(error);
+      }
     }
   });
 
@@ -349,18 +354,7 @@ describe("TableClient", () => {
   });
 
   describe("batch operations", () => {
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
-      recorder = record(this, recordedEnvironmentSetup);
-      const tableName = "batch";
-      client = createTableClient(tableName);
-    });
-
-    afterEach(async function() {
-      await recorder.stop();
-    });
-
-    it.only("should send a set of create batch operations", async () => {
+    it("should send a set of create batch operations", async () => {
       const partitionKey = "batchTest";
       const batch = client.createBatch(partitionKey);
       await batch.createEntities([

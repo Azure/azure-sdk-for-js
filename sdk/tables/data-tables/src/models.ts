@@ -18,6 +18,14 @@ import {
   RequestPolicyFactory,
   WebResourceLike
 } from "@azure/core-http";
+import {
+  DeleteTableOptions,
+  DeleteTableResponse,
+  DeleteTableEntityResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse
+} from "./generatedModels";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Client options used to configure Tables Api requests
@@ -402,30 +410,185 @@ export interface Edm<T extends EdmTypes> {
  */
 export type UpdateMode = "Merge" | "Replace";
 
-export interface TableBatchLike {
+/**
+ * Defines the shape of a TableBatch
+ */
+export interface TableBatch {
+  /**
+   * Partition key tagetted by the batch
+   */
   partitionKey: string;
+  /**
+   * Adds a createEntity operation to the batch per each entity in the entities array
+   * @param entitites Array of entities to create
+   */
   createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+  /**
+   * Adds a createEntity operation to the batch
+   * @param entity Entity to create
+   */
   createEntity: <T extends object>(entity: TableEntity<T>) => void;
+  /**
+   * Adds a deleteEntity operation to the batch
+   * @param partitionKey partition key of the entity to delete
+   * @param rowKey row key of the entity to delete
+   * @param options options for the delete operation
+   */
   deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+  /**
+   * Adds an updateEntity operation to the batch
+   * @param entity entity to update
+   * @param mode update mode (Merge or Replace)
+   * @param options options for the update operation
+   */
   updateEntity: <T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
     options?: UpdateTableEntityOptions
   ) => void;
+  /**
+   * Submits the operations in the batch
+   */
   submitBatch: () => Promise<TableBatchResponse>;
 }
 
+/**
+ * Describes the shape of a TableClient
+ */
+export interface TableClientLike {
+  /**
+   * Name of the table to perform operations on.
+   */
+  readonly tableName: string;
+  /**
+   *  Creates the current table it it doesn't exist
+   * @param options The options parameters.
+   */
+  create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+  /**
+   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
+   * @param partitionKey partitionKey to which the batch operations will be targetted to
+   */
+  createBatch(partitionKey: string): TableBatch;
+  /**
+   * Insert entity in the table.
+   * @param entity The properties for the table entity.
+   * @param options The options parameters.
+   */
+  createEntity<T extends object>(
+    entity: TableEntity<T>,
+    options?: CreateTableEntityOptions
+  ): Promise<CreateTableEntityResponse>;
+  /**
+   * Permanently deletes the current table with all of its entities.
+   * @param options The options parameters.
+   */
+  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+  /**
+   * Deletes the specified entity in the table.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
+   */
+  deleteEntity(
+    partitionKey: string,
+    rowKey: string,
+    options?: DeleteTableEntityOptions
+  ): Promise<DeleteTableEntityResponse>;
+  /**
+   * Returns a single entity in the table.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
+   */
+  getEntity<T extends object>(
+    partitionKey: string,
+    rowKey: string,
+    options?: GetTableEntityOptions
+  ): Promise<GetTableEntityResponse<T>>;
+  /**
+   * Queries entities in a table.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  listEntities<T extends object>(
+    options?: ListTableEntitiesOptions
+  ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
+  /**
+   * Update an entity in the table.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
+   */
+  updateEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpdateTableEntityOptions
+  ): Promise<UpdateEntityResponse>;
+  /**
+   * Upsert an entity in the table.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
+   */
+  upsertEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
+  ): Promise<UpsertEntityResponse>;
+}
+
+/**
+ * Batch request builder
+ */
 export interface InnerBatchRequest {
+  /**
+   * Batch request body
+   */
   body: string[];
+  /**
+   * Total count of sub-operations to send
+   */
   operationCount: number;
+  /**
+   * Creates a pipeline to intercept sub-requests and
+   * build the request body
+   */
   createPipeline(): RequestPolicyFactory[];
+  /**
+   * Adds an operation to add to the batch body
+   * @param request the operation to add
+   */
   appendSubRequestToBody(request: WebResourceLike): void;
+  /**
+   * Gets the batch request body
+   */
   getHttpRequestBody(): string;
+  /**
+   * Gets the content-type
+   */
   getMultipartContentType(): string;
+  /**
+   * Gets the batch operation boundary
+   */
   getBatchBoundary(): string;
 }
 
+/**
+ * Represents the response of a Batch operation
+ */
 export interface TableBatchResponse {
+  /**
+   * Count of responses
+   */
   responseCount: number;
+  /**
+   * Gets a specific response given a row key
+   */
   getResponseForEntity: (rowKey: string) => HttpResponse;
 }
