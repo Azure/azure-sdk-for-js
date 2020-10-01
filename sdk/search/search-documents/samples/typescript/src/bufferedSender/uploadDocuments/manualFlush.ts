@@ -43,7 +43,7 @@ export async function main() {
   });
 
   bufferedClient.on("beforeDocumentSent", (response: any) => {
-    console.log("Batch Sent Event has been receieved....");
+    console.log("Before Document Sent Event has been receieved....");
   });
 
   bufferedClient.on("batchSucceeded", (response: any) => {
