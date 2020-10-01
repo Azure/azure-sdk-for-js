@@ -226,10 +226,6 @@ export interface PstnConfiguration {
    * The application id of the application to which to configure
    */
   applicationId?: string;
-  /**
-   * Routable TargetId for the ACS Number
-   */
-  azurePstnTargetId?: string;
 }
 
 /**
@@ -589,6 +585,9 @@ export interface CreateSearchOptions {
    * Description of the search.
    */
   description: string;
+  /**
+   * The plan subtype ids from which to create the search.
+   */
   phonePlanIds: string[];
   /**
    * The area code from which to create the search.

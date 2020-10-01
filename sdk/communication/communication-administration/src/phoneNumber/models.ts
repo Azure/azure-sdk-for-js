@@ -316,7 +316,6 @@ export interface BeginPurchaseSearchOptions extends SearchPollerOptions {}
  */
 export interface PhoneNumberPollerClient {
   getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
-  refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
   cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
   purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
 }

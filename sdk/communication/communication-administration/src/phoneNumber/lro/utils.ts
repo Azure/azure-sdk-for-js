@@ -3,8 +3,11 @@
 
 import { PhoneNumberSearch, SearchStatus } from "../..";
 
-export const isComplete = (results: PhoneNumberSearch, status: SearchStatus): boolean | never => {
-  if (results.status !== status) {
+export const isComplete = (
+  results: PhoneNumberSearch,
+  completionStatus: SearchStatus
+): boolean | never => {
+  if (results.status !== completionStatus) {
     throw new Error(JSON.stringify(results));
   }
 

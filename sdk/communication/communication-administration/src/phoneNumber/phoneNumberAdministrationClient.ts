@@ -73,7 +73,6 @@ import {
   ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
   GetSearchOptions,
-  BeginRefreshSearchOptions,
   PhoneNumberPollerClient,
   BeginCancelSearchOptions,
   BeginPurchaseSearchOptions
@@ -81,7 +80,6 @@ import {
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { RefreshSearchPoller } from "./lro/refresh/poller";
 import { CancelSearchPoller } from "./lro/cancel/poller";
 import { PurchaseSearchPoller } from "./lro/purchase/poller";
 
@@ -110,7 +108,6 @@ export class PhoneNumberAdministrationClient {
    */
   private readonly pollerClient: PhoneNumberPollerClient = {
     getSearch: this.getSearch.bind(this),
-    refreshSearch: this.refreshSearch.bind(this),
     cancelSearch: this.cancelSearch.bind(this),
     purchaseSearch: this.purchaseSearch.bind(this)
   };
@@ -1016,44 +1013,6 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Refreshes the search associated with a given id. This means new numbers will be reserved for the search.
-   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
-   *
-   * Example usage:
-   * ```ts
-   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
-   * const refreshPoller = await client.beginRefreshSearch(searchId);
-   *
-   * // Serializing the poller
-   * const serialized = refreshPoller.toString();
-   *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginRefreshSearch(searchId, { resumeFrom: serialized });
-   *
-   * // Waiting until it's done
-   * const phoneNumbers = await refreshPoller.pollUntilDone();
-   * console.log(phoneNumbers);
-   * ```
-   * @summary Refreshes the search associated with a given id.
-   * @param {string} searchId The id of the search returned by createSearch.
-   * @param {BeginRefreshSearchOptions} options Additional request options.
-   */
-  public async beginRefreshSearch(
-    searchId: string,
-    options: BeginRefreshSearchOptions = {}
-  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
-    const poller = new RefreshSearchPoller({
-      searchId,
-      client: this.pollerClient,
-      options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  /**
    * Cancels the search associated with a given id. This means existing numbers in the search will be made available.
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
@@ -1121,36 +1080,6 @@ export class PhoneNumberAdministrationClient {
 
     await poller.poll();
     return poller;
-  }
-
-  /**
-   * Refreshes the search associated with a given id.
-   * @param searchId The id of the search returned by createSearch.
-   * @param options Additional request options.
-   */
-  private async refreshSearch(
-    searchId: string,
-    options: OperationOptions = {}
-  ): Promise<VoidResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-refreshSearch",
-      options
-    );
-    try {
-      const { _response } = await this.client.refreshSearch(
-        searchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse({}, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**

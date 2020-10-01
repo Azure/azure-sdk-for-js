@@ -5,7 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
 import { BeginPurchaseSearchOptions, PhoneNumberPollerClient } from "../../models";
-import { isComplete } from "../util";
+import { isComplete } from "../utils";
 
 export interface PurchaseSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
@@ -17,6 +17,7 @@ export interface PurchaseSearchPollOperationState extends PollOperationState<Pho
    * Represents the poller client used internally.
    */
   client: PhoneNumberPollerClient;
+
   /**
    * Options for refreshing a search.
    */
