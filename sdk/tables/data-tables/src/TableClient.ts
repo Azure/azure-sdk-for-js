@@ -45,7 +45,7 @@ import {
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createBatch, TableBatch } from "./TableBatch";
+import { TableBatch } from "./TableBatch";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -496,7 +496,7 @@ export class TableClient {
    * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
   public createBatch(partitionKey: string): TableBatch {
-    return createBatch(this.url, this.tableName, partitionKey, this.credential);
+    return new TableBatch(this.url, this.tableName, partitionKey, this.credential);
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {

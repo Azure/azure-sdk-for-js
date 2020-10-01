@@ -174,6 +174,24 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
     };
 };
 
+// @public (undocumented)
+export interface InnerBatchRequest {
+    // (undocumented)
+    appendSubRequestToBody(request: WebResourceLike): void;
+    // (undocumented)
+    body: string[];
+    // (undocumented)
+    createPipeline(): RequestPolicyFactory[];
+    // (undocumented)
+    getBatchBoundary(): string;
+    // (undocumented)
+    getHttpRequestBody(): string;
+    // (undocumented)
+    getMultipartContentType(): string;
+    // (undocumented)
+    operationCount: number;
+}
+
 // @public
 export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
     nextPartitionKey?: string;
@@ -305,9 +323,25 @@ export interface SignedIdentifier {
 }
 
 // @public (undocumented)
+export interface TableBatchLike {
+    // (undocumented)
+    createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+    // (undocumented)
+    createEntity: <T extends object>(entity: TableEntity<T>) => void;
+    // (undocumented)
+    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+    // (undocumented)
+    partitionKey: string;
+    // (undocumented)
+    submitBatch: () => Promise<TableBatchResponse>;
+    // (undocumented)
+    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
+}
+
+// @public (undocumented)
 export interface TableBatchResponse {
     // (undocumented)
-    getResponseForEntity: () => HttpResponse;
+    getResponseForEntity: (rowKey: string) => HttpResponse;
     // (undocumented)
     responseCount: number;
 }
@@ -317,7 +351,8 @@ export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    createBatch(partitionKey: string): TablesBatch;
+    // Warning: (ae-forgotten-export) The symbol "TableBatch" needs to be exported by the entry point index.d.ts
+    createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
@@ -489,22 +524,6 @@ export interface TableResponseProperties {
     tableName?: string;
 }
 
-// @public (undocumented)
-export interface TablesBatch {
-    // (undocumented)
-    createEntities: <T extends object>(entitites: TableEntity<T>[]) => Promise<void>;
-    // (undocumented)
-    createEntity: <T extends object>(entity: TableEntity<T>) => Promise<void>;
-    // (undocumented)
-    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => Promise<void>;
-    // (undocumented)
-    partitionKey: string;
-    // (undocumented)
-    submitBatch: () => Promise<TableBatchResponse>;
-    // (undocumented)
-    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => Promise<void>;
-}
-
 // @public
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
@@ -524,7 +543,7 @@ export class TableServiceClient {
 export type TableServiceClientOptions = PipelineOptions & {
     endpoint?: string;
     version?: string;
-    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+    innerBatchRequest?: InnerBatchRequest;
 };
 
 // @public

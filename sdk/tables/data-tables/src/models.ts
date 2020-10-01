@@ -15,9 +15,9 @@ import {
   OperationOptions,
   HttpResponse,
   PipelineOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  WebResourceLike
 } from "@azure/core-http";
-import { InnerBatchRequest } from "./TableBatch";
 
 /**
  * Client options used to configure Tables Api requests
@@ -26,9 +26,6 @@ export type TableServiceClientOptions = PipelineOptions & {
   endpoint?: string;
   version?: string;
   innerBatchRequest?: InnerBatchRequest;
-  requestPolicyFactories?:
-    | RequestPolicyFactory[]
-    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
 };
 
 /**
@@ -404,3 +401,31 @@ export interface Edm<T extends EdmTypes> {
  * - Replace: Updates an existing entity by replacing the entire entity.
  */
 export type UpdateMode = "Merge" | "Replace";
+
+export interface TableBatchLike {
+  partitionKey: string;
+  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+  createEntity: <T extends object>(entity: TableEntity<T>) => void;
+  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+  updateEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpdateTableEntityOptions
+  ) => void;
+  submitBatch: () => Promise<TableBatchResponse>;
+}
+
+export interface InnerBatchRequest {
+  body: string[];
+  operationCount: number;
+  createPipeline(): RequestPolicyFactory[];
+  appendSubRequestToBody(request: WebResourceLike): void;
+  getHttpRequestBody(): string;
+  getMultipartContentType(): string;
+  getBatchBoundary(): string;
+}
+
+export interface TableBatchResponse {
+  responseCount: number;
+  getResponseForEntity: (rowKey: string) => HttpResponse;
+}

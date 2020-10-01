@@ -2,18 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  BaseRequestPolicy,
   deserializationPolicy,
   generateUuid,
   HttpHeaders,
-  HttpOperationResponse,
-  HttpResponse,
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions,
   WebResource,
-  WebResourceLike,
-  URLBuilder,
   ServiceClient,
   RequestPrepareOptions,
   RawHttpHeaders
@@ -22,147 +14,176 @@ import {
   DeleteTableEntityOptions,
   TableEntity,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
+  TableBatchLike,
+  InnerBatchRequest
 } from "./models";
 import { TableClient } from "./TableClient";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
+import {
+  BatchHeaderFilterPolicyFactory,
+  BatchRequestAssemblePolicyFactory
+} from "./TableBatchPolicies";
 
-export interface TableBatch {
-  partitionKey: string;
-  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
-  createEntity: <T extends object>(entity: TableEntity<T>) => void;
-  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
-  updateEntity: <T extends object>(
+/**
+ * TableBatch collects sub-operations that can be submitted together via submitBatch
+ */
+export class TableBatch implements TableBatchLike {
+  private interceptClient: TableClient;
+  private batchGuid: string;
+  private batchRequest: InnerBatchRequest;
+  private url: string;
+  private pendingOperations: Promise<any>[];
+  private credential?: TablesSharedKeyCredentialLike;
+
+  /**
+   * Partition key tagetted by the batch
+   */
+  public readonly partitionKey: string;
+
+  /**
+   * @param url Tables account url
+   * @param tableName name of the table to target the operations
+   * @param partitionKey partition key
+   * @param credential credential to authenticate the batch request
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    partitionKey: string,
+    credential?: TablesSharedKeyCredentialLike
+  ) {
+    this.credential = credential;
+    this.partitionKey = partitionKey;
+    this.url = url;
+    this.batchGuid = generateUuid();
+    this.batchRequest = createInnerBatchRequest(this.batchGuid);
+    this.pendingOperations = [];
+
+    this.interceptClient = new TableClient(url, tableName, {
+      innerBatchRequest: this.batchRequest
+    });
+
+    // Depending on the auth method used we need to build the url
+    if (!credential) {
+      // When authenticating with SAS we need to add the SAS token after $batch
+      const urlParts = url.split("?");
+      this.url = urlParts[0];
+      const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
+      this.url = `${this.url}/$batch${sas}`;
+    } else {
+      // When using a SharedKey credential no SAS token is needed
+      this.url = `${this.url}/$batch`;
+    }
+  }
+
+  /**
+   * Adds a createEntity operation to the batch
+   * @param entity Entity to create
+   */
+  public createEntity<T extends object>(entity: TableEntity<T>): void {
+    this.checkPartitionKey(entity.partitionKey);
+    this.pendingOperations.push(this.interceptClient.createEntity(entity));
+  }
+
+  /**
+   * Adds a createEntity operation to the batch per each entity in the entities array
+   * @param entitites Array of entities to create
+   */
+  public createEntities<T extends object>(entitites: TableEntity<T>[]): void {
+    for (const entity of entitites) {
+      this.checkPartitionKey(entity.partitionKey);
+      this.pendingOperations.push(this.interceptClient.createEntity(entity));
+    }
+  }
+
+  /**
+   * Adds a deleteEntity operation to the batch
+   * @param partitionKey partition key of the entity to delete
+   * @param rowKey row key of the entity to delete
+   * @param options options for the delete operation
+   */
+  public deleteEntity(
+    partitionKey: string,
+    rowKey: string,
+    options?: DeleteTableEntityOptions
+  ): void {
+    this.checkPartitionKey(partitionKey);
+    this.pendingOperations.push(this.interceptClient.deleteEntity(partitionKey, rowKey, options));
+  }
+
+  /**
+   * Adds an updateEntity operation to the batch
+   * @param entity entity to update
+   * @param mode update mode (Merge or Replace)
+   * @param options options for the update operation
+   */
+  public updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
     options?: UpdateTableEntityOptions
-  ) => Promise<void>;
-  submitBatch: () => Promise<TableBatchResponse>;
-}
+  ): void {
+    this.checkPartitionKey(entity.partitionKey);
+    this.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
+  }
 
-export interface InnerBatchRequest {
-  body: string;
-  operationCount: number;
-  createPipeline(): RequestPolicyFactory[];
-  appendSubRequestToBody(request: WebResource): void;
-  getHttpRequestBody(): string;
-  getMultipartContentType(): string;
-  getBatchBoundary(): string;
-}
+  /**
+   * Submits the operations in the batch
+   */
+  public async submitBatch(): Promise<any> {
+    await Promise.all(this.pendingOperations);
+    const body = this.batchRequest.getHttpRequestBody();
+    const client = new ServiceClient();
+    const headers: RawHttpHeaders = {
+      accept: "application/json",
+      "x-ms-version": "2019-02-02",
+      "Accept-Charset": "UTF-8",
+      DataServiceVersion: "3.0;",
+      MaxDataServiceVersion: "3.0;NetFx",
+      "Content-Type": `multipart/mixed; boundary=batch_${this.batchGuid}`,
+      Connection: "Keep-Alive"
+    };
 
-export interface TableBatchResponse {
-  responseCount: number;
-  getResponseForEntity: (rowKey: string) => HttpResponse;
+    const request = new WebResource(this.url, "POST", body, undefined, new HttpHeaders(headers));
+
+    if (this.credential) {
+      const authHeader = getAuthorizationHeader(request, this.credential);
+      request.headers.set("Authorization", authHeader);
+    }
+
+    const requestOptions: RequestPrepareOptions = {
+      method: "POST",
+      url: this.url,
+      headers: request.headers.rawHeaders(),
+      body,
+      disableJsonStringifyOnBody: true
+    };
+    const rawBatchResponse = await client.sendRequest(requestOptions);
+    return rawBatchResponse;
+  }
+
+  private checkPartitionKey(partitionKey: string): void {
+    if (this.partitionKey !== partitionKey) {
+      throw new Error("All operations in a batch must target the same partitionKey");
+    }
+  }
 }
 
 /**
- * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
- * @param url Tables account url
- * @param tableName name of the table to target the operations
- * @param partitionKey partition key
- * @param credential credential to authenticate the batch request
+ * Prepares the operation url to be added to the body, removing the SAS token if present
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
  */
-export function createBatch(
-  url: string,
-  tableName: string,
-  partitionKey: string,
-  credential?: TablesSharedKeyCredentialLike
-): TableBatch {
-  const batchGuid = generateUuid();
-  const batchRequest = createInnerBatchRequest(batchGuid);
-  const pendingOperations: Promise<any>[] = [];
-
-  // Client used to intercept the requests and add them to the batch instead of sending them to the service
-  const interceptClient: TableClient = new TableClient(url, tableName, {
-    innerBatchRequest: batchRequest
-  });
-
-  let batchUrl = url;
-
-  // Depending on the auth method used we need to build the url
-  if (!credential) {
-    // When authenticating with SAS we need to add the SAS token after $batch
-    const urlParts = url.split("?");
-    const baseUrl = urlParts[0];
-    const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
-    batchUrl = `${baseUrl}/$batch${sas}`;
-  } else {
-    // When using a SharedKey credential no SAS token is needed
-    batchUrl = `${batchUrl}/$batch`;
-  }
-
-  return {
-    partitionKey,
-    createEntity<T extends object>(entity: TableEntity<T>): void {
-      if (entity.partitionKey !== this.partitionKey) {
-        throw new Error("All operations in a batch must target the same partitionKey");
-      }
-      pendingOperations.push(interceptClient.createEntity(entity));
-    },
-    createEntities<T extends object>(entitites: TableEntity<T>[]): void {
-      for (const entity of entitites) {
-        if (entity.partitionKey !== this.partitionKey) {
-          throw new Error("All operations in a batch must target the same partitionKey");
-        }
-        pendingOperations.push(interceptClient.createEntity(entity));
-      }
-    },
-    async deleteEntity(
-      partitionKey: string,
-      rowKey: string,
-      options?: DeleteTableEntityOptions
-    ): Promise<void> {
-      if (partitionKey !== this.partitionKey) {
-        throw new Error("All operations in a batch must target the same partitionKey");
-      }
-      pendingOperations.push(interceptClient.deleteEntity(partitionKey, rowKey, options));
-    },
-    async updateEntity<T extends object>(
-      entity: TableEntity<T>,
-      mode: UpdateMode,
-      options?: UpdateTableEntityOptions
-    ): Promise<void> {
-      if (entity.partitionKey !== this.partitionKey) {
-        throw new Error("All operations in a batch must target the same partitionKey");
-      }
-      pendingOperations.push(interceptClient.updateEntity(entity, mode, options));
-    },
-    async submitBatch(): Promise<any> {
-      await Promise.all(pendingOperations);
-      const body = batchRequest.getHttpRequestBody();
-      const client = new ServiceClient();
-      const headers: RawHttpHeaders = {
-        accept: "application/json",
-        "x-ms-version": "2019-02-02",
-        "Accept-Charset": "UTF-8",
-        DataServiceVersion: "3.0;",
-        MaxDataServiceVersion: "3.0;NetFx",
-        "Content-Type": `multipart/mixed; boundary=batch_${batchGuid}`,
-        Connection: "Keep-Alive"
-      };
-
-      const request = new WebResource(batchUrl, "POST", body, undefined, new HttpHeaders(headers));
-
-      if (credential) {
-        const authHeader = getAuthorizationHeader(request, credential);
-        request.headers.set("Authorization", authHeader);
-      }
-
-      const requestOptions: RequestPrepareOptions = {
-        method: "POST",
-        url: batchUrl,
-        headers: request.headers.rawHeaders(),
-        body,
-        disableJsonStringifyOnBody: true
-      };
-      console.log(body);
-      const rawBatchResponse = await client.sendRequest(requestOptions);
-      console.log(rawBatchResponse.bodyAsText);
-      return rawBatchResponse;
-    }
-  };
+function getSubRequestUrl(url: string): string {
+  console.log(url);
+  const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
+  const urlParsed = new URL(url);
+  sasTokenParts.forEach((part) => urlParsed.searchParams.delete(part));
+  console.log(urlParsed.toString());
+  return urlParsed.toString();
 }
 
 /**
@@ -181,41 +202,46 @@ function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
   const subRequestPrefix = `--${changesetBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
   // Content-Type: multipart/mixed; boundary=changeset_{changesetGuid}
   const multipartContentType = `multipart/mixed; boundary=changeset_${changesetGuid}`;
-  const chaangesetEnding = `--${changesetBoundary}--`;
+  const changesetEnding = `--${changesetBoundary}--`;
   const batchEnding = `--${batchBoundary}`;
 
   return {
-    body: `--${batchBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetGuid}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`,
+    body: [
+      `--${batchBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetGuid}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
+    ],
     operationCount: 0,
     createPipeline() {
-      const policyFactoryLength = 3;
-      const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
-
-      factories[0] = deserializationPolicy();
-      factories[1] = new BatchHeaderFilterPolicyFactory();
-
-      factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
-      return factories;
+      // Use batch assemble policy to assemble request and intercept request from going to wire
+      return [
+        deserializationPolicy(),
+        new BatchHeaderFilterPolicyFactory(),
+        new BatchRequestAssemblePolicyFactory(this)
+      ];
     },
     appendSubRequestToBody(request: WebResource) {
+      const subRequestUrl = getSubRequestUrl(request.url);
       // Start to assemble sub request
-      this.body += [
+      const subRequest = [
         subRequestPrefix, // sub request constant prefix
         "", // empty line after sub request's content ID
-        `${request.method.toString()} ${getURLPathAndQuery(
-          request.url
-        )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}` // sub request start line with method,
-      ].join(HTTP_LINE_ENDING);
+        `${request.method.toString()} ${subRequestUrl} ${HTTP_VERSION_1_1}` // sub request start line with method,
+      ];
 
+      // Add required headers
       for (const header of request.headers.headersArray()) {
-        this.body += `${header.name}: ${header.value}${HTTP_LINE_ENDING}`;
+        subRequest.push(`${header.name}: ${header.value}`);
       }
 
-      this.body += `${HTTP_LINE_ENDING}${request.body}${HTTP_LINE_ENDING}`; // sub request's headers need end with an empty line
+      // Append sub-request body
+      subRequest.push(`${HTTP_LINE_ENDING}${request.body}`); // sub request's headers need end with an empty line
+
+      // Add subrequest to batch body
+      this.body.push(subRequest.join(HTTP_LINE_ENDING));
       this.operationCount++;
     },
     getHttpRequestBody(): string {
-      return `${this.body}${HTTP_LINE_ENDING}${chaangesetEnding}${HTTP_LINE_ENDING}${batchEnding}${HTTP_LINE_ENDING}`;
+      const bodyContent = this.body.join(HTTP_LINE_ENDING);
+      return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${batchEnding}${HTTP_LINE_ENDING}`;
     },
     getMultipartContentType(): string {
       return multipartContentType;
@@ -224,96 +250,4 @@ function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
       return batchBoundary;
     }
   };
-}
-
-/**
- * Get URL path and query from an URL string.
- *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
- */
-export function getURLPathAndQuery(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
-  if (!pathString) {
-    throw new RangeError("Invalid url without valid path.");
-  }
-
-  let queryString = urlParsed.getQuery() || "";
-  queryString = queryString.trim();
-  if (queryString !== "") {
-    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
-  }
-
-  return `${urlParsed.getScheme()}://${urlParsed.getHost()}${urlParsed.getPath()}`;
-}
-
-class BatchHeaderFilterPolicy extends BaseRequestPolicy {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
-    super(nextPolicy, options);
-  }
-  public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    let xMsHeaderName = "";
-
-    for (const header of request.headers.headersArray()) {
-      if (header.name.toLowerCase() === HeaderConstants.X_MS_VERSION) {
-        xMsHeaderName = header.name;
-      }
-    }
-
-    if (xMsHeaderName !== "") {
-      request.headers.remove(xMsHeaderName); // The subrequests should not have the x-ms-version header.
-    }
-
-    return this._nextPolicy.sendRequest(request);
-  }
-}
-
-class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
-    return new BatchHeaderFilterPolicy(nextPolicy, options);
-  }
-}
-
-class BatchRequestAssemblePolicy extends BaseRequestPolicy {
-  private batchRequest: InnerBatchRequest;
-  private readonly dummyResponse: HttpOperationResponse = {
-    request: new WebResource(),
-    status: 200,
-    headers: new HttpHeaders()
-  };
-
-  constructor(
-    batchRequest: InnerBatchRequest,
-    nextPolicy: RequestPolicy,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    options: RequestPolicyOptions
-  ) {
-    super(nextPolicy, options);
-
-    this.batchRequest = batchRequest;
-  }
-
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    this.batchRequest.appendSubRequestToBody(request);
-
-    return this.dummyResponse; // Intercept request from going to wire
-  }
-}
-
-class BatchRequestAssemblePolicyFactory implements RequestPolicyFactory {
-  private batchRequest: InnerBatchRequest;
-
-  constructor(batchRequest: InnerBatchRequest) {
-    this.batchRequest = batchRequest;
-  }
-
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): BatchRequestAssemblePolicy {
-    return new BatchRequestAssemblePolicy(this.batchRequest, nextPolicy, options);
-  }
 }

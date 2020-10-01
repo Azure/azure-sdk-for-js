@@ -12,4 +12,3 @@ export {
 } from "./TablesSharedKeyCredential";
 export { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 export { odata } from "./odata";
-export { TableBatch as TablesBatch, TableBatchResponse } from "./TableBatch";
