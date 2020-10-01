@@ -185,8 +185,7 @@ export class PhoneNumberAdministrationClient {
       const { _response } = await this.client.configureNumber(
         {
           callbackUrl: callbackUrl,
-          applicationId: updatedOptions.applicationId,
-          azurePstnTargetId: updatedOptions.azurePstnTargetId
+          applicationId: updatedOptions.applicationId
         },
         phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)

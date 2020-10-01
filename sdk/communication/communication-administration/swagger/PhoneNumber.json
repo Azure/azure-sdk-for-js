@@ -11,14 +11,10 @@
   "paths": {
     "/administration/phonenumbers/phonenumbers": {
       "get": {
-        "tags": [
-          "AcquiredNumbers"
-        ],
+        "tags": ["AcquiredNumbers"],
         "summary": "Gets the list of the acquired phone numbers.",
         "operationId": "PhoneNumberAdministration_GetAllPhoneNumbers",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -74,17 +70,11 @@
     },
     "/administration/phonenumbers/countries/{countryCode}/areacodes": {
       "post": {
-        "tags": [
-          "AreaCodes"
-        ],
+        "tags": ["AreaCodes"],
         "summary": "Gets a list of the supported area codes",
         "operationId": "PhoneNumberAdministration_GetAllAreaCodes",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -142,14 +132,10 @@
     },
     "/administration/phonenumbers/capabilities/{capabilitiesUpdateId}": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get capabilities by capabilities update id.",
         "operationId": "PhoneNumberAdministration_GetCapabilitiesUpdate",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -184,17 +170,11 @@
     },
     "/administration/phonenumbers/capabilities": {
       "post": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Adds or removes phone number capabilities",
         "operationId": "PhoneNumberAdministration_UpdateCapabilities",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -231,14 +211,10 @@
     },
     "/administration/phonenumbers/countries": {
       "get": {
-        "tags": [
-          "Countries"
-        ],
+        "tags": ["Countries"],
         "summary": "Gets a list of supported countries",
         "operationId": "PhoneNumberAdministration_GetAllSupportedCountries",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -294,17 +270,11 @@
     },
     "/administration/phonenumbers/numberconfiguration": {
       "post": {
-        "tags": [
-          "NumberConfiguration"
-        ],
+        "tags": ["NumberConfiguration"],
         "summary": "Endpoint for getting number configurations",
         "operationId": "PhoneNumberAdministration_GetNumberConfiguration",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -341,17 +311,11 @@
     },
     "/administration/phonenumbers/numberconfiguration/configure": {
       "patch": {
-        "tags": [
-          "NumberConfiguration"
-        ],
+        "tags": ["NumberConfiguration"],
         "summary": "Endpoint for configuring a pstn number",
         "operationId": "PhoneNumberAdministration_ConfigureNumber",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -385,17 +349,11 @@
     },
     "/administration/phonenumbers/numberconfiguration/unconfigure": {
       "patch": {
-        "tags": [
-          "NumberConfiguration"
-        ],
+        "tags": ["NumberConfiguration"],
         "summary": "Endpoint for unconfiguring a pstn number by removing the configuration",
         "operationId": "PhoneNumberAdministration_UnconfigureNumber",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -429,14 +387,10 @@
     },
     "/administration/phonenumbers/countries/{countryCode}/phoneplangroups": {
       "get": {
-        "tags": [
-          "Plans"
-        ],
+        "tags": ["Plans"],
         "summary": "Gets a list of phone plan groups for the given country",
         "operationId": "PhoneNumberAdministration_GetPhonePlanGroups",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -505,14 +459,10 @@
     },
     "/administration/phonenumbers/countries/{countryCode}/phoneplangroups/{phonePlanGroupId}/phoneplans": {
       "get": {
-        "tags": [
-          "Plans"
-        ],
+        "tags": ["Plans"],
         "summary": "Gets a list of phone plans for a phone plan group",
         "operationId": "PhoneNumberAdministration_GetPhonePlans",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -581,14 +531,10 @@
     },
     "/administration/phonenumbers/countries/{countryCode}/phoneplangroups/{phonePlanGroupId}/phoneplans/{phonePlanId}/locationoptions": {
       "get": {
-        "tags": [
-          "Plans"
-        ],
+        "tags": ["Plans"],
         "summary": "Gets a list of location options for a phone plan",
         "operationId": "PhoneNumberAdministration_GetPhonePlanLocationOptions",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -643,14 +589,10 @@
     },
     "/administration/phonenumbers/releases/{releaseId}": {
       "get": {
-        "tags": [
-          "Release"
-        ],
+        "tags": ["Release"],
         "summary": "Gets a release by a release id",
         "operationId": "PhoneNumberAdministration_GetReleaseById",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -686,17 +628,11 @@
     },
     "/administration/phonenumbers/releases": {
       "post": {
-        "tags": [
-          "Release"
-        ],
+        "tags": ["Release"],
         "summary": "Creates a release for the given phone numbers",
         "operationId": "PhoneNumberAdministration_ReleasePhoneNumbers",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -731,14 +667,10 @@
         }
       },
       "get": {
-        "tags": [
-          "Release"
-        ],
+        "tags": ["Release"],
         "summary": "Gets a list of all releases",
         "operationId": "PhoneNumberAdministration_GetAllReleases",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -787,14 +719,10 @@
     },
     "/administration/phonenumbers/searches/{searchId}": {
       "get": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "summary": "Get search by search id",
         "operationId": "PhoneNumberAdministration_GetSearchById",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -830,17 +758,11 @@
     },
     "/administration/phonenumbers/searches": {
       "post": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "summary": "Creates a phone number search",
         "operationId": "PhoneNumberAdministration_CreateSearch",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -875,14 +797,10 @@
         }
       },
       "get": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "summary": "Gets a list of all searches",
         "operationId": "PhoneNumberAdministration_GetAllSearches",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -931,14 +849,10 @@
     },
     "/administration/phonenumbers/searches/{searchId}/cancel": {
       "post": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "summary": "Cancels the search. This means existing numbers in the search will be made available.",
         "operationId": "PhoneNumberAdministration_CancelSearch",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -971,14 +885,10 @@
     },
     "/administration/phonenumbers/searches/{searchId}/purchase": {
       "post": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "summary": "Purchases the phone number search.",
         "operationId": "PhoneNumberAdministration_PurchaseSearch",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -1013,11 +923,7 @@
   "definitions": {
     "AcquiredPhoneNumber": {
       "description": "Represents an acquired phone number.",
-      "required": [
-        "acquiredCapabilities",
-        "availableCapabilities",
-        "phoneNumber"
-      ],
+      "required": ["acquiredCapabilities", "availableCapabilities", "phoneNumber"],
       "type": "object",
       "properties": {
         "phoneNumber": {
@@ -1325,12 +1231,7 @@
         },
         "capabilitiesUpdateStatus": {
           "description": "Status of the capabilities update.",
-          "enum": [
-            "Pending",
-            "InProgress",
-            "Complete",
-            "Error"
-          ],
+          "enum": ["Pending", "InProgress", "Complete", "Error"],
           "type": "string",
           "x-ms-enum": {
             "name": "CapabilitiesUpdateStatus",
@@ -1348,9 +1249,7 @@
     },
     "UpdateNumberCapabilitiesRequest": {
       "description": "Represents a numbers capabilities update request",
-      "required": [
-        "phoneNumberCapabilitiesUpdate"
-      ],
+      "required": ["phoneNumberCapabilitiesUpdate"],
       "type": "object",
       "properties": {
         "phoneNumberCapabilitiesUpdate": {
@@ -1364,9 +1263,7 @@
     },
     "UpdateNumberCapabilitiesResponse": {
       "description": "Represents a number capability update response.",
-      "required": [
-        "capabilitiesUpdateId"
-      ],
+      "required": ["capabilitiesUpdateId"],
       "type": "object",
       "properties": {
         "capabilitiesUpdateId": {
@@ -1377,10 +1274,7 @@
     },
     "PhoneNumberCountry": {
       "description": "Represents a country.",
-      "required": [
-        "countryCode",
-        "localizedName"
-      ],
+      "required": ["countryCode", "localizedName"],
       "type": "object",
       "properties": {
         "localizedName": {
@@ -1412,9 +1306,7 @@
     },
     "NumberConfigurationPhoneNumber": {
       "description": "The phone number wrapper representing a number configuration request",
-      "required": [
-        "phoneNumber"
-      ],
+      "required": ["phoneNumber"],
       "type": "object",
       "properties": {
         "phoneNumber": {
@@ -1425,9 +1317,7 @@
     },
     "PstnConfiguration": {
       "description": "Definition for pstn number configuration",
-      "required": [
-        "callbackUrl"
-      ],
+      "required": ["callbackUrl"],
       "type": "object",
       "properties": {
         "callbackUrl": {
@@ -1442,9 +1332,7 @@
     },
     "NumberConfigurationResponse": {
       "description": "Definition for number configuration",
-      "required": [
-        "pstnConfiguration"
-      ],
+      "required": ["pstnConfiguration"],
       "type": "object",
       "properties": {
         "pstnConfiguration": {
@@ -1454,10 +1342,7 @@
     },
     "NumberConfiguration": {
       "description": "Definition for number configuration",
-      "required": [
-        "phoneNumber",
-        "pstnConfiguration"
-      ],
+      "required": ["phoneNumber", "pstnConfiguration"],
       "type": "object",
       "properties": {
         "pstnConfiguration": {
@@ -1494,9 +1379,7 @@
         },
         "currencyType": {
           "description": "The currency of a phone plan group",
-          "enum": [
-            "USD"
-          ],
+          "enum": ["USD"],
           "type": "string",
           "x-ms-enum": {
             "name": "CurrencyType",
@@ -1511,11 +1394,7 @@
     },
     "PhonePlanGroup": {
       "description": "Represents a plan group.",
-      "required": [
-        "localizedDescription",
-        "localizedName",
-        "phonePlanGroupId"
-      ],
+      "required": ["localizedDescription", "localizedName", "phonePlanGroupId"],
       "type": "object",
       "properties": {
         "phonePlanGroupId": {
@@ -1524,12 +1403,7 @@
         },
         "phoneNumberType": {
           "description": "The phone number type of the plan group",
-          "enum": [
-            "Unknown",
-            "Geographic",
-            "TollFree",
-            "Indirect"
-          ],
+          "enum": ["Unknown", "Geographic", "TollFree", "Indirect"],
           "type": "string",
           "x-ms-enum": {
             "name": "PhoneNumberType",
@@ -1571,11 +1445,7 @@
     },
     "PhonePlan": {
       "description": "Represents a phone plan.",
-      "required": [
-        "localizedName",
-        "locationType",
-        "phonePlanId"
-      ],
+      "required": ["localizedName", "locationType", "phonePlanId"],
       "type": "object",
       "properties": {
         "phonePlanId": {
@@ -1588,11 +1458,7 @@
         },
         "locationType": {
           "description": "The location type of the phone plan.",
-          "enum": [
-            "CivicAddress",
-            "NotRequired",
-            "Selection"
-          ],
+          "enum": ["CivicAddress", "NotRequired", "Selection"],
           "type": "string",
           "x-ms-enum": {
             "name": "LocationType",
@@ -1724,12 +1590,7 @@
       "properties": {
         "status": {
           "description": "The release status of a phone number.",
-          "enum": [
-            "Pending",
-            "Success",
-            "Error",
-            "InProgress"
-          ],
+          "enum": ["Pending", "Success", "Error", "InProgress"],
           "type": "string",
           "x-ms-enum": {
             "name": "PhoneNumberReleaseStatus",
@@ -1758,13 +1619,7 @@
         },
         "status": {
           "description": "The release status.",
-          "enum": [
-            "Pending",
-            "InProgress",
-            "Complete",
-            "Failed",
-            "Expired"
-          ],
+          "enum": ["Pending", "InProgress", "Complete", "Failed", "Expired"],
           "type": "string",
           "x-ms-enum": {
             "name": "ReleaseStatus",
@@ -1786,9 +1641,7 @@
     },
     "ReleaseRequest": {
       "description": "Represents a release request.",
-      "required": [
-        "phoneNumbers"
-      ],
+      "required": ["phoneNumbers"],
       "type": "object",
       "properties": {
         "phoneNumbers": {
@@ -1802,9 +1655,7 @@
     },
     "ReleaseResponse": {
       "description": "Represents a release response.",
-      "required": [
-        "releaseId"
-      ],
+      "required": ["releaseId"],
       "type": "object",
       "properties": {
         "releaseId": {
@@ -1956,12 +1807,7 @@
     },
     "CreateSearchOptions": {
       "description": "Represents a search creation option.",
-      "required": [
-        "areaCode",
-        "description",
-        "displayName",
-        "phonePlanIds"
-      ],
+      "required": ["areaCode", "description", "displayName", "phonePlanIds"],
       "type": "object",
       "properties": {
         "displayName": {
@@ -2003,9 +1849,7 @@
     },
     "CreateSearchResponse": {
       "description": "Represents a search creation response.",
-      "required": [
-        "searchId"
-      ],
+      "required": ["searchId"],
       "type": "object",
       "properties": {
         "searchId": {
