@@ -84,9 +84,7 @@
               "cors": {
                 "corsRules": [
                   {
-                    "allowedOrigins": [
-                      "*"
-                    ],
+                    "allowedOrigins": ["*"],
                     "allowedMethods": [
                       "DELETE",
                       "GET",
@@ -98,12 +96,8 @@
                       "PATCH"
                     ],
                     "maxAgeInSeconds": 86400,
-                    "exposedHeaders": [
-                      "*"
-                    ],
-                    "allowedHeaders": [
-                      "*"
-                    ]
+                    "exposedHeaders": ["*"],
+                    "allowedHeaders": ["*"]
                   }
                 ]
               }
