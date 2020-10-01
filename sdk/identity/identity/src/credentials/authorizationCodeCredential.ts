@@ -156,8 +156,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       if (tokenResponse === null) {
+        const urlSuffix = this.tenantId === "adfs" ? "oauth2/token" : "oauth2/v2.0/token";
         const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
           method: "POST",
           disableJsonStringifyOnBody: true,
           deserializationMapper: undefined,

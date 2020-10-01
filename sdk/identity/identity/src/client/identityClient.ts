@@ -143,8 +143,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
 
     try {
+      const urlSuffix = tenantId === "adfs" ? "oauth2/token" : "oauth2/v2.0/token";
       const webResource = this.createWebResource({
-        url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
+        url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,

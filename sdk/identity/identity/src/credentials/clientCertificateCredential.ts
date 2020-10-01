@@ -116,7 +116,8 @@ export class ClientCertificateCredential implements TokenCredential {
     );
     try {
       const tokenId = uuidV4();
-      const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
+      const urlSuffix = this.tenantId === "adfs" ? "oauth2/token" : "oauth2/v2.0/token";
+      const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`;
       let header: jws.Header;
 
       if (this.certificateX5c) {

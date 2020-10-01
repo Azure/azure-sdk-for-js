@@ -93,10 +93,13 @@ export class DeviceCodeCredential implements TokenCredential {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
 
+    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
+
     const publicClientConfig = {
       auth: {
         clientId: this.clientId,
-        authority: this.authorityHost
+        authority: this.authorityHost,
+        knownAuthorities : knownAuthorities
       },
       cache: {
         cachePlugin: undefined
