@@ -5,7 +5,7 @@ extends:
   parameters:
     PackageName: "@azure/keyvault-secrets"
     ResourceServiceDirectory: keyvault
-    TimeoutInMinutes: 60
+    TimeoutInMinutes: 59
     TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
