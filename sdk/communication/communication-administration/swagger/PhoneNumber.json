@@ -330,7 +330,7 @@
           }
         ],
         "responses": {
-          "202": {
+          "200": {
             "description": "Success"
           },
           "default": {
@@ -368,7 +368,7 @@
           }
         ],
         "responses": {
-          "202": {
+          "200": {
             "description": "Success"
           },
           "default": {
