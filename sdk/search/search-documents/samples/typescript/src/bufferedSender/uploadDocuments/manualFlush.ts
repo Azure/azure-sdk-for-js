@@ -5,13 +5,13 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import {createIndex, WAIT_TIME} from "../../utils/setup";
-import {Hotel} from "../../utils/interfaces";
-import {delay} from "@azure/core-http";
+import { createIndex, WAIT_TIME } from "../../utils/setup";
+import { Hotel } from "../../utils/interfaces";
+import { delay } from "@azure/core-http";
 
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.
- * In this sample, the autoFlush is set to false. i.e. the user 
+ * In this sample, the autoFlush is set to false. i.e. the user
  * wants to call the flush manually.
  */
 const endpoint = process.env.SEARCH_API_ENDPOINT || "";
@@ -20,19 +20,25 @@ const TEST_INDEX_NAME = "hotel-live-sample-test1";
 
 export async function main() {
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-Without AutoFlush Sample`);
-  
+
   const credential = new AzureKeyCredential(apiKey);
-  const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(endpoint, TEST_INDEX_NAME, credential);
+  const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
+    endpoint,
+    TEST_INDEX_NAME,
+    credential
+  );
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
 
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
-  
-  const bufferedClient:SearchIndexingBufferedSender<Hotel> = searchClient.getSearchIndexingBufferedSenderInstance({
-    autoFlush: false
-  });
 
-  bufferedClient.on("batchAdded", (response:any) => {
+  const bufferedClient: SearchIndexingBufferedSender<Hotel> = searchClient.getSearchIndexingBufferedSenderInstance(
+    {
+      autoFlush: false
+    }
+  );
+
+  bufferedClient.on("batchAdded", (response: any) => {
     console.log("Batch Added Event has been receieved....");
   });
 
@@ -40,17 +46,17 @@ export async function main() {
     console.log("Batch Sent Event has been receieved....");
   });
 
-  bufferedClient.on("batchSucceeded", (response:any) => {
+  bufferedClient.on("batchSucceeded", (response: any) => {
     console.log("Batch Succeeded Event has been receieved....");
     console.log(response);
   });
 
-  bufferedClient.on("batchFailed", (response:any) => {
+  bufferedClient.on("batchFailed", (response: any) => {
     console.log("Batch Failed Event has been receieved....");
     console.log(response);
-  })
+  });
 
-  bufferedClient.uploadDocuments([    
+  bufferedClient.uploadDocuments([
     {
       hotelId: "1",
       description:
@@ -69,13 +75,13 @@ export async function main() {
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
       location: new GeographyPoint(47.678581, -122.131577)
-  }]);
+    }
+  ]);
 
   await bufferedClient.flush();
   bufferedClient.dispose();
   await indexClient.deleteIndex(TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 }
-
 
 main();

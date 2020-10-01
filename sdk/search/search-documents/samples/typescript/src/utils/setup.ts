@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SearchIndexClient,
-  SearchIndex,
-  KnownAnalyzerNames
-} from "@azure/search-documents"
+import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
 
 export const WAIT_TIME = 4000;
 

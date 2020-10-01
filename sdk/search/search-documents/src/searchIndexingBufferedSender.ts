@@ -326,9 +326,9 @@ export class SearchIndexingBufferedSender<T> {
     retryAttempt: number = 0
   ): Promise<void> {
     try {
-      for(let i = 0; i < actionsToSend.length; i++) {
+      for (let i = 0; i < actionsToSend.length; i++) {
         this.emitter.emit("batchSent", actionsToSend[i]);
-      }      
+      }
       const result = await this.client.indexDocuments(
         new IndexDocumentsBatch<T>(actionsToSend),
         options
