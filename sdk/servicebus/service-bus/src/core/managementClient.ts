@@ -54,7 +54,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * @internal
  * @ignore
  */
-interface SendManagementRequestOptions extends SendRequestOptions {
+export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
    * The name of the sender or receiver link associated with the managmenet operations.
    * This is used for service side optimization.
@@ -191,11 +191,6 @@ export interface ManagementClientOptions {
  */
 export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
-   * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
-   * for which the management request needs to be made.
-   */
-  entityPath: string;
-  /**
    * @property {string} replyTo The reply to Guid for the management client.
    */
   replyTo: string = generate_uuid();
@@ -208,11 +203,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @constructor
    * Instantiates the management client.
    * @param context The connection context
+   * @param entityPath - The name/path of the entity (queue/topic/subscription name)
+   * for which the management request needs to be made.
    * @param {ManagementClientOptions} [options] Options to be provided for creating the
    * "$management" client.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ManagementClientOptions) {
-    super(`${entityPath}/$management`, context, "m", {
+    super(`${entityPath}/$management`, entityPath, context, "m", {
       address: options && options.address ? options.address : Constants.management,
       audience:
         options && options.audience
@@ -220,7 +217,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           : `${context.config.endpoint}${entityPath}/$management`
     });
     this._context = context;
-    this.entityPath = entityPath;
   }
 
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {

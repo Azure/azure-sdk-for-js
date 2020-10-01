@@ -200,7 +200,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.name
           );
           this.sessionLockedUntilUtc = await this._context
-            .getManagementClient(this._entityPath)
+            .getManagementClient(this.entityPath)
             .renewSessionLock(this.sessionId, {
               associatedLinkName: this.name,
               timeoutInMs: 10000
@@ -382,13 +382,13 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   constructor(
     context: ConnectionContext,
-    private _entityPath: string,
+    entityPath: string,
     private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(_entityPath, context, "ms", {
-      address: _entityPath,
-      audience: `${context.config.endpoint}${_entityPath}`
+    super(entityPath, entityPath, context, "ms", {
+      address: entityPath,
+      audience: `${context.config.endpoint}${entityPath}`
     });
     this._receiverHelper = new ReceiverHelper(() => this.link);
     if (!options) options = {};
@@ -406,7 +406,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      _entityPath,
+      entityPath,
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
@@ -661,7 +661,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         const bMessage = new ServiceBusMessageImpl(
           this._context,
-          this._entityPath,
+          this.entityPath,
           context.message!,
           context.delivery!,
           true,
