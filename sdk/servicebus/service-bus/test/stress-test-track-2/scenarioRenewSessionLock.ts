@@ -19,6 +19,12 @@ interface ScenarioRenewSessionLockOptions {
   numberOfMessagesPerSend?: number;
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
+  /**
+   * Default: false
+   * Manual autoLockRenewal happens occurs by default
+   * If this flag is set to true, manual lock renewal is disabled, related logging is also gone with it
+   */
+  autoLockRenewal?: boolean;
 }
 
 function sanitizeOptions(
@@ -31,7 +37,8 @@ function sanitizeOptions(
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    autoLockRenewal: options.autoLockRenewal || false
   };
 }
 
@@ -43,7 +50,8 @@ export async function scenarioRenewSessionLock() {
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
+    autoLockRenewal
   } = sanitizeOptions(parsedArgs<ScenarioRenewSessionLockOptions>(process.argv));
   // Since we are focusing on session locks in this test
   const receiveMode = "receiveAndDelete";
@@ -53,6 +61,7 @@ export async function scenarioRenewSessionLock() {
   const stressBase = new SBStressTestsBase({
     snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"]
   });
+
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init(undefined, { requiresSession: true });
@@ -76,7 +85,8 @@ export async function scenarioRenewSessionLock() {
       let receiver;
       try {
         receiver = await sbClient.createSessionReceiver(stressBase.queueName, {
-          receiveMode
+          receiveMode,
+          maxAutoRenewLockDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
         });
       } catch (error) {
         console.log(error);
@@ -88,7 +98,9 @@ export async function scenarioRenewSessionLock() {
           receiveBatchMaxWaitTimeInMs
         );
         receivers.push(receiver);
-        stressBase.renewSessionLockUntil(receiver, testDurationInMs - elapsedTime);
+        if (!autoLockRenewal) {
+          stressBase.renewSessionLockUntil(receiver, testDurationInMs - elapsedTime);
+        }
       }
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
       await delay(delayBetweenReceivesInMs);

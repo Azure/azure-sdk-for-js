@@ -59,3 +59,4 @@ Here are the scenarios being covered and how you can run them.
    - numberOfMessagesPerSend (default = 100)
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
+   - autoLockRenewal (default = false)
