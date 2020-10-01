@@ -1,13 +1,15 @@
 import {
   CreateQueueOptions,
+  delay,
   ServiceBusAdministrationClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
   ServiceBusReceivedMessageWithLock,
   ServiceBusReceiver,
-  ServiceBusSender
+  ServiceBusSender,
+  ServiceBusSessionReceiver,
+  SubscribeOptions
 } from "@azure/service-bus";
-import { ServiceBusSessionReceiver } from "../../src";
 
 interface ReceiveInfo {
   numberOfSuccessfulReceives: number;
@@ -151,6 +153,52 @@ export class SBStressTestsBase {
       console.error("Error in receiving: ", error);
     }
     return [];
+  }
+
+  public async receiveStreaming<ReceivedMessageT extends ServiceBusReceivedMessage>(
+    receiver: ServiceBusReceiver<ReceivedMessageT>,
+    duration: number,
+    options: Pick<
+      SubscribeOptions,
+      "autoComplete" | "maxConcurrentCalls" | "maxAutoRenewLockDurationInMs"
+    > & { manualLockRenewal: boolean }
+  ) {
+    const startTime = new Date();
+    const processMessage = async (
+      message: ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
+    ) => {
+      // TODO: message to keep renewing locks - pass args
+      // TODO: message to complete after certain number of renewals
+      if (receiver.receiveMode === "peekLock") {
+        const elapsedTime = new Date().valueOf() - startTime.valueOf();
+        // TODO: complete the message too
+        if (
+          !options.autoComplete &&
+          options.maxAutoRenewLockDurationInMs === 0 &&
+          options.manualLockRenewal
+        ) {
+          this.renewMessageLockUntil(
+            message as ServiceBusReceivedMessageWithLock,
+            duration - elapsedTime
+          );
+        }
+      }
+      this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
+      this.receiveInfo.numberOfSuccessfulReceives++;
+    };
+    const processError = async (error) => {
+      this.receiveInfo.errorsInReceiving.push(error);
+      console.error("Error in receiving: ", error);
+    };
+    const subscriber = receiver.subscribe(
+      {
+        processMessage,
+        processError
+      },
+      options
+    );
+    await delay(duration);
+    await subscriber.close();
   }
 
   /**

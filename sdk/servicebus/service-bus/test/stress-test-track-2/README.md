@@ -60,3 +60,18 @@ Here are the scenarios being covered and how you can run them.
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
    - autoLockRenewal (default = false)
+
+5. Streaming Receive
+   `ts-node scenarioStreamingReceive.ts` (runs with defaults)
+   `ts-node scenarioStreamingReceive.ts --manualLockRenewal=false --totalNumberOfMessagesToSend=5000` (With flags)
+   Flags that can be set
+
+   - testDurationInMs (default = 3600000) // 1hr
+   - receiveMode (default = "peekLock")
+   - autoComplete (default = true)
+   - maxConcurrentCalls (default = 100)
+   - maxAutoRenewLockDurationInMs (default = 0)
+   - manualLockRenewal (default = true)
+   - numberOfMessagesPerSend (default = 1)
+   - delayBetweenSendsInMs (default = 0)
+   - totalNumberOfMessagesToSend (default = Infinity)
