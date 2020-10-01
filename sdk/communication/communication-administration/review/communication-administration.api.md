@@ -44,6 +44,10 @@ export interface AreaCodes {
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
 // @public (undocumented)
+export interface BeginCancelSearchOptions extends SearchPollerOptions {
+}
+
+// @public (undocumented)
 export interface BeginRefreshSearchOptions extends SearchPollerOptions {
 }
 
@@ -276,8 +280,8 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    beginCancelSearch(searchId: string, options?: BeginCancelSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     beginRefreshSearch(searchId: string, options?: BeginRefreshSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
-    cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
@@ -404,6 +408,8 @@ export interface PhoneNumberEntity {
 //
 // @internal
 export interface PhoneNumberPollerClient {
+    // (undocumented)
+    cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
     // (undocumented)
     getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
     // (undocumented)

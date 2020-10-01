@@ -4,9 +4,9 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
-import { BeginRefreshSearchOptions, PhoneNumberPollerClient } from "../../models";
+import { BeginCancelSearchOptions, PhoneNumberPollerClient } from "../../models";
 
-export interface RefreshSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
+export interface CancelSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
    * The id of the search returned by createSearch.
    */
@@ -19,22 +19,22 @@ export interface RefreshSearchPollOperationState extends PollOperationState<Phon
   /**
    * Options for refreshing a search.
    */
-  options?: BeginRefreshSearchOptions;
+  options?: BeginCancelSearchOptions;
 }
 
 /**
- * Represents the refresh poll operation.
+ * Represents the cancel poll operation.
  */
-export interface RefreshSearchPollOperation
-  extends PollOperation<RefreshSearchPollOperationState, PhoneNumberSearch> {}
+export interface CancelSearchPollOperation
+  extends PollOperation<CancelSearchPollOperationState, PhoneNumberSearch> {}
 
 async function update(
-  this: RefreshSearchPollOperation,
+  this: CancelSearchPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: RefreshSearchPollOperationState) => void;
+    fireProgress?: (state: CancelSearchPollOperationState) => void;
   } = {}
-): Promise<RefreshSearchPollOperation> {
+): Promise<CancelSearchPollOperation> {
   const state = this.state;
   const { searchId, client } = state;
   const requestOptions = state.options || {};
@@ -45,17 +45,17 @@ async function update(
 
   try {
     if (!state.isStarted) {
-      await client.refreshSearch(searchId, requestOptions);
+      await client.cancelSearch(searchId, requestOptions);
       state.isStarted = true;
       state.result = await client.getSearch(searchId, requestOptions);
-      if (state.result.status === "Success") {
+      if (state.result.status === "Cancelled") {
         state.isCompleted = true;
       }
     }
   
     if (!state.isCompleted) {
       state.result = await client.getSearch(searchId, requestOptions);
-      if (state.result.status === "Success") {
+      if (state.result.status === "Cancelled") {
         state.isCompleted = true;
       }
     }
@@ -63,7 +63,7 @@ async function update(
     state.error = error;
     state.isCompleted = true;
   } finally {
-    return makeRefreshSearchPollOperation(state);
+    return makeCancelSearchPollOperation(state);
   }
 }
 
@@ -71,14 +71,14 @@ async function update(
  * @summary Reaches to the service and cancels the operation, also updating the poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
-async function cancel(this: RefreshSearchPollOperation): Promise<RefreshSearchPollOperation> {
+async function cancel(this: CancelSearchPollOperation): Promise<CancelSearchPollOperation> {
   throw new Error("Canceling the deletion of a secret is not supported.");
 }
 
 /**
  * @summary Serializes the poll operation
  */
-function toString(this: RefreshSearchPollOperation): string {
+function toString(this: CancelSearchPollOperation): string {
   return JSON.stringify({
     state: this.state
   });
@@ -88,9 +88,9 @@ function toString(this: RefreshSearchPollOperation): string {
  * @summary Builds a poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
-export function makeRefreshSearchPollOperation(
-  state: RefreshSearchPollOperationState
-): RefreshSearchPollOperation {
+export function makeCancelSearchPollOperation(
+  state: CancelSearchPollOperationState
+): CancelSearchPollOperation {
   return {
     state: {
       ...state

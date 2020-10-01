@@ -312,6 +312,8 @@ export interface SearchPollerOptions extends OperationOptions {
 
 export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
 
+export interface BeginCancelSearchOptions extends SearchPollerOptions {}
+
 /**
  * @internal
  * @ignore
@@ -320,4 +322,5 @@ export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
 export interface PhoneNumberPollerClient {
   getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
   refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
+  cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
 }

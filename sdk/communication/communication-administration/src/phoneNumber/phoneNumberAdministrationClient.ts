@@ -75,12 +75,13 @@ import {
   GetSearchOptions,
   PurchaseSearchOptions,
   BeginRefreshSearchOptions,
-  PhoneNumberPollerClient
+  PhoneNumberPollerClient, BeginCancelSearchOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { RefreshSearchPoller } from "./lro/refresh/poller";
+import { CancelSearchPoller } from './lro/cancel/poller';
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -107,7 +108,8 @@ export class PhoneNumberAdministrationClient {
    */
   private readonly pollerClient: PhoneNumberPollerClient = {
     getSearch: this.getSearch.bind(this),
-    refreshSearch: this.refreshSearch.bind(this)
+    refreshSearch: this.refreshSearch.bind(this),
+    cancelSearch: this.cancelSearch.bind(this)
   };
 
   /**
@@ -1011,7 +1013,7 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Refreshes the search associated with a given id.
+   * Refreshes the search associated with a given id. This means new numbers will be reserved for the search.
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the search is refreshed.
    *
    * Example usage:
@@ -1039,6 +1041,41 @@ export class PhoneNumberAdministrationClient {
     options: BeginRefreshSearchOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
     const poller = new RefreshSearchPoller({
+      searchId,
+      client: this.pollerClient,
+      options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancels the search associated with a given id. This means existing numbers in the search will be made available.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the search is refreshed.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
+   * const cancelPoller = await client.beginCancelSearch(searchId);
+   *
+   * // Serializing the poller
+   * const serialized = cancelPoller.toString();
+   *
+   * // Waiting until it's done
+   * const phoneNumbers = await cancelPoller.pollUntilDone();
+   * console.log(phoneNumbers);
+   * ```
+   * @summary Cancels the search associated with a given id.
+   * @param {string} searchId The id of the search returned by createSearch.
+   * @param {BeginCancelSearchOptions} options Additional request options.
+   */
+  public async beginCancelSearch(
+    searchId: string,
+    options: BeginCancelSearchOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    const poller = new CancelSearchPoller({
       searchId,
       client: this.pollerClient,
       options
@@ -1083,7 +1120,7 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async cancelSearch(
+  private async cancelSearch(
     searchId: string,
     options: CancelSearchOptions = {}
   ): Promise<VoidResponse> {
