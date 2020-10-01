@@ -15,6 +15,10 @@
         "description": "The tenant ID to which the application and resources belong."
       }
     },
+    "enableVersioning": {
+      "type": "bool",
+      "defaultValue": false
+    },
     "storageEndpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net",
@@ -67,6 +71,46 @@
           },
           "keySource": "Microsoft.Storage"
         },
+        "resources": [
+          {
+            "name": "default",
+            "type": "Microsoft.Storage/storageAccounts/tableServices",
+            "apiVersion": "[variables('storageApiVersion')]",
+            "dependsOn": [
+              "[resourceId('Microsoft.Storage/storageAccounts', variables('accountName'))]"
+            ],
+            "properties": {
+              "isVersioningEnabled": "[parameters('enableVersioning')]",
+              "cors": {
+                "corsRules": [
+                  {
+                    "allowedOrigins": [
+                      "*"
+                    ],
+                    "allowedMethods": [
+                      "DELETE",
+                      "GET",
+                      "HEAD",
+                      "MERGE",
+                      "POST",
+                      "OPTIONS",
+                      "PUT",
+                      "PATCH"
+                    ],
+                    "maxAgeInSeconds": 86400,
+                    "exposedHeaders": [
+                      "*"
+                    ],
+                    "allowedHeaders": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            },
+            "resources": []
+          }
+        ],
         "accessTier": "Hot"
       }
     }
