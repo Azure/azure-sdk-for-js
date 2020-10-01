@@ -14,7 +14,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
 describe("Send Batch", () => {
@@ -411,9 +411,10 @@ describe("Send Batch", () => {
       try {
         await sender.createBatch({ maxSizeInBytes });
       } catch (error) {
+        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
         should.equal(
           error.message,
-          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (262144 bytes) on the AMQP sender link.`,
+          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
           "Unexpected error message when tried to create a batch of size > maximum message size."
         );
         errorIsThrown = true;

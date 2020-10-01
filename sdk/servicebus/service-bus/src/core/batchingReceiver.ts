@@ -35,12 +35,12 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
-    super(context, _entityPath, "br", options);
+  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
+    super(context, entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      _entityPath,
+      entityPath,
       async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
