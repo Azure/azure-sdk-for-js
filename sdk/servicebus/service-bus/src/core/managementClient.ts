@@ -54,7 +54,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * @internal
  * @ignore
  */
-interface SendManagementRequestOptions extends SendRequestOptions {
+export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
    * The name of the sender or receiver link associated with the managmenet operations.
    * This is used for service side optimization.
