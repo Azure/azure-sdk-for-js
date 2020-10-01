@@ -19,6 +19,7 @@ Here are the scenarios being covered and how you can run them.
    - numberOfMessagesPerSend (default = 1)
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
+   - useScheduleApi (default = false)
 
 2. Batch receive with a streaming sender
    `ts-node scenarioBatchReceive.ts` (runs with defaults)

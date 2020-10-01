@@ -104,7 +104,8 @@ export class SBStressTestsBase {
   public async sendMessages(
     senders: ServiceBusSender[],
     numberOfMessages = 1,
-    useSessions = false
+    useSessions = false,
+    useScheduleApi = false
   ) {
     for (const sender of senders) {
       try {
@@ -115,7 +116,13 @@ export class SBStressTestsBase {
             sessionId: useSessions ? `session-${Math.ceil(Math.random() * 10000)}` : undefined
           });
         }
-        await sender.sendMessages(messages);
+        if (useScheduleApi) {
+          const scheduleTime = new Date();
+          scheduleTime.setMinutes(scheduleTime.getMinutes() + 1); // 1 minute from now
+          await sender.scheduleMessages(scheduleTime, messages);
+        } else {
+          await sender.sendMessages(messages);
+        }
         this.sendInfo.numberOfSuccesses++;
         this.messagesSent = this.messagesSent.concat(messages);
       } catch (error) {

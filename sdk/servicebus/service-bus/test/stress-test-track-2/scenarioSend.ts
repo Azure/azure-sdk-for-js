@@ -12,6 +12,7 @@ interface ScenarioSimpleSendOptions {
   numberOfMessagesPerSend?: number;
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
+  useScheduleApi?: boolean;
 }
 
 // Define connection string and related Service Bus entity names here
@@ -22,7 +23,8 @@ function sanitizeOptions(options: ScenarioSimpleSendOptions): Required<ScenarioS
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    useScheduleApi: options.useScheduleApi || false
   };
 }
 
@@ -31,7 +33,8 @@ async function main() {
     testDurationInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
+    useScheduleApi
   } = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
 
   const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info"] });
@@ -46,7 +49,7 @@ async function main() {
     elapsedTime < testDurationInMs &&
     stressBase.messagesSent.length < totalNumberOfMessagesToSend
   ) {
-    await stressBase.sendMessages([sender], numberOfMessagesPerSend);
+    await stressBase.sendMessages([sender], numberOfMessagesPerSend, false, useScheduleApi);
     elapsedTime = new Date().valueOf() - startedAt.valueOf();
     await delay(delayBetweenSendsInMs);
   }
