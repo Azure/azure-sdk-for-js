@@ -29,15 +29,11 @@ import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
 
-export interface TablesBatch {
+export interface TableBatch {
   partitionKey: string;
-  createEntities: <T extends object>(entitites: TableEntity<T>[]) => Promise<void>;
-  createEntity: <T extends object>(entity: TableEntity<T>) => Promise<void>;
-  deleteEntity: (
-    partitionKey: string,
-    rowKey: string,
-    options?: DeleteTableEntityOptions
-  ) => Promise<void>;
+  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+  createEntity: <T extends object>(entity: TableEntity<T>) => void;
+  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
   updateEntity: <T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
@@ -46,16 +42,19 @@ export interface TablesBatch {
   submitBatch: () => Promise<TableBatchResponse>;
 }
 
-interface InnerBatchRequest {
-  createPipeline: () => void;
-  appendSubRequestToBody: (request: WebResource) => void;
+export interface InnerBatchRequest {
+  body: string;
+  operationCount: number;
+  createPipeline(): RequestPolicyFactory[];
+  appendSubRequestToBody(request: WebResource): void;
   getHttpRequestBody(): string;
   getMultipartContentType(): string;
+  getBatchBoundary(): string;
 }
 
 export interface TableBatchResponse {
   responseCount: number;
-  getResponseForEntity: () => HttpResponse;
+  getResponseForEntity: (rowKey: string) => HttpResponse;
 }
 
 /**
@@ -70,16 +69,14 @@ export function createBatch(
   tableName: string,
   partitionKey: string,
   credential?: TablesSharedKeyCredentialLike
-): TablesBatch {
+): TableBatch {
   const batchGuid = generateUuid();
   const batchRequest = createInnerBatchRequest(batchGuid);
-
-  // Creates the pipeline that would intercept the requests
-  const pipeline = batchRequest.createPipeline();
+  const pendingOperations: Promise<any>[] = [];
 
   // Client used to intercept the requests and add them to the batch instead of sending them to the service
   const interceptClient: TableClient = new TableClient(url, tableName, {
-    requestPolicyFactories: pipeline
+    innerBatchRequest: batchRequest
   });
 
   let batchUrl = url;
@@ -98,18 +95,18 @@ export function createBatch(
 
   return {
     partitionKey,
-    async createEntity<T extends object>(entity: TableEntity<T>): Promise<void> {
+    createEntity<T extends object>(entity: TableEntity<T>): void {
       if (entity.partitionKey !== this.partitionKey) {
         throw new Error("All operations in a batch must target the same partitionKey");
       }
-      await interceptClient.createEntity(entity);
+      pendingOperations.push(interceptClient.createEntity(entity));
     },
-    async createEntities<T extends object>(entitites: TableEntity<T>[]): Promise<void> {
+    createEntities<T extends object>(entitites: TableEntity<T>[]): void {
       for (const entity of entitites) {
         if (entity.partitionKey !== this.partitionKey) {
           throw new Error("All operations in a batch must target the same partitionKey");
         }
-        await interceptClient.createEntity(entity);
+        pendingOperations.push(interceptClient.createEntity(entity));
       }
     },
     async deleteEntity(
@@ -120,7 +117,7 @@ export function createBatch(
       if (partitionKey !== this.partitionKey) {
         throw new Error("All operations in a batch must target the same partitionKey");
       }
-      interceptClient.deleteEntity(partitionKey, rowKey, options);
+      pendingOperations.push(interceptClient.deleteEntity(partitionKey, rowKey, options));
     },
     async updateEntity<T extends object>(
       entity: TableEntity<T>,
@@ -130,9 +127,10 @@ export function createBatch(
       if (entity.partitionKey !== this.partitionKey) {
         throw new Error("All operations in a batch must target the same partitionKey");
       }
-      interceptClient.updateEntity(entity, mode, options);
+      pendingOperations.push(interceptClient.updateEntity(entity, mode, options));
     },
     async submitBatch(): Promise<any> {
+      await Promise.all(pendingOperations);
       const body = batchRequest.getHttpRequestBody();
       const client = new ServiceClient();
       const headers: RawHttpHeaders = {
@@ -171,7 +169,7 @@ export function createBatch(
  * This method creates a batch request object that provides functions to build the envelope and body for a batch request
  * @param batchGuid Id of the batch
  */
-function createInnerBatchRequest(batchGuid: string) {
+function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
   const HTTP_LINE_ENDING = "\r\n";
   const HTTP_VERSION_1_1 = "HTTP/1.1";
   const changesetGuid = generateUuid();

@@ -17,6 +17,7 @@ import {
   PipelineOptions,
   RequestPolicyFactory
 } from "@azure/core-http";
+import { InnerBatchRequest } from "./TableBatch";
 
 /**
  * Client options used to configure Tables Api requests
@@ -24,6 +25,7 @@ import {
 export type TableServiceClientOptions = PipelineOptions & {
   endpoint?: string;
   version?: string;
+  innerBatchRequest?: InnerBatchRequest;
   requestPolicyFactories?:
     | RequestPolicyFactory[]
     | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);

@@ -37,11 +37,15 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
+import {
+  createPipelineFromOptions,
+  InternalPipelineOptions,
+  ServiceClientOptions
+} from "@azure/core-http";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createBatch, TablesBatch } from "./TablesBatch";
+import { createBatch, TableBatch } from "./TableBatch";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -134,20 +138,24 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...clientOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+    let pipeline: ServiceClientOptions;
+
+    if (clientOptions.innerBatchRequest) {
+      // The client is meant to be an intercept client, so we need to create only the intercepting
+      // pipelines.
+      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest.createPipeline() };
+    } else {
+      // The client is meant to be a regular service client, so we need to create the regular set of pipelines
+      const internalPipelineOptions: InternalPipelineOptions = {
+        ...clientOptions,
+        ...{
+          loggingOptions: {
+            logger: logger.info,
+            allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          }
         }
-      }
-    };
-
-    let pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
-
-    if (Array.isArray(clientOptions.requestPolicyFactories)) {
-      pipeline = { requestPolicyFactories: clientOptions.requestPolicyFactories };
+      };
+      pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
     }
 
     this.tableName = tableName;
@@ -485,14 +493,9 @@ export class TableClient {
 
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
+   * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
-  public createBatch(partitionKey: string): TablesBatch {
+  public createBatch(partitionKey: string): TableBatch {
     return createBatch(this.url, this.tableName, partitionKey, this.credential);
   }
 
