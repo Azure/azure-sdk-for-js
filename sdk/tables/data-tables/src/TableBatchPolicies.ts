@@ -12,7 +12,7 @@ import {
   HttpHeaders
 } from "@azure/core-http";
 import { HeaderConstants } from "./utils/constants";
-import { InnerBatchRequest } from "./models";
+import { InnerBatchRequest } from "./utils/internalModels";
 
 class BatchHeaderFilterPolicy extends BaseRequestPolicy {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor

@@ -16,7 +16,6 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableBatch,
-  InnerBatchRequest,
   TableClientLike
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
@@ -26,6 +25,7 @@ import {
   BatchHeaderFilterPolicyFactory,
   BatchRequestAssemblePolicyFactory
 } from "./TableBatchPolicies";
+import { InnerBatchRequest } from "./utils/internalModels";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch

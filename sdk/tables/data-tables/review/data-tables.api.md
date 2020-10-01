@@ -195,17 +195,6 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
 };
 
 // @public
-export interface InnerBatchRequest {
-  appendSubRequestToBody(request: WebResourceLike): void;
-  body: string[];
-  createPipeline(): RequestPolicyFactory[];
-  getBatchBoundary(): string;
-  getHttpRequestBody(): string;
-  getMultipartContentType(): string;
-  operationCount: number;
-}
-
-// @public
 export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   nextPartitionKey?: string;
   nextRowKey?: string;
@@ -634,7 +623,6 @@ export class TableServiceClient {
 export type TableServiceClientOptions = PipelineOptions & {
   endpoint?: string;
   version?: string;
-  innerBatchRequest?: InnerBatchRequest;
 };
 
 // @public

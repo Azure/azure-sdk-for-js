@@ -11,13 +11,7 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import {
-  OperationOptions,
-  HttpResponse,
-  PipelineOptions,
-  RequestPolicyFactory,
-  WebResourceLike
-} from "@azure/core-http";
+import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
 import {
   DeleteTableOptions,
   DeleteTableResponse,
@@ -33,7 +27,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 export type TableServiceClientOptions = PipelineOptions & {
   endpoint?: string;
   version?: string;
-  innerBatchRequest?: InnerBatchRequest;
 };
 
 /**
@@ -541,42 +534,6 @@ export interface TableClientLike {
     mode: UpdateMode,
     options?: UpsertTableEntityOptions
   ): Promise<UpsertEntityResponse>;
-}
-
-/**
- * Batch request builder
- */
-export interface InnerBatchRequest {
-  /**
-   * Batch request body
-   */
-  body: string[];
-  /**
-   * Total count of sub-operations to send
-   */
-  operationCount: number;
-  /**
-   * Creates a pipeline to intercept sub-requests and
-   * build the request body
-   */
-  createPipeline(): RequestPolicyFactory[];
-  /**
-   * Adds an operation to add to the batch body
-   * @param request the operation to add
-   */
-  appendSubRequestToBody(request: WebResourceLike): void;
-  /**
-   * Gets the batch request body
-   */
-  getHttpRequestBody(): string;
-  /**
-   * Gets the content-type
-   */
-  getMultipartContentType(): string;
-  /**
-   * Gets the batch operation boundary
-   */
-  getBatchBoundary(): string;
 }
 
 /**

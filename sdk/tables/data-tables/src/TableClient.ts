@@ -48,6 +48,7 @@ import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
+import { InternalBatchClientOptions } from "./utils/internalModels";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -142,10 +143,10 @@ export class TableClient {
 
     let pipeline: ServiceClientOptions;
 
-    if (clientOptions.innerBatchRequest) {
+    if (isInternalClientOptions(clientOptions)) {
       // The client is meant to be an intercept client, so we need to create only the intercepting
       // pipelines.
-      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest.createPipeline() };
+      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest?.createPipeline() };
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
       const internalPipelineOptions: InternalPipelineOptions = {
@@ -500,7 +501,8 @@ export class TableClient {
   public createBatch(partitionKey: string): TableBatch {
     const batchId = generateUuid();
     const innerBatchRequest = createInnerBatchRequest(batchId);
-    const interceptClient = new TableClient(this.url, this.tableName, { innerBatchRequest });
+    const internalClientOptions: InternalBatchClientOptions = { innerBatchRequest };
+    const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
     return new TableBatchImpl(
       this.url,
       partitionKey,
@@ -549,6 +551,10 @@ export class TableClient {
       return new TableClient(url, tableName, clientOptions);
     }
   }
+}
+
+function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
+  return Boolean(options.innerBatchRequest);
 }
 
 type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
