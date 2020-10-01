@@ -5,6 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
 import { BeginRefreshSearchOptions, PhoneNumberPollerClient } from "../../models";
+import { isComplete } from "../util";
 
 export interface RefreshSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
@@ -48,16 +49,12 @@ async function update(
       await client.refreshSearch(searchId, requestOptions);
       state.isStarted = true;
       state.result = await client.getSearch(searchId, requestOptions);
-      if (state.result.status === "Success") {
-        state.isCompleted = true;
-      }
+      state.isCompleted = isComplete(state.result, "Reserved");
     }
 
     if (!state.isCompleted) {
       state.result = await client.getSearch(searchId, requestOptions);
-      if (state.result.status === "Success") {
-        state.isCompleted = true;
-      }
+      state.isCompleted = isComplete(state.result, "Reserved");
     }
   } catch (error) {
     state.error = error;
@@ -72,7 +69,7 @@ async function update(
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(this: RefreshSearchPollOperation): Promise<RefreshSearchPollOperation> {
-  throw new Error("Canceling the deletion of a secret is not supported.");
+  throw new Error("Canceling is not supported.");
 }
 
 /**

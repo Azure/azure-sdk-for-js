@@ -296,8 +296,7 @@ export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsRe
 export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
 
 /**
- * An interface representing the optional parameters that can be
- * passed to beginRefreshSearch.
+ * Represents the optional parameters that can be passed to search pollers.
  */
 export interface SearchPollerOptions extends OperationOptions {
   /**
@@ -310,9 +309,20 @@ export interface SearchPollerOptions extends OperationOptions {
   resumeFrom?: string;
 }
 
+/**
+ * Represents optional parameters that can be passed to beginRefreshSearch poller.
+ */
 export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
 
+/**
+ * Represents optional parameters that can be passed to beginCancelSearch poller.
+ */
 export interface BeginCancelSearchOptions extends SearchPollerOptions {}
+
+/**
+ * Represents optional parameters that can be passed to beginPurchaseSearch poller.
+ */
+export interface BeginPurchaseSearchOptions extends SearchPollerOptions {}
 
 /**
  * @internal
@@ -323,4 +333,5 @@ export interface PhoneNumberPollerClient {
   getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
   refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
   cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
+  purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
 }

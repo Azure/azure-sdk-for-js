@@ -43,11 +43,15 @@ export interface AreaCodes {
 // @public
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
-// @public (undocumented)
+// @public
 export interface BeginCancelSearchOptions extends SearchPollerOptions {
 }
 
-// @public (undocumented)
+// @public
+export interface BeginPurchaseSearchOptions extends SearchPollerOptions {
+}
+
+// @public
 export interface BeginRefreshSearchOptions extends SearchPollerOptions {
 }
 
@@ -281,6 +285,7 @@ export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     beginCancelSearch(searchId: string, options?: BeginCancelSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    beginPurchaseSearch(searchId: string, options?: BeginPurchaseSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     beginRefreshSearch(searchId: string, options?: BeginRefreshSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
@@ -412,6 +417,8 @@ export interface PhoneNumberPollerClient {
     cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
     // (undocumented)
     getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
+    // (undocumented)
+    purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
     // (undocumented)
     refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
 }
