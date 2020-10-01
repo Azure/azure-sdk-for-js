@@ -83,11 +83,7 @@ export class SBStressTestsBase {
   );
   queueName!: string;
 
-  constructor(
-    private snapshotOptions: SnapshotOptions = {
-      snapshotIntervalInMs: 5000 //Snapshots are taken every 5s
-    }
-  ) {
+  constructor(private snapshotOptions: SnapshotOptions) {
     if (!this.snapshotOptions.snapshotFocus) {
       this.snapshotOptions.snapshotFocus = [
         "send-info",
@@ -95,6 +91,9 @@ export class SBStressTestsBase {
         "message-lock-renewal-info",
         "session-lock-renewal-info"
       ];
+    }
+    if (!this.snapshotOptions.snapshotIntervalInMs) {
+      this.snapshotOptions.snapshotIntervalInMs = 5000;
     }
     this.startedAt = new Date();
     this.messagesSent = [];

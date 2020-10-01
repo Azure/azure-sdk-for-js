@@ -58,7 +58,9 @@ export async function scenarioStreamingReceive() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info", "receive-info"] });
+  const stressBase = new SBStressTestsBase({
+    snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
+  });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init();
