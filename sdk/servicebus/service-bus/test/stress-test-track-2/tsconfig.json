@@ -8,11 +8,9 @@
       "ESNext.AsyncIterable"
     ],
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "."
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["./*.ts"],
   "exclude": [
     "node_modules"
   ]
