@@ -11,20 +11,12 @@ import {
   SubscribeOptions
 } from "@azure/service-bus";
 
-interface ReceiveInfo {
-  numberOfSuccessfulReceives: number;
-  numberOfFailedReceives: number;
-  errorsInReceiving: any[];
+interface OperationInfo {
+  numberOfSuccesses: number;
+  numberOfFailures: number;
+  errors: any[];
 }
-interface SendInfo {
-  numberOfSuccessfulSends: number;
-  numberOfFailedSends: number;
-  errorsInSending: any[];
-}
-interface LockRenewalInfo {
-  numberOfSuccessfulLockRenewals: number;
-  numberOfFailedLockRenewals: number;
-  errorsInLockRenewal: any[];
+interface LockRenewalOperationInfo extends OperationInfo {
   /**
    * key - id, value - next renewal timer meant for the message/session-receiver
    */
@@ -50,30 +42,30 @@ export class SBStressTestsBase {
   startedAt!: Date;
 
   // Send metrics
-  sendInfo: SendInfo = {
-    numberOfSuccessfulSends: 0,
-    numberOfFailedSends: 0,
-    errorsInSending: []
+  sendInfo: OperationInfo = {
+    numberOfSuccesses: 0,
+    numberOfFailures: 0,
+    errors: []
   };
   // Receive metrics
-  receiveInfo: ReceiveInfo = {
-    numberOfSuccessfulReceives: 0,
-    numberOfFailedReceives: 0,
-    errorsInReceiving: []
+  receiveInfo: OperationInfo = {
+    numberOfSuccesses: 0,
+    numberOfFailures: 0,
+    errors: []
   };
   // Message Lock Renewal
-  messageLockRenewalInfo: LockRenewalInfo = {
-    numberOfSuccessfulLockRenewals: 0,
-    numberOfFailedLockRenewals: 0,
-    errorsInLockRenewal: [],
+  messageLockRenewalInfo: LockRenewalOperationInfo = {
+    numberOfSuccesses: 0,
+    numberOfFailures: 0,
+    errors: [],
     lockRenewalTimers: {},
     renewalCount: {}
   };
   // Session Lock Renewal
-  sessionLockRenewalInfo: LockRenewalInfo = {
-    numberOfSuccessfulLockRenewals: 0,
-    numberOfFailedLockRenewals: 0,
-    errorsInLockRenewal: [],
+  sessionLockRenewalInfo: LockRenewalOperationInfo = {
+    numberOfSuccesses: 0,
+    numberOfFailures: 0,
+    errors: [],
     lockRenewalTimers: {},
     renewalCount: {}
   };
@@ -124,11 +116,11 @@ export class SBStressTestsBase {
           });
         }
         await sender.sendMessages(messages);
-        this.sendInfo.numberOfSuccessfulSends++;
+        this.sendInfo.numberOfSuccesses++;
         this.messagesSent = this.messagesSent.concat(messages);
       } catch (error) {
-        this.sendInfo.numberOfFailedSends++;
-        this.sendInfo.errorsInSending.push(error);
+        this.sendInfo.numberOfFailures++;
+        this.sendInfo.errors.push(error);
         console.error("Error in sending: ", error);
       }
     }
@@ -144,11 +136,11 @@ export class SBStressTestsBase {
         maxWaitTimeInMs
       });
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
-      this.receiveInfo.numberOfSuccessfulReceives++;
+      this.receiveInfo.numberOfSuccesses++;
       return messages;
     } catch (error) {
-      this.receiveInfo.numberOfFailedReceives++;
-      this.receiveInfo.errorsInReceiving.push(error);
+      this.receiveInfo.numberOfFailures++;
+      this.receiveInfo.errors.push(error);
       console.error("Error in receiving: ", error);
     }
     return [];
@@ -183,10 +175,10 @@ export class SBStressTestsBase {
         }
       }
       this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
-      this.receiveInfo.numberOfSuccessfulReceives++;
+      this.receiveInfo.numberOfSuccesses++;
     };
     const processError = async (error) => {
-      this.receiveInfo.errorsInReceiving.push(error);
+      this.receiveInfo.errors.push(error);
       console.error("Error in receiving: ", error);
     };
     const subscriber = receiver.subscribe(
@@ -211,7 +203,7 @@ export class SBStressTestsBase {
       async () => {
         try {
           await message.renewLock();
-          this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals++;
+          this.messageLockRenewalInfo.numberOfSuccesses++;
           const currentRenewalCount = this.messageLockRenewalInfo.renewalCount[
             message.messageId as string
           ];
@@ -225,8 +217,8 @@ export class SBStressTestsBase {
             // TODO: Settle the message maybe?
           }
         } catch (error) {
-          this.messageLockRenewalInfo.numberOfFailedLockRenewals++;
-          this.messageLockRenewalInfo.errorsInLockRenewal.push(error);
+          this.messageLockRenewalInfo.numberOfFailures++;
+          this.messageLockRenewalInfo.errors.push(error);
           console.error("Error in message lock renewal: ", error);
         }
       },
@@ -247,7 +239,7 @@ export class SBStressTestsBase {
     this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(async () => {
       try {
         await receiver.renewSessionLock();
-        this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals++;
+        this.sessionLockRenewalInfo.numberOfSuccesses++;
         const currentRenewalCount = this.sessionLockRenewalInfo.renewalCount[receiver.sessionId];
         this.sessionLockRenewalInfo.renewalCount[receiver.sessionId] =
           currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
@@ -259,8 +251,8 @@ export class SBStressTestsBase {
           // TODO: Close the receiver maybe?
         }
       } catch (error) {
-        this.sessionLockRenewalInfo.numberOfFailedLockRenewals++;
-        this.sessionLockRenewalInfo.errorsInLockRenewal.push(error);
+        this.sessionLockRenewalInfo.numberOfFailures++;
+        this.sessionLockRenewalInfo.errors.push(error);
         console.error("Error in session lock renewal: ", error);
       }
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
@@ -277,50 +269,47 @@ export class SBStressTestsBase {
     console.log("Number of messages received so far : ", this.messagesReceived.length);
 
     if (this.snapshotOptions.snapshotFocus.includes("send-info")) {
-      console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccessfulSends);
-      console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailedSends);
+      console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccesses);
+      console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailures);
       console.log(
         "(Avg)Number of sends per sec: ",
-        this.sendInfo.numberOfSuccessfulSends / elapsedTimeInSeconds
+        this.sendInfo.numberOfSuccesses / elapsedTimeInSeconds
       );
     }
     if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
-      console.log(
-        "Number of successful receives so far : ",
-        this.receiveInfo.numberOfSuccessfulReceives
-      );
-      console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailedReceives);
+      console.log("Number of successful receives so far : ", this.receiveInfo.numberOfSuccesses);
+      console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailures);
       console.log(
         "(Avg)Number of receives per sec: ",
-        this.receiveInfo.numberOfSuccessfulReceives / elapsedTimeInSeconds
+        this.receiveInfo.numberOfSuccesses / elapsedTimeInSeconds
       );
     }
     if (this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")) {
       console.log(
         "Number of successful message lock renewals so far : ",
-        this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals
+        this.messageLockRenewalInfo.numberOfSuccesses
       );
       console.log(
         "Number of failed message lock renewals so far : ",
-        this.messageLockRenewalInfo.numberOfFailedLockRenewals
+        this.messageLockRenewalInfo.numberOfFailures
       );
       console.log(
         "(Avg)Number of message lock renewals per sec: ",
-        this.messageLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
+        this.messageLockRenewalInfo.numberOfSuccesses / elapsedTimeInSeconds
       );
     }
     if (this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")) {
       console.log(
         "Number of successful session lock renewals so far : ",
-        this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals
+        this.sessionLockRenewalInfo.numberOfSuccesses
       );
       console.log(
         "Number of failed session lock renewals so far : ",
-        this.sessionLockRenewalInfo.numberOfFailedLockRenewals
+        this.sessionLockRenewalInfo.numberOfFailures
       );
       console.log(
         "(Avg)Number of session lock renewals per sec: ",
-        this.sessionLockRenewalInfo.numberOfSuccessfulLockRenewals / elapsedTimeInSeconds
+        this.sessionLockRenewalInfo.numberOfSuccesses / elapsedTimeInSeconds
       );
     }
     console.log("\n");
