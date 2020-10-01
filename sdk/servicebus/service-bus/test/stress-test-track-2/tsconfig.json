@@ -4,14 +4,10 @@
     "target": "ES2015",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "lib": [
-      "ESNext.AsyncIterable"
-    ],
+    "lib": ["ESNext.AsyncIterable"],
     "outDir": "dist",
     "rootDir": "."
   },
   "include": ["./*.ts"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
