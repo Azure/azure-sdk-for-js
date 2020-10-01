@@ -188,21 +188,6 @@ export type GetPhoneNumberConfigurationOptions = OperationOptions;
 export type GetSearchOptions = OperationOptions;
 
 /**
- * Additional request option for refresh search operations.
- */
-export type RefreshSearchOptions = OperationOptions;
-
-/**
- * Additional request option for cancel search operations.
- */
-export type CancelSearchOptions = OperationOptions;
-
-/**
- * Additional request option for get search operations.
- */
-export type PurchaseSearchOptions = OperationOptions;
-
-/**
  * The capabilities update for each of a set of phone numbers.
  */
 export type PhoneNumberCapabilitiesUpdates = { [propertyName: string]: NumberUpdateCapabilities };

@@ -56,9 +56,6 @@ export interface BeginRefreshSearchOptions extends SearchPollerOptions {
 }
 
 // @public
-export type CancelSearchOptions = OperationOptions;
-
-// @public
 export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
 
 // @public
@@ -301,7 +298,6 @@ export class PhoneNumberAdministrationClient {
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
     releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
@@ -504,17 +500,11 @@ export interface PstnConfiguration {
 }
 
 // @public
-export type PurchaseSearchOptions = OperationOptions;
-
-// @public
 export interface RateInformation {
     currencyType?: CurrencyType;
     monthlyRate?: number;
     rateErrorMessage?: string;
 }
-
-// @public
-export type RefreshSearchOptions = OperationOptions;
 
 // @public
 export type ReleasePhoneNumberOptions = OperationOptions;

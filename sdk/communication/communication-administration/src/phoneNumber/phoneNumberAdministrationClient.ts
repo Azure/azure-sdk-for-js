@@ -12,7 +12,8 @@ import {
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  OperationOptions
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -71,9 +72,7 @@ import {
   GetReleaseOptions,
   ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
-  CancelSearchOptions,
   GetSearchOptions,
-  PurchaseSearchOptions,
   BeginRefreshSearchOptions,
   PhoneNumberPollerClient,
   BeginCancelSearchOptions,
@@ -1131,7 +1130,7 @@ export class PhoneNumberAdministrationClient {
    */
   private async refreshSearch(
     searchId: string,
-    options: BeginRefreshSearchOptions = {}
+    options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-refreshSearch",
@@ -1161,7 +1160,7 @@ export class PhoneNumberAdministrationClient {
    */
   private async cancelSearch(
     searchId: string,
-    options: CancelSearchOptions = {}
+    options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-cancelSearch",
@@ -1189,9 +1188,9 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async purchaseSearch(
+  private async purchaseSearch(
     searchId: string,
-    options: PurchaseSearchOptions = {}
+    options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-purchaseSearch",
