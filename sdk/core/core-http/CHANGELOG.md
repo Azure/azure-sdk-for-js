@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.10 (Unreleased)
+
+
 ## 1.1.9 (2020-09-30)
 
 - Add support for XML namespaces in deserialization [PR 11201](https://github.com/Azure/azure-sdk-for-js/pull/11201)
