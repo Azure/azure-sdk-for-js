@@ -1,11 +1,14 @@
-import { ServiceBusClient, ServiceBusReceivedMessage } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+  ServiceBusSessionReceiver
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { ServiceBusSessionReceiver } from "../../src";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here

@@ -10,6 +10,9 @@ import {
   ServiceBusSessionReceiver,
   SubscribeOptions
 } from "@azure/service-bus";
+import fs from "fs";
+import util from "util";
+const writeFile = util.promisify(fs.writeFile);
 
 interface OperationInfo {
   numberOfSuccesses: number;
@@ -222,11 +225,15 @@ export class SBStressTestsBase {
           } else {
             // Code reaches here only after the duration given has passed by
             // TODO: Settle the message maybe?
+            clearTimeout(
+              this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]
+            );
           }
         } catch (error) {
           this.messageLockRenewalInfo.numberOfFailures++;
           this.messageLockRenewalInfo.errors.push(error);
           console.error("Error in message lock renewal: ", error);
+          clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
       },
       message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000
@@ -323,7 +330,19 @@ export class SBStressTestsBase {
   }
 
   public async end() {
-    // TODO: Log errors in a file
+    // Logging all the errors to a file
+    const errors = [].concat(
+      this.sendInfo.errors,
+      this.receiveInfo.errors,
+      this.messageLockRenewalInfo.errors,
+      this.sessionLockRenewalInfo.errors
+    );
+    if (errors.length) {
+      await writeFile(
+        `errors-logged-${this.queueName}`,
+        errors.reduce((output, error) => output + "\n" + error)
+      );
+    }
     // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
     // TODO: Add an argument to "end()" to not delete the resource
     clearInterval(this.snapshotTimer);
