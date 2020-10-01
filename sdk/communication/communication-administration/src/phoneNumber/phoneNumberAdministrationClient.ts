@@ -75,13 +75,14 @@ import {
   GetSearchOptions,
   PurchaseSearchOptions,
   BeginRefreshSearchOptions,
-  PhoneNumberPollerClient, BeginCancelSearchOptions
+  PhoneNumberPollerClient,
+  BeginCancelSearchOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { RefreshSearchPoller } from "./lro/refresh/poller";
-import { CancelSearchPoller } from './lro/cancel/poller';
+import { CancelSearchPoller } from "./lro/cancel/poller";
 
 /**
  * Client options used to configure the UserTokenClient API requests.

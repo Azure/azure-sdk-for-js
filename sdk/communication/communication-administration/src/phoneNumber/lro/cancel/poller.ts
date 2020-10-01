@@ -15,10 +15,7 @@ export interface CancelSearchPollerOptions {
   resumeFrom?: string;
 }
 
-export class CancelSearchPoller extends Poller<
-  CancelSearchPollOperationState,
-  PhoneNumberSearch
-> {
+export class CancelSearchPoller extends Poller<CancelSearchPollOperationState, PhoneNumberSearch> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */

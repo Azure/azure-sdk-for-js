@@ -52,7 +52,7 @@ async function update(
         state.isCompleted = true;
       }
     }
-  
+
     if (!state.isCompleted) {
       state.result = await client.getSearch(searchId, requestOptions);
       if (state.result.status === "Cancelled") {
