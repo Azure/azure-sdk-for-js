@@ -1236,14 +1236,14 @@ export class SearchIndexingBufferedSender<T> {
         action: string;
         documents: T[];
     }) => void): void;
-    off(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+    off(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
     off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     off(event: "batchFailed", listener: (e: RestError) => void): void;
     on(event: "batchAdded", listener: (e: {
         action: string;
         documents: T[];
     }) => void): void;
-    on(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+    on(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
     on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     on(event: "batchFailed", listener: (e: RestError) => void): void;
     uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
@@ -1264,8 +1264,6 @@ export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = Operatio
 // @public
 export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
-    batchSize?: number;
-    flushWindowInMs?: number;
 }
 
 // @public

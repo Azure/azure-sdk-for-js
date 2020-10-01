@@ -63,8 +63,8 @@ export class SearchIndexingBufferedSender<T> {
   constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
     this.autoFlush = options.autoFlush ?? false;
-    this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
-    this.batchSize = options.batchSize ?? DEFAULT_BATCH_SIZE;
+    this.flushWindowInMs = DEFAULT_FLUSH_WINDOW;
+    this.batchSize = DEFAULT_BATCH_SIZE;
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
@@ -247,7 +247,7 @@ export class SearchIndexingBufferedSender<T> {
    * @param event Event to be emitted
    * @param listener Event Listener
    */
-  public on(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+  public on(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Attach Batch Succeeded Event
    *
@@ -282,7 +282,7 @@ export class SearchIndexingBufferedSender<T> {
    * @param event Event to be emitted
    * @param listener Event Listener
    */
-  public off(event: "batchSent", listener: (e: IndexDocumentsAction<T>[]) => void): void;
+  public off(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Detach Batch Succeeded Event
    *
@@ -326,7 +326,9 @@ export class SearchIndexingBufferedSender<T> {
     retryAttempt: number = 0
   ): Promise<void> {
     try {
-      this.emitter.emit("batchSent", actionsToSend);
+      for(let i = 0; i < actionsToSend.length; i++) {
+        this.emitter.emit("batchSent", actionsToSend[i]);
+      }      
       const result = await this.client.indexDocuments(
         new IndexDocumentsBatch<T>(actionsToSend),
         options

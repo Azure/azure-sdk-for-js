@@ -37,14 +37,6 @@ export interface SearchIndexingBufferedSenderOptions {
    * Indicates if autoFlush is enabled.
    */
   autoFlush?: boolean;
-  /**
-   * Interval between flushes (in milliseconds).
-   */
-  flushWindowInMs?: number;
-  /**
-   * Size of the batch.
-   */
-  batchSize?: number;
 }
 
 /**
