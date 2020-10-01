@@ -74,10 +74,12 @@ import {
   CancelSearchOptions,
   GetSearchOptions,
   PurchaseSearchOptions,
-  RefreshSearchOptions
+  BeginRefreshSearchOptions, PhoneNumberPollerClient
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
+import { PollerLike, PollOperationState } from '@azure/core-lro';
+import { RefreshSearchPoller } from './lro/refresh/poller';
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -96,6 +98,16 @@ export class PhoneNumberAdministrationClient {
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
   private readonly client: PhoneNumberAdministration;
+
+  /**
+   * @internal
+   * @ignore
+   * A self reference that bypasses private methods, for the pollers.
+   */
+  private readonly pollerClient: PhoneNumberPollerClient = {
+    getSearch: this.getSearch.bind(this),
+    refreshSearch: this.refreshSearch.bind(this),
+  }
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.
@@ -462,7 +474,7 @@ export class PhoneNumberAdministrationClient {
    *
    * Example usage:
    * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
+   * let client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
    * for await (const entity of client.listReleases()) {
    *   console.log("id: ", entity.id);
    * }
@@ -540,7 +552,7 @@ export class PhoneNumberAdministrationClient {
    *
    * Example usage:
    * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
+   * let client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
    * for await (const entity of client.listReleases()) {
    *   console.log("id: ", entity.id);
    * }
@@ -618,7 +630,7 @@ export class PhoneNumberAdministrationClient {
    *
    * Example usage:
    * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
+   * let client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
    * for await (const country of client.listSupportedCountries()) {
    *   console.log("country name: ", country.localizedName);
    * }
@@ -999,12 +1011,50 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Refreshes the search associated with a given id.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the search is refreshed.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
+   * const refreshPoller = await client.beginRefreshSearch(searchId);
+   *
+   * // Serializing the poller
+   * const serialized = refreshPoller.toString();
+   *
+   * // A new poller can be created with:
+   * // const newPoller = await client.beginRefreshSearch(searchId, { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const phoneNumbers = await refreshPoller.pollUntilDone();
+   * console.log(phoneNumbers);
+   * ```
+   * @summary Refreshes the search associated with a given id.
+   * @param {string} searchId The id of the search returned by createSearch.
+   * @param {BeginRefreshSearchOptions} options Additional request options.
+   */
+  public async beginRefreshSearch(
+    searchId: string,
+    options: BeginRefreshSearchOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    const poller = new RefreshSearchPoller({
+      searchId,
+      client: this.pollerClient,
+      options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Refreshes the search associated with a given id.
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async refreshSearch(
+  private async refreshSearch(
     searchId: string,
-    options: RefreshSearchOptions = {}
+    options: BeginRefreshSearchOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-refreshSearch",

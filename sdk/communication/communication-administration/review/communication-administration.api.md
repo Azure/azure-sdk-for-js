@@ -11,6 +11,8 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -40,6 +42,10 @@ export interface AreaCodes {
 
 // @public
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
+
+// @public (undocumented)
+export interface BeginRefreshSearchOptions extends SearchPollerOptions {
+}
 
 // @public
 export type CancelSearchOptions = OperationOptions;
@@ -270,6 +276,7 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    beginRefreshSearch(searchId: string, options?: BeginRefreshSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
@@ -286,7 +293,6 @@ export class PhoneNumberAdministrationClient {
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
-    refreshSearch(searchId: string, options?: RefreshSearchOptions): Promise<VoidResponse>;
     releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
@@ -392,6 +398,16 @@ export interface PhoneNumberEntity {
     quantity?: number;
     quantityObtained?: number;
     status?: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PhoneNumberPollerClient" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface PhoneNumberPollerClient {
+    // (undocumented)
+    getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
+    // (undocumented)
+    refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
 }
 
 // @public
@@ -500,6 +516,12 @@ export interface ReleaseResponse {
 
 // @public
 export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
+
+// @public
+export interface SearchPollerOptions extends OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";

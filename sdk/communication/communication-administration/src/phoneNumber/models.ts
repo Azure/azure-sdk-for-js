@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { WithResponse } from "../common/models";
+import { VoidResponse, WithResponse } from "../common/models";
 import {
   LocationOptionsDetails,
   NumberUpdateCapabilities,
@@ -294,3 +294,30 @@ export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsRe
  * Represents the response from getting the search associated with a given id.
  */
 export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to beginRefreshSearch.
+ */
+export interface SearchPollerOptions extends OperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  intervalInMs?: number;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+
+export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
+
+/**
+ * @internal
+ * @ignore
+ * Represents the poller client used internally
+ */
+export interface PhoneNumberPollerClient {
+  getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
+  refreshSearch(searchId: string, options: BeginRefreshSearchOptions): Promise<VoidResponse>;
+}
