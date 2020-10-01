@@ -58,7 +58,7 @@ schema registry.
 
 ### SchemaRegistry serializers
 
-- [@azure/schema-registry-avro](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro)
+- [@azure/schema-registry-avro](https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro/)
   is a separate package that uses `SchemaRegistryClient` to pair schema ID along
   with Avro Binary Encoding.
 
