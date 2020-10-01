@@ -31,8 +31,7 @@ $corsRules = (@{
       'MERGE',
       'POST',
       'OPTIONS',
-      'PUT',
-      'PATCH');
+      'PUT');
     ExposedHeaders  = @('*');
   })
 
