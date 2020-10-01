@@ -492,7 +492,6 @@ export interface PhonePlansResponse {
 // @public
 export interface PstnConfiguration {
     applicationId?: string;
-    azurePstnTargetId?: string;
     callbackUrl: string;
 }
 
