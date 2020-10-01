@@ -2,7 +2,7 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Core types for paging async iterable iterators",
   "tags": [
     "microsoft",
@@ -14,7 +14,8 @@
     "azure",
     "cloud"
   ],
-  "main": "dist-esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-paging.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -26,7 +27,8 @@
   "files": [
     "types/latest/core-paging.d.ts",
     "types/3.1",
-    "dist-esm/index.js",
+    "dist/index.js",
+    "dist-esm/src/index.js",
     "LICENSE",
     "README.md"
   ],
@@ -41,10 +43,10 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p .",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.es.json",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
-    "clean": "echo skipped",
+    "clean": "rimraf dist dist-esm",
     "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
