@@ -3,7 +3,8 @@ import {
   AzureKeyCredential,
   SearchClient,
   GeographyPoint,
-  SearchIndexClient
+  SearchIndexClient,
+  DEFAULT_FLUSH_WINDOW
 } from "@azure/search-documents";
 import { createIndex, WAIT_TIME } from "../../utils/setup";
 import { Hotel } from "../../utils/interfaces";
@@ -44,7 +45,7 @@ export async function main() {
     console.log("Batch Added Event has been receieved....");
   });
 
-  bufferedClient.on("batchSent", (response: any) => {
+  bufferedClient.on("beforeDocumentSent", (response: any) => {
     console.log("Batch Sent Event has been receieved....");
   });
 
@@ -80,8 +81,9 @@ export async function main() {
     }
   ]);
 
-  console.log("Waiting for 65000 ms to meet the flush window interval....");
-  await delay(65000);
+  const wait_time = DEFAULT_FLUSH_WINDOW + 5000;
+  console.log(`Waiting for ${wait_time} ms to meet the flush window interval....`);
+  await delay(wait_time);
 
   // When the autoFlush is set to true, the user
   // has to call the dispose method to clear the

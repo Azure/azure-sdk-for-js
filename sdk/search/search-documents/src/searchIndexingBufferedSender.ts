@@ -15,9 +15,18 @@ import EventEmitter from "events";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 
-const DEFAULT_BATCH_SIZE: number = 1000;
-const DEFAULT_FLUSH_WINDOW: number = 60000;
-const RETRY_COUNT: number = 3;
+/**
+ * Default Batch Size
+ */
+export const DEFAULT_BATCH_SIZE: number = 1000;
+/**
+ * Default window flush interval
+ */
+export const DEFAULT_FLUSH_WINDOW: number = 60000;
+/**
+ * Default number of times to retry
+ */
+export const DEFAULT_RETRY_COUNT: number = 3;
 
 /**
  * Class used to perform buffered operations against a search index,
@@ -57,7 +66,7 @@ export class SearchIndexingBufferedSender<T> {
    * Creates a new instance of SearchIndexingBufferedSender.
    *
    * @param client Search Client used to call the underlying IndexBatch operations.
-   * @param options Options to modify batch size, auto flush and flush window.
+   * @param options Options to modify auto flush.
    *
    */
   constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
@@ -230,7 +239,10 @@ export class SearchIndexingBufferedSender<T> {
   /**
    * If using autoFlush: true, call this to cleanup the autoflush timer.
    */
-  public dispose(): void {
+  public async dispose(): Promise<void> {
+    if (this.batchObject.actions.length > 0) {
+      await this.internalFlush(true);
+    }
     this.cleanupTimer && this.cleanupTimer();
   }
 
@@ -247,7 +259,7 @@ export class SearchIndexingBufferedSender<T> {
    * @param event Event to be emitted
    * @param listener Event Listener
    */
-  public on(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+  public on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Attach Batch Succeeded Event
    *
@@ -263,7 +275,7 @@ export class SearchIndexingBufferedSender<T> {
    */
   public on(event: "batchFailed", listener: (e: RestError) => void): void;
   public on(
-    event: "batchAdded" | "batchSent" | "batchSucceeded" | "batchFailed",
+    event: "batchAdded" | "beforeDocumentSent" | "batchSucceeded" | "batchFailed",
     listener: (e: any) => void
   ): void {
     this.emitter.on(event, listener);
@@ -282,7 +294,7 @@ export class SearchIndexingBufferedSender<T> {
    * @param event Event to be emitted
    * @param listener Event Listener
    */
-  public off(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+  public off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Detach Batch Succeeded Event
    *
@@ -298,7 +310,7 @@ export class SearchIndexingBufferedSender<T> {
    */
   public off(event: "batchFailed", listener: (e: RestError) => void): void;
   public off(
-    event: "batchAdded" | "batchSent" | "batchSucceeded" | "batchFailed",
+    event: "batchAdded" | "beforeDocumentSent" | "batchSucceeded" | "batchFailed",
     listener: (e: any) => void
   ): void {
     this.emitter.removeListener(event, listener);
@@ -326,8 +338,8 @@ export class SearchIndexingBufferedSender<T> {
     retryAttempt: number = 0
   ): Promise<void> {
     try {
-      for (let i = 0; i < actionsToSend.length; i++) {
-        this.emitter.emit("batchSent", actionsToSend[i]);
+      for(const action of actionsToSend) {
+        this.emitter.emit("beforeDocumentSent", action);
       }
       const result = await this.client.indexDocuments(
         new IndexDocumentsBatch<T>(actionsToSend),
@@ -336,7 +348,7 @@ export class SearchIndexingBufferedSender<T> {
       // raise success event
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
-      if (this.isRetryAbleError(e) && retryAttempt < RETRY_COUNT) {
+      if (this.isRetryAbleError(e) && retryAttempt < DEFAULT_RETRY_COUNT) {
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
         this.emitter.emit("batchFailed", e);

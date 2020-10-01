@@ -231,6 +231,15 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
 
 // @public
+export const DEFAULT_BATCH_SIZE: number;
+
+// @public
+export const DEFAULT_FLUSH_WINDOW: number;
+
+// @public
+export const DEFAULT_RETRY_COUNT: number;
+
+// @public
 export interface DefaultCognitiveServicesAccount {
     description?: string;
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
@@ -1228,7 +1237,7 @@ export interface SearchIndexerWarning {
 export class SearchIndexingBufferedSender<T> {
     constructor(client: SearchClient<T>, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
-    dispose(): void;
+    dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
     mergeDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
     mergeOrUploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
@@ -1236,14 +1245,14 @@ export class SearchIndexingBufferedSender<T> {
         action: string;
         documents: T[];
     }) => void): void;
-    off(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
     off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     off(event: "batchFailed", listener: (e: RestError) => void): void;
     on(event: "batchAdded", listener: (e: {
         action: string;
         documents: T[];
     }) => void): void;
-    on(event: "batchSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
     on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     on(event: "batchFailed", listener: (e: RestError) => void): void;
     uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
