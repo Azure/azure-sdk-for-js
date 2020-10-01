@@ -432,14 +432,13 @@ export class ManagedIdentityCredential implements TokenCredential {
       logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
-      // If a CredentialUnavailable reaches here,
-      // we're intending to make it bubble up,
-      // so that DefaultAzureCredential can catch it.
+      // CredentialUnavailable errors are expected to reach here.
+      // We intend them to bubble up, so that DefaultAzureCredential can catch them.
       if (err instanceof CredentialUnavailable) {
         throw err;
       }
+
       // Expected errors to reach this point:
-      // - Any CredentialUnavailable errors.
       // - Errors coming from a method unexpectedly breaking.
       // - When identityClient.sendTokenRequest throws, in which case
       //   if the status code was 400, it means that the endpoint is working,
