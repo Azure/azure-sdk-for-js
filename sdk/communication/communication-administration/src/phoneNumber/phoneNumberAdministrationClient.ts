@@ -74,12 +74,13 @@ import {
   CancelSearchOptions,
   GetSearchOptions,
   PurchaseSearchOptions,
-  BeginRefreshSearchOptions, PhoneNumberPollerClient
+  BeginRefreshSearchOptions,
+  PhoneNumberPollerClient
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
-import { PollerLike, PollOperationState } from '@azure/core-lro';
-import { RefreshSearchPoller } from './lro/refresh/poller';
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { RefreshSearchPoller } from "./lro/refresh/poller";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -106,8 +107,8 @@ export class PhoneNumberAdministrationClient {
    */
   private readonly pollerClient: PhoneNumberPollerClient = {
     getSearch: this.getSearch.bind(this),
-    refreshSearch: this.refreshSearch.bind(this),
-  }
+    refreshSearch: this.refreshSearch.bind(this)
+  };
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.

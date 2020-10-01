@@ -3,11 +3,10 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { PhoneNumberSearch } from '../../generated/src/models';
-import { BeginRefreshSearchOptions, PhoneNumberPollerClient } from '../../models';
+import { PhoneNumberSearch } from "../../generated/src/models";
+import { BeginRefreshSearchOptions, PhoneNumberPollerClient } from "../../models";
 
-export interface RefreshSearchPollOperationState
-  extends PollOperationState<PhoneNumberSearch> {
+export interface RefreshSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
    * The id of the search returned by createSearch.
    */
@@ -26,7 +25,8 @@ export interface RefreshSearchPollOperationState
 /**
  * Represents a phone number search's poll operation
  */
-export interface RefreshSearchPollOperation extends PollOperation<RefreshSearchPollOperationState, PhoneNumberSearch> {};
+export interface RefreshSearchPollOperation
+  extends PollOperation<RefreshSearchPollOperationState, PhoneNumberSearch> {}
 
 async function update(
   this: RefreshSearchPollOperation,
@@ -68,7 +68,7 @@ async function update(
       state.isCompleted = true;
     }
   }
-  
+
   return makeRefreshSearchPollOperation(state);
 }
 
