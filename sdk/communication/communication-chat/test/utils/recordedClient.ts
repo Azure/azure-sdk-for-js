@@ -7,7 +7,11 @@ import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import { ChatClient } from "../../src";
-import { CommunicationUser, AzureCommunicationUserCredential } from "@azure/communication-common";
+import {
+  CommunicationUser,
+  AzureCommunicationUserCredential,
+  parseClientArguments
+} from "@azure/communication-common";
 import {
   CommunicationIdentityClient,
   CommunicationUserToken
@@ -24,15 +28,8 @@ export interface RecordedClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  BASE_URL: "https://endpoint"
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
 };
-
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -44,20 +41,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export async function createTestUser(
-  connectionString: string = testEnv.COMMUNICATION_CONNECTION_STRING
-): Promise<CommunicationUserToken> {
-  const identityClient = new CommunicationIdentityClient(connectionString);
+export async function createTestUser(): Promise<CommunicationUserToken> {
+  const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
   const testUser = await identityClient.createUser();
   return await identityClient.issueToken(testUser, ["chat"]);
 }
 
-export async function deleteTestUser(
-  testUser: CommunicationUser,
-  connectionString: string = testEnv.COMMUNICATION_CONNECTION_STRING
-) {
+export async function deleteTestUser(testUser: CommunicationUser) {
   if (testUser) {
-    const identityClient = new CommunicationIdentityClient(connectionString);
+    const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
     await identityClient.deleteUser(testUser);
   }
 }
@@ -67,12 +59,10 @@ export function createRecorder(context: Context): Recorder {
   return recorder;
 }
 
-export function createChatClient(
-  userToken: string,
-  baseUrl: string = testEnv.BASE_URL
-): ChatClient {
+export function createChatClient(userToken: string): ChatClient {
   if (userToken === "token") {
     userToken = generateToken();
   }
-  return new ChatClient(baseUrl, new AzureCommunicationUserCredential(userToken));
+  const { url } = parseClientArguments(env.COMMUNICATION_CONNECTION_STRING);
+  return new ChatClient(url, new AzureCommunicationUserCredential(userToken));
 }

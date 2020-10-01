@@ -3,5 +3,5 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/communication-administration"
+    PackageName: "@azure/communication-chat"
     ResourceServiceDirectory: communication
