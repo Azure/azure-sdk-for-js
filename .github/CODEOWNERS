@@ -78,6 +78,9 @@
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @willmtemple
 
+# PRLabel: %Cognitive - Metrics Advisor
+/sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
+
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
