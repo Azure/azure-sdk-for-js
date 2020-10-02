@@ -81,10 +81,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
 
+    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
+
     const publicClientConfig: Configuration = {
       auth: {
         clientId: this.clientId,
-        authority: this.authorityHost
+        authority: this.authorityHost,
+        knownAuthorities: knownAuthorities
       },
       cache: options?.cacheOptions,
       system: { networkClient: this.identityClient }
