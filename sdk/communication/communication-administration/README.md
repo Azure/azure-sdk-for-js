@@ -99,7 +99,7 @@ let { token } = await client.issueToken(user, ["chat"]);
 To refresh the user token, issue another token with the same user.
 
 ```typescript
-({ token } = await client.issueToken(user, ["chat"]));
+{ token } = await client.issueToken(user, ["chat"]);
 ```
 
 #### Revoking tokens for a user
