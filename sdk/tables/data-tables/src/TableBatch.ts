@@ -8,7 +8,9 @@ import {
   ServiceClient,
   RequestPrepareOptions,
   RawHttpHeaders,
-  HttpOperationResponse
+  HttpOperationResponse,
+  OperationOptions,
+  RestError
 } from "@azure/core-http";
 import {
   DeleteTableEntityOptions,
@@ -16,7 +18,6 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableBatch,
-  TableClientLike,
   TableBatchResponse,
   TableBatchEntityResponse
 } from "./models";
@@ -27,10 +28,11 @@ import {
   BatchHeaderFilterPolicyFactory,
   BatchRequestAssemblePolicyFactory
 } from "./TableBatchPolicies";
-import { InnerBatchRequest } from "./utils/internalModels";
+import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { URL } from "./utils/url";
+import { TableServiceErrorOdataError } from "./generated";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
@@ -150,10 +152,10 @@ export class TableBatchImpl implements TableBatch {
       Connection: "Keep-Alive"
     };
 
-    const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {});
+    const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {} as OperationOptions);
     const request = new WebResource(this.url, "POST", body, undefined, new HttpHeaders(headers));
 
-    request.spanOptions = updatedOptions;
+    request.spanOptions = updatedOptions.tracingOptions?.spanOptions;
 
     if (this.credential) {
       const authHeader = getAuthorizationHeader(request, this.credential);
@@ -188,32 +190,41 @@ export class TableBatchImpl implements TableBatch {
   }
 }
 
-function parseBatchResponse(response: HttpOperationResponse): TableBatchResponse {
+function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchResponse {
   const subResponsePrefix = `--changesetresponse_`;
-  const status = response.status;
-  const rawBody = response.bodyAsText || "";
-  const splitBody = rawBody.split(subResponsePrefix); // string after ending is useless
-  const subResponses = splitBody.slice(1, splitBody.length - 1); // string before first response boundary is useless
+  const status = batchResponse.status;
+  const rawBody = batchResponse.bodyAsText || "";
+  const splitBody = rawBody.split(subResponsePrefix);
+  // Droping the first and last elemets as they are the boundaries
+  // we just care about sub request content
+  const subResponses = splitBody.slice(1, splitBody.length - 1);
 
-  const responses: TableBatchEntityResponse[] = subResponses.map((response) => {
-    const statusMatch = response.match(/HTTP\/1.1 ([0-9]*)/);
-    const etagMatch = response.match(/ETag: (.*)/);
-    const rowKeyMatch = response.match(/RowKey='(.*)'/);
-    const bodyMatch = response.match(/\{(.*)\}/);
-    const body = bodyMatch?.length === 2 ? JSON.parse(`${bodyMatch[0]}`) : undefined;
-
+  const responses: TableBatchEntityResponse[] = subResponses.map((subResponse) => {
+    const statusMatch = subResponse.match(/HTTP\/1.1 ([0-9]*)/);
     if (statusMatch?.length !== 2) {
-      throw new Error(`Couldn't extract status from sub-response:\n ${response}`);
+      throw new Error(`Couldn't extract status from sub-response:\n ${subResponse}`);
     }
-
     const status = Number.parseInt(statusMatch[1]);
     if (!Number.isInteger(status)) {
       throw new Error(`Expected sub-response status to be an integer ${status}`);
     }
 
+    const bodyMatch = subResponse.match(/\{(.*)\}/);
+    if (bodyMatch?.length === 2) {
+      const parsedError = JSON.parse(bodyMatch[0]);
+      // Only batch sub-responses return body
+      if (parsedError && parsedError["odata.error"]) {
+        const error: TableServiceErrorOdataError = parsedError["odata.error"];
+        const message = error.message?.value || "One of the batch operations failed";
+        throw new RestError(message, error.code, status, batchResponse.request, batchResponse);
+      }
+    }
+
+    const etagMatch = subResponse.match(/ETag: (.*)/);
+    const rowKeyMatch = subResponse.match(/RowKey='(.*)'/);
+
     return {
       status,
-      body,
       ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
       ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
     };

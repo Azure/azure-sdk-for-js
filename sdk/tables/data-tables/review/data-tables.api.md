@@ -316,16 +316,9 @@ export interface TableBatch {
 
 // @public
 export interface TableBatchEntityResponse {
-    body?: any;
     etag?: string;
     rowKey?: string;
     status: number;
-}
-
-// @public
-export interface TableBatchOptions {
-    batchId?: string;
-    changesetId?: string;
 }
 
 // @public
@@ -340,7 +333,7 @@ export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    createBatch(partitionKey: string, options?: TableBatchOptions): TableBatch;
+    createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
@@ -351,20 +344,6 @@ export class TableClient {
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
     }
-
-// @public
-export interface TableClientLike {
-    create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    createBatch(partitionKey: string): TableBatch;
-    createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
-    delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
-    deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
-    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
-    readonly tableName: string;
-    updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
-}
 
 // @public
 export interface TableCreateHeaders {

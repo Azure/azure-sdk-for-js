@@ -27,7 +27,7 @@ class BatchHeaderFilterPolicy extends BaseRequestPolicy {
 
 export class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BaseRequestPolicy {
     return new BatchHeaderFilterPolicy(nextPolicy, options);
   }
 }
@@ -69,7 +69,7 @@ export class BatchRequestAssemblePolicyFactory implements RequestPolicyFactory {
     nextPolicy: RequestPolicy,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     options: RequestPolicyOptions
-  ): BatchRequestAssemblePolicy {
+  ): BaseRequestPolicy {
     return new BatchRequestAssemblePolicy(this.batchRequest, nextPolicy, options);
   }
 }

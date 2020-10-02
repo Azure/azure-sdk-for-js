@@ -2,6 +2,7 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+- Add support for Entity Group Transactions (Batch) [#11551](https://github.com/Azure/azure-sdk-for-js/pull/11551).
 
 ## 1.0.0-beta.1 (2020-09-08)
 

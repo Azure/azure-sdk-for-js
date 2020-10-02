@@ -17,8 +17,7 @@ import {
   CreateTableOptions,
   CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
-  TableBatch,
-  TableBatchOptions
+  TableBatch
 } from "./models";
 import {
   DeleteTableOptions,
@@ -506,9 +505,9 @@ export class TableClient {
    * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public createBatch(partitionKey: string, options?: TableBatchOptions): TableBatch {
-    const batchId = options?.batchId || generateUuid();
-    const changesetId = options?.changesetId || generateUuid();
+  public createBatch(partitionKey: string): TableBatch {
+    const batchId = generateUuid();
+    const changesetId = generateUuid();
     const innerBatchRequest = createInnerBatchRequest(batchId, changesetId);
     const internalClientOptions: InternalBatchClientOptions = { innerBatchRequest };
     const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);

@@ -6,6 +6,8 @@ import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
+import * as sinon from "sinon";
 
 if (isNode || isLiveMode()) {
   describe("batch operations", () => {
@@ -14,8 +16,6 @@ if (isNode || isLiveMode()) {
     const suffix = isNode ? "node" : "browser";
     const tableName = `batchTableTest${suffix}`;
 
-    const batchId = "mockBatchId";
-    const changesetId = "mockChangesetId";
     const partitionKey = "batchTest";
     const testEntities = [
       { partitionKey, rowKey: "1", name: "first" },
@@ -28,6 +28,7 @@ if (isNode || isLiveMode()) {
     const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
     beforeEach(async function() {
+      sinon.stub(coreHttp, "generateUuid").returns("fakeId");
       // eslint-disable-next-line no-invalid-this
       recorder = record(this, recordedEnvironmentSetup);
       client = createTableClient(tableName, authMode);
@@ -42,6 +43,7 @@ if (isNode || isLiveMode()) {
     });
 
     afterEach(async function() {
+      sinon.restore();
       await recorder.stop();
     });
 
@@ -56,7 +58,7 @@ if (isNode || isLiveMode()) {
     });
 
     it("should send a set of create batch operations", async () => {
-      const batch = client.createBatch(partitionKey, { changesetId, batchId });
+      const batch = client.createBatch(partitionKey);
 
       await batch.createEntities(testEntities);
       const result = await batch.submitBatch();
@@ -71,7 +73,7 @@ if (isNode || isLiveMode()) {
     });
 
     it("should send a set of update batch operations", async () => {
-      const batch = client.createBatch(partitionKey, { changesetId, batchId });
+      const batch = client.createBatch(partitionKey);
 
       testEntities.forEach((entity) =>
         batch.updateEntity({ ...entity, name: "updated" }, "Replace")
@@ -94,7 +96,7 @@ if (isNode || isLiveMode()) {
     });
 
     it("should send a set of delete batch operations", async () => {
-      const batch = client.createBatch(partitionKey, { changesetId, batchId });
+      const batch = client.createBatch(partitionKey);
 
       testEntities.forEach((entity) => batch.deleteEntity(entity.partitionKey, entity.rowKey));
       const result = await batch.submitBatch();
@@ -107,15 +109,17 @@ if (isNode || isLiveMode()) {
 
     it("should handle sub request error", async () => {
       const testClient = createTableClient("noExistingTable", authMode);
-      const batch = testClient.createBatch(partitionKey, { batchId, changesetId });
+      const batch = testClient.createBatch(partitionKey);
       batch.createEntities(testEntities);
-      const result = await batch.submitBatch();
-      assert.equal(result.status, 202);
-      assert.lengthOf(result.subResponses, 1);
 
-      const subResponse = result.subResponses[0];
-      assert.equal(subResponse?.status, 404);
-      assert.equal(subResponse?.body["odata.error"]["code"], "TableNotFound");
+      try {
+        await batch.submitBatch();
+        assert.fail("Expected submitBatch to throw");
+      } catch (error) {
+        assert.equal(error.code, "TableNotFound");
+        assert.equal(error.statusCode, 404);
+        assert.isString(error.message);
+      }
     });
   });
 }
