@@ -5,7 +5,10 @@ import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
 import { BeginPurchasePhoneNumbersOptions, _PhoneNumberPollerClient } from "../../models";
-import { makePurchasePhoneNumbersPollOperation, PurchasePhoneNumbersPollOperationState } from "./operation";
+import {
+  makePurchasePhoneNumbersPollOperation,
+  PurchasePhoneNumbersPollOperationState
+} from "./operation";
 
 export interface PurchasePhoneNumbersPollerOptions {
   client: _PhoneNumberPollerClient;

@@ -315,5 +315,8 @@ export interface _PhoneNumberPollerClient {
   ): Promise<CreateSearchResponse>;
   getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
   cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
-  purchaseSearch(searchId: string, options: BeginPurchasePhoneNumbersOptions): Promise<VoidResponse>;
+  purchaseSearch(
+    searchId: string,
+    options: BeginPurchasePhoneNumbersOptions
+  ): Promise<VoidResponse>;
 }

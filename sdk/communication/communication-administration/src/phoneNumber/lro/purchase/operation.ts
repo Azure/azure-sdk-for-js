@@ -7,7 +7,8 @@ import { PhoneNumberSearch } from "../../generated/src/models";
 import { BeginPurchasePhoneNumbersOptions, _PhoneNumberPollerClient } from "../../models";
 import { isComplete } from "../utils";
 
-export interface PurchasePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberSearch> {
+export interface PurchasePhoneNumbersPollOperationState
+  extends PollOperationState<PhoneNumberSearch> {
   /**
    * The id of the search returned by createSearch.
    */
@@ -67,7 +68,9 @@ async function update(
  * @summary Reaches to the service and cancels the operation, also updating the poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
-async function cancel(this: PurchasePhoneNumbersPollOperation): Promise<PurchasePhoneNumbersPollOperation> {
+async function cancel(
+  this: PurchasePhoneNumbersPollOperation
+): Promise<PurchasePhoneNumbersPollOperation> {
   throw new Error("Canceling is not supported.");
 }
 
