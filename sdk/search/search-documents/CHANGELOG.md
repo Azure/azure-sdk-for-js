@@ -1,5 +1,9 @@
 # Release History
-## 11.0.4 (Unreleased)
+## 11.1.0-beta.1 (2020-10-05)
+- Added Batching ability to the search SDK. Please refer [#11544](https://github.com/Azure/azure-sdk-for-js/pull/11544) for further details.
+- Regenerated the search SDK using the latest swaggers. Please refer [#11533](https://github.com/Azure/azure-sdk-for-js/pull/11533) for further details.
+- Fixed the testcases to ensure success in CI. Please refer [#11518](https://github.com/Azure/azure-sdk-for-js/pull/11518) for further details.
+- Added more test cases for odata scenario. Please refer [#11321](https://github.com/Azure/azure-sdk-for-js/pull/11321) for further details.
 
 
 ## 11.0.3 (2020-08-04)
