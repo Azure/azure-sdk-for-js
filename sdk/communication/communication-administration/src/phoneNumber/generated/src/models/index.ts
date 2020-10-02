@@ -138,7 +138,7 @@ export interface NumberUpdateCapabilities {
  */
 export interface UpdatePhoneNumberCapabilitiesResponse {
   /**
-   * The id of the phone number capabilties update
+   * The id of the phone number capabilities update
    */
   capabilitiesUpdateId?: string;
   /**
@@ -226,10 +226,6 @@ export interface PstnConfiguration {
    * The application id of the application to which to configure
    */
   applicationId?: string;
-  /**
-   * Routable TargetId for the ACS Number
-   */
-  azurePstnTargetId?: string;
 }
 
 /**
@@ -385,7 +381,7 @@ export interface LocationOptions {
 }
 
 /**
- * Represents location options deatils.
+ * Represents location options details.
  */
 export interface LocationOptionsDetails {
   /**
@@ -477,7 +473,7 @@ export interface ReleaseResponse {
  */
 export interface PhoneNumberEntity {
   /**
-   * The id of the entity. It is the search id of a searc. It is the release id of a release.
+   * The id of the entity. It is the search id of a search. It is the release id of a release.
    */
   id?: string;
   /**
@@ -507,7 +503,7 @@ export interface PhoneNumberEntity {
 }
 
 /**
- * Represents a list of searchs or releases, as part of the response when fetching all searches or
+ * Represents a list of searches or releases, as part of the response when fetching all searches or
  * releases.
  */
 export interface PhoneNumberEntities {
@@ -589,6 +585,9 @@ export interface CreateSearchOptions {
    * Description of the search.
    */
   description: string;
+  /**
+   * The plan subtype ids from which to create the search.
+   */
   phonePlanIds: string[];
   /**
    * The area code from which to create the search.
@@ -620,7 +619,7 @@ export interface CreateSearchResponse {
 export interface PhoneNumberAdministrationGetAllPhoneNumbersOptionalParams
   extends coreHttp.RequestOptionsBase {
   /**
-   * A language-locale pairing which will be used to localise the names of countries. Default
+   * A language-locale pairing which will be used to localize the names of countries. Default
    * value: 'en-US'.
    */
   locale?: string;
@@ -652,7 +651,7 @@ export interface PhoneNumberAdministrationGetAllAreaCodesOptionalParams
 export interface PhoneNumberAdministrationGetAllSupportedCountriesOptionalParams
   extends coreHttp.RequestOptionsBase {
   /**
-   * A language-locale pairing which will be used to localise the names of countries. Default
+   * A language-locale pairing which will be used to localize the names of countries. Default
    * value: 'en-US'.
    */
   locale?: string;
@@ -673,7 +672,7 @@ export interface PhoneNumberAdministrationGetAllSupportedCountriesOptionalParams
 export interface PhoneNumberAdministrationGetPhonePlanGroupsOptionalParams
   extends coreHttp.RequestOptionsBase {
   /**
-   * A language-locale pairing which will be used to localise the names of countries. Default
+   * A language-locale pairing which will be used to localize the names of countries. Default
    * value: 'en-US'.
    */
   locale?: string;
@@ -698,7 +697,7 @@ export interface PhoneNumberAdministrationGetPhonePlanGroupsOptionalParams
 export interface PhoneNumberAdministrationGetPhonePlansOptionalParams
   extends coreHttp.RequestOptionsBase {
   /**
-   * A language-locale pairing which will be used to localise the names of countries. Default
+   * A language-locale pairing which will be used to localize the names of countries. Default
    * value: 'en-US'.
    */
   locale?: string;
@@ -719,7 +718,7 @@ export interface PhoneNumberAdministrationGetPhonePlansOptionalParams
 export interface PhoneNumberAdministrationGetPhonePlanLocationOptionsOptionalParams
   extends coreHttp.RequestOptionsBase {
   /**
-   * A language-locale pairing which will be used to localise the names of countries. Default
+   * A language-locale pairing which will be used to localize the names of countries. Default
    * value: 'en-US'.
    */
   locale?: string;

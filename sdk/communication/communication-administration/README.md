@@ -1,6 +1,8 @@
 # Azure Communication Administration client library for JavaScript
 
-The Azure Communication Administration library lets the developer create/delete users and issue tokens for Communication Services. Users and tokens can then be used when adding Chat or Calling to an app.
+The administration library is used for managing users and tokens for Azure Communication Services. This library also provides capabilities for phone number administration.
+
+Acquired phone numbers can come with many capabilities, depending on the country, number type and phone plan. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
 ## Getting started
 
@@ -17,17 +19,31 @@ npm install @azure/communication-administration
 
 ## Key concepts
 
-### CommunicationIdentityClient
+### Clients
 
-`CommunicationIdentityClient` provides methods to manage users and their tokens.
+The administration package exposes two clients. The `CommunicationIdentityClient` provides methods to manage users and their tokens. The `PhoneNumberAdministrationClient` provides methods to manage phone plans and numbers.
+
+### Phone plans overview
+
+Phone plans come in two types; Geographic and Toll-Free. Geographic phone plans are phone plans associated with a location, whose phone numbers' area codes are associated with the area code of a geographic location. Toll-Free phone plans are phone plans not associated location. For example, in the US, toll-free numbers can come with area codes such as 800 or 888.
+
+All geographic phone plans within the same country are grouped into a phone plan group with a Geographic phone number type. All Toll-Free phone plans within the same country are grouped into a phone plan group.
+
+### Searching and acquiring numbers
+
+Phone numbers can be search through the search creation API by providing a phone plan id, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for ten minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resources.
+
+### Configuring and assigning numbers
+
+Phone numbers can be assigned to a callback URL via the configure number API. As part of the configuration, you will need an acquired phone number, callback URL and application id.
 
 ## Examples
 
 ## Authentication
 
-You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you may authenticate with any of the following methods:
+You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you can authenticate the `CommunicationIdentityClient` and `PhoneNumberAdministrationClient` with any of the following methods:
 
-### Create `KeyCredential` with `AzureKeyCredential` before initializing CommunicationIdentityClient
+### Create `KeyCredential` with `AzureKeyCredential` before initializing the client
 
 ```typescript
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -40,25 +56,179 @@ const client = new CommunicationIdentityClient(HOST, credential);
 ### Using a connection string
 
 ```typescript
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
 
 const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
+If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
+
 ## Usage
 
-### Create a user and token
+### CommunicationIdentityClient
 
-Here we create an instance of the `CommunicationIdentityClient` class, create a user, then issue a chat scoped token for the user.
+### Creating an instance of CommunicationIdentityClient
 
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-administration";
 
 const client = new CommunicationIdentityClient(CONNECTION_STRING);
-const user = await client.createUser();
-const { token } = await client.issueToken(user, ["chat"]);
 ```
+
+#### Creating a new user
+
+Use the `createUser` method to create a new user.
+
+```typescript
+const user = await client.createUser();
+```
+
+#### Creating and refreshing a user token
+
+Use the `issueToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
+
+- `chat` (Chat)
+- `pstn` (Public switched telephone network)
+- `voip` (Voice over IP)
+
+```typescript
+let { token } = await client.issueToken(user, ["chat"]);
+```
+
+To refresh the user token, issue another token with the same user.
+
+```typescript
+{ token } = await client.issueToken(user, ["chat"]);
+```
+
+#### Revoking tokens for a user
+
+Use the `revokeTokens` method to revoke all the issued tokens of a user.
+
+```typescript
+await client.revokeTokens(user);
+```
+
+`revokeTokens` takes an optional second argument, `tokensValidFrom`. If this date is provided, `revokeTokens` will revoke all tokens issued before it. Otherwise, all tokens will be revoked.
+
+#### Deleting a user
+
+Use the `deleteUser` method to delete a user.
+
+```typescript
+await client.deleteUser(user);
+```
+
+### PhoneNumberAdministrationClient
+
+#### Creating an instance of PhoneNumberAdministrationClient
+
+```typescript
+import { CommunicationIdentityClient } from "@azure/communication-administration";
+
+const client = new CommunicationIdentityClient(CONNECTION_STRING);
+```
+
+#### Getting countries
+
+Use the `listSupportedCountries` method to get a list of the supported countries.
+
+```typescript
+const countries = await client.listSupportedCountries();
+
+for await (const country of countries) {
+  console.log(`Country code: ${country.countryCode}`);
+  console.log(`Country name: ${country.localizedName}`);
+}
+```
+
+#### Getting phone plan groups
+
+Phone plan groups come in two types, Geographic and Toll-Free. Use the `listPhonePlanGroups` method to get them.
+
+```typescript
+const countryCode = "US";
+const phonePlanGroups = await client.listPhonePlanGroups(countryCode);
+
+for await (const phonePlanGroup of phonePlanGroups) {
+  console.log(`Phone plan group id: ${phonePlanGroup.phonePlanGroupId}`);
+}
+```
+
+#### Getting location options
+
+For Geographic phone plans, you can query the available geographic locations. The locations options are structured like the geographic hierarchy of a country. For example, the US has states and within each state are cities.
+
+Use the `getPhonePlanLocationOptions` method to get the options for a location.
+
+```typescript
+const { locationOptions } = await client.getPhonePlanLocationOptions({
+  countryCode: "US",
+  phonePlanGroupId: "phonePlanGroupId",
+  phonePlanId: "phonePlanId"
+});
+
+console.log(`Got location options for: ${locationOptions.labelId}`);
+```
+
+#### Getting area codes
+
+Fetching area codes for geographic phone plans will require the the location options queries set. You must include the chain of geographic locations traversing down the location options object returned by the `getPhonePlanLocationOptions`.
+
+Use the `getAreaCodes` method to get the area codes for geographic phone plans.
+
+```typescript
+const { primaryAreaCodes } = await client.getAreaCodes(
+  {
+    locationType: "selection",
+    countryCode: "US",
+    phonePlanId: "phonePlanId"
+  },
+  { locationOptions }
+);
+```
+
+#### Searching for phone numbers
+
+Use the `createSearch` method to search for phone numbers. This method returns a `searchId` which should be used to query the status of the search.
+
+```typescript
+const { searchId } = await client.createSearch({
+    name: "Phone number search 800",
+    description: "Search for 800 phone numbers"
+    phonePlanIds: ["phone-plan-id-1"],
+    areaCode: "800"
+});
+```
+
+To get the results of the search use the `searchId` to call the `getSearch` method.
+
+```typescript
+const phoneNumberSearch = await client.getSearch(searchId);
+```
+
+#### Purchasing phone numbers from a search
+
+Use the `purchaseSearch` method to purchase the phone numbers from your search.
+
+```typescript
+await client.purchaseSearch(searchId);
+```
+
+You also need to call the `getSearch` method to get the results of your purchase.
+
+#### Cancel a phone number search
+
+Phone numbers are reserved for 10 minutes when you create a new search. To cancel a search, and make numbers available to other users, call the `cancelSearch` method with the `searchId` of the search.
+
+```typescript
+await client.cancelSearch(searchId);
+```
+
+Call the `getSearch` method to get the results.
+
+**Currently, you need to implement your own poller with `getSearch` to know when the search, purchase and cancel operations have reached a terminal status.**
 
 ## Troubleshooting
 

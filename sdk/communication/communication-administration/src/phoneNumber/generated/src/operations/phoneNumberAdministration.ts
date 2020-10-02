@@ -713,7 +713,7 @@ export class PhoneNumberAdministration {
    * @summary Creates a phone number search
    * @param displayName Display name of the search.
    * @param description Description of the search.
-   * @param phonePlanIds
+   * @param phonePlanIds The plan subtype ids from which to create the search.
    * @param areaCode The area code from which to create the search.
    * @param [options] The optional parameters
    * @returns Promise<Models.PhoneNumberAdministrationCreateSearchResponse>
@@ -728,7 +728,7 @@ export class PhoneNumberAdministration {
   /**
    * @param displayName Display name of the search.
    * @param description Description of the search.
-   * @param phonePlanIds
+   * @param phonePlanIds The plan subtype ids from which to create the search.
    * @param areaCode The area code from which to create the search.
    * @param callback The callback
    */
@@ -742,7 +742,7 @@ export class PhoneNumberAdministration {
   /**
    * @param displayName Display name of the search.
    * @param description Description of the search.
-   * @param phonePlanIds
+   * @param phonePlanIds The plan subtype ids from which to create the search.
    * @param areaCode The area code from which to create the search.
    * @param options The optional parameters
    * @param callback The callback
@@ -811,46 +811,6 @@ export class PhoneNumberAdministration {
       getAllSearchesOperationSpec,
       callback
     ) as Promise<Models.PhoneNumberAdministrationGetAllSearchesResponse>;
-  }
-
-  /**
-   * @summary Refreshes the search. This means new numbers will be reserved for the search.
-   * @param searchId The search id to be refreshed
-   * @param [options] The optional parameters
-   * @returns Promise<coreHttp.RestResponse>
-   */
-  refreshSearch(
-    searchId: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<coreHttp.RestResponse>;
-  /**
-   * @param searchId The search id to be refreshed
-   * @param callback The callback
-   */
-  refreshSearch(searchId: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param searchId The search id to be refreshed
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  refreshSearch(
-    searchId: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
-  refreshSearch(
-    searchId: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
-  ): Promise<coreHttp.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        searchId,
-        options
-      },
-      refreshSearchOperationSpec,
-      callback
-    );
   }
 
   /**
@@ -1258,20 +1218,6 @@ const getAllSearchesOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.PhoneNumberEntities
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const refreshSearchOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "POST",
-  path: "administration/phonenumbers/searches/{searchId}/refresh",
-  urlParameters: [Parameters.endpoint, Parameters.searchId],
-  queryParameters: [Parameters.apiVersion],
-  responses: {
-    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
