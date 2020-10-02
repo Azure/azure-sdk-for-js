@@ -33,7 +33,7 @@ All geographic phone plans within the same country are grouped into a phone plan
 
 Phone numbers can be search through the search creation API by providing a phone plan id, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for ten minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resources.
 
-### Configuring and Assigning numbers
+### Configuring and assigning numbers
 
 Phone numbers can be assigned to a callback URL via the configure number API. As part of the configuration, you will need an acquired phone number, callback URL and application id.
 
