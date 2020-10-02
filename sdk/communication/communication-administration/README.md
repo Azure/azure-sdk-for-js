@@ -138,8 +138,8 @@ Use the `listSupportedCountries` method to get a list of the supported countries
 const countries = await client.listSupportedCountries();
 
 for await (const country of countries) {
-    console.log(`Country code: ${country.countryCode}`);
-    console.log(`Country name: ${country.localizedName}`);
+  console.log(`Country code: ${country.countryCode}`);
+  console.log(`Country name: ${country.localizedName}`);
 }
 ```
 
@@ -148,11 +148,11 @@ for await (const country of countries) {
 Phone plan groups come in two types, Geographic and Toll-Free. Use the `listPhonePlanGroups` method to get them.
 
 ```typescript
-const countryCode = "US"
+const countryCode = "US";
 const phonePlanGroups = await client.listPhonePlanGroups(countryCode);
 
 for await (const phonePlanGroup of phonePlanGroups) {
-    console.log(`Phone plan group id: ${phonePlanGroup.phonePlanGroupId}`);
+  console.log(`Phone plan group id: ${phonePlanGroup.phonePlanGroupId}`);
 }
 ```
 
@@ -164,9 +164,9 @@ Use the `getPhonePlanLocationOptions` method to get the options for a location.
 
 ```typescript
 const { locationOptions } = await client.getPhonePlanLocationOptions({
-    countryCode: "US",
-    phonePlanGroupId: "phonePlanGroupId",
-    phonePlanId: "phonePlanId"
+  countryCode: "US",
+  phonePlanGroupId: "phonePlanGroupId",
+  phonePlanId: "phonePlanId"
 });
 
 console.log(`Got location options for: ${locationOptions.labelId}`);
@@ -179,11 +179,14 @@ Fetching area codes for geographic phone plans will require the the location opt
 Use the `getAreaCodes` method to get the area codes for geographic phone plans.
 
 ```typescript
-const { primaryAreaCodes } = await client.getAreaCodes({
+const { primaryAreaCodes } = await client.getAreaCodes(
+  {
     locationType: "selection",
     countryCode: "US",
     phonePlanId: "phonePlanId"
-}, { locationOptions });
+  },
+  { locationOptions }
+);
 ```
 
 #### Searching for phone numbers
