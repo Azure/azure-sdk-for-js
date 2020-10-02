@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LocalSupportedAlgorithmsRecord } from "./models";
+import { LocalAssertion, LocalSupportedAlgorithmsRecord } from "./models";
 
 /**
  * This file contains the implementation of local supported algorithms for the browser.
@@ -9,6 +9,14 @@ import { LocalSupportedAlgorithmsRecord } from "./models";
  * We currently don't support any cryptography operation in the browser.
  *
  */
+
+/**
+ * @internal
+ * @ignore
+ * The list of known assertions so far.
+ * Assertions verify that the requirements to execute a local cryptography operation are met.
+ */
+export const assertions: Record<string, LocalAssertion> = {};
 
 /**
  * A plain object containing all of the locally supported algorithms.
