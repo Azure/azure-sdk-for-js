@@ -38,17 +38,19 @@ function checkUnsupportedTenant(tenantId: string): void {
 }
 
 /**
- * Attempts to load the tenant from the VSCode configurations of the current OS.
+ * Attempts to load a specific property from the VSCode configurations of the current OS.
  * If it fails at any point, returns undefined.
  */
-export function getTenantIdFromVSCode(): string | undefined {
-  const commonSettingsPath = ["Code", "User", "settings.json"];
+export function getPropertyFromVSCode(property: string): string | undefined {
+  const settingsPath = ["User", "settings.json"];
+  // Eventually we can add more folders for more versions of VSCode.
+  const vsCodeFolder = "Code";
   const homedir = os.homedir();
 
-  function loadTenant(...pathSegments: string[]): string | undefined {
-    const settingsPath = path.join(...pathSegments, ...commonSettingsPath);
-    const settings = JSON.parse(fs.readFileSync(settingsPath as string, { encoding: "utf8" }));
-    return settings["azure.tenant"];
+  function loadProperty(...pathSegments: string[]): string | undefined {
+    const fullPath = path.join(...pathSegments, vsCodeFolder, ...settingsPath);
+    const settings = JSON.parse(fs.readFileSync(fullPath, { encoding: "utf8" }));
+    return settings[property];
   }
 
   try {
@@ -56,11 +58,11 @@ export function getTenantIdFromVSCode(): string | undefined {
     switch (process.platform) {
       case "win32":
         appData = process.env.APPDATA!;
-        return appData ? loadTenant(appData) : undefined;
+        return appData ? loadProperty(appData) : undefined;
       case "darwin":
-        return loadTenant(homedir, "Library", "Application Support");
+        return loadProperty(homedir, "Library", "Application Support");
       case "linux":
-        return loadTenant(homedir, ".config");
+        return loadProperty(homedir, ".config");
       default:
         return;
     }
@@ -107,9 +109,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
   /**
    * Runs preparations for any further getToken request.
    */
-  private async prepare() {
+  private async prepare(): Promise<void> {
     // Attempts to load the tenant from the VSCode configuration file.
-    const settingsTenant = getTenantIdFromVSCode();
+    const settingsTenant = getPropertyFromVSCode("azure.tenant");
     if (settingsTenant) {
       this.tenantId = settingsTenant;
     }
@@ -164,7 +166,29 @@ export class VisualStudioCodeCredential implements TokenCredential {
       scopeString += " offline_access";
     }
 
-    const refreshToken = await keytar.findPassword(VSCodeUserName);
+    // findCredentials returns an array similar to:
+    // [
+    //   {
+    //     account: "",
+    //     password: "",
+    //   },
+    //   /* ... */
+    // ]
+    const credentials = await keytar.findCredentials(VSCodeUserName);
+
+    // We want to make sure we use the one assigned by the user on the VSCode settings.
+    // Or just `Azure` by default.
+    const cloudName = getPropertyFromVSCode("azure.cloud") || "Azure";
+
+    // If we can't find the credential based on the name, we'll pick the first one available.
+    const { password } =
+      credentials.find((cred: { account: string }) => cred.account === cloudName) ||
+      credentials[0] ||
+      {};
+
+    // Assuming we found something, the refresh token is the "password" property.
+    const refreshToken = password;
+
     if (refreshToken) {
       const tokenResponse = await this.identityClient.refreshAccessToken(
         this.tenantId,
