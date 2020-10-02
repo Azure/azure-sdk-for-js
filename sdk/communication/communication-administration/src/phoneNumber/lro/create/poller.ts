@@ -44,7 +44,7 @@ export class CreateSearchPoller extends Poller<CreateSearchPollOperationState, P
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
+   * @memberof CreateSearchPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
