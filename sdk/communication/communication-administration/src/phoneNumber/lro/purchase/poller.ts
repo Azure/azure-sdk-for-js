@@ -47,7 +47,7 @@ export class PurchaseSearchPoller extends Poller<
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
+   * @memberof PurchaseSearchPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
