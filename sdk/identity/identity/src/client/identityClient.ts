@@ -10,11 +10,7 @@ import {
   RequestPrepareOptions,
   GetTokenOptions,
   createPipelineFromOptions,
-  isNode,
-  OperationArguments,
-  OperationSpec,
-  RawHttpHeaders,
-  HttpHeaders
+  isNode
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 

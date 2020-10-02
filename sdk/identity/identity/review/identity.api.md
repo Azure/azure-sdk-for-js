@@ -57,7 +57,11 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
-    protected getAzureCliAccessToken(resource: string): Promise<unknown>;
+    protected getAzureCliAccessToken(resource: string): Promise<{
+        stdout: string;
+        stderr: string;
+        error: Error | null;
+    }>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
@@ -143,7 +147,7 @@ export { GetTokenOptions }
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
@@ -188,7 +192,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public

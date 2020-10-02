@@ -8,8 +8,8 @@ import {
   InteractiveBrowserCredentialOptions,
   AuthenticationRecord
 } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { credentialLogger } from "../util/logging";
+import { IdentityClient } from "../client/identityClient";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 
@@ -21,7 +21,6 @@ import {
   Configuration
 } from "@azure/msal-node";
 import open from "open";
-import path from "path";
 import http from "http";
 import { CredentialUnavailable } from "../client/errors";
 
@@ -108,7 +107,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   public getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
