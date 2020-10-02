@@ -94,29 +94,29 @@ export type ACSChatThreadWithUserDeletedEventData = ACSChatThreadEventBase & {
 };
 
 // @public
-export interface AcssmsDeliveryAttempt {
+export interface AcsSmsDeliveryAttempt {
     segmentsFailed?: number;
     segmentsSucceeded?: number;
     timestamp?: Date;
 }
 
 // @public
-export type AcssmsDeliveryReportReceivedEventData = AcssmsEventBase & {
+export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
     deliveryStatus?: string;
     deliveryStatusDetails?: string;
-    deliveryAttempts?: AcssmsDeliveryAttempt[];
+    deliveryAttempts?: AcsSmsDeliveryAttempt[];
     receivedTimestamp?: Date;
 };
 
 // @public
-export interface AcssmsEventBase {
+export interface AcsSmsEventBase {
     from?: string;
     messageId?: string;
     to?: string;
 }
 
 // @public
-export type AcssmsReceivedEventData = AcssmsEventBase & {
+export type AcsSmsReceivedEventData = AcsSmsEventBase & {
     message?: string;
     receivedTimestamp?: Date;
 };
@@ -404,7 +404,117 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, eve
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
 
 // @public
-export type KnownSystemEventTypes = "Microsoft.AppConfiguration.KeyValueDeleted" | "Microsoft.AppConfiguration.KeyValueModified" | "Microsoft.Communication.ChatMessageReceived" | "Microsoft.Communication.ChatMessageEdited" | "Microsoft.Communication.ChatMessageDeleted" | "Microsoft.Communication.ChatThreadCreatedWithUser" | "Microsoft.Communication.ChatThreadWithUserDeleted" | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" | "Microsoft.Communication.ChatMemberAddedToThreadWithUser" | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" | "Microsoft.Communication.SMSDeliveryReportReceived" | "Microsoft.Communication.SMSReceived" | "Microsoft.ContainerRegistry.ImagePushed" | "Microsoft.ContainerRegistry.ImageDeleted" | "Microsoft.ContainerRegistry.ChartDeleted" | "Microsoft.ContainerRegistry.ChartPushed" | "Microsoft.Devices.DeviceCreated" | "Microsoft.Devices.DeviceDeleted" | "Microsoft.Devices.DeviceConnected" | "Microsoft.Devices.DeviceDisconnected" | "Microsoft.Devices.DeviceTelemetry" | "Microsoft.EventGrid.SubscriptionValidationEvent" | "Microsoft.EventGrid.SubscriptionDeletedEvent" | "Microsoft.EventHub.CaptureFileCreated" | "Microsoft.MachineLearningServices.DatasetDriftDetected" | "Microsoft.MachineLearningServices.ModelDeployed" | "Microsoft.MachineLearningServices.ModelRegistered" | "Microsoft.MachineLearningServices.RunCompleted" | "Microsoft.MachineLearningServices.RunStatusChanged" | "Microsoft.Maps.GeofenceEntered" | "Microsoft.Maps.GeofenceExited" | "Microsoft.Maps.GeofenceResult" | "Microsoft.Media.JobStateChange" | "Microsoft.Media.JobOutputStateChange" | "Microsoft.Media.JobScheduled" | "Microsoft.Media.JobProcessing" | "Microsoft.Media.JobCanceling" | "Microsoft.Media.JobFinished" | "Microsoft.Media.JobCanceled" | "Microsoft.Media.JobErrored" | "Microsoft.Media.JobOutputCanceled" | "Microsoft.Media.JobOutputCanceling" | "Microsoft.Media.JobOutputErrored" | "Microsoft.Media.JobOutputFinished" | "Microsoft.Media.JobOutputProcessing" | "Microsoft.Media.JobOutputScheduled" | "Microsoft.Media.JobOutputProgress" | "Microsoft.Media.LiveEventEncoderConnected" | "Microsoft.Media.LiveEventConnectionRejected" | "Microsoft.Media.LiveEventEncoderDisconnected" | "Microsoft.Media.LiveEventIncomingStreamReceived" | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingDataChunkDropped" | "Microsoft.Media.LiveEventIngestHeartbeat" | "Microsoft.Media.LiveEventTrackDiscontinuityDetected" | "Microsoft.Resources.ResourceWriteSuccess" | "Microsoft.Resources.ResourceWriteFailure" | "Microsoft.Resources.ResourceWriteCancel" | "Microsoft.Resources.ResourceDeleteSuccess" | "Microsoft.Resources.ResourceDeleteFailure" | "Microsoft.Resources.ResourceDeleteCancel" | "Microsoft.Resources.ResourceActionSuccess" | "Microsoft.Resources.ResourceActionFailure" | "Microsoft.Resources.ResourceActionCancel" | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" | "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted" | "Microsoft.Storage.BlobRenamed" | "Microsoft.Storage.DirectoryCreated" | "Microsoft.Storage.DirectoryDeleted" | "Microsoft.Storage.DirectoryRenamed" | "Microsoft.Storage.LifecyclePolicyCompleted" | "Microsoft.Web.AppUpdated" | "Microsoft.Web.BackupOperationStarted" | "Microsoft.Web.BackupOperationCompleted" | "Microsoft.Web.BackupOperationFailed" | "Microsoft.Web.RestoreOperationStarted" | "Microsoft.Web.RestoreOperationCompleted" | "Microsoft.Web.RestoreOperationFailed" | "Microsoft.Web.SlotSwapStarted" | "Microsoft.Web.SlotSwapCompleted" | "Microsoft.Web.SlotSwapFailed" | "Microsoft.Web.SlotSwapWithPreviewStarted" | "Microsoft.Web.SlotSwapWithPreviewCancelled" | "Microsoft.Web.AppServicePlanUpdated";
+export interface KeyVaultAccessPolicyChangedEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultCertificateExpiredEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultCertificateNearExpiryEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultCertificateNewVersionCreatedEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultKeyExpiredEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultKeyNearExpiryEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultKeyNewVersionCreatedEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultSecretExpiredEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultSecretNearExpiryEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultSecretNewVersionCreatedEventData {
+    exp?: number;
+    id?: string;
+    nbf?: number;
+    objectName?: string;
+    objectType?: string;
+    vaultName?: string;
+    version?: string;
+}
+
+// @public
+export type KnownSystemEventTypes = "Microsoft.AppConfiguration.KeyValueDeleted" | "Microsoft.AppConfiguration.KeyValueModified" | "Microsoft.Communication.ChatMessageReceived" | "Microsoft.Communication.ChatMessageEdited" | "Microsoft.Communication.ChatMessageDeleted" | "Microsoft.Communication.ChatThreadCreatedWithUser" | "Microsoft.Communication.ChatThreadWithUserDeleted" | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" | "Microsoft.Communication.ChatMemberAddedToThreadWithUser" | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" | "Microsoft.Communication.SMSDeliveryReportReceived" | "Microsoft.Communication.SMSReceived" | "Microsoft.ContainerRegistry.ImagePushed" | "Microsoft.ContainerRegistry.ImageDeleted" | "Microsoft.ContainerRegistry.ChartDeleted" | "Microsoft.ContainerRegistry.ChartPushed" | "Microsoft.Devices.DeviceCreated" | "Microsoft.Devices.DeviceDeleted" | "Microsoft.Devices.DeviceConnected" | "Microsoft.Devices.DeviceDisconnected" | "Microsoft.Devices.DeviceTelemetry" | "Microsoft.EventGrid.SubscriptionValidationEvent" | "Microsoft.EventGrid.SubscriptionDeletedEvent" | "Microsoft.EventHub.CaptureFileCreated" | "Microsoft.KeyVault.CertificateNewVersionCreated" | "Microsoft.KeyVault.CertificateNearExpiry" | "Microsoft.KeyVault.CertificateExpired" | "Microsoft.KeyVault.KeyNewVersionCreated" | "Microsoft.KeyVault.KeyNearExpiry" | "Microsoft.KeyVault.KeyExpired" | "Microsoft.KeyVault.SecretNewVersionCreated" | "Microsoft.KeyVault.SecretNearExpiry" | "Microsoft.KeyVault.SecretExpired" | "Microsoft.KeyVault.VaultAccessPolicyChanged" | "Microsoft.MachineLearningServices.DatasetDriftDetected" | "Microsoft.MachineLearningServices.ModelDeployed" | "Microsoft.MachineLearningServices.ModelRegistered" | "Microsoft.MachineLearningServices.RunCompleted" | "Microsoft.MachineLearningServices.RunStatusChanged" | "Microsoft.Maps.GeofenceEntered" | "Microsoft.Maps.GeofenceExited" | "Microsoft.Maps.GeofenceResult" | "Microsoft.Media.JobStateChange" | "Microsoft.Media.JobOutputStateChange" | "Microsoft.Media.JobScheduled" | "Microsoft.Media.JobProcessing" | "Microsoft.Media.JobCanceling" | "Microsoft.Media.JobFinished" | "Microsoft.Media.JobCanceled" | "Microsoft.Media.JobErrored" | "Microsoft.Media.JobOutputCanceled" | "Microsoft.Media.JobOutputCanceling" | "Microsoft.Media.JobOutputErrored" | "Microsoft.Media.JobOutputFinished" | "Microsoft.Media.JobOutputProcessing" | "Microsoft.Media.JobOutputScheduled" | "Microsoft.Media.JobOutputProgress" | "Microsoft.Media.LiveEventEncoderConnected" | "Microsoft.Media.LiveEventConnectionRejected" | "Microsoft.Media.LiveEventEncoderDisconnected" | "Microsoft.Media.LiveEventIncomingStreamReceived" | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingDataChunkDropped" | "Microsoft.Media.LiveEventIngestHeartbeat" | "Microsoft.Media.LiveEventTrackDiscontinuityDetected" | "Microsoft.Resources.ResourceWriteSuccess" | "Microsoft.Resources.ResourceWriteFailure" | "Microsoft.Resources.ResourceWriteCancel" | "Microsoft.Resources.ResourceDeleteSuccess" | "Microsoft.Resources.ResourceDeleteFailure" | "Microsoft.Resources.ResourceDeleteCancel" | "Microsoft.Resources.ResourceActionSuccess" | "Microsoft.Resources.ResourceActionFailure" | "Microsoft.Resources.ResourceActionCancel" | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" | "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted" | "Microsoft.Storage.BlobRenamed" | "Microsoft.Storage.DirectoryCreated" | "Microsoft.Storage.DirectoryDeleted" | "Microsoft.Storage.DirectoryRenamed" | "Microsoft.Storage.LifecyclePolicyCompleted" | "Microsoft.Web.AppUpdated" | "Microsoft.Web.BackupOperationStarted" | "Microsoft.Web.BackupOperationCompleted" | "Microsoft.Web.BackupOperationFailed" | "Microsoft.Web.RestoreOperationStarted" | "Microsoft.Web.RestoreOperationCompleted" | "Microsoft.Web.RestoreOperationFailed" | "Microsoft.Web.SlotSwapStarted" | "Microsoft.Web.SlotSwapCompleted" | "Microsoft.Web.SlotSwapFailed" | "Microsoft.Web.SlotSwapWithPreviewStarted" | "Microsoft.Web.SlotSwapWithPreviewCancelled" | "Microsoft.Web.AppServicePlanUpdated";
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
@@ -997,8 +1107,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadCreatedWithUser": ACSChatThreadCreatedWithUserEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": ACSChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": ACSChatThreadWithUserDeletedEventData;
-    "Microsoft.Communication.SMSDeliveryReportReceived": AcssmsDeliveryReportReceivedEventData;
-    "Microsoft.Communication.SMSReceived": AcssmsReceivedEventData;
+    "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
+    "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
@@ -1011,6 +1121,16 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
+    "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
+    "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
+    "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
+    "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
+    "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
+    "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
+    "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
+    "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
+    "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
     "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
     "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
     "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
