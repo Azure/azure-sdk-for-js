@@ -30,7 +30,7 @@ export interface CreateSearchPollOperationState extends PollOperationState<Phone
 }
 
 /**
- * Represents the refresh poll operation.
+ * Represents the search poll operation.
  */
 export interface CreateSearchPollOperation
   extends PollOperation<CreateSearchPollOperationState, PhoneNumberSearch> {}
