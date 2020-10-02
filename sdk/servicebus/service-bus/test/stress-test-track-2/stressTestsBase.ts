@@ -278,7 +278,10 @@ export class SBStressTestsBase {
     console.log("Queue name: ", this.queueName);
     console.log("Time : ", new Date());
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
-    console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
+    // console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
+    const memoryUsage = process.memoryUsage();
+    console.log("Space occupied for the process(rss): ", memoryUsage.rss);
+    console.log("Memory Consumed(heapUsed): ", memoryUsage.heapUsed);
     console.log("Number of messages sent so far : ", this.messagesSent.length);
     console.log("Number of messages received so far : ", this.messagesReceived.length);
 
