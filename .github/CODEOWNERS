@@ -46,6 +46,9 @@
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
+# PRLabel: %Cosmos
+/sdk/cosmosdb/ @zolvarga
+
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ramya-rao-a @ellismg
 
