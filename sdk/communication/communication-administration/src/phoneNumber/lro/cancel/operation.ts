@@ -49,8 +49,6 @@ async function update(
     if (!state.isStarted) {
       await client.cancelSearch(searchId, requestOptions);
       state.isStarted = true;
-      state.result = await client.getSearch(searchId, requestOptions);
-      state.isCompleted = isComplete(state.result, "Cancelled");
     }
 
     if (!state.isCompleted) {

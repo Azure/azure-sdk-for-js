@@ -114,7 +114,7 @@ export interface ConfigurePhoneNumberRequest {
 export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
 
 // @public
-export interface CreateSearchOptions extends OperationOptions {
+export interface CreateSearchOptions extends SearchPollerOptions {
     locationOptions?: LocationOptionsDetails[];
     quantity?: number;
 }
@@ -183,9 +183,6 @@ export type GetReleaseOptions = OperationOptions;
 
 // @public
 export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
-
-// @public
-export type GetSearchOptions = OperationOptions;
 
 // @public
 export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
@@ -282,15 +279,14 @@ export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     beginCancelSearch(searchId: string, options?: BeginCancelSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    beginCreateSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     beginPurchaseSearch(searchId: string, options?: BeginPurchaseSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
-    createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
     getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
     getRelease(releaseId: string, options?: GetReleaseOptions): Promise<GetReleaseResponse>;
-    getSearch(searchId: string, options?: GetSearchOptions): Promise<GetSearchResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
     listPhonePlans(planGroupInfo: ListPhonePlansRequest, options?: ListPhonePlansOptions): PagedAsyncIterableIterator<PhonePlan>;
@@ -299,7 +295,7 @@ export class PhoneNumberAdministrationClient {
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
-    updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
+    updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdatePhoneNumbersCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
 
 // @public
@@ -411,7 +407,9 @@ export interface PhoneNumberPollerClient {
     // (undocumented)
     cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
     // (undocumented)
-    getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
+    createSearch(searchRequest: CreateSearchRequest, options: CreateSearchOptions): Promise<CreateSearchResponse>;
+    // (undocumented)
+    getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
     // (undocumented)
     purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
 }
@@ -532,12 +530,6 @@ export type TokenScope = "chat" | "voip" | "pstn";
 export type UnconfigurePhoneNumberOptions = OperationOptions;
 
 // @public
-export interface UpdateCapabilitiesOptions extends OperationOptions {
-    // (undocumented)
-    phoneNumbers?: PhoneNumberCapabilitiesUpdates;
-}
-
-// @public
 export interface UpdateNumberCapabilitiesResponse {
     capabilitiesUpdateId: string;
 }
@@ -554,6 +546,9 @@ export interface UpdatePhoneNumberCapabilitiesResponse {
         [propertyName: string]: NumberUpdateCapabilities;
     };
 }
+
+// @public
+export type UpdatePhoneNumbersCapabilitiesOptions = OperationOptions;
 
 // @public
 export type VoidResponse = WithResponse<{}>;

@@ -6,19 +6,21 @@ import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 
 if (isNode) {
   dotenv.config();
 }
 
-export interface RecordedClient {
-  client: CommunicationIdentityClient;
+export interface RecordedClient<T> {
+  client: T;
   recorder: Recorder;
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  PHONE_PLAN_IDs: "phone-plan-id-1",
+  AREA_CODE_FOR_SEARCH: "555"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -45,16 +47,36 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       );
     },
     (recording: string): string =>
-      recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized")
+      recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized"),
+    (recording: string): string =>
+      recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`)
   ],
   queryParametersToSkip: []
 };
 
-export function createRecordedCommunicationIdentityClient(context: Context): RecordedClient {
+export function createRecordedCommunicationIdentityClient(
+  context: Context
+): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
 
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder
+  };
+}
+
+export function createRecordedPhoneNumberAdministrationClient(
+  context: Context
+): RecordedClient<PhoneNumberAdministrationClient> & {
+  phonePlanIds: string;
+  areaCodeForSearch: string;
+} {
+  const recorder = record(context, environmentSetup);
+
+  return {
+    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    recorder,
+    phonePlanIds: env.PHONE_PLAN_IDS,
+    areaCodeForSearch: env.AREA_CODE_FOR_SEARCH
   };
 }

@@ -49,7 +49,6 @@ import {
   ListSupportedCountriesOptions,
   ListPhoneNumbersOptions,
   ListPhonePlanGroupsOptions,
-  UpdateCapabilitiesOptions,
   GetAreaCodesRequest,
   PageableOptions,
   ListPhonePlansRequest,
@@ -72,16 +71,17 @@ import {
   GetReleaseOptions,
   ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
-  GetSearchOptions,
   PhoneNumberPollerClient,
   BeginCancelSearchOptions,
-  BeginPurchaseSearchOptions
+  BeginPurchaseSearchOptions,
+  UpdatePhoneNumbersCapabilitiesOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { CancelSearchPoller } from "./lro/cancel/poller";
 import { PurchaseSearchPoller } from "./lro/purchase/poller";
+import { CreateSearchPoller } from "./lro/create/poller";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -107,6 +107,7 @@ export class PhoneNumberAdministrationClient {
    * A self reference that bypasses private methods, for the pollers.
    */
   private readonly pollerClient: PhoneNumberPollerClient = {
+    createSearch: this.createSearch.bind(this),
     getSearch: this.getSearch.bind(this),
     cancelSearch: this.cancelSearch.bind(this),
     purchaseSearch: this.purchaseSearch.bind(this)
@@ -241,7 +242,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async updatePhoneNumbersCapabilities(
     phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
-    options: UpdateCapabilitiesOptions = {}
+    options: UpdatePhoneNumbersCapabilitiesOptions = {}
   ): Promise<UpdateNumbersCapabilitiesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-updatePhoneNumbersCapabilities",
@@ -349,40 +350,6 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<PhoneNumberRelease>(rest, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Starts a search for phone numbers given some constraints such as name or area code.
-   * @param searchRequest Request properties to constraint the search scope.
-   * @param options Additional request options.
-   */
-  public async createSearch(
-    searchRequest: CreateSearchRequest,
-    options: CreateSearchOptions = {}
-  ): Promise<CreatePhoneNumberSearchResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-createSearch",
-      options
-    );
-    const { name, description, phonePlanIds, areaCode } = searchRequest;
-    try {
-      const { searchId, _response } = await this.client.createSearch(
-        name,
-        description,
-        phonePlanIds,
-        areaCode,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<CreateSearchResponse>({ searchId }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -981,34 +948,38 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Gets the search associated with a given id.
-   * Use this function to query the status of a search.
-   * @param searchId The id of the search returned by createSearch.
-   * @param options Additional request options.
+   * Starts a search for phone numbers given some constraints such as name or area code.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
+   * const searchPoller = await client.beginCancelSearch(searchId);
+   *
+   * // Serializing the poller
+   * const serialized = searchPoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await searchPoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   * @summary Starts a search for phone numbers given some constraints such as name or area code.
+   * @param {CreateSearchRequest} searchId Request properties to constraint the search scope.
+   * @param {CreateSearchOptions} options Additional request options.
    */
-  public async getSearch(
-    searchId: string,
-    options: GetSearchOptions = {}
-  ): Promise<GetSearchResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getSearch",
+  public async beginCreateSearch(
+    searchRequest: CreateSearchRequest,
+    options: CreateSearchOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    const poller = new CreateSearchPoller({
+      searchRequest,
+      client: this.pollerClient,
       options
-    );
-    try {
-      const { _response, ...rest } = await this.client.getSearchById(
-        searchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1018,7 +989,8 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
+   * const searchPoller = await client.beginCreateSearch(SEARCH_REQUEST);
+   * const { searchId } = await searchPoller.pollUntilDone();
    * const cancelPoller = await client.beginCancelSearch(searchId);
    *
    * // Serializing the poller
@@ -1029,7 +1001,7 @@ export class PhoneNumberAdministrationClient {
    * console.log(phoneNumbers);
    * ```
    * @summary Cancels the search associated with a given id.
-   * @param {string} searchId The id of the search returned by createSearch.
+   * @param {string} searchId The id of the search to cancel.
    * @param {BeginCancelSearchOptions} options Additional request options.
    */
   public async beginCancelSearch(
@@ -1053,7 +1025,8 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
+   * const searchPoller = await client.beginCreateSearch(SEARCH_REQUEST);
+   * const { searchId } = await searchPoller.pollUntilDone();
    * const purchasePoller = await client.beginPurchaseSearch(searchId);
    *
    * // Serializing the poller
@@ -1064,7 +1037,7 @@ export class PhoneNumberAdministrationClient {
    * console.log(phoneNumbers);
    * ```
    * @summary Purchases the search associated with a given id.
-   * @param {string} searchId The id of the search returned by createSearch.
+   * @param {string} searchId The id of the search to purchase.
    * @param {BeginPurchaseSearchOptions} options Additional request options.
    */
   public async beginPurchaseSearch(
@@ -1079,6 +1052,71 @@ export class PhoneNumberAdministrationClient {
 
     await poller.poll();
     return poller;
+  }
+
+  /**
+   * Starts a search for phone numbers given some constraints such as name or area code.
+   * @param searchRequest Request properties to constraint the search scope.
+   * @param options Additional request options.
+   */
+  private async createSearch(
+    searchRequest: CreateSearchRequest,
+    options: CreateSearchOptions = {}
+  ): Promise<CreatePhoneNumberSearchResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-createSearch",
+      options
+    );
+    const { name, description, phonePlanIds, areaCode } = searchRequest;
+    try {
+      const { searchId, _response } = await this.client.createSearch(
+        name,
+        description,
+        phonePlanIds,
+        areaCode,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<CreateSearchResponse>({ searchId }, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the search associated with a given id.
+   * Use this function to query the status of a search.
+   * @param searchId The id of the search returned by createSearch.
+   * @param options Additional request options.
+   */
+  private async getSearch(
+    searchId: string,
+    options: OperationOptions = {}
+  ): Promise<GetSearchResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-getSearch",
+      options
+    );
+    try {
+      const { _response, ...rest } = await this.client.getSearchById(
+        searchId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

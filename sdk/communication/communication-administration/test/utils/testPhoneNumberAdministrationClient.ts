@@ -19,7 +19,6 @@ import {
   ConfigurePhoneNumberOptions,
   VoidResponse,
   PhoneNumberCapabilitiesUpdates,
-  UpdateCapabilitiesOptions,
   UpdateNumbersCapabilitiesResponse,
   GetCapabilitiesUpdateResponse,
   ReleasePhoneNumbersResponse,
@@ -30,7 +29,8 @@ import {
   GetReleaseOptions,
   ReleasePhoneNumberOptions,
   GetCapabilitiesUpdateOptions,
-  UnconfigurePhoneNumberOptions
+  UnconfigurePhoneNumberOptions,
+  UpdatePhoneNumbersCapabilitiesOptions
 } from "../../src";
 import {
   baseHttpClient,
@@ -134,7 +134,7 @@ export class TestPhoneNumberAdministrationClient {
 
   public async updatePhoneNumberCapabilitiesTest(
     phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
-    options: UpdateCapabilitiesOptions = {}
+    options: UpdatePhoneNumbersCapabilitiesOptions = {}
   ): Promise<UpdateNumbersCapabilitiesResponse> {
     const client = new PhoneNumberAdministrationClient(this.connectionString, {
       httpClient: phoneNumbersCapabilitiesHttpClient

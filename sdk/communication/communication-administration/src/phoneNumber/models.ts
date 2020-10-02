@@ -41,20 +41,6 @@ export interface CreateSearchRequest {
 }
 
 /**
- * Options for creating a search.
- */
-export interface CreateSearchOptions extends OperationOptions {
-  /**
-   * The quantity of phone numbers to request.
-   */
-  quantity?: number;
-  /**
-   * The location options of the search.
-   */
-  locationOptions?: LocationOptionsDetails[];
-}
-
-/**
  * A request for configuring a phone number.
  */
 export interface ConfigurePhoneNumberRequest {
@@ -183,21 +169,14 @@ export type GetReleaseOptions = OperationOptions;
 export type GetPhoneNumberConfigurationOptions = OperationOptions;
 
 /**
- * Additional request option for get search operations.
- */
-export type GetSearchOptions = OperationOptions;
-
-/**
  * The capabilities update for each of a set of phone numbers.
  */
 export type PhoneNumberCapabilitiesUpdates = { [propertyName: string]: NumberUpdateCapabilities };
 
 /**
- * Additional options for updating phone numbers capabilities.
+ * Additional options for updating phone numbers' capabilities.
  */
-export interface UpdateCapabilitiesOptions extends OperationOptions {
-  phoneNumbers?: PhoneNumberCapabilitiesUpdates;
-}
+export type UpdatePhoneNumbersCapabilitiesOptions = OperationOptions;
 
 export interface ListPhonePlansRequest {
   /**
@@ -295,6 +274,21 @@ export interface SearchPollerOptions extends OperationOptions {
 }
 
 /**
+/**
+ * Options for creating a search.
+ */
+export interface CreateSearchOptions extends SearchPollerOptions {
+  /**
+   * The quantity of phone numbers to request.
+   */
+  quantity?: number;
+  /**
+   * The location options of the search.
+   */
+  locationOptions?: LocationOptionsDetails[];
+}
+
+/**
  * Represents optional parameters that can be passed to beginRefreshSearch poller.
  */
 export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
@@ -315,7 +309,11 @@ export interface BeginPurchaseSearchOptions extends SearchPollerOptions {}
  * Represents the poller client used internally
  */
 export interface PhoneNumberPollerClient {
-  getSearch(searchId: string, options: GetSearchOptions): Promise<GetSearchResponse>;
+  createSearch(
+    searchRequest: CreateSearchRequest,
+    options: CreateSearchOptions
+  ): Promise<CreateSearchResponse>;
+  getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
   cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
   purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
 }

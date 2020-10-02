@@ -7,9 +7,9 @@ export const isComplete = (
   results: PhoneNumberSearch,
   completionStatus: SearchStatus
 ): boolean | never => {
-  if (results.status !== completionStatus) {
+  if (results.status == "Error") {
     throw new Error(JSON.stringify(results));
   }
 
-  return true;
+  return results.status === completionStatus;
 };
