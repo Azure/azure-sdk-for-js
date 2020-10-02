@@ -391,7 +391,7 @@ export class PhoneNumberAdministrationClient {
   ): Promise<GetAreaCodesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
-      options
+      Object.assign(options, { locationOptions })
     );
     const { countryCode: country, locationType, phonePlanId } = request;
     try {
@@ -399,7 +399,7 @@ export class PhoneNumberAdministrationClient {
         locationType,
         country,
         phonePlanId,
-        { ...operationOptionsToRequestOptionsBase(updatedOptions), ...locationOptions }
+        operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<AreaCodes>(rest, _response);
     } catch (e) {
