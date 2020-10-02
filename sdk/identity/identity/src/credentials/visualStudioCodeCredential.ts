@@ -47,7 +47,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
   const vsCodeFolder = "Code";
   const homedir = os.homedir();
 
-  function loadTenant(...pathSegments: string[]): string | undefined {
+  function loadProperty(...pathSegments: string[]): string | undefined {
     const fullPath = path.join(...pathSegments, vsCodeFolder, ...settingsPath);
     const settings = JSON.parse(fs.readFileSync(fullPath, { encoding: "utf8" }));
     return settings[property];
@@ -58,11 +58,11 @@ export function getPropertyFromVSCode(property: string): string | undefined {
     switch (process.platform) {
       case "win32":
         appData = process.env.APPDATA!;
-        return appData ? loadTenant(appData) : undefined;
+        return appData ? loadProperty(appData) : undefined;
       case "darwin":
-        return loadTenant(homedir, "Library", "Application Support");
+        return loadProperty(homedir, "Library", "Application Support");
       case "linux":
-        return loadTenant(homedir, ".config");
+        return loadProperty(homedir, ".config");
       default:
         return;
     }
