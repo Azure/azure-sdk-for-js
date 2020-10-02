@@ -73,8 +73,7 @@ import {
   UnconfigurePhoneNumberOptions,
   CancelSearchOptions,
   GetSearchOptions,
-  PurchaseSearchOptions,
-  RefreshSearchOptions
+  PurchaseSearchOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
@@ -170,8 +169,7 @@ export class PhoneNumberAdministrationClient {
       const { _response } = await this.client.configureNumber(
         {
           callbackUrl: callbackUrl,
-          applicationId: updatedOptions.applicationId,
-          azurePstnTargetId: updatedOptions.azurePstnTargetId
+          applicationId: updatedOptions.applicationId
         },
         phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -986,36 +984,6 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<PhoneNumberSearch>(rest, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Refreshes the search associated with a given id.
-   * @param searchId The id of the search returned by createSearch.
-   * @param options Additional request options.
-   */
-  public async refreshSearch(
-    searchId: string,
-    options: RefreshSearchOptions = {}
-  ): Promise<VoidResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-refreshSearch",
-      options
-    );
-    try {
-      const { _response } = await this.client.refreshSearch(
-        searchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -286,7 +286,6 @@ export class PhoneNumberAdministrationClient {
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
-    refreshSearch(searchId: string, options?: RefreshSearchOptions): Promise<VoidResponse>;
     releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
@@ -470,7 +469,6 @@ export interface PhonePlansResponse {
 // @public
 export interface PstnConfiguration {
     applicationId?: string;
-    azurePstnTargetId?: string;
     callbackUrl: string;
 }
 

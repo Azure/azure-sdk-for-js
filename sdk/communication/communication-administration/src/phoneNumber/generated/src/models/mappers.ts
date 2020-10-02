@@ -415,12 +415,6 @@ export const PstnConfiguration: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      azurePstnTargetId: {
-        serializedName: "azurePstnTargetId",
-        type: {
-          name: "String"
-        }
       }
     }
   }
