@@ -44,7 +44,7 @@ export class CancelSearchPoller extends Poller<CancelSearchPollOperationState, P
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
+   * @memberof CancelSearchPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
