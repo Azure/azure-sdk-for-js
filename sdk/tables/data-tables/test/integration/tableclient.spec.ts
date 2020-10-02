@@ -26,11 +26,8 @@ describe("TableClient", () => {
 
   before(async () => {
     if (!isPlaybackMode()) {
-      try {
-        await client.create();
-      } catch (error) {
-        console.warn(error);
-      }
+      client = createTableClient(tableName, authMode);
+      await client.create();
     }
   });
 
@@ -40,11 +37,7 @@ describe("TableClient", () => {
 
   after(async () => {
     if (!isPlaybackMode()) {
-      try {
-        await client.delete();
-      } catch (error) {
-        console.warn(error);
-      }
+      await client.delete();
     }
   });
 
