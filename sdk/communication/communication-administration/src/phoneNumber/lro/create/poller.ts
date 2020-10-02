@@ -4,11 +4,11 @@
 import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
-import { CreateSearchOptions, CreateSearchRequest, PhoneNumberPollerClient } from "../../models";
+import { CreateSearchOptions, CreateSearchRequest, _PhoneNumberPollerClient } from "../../models";
 import { makeCreateSearchPollOperation, CreateSearchPollOperationState } from "./operation";
 
 export interface CreateSearchPollerOptions {
-  client: PhoneNumberPollerClient;
+  client: _PhoneNumberPollerClient;
   searchRequest: CreateSearchRequest;
   options?: CreateSearchOptions;
   intervalInMs?: number;

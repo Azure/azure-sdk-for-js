@@ -4,19 +4,19 @@
 import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
-import { BeginPurchaseSearchOptions, PhoneNumberPollerClient } from "../../models";
-import { makePurchaseSearchPollOperation, PurchaseSearchPollOperationState } from "./operation";
+import { BeginPurchasePhoneNumbersOptions, _PhoneNumberPollerClient } from "../../models";
+import { makePurchasePhoneNumbersPollOperation, PurchasePhoneNumbersPollOperationState } from "./operation";
 
-export interface PurchaseSearchPollerOptions {
-  client: PhoneNumberPollerClient;
+export interface PurchasePhoneNumbersPollerOptions {
+  client: _PhoneNumberPollerClient;
   searchId: string;
-  options?: BeginPurchaseSearchOptions;
+  options?: BeginPurchasePhoneNumbersOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }
 
-export class PurchaseSearchPoller extends Poller<
-  PurchaseSearchPollOperationState,
+export class PurchasePhoneNumbersPoller extends Poller<
+  PurchasePhoneNumbersPollOperationState,
   PhoneNumberSearch
 > {
   /**
@@ -24,16 +24,16 @@ export class PurchaseSearchPoller extends Poller<
    */
   public intervalInMs: number;
 
-  constructor(_options: PurchaseSearchPollerOptions) {
+  constructor(_options: PurchasePhoneNumbersPollerOptions) {
     const { client, searchId, options, intervalInMs = 2000, resumeFrom } = _options;
 
-    let state: PurchaseSearchPollOperationState | undefined;
+    let state: PurchasePhoneNumbersPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makePurchaseSearchPollOperation({
+    const operation = makePurchasePhoneNumbersPollOperation({
       ...state,
       searchId,
       options,
@@ -47,7 +47,7 @@ export class PurchaseSearchPoller extends Poller<
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof PurchaseSearchPoller
+   * @memberof PurchasePhoneNumbersPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

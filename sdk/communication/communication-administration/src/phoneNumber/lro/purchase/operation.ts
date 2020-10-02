@@ -4,10 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { PhoneNumberSearch } from "../../generated/src/models";
-import { BeginPurchaseSearchOptions, PhoneNumberPollerClient } from "../../models";
+import { BeginPurchasePhoneNumbersOptions, _PhoneNumberPollerClient } from "../../models";
 import { isComplete } from "../utils";
 
-export interface PurchaseSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
+export interface PurchasePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
    * The id of the search returned by createSearch.
    */
@@ -16,27 +16,27 @@ export interface PurchaseSearchPollOperationState extends PollOperationState<Pho
   /**
    * Represents the poller client used internally.
    */
-  client: PhoneNumberPollerClient;
+  client: _PhoneNumberPollerClient;
 
   /**
    * Options for refreshing a search.
    */
-  options?: BeginPurchaseSearchOptions;
+  options?: BeginPurchasePhoneNumbersOptions;
 }
 
 /**
  * Represents the refresh poll operation.
  */
-export interface PurchaseSearchPollOperation
-  extends PollOperation<PurchaseSearchPollOperationState, PhoneNumberSearch> {}
+export interface PurchasePhoneNumbersPollOperation
+  extends PollOperation<PurchasePhoneNumbersPollOperationState, PhoneNumberSearch> {}
 
 async function update(
-  this: PurchaseSearchPollOperation,
+  this: PurchasePhoneNumbersPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: PurchaseSearchPollOperationState) => void;
+    fireProgress?: (state: PurchasePhoneNumbersPollOperationState) => void;
   } = {}
-): Promise<PurchaseSearchPollOperation> {
+): Promise<PurchasePhoneNumbersPollOperation> {
   const state = this.state;
   const { searchId, client } = state;
   const requestOptions = state.options || {};
@@ -59,7 +59,7 @@ async function update(
     state.error = error;
     state.isCompleted = true;
   } finally {
-    return makePurchaseSearchPollOperation(state);
+    return makePurchasePhoneNumbersPollOperation(state);
   }
 }
 
@@ -67,14 +67,14 @@ async function update(
  * @summary Reaches to the service and cancels the operation, also updating the poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
-async function cancel(this: PurchaseSearchPollOperation): Promise<PurchaseSearchPollOperation> {
+async function cancel(this: PurchasePhoneNumbersPollOperation): Promise<PurchasePhoneNumbersPollOperation> {
   throw new Error("Canceling is not supported.");
 }
 
 /**
  * @summary Serializes the poll operation
  */
-function toString(this: PurchaseSearchPollOperation): string {
+function toString(this: PurchasePhoneNumbersPollOperation): string {
   return JSON.stringify({
     state: this.state
   });
@@ -84,9 +84,9 @@ function toString(this: PurchaseSearchPollOperation): string {
  * @summary Builds a poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
-export function makePurchaseSearchPollOperation(
-  state: PurchaseSearchPollOperationState
-): PurchaseSearchPollOperation {
+export function makePurchasePhoneNumbersPollOperation(
+  state: PurchasePhoneNumbersPollOperationState
+): PurchasePhoneNumbersPollOperation {
   return {
     state: {
       ...state

@@ -48,7 +48,7 @@ export interface BeginCancelSearchOptions extends SearchPollerOptions {
 }
 
 // @public
-export interface BeginPurchaseSearchOptions extends SearchPollerOptions {
+export interface BeginPurchasePhoneNumbersOptions extends SearchPollerOptions {
 }
 
 // @public
@@ -280,7 +280,7 @@ export class PhoneNumberAdministrationClient {
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     beginCancelSearch(searchId: string, options?: BeginCancelSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     beginCreateSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
-    beginPurchaseSearch(searchId: string, options?: BeginPurchaseSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
@@ -400,10 +400,8 @@ export interface PhoneNumberEntity {
     status?: string;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "PhoneNumberPollerClient" should be prefixed with an underscore because the declaration is marked as @internal
-//
 // @internal
-export interface PhoneNumberPollerClient {
+export interface _PhoneNumberPollerClient {
     // (undocumented)
     cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
     // (undocumented)
@@ -411,7 +409,7 @@ export interface PhoneNumberPollerClient {
     // (undocumented)
     getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
     // (undocumented)
-    purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
+    purchaseSearch(searchId: string, options: BeginPurchasePhoneNumbersOptions): Promise<VoidResponse>;
 }
 
 // @public

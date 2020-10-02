@@ -71,16 +71,16 @@ import {
   GetReleaseOptions,
   ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
-  PhoneNumberPollerClient,
+  _PhoneNumberPollerClient,
   BeginCancelSearchOptions,
-  BeginPurchaseSearchOptions,
+  BeginPurchasePhoneNumbersOptions,
   UpdatePhoneNumbersCapabilitiesOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { CancelSearchPoller } from "./lro/cancel/poller";
-import { PurchaseSearchPoller } from "./lro/purchase/poller";
+import { PurchasePhoneNumbersPoller } from "./lro/purchase/poller";
 import { CreateSearchPoller } from "./lro/create/poller";
 
 /**
@@ -106,7 +106,7 @@ export class PhoneNumberAdministrationClient {
    * @ignore
    * A self reference that bypasses private methods, for the pollers.
    */
-  private readonly pollerClient: PhoneNumberPollerClient = {
+  private readonly pollerClient: _PhoneNumberPollerClient = {
     createSearch: this.createSearch.bind(this),
     getSearch: this.getSearch.bind(this),
     cancelSearch: this.cancelSearch.bind(this),
@@ -1027,7 +1027,7 @@ export class PhoneNumberAdministrationClient {
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
    * const searchPoller = await client.beginCreateSearch(SEARCH_REQUEST);
    * const { searchId } = await searchPoller.pollUntilDone();
-   * const purchasePoller = await client.beginPurchaseSearch(searchId);
+   * const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
    *
    * // Serializing the poller
    * const serialized = purchasePoller.toString();
@@ -1038,13 +1038,13 @@ export class PhoneNumberAdministrationClient {
    * ```
    * @summary Purchases the search associated with a given id.
    * @param {string} searchId The id of the search to purchase.
-   * @param {BeginPurchaseSearchOptions} options Additional request options.
+   * @param {BeginPurchasePhoneNumbersOptions} options Additional request options.
    */
-  public async beginPurchaseSearch(
+  public async beginPurchasePhoneNumbers(
     searchId: string,
-    options: BeginPurchaseSearchOptions = {}
+    options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
-    const poller = new PurchaseSearchPoller({
+    const poller = new PurchasePhoneNumbersPoller({
       searchId,
       client: this.pollerClient,
       options

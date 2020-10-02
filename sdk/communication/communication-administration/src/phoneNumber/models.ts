@@ -299,21 +299,21 @@ export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
 export interface BeginCancelSearchOptions extends SearchPollerOptions {}
 
 /**
- * Represents optional parameters that can be passed to beginPurchaseSearch poller.
+ * Represents optional parameters that can be passed to beginPurchasePhoneNumbers poller.
  */
-export interface BeginPurchaseSearchOptions extends SearchPollerOptions {}
+export interface BeginPurchasePhoneNumbersOptions extends SearchPollerOptions {}
 
 /**
  * @internal
  * @ignore
  * Represents the poller client used internally
  */
-export interface PhoneNumberPollerClient {
+export interface _PhoneNumberPollerClient {
   createSearch(
     searchRequest: CreateSearchRequest,
     options: CreateSearchOptions
   ): Promise<CreateSearchResponse>;
   getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
   cancelSearch(searchId: string, options: BeginCancelSearchOptions): Promise<VoidResponse>;
-  purchaseSearch(searchId: string, options: BeginPurchaseSearchOptions): Promise<VoidResponse>;
+  purchaseSearch(searchId: string, options: BeginPurchasePhoneNumbersOptions): Promise<VoidResponse>;
 }
