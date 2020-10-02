@@ -19,7 +19,7 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  PHONE_PLAN_IDs: "phone-plan-id-1",
+  PHONE_PLAN_IDS: "phone-plan-id-1",
   AREA_CODE_FOR_SEARCH: "555"
 };
 
@@ -49,7 +49,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized"),
     (recording: string): string =>
-      recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`)
+      recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`),
+    (recording: string): string =>
+      recording.replace(/"phonePlanIds"\s?:\s?"[^"]*"/g, `"phonePlanIds":"["phone-plan-id-1"]`)
   ],
   queryParametersToSkip: []
 };
@@ -70,6 +72,7 @@ export function createRecordedPhoneNumberAdministrationClient(
 ): RecordedClient<PhoneNumberAdministrationClient> & {
   phonePlanIds: string;
   areaCodeForSearch: string;
+  shouldRunTNMTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
@@ -77,6 +80,7 @@ export function createRecordedPhoneNumberAdministrationClient(
     client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
     phonePlanIds: env.PHONE_PLAN_IDS,
-    areaCodeForSearch: env.AREA_CODE_FOR_SEARCH
+    areaCodeForSearch: env.AREA_CODE_FOR_SEARCH,
+    shouldRunTNMTests: env.SHOULD_RUN_TNM_TESTS === "true"
   };
 }

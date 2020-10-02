@@ -60,7 +60,8 @@ module.exports = function(config) {
       "TEST_MODE",
       "COMMUNICATION_CONNECTION_STRING",
       "PHONE_PLAN_IDS",
-      "AREA_CODE_FOR_SEARCH"
+      "AREA_CODE_FOR_SEARCH",
+      "SHOULD_RUN_TNM_TESTS"
     ],
 
     // test results reporter to use

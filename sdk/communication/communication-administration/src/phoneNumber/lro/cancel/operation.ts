@@ -18,6 +18,7 @@ export interface CancelSearchPollOperationState extends PollOperationState<Phone
    */
 
   client: PhoneNumberPollerClient;
+  
   /**
    * Options for refreshing a search.
    */

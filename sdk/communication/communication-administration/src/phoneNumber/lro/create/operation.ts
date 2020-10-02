@@ -59,7 +59,7 @@ async function update(
 
     if (!state.isCompleted && state.searchId) {
       state.result = await client.getSearch(state.searchId, requestOptions);
-      state.isCompleted = isComplete(state.result, "Success");
+      state.isCompleted = isComplete(state.result, "Reserved");
     }
   } catch (error) {
     state.error = error;
