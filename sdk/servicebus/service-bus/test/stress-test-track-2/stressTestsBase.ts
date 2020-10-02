@@ -11,40 +11,22 @@ import {
   SubscribeOptions
 } from "@azure/service-bus";
 import fs from "fs";
-import { message } from "rhea-promise";
 import util from "util";
-import { v4 as uuidv4 } from "uuid";
+import {
+  generateMessage,
+  LockRenewalOperationInfo,
+  OperationInfo,
+  saveDiscrepanciesFromTrackedMessages,
+  SnapshotOptions,
+  TrackedMessageIdsInfo
+} from "./utils";
 const writeFile = util.promisify(fs.writeFile);
 const appendFile = util.promisify(fs.appendFile);
 
-interface OperationInfo {
-  numberOfSuccesses: number;
-  numberOfFailures: number;
-  errors: any[];
-}
-interface LockRenewalOperationInfo extends OperationInfo {
-  /**
-   * key - id, value - next renewal timer meant for the message/session-receiver
-   */
-  lockRenewalTimers: { [key: string]: NodeJS.Timer };
-  /**
-   * key - id, value - number of renewals
-   */
-  renewalCount: { [key: string]: number };
-}
-interface SnapshotOptions {
-  snapshotFocus?: (
-    | "send-info"
-    | "receive-info"
-    | "message-lock-renewal-info"
-    | "session-lock-renewal-info"
-  )[];
-  snapshotIntervalInMs?: number;
-}
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
   messagesReceived: ServiceBusMessage[] = [];
-  trackedMessageIds: { [key: string]: { sent: number; received: number } } = {};
+  trackedMessageIds: TrackedMessageIdsInfo = {};
   snapshotTimer: NodeJS.Timer;
   startedAt!: Date;
 
@@ -83,6 +65,7 @@ export class SBStressTestsBase {
   queueName!: string;
   reportFileName: string;
   errorsFileName: string;
+  messagesReportFileName: string;
 
   constructor(private snapshotOptions: SnapshotOptions) {
     if (!this.snapshotOptions.snapshotFocus) {
@@ -110,6 +93,7 @@ export class SBStressTestsBase {
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
     this.reportFileName = `temp/report-${this.queueName}.txt`;
     this.errorsFileName = `temp/errors-${this.queueName}.txt`;
+    this.messagesReportFileName = `temp/messages-${this.queueName}.txt`;
   }
 
   public async sendMessages(
@@ -122,11 +106,7 @@ export class SBStressTestsBase {
       try {
         const messages: ServiceBusMessage[] = [];
         for (let i = 0; i < numberOfMessages; i++) {
-          messages.push({
-            body: `message ${i} ${Math.random()}`,
-            sessionId: useSessions ? `session-${Math.ceil(Math.random() * 10000)}` : undefined,
-            messageId: uuidv4()
-          });
+          messages.push(generateMessage(useSessions));
         }
         if (useScheduleApi) {
           const scheduleTime = new Date();
@@ -370,6 +350,12 @@ export class SBStressTestsBase {
       this.messageLockRenewalInfo.errors,
       this.sessionLockRenewalInfo.errors
     );
+    if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
+      await saveDiscrepanciesFromTrackedMessages(
+        this.trackedMessageIds,
+        this.messagesReportFileName
+      );
+    }
     if (errors.length) {
       await writeFile(
         `errors-logged-${this.queueName}.txt`,
