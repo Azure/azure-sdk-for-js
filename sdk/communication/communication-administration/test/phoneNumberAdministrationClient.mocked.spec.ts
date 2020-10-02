@@ -158,7 +158,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const client = new TestPhoneNumberAdministrationClient();
     const searchRequest: GetAreaCodesRequest = {
       locationType: "locationType",
-      countryCode: "1",
+      countryCode: "US",
       phonePlanId: "phonePlanId"
     };
     const spy = sinon.spy(getAreaCodesHttpClient, "sendRequest");

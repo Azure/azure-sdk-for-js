@@ -105,7 +105,6 @@ export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>
 // @public
 export interface CreateSearchOptions extends OperationOptions {
     locationOptions?: LocationOptionsDetails[];
-    quantity?: number;
 }
 
 // @public
@@ -114,6 +113,7 @@ export interface CreateSearchRequest {
     description: string;
     name: string;
     phonePlanIds: string[];
+    quantity: number;
 }
 
 // @public
@@ -128,9 +128,7 @@ export type CreateUserResponse = WithResponse<CommunicationUser>;
 export type CurrencyType = "USD";
 
 // @public
-export interface GetAreaCodesOptions extends OperationOptions {
-    locationOptions?: LocationOptionsQuery[];
-}
+export type GetAreaCodesOptions = OperationOptions;
 
 // @public
 export interface GetAreaCodesRequest {
@@ -223,6 +221,11 @@ export interface LocationOptionsDetails {
 }
 
 // @public
+export interface LocationOptionsQueries {
+    locationOptions?: LocationOptionsQuery[];
+}
+
+// @public
 export interface LocationOptionsQuery {
     labelId?: string;
     optionsValue?: string;
@@ -273,7 +276,7 @@ export class PhoneNumberAdministrationClient {
     cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
-    getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
+    getAreaCodes(request: GetAreaCodesRequest, locationOptions: LocationOptionsQueries, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
     getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;

@@ -37,7 +37,8 @@ import {
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch
+  PhoneNumberSearch,
+  LocationOptionsQueries
 } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import {
@@ -353,11 +354,11 @@ export class PhoneNumberAdministrationClient {
     searchRequest: CreateSearchRequest,
     options: CreateSearchOptions = {}
   ): Promise<CreatePhoneNumberSearchResponse> {
+    const { name, description, phonePlanIds, areaCode, quantity } = searchRequest;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-createSearch",
-      options
+      Object.assign(options, { quantity })
     );
-    const { name, description, phonePlanIds, areaCode } = searchRequest;
     try {
       const { searchId, _response } = await this.client.createSearch(
         name,
@@ -385,6 +386,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getAreaCodes(
     request: GetAreaCodesRequest,
+    locationOptions: LocationOptionsQueries,
     options: GetAreaCodesOptions = {}
   ): Promise<GetAreaCodesResponse> {
     const { span, updatedOptions } = createSpan(
@@ -397,7 +399,7 @@ export class PhoneNumberAdministrationClient {
         locationType,
         country,
         phonePlanId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        { ...operationOptionsToRequestOptionsBase(updatedOptions), ...locationOptions }
       );
       return attachHttpResponse<AreaCodes>(rest, _response);
     } catch (e) {
@@ -1102,5 +1104,6 @@ export {
   SearchStatus,
   LocationOptionsResponse,
   CreateSearchResponse,
-  NumberConfigurationResponse
+  NumberConfigurationResponse,
+  LocationOptionsQueries
 } from "./generated/src/models";

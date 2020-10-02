@@ -9,17 +9,17 @@ nock("https://endpoint", { encodedQueryParams: true })
   .query(true)
   .reply(204, "", [
     "MS-CV",
-    "xeaIdBb7TEe5cvxIpes+5A.0",
+    "XimdiE7JuE6jnp1EYo3jUw.0",
     "Strict-Transport-Security",
     "max-age=2592000",
     "x-ms-client-request-id",
-    "5314f3f9-ab0d-4d3c-8373-98e2743d89cd",
+    "491c6f0c-5dbe-4458-a912-40bdd196298c",
     "api-supported-versions",
     "2020-07-20-preview1, 2020-07-20-preview2",
     "X-Processing-Time",
-    "445ms",
+    "638ms",
     "X-Azure-Ref",
-    "0vDBhXwAAAABiUEnMD06IS60LcrViuM6+WVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0Jo93XwAAAAC5nlw8MyuCRpoQndpV5UE7WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Tue, 15 Sep 2020 21:23:08 GMT"
+    "Fri, 02 Oct 2020 20:35:50 GMT"
   ]);

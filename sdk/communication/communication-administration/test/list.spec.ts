@@ -2,81 +2,72 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { ListPhonePlansRequest } from "../src";
-import { TestPhoneNumberAdministrationClient } from "./utils/testPhoneNumberAdministrationClient";
+import { Recorder } from "@azure/test-utils-recorder";
+import { ListPhonePlansRequest, PhoneNumberAdministrationClient } from "../src";
+import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
-describe("PhoneNumberAdministrationClient Lists [Mocked]", () => {
-  const client = new TestPhoneNumberAdministrationClient();
+describe("PhoneNumberAdministrationClient Lists [Playback/Live]", function() {
+  let recorder: Recorder;
+  let client: PhoneNumberAdministrationClient;
+  let planGroupIdToQuery: string;
+
+  beforeEach(function() {
+    ({ client, recorder } = createRecordedPhoneNumberAdministrationClient(this));
+  });
+
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await recorder.stop();
+    }
+  });
+
   it("can list phone numbers", async () => {
-    let found = 0;
-    for await (const acquired of client.listPhoneNumbersTest()) {
+    for await (const acquired of client.listPhoneNumbers()) {
       assert.isString(acquired.phoneNumber, "Unexpected type of acquired phone number");
       assert.isNotEmpty(acquired.acquiredCapabilities);
       assert.isNotEmpty(acquired.availableCapabilities);
-
-      found += 1;
     }
-
-    assert.equal(found, 3, "Unexpected number of phone numbers found by getPhoneNumbers.");
   });
 
   it("can list supported countries", async () => {
-    let found = 0;
-    for await (const country of client.listSupportedCountriesTest()) {
+    for await (const country of client.listSupportedCountries()) {
       assert.isString(country.countryCode);
       assert.isString(country.localizedName);
-      assert.isTrue(country.localizedName === "France" || country.localizedName === "Canada");
-      assert.isTrue(country.countryCode === "FR" || country.countryCode === "CA");
-
-      found += 1;
     }
-
-    assert.equal(found, 2, "Unexpected number of countries found by getSupportedCountries.");
   });
 
   it("can list phone plan groups", async () => {
-    const countryCode = "FR";
-    const localizedName = "France";
-    let found = 0;
-    for await (const phonePlanGroup of client.listPhonePlanGroupsTest(countryCode)) {
-      assert.equal(phonePlanGroup.localizedName, localizedName);
-      found += 1;
-    }
+    const countryCode = "US";
 
-    assert.equal(found, 2, "Unexpected number of phone plan groups found by getPhonePlanGroups.");
+    for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
+      if (!planGroupIdToQuery) {
+        planGroupIdToQuery = phonePlanGroup.phonePlanGroupId;
+      }
+
+      assert.isString(phonePlanGroup.phonePlanGroupId);
+    }
   });
 
   it("can list phone plans", async () => {
     const planGroupInfo: ListPhonePlansRequest = {
-      phonePlanGroupId: "1",
-      countryCode: "FR"
+      phonePlanGroupId: planGroupIdToQuery,
+      countryCode: "US"
     };
-    let found = 0;
-    for await (const phonePlan of client.listPhonePlansTest(planGroupInfo)) {
-      assert.equal(phonePlan.localizedName, "France");
-      found += 1;
-    }
 
-    assert.equal(found, 2, "Unexpected number of phone plans found by getPhonePlans.");
+    for await (const phonePlan of client.listPhonePlans(planGroupInfo)) {
+      assert.isString(phonePlan.phonePlanId);
+    }
   });
 
   it("can list releases", async () => {
-    let found = 0;
-    for await (const entity of client.listReleasesTest()) {
+    for await (const entity of client.listReleases()) {
       assert.isString(entity.id);
-      found += 1;
     }
-
-    assert.equal(found, 3, "Unexpected number of entities found by getReleases.");
   });
 
   it("can list searches", async () => {
-    let found = 0;
-    for await (const entity of client.listSearchesTest()) {
+    for await (const entity of client.listSearches()) {
       assert.isString(entity.id);
-      found += 1;
     }
-
-    assert.equal(found, 3, "Unexpected number of entities found by getSearches.");
   });
 });

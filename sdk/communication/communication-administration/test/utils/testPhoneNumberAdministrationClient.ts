@@ -184,6 +184,6 @@ export class TestPhoneNumberAdministrationClient {
       httpClient: getAreaCodesHttpClient
     });
 
-    return client.getAreaCodes(request, options);
+    return client.getAreaCodes(request, {}, options);
   }
 }

@@ -6,7 +6,6 @@ import { WithResponse } from "../common/models";
 import {
   LocationOptionsDetails,
   NumberUpdateCapabilities,
-  LocationOptionsQuery,
   UpdateNumberCapabilitiesResponse,
   UpdatePhoneNumberCapabilitiesResponse,
   ReleaseResponse,
@@ -38,16 +37,16 @@ export interface CreateSearchRequest {
    * Areacode to search for.
    */
   areaCode: string;
+  /**
+   * The number of phone numbers to return
+   */
+  quantity: number;
 }
 
 /**
  * Options for creating a search.
  */
 export interface CreateSearchOptions extends OperationOptions {
-  /**
-   * The quantity of phone numbers to request.
-   */
-  quantity?: number;
   /**
    * The location options of the search.
    */
@@ -150,12 +149,7 @@ export interface GetAreaCodesRequest {
 /**
  * Options for querying available area codes.
  */
-export interface GetAreaCodesOptions extends OperationOptions {
-  /**
-   * The location query to find national destination codes for.
-   */
-  locationOptions?: LocationOptionsQuery[];
-}
+export type GetAreaCodesOptions = OperationOptions;
 
 /**
  * Additional request options for unconfiguring a phone number.

@@ -1,0 +1,22 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/administration/phonenumbers/searches",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": "{\"displayName\":\"LRO Test Search\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"b528a997-03bb-446e-af98-3d99877cf0ba\"],\"areaCode\":\"800\",\"quantity\":1}",
+      "status": 201,
+      "response": "{\"searchId\":\"82a5e6a2-4f0e-47a3-8bdc-31465404d528\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "a1fac7156c9453b80c941a83af16eab1"
+}

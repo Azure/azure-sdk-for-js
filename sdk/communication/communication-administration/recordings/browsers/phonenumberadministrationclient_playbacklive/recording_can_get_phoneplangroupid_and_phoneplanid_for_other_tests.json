@@ -1,0 +1,42 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
+      "query": {
+        "locale": "en-US",
+        "includeRateInformation": "false",
+        "skip": "0",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phonePlanGroups\":[{\"phonePlanGroupId\":\"55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure- User - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"671ee064-662f-4c3b-82a9-af2ab200dd5c\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"d47a0cdc-8dc1-4e82-a29b-39067f7fc317\",\"phoneNumberType\":\"TollFree\",\"localizedName\":\"Azure - Toll Free\",\"localizedDescription\":\"These are toll free numbers used by Azure resources.\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups/55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf/phoneplans",
+      "query": {
+        "locale": "en-US",
+        "skip": "0",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phonePlans\":[{\"phonePlanId\":\"01432411-5169-4665-b13e-3fa56c10e1d1\",\"localizedName\":\"Outbound Only PSTN For User - Geographic\",\"locationType\":\"Selection\",\"areaCodes\":[],\"capabilities\":[\"Azure\",\"OutboundCalling\",\"UserAssignment\",\"Geographic\"],\"maximumSearchSize\":20},{\"phonePlanId\":\"b528a997-03bb-446e-af98-3d99877cf0ba\",\"localizedName\":\"Inbound Only PSTN For User - Geographic\",\"locationType\":\"Selection\",\"areaCodes\":[],\"capabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\"],\"maximumSearchSize\":20}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "4109a4c51b7400b9da9459aacf235a7c"
+}
