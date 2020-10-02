@@ -16,7 +16,6 @@ describe("TableClient", () => {
   // Cannot use SharedKey auth when using recordings since the signature uses the current date
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
-  const setupClient: TableClient = createTableClient(tableName, authMode);
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
@@ -28,7 +27,7 @@ describe("TableClient", () => {
   before(async () => {
     if (!isPlaybackMode()) {
       try {
-        await setupClient.create();
+        await client.create();
       } catch (error) {
         console.warn(error);
       }
@@ -42,7 +41,7 @@ describe("TableClient", () => {
   after(async () => {
     if (!isPlaybackMode()) {
       try {
-        await setupClient.delete();
+        await client.delete();
       } catch (error) {
         console.warn(error);
       }
@@ -53,14 +52,14 @@ describe("TableClient", () => {
     // Create required entities for testing list operations
     before(async () => {
       if (!isPlaybackMode()) {
-        await setupClient.createEntity({
+        await client.createEntity({
           partitionKey: listPartitionKey,
           rowKey: "binary1",
           foo: new Uint8Array([66, 97, 114])
         });
 
         for (let i = 0; i < 20; i++) {
-          await setupClient.createEntity({
+          await client.createEntity({
             partitionKey: listPartitionKey,
             rowKey: `${i}`,
             foo: "testEntity"
@@ -355,80 +354,4 @@ describe("TableClient", () => {
       assert.equal(result.floatingPointNumber, 3.14);
     });
   });
-
-  if (isNode || isLiveMode()) {
-    describe("batch operations", () => {
-      const batchId = "mockBatchId";
-      const changesetId = "mockChangesetId";
-      const partitionKey = "batchTest";
-      const testEntities = [
-        { partitionKey, rowKey: "1", name: "first" },
-        { partitionKey, rowKey: "2", name: "second" },
-        { partitionKey, rowKey: "3", name: "third" }
-      ];
-
-      it("should send a set of create batch operations", async () => {
-        const batch = client.createBatch(partitionKey, { changesetId, batchId });
-
-        await batch.createEntities(testEntities);
-        const result = await batch.submitBatch();
-        assert.equal(result.status, 202);
-        assert.lengthOf(result.subResponses, 3);
-        testEntities.forEach((entity) => {
-          const subResponse = result.getResponseForEntity(entity.rowKey);
-          assert.equal(subResponse?.status, 204);
-          // Etags should be in the following format W/"datetime'2020-10-01T18%3A07%3A48.4010495Z'"
-          assert.isTrue(subResponse?.etag?.indexOf(`W/"datetime'`) !== -1);
-        });
-      });
-
-      it("should send a set of update batch operations", async () => {
-        const batch = client.createBatch(partitionKey, { changesetId, batchId });
-
-        testEntities.forEach((entity) =>
-          batch.updateEntity({ ...entity, name: "updated" }, "Replace")
-        );
-
-        const batchResult = await batch.submitBatch();
-        const updatedEntities = client.listEntities<{ name: string }>({
-          queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
-        });
-
-        assert.equal(batchResult.status, 202);
-        assert.lengthOf(batchResult.subResponses, 3);
-        batchResult.subResponses.forEach((subResponse) => {
-          assert.equal(subResponse?.status, 204);
-        });
-
-        for await (const entity of updatedEntities) {
-          assert.equal(entity.name, "updated");
-        }
-      });
-
-      it("should send a set of delete batch operations", async () => {
-        const batch = client.createBatch(partitionKey, { changesetId, batchId });
-
-        testEntities.forEach((entity) => batch.deleteEntity(entity.partitionKey, entity.rowKey));
-        const result = await batch.submitBatch();
-        assert.equal(result.status, 202);
-        assert.lengthOf(result.subResponses, 3);
-        result.subResponses.forEach((subResponse) => {
-          assert.equal(subResponse?.status, 204);
-        });
-      });
-
-      it("should handle sub request error", async () => {
-        const testClient = createTableClient("noExistingTable", authMode);
-        const batch = testClient.createBatch(partitionKey, { batchId, changesetId });
-        batch.createEntities(testEntities);
-        const result = await batch.submitBatch();
-        assert.equal(result.status, 202);
-        assert.lengthOf(result.subResponses, 1);
-
-        const subResponse = result.subResponses[0];
-        assert.equal(subResponse?.status, 404);
-        assert.equal(subResponse?.body["odata.error"]["code"], "TableNotFound");
-      });
-    });
-  }
 });
