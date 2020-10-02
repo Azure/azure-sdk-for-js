@@ -70,7 +70,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 export function getAuthorizationHeader(
   request: WebResourceLike,
   credential: TablesSharedKeyCredentialLike
-) {
+): string {
   if (!request.headers.contains(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
   }

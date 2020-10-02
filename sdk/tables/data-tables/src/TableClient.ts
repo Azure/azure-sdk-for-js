@@ -499,6 +499,7 @@ export class TableClient {
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
    * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createBatch(partitionKey: string, options?: TableBatchOptions): TableBatch {
     const batchId = options?.batchId || generateUuid();
     const changesetId = options?.changesetId || generateUuid();
