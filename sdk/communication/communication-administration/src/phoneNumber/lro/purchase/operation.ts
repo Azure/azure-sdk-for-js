@@ -10,7 +10,7 @@ import { isComplete } from "../utils";
 export interface PurchasePhoneNumbersPollOperationState
   extends PollOperationState<PhoneNumberSearch> {
   /**
-   * The id of the search returned by createSearch.
+   * The id of the search returned by the begin search operation.
    */
   searchId: string;
 

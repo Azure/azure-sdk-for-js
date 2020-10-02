@@ -9,14 +9,13 @@ import { isComplete } from "../utils";
 
 export interface CancelSearchPollOperationState extends PollOperationState<PhoneNumberSearch> {
   /**
-   * The id of the search returned by createSearch.
+   * The id of the search returned by the begin search operation.
    */
   searchId: string;
 
   /**
    * Represents the poller client used internally.
    */
-
   client: _PhoneNumberPollerClient;
 
   /**

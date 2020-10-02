@@ -194,7 +194,7 @@ export interface ListPhonePlansRequest {
  */
 export type ListPhonePlansOptions = PageableLocalizationOptions;
 
-export interface GetPhonePlanLocationOptionsRequest extends PageableLocalizationOptions {
+export interface GetPhonePlanLocationOptionsRequest {
   /**
    * The ISO 3166-2 country code to find national destination codes for.
    */
@@ -212,7 +212,7 @@ export interface GetPhonePlanLocationOptionsRequest extends PageableLocalization
 /**
  * Options for getting a plan location options
  */
-export type GetPhonePlanLocationOptionsOptions = PageableLocalizationOptions;
+export type GetPhonePlanLocationOptionsOptions = LocalizationOptions;
 
 /**
  * Represents the response from updating the capabilities for a list of phone numbers.
