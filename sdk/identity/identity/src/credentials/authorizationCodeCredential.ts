@@ -8,6 +8,8 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -156,7 +158,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       if (tokenResponse === null) {
-        const urlSuffix = this.tenantId === "adfs" ? "oauth2/token" : "oauth2/v2.0/token";
+        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
         const webResource = this.identityClient.createWebResource({
           url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
           method: "POST",

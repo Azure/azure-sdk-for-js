@@ -23,6 +23,7 @@ import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 import { getAuthorityHostEnvironment } from "../util/authHostEnv";
+import { getIdentityTokenEndpointSuffix } from '../util/identityTokenEndpoint';
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -143,7 +144,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
 
     try {
-      const urlSuffix = tenantId === "adfs" ? "oauth2/token" : "oauth2/v2.0/token";
+      const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
       const webResource = this.createWebResource({
         url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
