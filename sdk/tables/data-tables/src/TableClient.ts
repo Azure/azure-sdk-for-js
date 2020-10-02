@@ -173,10 +173,10 @@ export class TableClient {
    * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
+  public async delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
     const { span, updatedOptions } = createSpan("TableClient-delete", options);
     try {
-      return this.table.delete(this.tableName, updatedOptions);
+      return await this.table.delete(this.tableName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -190,10 +190,10 @@ export class TableClient {
    * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
+  public async create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
     const { span, updatedOptions } = createSpan("TableClient-create", options);
     try {
-      return this.table.create({ tableName: this.tableName }, updatedOptions);
+      return await this.table.create({ tableName: this.tableName }, updatedOptions);
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -350,7 +350,7 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  public createEntity<T extends object>(
+  public async createEntity<T extends object>(
     entity: TableEntity<T>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateTableEntityOptions = {}
@@ -359,7 +359,7 @@ export class TableClient {
 
     try {
       const { queryOptions, ...createTableEntity } = updatedOptions || {};
-      return this.table.insertEntity(this.tableName, {
+      return await this.table.insertEntity(this.tableName, {
         ...createTableEntity,
         queryOptions: this.convertQueryOptions(queryOptions || {}),
         tableEntityProperties: serialize(entity),
@@ -379,7 +379,7 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public deleteEntity(
+  public async deleteEntity(
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -393,7 +393,13 @@ export class TableClient {
         ...rest,
         queryOptions: this.convertQueryOptions(queryOptions || {})
       };
-      return this.table.deleteEntity(this.tableName, partitionKey, rowKey, etag, deleteOptions);
+      return await this.table.deleteEntity(
+        this.tableName,
+        partitionKey,
+        rowKey,
+        etag,
+        deleteOptions
+      );
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -410,7 +416,7 @@ export class TableClient {
    *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  public updateEntity<T extends object>(
+  public async updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -432,7 +438,7 @@ export class TableClient {
         });
       }
       if (mode === "Replace") {
-        return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -457,7 +463,7 @@ export class TableClient {
    *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  public upsertEntity<T extends object>(
+  public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -472,7 +478,7 @@ export class TableClient {
 
       const { queryOptions, ...upsertOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
           ...upsertOptions
@@ -480,7 +486,7 @@ export class TableClient {
       }
 
       if (mode === "Replace") {
-        return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
           ...upsertOptions

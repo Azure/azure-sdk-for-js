@@ -28,6 +28,8 @@ import {
   BatchRequestAssemblePolicyFactory
 } from "./TableBatchPolicies";
 import { InnerBatchRequest } from "./utils/internalModels";
+import { createSpan } from "./utils/tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
@@ -147,7 +149,10 @@ export class TableBatchImpl implements TableBatch {
       Connection: "Keep-Alive"
     };
 
+    const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {});
     const request = new WebResource(this.url, "POST", body, undefined, new HttpHeaders(headers));
+
+    request.spanOptions = updatedOptions;
 
     if (this.credential) {
       const authHeader = getAuthorizationHeader(request, this.credential);
@@ -161,8 +166,18 @@ export class TableBatchImpl implements TableBatch {
       body,
       disableJsonStringifyOnBody: true
     };
-    const rawBatchResponse = await client.sendRequest(requestOptions);
-    return parseBatchResponse(rawBatchResponse);
+    try {
+      const rawBatchResponse = await client.sendRequest(requestOptions);
+      return parseBatchResponse(rawBatchResponse);
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end;
+    }
   }
 
   private checkPartitionKey(partitionKey: string): void {
