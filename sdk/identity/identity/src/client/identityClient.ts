@@ -23,7 +23,7 @@ import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 import { getAuthorityHostEnvironment } from "../util/authHostEnv";
-import { getIdentityTokenEndpointSuffix } from '../util/identityTokenEndpoint';
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 

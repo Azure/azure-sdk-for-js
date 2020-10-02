@@ -99,7 +99,7 @@ export class DeviceCodeCredential implements TokenCredential {
       auth: {
         clientId: this.clientId,
         authority: this.authorityHost,
-        knownAuthorities : knownAuthorities
+        knownAuthorities: knownAuthorities
       },
       cache: {
         cachePlugin: undefined

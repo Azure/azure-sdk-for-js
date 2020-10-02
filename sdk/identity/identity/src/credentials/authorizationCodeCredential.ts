@@ -10,7 +10,6 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
-
 const logger = credentialLogger("AuthorizationCodeCredential");
 
 /**
