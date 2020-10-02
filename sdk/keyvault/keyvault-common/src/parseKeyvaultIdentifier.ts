@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as url from "url";
 
 export interface ParsedKeyVaultEntityIdentifier {
@@ -18,15 +21,15 @@ export function parseKeyvaultIdentifier(
   collection: string,
   identifier: string | undefined
 ): ParsedKeyVaultEntityIdentifier {
-  if (typeof collection != "string" || !(collection = collection.trim())) {
+  if (typeof collection !== "string" || !(collection = collection.trim())) {
     throw new Error("Invalid collection argument");
   }
 
-  if (typeof identifier != "string" || !(identifier = identifier.trim())) {
+  if (typeof identifier !== "string" || !(identifier = identifier.trim())) {
     throw new Error("Invalid identifier argument");
   }
 
-  var baseUri;
+  let baseUri;
   try {
     baseUri = url.parse(identifier, true, true);
   } catch (e) {
@@ -34,7 +37,7 @@ export function parseKeyvaultIdentifier(
   }
 
   // Path is of the form '/collection/name[/version]'
-  var segments = (baseUri.pathname || "").split("/");
+  const segments = (baseUri.pathname || "").split("/");
   if (segments.length !== 3 && segments.length !== 4) {
     throw new Error(
       `Invalid ${collection} identifier: ${identifier}. Bad number of segments: ${segments.length}`
@@ -47,9 +50,9 @@ export function parseKeyvaultIdentifier(
     );
   }
 
-  var vaultUrl = `${baseUri.protocol}//${baseUri.host}`;
-  var name = segments[2];
-  var version = segments.length === 4 ? segments[3] : undefined;
+  const vaultUrl = `${baseUri.protocol}//${baseUri.host}`;
+  const name = segments[2];
+  const version = segments.length === 4 ? segments[3] : undefined;
   return {
     vaultUrl,
     name,
