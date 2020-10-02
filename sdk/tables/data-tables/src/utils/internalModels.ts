@@ -28,10 +28,6 @@ export interface InnerBatchRequest {
    */
   body: string[];
   /**
-   * Total count of sub-operations to send
-   */
-  operationCount: number;
-  /**
    * Creates a pipeline to intercept sub-requests and
    * build the request body
    */
@@ -45,14 +41,6 @@ export interface InnerBatchRequest {
    * Gets the batch request body
    */
   getHttpRequestBody(): string;
-  /**
-   * Gets the content-type
-   */
-  getMultipartContentType(): string;
-  /**
-   * Gets the batch operation boundary
-   */
-  getBatchBoundary(): string;
 }
 
 export interface InternalBatchClientOptions extends TableServiceClientOptions {

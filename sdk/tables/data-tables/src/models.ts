@@ -541,11 +541,51 @@ export interface TableClientLike {
  */
 export interface TableBatchResponse {
   /**
-   * Count of responses
+   * Collection of sub responses
    */
-  responseCount: number;
+  responses: TableBatchEntityResponse[];
+  /**
+   * Main Batch request status code
+   */
+  status: number;
   /**
    * Gets a specific response given a row key
    */
-  getResponseForEntity: (rowKey: string) => HttpResponse;
+  getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+}
+
+/**
+ * Represents a sub-response of a Batch operation
+ */
+export interface TableBatchEntityResponse {
+  /**
+   * Entity's etag
+   */
+  etag?: string;
+  /**
+   * Entity's rowKey
+   */
+  rowKey?: string;
+  /**
+   * Sub-response status
+   */
+  status: number;
+  /**
+   * Body content of the sub-request
+   */
+  body?: any;
+}
+
+/**
+ * Options for TableBatch creation
+ */
+export interface TableBatchOptions {
+  /**
+   * Changeset Id. If not provided a new UUID will be assigned internally
+   */
+  changesetId?: string;
+  /**
+   * Batch Id. If not provided a new UUID will be assigned internally
+   */
+  batchId?: string;
 }

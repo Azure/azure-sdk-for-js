@@ -3,12 +3,12 @@
 
 import {
   deserializationPolicy,
-  generateUuid,
   HttpHeaders,
   WebResource,
   ServiceClient,
   RequestPrepareOptions,
-  RawHttpHeaders
+  RawHttpHeaders,
+  HttpOperationResponse
 } from "@azure/core-http";
 import {
   DeleteTableEntityOptions,
@@ -16,7 +16,9 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableBatch,
-  TableClientLike
+  TableClientLike,
+  TableBatchResponse,
+  TableBatchEntityResponse
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
@@ -160,7 +162,7 @@ export class TableBatchImpl implements TableBatch {
       disableJsonStringifyOnBody: true
     };
     const rawBatchResponse = await client.sendRequest(requestOptions);
-    return rawBatchResponse;
+    return parseBatchResponse(rawBatchResponse);
   }
 
   private checkPartitionKey(partitionKey: string): void {
@@ -168,6 +170,44 @@ export class TableBatchImpl implements TableBatch {
       throw new Error("All operations in a batch must target the same partitionKey");
     }
   }
+}
+
+function parseBatchResponse(response: HttpOperationResponse): TableBatchResponse {
+  const subResponsePrefix = `--changesetresponse_`;
+  const status = response.status;
+  const rawBody = response.bodyAsText || "";
+  const splitBody = rawBody.split(subResponsePrefix); // string after ending is useless
+  const subResponses = splitBody.slice(1, splitBody.length - 1); // string before first response boundary is useless
+
+  const responses: TableBatchEntityResponse[] = subResponses.map((response) => {
+    const statusMatch = response.match(/HTTP\/1.1 ([0-9]*)/);
+    const etagMatch = response.match(/ETag: (.*)/);
+    const rowKeyMatch = response.match(/RowKey='(.*)'/);
+    const bodyMatch = response.match(/\{(.*)\}/);
+    const body = bodyMatch?.length === 2 ? JSON.parse(`${bodyMatch[0]}`) : undefined;
+
+    if (statusMatch?.length !== 2) {
+      throw new Error(`Couldn't extract status from sub-response:\n ${response}`);
+    }
+
+    const status = Number.parseInt(statusMatch[1]);
+    if (!Number.isInteger(status)) {
+      throw new Error(`Expected sub-response status to be an integer ${status}`);
+    }
+
+    return {
+      status,
+      body,
+      ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
+      ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
+    };
+  });
+
+  return {
+    status,
+    responses,
+    getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
+  };
 }
 
 /**
@@ -187,26 +227,21 @@ function getSubRequestUrl(url: string): string {
  * This method creates a batch request object that provides functions to build the envelope and body for a batch request
  * @param batchGuid Id of the batch
  */
-export function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
+export function createInnerBatchRequest(batchGuid: string, changesetId: string): InnerBatchRequest {
   const HTTP_LINE_ENDING = "\r\n";
   const HTTP_VERSION_1_1 = "HTTP/1.1";
-  const changesetGuid = generateUuid();
-
   // batch_{batchid}
   const batchBoundary = `batch_${batchGuid}`;
-  const changesetBoundary = `changeset_${changesetGuid}`;
+  const changesetBoundary = `changeset_${changesetId}`;
 
   const subRequestPrefix = `--${changesetBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
-  // Content-Type: multipart/mixed; boundary=changeset_{changesetGuid}
-  const multipartContentType = `multipart/mixed; boundary=changeset_${changesetGuid}`;
   const changesetEnding = `--${changesetBoundary}--`;
   const batchEnding = `--${batchBoundary}`;
 
   return {
     body: [
-      `--${batchBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetGuid}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
+      `--${batchBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetId}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
     ],
-    operationCount: 0,
     createPipeline() {
       // Use batch assemble policy to assemble request and intercept request from going to wire
       return [
@@ -234,17 +269,10 @@ export function createInnerBatchRequest(batchGuid: string): InnerBatchRequest {
 
       // Add subrequest to batch body
       this.body.push(subRequest.join(HTTP_LINE_ENDING));
-      this.operationCount++;
     },
     getHttpRequestBody(): string {
       const bodyContent = this.body.join(HTTP_LINE_ENDING);
       return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${batchEnding}${HTTP_LINE_ENDING}`;
-    },
-    getMultipartContentType(): string {
-      return multipartContentType;
-    },
-    getBatchBoundary(): string {
-      return batchBoundary;
     }
   };
 }
