@@ -11,11 +11,7 @@ import * as Parameters from "./models/parameters";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
-import {
-  GeneratedClientOptionalParams,
-  EventGridEvent,
-  CloudEvent
-} from "./models";
+import { GeneratedClientOptionalParams, EventGridEvent, CloudEvent } from "./models";
 
 class GeneratedClient extends GeneratedClientContext {
   /**
