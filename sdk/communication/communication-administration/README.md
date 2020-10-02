@@ -1,6 +1,6 @@
-# Azure Communication Services Administration client library for JavaScript
+# Azure Communication Administration client library for JavaScript
 
-The administration package is used for managing users and tokens for Azure Communication Services. This package also provides capabilities for phone number administration.
+The administration library is used for managing users and tokens for Azure Communication Services. This package also provides capabilities for phone number administration.
 
 Acquired phone numbers can come with many capabilities, depending on the country, number type and phone plan. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
@@ -21,7 +21,7 @@ npm install @azure/communication-administration
 
 ### Clients
 
-The administration package exposes two (2) clients. The `CommunicationIdentityClient` provides methods to manage users and their tokens. The `PhoneNumberAdministrationClient` provides methods to manage phone plans and numbers.
+The administration package exposes two clients. The `CommunicationIdentityClient` provides methods to manage users and their tokens. The `PhoneNumberAdministrationClient` provides methods to manage phone plans and numbers.
 
 ### Phone plans overview
 
