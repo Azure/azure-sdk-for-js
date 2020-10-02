@@ -100,29 +100,25 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      for (let i = 0; i < 1000; i++) {
-        messagesToSend.push({
-          body: Buffer.alloc(2000),
-          messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined,
-          partitionKey: useSessions ? `someSession ${i}` : undefined
-        });
-      }
-      return messagesToSend;
-    }
-
     async function testSendBatch(
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await sender.createBatch({ maxSizeInBytes });
 
-      for (const messageToSend of messagesToSend) {
+      // Size of each message will be > 20000 bytes, maxMessageSize/20000 would exceed the limit
+      const numberOfMessagesToSend =
+        (await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize()) / 20000;
+
+      for (let i = 0; i < numberOfMessagesToSend; i++) {
+        const messageToSend = {
+          body: Buffer.alloc(20000),
+          messageId: `message ${i}`,
+          sessionId: entityNames.usesSessions ? `someSession ${i}` : undefined,
+          partitionKey: entityNames.usesSessions ? `someSession ${i}` : undefined
+        };
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
         if (!batchHasCapacity) {
           break;

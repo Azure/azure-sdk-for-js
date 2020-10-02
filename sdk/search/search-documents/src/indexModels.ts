@@ -30,6 +30,37 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 /**
+ * Options for SearchIndexingBufferedSender.
+ */
+export interface SearchIndexingBufferedSenderOptions {
+  /**
+   * Indicates if autoFlush is enabled.
+   */
+  autoFlush?: boolean;
+}
+
+/**
+ * Options for SearchIndexingBufferedSenderUploadDocuments.
+ */
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderMergeDocuments.
+ */
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderMergeOrUploadDocuments.
+ */
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderDeleteDocuments.
+ */
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderFlushDocuments.
+ */
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
+
+/**
  * Options for retrieving a single document.
  */
 export interface GetDocumentOptions<Fields> extends OperationOptions {
