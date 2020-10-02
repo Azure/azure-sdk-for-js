@@ -15,7 +15,7 @@ param (
 
 $storageAccountKey = $DeploymentOutputs['ACCOUNT_KEY'] 
 $storageAccountName = $DeploymentOutputs['ACCOUNT_NAME']
-$context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $DeploymentOutputs['ACCOUNT_KEY']
+$context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
 
 # https://docs.microsoft.com/en-us/powershell/module/az.storage/set-azstoragecorsrule?view=azps-3.3.0
 $corsRules = (@{
