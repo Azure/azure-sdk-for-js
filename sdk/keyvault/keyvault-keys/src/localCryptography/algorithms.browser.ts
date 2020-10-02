@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LocalSupportedAlgorithmName, LocalSupportedAlgorithmsRecord } from "./models";
+import { LocalSupportedAlgorithmsRecord } from "./models";
 
 /**
  * This file contains the implementation of local supported algorithms for the browser.
@@ -28,6 +28,6 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
  * Checks whether a given algorithm name is supported or not.
  * @param algorithm string name of the algorithm
  */
-export function isLocallySupported(algorithm: string): boolean {
-  return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];
+export function isLocallySupported(_algorithm: string): boolean {
+  return false;
 }
