@@ -18,12 +18,7 @@ import { SDK_VERSION } from "./generated/utils/constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
-import {
-  LocalSupportedAlgorithmName,
-  localSupportedAlgorithms,
-  LocalCryptographyOperationFunction,
-  isLocallySupported
-} from "./localCryptography/algorithms";
+import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
 import { LocalCryptographyClient } from "./localCryptographyClient";
 
@@ -50,6 +45,10 @@ import {
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
+import {
+  LocalCryptographyOperationFunction,
+  LocalSupportedAlgorithmName
+} from "./localCryptography/models";
 
 /**
  * Checks whether a key can be used at that specific moment,

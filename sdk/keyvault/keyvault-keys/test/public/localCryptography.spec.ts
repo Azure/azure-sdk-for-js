@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  localSupportedAlgorithms,
-  LocalSupportedAlgorithmName
-} from "../../src/localCryptography/algorithms";
-import {
+  LocalSupportedAlgorithmName,
   KeyClient,
   CryptographyClient,
   SignatureAlgorithm,
@@ -18,6 +15,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
+import { localSupportedAlgorithms } from "../../src/localCryptography/algorithms";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
