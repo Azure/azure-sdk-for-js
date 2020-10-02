@@ -11,7 +11,9 @@ import {
   SubscribeOptions
 } from "@azure/service-bus";
 import fs from "fs";
+import { message } from "rhea-promise";
 import util from "util";
+import { v4 as uuidv4 } from "uuid";
 const writeFile = util.promisify(fs.writeFile);
 const appendFile = util.promisify(fs.appendFile);
 
@@ -42,6 +44,7 @@ interface SnapshotOptions {
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
   messagesReceived: ServiceBusMessage[] = [];
+  trackedMessageIds: { [key: string]: { sent: number; received: number } } = {};
   snapshotTimer: NodeJS.Timer;
   startedAt!: Date;
 
@@ -121,7 +124,8 @@ export class SBStressTestsBase {
         for (let i = 0; i < numberOfMessages; i++) {
           messages.push({
             body: `message ${i} ${Math.random()}`,
-            sessionId: useSessions ? `session-${Math.ceil(Math.random() * 10000)}` : undefined
+            sessionId: useSessions ? `session-${Math.ceil(Math.random() * 10000)}` : undefined,
+            messageId: uuidv4()
           });
         }
         if (useScheduleApi) {
@@ -131,6 +135,7 @@ export class SBStressTestsBase {
         } else {
           await sender.sendMessages(messages);
         }
+        this.trackMessageIds(messages, "sent");
         this.sendInfo.numberOfSuccesses++;
         this.messagesSent = this.messagesSent.concat(messages);
       } catch (error) {
@@ -150,6 +155,7 @@ export class SBStressTestsBase {
       const messages = await receiver.receiveMessages(maxMsgCount, {
         maxWaitTimeInMs
       });
+      this.trackMessageIds(messages, "received");
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccesses++;
       return messages;
@@ -189,6 +195,7 @@ export class SBStressTestsBase {
           );
         }
       }
+      this.trackMessageIds([message], "received");
       this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
       this.receiveInfo.numberOfSuccesses++;
     };
@@ -205,6 +212,24 @@ export class SBStressTestsBase {
     );
     await delay(duration);
     await subscriber.close();
+  }
+
+  trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
+    messages.forEach((msg) => {
+      let destination = this.trackedMessageIds[msg.messageId as string];
+      if (!destination)
+        destination = this.trackedMessageIds[msg.messageId as string] = {
+          sent: 0,
+          received: 0
+        };
+      if (path === "sent") {
+        destination.sent = destination.sent + 1;
+        destination.received = 0;
+      } else {
+        destination.received = destination.received + 1;
+        destination.sent = 0;
+      }
+    });
   }
 
   /**
@@ -351,6 +376,7 @@ export class SBStressTestsBase {
         errors.reduce((output, entry) => output + "\n" + entry)
       );
     }
+    // TODO: Log tracked messages in JSON
     // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
     // TODO: Add an argument to "end()" to not delete the resource
     clearInterval(this.snapshotTimer);
