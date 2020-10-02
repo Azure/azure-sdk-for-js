@@ -30,6 +30,7 @@ import {
 import { InnerBatchRequest } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
+import { URL } from "./utils/url";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
