@@ -20,14 +20,7 @@ import { createClientPipeline } from "./createClientPipeline";
 import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
-  DataFeedSource,
-  AnomalyDetectionConfigurationPatch,
-  MetricDetectionCondition,
-  MetricSeriesGroupDetectionCondition,
-  MetricSingleSeriesDetectionCondition,
   IngestionStatus,
-  DataFeedSchema,
-  DataFeedIngestionSettings,
   DataFeedGranularity,
   DataFeedOptions,
   DataFeed,
@@ -38,8 +31,6 @@ import {
   EmailHookPatch,
   AnomalyDetectionConfiguration,
   AnomalyAlertConfiguration,
-  MetricAlertConfiguration,
-  AnomalyAlertConfigurationPatch,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -56,7 +47,6 @@ import {
   DataSourceType,
   EntityStatus,
   GeneratedClientGetIngestionProgressResponse,
-  AnomalyAlertingConfigurationCrossMetricsOperator,
   NeedRollupEnum
 } from "./generated/models";
 import {
@@ -174,52 +164,45 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Adds a new data feed for a specifc data source and provided settings
-   * @param name Name for the new data feed
-   * @param source Data feed source from {@link DataFeedSource}
-   * @param granularity Granularity of the time series {@link DataFeedGranularity}
-   * @param schema Schema for data feed like metrics, dimension and timestamp {@link DataFeedSchema}
-   * @param ingestionSettings Ingestion settings for data feed {@link DataFeedIngestionSettings}
+   * @param feed the data feed object to create
    * @param options The options parameter.
    */
 
   public async createDataFeed(
-    name: string,
-    source: DataFeedSource,
-    granularity: DataFeedGranularity,
-    schema: DataFeedSchema,
-    ingestionSettings: DataFeedIngestionSettings,
-    options: CreateDataFeedOptions = {}
+    feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">,
+    operationOptions: OperationOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
-      options
+      operationOptions
     );
+    const { name, granularity, source, schema, ingestionSettings, options } = feed;
 
     const needRollup: NeedRollupEnum | undefined =
-      finalOptions.rollupSettings?.rollupType === "AutoRollup"
+      options?.rollupSettings?.rollupType === "AutoRollup"
         ? "NeedRollup"
-        : finalOptions.rollupSettings?.rollupType === "AlreadyRollup"
+        : options?.rollupSettings?.rollupType === "AlreadyRollup"
         ? "AlreadyRollup"
-        : finalOptions.rollupSettings?.rollupType === "NoRollup"
+        : options?.rollupSettings?.rollupType === "NoRollup"
         ? "NoRollup"
         : undefined;
     const rollUpColumns: string[] | undefined =
-      finalOptions.rollupSettings?.rollupType === "AutoRollup"
-        ? finalOptions.rollupSettings.autoRollupGroupByColumnNames
+      options?.rollupSettings?.rollupType === "AutoRollup"
+        ? options?.rollupSettings.autoRollupGroupByColumnNames
         : undefined;
     const allUpIdentification: string | undefined =
-      finalOptions.rollupSettings?.rollupType === "AutoRollup" ||
-      finalOptions.rollupSettings?.rollupType === "AlreadyRollup"
-        ? finalOptions.rollupSettings.rollupIdentificationValue
+      options?.rollupSettings?.rollupType === "AutoRollup" ||
+      options?.rollupSettings?.rollupType === "AlreadyRollup"
+        ? options?.rollupSettings.rollupIdentificationValue
         : undefined;
     const rollUpMethod: DataFeedRollupMethod | undefined =
-      finalOptions.rollupSettings?.rollupType === "AutoRollup"
-        ? finalOptions.rollupSettings.rollupMethod
+      options?.rollupSettings?.rollupType === "AutoRollup"
+        ? options?.rollupSettings.rollupMethod
         : undefined;
-    const fillMissingPointType = finalOptions.missingDataPointFillSettings?.fillType;
+    const fillMissingPointType = options?.missingDataPointFillSettings?.fillType;
     const fillMissingPointValue =
-      finalOptions.missingDataPointFillSettings?.fillType === "CustomValue"
-        ? finalOptions.missingDataPointFillSettings.customFillValue
+      options?.missingDataPointFillSettings?.fillType === "CustomValue"
+        ? options?.missingDataPointFillSettings.customFillValue
         : undefined;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
@@ -243,7 +226,7 @@ export class MetricsAdvisorAdministrationClient {
         rollUpMethod,
         fillMissingPointType,
         fillMissingPointValue,
-        viewMode: finalOptions.accessMode,
+        viewMode: options?.accessMode,
         ...finalOptions
       };
       const result = await this.client.createDataFeed(body, requestOptions);
@@ -266,12 +249,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data feed for the given data feed id
-   * @param dataFeedId id for the data feed to retrieve
+   * @param id id for the data feed to retrieve
    * @param options The options parameter.
    */
 
   public async getDataFeed(
-    dataFeedId: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -281,7 +264,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getDataFeedById(dataFeedId, requestOptions);
+      const result = await this.client.getDataFeedById(id, requestOptions);
       const resultDataFeed: DataFeed = fromServiceDataFeedDetailUnion(result);
       return { ...resultDataFeed, _response: result._response };
     } catch (e) {
@@ -434,8 +417,8 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Updates a data feed for the given data feed id
-   * @param dataFeedId id for the data feed to be updated
+   * Updates a data feed given its id
+   * @param dataFeedId id of the data feed to update
    * @param patch Input to the update data feed operation {@link DataFeedPatch}
    * @param options The options parameter.
    */
@@ -497,14 +480,11 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a data feed for the given data feed id
-   * @param dataFeedId id for the data feed to be deleted
+   * @param id id of the data feed to delete
    * @param options The options parameter.
    */
 
-  public async deleteDataFeed(
-    dataFeedId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteDataFeed",
       options
@@ -512,7 +492,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteDataFeed(dataFeedId, requestOptions);
+      return await this.client.deleteDataFeed(id, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -525,37 +505,35 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Creates a  anomaly detection configuration for a given metric
-   * @param name Name of the configuration
-   * @param description Description for the configuration
-   * @param metricId metric unique id
-   * @param wholeMetricConditions Conditions that applies for all time series of the given metric
-   * @param dimensionGroupOverrideConditions Conditions that applies to a group of time series of the given metric.  This overrides conditions specified by {@link wholeMetricConditions}
-   * @param seriesOverrideConditions conditions that applies to a single time series of the given metric.  This overrides conditions specified by {@link wholeMetricConditions} and {@link dimensionGroupOverrideConditions}
+   * Creates an anomaly detection configuration for a given metric
+   * @param config The detection configuration object to create
    * @param options The options parameter
    */
   public async createMetricAnomalyDetectionConfiguration(
-    name: string,
-    metricId: string,
-    wholeMetricConditions: MetricDetectionCondition,
-    description?: string,
-    dimensionGroupOverrideConditions?: MetricSeriesGroupDetectionCondition[],
-    seriesOverrideConditions?: MetricSingleSeriesDetectionCondition[],
-    options = {}
+    config: Omit<AnomalyDetectionConfiguration, "id">,
+    options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createMetricAnomalyDetectionConfiguration",
       options
     );
+    const {
+      name,
+      description,
+      metricId,
+      wholeSeriesDetectionCondition,
+      seriesDetectionConditions,
+      seriesGroupDetectionConditions
+    } = config;
 
     try {
       const body = {
         name,
         description,
         metricId,
-        wholeMetricConfiguration: wholeMetricConditions,
-        dimensionGroupOverrideConfigurations: dimensionGroupOverrideConditions,
-        seriesOverrideConfigurations: seriesOverrideConditions
+        wholeMetricConfiguration: wholeSeriesDetectionCondition,
+        dimensionGroupOverrideConfigurations: seriesGroupDetectionConditions,
+        seriesOverrideConfigurations: seriesDetectionConditions
       };
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.createAnomalyDetectionConfiguration(body, requestOptions);
@@ -578,12 +556,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly detection configuration for the given configuration id
-   * @param configurationId id for the detection configuration for metric anomaly to retrieve
+   * @param id id of the detection configuration to retrieve
    * @param options The options parameter.
    */
 
   public async getMetricAnomalyDetectionConfiguration(
-    detectionConfigurationId: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -593,10 +571,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyDetectionConfiguration(
-        detectionConfigurationId,
-        requestOptions
-      );
+      const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
       return {
         ...fromServiceAnomalyDetectionConfiguration(result),
         _response: result._response
@@ -614,14 +589,14 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates a metric anomaly detection configuration for the given configuration id
-   * @param configurationId id for the detection configuration for metric anomaly to be updated
+   * @param id id of the detection configuration for metric anomaly to update
    * @param patch Input to the update anomaly detection configuration operation {@link AnomalyDetectionConfigurationPatch}
    * @param options The options parameter.
    */
 
   public async updateMetricAnomalyDetectionConfiguration(
-    detectionConfigurationId: string,
-    patch: AnomalyDetectionConfigurationPatch,
+    id: string,
+    patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -632,7 +607,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       await this.client.updateAnomalyDetectionConfiguration(
-        detectionConfigurationId,
+        id,
         {
           wholeMetricConfiguration: patch.wholeSeriesDetectionCondition,
           dimensionGroupOverrideConfigurations: patch.seriesGroupDetectionConditions,
@@ -641,7 +616,7 @@ export class MetricsAdvisorAdministrationClient {
         },
         requestOptions
       );
-      return this.getMetricAnomalyDetectionConfiguration(detectionConfigurationId);
+      return this.getMetricAnomalyDetectionConfiguration(id);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -655,12 +630,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a metric anomaly detection configuration for the given configuration id
-   * @param configurationId id for the detection configuration for metric anomaly to be deleted
+   * @param id id of the detection configuration to delete
    * @param options The options parameter.
    */
 
   public async deleteMetricAnomalyDetectionConfiguration(
-    detectionConfigurationId: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -670,10 +645,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyDetectionConfiguration(
-        detectionConfigurationId,
-        requestOptions
-      );
+      return await this.client.deleteAnomalyDetectionConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -687,26 +659,17 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates anomaly alerting configuration for a given metric
-   * @param name Name of the alert configuration
-   * @param crossMetricsOperator Operator to use when specifying cross-metric detection configuration
-   * @param metricAlertConfigurations metric alert configurations
-   * @param hookIds Ids of existing hooks to send alerts
-   * @param description Description for the configuration
-   * @param options The options parameter
+   * @param config the alert configuration object to create
    */
   public async createAnomalyAlertConfiguration(
-    name: string,
-    crossMetricsOperator: AnomalyAlertingConfigurationCrossMetricsOperator,
-    metricAlertConfigurations: MetricAlertConfiguration[],
-    hookIds: string[] = [],
-    description?: string,
+    config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createAnomalyAlertConfiguration",
       options
     );
-
+    const { name, description, crossMetricsOperator, hookIds, metricAlertConfigurations } = config;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformedConfigurations = metricAlertConfigurations.map((c) => {
@@ -747,13 +710,13 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates an anomaly alert configuration for the given configuration id
-   * @param configurationId id for the anomaly alert configuration to be updated
+   * @param id id of the anomaly alert configuration to update
    * @param patch Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
    * @param options The options parameter
    */
   public async updateAnomalyAlertConfiguration(
-    alertConfigurationId: string,
-    patch: AnomalyAlertConfigurationPatch,
+    id: string,
+    patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -775,7 +738,7 @@ export class MetricsAdvisorAdministrationClient {
         };
       });
       await this.client.updateAnomalyAlertingConfiguration(
-        alertConfigurationId,
+        id,
         {
           name: patch.name,
           description: patch.description,
@@ -785,7 +748,7 @@ export class MetricsAdvisorAdministrationClient {
         },
         requestOptions
       );
-      return this.getAnomalyAlertConfiguration(alertConfigurationId);
+      return this.getAnomalyAlertConfiguration(id);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -799,12 +762,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly alert configuration for the given configuration id
-   * @param configurationId id for the anomaly alert configuration to retrieve
+   * @param id id of the anomaly alert configuration to retrieve
    * @param options The options parameter.
    */
 
   public async getAnomalyAlertConfiguration(
-    alertConfigurationId: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -814,10 +777,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyAlertingConfiguration(
-        alertConfigurationId,
-        requestOptions
-      );
+      const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
       return { ...fromServiceAlertConfiguration(result), _response: result._response };
     } catch (e) {
       span.setStatus({
@@ -832,12 +792,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes metric anomaly alert configuration for the given configuration id
-   * @param configurationId id for the anomaly alert configuration to delete
+   * @param id id of the anomaly alert configuration to delete
    * @param options The options parameter.
    */
 
   public async deleteAnomalyAlertConfiguration(
-    alertConfigurationId: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -847,10 +807,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyAlertingConfiguration(
-        alertConfigurationId,
-        requestOptions
-      );
+      return await this.client.deleteAnomalyAlertingConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -867,12 +824,12 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   private async *listSegmentsOfAlertingConfigurations(
-    detectionConfigurationId: string,
+    detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<ListAnomalyAlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
-      detectionConfigurationId,
+      detectionConfigId,
       options
     );
     yield {
@@ -886,11 +843,11 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   private async *listItemsOfAlertingConfigurations(
-    detectionConfigurationId: string,
+    detectionConfigId: string,
     options: OperationOptions = {}
   ): AsyncIterableIterator<AnomalyAlertConfiguration> {
     for await (const segment of this.listSegmentsOfAlertingConfigurations(
-      detectionConfigurationId,
+      detectionConfigId,
       options
     )) {
       if (segment.alertConfigurations) {
@@ -900,18 +857,18 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Returns an async iterable iterator to list anamoly alert configurations based on options
+   * Returns an async iterable iterator to list anamoly alert configurations associated with the given detection configuration.
    *
-   * `.byPage()` returns an async iterable iterator to list the anamoly alert configurations in pages.
+   * `.byPage()` returns an async iterable iterator to list the alert configurations in pages.
    *
    * Example using `for await` syntax:
    *
    * ```js
    * const client = new MetricsAdvisorAdministrationClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const alertConfigurationList = client.listAnomalyAlertConfigurations(detectionConfigurationId);
+   * const alertConfigurations = client.listAnomalyAlertConfigurations(detectionConfigurationId);
    * let i = 1;
-   * for await (const alertConfiguration of alertConfigurationList){
+   * for await (const alertConfiguration of alertConfigurations){
    *  console.log(`alertConfiguration ${i++}:`);
    *  console.log(alertConfiguration);
    * }
@@ -946,19 +903,19 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param detectionConfigurationId  anomaly detection configuration unique id
+   * @param detectionConfigId  anomaly detection configuration unique id
    * @param options The options parameter.
    */
 
   public listAnomalyAlertConfigurations(
-    detectionConfigurationId: string,
+    detectionConfigId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
     AnomalyAlertConfiguration,
     ListAnomalyAlertConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
-    const iter = this.listItemsOfAlertingConfigurations(detectionConfigurationId, options);
+    const iter = this.listItemsOfAlertingConfigurations(detectionConfigId, options);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -976,7 +933,7 @@ export class MetricsAdvisorAdministrationClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: () => {
-        return this.listSegmentsOfAlertingConfigurations(detectionConfigurationId, {
+        return this.listSegmentsOfAlertingConfigurations(detectionConfigId, {
           ...options
           // maxPageSize: settings.maxPageSize
         });
@@ -1000,11 +957,11 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const { hookType, hookName, description, externalLink, hookParameter } = hookInfo;
+      const { hookType, name, description, externalLink, hookParameter } = hookInfo;
       const result = await this.client.createHook(
         {
           hookType,
-          hookName,
+          name,
           description,
           externalLink,
           hookParameter
@@ -1030,18 +987,18 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves hook for the given hook id
-   * @param hookId id for the hook to retrieve
+   * @param id id for the hook to retrieve
    * @param options The options parameter.
    */
 
-  public async getHook(hookId: string, options: OperationOptions = {}): Promise<GetHookResponse> {
+  public async getHook(id: string, options: OperationOptions = {}): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getHook",
       options
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getHook(hookId, requestOptions);
+      const result = await this.client.getHook(id, requestOptions);
       const resultHookResponse: HookUnion = fromServiceHookInfoUnion(result._response.parsedBody);
       return { ...resultHookResponse, _response: result._response };
     } catch (e) {
@@ -1183,12 +1140,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates hook for the given hook id
-   * @param hookId id for the hook to be updated
+   * @param id id of the hook to update
    * @param patch Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
    * @param options The options parameter
    */
   public async updateHook(
-    hookId: string,
+    id: string,
     patch: EmailHookPatch | WebhookHookPatch,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
@@ -1198,8 +1155,8 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      await this.client.updateHook(hookId, patch, requestOptions);
-      return this.getHook(hookId);
+      await this.client.updateHook(id, patch, requestOptions);
+      return this.getHook(id);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1213,10 +1170,10 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes hook for the given hook id
-   * @param hookId id for the hook to be deleted
+   * @param id id of the hook to delete
    * @param options The options parameter
    */
-  public async deleteHook(hookId: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteHook",
       options
@@ -1224,7 +1181,7 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteHook(hookId, requestOptions);
+      return await this.client.deleteHook(id, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1259,11 +1216,11 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   private async *listItemsOfDetectionConfigurations(
-    detectionConfigurationId: string,
+    detectionConfigId: string,
     options: OperationOptions = {}
   ): AsyncIterableIterator<AnomalyDetectionConfiguration> {
     for await (const segment of this.listSegmentsOfDetectionConfigurations(
-      detectionConfigurationId,
+      detectionConfigId,
       options
     )) {
       if (segment.detectionConfigurations) {

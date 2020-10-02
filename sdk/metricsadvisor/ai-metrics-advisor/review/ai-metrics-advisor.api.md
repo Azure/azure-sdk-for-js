@@ -39,25 +39,13 @@ export interface Anomaly {
 
 // @public
 export interface AnomalyAlertConfiguration {
-    crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
+    crossMetricsOperator?: MetricAnomalyAlertConfigurationsOperator;
     description?: string;
     hookIds: string[];
     id: string;
     metricAlertConfigurations: MetricAlertConfiguration[];
     name: string;
 }
-
-// @public
-export interface AnomalyAlertConfigurationPatch {
-    crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
-    description?: string;
-    hookIds?: string[];
-    metricAlertConfigurations?: MetricAlertConfiguration[];
-    name?: string;
-}
-
-// @public
-export type AnomalyAlertingConfigurationCrossMetricsOperator = "AND" | "OR" | "XOR";
 
 // @public
 export interface AnomalyDetectionConfiguration {
@@ -71,15 +59,6 @@ export interface AnomalyDetectionConfiguration {
 }
 
 // @public
-export interface AnomalyDetectionConfigurationPatch {
-    description?: string;
-    name?: string;
-    seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
-    seriesGroupDetectionConditions?: MetricSeriesGroupDetectionCondition[];
-    wholeSeriesDetectionCondition?: MetricDetectionCondition;
-}
-
-// @public
 export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
@@ -89,12 +68,6 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
     dataSourceParameter: AzureApplicationInsightsParameter;
-};
-
-// @public
-export type AzureApplicationInsightsDataFeedSourcePatch = {
-    dataSourceType: "AzureApplicationInsights";
-    dataSourceParameter?: AzureApplicationInsightsParameter;
 };
 
 // @public (undocumented)
@@ -111,12 +84,6 @@ export type AzureBlobDataFeedSource = {
     dataSourceParameter: AzureBlobParameter;
 };
 
-// @public
-export type AzureBlobDataFeedSourcePatch = {
-    dataSourceType: "AzureBlob";
-    dataSourceParameter?: AzureBlobParameter;
-};
-
 // @public (undocumented)
 export interface AzureBlobParameter {
     blobTemplate: string;
@@ -128,12 +95,6 @@ export interface AzureBlobParameter {
 export type AzureCosmosDBDataFeedSource = {
     dataSourceType: "AzureCosmosDB";
     dataSourceParameter: AzureCosmosDBParameter;
-};
-
-// @public
-export type AzureCosmosDBDataFeedSourcePatch = {
-    dataSourceType: "AzureCosmosDB";
-    dataSourceParameter?: AzureCosmosDBParameter;
 };
 
 // @public (undocumented)
@@ -151,21 +112,9 @@ export type AzureDataExplorerDataFeedSource = {
 };
 
 // @public
-export type AzureDataExplorerDataFeedSourcePatch = {
-    dataSourceType: "AzureDataExplorer";
-    dataSourceParameter?: SqlSourceParameter;
-};
-
-// @public
 export type AzureDataLakeStorageGen2DataFeedSource = {
     dataSourceType: "AzureDataLakeStorageGen2";
     dataSourceParameter: AzureDataLakeStorageGen2Parameter;
-};
-
-// @public
-export type AzureDataLakeStorageGen2DataFeedSourcePatch = {
-    dataSourceType: "AzureDataLakeStorageGen2";
-    dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
 };
 
 // @public (undocumented)
@@ -181,12 +130,6 @@ export interface AzureDataLakeStorageGen2Parameter {
 export type AzureTableDataFeedSource = {
     dataSourceType: "AzureTable";
     dataSourceParameter: AzureTableParameter;
-};
-
-// @public
-export type AzureTableDataFeedSourcePatch = {
-    dataSourceType: "AzureTable";
-    dataSourceParameter?: AzureTableParameter;
 };
 
 // @public (undocumented)
@@ -217,6 +160,7 @@ export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 // @public
 export interface DataFeed {
     createdTime: Date;
+    creator: string;
     granularity: DataFeedGranularity;
     id: string;
     ingestionSettings: DataFeedIngestionSettings;
@@ -233,7 +177,7 @@ export interface DataFeed {
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
-export type DataFeedDetailPatchStatus = "Active" | "Paused";
+export type DataFeedDetailStatus = "Active" | "Paused";
 
 // @public
 export type DataFeedGranularity = {
@@ -282,12 +226,12 @@ export interface DataFeedPatch {
     ingestionSettings?: DataFeedIngestionSettings;
     name?: string;
     options?: DataFeedOptions & {
-        status?: DataFeedDetailPatchStatus;
+        status?: DataFeedDetailStatus;
     };
     schema?: {
         timestampColumn?: string;
     };
-    source: DataFeedSourcePatchUnion;
+    source: DataFeedSourcePatch;
 }
 
 // @public
@@ -317,7 +261,9 @@ export interface DataFeedSchema {
 export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource;
 
 // @public
-export type DataFeedSourcePatchUnion = AzureApplicationInsightsDataFeedSourcePatch | AzureBlobDataFeedSourcePatch | AzureCosmosDBDataFeedSourcePatch | AzureDataExplorerDataFeedSourcePatch | AzureDataLakeStorageGen2DataFeedSourcePatch | AzureTableDataFeedSourcePatch | ElasticsearchDataFeedSourcePatch | HttpRequestDataFeedSourcePatch | InfluxDBDataFeedSourcePatch | MySqlDataFeedSourcePatch | PostgreSqlDataFeedSourcePatch | SQLServerDataFeedSourcePatch | MongoDBDataFeedSourcePatch;
+export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
+    [P in "dataSourceParameter"]?: DataFeedSource[P];
+};
 
 // @public
 export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
@@ -325,12 +271,15 @@ export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCo
 // @public
 export interface DetectionConditionsCommon {
     changeThresholdCondition?: ChangeThresholdConditionUnion;
-    conditionOperator?: WholeMetricConfigurationConditionOperator;
+    conditionOperator?: DetectionConditionsOperator;
     hardThresholdCondition?: HardThresholdConditionUnion;
     smartDetectionCondition?: SmartDetectionCondition;
 }
 
-// @public (undocumented)
+// @public
+export type DetectionConditionsOperator = "AND" | "OR";
+
+// @public
 export interface Dimension {
     displayName?: string;
     name: string;
@@ -345,12 +294,6 @@ export type DimensionKey = {
 export type ElasticsearchDataFeedSource = {
     dataSourceType: "Elasticsearch";
     dataSourceParameter: ElasticsearchParameter;
-};
-
-// @public
-export type ElasticsearchDataFeedSourcePatch = {
-    dataSourceType: "Elasticsearch";
-    dataSourceParameter?: ElasticsearchParameter;
 };
 
 // @public (undocumented)
@@ -509,15 +452,15 @@ export interface HookCommon {
     readonly admins?: string[];
     description?: string;
     externalLink?: string;
-    hookName: string;
     readonly id?: string;
+    name: string;
 }
 
 // @public
 export type HookPatchCommon = {
-    hookName?: string | undefined;
-    description?: string | undefined;
-    externalLink?: string | undefined;
+    hookName?: string;
+    description?: string;
+    externalLink?: string;
 };
 
 // @public
@@ -527,12 +470,6 @@ export type HookUnion = EmailHook | WebhookHook;
 export type HttpRequestDataFeedSource = {
     dataSourceType: "HttpRequest";
     dataSourceParameter: HttpRequestParameter;
-};
-
-// @public
-export type HttpRequestDataFeedSourcePatch = {
-    dataSourceType: "HttpRequest";
-    dataSourceParameter?: HttpRequestParameter;
 };
 
 // @public (undocumented)
@@ -567,12 +504,6 @@ export interface IncidentRootCause {
 export type InfluxDBDataFeedSource = {
     dataSourceType: "InfluxDB";
     dataSourceParameter: InfluxDBParameter;
-};
-
-// @public
-export type InfluxDBDataFeedSourcePatch = {
-    dataSourceType: "InfluxDB";
-    dataSourceParameter?: InfluxDBParameter;
 };
 
 // @public (undocumented)
@@ -814,7 +745,7 @@ export type ListMetricSeriesPageResponse = {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface Metric {
     description?: string;
     displayName?: string;
@@ -836,6 +767,9 @@ export interface MetricAlertConfiguration {
     negationOperation?: boolean;
     snoozeCondition?: AlertSnoozeCondition;
 }
+
+// @public
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 
 // @public
 export type MetricAnomalyAlertScope = {
@@ -929,30 +863,30 @@ export type MetricPeriodFeedback = {
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAnomalyAlertConfiguration(name: string, crossMetricsOperator: AnomalyAlertingConfigurationCrossMetricsOperator, metricAlertConfigurations: MetricAlertConfiguration[], hookIds?: string[], description?: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(name: string, source: DataFeedSource, granularity: DataFeedGranularity, schema: DataFeedSchema, ingestionSettings: DataFeedIngestionSettings, options?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
+    createAnomalyAlertConfiguration(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    createDataFeed(feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
     createHook(hookInfo: EmailHook | WebhookHook, options?: OperationOptions): Promise<GetHookResponse>;
-    createMetricAnomalyDetectionConfiguration(name: string, metricId: string, wholeMetricConditions: MetricDetectionCondition, description?: string, dimensionGroupOverrideConditions?: MetricSeriesGroupDetectionCondition[], seriesOverrideConditions?: MetricSingleSeriesDetectionCondition[], options?: {}): Promise<GetAnomalyDetectionConfigurationResponse>;
-    deleteAnomalyAlertConfiguration(alertConfigurationId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDataFeed(dataFeedId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteHook(hookId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteMetricAnomalyDetectionConfiguration(detectionConfigurationId: string, options?: OperationOptions): Promise<RestResponse>;
+    createMetricAnomalyDetectionConfiguration(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    deleteAnomalyAlertConfiguration(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getAnomalyAlertConfiguration(alertConfigurationId: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    getDataFeed(dataFeedId: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
+    getAnomalyAlertConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GeneratedClientGetIngestionProgressResponse>;
-    getHook(hookId: string, options?: OperationOptions): Promise<GetHookResponse>;
-    getMetricAnomalyDetectionConfiguration(detectionConfigurationId: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    listAnomalyAlertConfigurations(detectionConfigurationId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, ListAnomalyAlertConfigurationsPageResponse, undefined>;
+    getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
+    getMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, ListAnomalyAlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date, endTime: Date, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, ListDataFeedsPageResponse>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<HookUnion, ListHooksPageResponse>;
     listMetricAnomalyDetectionConfigurations(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, ListAnomalyDetectionConfigurationsPageResponse, undefined>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date, endTime: Date, options?: OperationOptions): Promise<RestResponse>;
-    updateAnomalyAlertConfiguration(alertConfigurationId: string, patch: AnomalyAlertConfigurationPatch, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    updateAnomalyAlertConfiguration(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
-    updateHook(hookId: string, patch: EmailHookPatch | WebhookHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
-    updateMetricAnomalyDetectionConfiguration(detectionConfigurationId: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    updateHook(id: string, patch: EmailHookPatch | WebhookHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
+    updateMetricAnomalyDetectionConfiguration(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
 }
 
 // @public
@@ -962,18 +896,18 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    createMetricFeedback(feedback: MetricFeedbackUnion, options?: {}): Promise<GetFeedbackResponse>;
+    createMetricFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
-    getIncidentRootCauses(detectionConfigurationId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
-    getMetricEnrichedSeriesData(detectionConfigurationId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
-    getMetricFeedback(feedbackId: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
+    getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
+    getMetricFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getMetricSeriesData(metricId: string, startTime: Date, endTime: Date, seriesToFilter: Record<string, string>[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
-    listAlertsForAlertConfiguration(alertConfigurationId: string, startTime: Date, endTime: Date, timeMode: TimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<Alert, ListAlertsForAlertConfigurationPageResponse>;
-    listAnomaliesForAlert(alertConfigurationId: string, alertId: string, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForAlertPageResponse>;
-    listAnomaliesForDetectionConfiguration(detectionConfigurationId: string, startTime: Date, endTime: Date, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
-    listDimensionValuesForDetectionConfiguration(detectionConfigurationId: string, startTime: Date, endTime: Date, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
-    listIncidentsForAlert(alertConfigurationId: string, alertId: string, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<Incident, ListIncidentsForAlertPageResponse>;
-    listIncidentsForDetectionConfiguration(detectionConfigurationId: string, startTime: Date, endTime: Date, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<Incident, ListIncidentsByDetectionConfigurationPageResponse>;
+    listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date, endTime: Date, timeMode: TimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<Alert, ListAlertsForAlertConfigurationPageResponse>;
+    listAnomaliesForAlert(alertConfigId: string, alertId: string, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForAlertPageResponse>;
+    listAnomaliesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
+    listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
+    listIncidentsForAlert(alertConfigId: string, alertId: string, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<Incident, ListIncidentsForAlertPageResponse>;
+    listIncidentsForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<Incident, ListIncidentsByDetectionConfigurationPageResponse>;
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, ListMetricDimensionValuesPageResponse>;
     listMetricEnrichmentStatus(metricId: string, startTime: Date, endTime: Date, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
     listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, ListMetricFeedbackPageResponse>;
@@ -1022,12 +956,6 @@ export type MongoDBDataFeedSource = {
     dataSourceParameter: MongoDBParameter;
 };
 
-// @public
-export type MongoDBDataFeedSourcePatch = {
-    dataSourceType: "MongoDB";
-    dataSourceParameter?: MongoDBParameter;
-};
-
 // @public (undocumented)
 export interface MongoDBParameter {
     command: string;
@@ -1042,21 +970,9 @@ export type MySqlDataFeedSource = {
 };
 
 // @public
-export type MySqlDataFeedSourcePatch = {
-    dataSourceType: "MySql";
-    dataSourceParameter?: SqlSourceParameter;
-};
-
-// @public
 export type PostgreSqlDataFeedSource = {
     dataSourceType: "PostgreSql";
     dataSourceParameter: SqlSourceParameter;
-};
-
-// @public
-export type PostgreSqlDataFeedSourcePatch = {
-    dataSourceType: "PostgreSql";
-    dataSourceParameter?: SqlSourceParameter;
 };
 
 // @public
@@ -1089,12 +1005,6 @@ export type SnoozeScope = "Metric" | "Series";
 export type SQLServerDataFeedSource = {
     dataSourceType: "SqlServer";
     dataSourceParameter: SqlSourceParameter;
-};
-
-// @public
-export type SQLServerDataFeedSourcePatch = {
-    dataSourceType: "SqlServer";
-    dataSourceParameter?: SqlSourceParameter;
 };
 
 // @public (undocumented)
@@ -1142,9 +1052,6 @@ export type WebhookHookPatch = {
     hookType: "Webhook";
     hookParameter?: WebhookHookParameter;
 } & HookPatchCommon;
-
-// @public
-export type WholeMetricConfigurationConditionOperator = "AND" | "OR";
 
 
 // (No @packageDocumentation comment for this package)

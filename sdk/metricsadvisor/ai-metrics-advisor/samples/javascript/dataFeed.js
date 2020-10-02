@@ -92,7 +92,7 @@ async function createDataFeed(client) {
     ingestionRetryDelayInSeconds: -1,
     stopRetryAfterInSeconds: -1
   };
-  const granualarity = {
+  const granularity = {
     granularityType: "Daily"
   };
   const source = {
@@ -120,14 +120,14 @@ async function createDataFeed(client) {
   };
 
   console.log("Creating Datafeed...");
-  const result = await client.createDataFeed(
-    "js-test-create-datafeed" + new Date().getTime().toString(),
+  const result = await client.createDataFeed({
+    name: "test-datafeed-" + new Date().getTime().toFixed(),
     source,
-    granualarity,
-    dataFeedSchema,
-    dataFeedIngestion,
+    granularity,
+    schema: dataFeedSchema,
+    ingestionSettings: dataFeedIngestion,
     options
-  );
+  });
   console.dir(result);
   return result;
 }

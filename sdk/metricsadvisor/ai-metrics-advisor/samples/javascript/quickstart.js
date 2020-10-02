@@ -105,7 +105,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     ingestionRetryDelayInSeconds: -1,
     stopRetryAfterInSeconds: -1
   };
-  const granualarity = {
+  const granularity = {
     granularityType: "Daily"
   };
   const source = {
@@ -129,14 +129,14 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
   };
 
   console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed(
-    "test_datafeed_" + new Date().getTime().toFixed(),
+  const result = await adminClient.createDataFeed({
+    name: "test_datafeed_" + new Date().getTime().toFixed(),
     source,
-    granualarity,
-    dataFeedSchema,
-    dataFeedIngestion,
+    granularity,
+    schema: dataFeedSchema,
+    ingestionSettings: dataFeedIngestion,
     options
-  );
+  });
 
   return result;
 }
@@ -155,10 +155,10 @@ async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime)
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration(
-    "test_detection_configuration" + new Date().getTime().toString(),
+  return await adminClient.createMetricAnomalyDetectionConfiguration({
+    name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
-    {
+    wholeSeriesDetectionCondition: {
       smartDetectionCondition: {
         sensitivity: 100,
         anomalyDetectorDirection: "Both",
@@ -168,17 +168,15 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
         }
       }
     },
-    "Detection configuration description",
-    [],
-    []
-  );
+    description: "Detection configuration description"
+  });
 }
 
 async function createWebhookHook(adminClient) {
   console.log("Creating a webhook hook");
   const hook = {
     hookType: "Webhook",
-    hookName: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -192,7 +190,7 @@ async function createWebhookHook(adminClient) {
   return await adminClient.createHook(hook);
 }
 
-async function configureAlertConfiguration(adminClient, detectionConfigId, hoookIds) {
+async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
   const metricAlertingConfig = {
     detectionConfigurationId: detectionConfigId,
@@ -208,13 +206,13 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hoook
       onlyForSuccessive: true
     }
   };
-  return await adminClient.createAnomalyAlertConfiguration(
-    "test_alert_config_" + new Date().getTime().toString(),
-    "AND",
-    [metricAlertingConfig],
-    hoookIds,
-    "Alerting config description"
-  );
+  return await adminClient.createAnomalyAlertConfiguration({
+    name: "test_alert_config_" + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [metricAlertingConfig],
+    hookIds,
+    description: "Alerting config description"
+  });
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
