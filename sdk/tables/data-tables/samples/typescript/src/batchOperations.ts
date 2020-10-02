@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient } from "../../..";
+import { TableClient } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
