@@ -176,7 +176,7 @@ export class TableBatchImpl implements TableBatch {
       });
       throw error;
     } finally {
-      span.end;
+      span.end();
     }
   }
 

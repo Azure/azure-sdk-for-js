@@ -8,7 +8,7 @@ import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedCli
 import { isNode } from "@azure/core-http";
 
 if (isNode || isLiveMode()) {
-  describe.only("batch operations", () => {
+  describe("batch operations", () => {
     let client: TableClient;
     let recorder: Recorder;
     const suffix = isNode ? "node" : "browser";
