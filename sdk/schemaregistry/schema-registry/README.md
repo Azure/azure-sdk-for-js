@@ -5,6 +5,11 @@ providing schema storage, versioning, and management. The registry is leveraged
 by serializers to reduce payload size while describing payload structure with
 schema identifiers rather than full schemas.
 
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry) |
+[Package (npm)](https://www.npmjs.com/package/@azure/schema-registry) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/samples)
+
 ## Getting started
 
 - Node.js version 8.x.x or higher
@@ -58,7 +63,7 @@ schema registry.
 
 ### SchemaRegistry serializers
 
-- [@azure/schema-registry-avro](https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro/)
+- [@azure/schema-registry-avro](https://www.npmjs.com/package/@azure/schema-registry-avro)
   is a separate package that uses `SchemaRegistryClient` to pair schema ID along
   with Avro Binary Encoding.
 
