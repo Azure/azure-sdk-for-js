@@ -49,7 +49,7 @@ describe("PhoneNumberAdministrationClient - Long Running Operations [Playback/Li
     const searchOptions: CreateSearchOptions = {
       quantity: 1
     };
-    const poller = await client.beginCreateSearch(searchRequest, searchOptions);
+    const poller = await client.beginPhoneNumberSearch(searchRequest, searchOptions);
     assert.ok(poller.getOperationState().isStarted);
 
     const phoneNumberSearch: PhoneNumberSearch = await poller.pollUntilDone();

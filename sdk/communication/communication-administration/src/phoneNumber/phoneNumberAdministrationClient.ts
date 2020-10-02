@@ -954,8 +954,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const { searchId } = await client.createSearch(SEARCH_REQUEST);
-   * const searchPoller = await client.beginCancelSearch(searchId);
+   * const searchPoller = await client.beginPhoneNumberSearch(SEARCH_REQUEST);
    *
    * // Serializing the poller
    * const serialized = searchPoller.toString();
@@ -968,7 +967,7 @@ export class PhoneNumberAdministrationClient {
    * @param {CreateSearchRequest} searchId Request properties to constraint the search scope.
    * @param {CreateSearchOptions} options Additional request options.
    */
-  public async beginCreateSearch(
+  public async beginPhoneNumberSearch(
     searchRequest: CreateSearchRequest,
     options: CreateSearchOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
@@ -989,7 +988,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const searchPoller = await client.beginCreateSearch(SEARCH_REQUEST);
+   * const searchPoller = await client.beginPhoneNumberSearch(SEARCH_REQUEST);
    * const { searchId } = await searchPoller.pollUntilDone();
    * const cancelPoller = await client.beginCancelSearch(searchId);
    *
@@ -1025,7 +1024,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const searchPoller = await client.beginCreateSearch(SEARCH_REQUEST);
+   * const searchPoller = await client.beginPhoneNumberSearch(SEARCH_REQUEST);
    * const { searchId } = await searchPoller.pollUntilDone();
    * const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
    *

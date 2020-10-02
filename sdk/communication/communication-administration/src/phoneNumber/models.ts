@@ -289,11 +289,6 @@ export interface CreateSearchOptions extends SearchPollerOptions {
 }
 
 /**
- * Represents optional parameters that can be passed to beginRefreshSearch poller.
- */
-export interface BeginRefreshSearchOptions extends SearchPollerOptions {}
-
-/**
  * Represents optional parameters that can be passed to beginCancelSearch poller.
  */
 export interface BeginCancelSearchOptions extends SearchPollerOptions {}

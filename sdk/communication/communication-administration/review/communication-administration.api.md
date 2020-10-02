@@ -52,10 +52,6 @@ export interface BeginPurchasePhoneNumbersOptions extends SearchPollerOptions {
 }
 
 // @public
-export interface BeginRefreshSearchOptions extends SearchPollerOptions {
-}
-
-// @public
 export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
 
 // @public
@@ -279,7 +275,7 @@ export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     beginCancelSearch(searchId: string, options?: BeginCancelSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
-    beginCreateSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    beginPhoneNumberSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
