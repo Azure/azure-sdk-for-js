@@ -479,6 +479,8 @@ export class TableClient {
     return mappedQuery;
   }
 
+  // REMOVE
+
   /**
    *
    * Creates an instance of TableClient from connection string.
