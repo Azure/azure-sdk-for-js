@@ -18,8 +18,6 @@ export async function batchOperations() {
   // See authenticationMethods sample for other options of creating a new client
   const client = TableClient.fromConnectionString(connectionString, tableName);
 
-  // await client.create();
-
   const partitionKey = "Stationery";
 
   const entities: Entity[] = [
@@ -55,9 +53,28 @@ export async function batchOperations() {
   // Submit the batch
   const response = await batch.submitBatch();
 
-  console.log(response);
-
-  // await client.delete();
+  console.log(response.subResponses);
+  // Output:
+  // [
+  //   {
+  //     status: 204,
+  //     body: undefined,
+  //     rowKey: 'A1',
+  //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
+  //   },
+  //   {
+  //     status: 204,
+  //     body: undefined,
+  //     rowKey: 'A2',
+  //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
+  //   },
+  //   {
+  //     status: 204,
+  //     body: undefined,
+  //     rowKey: 'A3',
+  //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
+  //   }
+  // ]
 }
 
 interface Entity {

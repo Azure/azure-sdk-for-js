@@ -543,7 +543,7 @@ export interface TableBatchResponse {
   /**
    * Collection of sub responses
    */
-  responses: TableBatchEntityResponse[];
+  subResponses: TableBatchEntityResponse[];
   /**
    * Main Batch request status code
    */

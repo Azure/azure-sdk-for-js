@@ -331,8 +331,8 @@ export interface TableBatchOptions {
 // @public
 export interface TableBatchResponse {
     getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
-    responses: TableBatchEntityResponse[];
     status: number;
+    subResponses: TableBatchEntityResponse[];
 }
 
 // @public

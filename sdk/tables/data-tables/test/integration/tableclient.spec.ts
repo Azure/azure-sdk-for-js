@@ -373,7 +373,7 @@ describe("TableClient", () => {
         await batch.createEntities(testEntities);
         const result = await batch.submitBatch();
         assert.equal(result.status, 202);
-        assert.lengthOf(result.responses, 3);
+        assert.lengthOf(result.subResponses, 3);
         testEntities.forEach((entity) => {
           const subResponse = result.getResponseForEntity(entity.rowKey);
           assert.equal(subResponse?.status, 204);
@@ -395,8 +395,8 @@ describe("TableClient", () => {
         });
 
         assert.equal(batchResult.status, 202);
-        assert.lengthOf(batchResult.responses, 3);
-        batchResult.responses.forEach((subResponse) => {
+        assert.lengthOf(batchResult.subResponses, 3);
+        batchResult.subResponses.forEach((subResponse) => {
           assert.equal(subResponse?.status, 204);
         });
 
@@ -411,8 +411,8 @@ describe("TableClient", () => {
         testEntities.forEach((entity) => batch.deleteEntity(entity.partitionKey, entity.rowKey));
         const result = await batch.submitBatch();
         assert.equal(result.status, 202);
-        assert.lengthOf(result.responses, 3);
-        result.responses.forEach((subResponse) => {
+        assert.lengthOf(result.subResponses, 3);
+        result.subResponses.forEach((subResponse) => {
           assert.equal(subResponse?.status, 204);
         });
       });
@@ -423,9 +423,9 @@ describe("TableClient", () => {
         batch.createEntities(testEntities);
         const result = await batch.submitBatch();
         assert.equal(result.status, 202);
-        assert.lengthOf(result.responses, 1);
+        assert.lengthOf(result.subResponses, 1);
 
-        const subResponse = result.responses[0];
+        const subResponse = result.subResponses[0];
         assert.equal(subResponse?.status, 404);
         assert.equal(subResponse?.body["odata.error"]["code"], "TableNotFound");
       });

@@ -205,7 +205,7 @@ function parseBatchResponse(response: HttpOperationResponse): TableBatchResponse
 
   return {
     status,
-    responses,
+    subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
   };
 }
