@@ -1,7 +1,10 @@
 # Release History
 
 ## 1.2.0-beta.2 (Unreleased)
-- Reverted change in 1.2.0-beta.1 which moved @rollup/plugin-json from devDependencies to dependencies
+
+- `DefaultAzureCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
+- `ManagedIdentityCredential` has been aligned with other languages, now treating expected errors properly. This fixes customer issue [11451](https://github.com/Azure/azure-sdk-for-js/issues/11451).
+- Reverted a change in 1.2.0-beta.1 which moved `@rollup/plugin-json` from `devDependencies` to `dependencies`. `@rollup/plugin-json` was placed as a dependency due to an oversight, and it is not a necessary dependency for `@azure/identity`.
 
 ## 1.2.0-beta.1 (2020-09-08)
 

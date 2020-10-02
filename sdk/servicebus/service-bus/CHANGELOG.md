@@ -8,6 +8,8 @@
   [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
 - `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
   [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
+- "properties" in the correlation rule filter now supports `Date`.
+  [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
 
 ### Breaking changes
 

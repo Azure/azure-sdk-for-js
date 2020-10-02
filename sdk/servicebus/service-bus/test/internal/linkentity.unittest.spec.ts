@@ -26,9 +26,15 @@ describe("LinkEntity unit tests", () => {
 
   beforeEach(function() {
     connectionContext = createConnectionContextForTests();
-    linkEntity = new LinkForTests("some initial name", connectionContext, "sr", {
-      address: "my-address"
-    });
+    linkEntity = new LinkForTests(
+      "some initial name",
+      "some initial name",
+      connectionContext,
+      "sr",
+      {
+        address: "my-address"
+      }
+    );
   });
 
   afterEach(async () => {

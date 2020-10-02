@@ -21,12 +21,6 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
 };
 
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
-
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
@@ -56,14 +50,11 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedCommunicationIdentityClient(
-  context: Context,
-  connectionString: string = testEnv.COMMUNICATION_CONNECTION_STRING
-): RecordedClient {
+export function createRecordedCommunicationIdentityClient(context: Context): RecordedClient {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new CommunicationIdentityClient(connectionString),
+    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder
   };
 }

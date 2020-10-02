@@ -3,6 +3,12 @@
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
+  SearchIndexingBufferedSender,
+  DEFAULT_BATCH_SIZE,
+  DEFAULT_FLUSH_WINDOW,
+  DEFAULT_RETRY_COUNT
+} from "./searchIndexingBufferedSender";
+export {
   AutocompleteRequest,
   AutocompleteOptions,
   CountDocumentsOptions,
@@ -25,7 +31,13 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
-  UploadDocumentsOptions
+  UploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderDeleteDocumentsOptions,
+  SearchIndexingBufferedSenderFlushDocumentsOptions,
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";

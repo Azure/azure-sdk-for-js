@@ -55,6 +55,7 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
+const randomDate = new Date();
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
@@ -1771,7 +1772,8 @@ describe("Atom management - Authentication", function(): void {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
-          randomBool: true
+          randomBool: true,
+          randomDate: randomDate
         }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
@@ -1790,7 +1792,8 @@ describe("Atom management - Authentication", function(): void {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
-          randomBool: true
+          randomBool: true,
+          randomDate: randomDate
         }
       },
       action: {

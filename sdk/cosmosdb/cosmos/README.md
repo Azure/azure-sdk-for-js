@@ -259,7 +259,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [cosmos_item]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-items
 [cosmos_request_units]: https://docs.microsoft.com/azure/cosmos-db/request-units
 [cosmos_resources]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items
-[cosmos_samples]: ./samples
+[cosmos_samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples
 [cosmos_sql_queries]: https://docs.microsoft.com/azure/cosmos-db/how-to-sql-query
 [cosmos_ttl]: https://docs.microsoft.com/azure/cosmos-db/time-to-live
 [npm]: https://www.npmjs.com/package/@azure/cosmos

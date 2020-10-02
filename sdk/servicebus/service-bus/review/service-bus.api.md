@@ -89,7 +89,7 @@ export interface CorrelationRuleFilter {
     label?: string;
     messageId?: string;
     properties?: {
-        [key: string]: string | number | boolean;
+        [key: string]: string | number | boolean | Date;
     };
     replyTo?: string;
     replyToSessionId?: string;
