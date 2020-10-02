@@ -13,6 +13,7 @@ import {
 import fs from "fs";
 import util from "util";
 const writeFile = util.promisify(fs.writeFile);
+const appendFile = util.promisify(fs.appendFile);
 
 interface OperationInfo {
   numberOfSuccesses: number;
@@ -77,6 +78,8 @@ export class SBStressTestsBase {
     process.env.SERVICEBUS_CONNECTION_STRING!
   );
   queueName!: string;
+  reportFileName: string;
+  errorsFileName: string;
 
   constructor(private snapshotOptions: SnapshotOptions) {
     if (!this.snapshotOptions.snapshotFocus) {
@@ -102,6 +105,8 @@ export class SBStressTestsBase {
     this.queueName =
       (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
+    this.reportFileName = `temp/report-${this.queueName}.txt`;
+    this.errorsFileName = `temp/errors-${this.queueName}.txt`;
   }
 
   public async sendMessages(
@@ -272,64 +277,64 @@ export class SBStressTestsBase {
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
   }
 
-  public snapshot(): void {
-    // TODO: Save to a file as a table
-    // TODO: Log all the output to a file too
-    console.log("Queue name: ", this.queueName);
-    console.log("Time : ", new Date());
+  public async snapshot(): Promise<void> {
+    // TODO: get the options being set in the logs
+    // TODO: Get a title passed from the scenario file
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
-    // console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
     const memoryUsage = process.memoryUsage();
-    console.log("Space occupied for the process(rss): ", memoryUsage.rss);
-    console.log("Memory Consumed(heapUsed): ", memoryUsage.heapUsed);
-    console.log("Number of messages sent so far : ", this.messagesSent.length);
-    console.log("Number of messages received so far : ", this.messagesReceived.length);
-
-    if (this.snapshotOptions.snapshotFocus.includes("send-info")) {
-      console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccesses);
-      console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailures);
-      console.log(
-        "(Avg)Number of sends per sec: ",
-        this.sendInfo.numberOfSuccesses / elapsedTimeInSeconds
-      );
-    }
-    if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
-      console.log("Number of successful receives so far : ", this.receiveInfo.numberOfSuccesses);
-      console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailures);
-      console.log(
-        "(Avg)Number of receives per sec: ",
-        this.receiveInfo.numberOfSuccesses / elapsedTimeInSeconds
-      );
-    }
-    if (this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")) {
-      console.log(
-        "Number of successful message lock renewals so far : ",
-        this.messageLockRenewalInfo.numberOfSuccesses
-      );
-      console.log(
-        "Number of failed message lock renewals so far : ",
-        this.messageLockRenewalInfo.numberOfFailures
-      );
-      console.log(
-        "(Avg)Number of message lock renewals per sec: ",
-        this.messageLockRenewalInfo.numberOfSuccesses / elapsedTimeInSeconds
-      );
-    }
-    if (this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")) {
-      console.log(
-        "Number of successful session lock renewals so far : ",
-        this.sessionLockRenewalInfo.numberOfSuccesses
-      );
-      console.log(
-        "Number of failed session lock renewals so far : ",
-        this.sessionLockRenewalInfo.numberOfFailures
-      );
-      console.log(
-        "(Avg)Number of session lock renewals per sec: ",
-        this.sessionLockRenewalInfo.numberOfSuccesses / elapsedTimeInSeconds
-      );
-    }
-    console.log("\n");
+    const currentSnapshot = [
+      `Time: ${new Date().toJSON()}`,
+      `Elapsed time in seconds: ${elapsedTimeInSeconds}`,
+      `Queue name: ${this.queueName}`,
+      `Space occupied for the process(rss): ${memoryUsage.rss}`,
+      `Memory Consumed(heapUsed): ${memoryUsage.heapUsed}`,
+      `Number of messages sent so far: ${this.messagesSent.length}`,
+      `Number of messages received so far: ${this.messagesReceived.length}`
+    ]
+      .concat(
+        this.snapshotOptions.snapshotFocus.includes("send-info")
+          ? [
+              `Number of successful sends so far: ${this.sendInfo.numberOfSuccesses}`,
+              `Number of failed sends so far: ${this.sendInfo.numberOfFailures}`,
+              `(Avg)Number of sends per sec: ${this.sendInfo.numberOfSuccesses /
+                elapsedTimeInSeconds}`
+            ]
+          : []
+      )
+      .concat(
+        this.snapshotOptions.snapshotFocus.includes("receive-info")
+          ? [
+              `Number of successful receives so far: ${this.receiveInfo.numberOfSuccesses}`,
+              `Number of failed receives so far: ${this.receiveInfo.numberOfFailures}`,
+              `(Avg)Number of receives per sec: ${this.receiveInfo.numberOfSuccesses /
+                elapsedTimeInSeconds}`
+            ]
+          : []
+      )
+      .concat(
+        this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")
+          ? [
+              `Number of successful message lock renewals so far: ${this.messageLockRenewalInfo.numberOfSuccesses}`,
+              `Number of failed message lock renewals so far: ${this.messageLockRenewalInfo.numberOfFailures}`,
+              `(Avg)Number of message lock renewals per sec: ${this.messageLockRenewalInfo
+                .numberOfSuccesses / elapsedTimeInSeconds}`
+            ]
+          : []
+      )
+      .concat(
+        this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")
+          ? [
+              `Number of successful session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfSuccesses}`,
+              `Number of failed session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfFailures}`,
+              `(Avg)Number of session lock renewals per sec: ${this.sessionLockRenewalInfo
+                .numberOfSuccesses / elapsedTimeInSeconds}`
+            ]
+          : []
+      )
+      .reduce((output, entry) => output + "\n" + entry)
+      .concat("\n\n");
+    await appendFile(this.reportFileName, currentSnapshot);
+    console.log(currentSnapshot);
   }
 
   public async end() {
@@ -342,8 +347,8 @@ export class SBStressTestsBase {
     );
     if (errors.length) {
       await writeFile(
-        `errors-logged-${this.queueName}`,
-        errors.reduce((output, error) => output + "\n" + error)
+        `errors-logged-${this.queueName}.txt`,
+        errors.reduce((output, entry) => output + "\n" + entry)
       );
     }
     // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
