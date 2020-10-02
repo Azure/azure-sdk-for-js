@@ -41,7 +41,7 @@ Phone numbers can be assigned to a callback URL via the configure number API. As
 
 ## Authentication
 
-You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you may authenticate the `CommunicationIdentityClient` and `PhoneNumberAdministrationClient` with any of the following methods:
+You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you can authenticate the `CommunicationIdentityClient` and `PhoneNumberAdministrationClient` with any of the following methods:
 
 ### Create `KeyCredential` with `AzureKeyCredential` before initializing the client
 
