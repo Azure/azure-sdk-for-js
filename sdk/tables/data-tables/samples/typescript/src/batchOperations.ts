@@ -9,6 +9,14 @@ dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
+interface Entity {
+  partitionKey: string;
+  rowKey: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 export async function batchOperations() {
   console.log("== Batch Operations Sample ==");
 
@@ -77,18 +85,6 @@ export async function batchOperations() {
   // ]
 }
 
-interface Entity {
-  partitionKey: string;
-  rowKey: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-export async function main() {
-  await batchOperations();
-}
-
-main().catch((err) => {
+batchOperations().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
