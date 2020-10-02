@@ -31,7 +31,7 @@ async function createWebHook(client) {
   console.log("Creating a new web hook...");
   const hook = {
     hookType: "Webhook",
-    hookName: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -50,7 +50,7 @@ async function createEmailHook(client) {
   console.log("Creating a new email hook...");
   const hook = {
     hookType: "Email",
-    hookName: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };

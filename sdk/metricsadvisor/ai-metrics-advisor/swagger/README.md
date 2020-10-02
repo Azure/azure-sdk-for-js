@@ -26,7 +26,7 @@ use-extension:
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
-### Metric output type - remvoing metric prefix from property names
+### Metric output type - remvoing `metric` prefix from property names and add description
 
 ```yaml
 directive:
@@ -37,9 +37,10 @@ directive:
       $.properties.metricName["x-ms-client-name"] = "name";
       $.properties.metricDisplayName["x-ms-client-name"] = "displayName";
       $.properties.metricDescription["x-ms-client-name"] = "description";
+      $.description = "Represents a metric of an ingested data feed"
 ```
 
-### Dimension output type - remvoing metric prefix from property names
+### Dimension output type - remvoing `dimension` prefix from property names and add description
 
 ```yaml
 directive:
@@ -48,6 +49,18 @@ directive:
     transform: >
       $.properties.dimensionName["x-ms-client-name"] = "name";
       $.properties.dimensionDisplayName["x-ms-client-name"] = "displayName";
+      $.description = "Represents a dimension of an ingested data feed"
+```
+
+### Hook output type - remvoing `hook` prefix from property names
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HookInfo
+    transform: >
+      $.properties.hookId["x-ms-client-name"] = "id";
+      $.properties.hookName["x-ms-client-name"] = "name";
 ```
 
 ### Add x-ms-paths section if not exists
