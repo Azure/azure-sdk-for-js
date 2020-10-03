@@ -72,7 +72,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Key concepts
 
-- `TableServiceClient` - Client that provides functions to interact at a Table Service level sucn as create, list and delete tables
+- `TableServiceClient` - Client that provides functions to interact at a Table Service level such as create, list and delete tables
 
 - `TableClient` - Client that provides functions to interact at an entity level such as create, list and delete entities within a table.
 
@@ -275,7 +275,7 @@ async function main() {
   let entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
-    console.log(`Entity${i}: PartitionKey: ${entity.PartitionKey} RowKey: ${entity.RowKey}`);
+    console.log(`Entity${i}: PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey}`);
     i++;
     // Output:
     // Entity1: PartitionKey: P1 RowKey: R1
