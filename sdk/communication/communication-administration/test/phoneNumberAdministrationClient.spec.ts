@@ -9,6 +9,7 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
+  let shouldRunTNMTests: boolean;
   let phonePlanGroupId: string;
   let phonePlanId: string;
   let locationOptions: LocationOptions | undefined;
@@ -16,7 +17,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   const countryCode = "US";
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedPhoneNumberAdministrationClient(this));
+    ({ client, recorder, shouldRunTNMTests } = createRecordedPhoneNumberAdministrationClient(this));
   });
 
   afterEach(async function() {
@@ -26,6 +27,10 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get phonePlanGroupId and phonePlanId for other tests", async function() {
+    if (!shouldRunTNMTests) {
+      this.skip();
+    }
+
     for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
       assert.isString(phonePlanGroup.phonePlanGroupId);
       ({ phonePlanGroupId } = phonePlanGroup);
@@ -47,6 +52,10 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   }).timeout(5000);
 
   it("can get location options", async function() {
+    if (!shouldRunTNMTests) {
+      this.skip();
+    }
+
     ({ locationOptions } = await client.getPhonePlanLocationOptions({
       countryCode,
       phonePlanGroupId,
@@ -59,6 +68,10 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get area codes", async function() {
+    if (!shouldRunTNMTests) {
+      this.skip();
+    }
+
     const { primaryAreaCodes } = await client.getAreaCodes(
       {
         locationType: "selection",
@@ -77,6 +90,10 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can start a phone number search", async function() {
+    if (!shouldRunTNMTests) {
+      this.skip();
+    }
+
     ({ searchId } = await client.createSearch({
       phonePlanIds: [phonePlanId],
       areaCode: "800",

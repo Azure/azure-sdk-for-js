@@ -19,8 +19,7 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  PHONE_PLAN_IDS: "phone-plan-id-1",
-  AREA_CODE_FOR_SEARCH: "555"
+  SHOULD_RUN_TNM_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -70,8 +69,6 @@ export function createRecordedCommunicationIdentityClient(
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
-  phonePlanIds: string;
-  areaCodeForSearch: string;
   shouldRunTNMTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
@@ -79,8 +76,6 @@ export function createRecordedPhoneNumberAdministrationClient(
   return {
     client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
-    phonePlanIds: env.PHONE_PLAN_IDS,
-    areaCodeForSearch: env.AREA_CODE_FOR_SEARCH,
     shouldRunTNMTests: env.SHOULD_RUN_TNM_TESTS === "true"
   };
 }

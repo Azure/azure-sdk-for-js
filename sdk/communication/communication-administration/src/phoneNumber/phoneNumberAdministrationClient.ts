@@ -391,7 +391,7 @@ export class PhoneNumberAdministrationClient {
   ): Promise<GetAreaCodesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
-      Object.assign(options, { locationOptions })
+      Object.assign(options, locationOptions)
     );
     const { countryCode: country, locationType, phonePlanId } = request;
     try {

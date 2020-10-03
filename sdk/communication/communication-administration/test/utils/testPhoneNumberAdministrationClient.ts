@@ -184,6 +184,15 @@ export class TestPhoneNumberAdministrationClient {
       httpClient: getAreaCodesHttpClient
     });
 
-    return client.getAreaCodes(request, {}, options);
+    return client.getAreaCodes(
+      request,
+      {
+        locationOptions: [
+          { labelId: "state", optionsValue: "CA" },
+          { labelId: "city", optionsValue: "NOAM-US-CA-LA" }
+        ]
+      },
+      options
+    );
   }
 }
