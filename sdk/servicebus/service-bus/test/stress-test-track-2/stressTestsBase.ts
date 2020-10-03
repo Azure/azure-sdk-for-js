@@ -93,7 +93,7 @@ export class SBStressTestsBase {
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
     this.reportFileName = `temp/report-${this.queueName}.txt`;
     this.errorsFileName = `temp/errors-${this.queueName}.txt`;
-    this.messagesReportFileName = `temp/messages-${this.queueName}.txt`;
+    this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
   }
 
   public async sendMessages(
@@ -204,10 +204,8 @@ export class SBStressTestsBase {
         };
       if (path === "sent") {
         destination.sent = destination.sent + 1;
-        destination.received = 0;
       } else {
         destination.received = destination.received + 1;
-        destination.sent = 0;
       }
     });
   }
