@@ -9,8 +9,10 @@ export const HeaderConstants = {
   CONTENT_LENGTH: "content-length",
   CONTENT_MD5: "content-md5",
   CONTENT_TYPE: "content-type",
+  CONTENT_TRANSFER_ENCODING: "content-transfer-encoding",
   DATE: "date",
-  X_MS_DATE: "x-ms-date"
+  X_MS_DATE: "x-ms-date",
+  X_MS_VERSION: "x-ms-version"
 };
 
 export const TablesLoggingAllowedHeaderNames = [

@@ -305,10 +305,35 @@ export interface SignedIdentifier {
 }
 
 // @public
+export interface TableBatch {
+    createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+    createEntity: <T extends object>(entity: TableEntity<T>) => void;
+    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+    partitionKey: string;
+    submitBatch: () => Promise<TableBatchResponse>;
+    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
+}
+
+// @public
+export interface TableBatchEntityResponse {
+    etag?: string;
+    rowKey?: string;
+    status: number;
+}
+
+// @public
+export interface TableBatchResponse {
+    getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+    status: number;
+    subResponses: TableBatchEntityResponse[];
+}
+
+// @public
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+    createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
@@ -318,7 +343,7 @@ export class TableClient {
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
-}
+    }
 
 // @public
 export interface TableCreateHeaders {
@@ -532,7 +557,7 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
     sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResourceLike): WebResource;
+    signRequest(request: WebResourceLike): WebResource;
 }
 
 // @public
