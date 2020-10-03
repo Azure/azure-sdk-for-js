@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/core-http";
-import * as coreHttp from "@azure/core-http";
+import { Uuid } from "../../src/utils/uuid";
 import * as sinon from "sinon";
 
 if (isNode || isLiveMode()) {
@@ -28,7 +28,7 @@ if (isNode || isLiveMode()) {
     const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
     beforeEach(async function() {
-      sinon.stub(coreHttp, "generateUuid").returns("fakeId");
+      sinon.stub(Uuid, "generateUuid").returns("fakeId");
       // eslint-disable-next-line no-invalid-this
       recorder = record(this, recordedEnvironmentSetup);
       client = createTableClient(tableName, authMode);

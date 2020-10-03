@@ -41,14 +41,14 @@ import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
-  ServiceClientOptions,
-  generateUuid
+  ServiceClientOptions
 } from "@azure/core-http";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
+import { Uuid } from "./utils/uuid";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -506,8 +506,8 @@ export class TableClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createBatch(partitionKey: string): TableBatch {
-    const batchId = generateUuid();
-    const changesetId = generateUuid();
+    const batchId = Uuid.generateUuid();
+    const changesetId = Uuid.generateUuid();
     const innerBatchRequest = createInnerBatchRequest(batchId, changesetId);
     const internalClientOptions: InternalBatchClientOptions = { innerBatchRequest };
     const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
