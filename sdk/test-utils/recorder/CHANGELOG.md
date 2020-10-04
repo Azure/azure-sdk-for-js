@@ -4,7 +4,7 @@
 
 ## 2020-08-27
 
-- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048) fixed the issue if the status code in the response is 200. Now, allowing the rest of the "successful" status codes(200-206).
+- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048) fixed the issue if the status code in the response is 200. Now, allowing the rest of the "successful" status codes(200-299).
   [#10892](https://github.com/Azure/azure-sdk-for-js/pull/10892)
 
 ## 2020-08-21
