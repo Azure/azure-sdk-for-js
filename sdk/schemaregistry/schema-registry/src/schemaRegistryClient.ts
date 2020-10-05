@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SerializationType } from "./generated/models";
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-http";
 import { createPipeline } from "./pipeline";
@@ -63,10 +62,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     const response = await this.client.schema.register(
       schema.group,
       schema.name,
-      // cast due to https://github.com/Azure/autorest.typescript/issues/715
-      // serialization type is an extensible enum, and therefore any string
-      // should be allowed.
-      schema.serializationType as SerializationType,
+      schema.serializationType,
       schema.content,
       options
     );
@@ -84,10 +80,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     const response = await this.client.schema.queryIdByContent(
       schema.group,
       schema.name,
-      // cast due to https://github.com/Azure/autorest.typescript/issues/715
-      // serialization type is an extensible enum, and therefore any string
-      // should be allowed.
-      schema.serializationType as SerializationType,
+      schema.serializationType,
       schema.content,
       options
     );
