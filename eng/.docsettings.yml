@@ -13,6 +13,7 @@ omitted_paths:
   - sdk/eventhub/*/test/README.md
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
+  - sdk/servicebus/service-bus/test/stress-test-track-2/README.md
   - sdk/schemaregistry/README.md
   - sdk/servicebus/service-bus/samples-v1/*
   - sdk/storage/*/test/README.md
