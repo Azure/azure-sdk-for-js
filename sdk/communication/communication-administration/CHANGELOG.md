@@ -2,6 +2,7 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+Added support for phone number administration.
 
 ## 1.0.0-beta.1 (2020-09-22)
 

@@ -1,0 +1,24 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/administration/phonenumbers/countries/US/areacodes",
+      "query": {
+        "locationType": "selection",
+        "phonePlanId": "sanitized",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": "{\"locationOptions\":[{\"labelId\":\"state\",\"optionsValue\":\"CA\"},{\"labelId\":\"city\",\"optionsValue\":\"NOAM-US-CA-LA\"}]}",
+      "status": 200,
+      "response": "{\"primaryAreaCodes\":[],\"secondaryAreaCodes\":[],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "3673b002ef2ebea06100d51b1e83fbe6"
+}
