@@ -53,9 +53,14 @@ export async function scenarioReceiveBatch() {
     totalNumberOfMessagesToSend
   } = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
 
+  // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
+  const testDurationForSendInMs = testDurationInMs * 0.7;
+
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info", "receive-info"] });
+  const stressBase = new SBStressTestsBase({
+    snapshotFocus: ["send-info", "receive-info"]
+  });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init();
@@ -73,7 +78,7 @@ export async function scenarioReceiveBatch() {
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
-      elapsedTime < testDurationInMs &&
+      elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);

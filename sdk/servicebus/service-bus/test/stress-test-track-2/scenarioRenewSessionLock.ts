@@ -59,6 +59,8 @@ export async function scenarioRenewSessionLock() {
     totalNumberOfMessagesToSend,
     autoLockRenewal
   } = sanitizeOptions(parsedArgs<ScenarioRenewSessionLockOptions>(process.argv));
+
+  const testDurationForSendInMs = testDurationInMs * 0.7;
   // Since we are focusing on session locks in this test
   const receiveMode = "receiveAndDelete";
 
@@ -75,7 +77,7 @@ export async function scenarioRenewSessionLock() {
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
-      elapsedTime < testDurationInMs &&
+      elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend, true);

@@ -223,7 +223,7 @@ export class SBStressTestsBase {
     duration: number,
     completeMessageAfterDuration: boolean
   ) {
-    // TODO: pass in max number of lock renewals? and add settlement at the end of max??
+    // TODO: pass in max number of lock renewals?
     const startTime = new Date();
     this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string] = setTimeout(
       async () => {

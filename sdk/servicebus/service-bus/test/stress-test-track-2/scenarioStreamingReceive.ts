@@ -59,6 +59,7 @@ export async function scenarioStreamingReceive() {
     completeMessageAfterDuration
   } = sanitizeOptions(parsedArgs<ScenarioStreamingReceiveOptions>(process.argv));
 
+  const testDurationForSendInMs = testDurationInMs * 0.7;
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
@@ -82,7 +83,7 @@ export async function scenarioStreamingReceive() {
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
-      elapsedTime < testDurationInMs &&
+      elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);

@@ -17,6 +17,7 @@ interface ScenarioRenewMessageLockOptions {
   numberOfMessagesPerSend?: number;
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
+  completeMessageAfterDuration?: boolean;
 }
 
 function sanitizeOptions(
@@ -29,7 +30,8 @@ function sanitizeOptions(
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    completeMessageAfterDuration: options.completeMessageAfterDuration || true
   };
 }
 
@@ -44,8 +46,13 @@ export async function main() {
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
+    completeMessageAfterDuration
   } = sanitizeOptions(parsedArgs<ScenarioRenewMessageLockOptions>(process.argv));
+
+  const testDurationForSendInMs = testDurationInMs * 0.7;
+  // TODO: Randomize the duration to renew locks
+  const testDurationForLockRenewalInMs = testDurationInMs * 0.5;
 
   const startedAt = new Date();
 
@@ -61,7 +68,7 @@ export async function main() {
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
-      elapsedTime < testDurationInMs &&
+      elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);
@@ -79,7 +86,13 @@ export async function main() {
         receiveBatchMaxWaitTimeInMs
       );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      messages.map((msg) => stressBase.renewMessageLockUntil(msg, testDurationInMs - elapsedTime));
+      messages.map((msg) =>
+        stressBase.renewMessageLockUntil(
+          msg,
+          testDurationForLockRenewalInMs - elapsedTime,
+          completeMessageAfterDuration
+        )
+      );
       await delay(delayBetweenReceivesInMs);
     }
   }
