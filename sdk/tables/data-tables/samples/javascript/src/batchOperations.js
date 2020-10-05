@@ -1,21 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient } from "@azure/data-tables";
+const { TableClient } = require("@azure/data-tables");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-
-interface Entity {
-  partitionKey: string;
-  rowKey: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
 
 async function batchOperations() {
   console.log("== Batch Operations Sample ==");
@@ -28,7 +20,7 @@ async function batchOperations() {
 
   const partitionKey = "Stationery";
 
-  const entities: Entity[] = [
+  const entities = [
     {
       partitionKey,
       rowKey: "A1",
