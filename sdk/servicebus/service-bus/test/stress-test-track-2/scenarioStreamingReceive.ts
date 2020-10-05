@@ -25,6 +25,7 @@ interface ScenarioStreamingReceiveOptions {
   numberOfMessagesPerSend?: number;
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
+  completeMessageAfterDuration?: boolean;
 }
 
 function sanitizeOptions(
@@ -39,7 +40,8 @@ function sanitizeOptions(
     manualLockRenewal: options.manualLockRenewal || true,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    completeMessageAfterDuration: options.completeMessageAfterDuration || true
   };
 }
 
@@ -53,7 +55,8 @@ export async function scenarioStreamingReceive() {
     maxAutoRenewLockDurationInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
+    completeMessageAfterDuration
   } = sanitizeOptions(parsedArgs<ScenarioStreamingReceiveOptions>(process.argv));
 
   const startedAt = new Date();
@@ -95,7 +98,8 @@ export async function scenarioStreamingReceive() {
       autoComplete,
       maxConcurrentCalls,
       maxAutoRenewLockDurationInMs,
-      manualLockRenewal
+      manualLockRenewal,
+      completeMessageAfterDuration
     })
   ]);
   await sbClient.close();

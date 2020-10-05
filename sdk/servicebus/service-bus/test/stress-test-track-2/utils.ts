@@ -31,7 +31,12 @@ export interface SnapshotOptions {
 }
 
 export interface TrackedMessageIdsInfo {
-  [key: string]: { sent: number; received: number };
+  [key: string]: {
+    sentCount: number;
+    receivedCount: number;
+    settledCount: number;
+    errors: any[];
+  };
 }
 
 export function generateMessage(useSessions: boolean) {
@@ -52,15 +57,15 @@ export async function saveDiscrepanciesFromTrackedMessages(
     messages_sent_multiple_times: []
   };
   for (const id in trackedMessageIds) {
-    if (trackedMessageIds[id].sent <= 0) {
+    if (trackedMessageIds[id].sentCount <= 0) {
       // Message was not sent but received
       output.messages_not_sent_but_received.push(id);
     }
-    if (trackedMessageIds[id].received === 0) {
+    if (trackedMessageIds[id].receivedCount === 0) {
       // Message was sent but not received - message loss
       output.messages_sent_but_never_received.push(id);
     }
-    if (trackedMessageIds[id].sent > 1) {
+    if (trackedMessageIds[id].sentCount > 1) {
       // Message was sent multiple times
       output.messages_sent_multiple_times.push(id);
     }

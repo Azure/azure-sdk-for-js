@@ -153,7 +153,7 @@ export class SBStressTestsBase {
     options: Pick<
       SubscribeOptions,
       "autoComplete" | "maxConcurrentCalls" | "maxAutoRenewLockDurationInMs"
-    > & { manualLockRenewal: boolean }
+    > & { manualLockRenewal: boolean; completeMessageAfterDuration: boolean }
   ) {
     const startTime = new Date();
     const processMessage = async (
@@ -171,7 +171,8 @@ export class SBStressTestsBase {
         ) {
           this.renewMessageLockUntil(
             message as ServiceBusReceivedMessageWithLock,
-            duration - elapsedTime
+            duration - elapsedTime,
+            options.completeMessageAfterDuration
           );
         }
       }
@@ -199,22 +200,29 @@ export class SBStressTestsBase {
       let destination = this.trackedMessageIds[msg.messageId as string];
       if (!destination)
         destination = this.trackedMessageIds[msg.messageId as string] = {
-          sent: 0,
-          received: 0
+          sentCount: 0,
+          receivedCount: 0,
+          settledCount: 0,
+          errors: []
         };
       if (path === "sent") {
-        destination.sent = destination.sent + 1;
+        destination.sentCount = destination.sentCount + 1;
       } else {
-        destination.received = destination.received + 1;
+        destination.receivedCount = destination.receivedCount + 1;
       }
     });
   }
 
   /**
    * @param {ServiceBusReceivedMessageWithLock} message
-   * @param {number} duration Duration until which the lock is renewed
+   * @param {number} duration
+   * @param {boolean} completeMessageAfterDuration
    */
-  public renewMessageLockUntil(message: ServiceBusReceivedMessageWithLock, duration: number) {
+  public renewMessageLockUntil(
+    message: ServiceBusReceivedMessageWithLock,
+    duration: number,
+    completeMessageAfterDuration: boolean
+  ) {
     // TODO: pass in max number of lock renewals? and add settlement at the end of max??
     const startTime = new Date();
     this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string] = setTimeout(
@@ -227,25 +235,38 @@ export class SBStressTestsBase {
           ];
           this.messageLockRenewalInfo.renewalCount[message.messageId as string] =
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
-          const elapsedTime = new Date().valueOf() - startTime.valueOf();
-          if (duration - elapsedTime > 0) {
-            this.renewMessageLockUntil(message, duration - elapsedTime);
-          } else {
-            // Code reaches here only after the duration given has passed by
-            // TODO: Settle the message maybe?
-            clearTimeout(
-              this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]
-            );
-          }
         } catch (error) {
           this.messageLockRenewalInfo.numberOfFailures++;
           this.messageLockRenewalInfo.errors.push(error);
           console.error("Error in message lock renewal: ", error);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
+        const elapsedTime = new Date().valueOf() - startTime.valueOf();
+        if (duration - elapsedTime > 0) {
+          this.renewMessageLockUntil(message, duration - elapsedTime, completeMessageAfterDuration);
+        } else {
+          await this.completeMessage(message);
+          clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
+        }
       },
       message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000
     );
+  }
+
+  /**
+   * completeMessage
+   */
+  public async completeMessage(message: ServiceBusReceivedMessageWithLock) {
+    try {
+      await message.complete();
+      this.trackedMessageIds[message.messageId! as string].settledCount++;
+    } catch (error) {
+      console.error("Error in message completion: ", error);
+      this.trackedMessageIds[message.messageId! as string].errors.push(
+        "Error in message completion: ",
+        error
+      );
+    }
   }
 
   /**

@@ -76,3 +76,4 @@ Here are the scenarios being covered and how you can run them.
    - numberOfMessagesPerSend (default = 1)
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
+   - completeMessageAfterDuration (default = true)
