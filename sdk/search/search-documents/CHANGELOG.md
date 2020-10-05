@@ -1,5 +1,8 @@
 # Release History
 
+## 11.1.0-beta.2 (Unreleased)
+
+
 ## 11.1.0-beta.1 (2020-10-05)
 
 - Added Batching ability to the search SDK. Please refer [#11544](https://github.com/Azure/azure-sdk-for-js/pull/11544) for further details.
