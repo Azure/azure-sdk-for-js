@@ -28,9 +28,9 @@ export interface ErrorAdditionalInfo {
 }
 
 /**
- * The resource management error response.
+ * The error object.
  */
-export interface ErrorResponse {
+export interface CloudErrorError {
   /**
    * The error code.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -50,12 +50,22 @@ export interface ErrorResponse {
    * The error details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: CloudError[];
   /**
    * The error additional info.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * The resource management error response.
+ */
+export interface CloudError {
+  /**
+   * The error object.
+   */
+  error?: CloudErrorError;
 }
 
 /**
@@ -364,14 +374,155 @@ export interface PolicySetDefinition extends BaseResource {
 }
 
 /**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The type of identity that last modified the resource.
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * The policy exemption.
+ */
+export interface PolicyExemption extends BaseResource {
+  /**
+   * The ID of the policy assignment that is being exempted.
+   */
+  policyAssignmentId: string;
+  /**
+   * The policy definition reference ID list when the associated policy assignment is an assignment
+   * of a policy set definition.
+   */
+  policyDefinitionReferenceIds?: string[];
+  /**
+   * The policy exemption category. Possible values are Waiver and Mitigated. Possible values
+   * include: 'Waiver', 'Mitigated'
+   */
+  exemptionCategory: ExemptionCategory;
+  /**
+   * The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy
+   * exemption.
+   */
+  expiresOn?: Date;
+  /**
+   * The display name of the policy exemption.
+   */
+  displayName?: string;
+  /**
+   * The description of the policy exemption.
+   */
+  description?: string;
+  /**
+   * The policy exemption metadata. Metadata is an open ended object and is typically a collection
+   * of key value pairs.
+   */
+  metadata?: any;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a ARM tracked top level resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
  * Optional Parameters.
  */
 export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    */
   filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
 }
 
 /**
@@ -379,10 +530,43 @@ export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msR
  */
 export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    */
   filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyAssignmentsListForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
 }
 
 /**
@@ -390,8 +574,235 @@ export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.R
  */
 export interface PolicyAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListBuiltInOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListBuiltInOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyExemptionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not
+   * provided, no filtering is performed. If $filter is not provided, the unfiltered list includes
+   * all policy exemptions associated with the scope, including those that apply directly or apply
+   * from containing scopes. If $filter=atScope() is provided, the returned list only includes all
+   * policy exemptions that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy exemptions that at the given scope. If
+   * $filter=excludeExpired() is provided, the returned list only includes all policy exemptions
+   * that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq
+   * '{value}' is provided. the returned list only includes all policy exemptions that are
+   * associated with the give policyAssignmentId.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyExemptionsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not
+   * provided, no filtering is performed. If $filter is not provided, the unfiltered list includes
+   * all policy exemptions associated with the scope, including those that apply directly or apply
+   * from containing scopes. If $filter=atScope() is provided, the returned list only includes all
+   * policy exemptions that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy exemptions that at the given scope. If
+   * $filter=excludeExpired() is provided, the returned list only includes all policy exemptions
+   * that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq
+   * '{value}' is provided. the returned list only includes all policy exemptions that are
+   * associated with the give policyAssignmentId.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyExemptionsListForResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not
+   * provided, no filtering is performed. If $filter is not provided, the unfiltered list includes
+   * all policy exemptions associated with the scope, including those that apply directly or apply
+   * from containing scopes. If $filter=atScope() is provided, the returned list only includes all
+   * policy exemptions that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy exemptions that at the given scope. If
+   * $filter=excludeExpired() is provided, the returned list only includes all policy exemptions
+   * that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq
+   * '{value}' is provided. the returned list only includes all policy exemptions that are
+   * associated with the give policyAssignmentId.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyExemptionsListForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not
+   * provided, no filtering is performed. If $filter is not provided, the unfiltered list includes
+   * all policy exemptions associated with the scope, including those that apply directly or apply
+   * from containing scopes. If $filter=atScope() is provided, the returned list only includes all
+   * policy exemptions that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy exemptions that at the given scope. If
+   * $filter=excludeExpired() is provided, the returned list only includes all policy exemptions
+   * that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq
+   * '{value}' is provided. the returned list only includes all policy exemptions that are
+   * associated with the give policyAssignmentId.
    */
   filter?: string;
 }
@@ -440,6 +851,19 @@ export interface PolicySetDefinitionListResult extends Array<PolicySetDefinition
 }
 
 /**
+ * @interface
+ * List of policy exemptions.
+ * @extends Array<PolicyExemption>
+ */
+export interface PolicyExemptionListResult extends Array<PolicyExemption> {
+  /**
+   * The URL to use for getting the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for EnforcementMode.
  * Possible values include: 'Default', 'DoNotEnforce'
  * @readonly
@@ -470,6 +894,22 @@ export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom' | 'Static';
  * @enum {string}
  */
 export type ParameterType = 'String' | 'Array' | 'Object' | 'Boolean' | 'Integer' | 'Float' | 'DateTime';
+
+/**
+ * Defines values for ExemptionCategory.
+ * Possible values include: 'Waiver', 'Mitigated'
+ * @readonly
+ * @enum {string}
+ */
+export type ExemptionCategory = 'Waiver' | 'Mitigated';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -1188,5 +1628,205 @@ export type PolicySetDefinitionsListByManagementGroupNextResponse = PolicySetDef
        * The response body as parsed JSON or XML
        */
       parsedBody: PolicySetDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PolicyExemptionsCreateOrUpdateResponse = PolicyExemption & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemption;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PolicyExemptionsGetResponse = PolicyExemption & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemption;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PolicyExemptionsListResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroup operation.
+ */
+export type PolicyExemptionsListForResourceGroupResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type PolicyExemptionsListForResourceResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForManagementGroup operation.
+ */
+export type PolicyExemptionsListForManagementGroupResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PolicyExemptionsListNextResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type PolicyExemptionsListForResourceGroupNextResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type PolicyExemptionsListForResourceNextResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForManagementGroupNext operation.
+ */
+export type PolicyExemptionsListForManagementGroupNextResponse = PolicyExemptionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyExemptionListResult;
     };
 };
