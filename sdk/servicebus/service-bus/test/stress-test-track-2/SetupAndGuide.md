@@ -77,3 +77,15 @@ Here are the scenarios being covered and how you can run them.
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
    - completeMessageAfterDuration (default = true)
+
+6. Management client - peek messages
+   `ts-node scenarioPeekMessages.ts` (runs with defaults)
+   `ts-node scenarioPeekMessages.ts --delayBetweenPeeksInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   Flags that can be set
+
+   - testDurationInMs (default = 3600000) // 1hr
+   - peekMaxMessageCount (default = 10)
+   - delayBetweenPeeksInMs (default = 0)
+   - numberOfMessagesPerSend (default = 1)
+   - delayBetweenSendsInMs (default = 0)
+   - totalNumberOfMessagesToSend (default = Infinity)

@@ -147,6 +147,27 @@ export class SBStressTestsBase {
     return [];
   }
 
+  public async peekMessages(
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessage>,
+    maxMsgCount = 10,
+    fromSequenceNumber?: Long.Long
+  ): Promise<ServiceBusReceivedMessage[]> {
+    try {
+      const messages = await receiver.peekMessages(maxMsgCount, {
+        fromSequenceNumber
+      });
+      this.trackMessageIds(messages, "received");
+      this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+      this.receiveInfo.numberOfSuccesses++;
+      return messages;
+    } catch (error) {
+      this.receiveInfo.numberOfFailures++;
+      this.receiveInfo.errors.push(error);
+      console.error("Error in peeking: ", error);
+    }
+    return [];
+  }
+
   public async receiveStreaming<ReceivedMessageT extends ServiceBusReceivedMessage>(
     receiver: ServiceBusReceiver<ReceivedMessageT>,
     duration: number,
