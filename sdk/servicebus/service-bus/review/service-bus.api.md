@@ -15,6 +15,7 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
+import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -395,6 +396,8 @@ export interface ServiceBusMessageBatch {
     // @internal
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
+    // @internal
+    readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
     tryAdd(message: ServiceBusMessage): boolean;
 }
