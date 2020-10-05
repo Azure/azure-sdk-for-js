@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0-beta.2 (2020-10-05)
+## 1.2.0-beta.2 (2020-10-06)
 
 - `DefaultAzureCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
 - Added support for multiple clouds on `VisualStudioCodeCredential`. Fixes customer issue [11452](https://github.com/Azure/azure-sdk-for-js/issues/11452).
