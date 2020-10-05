@@ -52,7 +52,7 @@ async function batchOperations() {
     }
   ];
 
-  // Create the new batch. all the operations within a batch must target the same partition key
+  // Create the new batch. All the operations within a batch must target the same partition key
   const batch = await client.createBatch(partitionKey);
 
   // Add a createEntities operation to the batch
