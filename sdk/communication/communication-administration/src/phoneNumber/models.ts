@@ -14,7 +14,8 @@ import {
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch
+  PhoneNumberSearch,
+  LocationOptionsQueries
 } from "./generated/src/models";
 
 /**
@@ -144,6 +145,10 @@ export interface GetAreaCodesRequest {
    * The phone plan's id.
    */
   phonePlanId: string;
+  /**
+   * Represents a list of location option queries, used for fetching area codes.
+   */
+  locationOptionsQueries: LocationOptionsQueries;
 }
 
 /**

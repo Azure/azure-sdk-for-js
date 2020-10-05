@@ -13,11 +13,11 @@ nock("https://endpoint", { encodedQueryParams: true })
     "Content-Type",
     "application/json; charset=utf-8",
     "MS-CV",
-    "juV+LWoQ1E+Ew3iaLzl1Fg.0",
+    "NEdoQgLFDkiMDwN1tqZ1ag.0",
     "X-Processing-Time",
-    "360ms",
+    "1142ms",
     "X-Azure-Ref",
-    "0po93XwAAAACGw1QF6WY3S626OMJwaPxsWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0XAJ7XwAAAAD7io0/pxeDTrgSMvKicOmVWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Fri, 02 Oct 2020 20:37:59 GMT"
+    "Mon, 05 Oct 2020 11:24:12 GMT"
   ]);

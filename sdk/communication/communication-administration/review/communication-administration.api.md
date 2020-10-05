@@ -133,6 +133,7 @@ export type GetAreaCodesOptions = OperationOptions;
 // @public
 export interface GetAreaCodesRequest {
     countryCode: string;
+    locationOptionsQueries: LocationOptionsQueries;
     locationType: string;
     phonePlanId: string;
 }
@@ -276,7 +277,7 @@ export class PhoneNumberAdministrationClient {
     cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
-    getAreaCodes(request: GetAreaCodesRequest, locationOptions: LocationOptionsQueries, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
+    getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
     getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;

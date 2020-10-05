@@ -159,7 +159,13 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const searchRequest: GetAreaCodesRequest = {
       locationType: "locationType",
       countryCode: "US",
-      phonePlanId: "phonePlanId"
+      phonePlanId: "phonePlanId",
+      locationOptionsQueries: {
+        locationOptions: [
+          { labelId: "state", optionsValue: "CA" },
+          { labelId: "city", optionsValue: "NOAM-US-CA-LA" }
+        ]
+      }
     };
     const spy = sinon.spy(getAreaCodesHttpClient, "sendRequest");
     const response = await client.getAreaCodesTest(searchRequest);

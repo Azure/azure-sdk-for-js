@@ -37,8 +37,7 @@ import {
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch,
-  LocationOptionsQueries
+  PhoneNumberSearch
 } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import {
@@ -386,14 +385,13 @@ export class PhoneNumberAdministrationClient {
    */
   public async getAreaCodes(
     request: GetAreaCodesRequest,
-    locationOptions: LocationOptionsQueries,
     options: GetAreaCodesOptions = {}
   ): Promise<GetAreaCodesResponse> {
+    const { countryCode: country, locationType, phonePlanId, locationOptionsQueries } = request;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
-      Object.assign(options, locationOptions)
+      Object.assign(options, locationOptionsQueries)
     );
-    const { countryCode: country, locationType, phonePlanId } = request;
     try {
       const { _response, ...rest } = await this.client.getAllAreaCodes(
         locationType,

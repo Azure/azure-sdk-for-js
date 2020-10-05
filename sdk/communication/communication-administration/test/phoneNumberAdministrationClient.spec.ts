@@ -9,7 +9,7 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
-  let shouldRunTNMTests: boolean;
+  let includePhoneNumberTests: boolean;
   let phonePlanGroupId: string;
   let phonePlanId: string;
   let locationOptions: LocationOptions | undefined;
@@ -17,7 +17,9 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   const countryCode = "US";
 
   beforeEach(function() {
-    ({ client, recorder, shouldRunTNMTests } = createRecordedPhoneNumberAdministrationClient(this));
+    ({ client, recorder, includePhoneNumberTests } = createRecordedPhoneNumberAdministrationClient(
+      this
+    ));
   });
 
   afterEach(async function() {
@@ -27,7 +29,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get phonePlanGroupId and phonePlanId for other tests", async function() {
-    if (!shouldRunTNMTests) {
+    if (!includePhoneNumberTests) {
       this.skip();
     }
 
@@ -52,7 +54,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   }).timeout(5000);
 
   it("can get location options", async function() {
-    if (!shouldRunTNMTests) {
+    if (!includePhoneNumberTests) {
       this.skip();
     }
 
@@ -68,29 +70,27 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get area codes", async function() {
-    if (!shouldRunTNMTests) {
+    if (!includePhoneNumberTests) {
       this.skip();
     }
 
-    const { primaryAreaCodes } = await client.getAreaCodes(
-      {
-        locationType: "selection",
-        countryCode,
-        phonePlanId
-      },
-      {
+    const { primaryAreaCodes } = await client.getAreaCodes({
+      locationType: "selection",
+      countryCode,
+      phonePlanId,
+      locationOptionsQueries: {
         locationOptions: [
           { labelId: "state", optionsValue: "CA" },
           { labelId: "city", optionsValue: "NOAM-US-CA-LA" }
         ]
       }
-    );
+    });
 
     assert.isArray(primaryAreaCodes);
   });
 
   it("can start a phone number search", async function() {
-    if (!shouldRunTNMTests) {
+    if (!includePhoneNumberTests) {
       this.skip();
     }
 

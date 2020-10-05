@@ -5,16 +5,14 @@ module.exports.hash = "3cdc938169a6df415554f9d5e6aef39b";
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
 nock("https://endpoint", { encodedQueryParams: true })
-  .get(
-    "/administration/phonenumbers/countries/US/phoneplangroups/55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf/phoneplans"
-  )
+  .get("/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans")
   .query(true)
   .reply(
     200,
     {
       phonePlans: [
         {
-          phonePlanId: "phone-plan-id-1",
+          phonePlanId: "sanitized",
           localizedName: "Outbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
@@ -22,7 +20,7 @@ nock("https://endpoint", { encodedQueryParams: true })
           maximumSearchSize: 20
         },
         {
-          phonePlanId: "b528a997-03bb-446e-af98-3d99877cf0ba",
+          phonePlanId: "sanitized",
           localizedName: "Inbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
@@ -38,12 +36,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "xkkQdOuyk0+lGF7KZb6uKQ.0",
+      "dBoCEDukuEOYgrlJiZt+hQ.0",
       "X-Processing-Time",
-      "782ms",
+      "591ms",
       "X-Azure-Ref",
-      "0qI93XwAAAACbxmsJxUTQQYCqwFVpCdAWWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0XwJ7XwAAAACmAAAStS0+RL34KH7QHdEyWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Fri, 02 Oct 2020 20:38:00 GMT"
+      "Mon, 05 Oct 2020 11:24:15 GMT"
     ]
   );

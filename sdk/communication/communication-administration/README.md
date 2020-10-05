@@ -183,9 +183,9 @@ const { primaryAreaCodes } = await client.getAreaCodes(
   {
     locationType: "selection",
     countryCode: "US",
-    phonePlanId: "phonePlanId"
-  },
-  { locationOptions: locationOptionsQueries }
+    phonePlanId: "phonePlanId",
+    locationOptionsQueries
+  }
 );
 ```
 

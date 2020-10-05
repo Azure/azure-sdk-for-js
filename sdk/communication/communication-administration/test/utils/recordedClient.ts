@@ -19,7 +19,7 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  SHOULD_RUN_TNM_TESTS: "false"
+  INCLUDE_PHONENUMBER_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -50,7 +50,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`),
     (recording: string): string =>
-      recording.replace(/"phonePlanIds"\s?:\s?"[^"]*"/g, `"phonePlanIds":"["phone-plan-id-1"]`)
+      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],
   queryParametersToSkip: []
 };
@@ -69,13 +69,13 @@ export function createRecordedCommunicationIdentityClient(
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
-  shouldRunTNMTests: boolean;
+  includePhoneNumberTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
   return {
     client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
-    shouldRunTNMTests: env.SHOULD_RUN_TNM_TESTS === "true"
+    includePhoneNumberTests: env.INCLUDE_PHONENUMBER_TESTS == "true"
   };
 }

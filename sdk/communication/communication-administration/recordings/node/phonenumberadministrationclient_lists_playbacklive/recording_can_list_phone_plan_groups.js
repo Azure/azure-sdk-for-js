@@ -12,19 +12,19 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       phonePlanGroups: [
         {
-          phonePlanGroupId: "55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "Geographic",
           localizedName: "Azure- User - Geographic",
           localizedDescription: "These are numbers used by Azure resources."
         },
         {
-          phonePlanGroupId: "671ee064-662f-4c3b-82a9-af2ab200dd5c",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "Geographic",
           localizedName: "Azure - Geographic",
           localizedDescription: "These are numbers used by Azure resources."
         },
         {
-          phonePlanGroupId: "d47a0cdc-8dc1-4e82-a29b-39067f7fc317",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "TollFree",
           localizedName: "Azure - Toll Free",
           localizedDescription: "These are toll free numbers used by Azure resources."
@@ -38,12 +38,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "RgEXMa10okSLs+ILUBkCiw.0",
+      "b/JqQzpvV0WHoBBD3kx44A.0",
       "X-Processing-Time",
-      "369ms",
+      "774ms",
       "X-Azure-Ref",
-      "0qI93XwAAAAAdNTUeFNgsQ4aT1cc5Gh75WVZSMzBFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0XgJ7XwAAAAC6BT1pHHoCRIKcxgtl/O8UWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Fri, 02 Oct 2020 20:37:59 GMT"
+      "Mon, 05 Oct 2020 11:24:15 GMT"
     ]
   );

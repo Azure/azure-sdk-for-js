@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "964cd9f98a72cf71b476177a72fb3de5";
+module.exports.hash = "1a4ba6af0469e1a931c49a965aadd8cd";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -12,19 +12,19 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       phonePlanGroups: [
         {
-          phonePlanGroupId: "55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "Geographic",
           localizedName: "Azure- User - Geographic",
           localizedDescription: "These are numbers used by Azure resources."
         },
         {
-          phonePlanGroupId: "671ee064-662f-4c3b-82a9-af2ab200dd5c",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "Geographic",
           localizedName: "Azure - Geographic",
           localizedDescription: "These are numbers used by Azure resources."
         },
         {
-          phonePlanGroupId: "d47a0cdc-8dc1-4e82-a29b-39067f7fc317",
+          phonePlanGroupId: "sanitized",
           phoneNumberType: "TollFree",
           localizedName: "Azure - Toll Free",
           localizedDescription: "These are toll free numbers used by Azure resources."
@@ -38,27 +38,25 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "Xvx73sQiPUaXvKRZvpZ+6Q.0",
+      "3vx9b8g4b0OqOnJKX4ozlg.0",
       "X-Processing-Time",
-      "2601ms",
+      "574ms",
       "X-Azure-Ref",
-      "02bl3XwAAAACmgBg18urrTrlesOYD2El4WVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0YAJ7XwAAAADx7ubmJawrT6lgonp+HaakWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Fri, 02 Oct 2020 23:38:03 GMT"
+      "Mon, 05 Oct 2020 11:24:17 GMT"
     ]
   );
 
 nock("https://endpoint", { encodedQueryParams: true })
-  .get(
-    "/administration/phonenumbers/countries/US/phoneplangroups/55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf/phoneplans"
-  )
+  .get("/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans")
   .query(true)
   .reply(
     200,
     {
       phonePlans: [
         {
-          phonePlanId: "phone-plan-id-1",
+          phonePlanId: "sanitized",
           localizedName: "Outbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
@@ -66,7 +64,7 @@ nock("https://endpoint", { encodedQueryParams: true })
           maximumSearchSize: 20
         },
         {
-          phonePlanId: "b528a997-03bb-446e-af98-3d99877cf0ba",
+          phonePlanId: "sanitized",
           localizedName: "Inbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
@@ -82,12 +80,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "G9ie2uHEEUaPxsjMmatnNQ.0",
+      "11tk5qm1CU66iBONzurrPg.0",
       "X-Processing-Time",
-      "354ms",
+      "316ms",
       "X-Azure-Ref",
-      "027l3XwAAAAC34EuFKPJRRpo0GgiDplW5WVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0YQJ7XwAAAADplBhPT9YaS7uuM+vcWgzFWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Fri, 02 Oct 2020 23:38:04 GMT"
+      "Mon, 05 Oct 2020 11:24:17 GMT"
     ]
   );

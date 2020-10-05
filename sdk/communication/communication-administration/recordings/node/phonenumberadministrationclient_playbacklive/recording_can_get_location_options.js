@@ -1,12 +1,12 @@
 let nock = require("nock");
 
-module.exports.hash = "05d9b205a6b4d93def5791e77cbcdcca";
+module.exports.hash = "4b6cf5373e97938c5a43411f3e831ff2";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
 nock("https://endpoint", { encodedQueryParams: true })
   .get(
-    "/administration/phonenumbers/countries/US/phoneplangroups/55bc1415-9fe6-42d7-9ed4-5ea28c6a17cf/phoneplans/b528a997-03bb-446e-af98-3d99877cf0ba/locationoptions"
+    "/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans/sanitized/locationoptions"
   )
   .query(true)
   .reply(
@@ -68,6 +68,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 options: [
                   { name: "Burbank", value: "NOAM-US-CA-BU", locationOptions: [] },
                   { name: "Concord", value: "NOAM-US-CA-CO", locationOptions: [] },
+                  { name: "Irvine", value: "NOAM-US-CA-IR", locationOptions: [] },
                   { name: "Salinas", value: "NOAM-US-CA-SL", locationOptions: [] },
                   { name: "San Diego", value: "NOAM-US-CA-SD", locationOptions: [] },
                   { name: "San Francisco", value: "NOAM-US-CA-SF", locationOptions: [] },
@@ -314,7 +315,7 @@ nock("https://endpoint", { encodedQueryParams: true })
               {
                 labelId: "city",
                 labelName: "City",
-                options: [{ name: "Baltimore", value: "NOAM-US-MD-BA", locationOptions: [] }]
+                options: [{ name: "Bethesda", value: "NOAM-US-MD-BE", locationOptions: [] }]
               }
             ]
           },
@@ -361,6 +362,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelName: "City",
                 options: [
                   { name: "Alexandria", value: "NOAM-US-MN-AL", locationOptions: [] },
+                  { name: "Bloomington", value: "NOAM-US-MN-BL", locationOptions: [] },
                   { name: "Duluth", value: "NOAM-US-MN-DU", locationOptions: [] }
                 ]
               }
@@ -746,12 +748,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "ahsihEEAKkqwBe/QQ2z67g.0",
+      "BTM2pp3U/06t6aZLTLdVLA.0",
       "X-Processing-Time",
-      "1348ms",
+      "371ms",
       "X-Azure-Ref",
-      "03Ll3XwAAAAAq6O5GHFizR5dru1/MIl1NWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0YQJ7XwAAAAAp9Ql4TZhyQLwtRZl2nBkuWVZSMzBFREdFMDMwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Fri, 02 Oct 2020 23:38:05 GMT"
+      "Mon, 05 Oct 2020 11:24:17 GMT"
     ]
   );
