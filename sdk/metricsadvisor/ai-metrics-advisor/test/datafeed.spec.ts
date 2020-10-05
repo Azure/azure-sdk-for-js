@@ -125,7 +125,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     };
-    const granualarity: DataFeedGranularity = {
+    const granularity: DataFeedGranularity = {
       granularityType: "Daily"
     };
     const options: DataFeedOptions = {
@@ -151,14 +151,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE
         }
       };
-      const actual = await client.createDataFeed(
-        feedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: feedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAzureBlobDataFeedId = actual.id;
@@ -167,7 +167,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granualarity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -253,7 +253,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granualarity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -344,14 +344,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_QUERY
         }
       };
-      const actual = await client.createDataFeed(
-        appInsightsFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: appInsightsFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAppFeedId = actual.id;
@@ -415,14 +415,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY
         }
       };
-      const actual = await client.createDataFeed(
-        sqlServerFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: sqlServerFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdSqlServerFeedId = actual.id;
@@ -453,14 +453,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           collectionId: "sample"
         }
       };
-      const actual = await client.createDataFeed(
-        cosmosFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: cosmosFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdCosmosFeedId = actual.id;
@@ -491,14 +491,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: "let starttime=datetime(@StartTime); let endtime=starttime"
         }
       };
-      const actual = await client.createDataFeed(
-        dataExplorerFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: dataExplorerFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAzureDataExplorerFeedId = actual.id;
@@ -528,14 +528,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: "partition-key eq @start-time"
         }
       };
-      const actual = await client.createDataFeed(
-        azureTableFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: azureTableFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAzureTableFeedId = actual.id;
@@ -564,14 +564,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           payload: "{start-time: @start-time}"
         }
       };
-      const actual = await client.createDataFeed(
-        httpRequestFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: httpRequestFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdHttpRequestFeedId = actual.id;
@@ -599,14 +599,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: "partition-key eq @start-time"
         }
       };
-      const actual = await client.createDataFeed(
-        influxDbFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: influxDbFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdInfluxFeedId = actual.id;
@@ -636,14 +636,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
         }
       };
-      const actual = await client.createDataFeed(
-        mongoDbFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: mongoDbFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdMongoDbFeedId = actual.id;
@@ -673,14 +673,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
         }
       };
-      const actual = await client.createDataFeed(
-        mySqlFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: mySqlFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdMySqlFeedId = actual.id;
@@ -709,14 +709,14 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           query: "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
         }
       };
-      const actual = await client.createDataFeed(
-        postgreSqlFeedName,
-        expectedSource,
-        granualarity,
-        dataFeedSchema,
-        dataFeedIngestion,
+      const actual = await client.createDataFeed({
+        name: postgreSqlFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
         options
-      );
+      });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdPostGreSqlId = actual.id;

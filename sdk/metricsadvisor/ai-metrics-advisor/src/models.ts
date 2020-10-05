@@ -24,13 +24,18 @@ import {
   TopNGroupScope,
   SeverityCondition,
   AlertSnoozeCondition,
-  AnomalyAlertingConfigurationCrossMetricsOperator,
-  WholeMetricConfigurationConditionOperator,
   EnrichmentStatus,
-  DataFeedDetailPatchStatus
+  DataFeedDetailStatus
 } from "./generated/models";
 
 export {
+  Dimension,
+  Metric,
+  SeverityCondition,
+  AlertSnoozeCondition,
+  SmartDetectionCondition,
+  TopNGroupScope,
+  EnrichmentStatus,
   IngestionStatus,
   AzureApplicationInsightsParameter,
   AzureBlobParameter,
@@ -45,29 +50,21 @@ export {
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailPatchStatus
+  DataFeedDetailStatus
 };
 
+// not used directly here but needed by public API surface.
 export {
   AnomalyValue,
-  AnomalyAlertingConfigurationCrossMetricsOperator,
-  WholeMetricConfigurationConditionOperator,
   DataFeedIngestionProgress,
   GeneratedClientGetIngestionProgressResponse,
-  SmartDetectionCondition,
-  Dimension,
-  Metric,
   IngestionStatusType,
-  SeverityCondition,
-  AlertSnoozeCondition,
-  TopNGroupScope,
   DataSourceType,
   EntityStatus,
   SeverityFilterCondition,
   SnoozeScope,
   Severity,
   AnomalyDetectorDirection,
-  EnrichmentStatus,
   TimeMode,
   FeedbackType,
   FeedbackQueryTimeMode
@@ -260,6 +257,10 @@ export interface DataFeed {
    */
   isAdmin: boolean;
   /**
+   * data feed creator
+   */
+  creator: string;
+  /**
    * Source of the data feed.
    */
   source: DataFeedSource;
@@ -414,7 +415,7 @@ export interface DataFeedPatch {
   /**
    * Source of the data feed.
    */
-  source: DataFeedSourcePatchUnion;
+  source: DataFeedSourcePatch;
   /**
    * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
    */
@@ -435,187 +436,28 @@ export interface DataFeedPatch {
     /**
      * Status of the data feed.
      */
-    status?: DataFeedDetailPatchStatus;
+    status?: DataFeedDetailStatus;
   };
 }
 
 /**
- * A union type of supported data sources to pass to Update Data Feed operation.
+ * A alias type of supported data sources to pass to Update Data Feed operation.
  *
  * When not changing the data source type, the dataSourceParameter is not required.
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
-export type DataFeedSourcePatchUnion =
-  | AzureApplicationInsightsDataFeedSourcePatch
-  | AzureBlobDataFeedSourcePatch
-  | AzureCosmosDBDataFeedSourcePatch
-  | AzureDataExplorerDataFeedSourcePatch
-  | AzureDataLakeStorageGen2DataFeedSourcePatch
-  | AzureTableDataFeedSourcePatch
-  | ElasticsearchDataFeedSourcePatch
-  | HttpRequestDataFeedSourcePatch
-  | InfluxDBDataFeedSourcePatch
-  | MySqlDataFeedSourcePatch
-  | PostgreSqlDataFeedSourcePatch
-  | SQLServerDataFeedSourcePatch
-  | MongoDBDataFeedSourcePatch;
+export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
+  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
 
 /**
- * Represents Azure Application Insights data source to pass to Update Data Feed operation.
+ * The logical operator to apply across multiple {@link MetricAlertConfiguration}
  */
-export type AzureApplicationInsightsDataFeedSourcePatch = {
-  dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter?: AzureApplicationInsightsParameter;
-};
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 
 /**
- * Represents Azure Blob Storage data source to pass to Update Data Feed operation.
+ * The logical operator to apply across anomaly detection conditions.
  */
-export type AzureBlobDataFeedSourcePatch = {
-  dataSourceType: "AzureBlob";
-  dataSourceParameter?: AzureBlobParameter;
-};
-
-/**
- * Represents Azure CosmosDB data source to pass to Update Data Feed operation.
- */
-export type AzureCosmosDBDataFeedSourcePatch = {
-  dataSourceType: "AzureCosmosDB";
-  dataSourceParameter?: AzureCosmosDBParameter;
-};
-
-/**
- * Represents Azure Data Explorer data source to pass to Update Data Feed operation.
- */
-export type AzureDataExplorerDataFeedSourcePatch = {
-  dataSourceType: "AzureDataExplorer";
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-/**
- * Represents Azure DataLake Storage Gen2 data source to pass to Update Data Feed operation.
- */
-export type AzureDataLakeStorageGen2DataFeedSourcePatch = {
-  dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
-};
-
-/**
- * Represents Elasticsearch data source to pass to Update Data Feed operation.
- */
-export type ElasticsearchDataFeedSourcePatch = {
-  dataSourceType: "Elasticsearch";
-  dataSourceParameter?: ElasticsearchParameter;
-};
-
-/**
- * Represents Azure Table data source to pass to Update Data Feed operation.
- */
-export type AzureTableDataFeedSourcePatch = {
-  dataSourceType: "AzureTable";
-  dataSourceParameter?: AzureTableParameter;
-};
-
-/**
- * Represents Http Request data source to pass to Update Data Feed operation.
- */
-export type HttpRequestDataFeedSourcePatch = {
-  dataSourceType: "HttpRequest";
-  dataSourceParameter?: HttpRequestParameter;
-};
-
-/**
- * Represents InfluxDB data source to pass to Update Data Feed operation.
- */
-export type InfluxDBDataFeedSourcePatch = {
-  dataSourceType: "InfluxDB";
-  dataSourceParameter?: InfluxDBParameter;
-};
-
-/**
- * Represents MySQL data source to pass to Update Data Feed operation.
- */
-export type MySqlDataFeedSourcePatch = {
-  dataSourceType: "MySql";
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-/**
- * Represents PostgreSQL data source to pass to Update Data Feed operation.
- */
-export type PostgreSqlDataFeedSourcePatch = {
-  dataSourceType: "PostgreSql";
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-/**
- * Represents MongoDB data source to pass to Update Data Feed operation.
- */
-export type MongoDBDataFeedSourcePatch = {
-  dataSourceType: "MongoDB";
-  dataSourceParameter?: MongoDBParameter;
-};
-
-/**
- * Represents SQL Server data source to pass to Update Data Feed operation.
- */
-export type SQLServerDataFeedSourcePatch = {
-  dataSourceType: "SqlServer";
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-/**
- * Represents the input type to the Update Alert Configuration operation.
- */
-export interface AnomalyAlertConfigurationPatch {
-  /**
-   * Anomaly alerting configuration name
-   */
-  name?: string;
-  /**
-   * anomaly alerting configuration description
-   */
-  description?: string;
-  /**
-   * cross metrics operator
-   */
-  crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
-  /**
-   * unique hook ids
-   */
-  hookIds?: string[];
-  /**
-   * Anomaly alerting configurations
-   */
-  metricAlertConfigurations?: MetricAlertConfiguration[];
-}
-
-/**
- * Represents the input type to the Update Detection Configuration operation.
- */
-export interface AnomalyDetectionConfigurationPatch {
-  /**
-   * anomaly detection configuration name
-   */
-  name?: string;
-  /**
-   * anomaly detection configuration description
-   */
-  description?: string;
-
-  /**
-   * Conditions that applies to all time series of a metric
-   */
-  wholeSeriesDetectionCondition?: MetricDetectionCondition;
-  /**
-   * detection conditions for series groups. This overrides the whole series detection conditions.
-   */
-  seriesGroupDetectionConditions?: MetricSeriesGroupDetectionCondition[];
-  /**
-   * detection conditions for specific series. This overrides the whole series detection conditions and the series group detection conditions.
-   */
-  seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
-}
+export type DetectionConditionsOperator = "AND" | "OR";
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -624,7 +466,7 @@ export interface DetectionConditionsCommon {
   /**
    * Condition operator
    */
-  conditionOperator?: WholeMetricConfigurationConditionOperator;
+  conditionOperator?: DetectionConditionsOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -905,7 +747,7 @@ export interface HookCommon {
   /**
    * hook unique name
    */
-  hookName: string;
+  name: string;
   /**
    * hook description
    */
@@ -948,15 +790,15 @@ export type HookPatchCommon = {
   /**
    * new hook name
    */
-  hookName?: string | undefined;
+  hookName?: string;
   /**
    * new hook description
    */
-  description?: string | undefined;
+  description?: string;
   /**
    * new hook external link
    */
-  externalLink?: string | undefined;
+  externalLink?: string;
 };
 
 /**
@@ -1232,11 +1074,10 @@ export interface AnomalyAlertConfiguration {
    */
   description?: string;
   /**
-   * cross metrics operator
+   * logical operator to apply across metric alert configurations in {@link metricAlertConfigurations}
    *
-   * It should be specified when setting up multiple metric alerting configurations
    */
-  crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
+  crossMetricsOperator?: MetricAnomalyAlertConfigurationsOperator;
   /**
    * unique hook ids
    */
