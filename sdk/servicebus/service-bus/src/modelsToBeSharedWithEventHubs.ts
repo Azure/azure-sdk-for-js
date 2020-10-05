@@ -5,6 +5,7 @@
 
 import { Span, SpanContext } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * NOTE: This type is intended to mirror the relevant fields and structure from @azure/core-http OperationOptions
@@ -18,7 +19,7 @@ export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "traci
  * @ignore
  */
 export function getParentSpan(
-  options: Pick<OperationOptionsBase, "tracingOptions">
+  options?: OperationTracingOptions
 ): Span | SpanContext | null | undefined {
-  return options.tracingOptions?.spanOptions?.parent;
+  return options?.spanOptions?.parent;
 }

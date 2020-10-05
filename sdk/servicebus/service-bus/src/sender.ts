@@ -21,7 +21,11 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { getParentSpan, OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { createMessageSpan } from "./diagnostics/messageSpan";
+import { instrumentServiceBusMessage } from "./diagnostics/instrumentServiceBusMessage";
+import { getTracer } from "@azure/core-tracing";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -179,13 +183,27 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
+    // link message span contexts
+    let spanContextsToLink: SpanContext[] = [];
+    if (isServiceBusMessage(messages)) {
+      messages = [messages];
+    }
+    let batch: ServiceBusMessageBatch;
     if (Array.isArray(messages)) {
-      const batch = await this.createBatch(options);
-
-      for (const message of messages) {
+      batch = await this.createBatch(options);
+      for (let message of messages) {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
+        const messageSpan = createMessageSpan(
+          getParentSpan(options?.tracingOptions),
+          this._context.config
+        );
+        // since these message spans are created from same context as the send span,
+        // these message spans don't need to be linked.
+        // replace the original message with the instrumented one
+        message = instrumentServiceBusMessage(message, messageSpan);
+        messageSpan.end();
         if (!batch.tryAdd(message)) {
           // this is too big - throw an error
           const error = new MessagingError(
@@ -195,14 +213,31 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           throw error;
         }
       }
-
-      return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messages)) {
-      return this._sender.sendBatch(messages, options);
-    } else if (isServiceBusMessage(messages)) {
-      return this._sender.send(messages, options);
+      spanContextsToLink = messages._messageSpanContexts;
+      batch = messages;
+    } else {
+      throw new TypeError(invalidTypeErrMsg);
     }
-    throw new TypeError(invalidTypeErrMsg);
+
+    const sendSpan = this._createSendSpan(
+      getParentSpan(options?.tracingOptions),
+      spanContextsToLink
+    );
+
+    try {
+      const result = await this._sender.sendBatch(batch, options);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
+    } catch (error) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      sendSpan.end();
+    }
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
@@ -322,6 +357,29 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       );
       throw err;
     }
+  }
+
+  private _createSendSpan(
+    parentSpan?: Span | SpanContext | null,
+    spanContextsToLink: SpanContext[] = []
+  ): Span {
+    const links: Link[] = spanContextsToLink.map((context) => {
+      return {
+        context
+      };
+    });
+    const tracer = getTracer();
+    const span = tracer.startSpan("Azure.ServiceBus.send", {
+      kind: SpanKind.CLIENT,
+      parent: parentSpan,
+      links
+    });
+
+    span.setAttribute("az.namespace", "Microsoft.ServiceBus");
+    span.setAttribute("message_bus.destination", this._context.config.entityPath);
+    span.setAttribute("peer.address", this._context.config.host);
+
+    return span;
   }
 }
 

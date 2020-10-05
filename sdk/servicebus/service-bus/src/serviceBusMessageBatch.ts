@@ -10,12 +10,13 @@ import {
   message as RheaMessageUtil
 } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
-import { Span, SpanContext } from "@opentelemetry/api";
+import { SpanContext } from "@opentelemetry/api";
 import {
   instrumentServiceBusMessage,
   TRACEPARENT_PROPERTY
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -35,16 +36,6 @@ const largeMessageOverhead = 8;
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
-
-/**
- * Options to configure the behavior of the `tryAdd` method on the `EventDataBatch` class.
- */
-export interface TryAddOptions {
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
-   */
-  parentSpan?: Span | SpanContext;
-}
 
 /**
  * A batch of messages that you can create using the {@link createBatch} method.
@@ -93,6 +84,14 @@ export interface ServiceBusMessageBatch {
    * @ignore
    */
   _generateMessage(): Buffer;
+
+  /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
+   * @internal
+   * @ignore
+   */
+  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
@@ -239,7 +238,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+  public tryAdd(
+    message: ServiceBusMessage,
+    options: Pick<OperationOptionsBase, "tracingOptions"> = {}
+  ): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
@@ -251,7 +253,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options.parentSpan, this._context.config);
+      const messageSpan = createMessageSpan(
+        options.tracingOptions?.spanOptions?.parent,
+        this._context.config
+      );
       message = instrumentServiceBusMessage(message, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();
