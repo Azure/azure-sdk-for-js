@@ -105,7 +105,6 @@ export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>
 // @public
 export interface CreateSearchOptions extends OperationOptions {
     locationOptions?: LocationOptionsDetails[];
-    quantity?: number;
 }
 
 // @public
@@ -114,6 +113,7 @@ export interface CreateSearchRequest {
     description: string;
     name: string;
     phonePlanIds: string[];
+    quantity: number;
 }
 
 // @public
@@ -128,13 +128,12 @@ export type CreateUserResponse = WithResponse<CommunicationUser>;
 export type CurrencyType = "USD";
 
 // @public
-export interface GetAreaCodesOptions extends OperationOptions {
-    locationOptions?: LocationOptionsQuery[];
-}
+export type GetAreaCodesOptions = OperationOptions;
 
 // @public
 export interface GetAreaCodesRequest {
     countryCode: string;
+    locationOptionsQueries: LocationOptionsQueries;
     locationType: string;
     phonePlanId: string;
 }
@@ -220,6 +219,11 @@ export interface LocationOptionsDetails {
     locationOptions?: LocationOptions[];
     name?: string;
     value?: string;
+}
+
+// @public
+export interface LocationOptionsQueries {
+    locationOptions?: LocationOptionsQuery[];
 }
 
 // @public

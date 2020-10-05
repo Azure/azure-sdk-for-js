@@ -158,8 +158,14 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const client = new TestPhoneNumberAdministrationClient();
     const searchRequest: GetAreaCodesRequest = {
       locationType: "locationType",
-      countryCode: "1",
-      phonePlanId: "phonePlanId"
+      countryCode: "US",
+      phonePlanId: "phonePlanId",
+      locationOptionsQueries: {
+        locationOptions: [
+          { labelId: "state", optionsValue: "CA" },
+          { labelId: "city", optionsValue: "NOAM-US-CA-LA" }
+        ]
+      }
     };
     const spy = sinon.spy(getAreaCodesHttpClient, "sendRequest");
     const response = await client.getAreaCodesTest(searchRequest);

@@ -183,9 +183,9 @@ const { primaryAreaCodes } = await client.getAreaCodes(
   {
     locationType: "selection",
     countryCode: "US",
-    phonePlanId: "phonePlanId"
-  },
-  { locationOptions }
+    phonePlanId: "phonePlanId",
+    locationOptionsQueries
+  }
 );
 ```
 
@@ -198,7 +198,8 @@ const { searchId } = await client.createSearch({
     name: "Phone number search 800",
     description: "Search for 800 phone numbers"
     phonePlanIds: ["phone-plan-id-1"],
-    areaCode: "800"
+    areaCode: "800",
+    quantity: 1
 });
 ```
 

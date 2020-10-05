@@ -353,11 +353,11 @@ export class PhoneNumberAdministrationClient {
     searchRequest: CreateSearchRequest,
     options: CreateSearchOptions = {}
   ): Promise<CreatePhoneNumberSearchResponse> {
+    const { name, description, phonePlanIds, areaCode, quantity } = searchRequest;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-createSearch",
-      options
+      Object.assign(options, { quantity })
     );
-    const { name, description, phonePlanIds, areaCode } = searchRequest;
     try {
       const { searchId, _response } = await this.client.createSearch(
         name,
@@ -387,11 +387,11 @@ export class PhoneNumberAdministrationClient {
     request: GetAreaCodesRequest,
     options: GetAreaCodesOptions = {}
   ): Promise<GetAreaCodesResponse> {
+    const { countryCode: country, locationType, phonePlanId, locationOptionsQueries } = request;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
-      options
+      Object.assign(options, locationOptionsQueries)
     );
-    const { countryCode: country, locationType, phonePlanId } = request;
     try {
       const { _response, ...rest } = await this.client.getAllAreaCodes(
         locationType,
@@ -1102,5 +1102,6 @@ export {
   SearchStatus,
   LocationOptionsResponse,
   CreateSearchResponse,
-  NumberConfigurationResponse
+  NumberConfigurationResponse,
+  LocationOptionsQueries
 } from "./generated/src/models";
