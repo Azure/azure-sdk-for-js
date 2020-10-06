@@ -4,14 +4,15 @@
 import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 import { PollOperation, PollOperationState } from "@azure/core-lro";
 import { VoidResponse } from "../common/models";
-import { CreateSearchResponse, PhoneNumberRelease } from "./generated/src/models";
+import { PhoneNumberRelease, PhoneNumberSearch } from "./generated/src/models";
 import {
-  CancelSearchOptions,
-  CreateSearchOptions,
-  CreateSearchRequest,
+  CancelReservationOptions,
+  CreateReservationOptions,
+  CreateReservationRequest,
+  CreateReservationResponse,
   GetReleaseOptions,
   GetReleaseResponse,
-  GetSearchResponse,
+  GetReservationResponse,
   PurchaseSearchOptions,
   ReleasePhoneNumbersOptions,
   ReleasePhoneNumbersResponse
@@ -58,6 +59,30 @@ export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
   options?: ReleasePhoneNumbersOptions;
 }
 
+export interface StartReservePhoneNumbersOptions extends PhoneNumberPollerOptions {}
+
+export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
+  /**
+   * Request to create reservation.
+   */
+  reservationRequest: CreateReservationRequest;
+
+  /**
+   * Represents the poller client used internally.
+   */
+  client: _PhoneNumberPollerClient;
+
+  /**
+   * The id returned from the create reservation request.
+   */
+  reservationId?: string;
+
+  /**
+   * Options for creating a phone number reservation.
+   */
+  options?: CreateReservationOptions;
+}
+
 /**
  * @internal
  * @ignore
@@ -69,13 +94,16 @@ export interface _PhoneNumberPollerClient {
     options?: StartReleasePhoneNumbersOptions
   ) => Promise<ReleasePhoneNumbersResponse>;
   getRelease: (releaseId: string, options?: GetReleaseOptions) => Promise<GetReleaseResponse>;
-  createSearch(
-    searchRequest: CreateSearchRequest,
-    options: CreateSearchOptions
-  ): Promise<CreateSearchResponse>;
-  getSearch(searchId: string, options: OperationOptions): Promise<GetSearchResponse>;
-  cancelSearch(searchId: string, options: CancelSearchOptions): Promise<VoidResponse>;
-  purchaseSearch(searchId: string, options: PurchaseSearchOptions): Promise<VoidResponse>;
+  createReservation(
+    reservationRequest: CreateReservationRequest,
+    options: CreateReservationOptions
+  ): Promise<CreateReservationResponse>;
+  getReservation(reservationId: string, options: OperationOptions): Promise<GetReservationResponse>;
+  cancelReservation(
+    reservationId: string,
+    options: CancelReservationOptions
+  ): Promise<VoidResponse>;
+  purchaseSearch(reservationId: string, options: PurchaseSearchOptions): Promise<VoidResponse>;
 }
 
 export interface ReleasePhoneNumbersPollOperationState
@@ -104,3 +132,29 @@ export interface ReleasePhoneNumbersPollOperationState
 
 export interface ReleasePhoneNumbersPollOperation
   extends PollOperation<ReleasePhoneNumbersPollOperationState, PhoneNumberRelease> {}
+
+export interface ReservePhoneNumbersPollOperationState
+  extends PollOperationState<PhoneNumberSearch> {
+  /**
+   * Request to create reservation.
+   */
+  reservationRequest: CreateReservationRequest;
+
+  /**
+   * Represents the poller client used internally.
+   */
+  client: _PhoneNumberPollerClient;
+
+  /**
+   * The id returned from the create reservation request.
+   */
+  reservationId?: string;
+
+  /**
+   * Options for creating a phone number reservation.
+   */
+  options?: CreateReservationOptions;
+}
+
+export interface ReservePhoneNumbersPollOperation
+  extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberSearch> {}

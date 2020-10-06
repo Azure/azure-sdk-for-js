@@ -46,7 +46,6 @@ async function update(
 
 /**
  * @summary Reaches to the service and cancels the operation, also updating the poll operation
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(
   this: ReleasePhoneNumbersPollOperation

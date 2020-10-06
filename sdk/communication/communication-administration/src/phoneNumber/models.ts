@@ -10,7 +10,6 @@ import {
   UpdatePhoneNumberCapabilitiesResponse,
   ReleaseResponse,
   PhoneNumberRelease,
-  CreateSearchResponse,
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
@@ -19,9 +18,9 @@ import {
 } from "./generated/src/models";
 
 /**
- * Request to create a search.
+ * Request to .
  */
-export interface CreateSearchRequest {
+export interface CreateReservationRequest {
   /**
    * Display name of the search.
    */
@@ -47,11 +46,15 @@ export interface CreateSearchRequest {
 /**
  * Options for creating a search.
  */
-export interface CreateSearchOptions extends OperationOptions {
+export interface CreateReservationOptions extends OperationOptions {
   /**
    * The location options of the search.
    */
   locationOptions?: LocationOptionsDetails[];
+}
+
+export interface CreateReservationResponse {
+  reservationId: string;
 }
 
 /**
@@ -182,19 +185,14 @@ export type GetReleaseOptions = OperationOptions;
 export type GetPhoneNumberConfigurationOptions = OperationOptions;
 
 /**
- * Additional request option for get search operations.
+ * Additional request option for get phone number reservation operations.
  */
-export type GetSearchOptions = OperationOptions;
+export type GetReservationOptions = OperationOptions;
 
 /**
- * Additional request option for refresh search operations.
+ * Additional request option for cancel phone number reservation operations.
  */
-export type RefreshSearchOptions = OperationOptions;
-
-/**
- * Additional request option for cancel search operations.
- */
-export type CancelSearchOptions = OperationOptions;
+export type CancelReservationOptions = OperationOptions;
 
 /**
  * Additional request option for get search operations.
@@ -272,7 +270,7 @@ export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 /**
  * Represents the response from starting a search for phone numbers.
  */
-export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+export type CreatePhoneNumberReservationResponse = WithResponse<CreateReservationResponse>;
 
 /**
  * Represents the response from getting a list of the supported area codes.
@@ -292,4 +290,4 @@ export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsRe
 /**
  * Represents the response from getting the search associated with a given id.
  */
-export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
+export type GetReservationResponse = WithResponse<PhoneNumberSearch>;

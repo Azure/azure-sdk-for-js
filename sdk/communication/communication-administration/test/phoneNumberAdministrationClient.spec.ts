@@ -13,7 +13,6 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   let phonePlanGroupId: string;
   let phonePlanId: string;
   let locationOptions: LocationOptions | undefined;
-  let searchId: string;
   const countryCode = "US";
 
   beforeEach(function() {
@@ -87,20 +86,5 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
     });
 
     assert.isArray(primaryAreaCodes);
-  });
-
-  it("can start a phone number search", async function() {
-    if (!includePhoneNumberTests) {
-      this.skip();
-    }
-
-    ({ searchId } = await client.createSearch({
-      phonePlanIds: [phonePlanId],
-      areaCode: "800",
-      name: "LRO Test Search",
-      description: "Test search for JS phone number admin SDK.",
-      quantity: 1
-    }));
-    assert.isString(searchId);
   });
 });
