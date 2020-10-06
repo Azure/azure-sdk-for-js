@@ -11,7 +11,7 @@ import { Span, SpanContext, SpanKind } from "@opentelemetry/api";
  */
 export function createMessageSpan(
   parentSpan?: Span | SpanContext | null,
-  config?: ConnectionConfig
+  config?: Pick<ConnectionConfig, "entityPath" | "host">
 ): Span {
   const tracer = getTracer();
   const span = tracer.startSpan("Azure.ServiceBus.message", {
