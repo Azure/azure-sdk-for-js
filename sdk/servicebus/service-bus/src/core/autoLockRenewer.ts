@@ -73,7 +73,7 @@ export class LockRenewer {
   }
 
   /**
-   * Cancels all pending lock renewals and removes all entries from our internal cache.
+   * Cancels all pending lock renewals for messages on given link and removes all entries from our internal cache.
    */
   stopAll(linkEntity: MinimalLink) {
     logger.verbose(
