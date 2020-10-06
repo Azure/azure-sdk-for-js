@@ -237,8 +237,8 @@ export class ServiceBusClient {
     }
 
     const maxLockAutoRenewDurationInMs =
-      options?.maxLockAutoRenewDurationInMs != null
-        ? options.maxLockAutoRenewDurationInMs
+      options?.maxMessageLockRenewalDurationInMs != null
+        ? options.maxMessageLockRenewalDurationInMs
         : 5 * 60 * 1000;
 
     if (receiveMode === "peekLock") {

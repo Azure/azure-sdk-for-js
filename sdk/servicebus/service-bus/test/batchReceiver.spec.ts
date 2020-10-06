@@ -44,7 +44,7 @@ async function beforeEachTest(entityType: TestClientType): Promise<void> {
     // prior to a recent change the behavior was always to _not_ auto-renew locks.
     // for compat with these tests I'm just disabling this. There are tests in renewLocks.spec.ts that
     // ensure lock renewal does work with batching.
-    maxLockAutoRenewDurationInMs: 0
+    maxMessageLockRenewalDurationInMs: 0
   });
 
   sender = serviceBusClient.test.addToCleanup(
