@@ -33,8 +33,7 @@ export {
 } from "./models";
 export {
   OperationOptionsBase,
-  TryAddOptions,
-  ParentSpanOptions
+  TryAddOptions
 } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
 export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
