@@ -89,7 +89,7 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageLockAutoRenewDurationInMs?: number;
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**

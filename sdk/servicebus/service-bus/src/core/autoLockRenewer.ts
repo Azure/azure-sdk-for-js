@@ -54,7 +54,7 @@ export class LockRenewer {
    * @param context The connection context for your link entity (probably 'this._context')
    * @param options The ReceiveOptions passed through to your message receiver.
    * @returns if the lock mode is peek lock (or if is unspecified, thus defaulting to peekLock)
-   * and the options.maxMessageLockAutoRenewDurationInMs is > 0..Otherwise, returns undefined.
+   * and the options.maxAutoLockRenewalDurationInMs is > 0..Otherwise, returns undefined.
    */
   static create(
     context: Pick<ConnectionContext, "getManagementClient">,
