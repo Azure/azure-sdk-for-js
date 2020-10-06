@@ -127,8 +127,9 @@ export class BatchingReceiver extends MessageReceiver {
 
       if (this._lockRenewer) {
         for (const message of messages) {
-          this._lockRenewer.start(this, message, (error) => {
-            logError(error, `${this.logPrefix} Failed to renew lock for message.`);
+          this._lockRenewer.start(this, message, (_error) => {
+            // the auto lock renewer already logs this in a detailed way. So this hook is mainly here
+            // to potentially forward the error to the user (which we're not doing yet)
           });
         }
       }
