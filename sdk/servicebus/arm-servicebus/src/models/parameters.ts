@@ -34,11 +34,25 @@ export const alias: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-01-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2017-04-01',
     type: {
       name: "String"
     }
@@ -70,11 +84,28 @@ export const configName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ipFilterRuleName: msRest.OperationURLParameter = {
+  parameterPath: "ipFilterRuleName",
+  mapper: {
+    required: true,
+    serializedName: "ipFilterRuleName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const namespaceName0: msRest.OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
     required: true,
     serializedName: "namespaceName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 6
+    },
     type: {
       name: "String"
     }
@@ -85,10 +116,6 @@ export const namespaceName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "namespaceName",
-    constraints: {
-      MaxLength: 50,
-      MinLength: 6
-    },
     type: {
       name: "String"
     }
@@ -104,6 +131,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const queueName: msRest.OperationURLParameter = {
   parameterPath: "queueName",
@@ -221,6 +258,19 @@ export const topicName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "topicName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualNetworkRuleName: msRest.OperationURLParameter = {
+  parameterPath: "virtualNetworkRuleName",
+  mapper: {
+    required: true,
+    serializedName: "virtualNetworkRuleName",
     constraints: {
       MinLength: 1
     },

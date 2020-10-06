@@ -222,12 +222,12 @@ const listByTopicOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.topicName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.skip,
     Parameters.top
   ],
@@ -250,13 +250,13 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -284,13 +284,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -310,13 +310,13 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

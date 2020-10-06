@@ -10,7 +10,6 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   ErrorResponseError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  PrivateLinkResource,
+  PrivateLinkResourcesListResult
 } from "../models/mappers";
