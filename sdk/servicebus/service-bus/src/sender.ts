@@ -23,8 +23,6 @@ import {
 } from "@azure/core-amqp";
 import { getParentSpan, OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { createMessageSpan } from "./diagnostics/messageSpan";
-import { instrumentServiceBusMessage } from "./diagnostics/instrumentServiceBusMessage";
 import { getTracer } from "@azure/core-tracing";
 
 /**
@@ -195,16 +193,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
-        const messageSpan = createMessageSpan(
-          getParentSpan(options?.tracingOptions),
-          this._context.config
-        );
-        // since these message spans are created from same context as the send span,
-        // these message spans don't need to be linked.
-        // replace the original message with the instrumented one
-        message = instrumentServiceBusMessage(message, messageSpan);
-        messageSpan.end();
-        if (!batch.tryAdd(message)) {
+        if (!batch.tryAdd(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
           const error = new MessagingError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
@@ -376,7 +365,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     });
 
     span.setAttribute("az.namespace", "Microsoft.ServiceBus");
-    span.setAttribute("message_bus.destination", this._context.config.entityPath);
+    span.setAttribute("message_bus.destination", this.entityPath);
     span.setAttribute("peer.address", this._context.config.host);
 
     return span;

@@ -16,7 +16,7 @@ import {
   TRACEPARENT_PROPERTY
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -72,7 +72,7 @@ export interface ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: ServiceBusMessage): boolean;
+  tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -238,10 +238,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(
-    message: ServiceBusMessage,
-    options: Pick<OperationOptionsBase, "tracingOptions"> = {}
-  ): boolean {
+  public tryAdd(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
@@ -253,10 +250,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(
-        options.tracingOptions?.spanOptions?.parent,
-        this._context.config
-      );
+      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
       message = instrumentServiceBusMessage(message, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();

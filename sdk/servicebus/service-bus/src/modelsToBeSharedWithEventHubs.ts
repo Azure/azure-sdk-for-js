@@ -23,3 +23,18 @@ export function getParentSpan(
 ): Span | SpanContext | null | undefined {
   return options?.spanOptions?.parent;
 }
+
+/**
+ * The set of options to manually propagate `Span` context for distributed tracing.
+ * - `parentSpan` : The `Span` or `SpanContext` for the operation to use as a `parent` when creating its own span.
+ */
+export interface ParentSpanOptions {
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while calling operations that make a request to the service.
+   */
+  parentSpan?: Span | SpanContext | null;
+}
+/**
+ * Options to configure the behavior of the `tryAdd` method on the `ServiceBusMessageBatch` class.
+ */
+export interface TryAddOptions extends ParentSpanOptions {}
