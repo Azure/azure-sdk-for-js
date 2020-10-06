@@ -30,7 +30,6 @@ import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { LockRenewer } from "../../src/core/autoLockRenewer";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
