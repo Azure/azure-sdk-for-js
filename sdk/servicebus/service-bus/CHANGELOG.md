@@ -10,6 +10,8 @@
   [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
 - "properties" in the correlation rule filter now supports `Date`.
   [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
+- `sendMessages` method on the sender and `tryAdd` method to add messages to a batch now support tracing.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
 
 ### Breaking changes
 
