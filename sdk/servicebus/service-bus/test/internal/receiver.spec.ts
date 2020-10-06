@@ -20,13 +20,18 @@ import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../src/session/messageSession";
+import { InternalReceiveMode } from "../../src/serviceBusMessage";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
     it("close() called just after init() but before the next step", async () => {
       const batchingReceiver = new BatchingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: InternalReceiveMode.peekLock
+        }
       );
 
       let initWasCalled = false;
@@ -47,7 +52,11 @@ describe("Receiver unit tests", () => {
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: InternalReceiveMode.peekLock
+        }
       );
 
       await messageReceiver2.close();
@@ -91,7 +100,8 @@ describe("Receiver unit tests", () => {
           }
         }),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        0
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -119,7 +129,8 @@ describe("Receiver unit tests", () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -156,7 +167,8 @@ describe("Receiver unit tests", () => {
           }
         }),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -186,7 +198,8 @@ describe("Receiver unit tests", () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const abortSignal = {
@@ -250,7 +263,8 @@ describe("Receiver unit tests", () => {
       const impl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entity path",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const abortSignal = createAbortSignalForTest(true);

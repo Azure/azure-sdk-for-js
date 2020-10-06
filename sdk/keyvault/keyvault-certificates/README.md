@@ -166,7 +166,6 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 - [Getting a Key Vault certificate](#getting-a-key-vault-certificate).
 - [Getting the full information of a certificate](#getting-the-full-information-of-a-certificate).
 - [Certificates in PEM format](#certificates-in-pem-format).
-- [List all versions of a certificate](#list-all-versions-of-a-certificate).
 - [List all certificates](#list-all-certificates).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).

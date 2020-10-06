@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "febe9d20712277d8563fe7b198a96fb2";
+module.exports.hash = "ac40b383b445f28c364f65a46fa4079c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,33 +24,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '369da187-f3b0-486b-84b9-d03c02882500',
+  'b391363f-9941-40ef-8cc4-558e83811f01',
   'x-ms-ests-server',
-  '2.1.10963.12 - WUS2 ProdSlices',
+  '2.1.11086.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ArOyg5x-Fu5Ls6uDcnLMq0tJ4DFtAQAAAO40z9YOAAAA; expires=Fri, 18-Sep-2020 14:57:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Asnx_FjEpm5ClYIyr1GdvTFJ4DFtAQAAALiHDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 19 Aug 2020 14:57:50 GMT',
-  'Content-Length',
-  '1321'
+  'Mon, 05 Oct 2020 21:31:37 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
+  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:01992703-c047-43ec-ba3f-1374d1ba197f_G4, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022, Timestamp:2020-08-19T14:57:51</Detail></Error>", [
+  .reply(400, {"Code":400,"Detail":"Invalid schema type for PUT request. 'not-valid' is not supported. TrackingId:0b46c6c6-1703-496b-a401-d04fe16404d5_G4, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022, Timestamp:2020-10-05T21:31:39"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
-  'application/xml; charset=utf-8',
+  'application/json',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Wed, 19 Aug 2020 14:57:51 GMT'
+  'Mon, 05 Oct 2020 21:31:39 GMT'
 ]);

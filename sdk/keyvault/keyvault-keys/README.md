@@ -641,7 +641,7 @@ async function main() {
   let digest = hash.update(signatureValue).digest();
   console.log("digest: ", digest);
 
-  const signResult = await cryptographyClient.signData("RS256", digest);
+  const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
 }
 

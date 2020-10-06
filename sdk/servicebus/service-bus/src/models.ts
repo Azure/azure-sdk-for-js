@@ -80,6 +80,16 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
   subQueue?: SubQueue;
+
+  /**
+   * The maximum duration in milliseconds until which the lock on the message will be renewed
+   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
+   * provided onMessage handler completes ite execution.
+   *
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**
@@ -152,17 +162,7 @@ export interface MessageHandlerOptionsBase extends OperationOptionsBase {
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
  * Queue/Subscription which does not have sessions enabled.
  */
-export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-  /**
-   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
-   * provided onMessage handler completes ite execution.
-   *
-   * - **Default**: `300 * 1000` milliseconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxAutoRenewLockDurationInMs?: number;
-}
+export interface MessageHandlerOptions extends MessageHandlerOptionsBase {}
 
 /**
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods

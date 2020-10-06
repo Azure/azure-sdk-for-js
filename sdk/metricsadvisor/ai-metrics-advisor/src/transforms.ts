@@ -209,6 +209,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     createdTime: original.createdTime!,
     status: original.status!,
     isAdmin: original.isAdmin!,
+    creator: original.creator!,
     schema: {
       metrics: original.metrics,
       dimensions: original.dimension,
@@ -397,8 +398,8 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
 
 export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUnion {
   const common: HookCommon = {
-    id: original.hookId,
-    hookName: original.hookName,
+    id: original.id,
+    name: original.name,
     description: original.description,
     externalLink: original.externalLink,
     admins: original.admins

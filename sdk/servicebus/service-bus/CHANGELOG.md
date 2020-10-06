@@ -12,6 +12,9 @@
   [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
 - `sendMessages` method on the sender and `tryAdd` method to add messages to a batch now support tracing.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
+- Message locks can be auto-renewed in all receive methods (receiver.receiveMessages, receiver.subcribe
+  and receiver.getMessageIterator). This can be configured in options when calling `ServiceBusClient.createReceiver()`.
+  [PR 11658](https://github.com/Azure/azure-sdk-for-js/pull/11658)
 
 ### Breaking changes
 

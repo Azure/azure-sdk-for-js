@@ -8,9 +8,7 @@ dotenv.config();
 
 import {
   AnomalyAlertConfiguration,
-  AnomalyAlertConfigurationPatch,
   AnomalyDetectionConfiguration,
-  AnomalyDetectionConfigurationPatch,
   MetricAlertConfiguration,
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorKeyCredential
@@ -133,14 +131,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         seriesDetectionConditions: []
       };
 
-      const actual = await client.createMetricAnomalyDetectionConfiguration(
-        expected.name,
-        expected.metricId,
-        expected.wholeSeriesDetectionCondition,
-        expected.description,
-        expected.seriesGroupDetectionConditions,
-        expected.seriesDetectionConditions
-      );
+      const actual = await client.createMetricAnomalyDetectionConfiguration(expected);
 
       assert.ok(actual.id, "Expecting valid detecion config");
       createdDetectionConfigId = actual.id!;
@@ -160,7 +151,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("updates a detection configuration", async function() {
-      const expected: AnomalyDetectionConfigurationPatch = {
+      const expected: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">> = {
         name: "new Name",
         description: "new description",
         wholeSeriesDetectionCondition: {
@@ -270,13 +261,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         hookIds: []
       };
 
-      const actual = await client.createAnomalyAlertConfiguration(
-        expectedAlertConfig.name,
-        expectedAlertConfig.crossMetricsOperator!,
-        expectedAlertConfig.metricAlertConfigurations,
-        expectedAlertConfig.hookIds,
-        expectedAlertConfig.description
-      );
+      const actual = await client.createAnomalyAlertConfiguration(expectedAlertConfig);
 
       assert.ok(actual.id, "Expecting valid alert config");
       createdAlertConfigId = actual.id;
@@ -310,7 +295,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
           }
         }
       };
-      const patch: AnomalyAlertConfigurationPatch = {
+      const patch: Partial<Omit<AnomalyAlertConfiguration, "id">> = {
         name: "new alert config name",
         description: "new alert config description",
         crossMetricsOperator: "OR",
@@ -342,12 +327,12 @@ describe("MetricsAdvisorAdministrationClient", () => {
           scopeType: "All"
         }
       };
-      const secondAlertConfig = await client.createAnomalyAlertConfiguration(
-        secondAlertConfigName,
-        "OR",
-        [metricAlertConfig],
-        []
-      );
+      const secondAlertConfig = await client.createAnomalyAlertConfiguration({
+        name: secondAlertConfigName,
+        crossMetricsOperator: "OR",
+        metricAlertConfigurations: [metricAlertConfig],
+        hookIds: []
+      });
       try {
         const iterator = client.listAnomalyAlertConfigurations(createdDetectionConfigId);
         let result = await iterator.next();
