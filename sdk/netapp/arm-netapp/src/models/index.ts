@@ -577,7 +577,7 @@ export interface ReplicationObject {
    */
   endpointType?: EndpointType;
   /**
-   * Schedule. Possible values include: '_10minutely', 'hourly', 'daily', 'weekly', 'monthly'
+   * Schedule. Possible values include: '_10minutely', 'hourly', 'daily'
    */
   replicationSchedule: ReplicationSchedule;
   /**
@@ -924,163 +924,6 @@ export interface Snapshot extends BaseResource {
 }
 
 /**
- * Snapshot policy information
- */
-export interface SnapshotPolicy extends BaseResource {
-  /**
-   * Resource location
-   */
-  location: string;
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * hourlySchedule. Schedule for hourly snapshots
-   */
-  hourlySchedule?: any;
-  /**
-   * dailySchedule. Schedule for daily snapshots
-   */
-  dailySchedule?: any;
-  /**
-   * weeklySchedule. Schedule for weekly snapshots
-   */
-  weeklySchedule?: any;
-  /**
-   * monthlySchedule. Schedule for monthly snapshots
-   */
-  monthlySchedule?: any;
-  /**
-   * The property to decide policy is enabled or not
-   */
-  enabled?: boolean;
-}
-
-/**
- * Snapshot policy properties
- */
-export interface SnapshotPolicyDetails {
-  /**
-   * Resource location
-   */
-  location?: string;
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * hourlySchedule. Schedule for hourly snapshots
-   */
-  hourlySchedule?: any;
-  /**
-   * dailySchedule. Schedule for daily snapshots
-   */
-  dailySchedule?: any;
-  /**
-   * weeklySchedule. Schedule for weekly snapshots
-   */
-  weeklySchedule?: any;
-  /**
-   * monthlySchedule. Schedule for monthly snapshots
-   */
-  monthlySchedule?: any;
-  /**
-   * The property to decide policy is enabled or not
-   */
-  enabled?: boolean;
-}
-
-/**
- * Snapshot policy Details for create and update
- */
-export interface SnapshotPolicyPatch {
-  /**
-   * Resource location
-   */
-  location?: string;
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * hourlySchedule. Schedule for hourly snapshots
-   */
-  hourlySchedule?: any;
-  /**
-   * dailySchedule. Schedule for daily snapshots
-   */
-  dailySchedule?: any;
-  /**
-   * weeklySchedule. Schedule for weekly snapshots
-   */
-  weeklySchedule?: any;
-  /**
-   * monthlySchedule. Schedule for monthly snapshots
-   */
-  monthlySchedule?: any;
-  /**
-   * The property to decide policy is enabled or not
-   */
-  enabled?: boolean;
-}
-
-/**
- * Volumes associated with snapshot policy
- */
-export interface SnapshotPolicyVolumeList {
-  /**
-   * List of volumes
-   */
-  value?: any[];
-}
-
-/**
  * Hourly Schedule properties
  */
 export interface HourlySchedule {
@@ -1171,6 +1014,193 @@ export interface MonthlySchedule {
    * Resource size in bytes, current storage usage for the volume in bytes
    */
   usedBytes?: number;
+}
+
+/**
+ * Snapshot policy information
+ */
+export interface SnapshotPolicy extends BaseResource {
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Snapshot policy name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name1?: string;
+  /**
+   * hourlySchedule. Schedule for hourly snapshots
+   */
+  hourlySchedule?: HourlySchedule;
+  /**
+   * dailySchedule. Schedule for daily snapshots
+   */
+  dailySchedule?: DailySchedule;
+  /**
+   * weeklySchedule. Schedule for weekly snapshots
+   */
+  weeklySchedule?: WeeklySchedule;
+  /**
+   * monthlySchedule. Schedule for monthly snapshots
+   */
+  monthlySchedule?: MonthlySchedule;
+  /**
+   * The property to decide policy is enabled or not
+   */
+  enabled?: boolean;
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * Snapshot policy properties
+ */
+export interface SnapshotPolicyDetails {
+  /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Snapshot policy name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name1?: string;
+  /**
+   * hourlySchedule. Schedule for hourly snapshots
+   */
+  hourlySchedule?: HourlySchedule;
+  /**
+   * dailySchedule. Schedule for daily snapshots
+   */
+  dailySchedule?: DailySchedule;
+  /**
+   * weeklySchedule. Schedule for weekly snapshots
+   */
+  weeklySchedule?: WeeklySchedule;
+  /**
+   * monthlySchedule. Schedule for monthly snapshots
+   */
+  monthlySchedule?: MonthlySchedule;
+  /**
+   * The property to decide policy is enabled or not
+   */
+  enabled?: boolean;
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * Snapshot policy Details for create and update
+ */
+export interface SnapshotPolicyPatch {
+  /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Snapshot policy name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name1?: string;
+  /**
+   * hourlySchedule. Schedule for hourly snapshots
+   */
+  hourlySchedule?: HourlySchedule;
+  /**
+   * dailySchedule. Schedule for daily snapshots
+   */
+  dailySchedule?: DailySchedule;
+  /**
+   * weeklySchedule. Schedule for weekly snapshots
+   */
+  weeklySchedule?: WeeklySchedule;
+  /**
+   * monthlySchedule. Schedule for monthly snapshots
+   */
+  monthlySchedule?: MonthlySchedule;
+  /**
+   * The property to decide policy is enabled or not
+   */
+  enabled?: boolean;
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * Volumes associated with snapshot policy
+ */
+export interface SnapshotPolicyVolumeList {
+  /**
+   * List of volumes
+   */
+  value?: any[];
 }
 
 /**
@@ -1766,11 +1796,11 @@ export type EndpointType = 'src' | 'dst';
 
 /**
  * Defines values for ReplicationSchedule.
- * Possible values include: '_10minutely', 'hourly', 'daily', 'weekly', 'monthly'
+ * Possible values include: '_10minutely', 'hourly', 'daily'
  * @readonly
  * @enum {string}
  */
-export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily' | 'weekly' | 'monthly';
+export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily';
 
 /**
  * Defines values for SecurityStyle.

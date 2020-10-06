@@ -622,9 +622,6 @@ export const CapacityPool: msRest.CompositeMapper = {
       totalThroughputMibps: {
         readOnly: true,
         serializedName: "properties.totalThroughputMibps",
-        constraints: {
-          MultipleOf: 0.001
-        },
         type: {
           name: "Number"
         }
@@ -632,9 +629,6 @@ export const CapacityPool: msRest.CompositeMapper = {
       utilizedThroughputMibps: {
         readOnly: true,
         serializedName: "properties.utilizedThroughputMibps",
-        constraints: {
-          MultipleOf: 0.001
-        },
         type: {
           name: "Number"
         }
@@ -1548,262 +1542,6 @@ export const Snapshot: msRest.CompositeMapper = {
   }
 };
 
-export const SnapshotPolicy: msRest.CompositeMapper = {
-  serializedName: "snapshotPolicy",
-  type: {
-    name: "Composite",
-    className: "SnapshotPolicy",
-    modelProperties: {
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      hourlySchedule: {
-        serializedName: "properties.hourlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      dailySchedule: {
-        serializedName: "properties.dailySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      weeklySchedule: {
-        serializedName: "properties.weeklySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      monthlySchedule: {
-        serializedName: "properties.monthlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SnapshotPolicyDetails: msRest.CompositeMapper = {
-  serializedName: "snapshotPolicyDetails",
-  type: {
-    name: "Composite",
-    className: "SnapshotPolicyDetails",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      hourlySchedule: {
-        serializedName: "properties.hourlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      dailySchedule: {
-        serializedName: "properties.dailySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      weeklySchedule: {
-        serializedName: "properties.weeklySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      monthlySchedule: {
-        serializedName: "properties.monthlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SnapshotPolicyPatch: msRest.CompositeMapper = {
-  serializedName: "snapshotPolicyPatch",
-  type: {
-    name: "Composite",
-    className: "SnapshotPolicyPatch",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      hourlySchedule: {
-        serializedName: "properties.hourlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      dailySchedule: {
-        serializedName: "properties.dailySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      weeklySchedule: {
-        serializedName: "properties.weeklySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      monthlySchedule: {
-        serializedName: "properties.monthlySchedule",
-        type: {
-          name: "Object"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SnapshotPolicyVolumeList: msRest.CompositeMapper = {
-  serializedName: "snapshotPolicyVolumeList",
-  type: {
-    name: "Composite",
-    className: "SnapshotPolicyVolumeList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const HourlySchedule: msRest.CompositeMapper = {
   serializedName: "hourlySchedule",
   type: {
@@ -1940,6 +1678,316 @@ export const MonthlySchedule: msRest.CompositeMapper = {
         serializedName: "usedBytes",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotPolicy: msRest.CompositeMapper = {
+  serializedName: "snapshotPolicy",
+  type: {
+    name: "Composite",
+    className: "SnapshotPolicy",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      name1: {
+        readOnly: true,
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      hourlySchedule: {
+        serializedName: "properties.hourlySchedule",
+        type: {
+          name: "Composite",
+          className: "HourlySchedule"
+        }
+      },
+      dailySchedule: {
+        serializedName: "properties.dailySchedule",
+        type: {
+          name: "Composite",
+          className: "DailySchedule"
+        }
+      },
+      weeklySchedule: {
+        serializedName: "properties.weeklySchedule",
+        type: {
+          name: "Composite",
+          className: "WeeklySchedule"
+        }
+      },
+      monthlySchedule: {
+        serializedName: "properties.monthlySchedule",
+        type: {
+          name: "Composite",
+          className: "MonthlySchedule"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotPolicyDetails: msRest.CompositeMapper = {
+  serializedName: "snapshotPolicyDetails",
+  type: {
+    name: "Composite",
+    className: "SnapshotPolicyDetails",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      name1: {
+        readOnly: true,
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      hourlySchedule: {
+        serializedName: "properties.hourlySchedule",
+        type: {
+          name: "Composite",
+          className: "HourlySchedule"
+        }
+      },
+      dailySchedule: {
+        serializedName: "properties.dailySchedule",
+        type: {
+          name: "Composite",
+          className: "DailySchedule"
+        }
+      },
+      weeklySchedule: {
+        serializedName: "properties.weeklySchedule",
+        type: {
+          name: "Composite",
+          className: "WeeklySchedule"
+        }
+      },
+      monthlySchedule: {
+        serializedName: "properties.monthlySchedule",
+        type: {
+          name: "Composite",
+          className: "MonthlySchedule"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotPolicyPatch: msRest.CompositeMapper = {
+  serializedName: "snapshotPolicyPatch",
+  type: {
+    name: "Composite",
+    className: "SnapshotPolicyPatch",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      name1: {
+        readOnly: true,
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      hourlySchedule: {
+        serializedName: "properties.hourlySchedule",
+        type: {
+          name: "Composite",
+          className: "HourlySchedule"
+        }
+      },
+      dailySchedule: {
+        serializedName: "properties.dailySchedule",
+        type: {
+          name: "Composite",
+          className: "DailySchedule"
+        }
+      },
+      weeklySchedule: {
+        serializedName: "properties.weeklySchedule",
+        type: {
+          name: "Composite",
+          className: "WeeklySchedule"
+        }
+      },
+      monthlySchedule: {
+        serializedName: "properties.monthlySchedule",
+        type: {
+          name: "Composite",
+          className: "MonthlySchedule"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotPolicyVolumeList: msRest.CompositeMapper = {
+  serializedName: "snapshotPolicyVolumeList",
+  type: {
+    name: "Composite",
+    className: "SnapshotPolicyVolumeList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
