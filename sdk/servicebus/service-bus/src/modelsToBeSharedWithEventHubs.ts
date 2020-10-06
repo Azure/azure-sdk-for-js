@@ -26,7 +26,6 @@ export function getParentSpan(
 
 /**
  * The set of options to manually propagate `Span` context for distributed tracing.
- * - `parentSpan` : The `Span` or `SpanContext` for the operation to use as a `parent` when creating its own span.
  */
 export interface TryAddOptions {
   /**
