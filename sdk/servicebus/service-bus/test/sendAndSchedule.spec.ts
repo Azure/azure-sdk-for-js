@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ServiceBusClient } from "../src";
+import { ServiceBusMessage, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import {
@@ -383,12 +383,17 @@ describe("Sender Tests", () => {
 });
 
 describe("ServiceBusMessage validations", function(): void {
-  let sbClient: ServiceBusClient;
+  let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
 
-  before(() => {
-    sbClient = new ServiceBusClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;");
-    sender = sbClient.createSender("dummyQueue");
+  before(async () => {
+    sbClient = createServiceBusClientForTests();
+    const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+    sender = sbClient.createSender(entityName.queue!);
+  });
+
+  after(async () => {
+    await sbClient.close();
   });
 
   const longString =
@@ -402,7 +407,7 @@ describe("ServiceBusMessage validations", function(): void {
     {
       message: { body: "", contentType: 1 as any },
       expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
-      title: "contenType is of invalid type"
+      title: "contentType is of invalid type"
     },
     {
       message: { body: "", label: 1 as any },

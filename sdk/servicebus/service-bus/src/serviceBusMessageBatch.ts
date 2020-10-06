@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessage, toAmqpMessage, isServiceBusMessage } from "./serviceBusMessage";
+import {
+  ServiceBusMessage,
+  toAmqpMessage,
+  isServiceBusMessage,
+  getMessagePropertyTypeMismatchError
+} from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
@@ -259,7 +264,16 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
     amqpMessage.body = this._context.dataTransformer.encode(message.body);
-    const encodedMessage = RheaMessageUtil.encode(amqpMessage);
+
+    let encodedMessage: Buffer;
+    try {
+      encodedMessage = RheaMessageUtil.encode(amqpMessage);
+    } catch (error) {
+      if (error instanceof TypeError || error.name === "TypeError") {
+        throw getMessagePropertyTypeMismatchError(message) || error;
+      }
+      throw error;
+    }
 
     let currentSize = this._sizeInBytes;
 
