@@ -15,6 +15,7 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
+import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
@@ -228,6 +229,11 @@ export { OperationOptions }
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 
 // @public
+export interface ParentSpanOptions {
+    parentSpan?: Span | SpanContext | null;
+}
+
+// @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
 }
@@ -399,7 +405,7 @@ export interface ServiceBusMessageBatch {
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage): boolean;
+    tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -578,6 +584,10 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
+}
+
+// @public
+export interface TryAddOptions extends ParentSpanOptions {
 }
 
 export { WebSocketImpl }
