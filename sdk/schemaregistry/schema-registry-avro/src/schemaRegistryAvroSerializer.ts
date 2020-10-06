@@ -169,7 +169,7 @@ export class SchemaRegistryAvroSerializer {
     const schemaResponse = await this.registry.getSchemaById(schemaId);
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
       );
     }
 

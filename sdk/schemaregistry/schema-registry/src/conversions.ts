@@ -30,7 +30,10 @@ type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
  * @internal
  */
 export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema {
-  return convertResponse(response, { content: response.body });
+  // https://github.com/Azure/azure-sdk-for-js/issues/11649
+  // Although response.body is typed as string, it is a parsed JSON object,
+  // so we use _response.bodyAsText instead as a workaround.
+  return convertResponse(response, { content: response._response.bodyAsText });
 }
 
 /**
@@ -49,10 +52,10 @@ function convertResponse<T>(response: GeneratedResponse, additionalProperties: T
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
     location: response.location!,
-    locationById: response.xSchemaIdLocation!,
-    id: response.xSchemaId!,
-    version: response.xSchemaVersion!,
-    serializationType: response.xSchemaType!,
+    locationById: response.schemaIdLocation!,
+    id: response.schemaId!,
+    version: response.schemaVersion!,
+    serializationType: response.serializationType!,
     ...additionalProperties
   };
 
