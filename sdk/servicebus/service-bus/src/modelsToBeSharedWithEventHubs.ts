@@ -3,9 +3,9 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { Span, SpanContext } from "@opentelemetry/api";
+import { Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * NOTE: This type is intended to mirror the relevant fields and structure from @azure/core-http OperationOptions
@@ -24,6 +24,30 @@ export function getParentSpan(
   return options?.spanOptions?.parent;
 }
 
+export function createSendSpan(
+  parentSpan?: Span | SpanContext | null,
+  spanContextsToLink: SpanContext[] = [],
+  entityPath?: string,
+  host?: string
+): Span {
+  const links: Link[] = spanContextsToLink.map((context) => {
+    return {
+      context
+    };
+  });
+  const tracer = getTracer();
+  const span = tracer.startSpan("Azure.ServiceBus.send", {
+    kind: SpanKind.CLIENT,
+    parent: parentSpan,
+    links
+  });
+
+  span.setAttribute("az.namespace", "Microsoft.ServiceBus");
+  span.setAttribute("message_bus.destination", entityPath);
+  span.setAttribute("peer.address", host);
+
+  return span;
+}
 /**
  * The set of options to manually propagate `Span` context for distributed tracing.
  */

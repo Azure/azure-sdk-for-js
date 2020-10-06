@@ -21,9 +21,12 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { getParentSpan, OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { getTracer } from "@azure/core-tracing";
+import {
+  createSendSpan,
+  getParentSpan,
+  OperationOptionsBase
+} from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode, SpanContext } from "@opentelemetry/api";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -209,9 +212,11 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       throw new TypeError(invalidTypeErrMsg);
     }
 
-    const sendSpan = this._createSendSpan(
+    const sendSpan = createSendSpan(
       getParentSpan(options?.tracingOptions),
-      spanContextsToLink
+      spanContextsToLink,
+      this.entityPath,
+      this._context.config.host
     );
 
     try {
@@ -346,29 +351,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       );
       throw err;
     }
-  }
-
-  private _createSendSpan(
-    parentSpan?: Span | SpanContext | null,
-    spanContextsToLink: SpanContext[] = []
-  ): Span {
-    const links: Link[] = spanContextsToLink.map((context) => {
-      return {
-        context
-      };
-    });
-    const tracer = getTracer();
-    const span = tracer.startSpan("Azure.ServiceBus.send", {
-      kind: SpanKind.CLIENT,
-      parent: parentSpan,
-      links
-    });
-
-    span.setAttribute("az.namespace", "Microsoft.ServiceBus");
-    span.setAttribute("message_bus.destination", this.entityPath);
-    span.setAttribute("peer.address", this._context.config.host);
-
-    return span;
   }
 }
 
