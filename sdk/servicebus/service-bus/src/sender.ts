@@ -189,7 +189,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     let batch: ServiceBusMessageBatch;
     if (Array.isArray(messages)) {
       batch = await this.createBatch(options);
-      for (let message of messages) {
+      for (const message of messages) {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
