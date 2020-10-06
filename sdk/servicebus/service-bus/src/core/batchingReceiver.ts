@@ -35,7 +35,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
+  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
     super(context, entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
@@ -118,12 +118,22 @@ export class BatchingReceiver extends MessageReceiver {
         this.name
       );
 
-      return await this._batchingReceiverLite.receiveMessages({
+      const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
         userAbortSignal
       });
+
+      if (this._lockRenewer) {
+        for (const message of messages) {
+          this._lockRenewer.start(this, message, (error) => {
+            logError(error, `${this.logPrefix} Failed to renew lock for message.`);
+          });
+        }
+      }
+
+      return messages;
     } catch (error) {
       logError(
         error,
@@ -139,7 +149,7 @@ export class BatchingReceiver extends MessageReceiver {
   static create(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions
+    options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);

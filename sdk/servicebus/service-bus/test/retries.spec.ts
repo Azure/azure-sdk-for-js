@@ -18,6 +18,7 @@ import {
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { InternalReceiveMode } from "../src/serviceBusMessage";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -353,7 +354,11 @@ describe("Retries - Receive methods", () => {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
         (receiver as any)._context,
-        "dummyEntityPath"
+        "dummyEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: InternalReceiveMode.peekLock
+        }
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;

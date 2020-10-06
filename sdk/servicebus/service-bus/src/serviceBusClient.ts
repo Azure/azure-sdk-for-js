@@ -236,11 +236,17 @@ export class ServiceBusClient {
       }
     }
 
+    const maxLockAutoRenewDurationInMs =
+      options?.maxLockAutoRenewDurationInMs != null
+        ? options.maxLockAutoRenewDurationInMs
+        : 5 * 60 * 1000;
+
     if (receiveMode === "peekLock") {
       return new ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>(
         this._connectionContext,
         entityPathWithSubQueue,
         receiveMode,
+        maxLockAutoRenewDurationInMs,
         this._clientOptions.retryOptions
       );
     } else {
@@ -248,6 +254,7 @@ export class ServiceBusClient {
         this._connectionContext,
         entityPathWithSubQueue,
         receiveMode,
+        maxLockAutoRenewDurationInMs,
         this._clientOptions.retryOptions
       );
     }
@@ -353,9 +360,7 @@ export class ServiceBusClient {
       | AcceptSessionOptions<"peekLock">
       | AcceptSessionOptions<"receiveAndDelete">
       | string,
-    options4?:
-      | AcceptSessionOptions<"peekLock">
-      | AcceptSessionOptions<"receiveAndDelete">
+    options4?: AcceptSessionOptions<"peekLock"> | AcceptSessionOptions<"receiveAndDelete">
   ): Promise<
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
     | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
@@ -514,9 +519,7 @@ export class ServiceBusClient {
       | AcceptSessionOptions<"peekLock">
       | AcceptSessionOptions<"receiveAndDelete">
       | string,
-    options3?:
-      | AcceptSessionOptions<"peekLock">
-      | AcceptSessionOptions<"receiveAndDelete">
+    options3?: AcceptSessionOptions<"peekLock"> | AcceptSessionOptions<"receiveAndDelete">
   ): Promise<
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
     | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>

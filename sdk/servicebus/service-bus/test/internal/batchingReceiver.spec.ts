@@ -30,6 +30,7 @@ import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { LockRenewer } from "../../src/core/autoLockRenewer";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -52,7 +53,8 @@ describe("BatchingReceiver unit tests", () => {
       const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
       let wasCalled = false;
 
@@ -84,7 +86,8 @@ describe("BatchingReceiver unit tests", () => {
       abortController.abort();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: InternalReceiveMode.peekLock
+        receiveMode: InternalReceiveMode.peekLock,
+        lockRenewer: undefined
       });
 
       try {
@@ -100,7 +103,8 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: InternalReceiveMode.peekLock
+        receiveMode: InternalReceiveMode.peekLock,
+        lockRenewer: undefined
       });
       closeables.push(receiver);
 
@@ -185,7 +189,8 @@ describe("BatchingReceiver unit tests", () => {
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
-            receiveMode: lockMode
+            receiveMode: lockMode,
+            lockRenewer: undefined
           }
         );
         closeables.push(receiver);
@@ -218,7 +223,8 @@ describe("BatchingReceiver unit tests", () => {
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
-            receiveMode: lockMode
+            receiveMode: lockMode,
+            lockRenewer: undefined
           }
         );
         closeables.push(receiver);
@@ -249,7 +255,8 @@ describe("BatchingReceiver unit tests", () => {
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              lockRenewer: undefined
             }
           );
           closeables.push(receiver);
@@ -300,7 +307,8 @@ describe("BatchingReceiver unit tests", () => {
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              lockRenewer: undefined
             }
           );
           closeables.push(receiver);
@@ -356,7 +364,8 @@ describe("BatchingReceiver unit tests", () => {
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              lockRenewer: undefined
             }
           );
           closeables.push(receiver);
