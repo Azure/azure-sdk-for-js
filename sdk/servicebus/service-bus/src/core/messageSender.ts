@@ -110,14 +110,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         `${this.logPrefix} 'sender_close' event occurred. The associated error is: %O`,
         senderError
       );
-
-      await this.onDetached().catch((err) => {
-        logError(
-          err,
-          `${this.logPrefix} error when closing sender after 'sender_close' event: %O`,
-          err
-        );
-      });
     };
 
     this._onSessionClose = async (context: EventContext) => {
@@ -128,14 +120,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         `${this.logPrefix} 'session_close' event occurred. The associated error is: %O`,
         sessionError
       );
-
-      await this.onDetached().catch((err) => {
-        logError(
-          err,
-          `${this.logPrefix} error when closing sender after 'session_close' event: %O`,
-          err
-        );
-      });
     };
   }
 
@@ -331,17 +315,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
       throw err;
     }
-  }
-
-  /**
-   * Closes the rhea link.
-   * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
-   * @returns {Promise<void>} Promise<void>.
-   */
-  async onDetached(): Promise<void> {
-    // Clears the token renewal timer. Closes the link and its session if they are open.
-    // Removes the link and its session if they are present in rhea's cache.
-    await this.closeLink();
   }
 
   /**

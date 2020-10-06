@@ -329,29 +329,14 @@ export namespace ConnectionContext {
         await delay(Constants.connectionReconnectDelay);
 
         const detachCalls: Promise<void>[] = [];
-
-        // Call onDetached() on sender so that it can gracefully shutdown
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          if (sender) {
-            logger.verbose(
-              "[%s] calling detached on sender '%s'.",
-              connectionContext.connection.id,
-              sender.name
-            );
-            detachCalls.push(
-              sender.onDetached().catch((err) => {
-                logError(
-                  err,
-                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
-                  connectionContext.connection.id,
-                  sender.name,
-                  err
-                );
-              })
-            );
-          }
-        }
+        // Neither we do recovery for the sender, nor we cleanup
+        // No recovery:
+        //   Because we don't want to keep the sender active all the time
+        //   and the "next" send call would bear the burden of creating the link
+        // No cleanup:
+        //   "Closing the link" cleanup would step over new link initializations
+        //   and can possibly clear the link once created, hence we do the cleanup
+        //   at the time of new link creation
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
         // and streaming receivers can decide whether to reconnect or not.
