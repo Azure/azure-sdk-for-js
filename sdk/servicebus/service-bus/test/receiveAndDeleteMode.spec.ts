@@ -50,9 +50,9 @@ describe("receive and delete", () => {
       serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
     );
     if (receiveMode === "peekLock") {
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
+      receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
     } else {
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityName);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
     }
 
     errorWasThrown = false;
@@ -363,7 +363,7 @@ describe("receive and delete", () => {
     ): Promise<ServiceBusReceivedMessage> {
       const sequenceNumber = await deferMessage(testClientType);
       await receiver.close();
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
 
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
@@ -436,7 +436,7 @@ describe("receive and delete", () => {
       await receiver.close();
 
       // Receive the deferred message in ReceiveAndDelete mode
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
         throw `No message received for sequence number ${sequenceNumber}`;

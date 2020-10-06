@@ -549,6 +549,52 @@ function serializeDictionaryType(
 }
 
 /**
+ * Resolves the additionalProperties property from a referenced mapper
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
+ * @param objectName name of the object being serialized
+ */
+function resolveAdditionalProperties(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  objectName: string
+): SequenceMapper | BaseMapper | CompositeMapper | DictionaryMapper | EnumMapper | undefined {
+  const additionalProperties = mapper.type.additionalProperties;
+
+  if (!additionalProperties && mapper.type.className) {
+    const modelMapper = resolveReferencedMapper(serializer, mapper, objectName);
+    return modelMapper?.type.additionalProperties;
+  }
+
+  return additionalProperties;
+}
+
+/**
+ * Finds the mapper referenced by className
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
+ * @param objectName name of the object being serialized
+ */
+function resolveReferencedMapper(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  objectName: string
+): CompositeMapper | undefined {
+  const className = mapper.type.className;
+  if (!className) {
+    throw new Error(
+      `Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(
+        mapper,
+        undefined,
+        2
+      )}".`
+    );
+  }
+
+  return serializer.modelMappers[className];
+}
+
+/**
  * Resolves a composite mapper's modelProperties.
  * @param serializer the serializer containing the entire set of mappers
  * @param mapper the composite mapper to resolve
@@ -560,28 +606,17 @@ function resolveModelProperties(
 ): { [propertyName: string]: Mapper } {
   let modelProps = mapper.type.modelProperties;
   if (!modelProps) {
-    const className = mapper.type.className;
-    if (!className) {
-      throw new Error(
-        `Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(
-          mapper,
-          undefined,
-          2
-        )}".`
-      );
-    }
-
-    const modelMapper = serializer.modelMappers[className];
+    const modelMapper = resolveReferencedMapper(serializer, mapper, objectName);
     if (!modelMapper) {
-      throw new Error(`mapper() cannot be null or undefined for model "${className}".`);
+      throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}".`);
     }
-    modelProps = modelMapper.type.modelProperties;
+    modelProps = modelMapper?.type.modelProperties;
     if (!modelProps) {
       throw new Error(
         `modelProperties cannot be null or undefined in the ` +
-          `mapper "${JSON.stringify(
-            modelMapper
-          )}" of type "${className}" for object "${objectName}".`
+          `mapper "${JSON.stringify(modelMapper)}" of type "${
+            mapper.type.className
+          }" for object "${objectName}".`
       );
     }
   }
@@ -678,7 +713,7 @@ function serializeCompositeType(
       }
     }
 
-    const additionalPropertiesMapper = mapper.type.additionalProperties;
+    const additionalPropertiesMapper = resolveAdditionalProperties(serializer, mapper, objectName);
     if (additionalPropertiesMapper) {
       const propNames = Object.keys(modelProps);
       for (const clientPropName in object) {

@@ -13,6 +13,7 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -116,7 +117,8 @@ export class ClientCertificateCredential implements TokenCredential {
     );
     try {
       const tokenId = uuidV4();
-      const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+      const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`;
       let header: jws.Header;
 
       if (this.certificateX5c) {

@@ -83,10 +83,8 @@ async function runScenario() {
 }
 
 async function getSessionState(sessionId: string) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
-    sessionId: sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
   const sessionState = await sessionReceiver.getSessionState();
   if (sessionState) {
@@ -115,10 +113,8 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
 }
 
 async function processMessageFromSession(sessionId: string) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
-    sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
   const messages = await sessionReceiver.receiveMessages(1, {
     maxWaitTimeInMs: 10000

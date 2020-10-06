@@ -10,7 +10,7 @@ dotenv.config();
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-export async function createAndDeleteEntities() {
+async function createAndDeleteEntities() {
   console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
@@ -68,7 +68,7 @@ interface Entity {
   quantity: number;
 }
 
-export async function main() {
+async function main() {
   await createAndDeleteEntities();
 }
 

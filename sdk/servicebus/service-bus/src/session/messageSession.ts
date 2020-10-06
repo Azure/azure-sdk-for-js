@@ -27,7 +27,7 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { CreateSessionReceiverOptions, MessageHandlerOptionsBase } from "../models";
+import { AcceptSessionOptions, MessageHandlerOptionsBase } from "../models";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -49,8 +49,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  CreateSessionReceiverOptions<"receiveAndDelete">,
-  "sessionId" | "maxAutoRenewLockDurationInMs" | "abortSignal"
+  AcceptSessionOptions<"receiveAndDelete">,
+  "maxAutoRenewLockDurationInMs" | "abortSignal"
 > & {
   receiveMode?: InternalReceiveMode;
 };
@@ -65,10 +65,6 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
   sessionLockedUntilUtc!: Date;
-  /**
-   * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
-   */
-  private providedSessionId?: string;
   /**
    * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId.
    */
@@ -204,7 +200,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.name
           );
           this.sessionLockedUntilUtc = await this._context
-            .getManagementClient(this._entityPath)
+            .getManagementClient(this.entityPath)
             .renewSessionLock(this.sessionId, {
               associatedLinkName: this.name,
               timeoutInMs: 10000
@@ -273,14 +269,14 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       let errorMessage: string = "";
 
-      if (this.providedSessionId == null && receivedSessionId == null) {
+      if (this._providedSessionId == null && receivedSessionId == null) {
         // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
         errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
-      } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
+      } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
         // This code path is reached if the session is already locked by another receiver.
         // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-        errorMessage = `Failed to create a receiver for the requested session '${this.providedSessionId}'. It may be locked by another receiver.`;
+        errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
       }
 
       if (errorMessage) {
@@ -291,7 +287,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         logError(error, "[%s] %O", this._context.connectionId, error);
         throw error;
       }
-      if (this.providedSessionId == null) this.sessionId = receivedSessionId;
+      if (this._providedSessionId == null) this.sessionId = receivedSessionId;
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"]
       );
@@ -334,8 +330,8 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((errObj as MessagingError).code === "OperationTimeoutError") {
-        if (this.providedSessionId) {
-          errObj.message = `Failed to create a receiver for the requested session '${this.providedSessionId}' within allocated time and retry attempts.`;
+        if (this._providedSessionId) {
+          errObj.message = `Failed to create a receiver for the requested session '${this._providedSessionId}' within allocated time and retry attempts.`;
         } else {
           errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
         }
@@ -376,20 +372,28 @@ export class MessageSession extends LinkEntity<Receiver> {
     return rcvrOptions;
   }
 
+  /**
+   * Constructs a MessageSession instance which lets you receive messages as batches
+   * or via callbacks using subscribe.
+   *
+   * @param _providedSessionId The sessionId provided by the user. This can be the
+   * name of a session ID to open (empty string is also valid) or it can be undefined,
+   * to indicate we want the next unlocked non-empty session.
+   */
   constructor(
     context: ConnectionContext,
-    private _entityPath: string,
+    entityPath: string,
+    private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(_entityPath, context, "ms", {
-      address: _entityPath,
-      audience: `${context.config.endpoint}${_entityPath}`
+    super(entityPath, entityPath, context, "ms", {
+      address: entityPath,
+      audience: `${context.config.endpoint}${entityPath}`
     });
     this._receiverHelper = new ReceiverHelper(() => this.link);
-    if (!options) options = { sessionId: undefined };
+    if (!options) options = {};
     this.autoComplete = false;
-    this.providedSessionId = options.sessionId;
-    if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
+    if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
     this.maxAutoRenewDurationInMs =
       options.maxAutoRenewLockDurationInMs != null
@@ -402,7 +406,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      _entityPath,
+      entityPath,
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
@@ -657,7 +661,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         const bMessage = new ServiceBusMessageImpl(
           this._context,
-          this._entityPath,
+          this.entityPath,
           context.message!,
           context.delivery!,
           true,
@@ -872,10 +876,11 @@ export class MessageSession extends LinkEntity<Receiver> {
   static async create(
     context: ConnectionContext,
     entityPath: string,
+    sessionId: string | undefined,
     options?: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
-    const messageSession = new MessageSession(context, entityPath, options);
+    const messageSession = new MessageSession(context, entityPath, sessionId, options);
     await messageSession._init(options?.abortSignal);
     return messageSession;
   }
