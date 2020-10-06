@@ -10,6 +10,9 @@
   [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
 - "properties" in the correlation rule filter now supports `Date`.
   [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
+- Message locks can be auto-renewed in all receive methods (receiver.receiveMessages, receiver.subcribe
+  and receiver.getMessageIterator). This can be configured in options when calling `ServiceBusClient.createReceiver()`.
+  [PR 11658](https://github.com/Azure/azure-sdk-for-js/pull/11658)
 
 ### Breaking changes
 

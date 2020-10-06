@@ -3,11 +3,11 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { logger } from "../log";
-import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { logError } from "../util/errors";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { LinkEntity } from "./linkEntity";
-import { OnError, ReceiveOptions } from "./messageReceiver";
+import { OnError } from "./messageReceiver";
 
 /**
  * @internal
@@ -19,27 +19,28 @@ export type RenewableMessageProperties = Readonly<
   // updated when we renew the lock
   Pick<ServiceBusMessageImpl, "lockedUntilUtc">;
 
+type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
+
 /**
  * Tracks locks for messages, renewing until a configurable duration.
  *
  * @internal
  * @ignore
  */
-export class AutoLockRenewer {
+export class LockRenewer {
   /**
-   * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
-   * the lock is automatically renewed.
+   * @property _messageRenewLockTimers A map of link names to individual maps for each
+   * link that map a message ID to its auto-renewal timer.
    */
-  private _messageRenewLockTimers: Map<string, NodeJS.Timer | undefined> = new Map<
+  private _messageRenewLockTimers: Map<string, Map<string, NodeJS.Timer | undefined>> = new Map<
     string,
-    NodeJS.Timer | undefined
+    Map<string, NodeJS.Timer | undefined>
   >();
 
   // just here for make unit testing a bit easier.
   private _calculateRenewAfterDuration: typeof calculateRenewAfterDuration;
 
   constructor(
-    private _linkEntity: Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">,
     private _context: Pick<ConnectionContext, "getManagementClient">,
     private _maxAutoRenewDurationInMs: number
   ) {
@@ -53,40 +54,43 @@ export class AutoLockRenewer {
    * @param context The connection context for your link entity (probably 'this._context')
    * @param options The ReceiveOptions passed through to your message receiver.
    * @returns if the lock mode is peek lock (or if is unspecified, thus defaulting to peekLock)
-   * and the options.maxAutoRenewLockDurationInMs is > 0..Otherwise, returns undefined.
+   * and the options.maxAutoLockRenewalDurationInMs is > 0..Otherwise, returns undefined.
    */
   static create(
-    linkEntity: Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">,
     context: Pick<ConnectionContext, "getManagementClient">,
-    options?: Pick<ReceiveOptions, "receiveMode" | "maxAutoRenewLockDurationInMs">
+    maxAutoRenewLockDurationInMs: number,
+    receiveMode: "peekLock" | "receiveAndDelete"
   ) {
-    if (options?.receiveMode === InternalReceiveMode.receiveAndDelete) {
+    if (receiveMode !== "peekLock") {
       return undefined;
     }
 
-    const maxAutoRenewDurationInMs =
-      options?.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
-        : 300 * 1000;
-
-    if (maxAutoRenewDurationInMs <= 0) {
+    if (maxAutoRenewLockDurationInMs <= 0) {
       return undefined;
     }
 
-    return new AutoLockRenewer(linkEntity, context, maxAutoRenewDurationInMs);
+    return new LockRenewer(context, maxAutoRenewLockDurationInMs);
   }
 
   /**
-   * Cancels all pending lock renewals and removes all entries from our internal cache.
+   * Cancels all pending lock renewals for messages on given link and removes all entries from our internal cache.
    */
-  stopAll() {
+  stopAll(linkEntity: MinimalLink) {
     logger.verbose(
-      `${this._linkEntity.logPrefix} Clearing message renew lock timers for all the active messages.`
+      `${linkEntity.logPrefix} Clearing message renew lock timers for all the active messages.`
     );
 
-    for (const messageId of this._messageRenewLockTimers.keys()) {
-      this._stopAndRemoveById(messageId);
+    const messagesForLink = this._messageRenewLockTimers.get(linkEntity.name);
+
+    if (messagesForLink == null) {
+      return;
     }
+
+    for (const messageId of messagesForLink.keys()) {
+      this._stopAndRemoveById(linkEntity, messagesForLink, messageId);
+    }
+
+    this._messageRenewLockTimers.delete(linkEntity.name);
   }
 
   /**
@@ -94,9 +98,16 @@ export class AutoLockRenewer {
    *
    * @param bMessage The message whose lock renewal we will stop.
    */
-  stop(bMessage: RenewableMessageProperties) {
+  stop(linkEntity: MinimalLink, bMessage: RenewableMessageProperties) {
     const messageId = bMessage.messageId as string;
-    this._stopAndRemoveById(messageId);
+
+    const messagesForLink = this._messageRenewLockTimers.get(linkEntity.name);
+
+    if (messagesForLink == null) {
+      return;
+    }
+
+    this._stopAndRemoveById(linkEntity, messagesForLink, messageId);
   }
 
   /**
@@ -104,9 +115,9 @@ export class AutoLockRenewer {
    *
    * @param bMessage The message whose lock renewal we will start.
    */
-  start(bMessage: RenewableMessageProperties, onError: OnError) {
+  start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnError) {
     try {
-      const logPrefix = this._linkEntity.logPrefix;
+      const logPrefix = linkEntity.logPrefix;
 
       if (bMessage.lockToken == null) {
         throw new Error(
@@ -115,15 +126,17 @@ export class AutoLockRenewer {
       }
 
       const lockToken = bMessage.lockToken;
+      const linkMessageMap = this._getOrCreateMapForLink(linkEntity);
       // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
       // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInMs
       // - We should be able to clear the renewal timer when the user's message handler
       // is done (whether it succeeds or fails).
-      // Setting the messageId with undefined value in the _messageRenewockTimers Map because we
+      // Setting the messageId with undefined value in the linkMessageMap because we
       // track state by checking the presence of messageId in the map. It is removed from the map
       // when an attempt is made to settle the message (either by the user or by the sdk) OR
       // when the execution of user's message handler completes.
-      this._messageRenewLockTimers.set(bMessage.messageId as string, undefined);
+      linkMessageMap.set(bMessage.messageId as string, undefined);
+
       logger.verbose(
         `${logPrefix} message with id '${
           bMessage.messageId
@@ -135,6 +148,7 @@ export class AutoLockRenewer {
           bMessage.messageId
         }' is: ${new Date(totalAutoLockRenewDuration).toString()}`
       );
+
       const autoRenewLockTask = (): void => {
         const renewalNeededToMaintainLock =
           // if the lock expires _after_ our max auto-renew duration there's no reason to
@@ -145,7 +159,7 @@ export class AutoLockRenewer {
         const haventExceededMaxLockRenewalTime = Date.now() < totalAutoLockRenewDuration;
 
         if (renewalNeededToMaintainLock && haventExceededMaxLockRenewalTime) {
-          if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
+          if (linkMessageMap.has(bMessage.messageId as string)) {
             // TODO: We can run into problems with clock skew between the client and the server.
             // It would be better to calculate the duration based on the "lockDuration" property
             // of the queue. However, we do not have the management plane of the client ready for
@@ -153,38 +167,42 @@ export class AutoLockRenewer {
             const amount = this._calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
 
             logger.verbose(
-              `${logPrefix} Sleeping for %d milliseconds while renewing the lock for message with id '${bMessage.messageId}' is: ${amount}`
+              `${logPrefix} Sleeping for ${amount} milliseconds while renewing the lock for message with id '${bMessage.messageId}'`
             );
             // Setting the value of the messageId to the actual timer. This will be cleared when
             // an attempt is made to settle the message (either by the user or by the sdk) OR
             // when the execution of user's message handler completes.
-            this._messageRenewLockTimers.set(
-              bMessage.messageId as string,
-              setTimeout(async () => {
-                try {
-                  logger.verbose(
-                    `${logPrefix} Attempting to renew the lock for message with id '${bMessage.messageId}'.`
-                  );
+            const autoRenewTimer = setTimeout(async () => {
+              try {
+                logger.verbose(
+                  `${logPrefix} Attempting to renew the lock for message with id '${bMessage.messageId}'.`
+                );
 
-                  bMessage.lockedUntilUtc = await this._context
-                    .getManagementClient(this._linkEntity.entityPath)
-                    .renewLock(lockToken, {
-                      associatedLinkName: this._linkEntity.name
-                    });
-                  logger.verbose(
-                    `${logPrefix} Successfully renewed the lock for message with id '${bMessage.messageId}'. Starting next auto-lock-renew cycle for message.`
-                  );
+                bMessage.lockedUntilUtc = await this._context
+                  .getManagementClient(linkEntity.entityPath)
+                  .renewLock(lockToken, {
+                    associatedLinkName: linkEntity.name
+                  });
+                logger.verbose(
+                  `${logPrefix} Successfully renewed the lock for message with id '${bMessage.messageId}'. Starting next auto-lock-renew cycle for message.`
+                );
 
-                  autoRenewLockTask();
-                } catch (err) {
-                  logError(
-                    err,
-                    `${logPrefix} An error occurred while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
-                  );
-                  onError(err);
-                }
-              }, amount)
-            );
+                autoRenewLockTask();
+              } catch (err) {
+                logError(
+                  err,
+                  `${logPrefix} An error occurred while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
+                );
+                onError(err);
+              }
+            }, amount);
+
+            // Prevent the active Timer from keeping the Node.js event loop active.
+            if (typeof autoRenewTimer.unref === "function") {
+              autoRenewTimer.unref();
+            }
+
+            linkMessageMap.set(bMessage.messageId as string, autoRenewTimer);
           } else {
             logger.verbose(
               `${logPrefix} Looks like the message lock renew timer has already been cleared for message with id '${bMessage.messageId}'.`
@@ -199,7 +217,7 @@ export class AutoLockRenewer {
             }'. Hence we will stop the autoLockRenewTask.`
           );
 
-          this.stop(bMessage);
+          this.stop(linkEntity, bMessage);
         }
       };
 
@@ -210,19 +228,34 @@ export class AutoLockRenewer {
     }
   }
 
-  private _stopAndRemoveById(messageId: string | undefined): void {
+  private _getOrCreateMapForLink(linkEntity: MinimalLink): Map<string, NodeJS.Timer | undefined> {
+    if (!this._messageRenewLockTimers.has(linkEntity.name)) {
+      this._messageRenewLockTimers.set(
+        linkEntity.name,
+        new Map<string, NodeJS.Timer | undefined>()
+      );
+    }
+
+    return this._messageRenewLockTimers.get(linkEntity.name)!;
+  }
+
+  private _stopAndRemoveById(
+    linkEntity: MinimalLink,
+    linkMessageMap: Map<string, NodeJS.Timer | undefined>,
+    messageId: string | undefined
+  ): void {
     if (messageId == null) {
       throw new Error("Failed to stop auto lock renewal - no message ID");
     }
 
     // TODO: messageId doesn't actually need to be unique. Perhaps we should use lockToken
     // instead?
-    if (this._messageRenewLockTimers.has(messageId)) {
-      clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
+    if (linkMessageMap.has(messageId)) {
+      clearTimeout(linkMessageMap.get(messageId) as NodeJS.Timer);
       logger.verbose(
-        `${this._linkEntity.logPrefix} Cleared the message renew lock timer for message with id '${messageId}'.`
+        `${linkEntity.logPrefix} Cleared the message renew lock timer for message with id '${messageId}'.`
       );
-      this._messageRenewLockTimers.delete(messageId);
+      linkMessageMap.delete(messageId);
     }
   }
 }
