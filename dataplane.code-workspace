@@ -165,10 +165,7 @@
       "path": "sdk/test-utils/perfstress"
     },
     {
-      "path": "sdk/learn/design-tutorial"
-    },
-    {
-      "path": "sdk/digitaltwins/digitaltwins"
+      "path": "sdk/api-learn/design-tutorial"
     },
     {
       "path": "sdk/digitaltwins/digital-twins"

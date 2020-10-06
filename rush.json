@@ -584,7 +584,7 @@
     },
     {
       "packageName": "@azure/design-tutorial",
-      "projectFolder": "sdk/learn/design-tutorial",
+      "projectFolder": "sdk/api-learn/design-tutorial",
       "versionPolicyName": "client"
     }
   ]
