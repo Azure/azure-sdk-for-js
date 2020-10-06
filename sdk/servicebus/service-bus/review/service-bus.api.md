@@ -229,11 +229,6 @@ export { OperationOptions }
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 
 // @public
-export interface ParentSpanOptions {
-    parentSpan?: Span | SpanContext | null;
-}
-
-// @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
 }
@@ -587,7 +582,8 @@ export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, 
 }
 
 // @public
-export interface TryAddOptions extends ParentSpanOptions {
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext | null;
 }
 
 export { WebSocketImpl }
