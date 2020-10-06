@@ -126,7 +126,7 @@ export interface CreateQueueOptions extends OperationOptions {
 
 // @public
 export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
-    maxLockAutoRenewDurationInMs?: number;
+    maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveModeT;
     subQueue?: SubQueue;
 }
