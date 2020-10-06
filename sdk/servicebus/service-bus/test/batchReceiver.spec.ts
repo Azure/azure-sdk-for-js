@@ -782,7 +782,7 @@ describe("Batching Receiver", () => {
       await batch[0].complete();
     }
 
-    it.only(
+    it(
       noSessionTestClientType +
         ": No settlement of the message is retained with incremented deliveryCount",
       async function(): Promise<void> {
