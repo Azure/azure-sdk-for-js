@@ -169,7 +169,7 @@ export type GetCapabilitiesUpdateOptions = OperationOptions;
 /**
  * Additional request options for requesting the release of a list of phone numbers.
  */
-export type ReleasePhoneNumberOptions = OperationOptions;
+export type ReleasePhoneNumbersOptions = OperationOptions;
 
 /**
  * Additional request options for getting a release.

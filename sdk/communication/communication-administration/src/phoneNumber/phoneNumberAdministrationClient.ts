@@ -69,14 +69,17 @@ import {
   GetCapabilitiesUpdateOptions,
   GetPhoneNumberConfigurationOptions,
   GetReleaseOptions,
-  ReleasePhoneNumberOptions,
   UnconfigurePhoneNumberOptions,
   CancelSearchOptions,
   GetSearchOptions,
-  PurchaseSearchOptions
+  PurchaseSearchOptions,
+  ReleasePhoneNumbersOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
+import { _PhoneNumberPollerClient } from "./lroModels";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -95,6 +98,20 @@ export class PhoneNumberAdministrationClient {
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
   private readonly client: PhoneNumberAdministration;
+
+  /**
+   * @internal
+   * @ignore
+   * A self reference that bypasses private methods, for the pollers.
+   */
+  private readonly pollerClient: _PhoneNumberPollerClient = {
+    createSearch: this.createSearch.bind(this),
+    getSearch: this.getSearch.bind(this),
+    cancelSearch: this.cancelSearch.bind(this),
+    purchaseSearch: this.purchaseSearch.bind(this),
+    releasePhoneNumbers: this.releasePhoneNumbers.bind(this),
+    getRelease: this.getRelease.bind(this)
+  };
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.
@@ -282,66 +299,37 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Request the release of a list of acquired phone numbers.
-   * The response includes the id of the created release,
-   * remember that id for subsequent calls to getRelease.
-   * @param phoneNumbers The phone numbers to be released.
-   * @param options Additional request options.
+   * Starts the release of a list of acquired phone numbers.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const releasePoller = await client.startReleasePhoneNumbers(PHONE_NUMBERS);
+   *
+   * // Serializing the poller
+   * const serialized = releasePoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await releasePoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   * @param {string[]} phoneNumbers The phone numbers to be released.
+   * @param {ReleasePhoneNumbersOptions} options Additional request options.
    */
-  public async releasePhoneNumbers(
+  public async startReleasePhoneNumbers(
     phoneNumbers: string[],
-    options: ReleasePhoneNumberOptions = {}
-  ): Promise<ReleasePhoneNumbersResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-releasePhoneNumbers",
+    options: ReleasePhoneNumbersOptions
+  ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
+    const poller = new ReleasePhoneNumbersPoller({
+      phoneNumbers,
+      client: this.pollerClient,
       options
-    );
-    try {
-      const { releaseId, _response } = await this.client.releasePhoneNumbers(
-        phoneNumbers,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
+    });
 
-  /**
-   * Gets the release associated with a given id.
-   * Use this function to query the status of releases.
-   * @param releaseId The id of the release returned by releasePhoneNumbers.
-   * @param options Additional request options.
-   */
-  public async getRelease(
-    releaseId: string,
-    options: GetReleaseOptions = {}
-  ): Promise<GetReleaseResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getRelease",
-      options
-    );
-    try {
-      const { _response, ...rest } = await this.client.getReleaseById(
-        releaseId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<PhoneNumberRelease>(rest, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -953,6 +941,69 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<LocationOptionsResponse>({ locationOptions }, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Request the release of a list of acquired phone numbers.
+   * The response includes the id of the created release,
+   * remember that id for subsequent calls to getRelease.
+   * @param phoneNumbers The phone numbers to be released.
+   * @param options Additional request options.
+   */
+  private async releasePhoneNumbers(
+    phoneNumbers: string[],
+    options: ReleasePhoneNumbersOptions = {}
+  ): Promise<ReleasePhoneNumbersResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-releasePhoneNumbers",
+      options
+    );
+    try {
+      const { releaseId, _response } = await this.client.releasePhoneNumbers(
+        phoneNumbers,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the release associated with a given id.
+   * Use this function to query the status of releases.
+   * @param releaseId The id of the release returned by releasePhoneNumbers.
+   * @param options Additional request options.
+   */
+  private async getRelease(
+    releaseId: string,
+    options: GetReleaseOptions = {}
+  ): Promise<GetReleaseResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-getRelease",
+      options
+    );
+    try {
+      const { _response, ...rest } = await this.client.getReleaseById(
+        releaseId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<PhoneNumberRelease>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

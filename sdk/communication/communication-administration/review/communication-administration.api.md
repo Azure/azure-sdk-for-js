@@ -11,6 +11,8 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -281,7 +283,6 @@ export class PhoneNumberAdministrationClient {
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
     getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
-    getRelease(releaseId: string, options?: GetReleaseOptions): Promise<GetReleaseResponse>;
     getSearch(searchId: string, options?: GetSearchOptions): Promise<GetSearchResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
@@ -290,7 +291,7 @@ export class PhoneNumberAdministrationClient {
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
-    releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
+    startReleasePhoneNumbers(phoneNumbers: string[], options: ReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
@@ -490,7 +491,7 @@ export interface RateInformation {
 export type RefreshSearchOptions = OperationOptions;
 
 // @public
-export type ReleasePhoneNumberOptions = OperationOptions;
+export type ReleasePhoneNumbersOptions = OperationOptions;
 
 // @public
 export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
