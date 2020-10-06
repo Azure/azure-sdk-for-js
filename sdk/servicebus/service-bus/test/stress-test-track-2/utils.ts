@@ -26,6 +26,7 @@ export interface SnapshotOptions {
     | "receive-info"
     | "message-lock-renewal-info"
     | "session-lock-renewal-info"
+    | "close-info"
   )[];
   snapshotIntervalInMs?: number;
 }
@@ -37,6 +38,18 @@ export interface TrackedMessageIdsInfo {
     settledCount: number;
     errors: any[];
   };
+}
+
+export function initializeOperationInfo(): OperationInfo {
+  return {
+    numberOfSuccesses: 0,
+    numberOfFailures: 0,
+    errors: []
+  };
+}
+
+export function initializeLockRenewalOperationInfo(): LockRenewalOperationInfo {
+  return { ...initializeOperationInfo(), lockRenewalTimers: {}, renewalCount: {} };
 }
 
 export function generateMessage(useSessions: boolean) {

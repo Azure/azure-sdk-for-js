@@ -2,6 +2,7 @@ import {
   CreateQueueOptions,
   delay,
   ServiceBusAdministrationClient,
+  ServiceBusClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
   ServiceBusReceivedMessageWithLock,
@@ -14,6 +15,8 @@ import fs from "fs";
 import util from "util";
 import {
   generateMessage,
+  initializeLockRenewalOperationInfo,
+  initializeOperationInfo,
   LockRenewalOperationInfo,
   OperationInfo,
   saveDiscrepanciesFromTrackedMessages,
@@ -31,32 +34,22 @@ export class SBStressTestsBase {
   startedAt!: Date;
 
   // Send metrics
-  sendInfo: OperationInfo = {
-    numberOfSuccesses: 0,
-    numberOfFailures: 0,
-    errors: []
-  };
+  sendInfo: OperationInfo = initializeOperationInfo();
   // Receive metrics
-  receiveInfo: OperationInfo = {
-    numberOfSuccesses: 0,
-    numberOfFailures: 0,
-    errors: []
+  receiveInfo: OperationInfo = initializeOperationInfo();
+  // Close
+  closeInfo: { [key: string]: OperationInfo } = {
+    sender: initializeOperationInfo(),
+    receiver: initializeOperationInfo(),
+    client: initializeOperationInfo()
   };
   // Message Lock Renewal
   messageLockRenewalInfo: LockRenewalOperationInfo = {
-    numberOfSuccesses: 0,
-    numberOfFailures: 0,
-    errors: [],
-    lockRenewalTimers: {},
-    renewalCount: {}
+    ...initializeLockRenewalOperationInfo()
   };
   // Session Lock Renewal
   sessionLockRenewalInfo: LockRenewalOperationInfo = {
-    numberOfSuccesses: 0,
-    numberOfFailures: 0,
-    errors: [],
-    lockRenewalTimers: {},
-    renewalCount: {}
+    ...initializeLockRenewalOperationInfo()
   };
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
@@ -73,7 +66,8 @@ export class SBStressTestsBase {
         "send-info",
         "receive-info",
         "message-lock-renewal-info",
-        "session-lock-renewal-info"
+        "session-lock-renewal-info",
+        "close-info"
       ];
     }
     if (!this.snapshotOptions.snapshotIntervalInMs) {
@@ -322,6 +316,25 @@ export class SBStressTestsBase {
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
   }
 
+  public async callClose(
+    object:
+      | ServiceBusSender
+      | ServiceBusReceiver<ServiceBusReceivedMessage>
+      | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
+      | ServiceBusClient,
+    type: "sender" | "receiver" | "session" | "client"
+  ) {
+    try {
+      await object.close();
+      this.closeInfo[type].numberOfSuccesses++;
+    } catch (error) {
+      const logError = `Error occurred on closing ${type}: ${error}`;
+      console.error(logError);
+      this.closeInfo[type].numberOfFailures++;
+      this.closeInfo[type].errors.push(logError);
+    }
+  }
+
   public async snapshot(): Promise<void> {
     // TODO: get the options being set in the logs
     // TODO: Get a title passed from the scenario file
@@ -400,6 +413,12 @@ export class SBStressTestsBase {
       await writeFile(
         `errors-logged-${this.queueName}.txt`,
         errors.reduce((output, entry) => output + "\n" + entry)
+      );
+    }
+    if (this.closeInfo) {
+      await writeFile(
+        `close-calls-logged-${this.queueName}.json`,
+        JSON.stringify(this.closeInfo, null, 2) // Third argument prettifies
       );
     }
     // TODO: Log tracked messages in JSON
