@@ -4,7 +4,7 @@
   "parameters": {
     "accounts_js_metrics_advisor_name": {
       "defaultValue": "js-metrics-advisor",
-      "type": "String"
+      "type": "string"
     }
   },
   "variables": {},
