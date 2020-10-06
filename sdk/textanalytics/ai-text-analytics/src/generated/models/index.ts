@@ -95,10 +95,6 @@ export interface Entity {
    */
   offset: number;
   /**
-   * Length for the entity text.
-   */
-  length: number;
-  /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
   confidenceScore: number;
@@ -218,6 +214,48 @@ export interface ErrorResponse {
   error: TextAnalyticsError;
 }
 
+export interface PiiEntitiesResult {
+  /**
+   * Response by document
+   */
+  documents: PiiDocumentEntities[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+export interface PiiDocumentEntities {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * Recognized entities in the document.
+   */
+  entities: Entity[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the document payload.
+   */
+  statistics?: TextDocumentStatistics;
+  /**
+   * Returns redacted text.
+   */
+  redactedText: string;
+}
+
 export interface EntityLinkingResult {
   /**
    * Response by document
@@ -284,6 +322,10 @@ export interface LinkedEntity {
    * Data source used to extract entity linking, such as Wiki/Bing etc.
    */
   dataSource: string;
+  /**
+   * Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity Search API to fetch additional relevant information.
+   */
+  bingEntitySearchApiId?: string;
 }
 
 /**
@@ -302,10 +344,6 @@ export interface Match {
    * Start position for the entity match text.
    */
   offset: number;
-  /**
-   * Length for the entity match text.
-   */
-  length: number;
 }
 
 export interface KeyPhraseResult {
@@ -494,10 +532,6 @@ export interface SentenceSentiment {
    */
   offset: number;
   /**
-   * The length of the sentence.
-   */
-  length: number;
-  /**
    * The array of aspect object for the sentence.
    */
   aspects?: SentenceAspect[];
@@ -520,10 +554,6 @@ export interface SentenceAspect {
    * The aspect offset from the start of the sentence.
    */
   offset: number;
-  /**
-   * The length of the aspect.
-   */
-  length: number;
   /**
    * The aspect text detected.
    */
@@ -566,10 +596,6 @@ export interface SentenceOpinion {
    * The opinion offset from the start of the sentence.
    */
   offset: number;
-  /**
-   * The length of the opinion.
-   */
-  length: number;
   /**
    * The aspect text detected.
    */
@@ -698,7 +724,7 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
 /**
  * Contains response data for the entitiesRecognitionPii operation.
  */
-export type GeneratedClientEntitiesRecognitionPiiResponse = EntitiesResult & {
+export type GeneratedClientEntitiesRecognitionPiiResponse = PiiEntitiesResult & {
   /**
    * The underlying HTTP response.
    */
@@ -711,7 +737,7 @@ export type GeneratedClientEntitiesRecognitionPiiResponse = EntitiesResult & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: EntitiesResult;
+    parsedBody: PiiEntitiesResult;
   };
 };
 

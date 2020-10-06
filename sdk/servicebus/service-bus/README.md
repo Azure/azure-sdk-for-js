@@ -18,9 +18,9 @@ Resources for the v7.0.0-preview.6 of `@azure/service-bus`:
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
 > which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
-[Source code or Readme for v1.1.9](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.9/sdk/servicebus/service-bus) |
-[Package for v1.1.9 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.9) |
-[API Reference Documentation for v1.1.9](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
+[Source code or Readme for v1.1.10](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.10/sdk/servicebus/service-bus) |
+[Package for v1.1.10 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.10) |
+[API Reference Documentation for v1.1.10](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
 [Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
@@ -55,18 +55,47 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### Authenticate the client
 
-Interaction with Service Bus starts with an instance of the [ServiceBusClient][sbclient] class.
+Interaction with Service Bus starts with an instance of the [ServiceBusClient][sbclient] class. You can
+authenticate to Service Bus using a connection string or using an Azure Active Directory credential.
 
-You can instantiate this class using its constructors:
+#### Using a connection string
 
-- [Create using a connection string][sbclient_constructor]
-  - This method takes the connection string to your Service Bus instance. You can get the connection string
-    from the Azure portal.
-- [Create using a TokenCredential][sbclient_tokencred_overload]
-  - This method takes the host name of your Service Bus instance and a credentials object that you need
-    to generate using the [@azure/identity](https://www.npmjs.com/package/@azure/identity)
-    library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
-    If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+This method takes the connection string to your Service Bus instance. You can get
+the connection string from the Azure portal.
+
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+
+const serviceBusClient = new ServiceBusClient(connectionString);
+```
+
+More information about this constructor is available in the [API documentation][sbclient_constructor].
+
+#### Using an Azure Active Directory Credential
+
+Authentication with Azure Active Directory uses the [Azure Identity library][azure_identity].
+
+The example below uses the [DefaultAzureCredential][defaultazurecredential], one of many
+available credential providers from the `@azure/identity` library.
+
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const endpoint = "<name-of-service-bus-instance>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(endpoint, credential);
+```
+
+> NOTE: If you're using your own implementation of the `TokenCredential` interface
+> against AAD, then set the "scopes" for service-bus to the following to get
+> the appropriate token:
+
+> ```typescript
+> ["https://servicebus.azure.net//user_impersonation"]
+> ```
+
+More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
 ### Key concepts
 
@@ -83,7 +112,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 - Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
 - Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
-- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.createSessionReceiver()`][sbclient_createsessionreceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_createsessionreceiver].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -229,16 +258,14 @@ There are two ways of choosing which session to open:
 1. Specify a `sessionId`, which locks a named session.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", {
-     sessionId: "my-session"
-   });
+   const receiver = await serviceBusClient.acceptSession("my-session-queue", "my-session");
    ```
 
 2. Do not specify a session id. In this case Service Bus will find the next available session
    that is not already locked.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue");
+   const receiver = await serviceBusClient.acceptNextSession("my-session-queue");
    ```
 
    You can find the name of the session via the `sessionId` property on the `SessionReceiver`.
@@ -339,11 +366,13 @@ directory for detailed examples on how to use this library to send and receive m
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
 
 [apiref]: https://aka.ms/azsdk/js/service-bus/docs
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [sbclient]: https://docs.microsoft.com/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview
 [sbclient_constructor]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#servicebusclient-string--servicebusclientoptions-
 [sbclient_tokencred_overload]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#servicebusclient-string--tokencredential--servicebusclientoptions-
@@ -353,10 +382,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [sender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview
 [sender_send]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview#sendmessages-servicebusmessage---servicebusmessage-----servicebusmessagebatch--operationoptionsbase-
 [receiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview
-[receiverreceivebatch]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
-[receiver_subscribe]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
-[receiver_getmessageiterator]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
-[sessionreceiver]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
+[receiverreceivebatch]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
+[receiver_subscribe]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
+[receiver_getmessageiterator]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
+[sessionreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/fb53a838e702a075c4db6f1d4a17849a271342df/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern

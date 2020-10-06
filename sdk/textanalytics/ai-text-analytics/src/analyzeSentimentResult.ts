@@ -14,7 +14,6 @@ import {
   SentenceSentiment as GeneratedSentenceSentiment,
   SentenceSentimentLabel,
   DocumentSentiment,
-  GeneratedClientSentimentResponse,
   SentenceAspect,
   AspectRelation,
   SentenceOpinion,
@@ -69,10 +68,6 @@ export interface SentenceSentiment {
    */
   offset: number;
   /**
-   * The length of the sentence text.
-   */
-  length: number;
-  /**
    * The list of opinions mined from this sentence. For example in "The food is
    * good, but the service is bad", we would mind these two opinions "food is
    * good", "service is bad". Only returned if `show_opinion_mining` is set to
@@ -91,8 +86,7 @@ export interface SentenceSentiment {
 export interface AspectSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the aspect for
-   * 'positive' and 'negative' labels. It's score for 'neutral' will always be
-   * 0.
+   * 'positive' and 'negative' labels.
    */
   confidenceScores: AspectConfidenceScoreLabel;
   /**
@@ -108,10 +102,6 @@ export interface AspectSentiment {
    * The aspect text offset from the start of the sentence.
    */
   offset: number;
-  /**
-   * The length of the aspect text.
-   */
-  length: number;
 }
 
 /**
@@ -143,8 +133,7 @@ export interface MinedOpinion {
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -158,7 +147,7 @@ export function makeAnalyzeSentimentResult(
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, response))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, document))
   };
 }
 
@@ -179,13 +168,12 @@ export function makeAnalyzeSentimentErrorResult(
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
     sentiment: sentence.sentiment,
     text: sentence.text,
-    length: sentence.length,
     offset: sentence.offset,
     minedOpinions: sentence.aspects
       ? sentence.aspects.map(
@@ -194,12 +182,11 @@ function convertGeneratedSentenceSentiment(
               confidenceScores: aspect.confidenceScores,
               sentiment: aspect.sentiment,
               text: aspect.text,
-              offset: aspect.offset,
-              length: aspect.length
+              offset: aspect.offset
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")
-              .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
+              .map((relation) => convertAspectRelationToOpinionSentiment(relation, document))
           })
         )
       : []
@@ -217,13 +204,12 @@ function convertGeneratedSentenceSentiment(
  */
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
   const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
-    response.documents?.[opinionIndex.document].sentenceSentiments?.[opinionIndex.sentence]
-      .opinions?.[opinionIndex.opinion];
+    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return opinion;
   } else {

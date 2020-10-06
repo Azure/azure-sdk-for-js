@@ -22,8 +22,6 @@ import * as avro from "avsc";
 //      - UTF-8 hexadecimal representation of GUID.
 //      - 32 hex digits, no hyphens.
 //      - Same format and byte order as string from Schema Registry service.
-//      - This will soon be revised to an 8 byte long value with the format
-//        indicator bumped.
 //
 // - [Remaining bytes: Avro payload (in general, format-specific payload)]
 //     - Avro Binary Encoding
@@ -180,7 +178,7 @@ export class SchemaRegistryAvroSerializer {
   }
 
   private async getSchemaByContent(schema: string): Promise<CacheEntry> {
-    let cached = this.cacheByContent.get(schema);
+    const cached = this.cacheByContent.get(schema);
     if (cached) {
       return cached;
     }

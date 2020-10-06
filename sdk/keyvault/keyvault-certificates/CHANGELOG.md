@@ -1,5 +1,8 @@
 # Release History
 
+## 4.2.0-beta.2 (Unreleased)
+
+
 ## 4.2.0-beta.1 (2020-09-11)
 
 - Added `parseKeyVaultCertificatesIdentifier` and `ParsedKeyVaultCertificatesIdentifier` to help with parsing the unique identifiers of Key Vault Certificates.

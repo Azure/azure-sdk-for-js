@@ -22,11 +22,11 @@ export type KeyOperation =
 
 /**
  * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 /**
  * @internal
@@ -87,7 +87,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   kty?: KeyType;
   /**
@@ -169,7 +169,7 @@ export interface KeyVaultKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -268,7 +268,7 @@ export interface DeletedKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**

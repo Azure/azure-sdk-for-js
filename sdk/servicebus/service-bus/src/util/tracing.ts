@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { OperationOptions, RestError } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";

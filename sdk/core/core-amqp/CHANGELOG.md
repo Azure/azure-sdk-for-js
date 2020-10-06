@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.7 (Unreleased)
+
+
 ## 1.1.6 (2020-09-08)
 
 - Support using the SharedAccessSignature from the connection string.
@@ -91,7 +94,7 @@ Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
 
 This library is based off of the [@azure/amqp-common](https://www.npmjs.com/package/@azure/amqp-common)
 library. Both are meant to contain common functionality required by Azure Javascript libraries that
-use the [AMQP protocol](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
+use the [AMQP protocol](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
 like the ones for Azure Service Bus and Azure Event Hubs.
 
 Key differences between this library and the older @azure/amqp-common are:

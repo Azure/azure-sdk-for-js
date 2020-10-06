@@ -105,7 +105,7 @@ export interface KeyProperties {
   exportable?: boolean;
   /**
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
-   * 'RSA', 'RSA-HSM', 'oct'
+   * 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
    */
   keyType?: JsonWebKeyType;
   /**
@@ -956,11 +956,11 @@ export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Rec
 
 /**
  * Defines values for JsonWebKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct' | 'oct-HSM';
 
 /**
  * Defines values for JsonWebKeyCurveName.

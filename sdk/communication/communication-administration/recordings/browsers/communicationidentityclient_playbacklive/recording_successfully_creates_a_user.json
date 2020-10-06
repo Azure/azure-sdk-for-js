@@ -1,0 +1,22 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/identities",
+      "query": {
+        "api-version": "2020-07-20-preview2"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"id\":\"sanitized\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "27d09bb5f8e19a5b9a886691bbe0c28c"
+}

@@ -7,7 +7,7 @@ export const Constants = {
    * @const
    * @type {string}
    */
-  coreHttpVersion: "1.1.9",
+  coreHttpVersion: "1.1.10",
 
   /**
    * Specifies HTTP.
@@ -40,6 +40,22 @@ export const Constants = {
    * @type {string}
    */
   HTTPS_PROXY: "HTTPS_PROXY",
+
+  /**
+   * Specifies NO Proxy.
+   *
+   * @const
+   * @type {string}
+   */
+  NO_PROXY: "NO_PROXY",
+
+  /**
+   * Specifies ALL Proxy.
+   *
+   * @const
+   * @type {string}
+   */
+  ALL_PROXY: "ALL_PROXY",
 
   HttpConstants: {
     /**

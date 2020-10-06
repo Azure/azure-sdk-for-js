@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs an image search for 'Microsoft Azure' with conditions such as the color has to be 'Monochrome', etc. To know more, refer to the [Azure Documentation on Bing Image Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-image-search/)
+The following sample performs an image search for 'Microsoft Azure' with conditions such as the color has to be 'Monochrome', etc. To know more, refer to the [Azure Documentation on Bing Image Search](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/)
 
 ```javascript
 const { ImageSearchClient } = require("@azure/cognitiveservices-imagesearch");

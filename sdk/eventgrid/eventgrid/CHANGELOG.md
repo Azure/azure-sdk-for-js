@@ -1,7 +1,17 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 3.0.0-beta.3 (Unreleased)
 
+- Added support for system events sent by Azure Key Vault.
+
+### Breaking Changes
+
+- The type definitions for SMS events sent by Azure Communication Services have been renamed, to use the prefix "AcsSms" instead of "Acssms". If you are
+  using TypeScript and explicitly referencing these interfaces, you will need to update your code to use the new names. The payload of the events is unchanged.
+
+## 3.0.0-beta.2 (2020-09-24)
+
+- Added support for system events sent by the Azure Communication Services.
 
 ## 3.0.0-beta.1 (2020-09-08)
 

@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  'fbdc8574-3c20-4bc9-af6b-0d5e454611f6',
+  '1164c7cc-b631-4fed-979b-912946a72d7b',
   'Date',
-  'Mon, 27 Jul 2020 21:02:16 GMT'
+  'Fri, 02 Oct 2020 06:19:33 GMT'
 ]);

@@ -107,7 +107,7 @@ Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZU
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
 const credentials = new DefaultAzureCredential();
 
@@ -165,22 +165,22 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](./samples/javascript/README.md)
-- [Readme for TypeScript samples](./samples/typescript/README.md)
+- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md)
+- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md)
 
 Direct links to the specific JavaScript samples follow:
 
 - Access control (RBAC):
-    - [Listing All Role Definitions](./samples/javascript/accessControlHelloWorld.js)
-    - [Listing All Role Assignments](./samples/javascript/accessControlHelloWorld.js)
-    - [Creating a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
-    - [Getting a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
-    - [Deleting a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
+    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
 - Backup and restore:
-    - [Performing a full key backup](./samples/javascript/backupRestoreHelloWorld.js)
-    - [Performing a full key restore](./samples/javascript/backupRestoreHelloWorld.js)
-    - [Performing a selective key backup](./samples/javascript/backupSelectiveRestore.js)
-    - [Performing a selective key restore](./samples/javascript/backupSelectiveRestore.js)
+    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
+    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
+    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
 
 ## Troubleshooting
 

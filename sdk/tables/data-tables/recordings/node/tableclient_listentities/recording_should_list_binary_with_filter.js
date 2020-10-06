@@ -4,10 +4,10 @@ module.exports.hash = "7700ce3484ab31a95818e5c9e442cd13";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/list()')
+nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/tableClientTestnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://joherediteststorage.table.core.windows.net/$metadata#list","value":[{"odata.etag":"W/\"datetime'2020-08-21T15%3A26%3A38.9424197Z'\"","PartitionKey":"LIST_1","RowKey":"binary1","Timestamp":"2020-08-21T15:26:38.9424197Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
+  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestnode","value":[{"odata.etag":"W/\"datetime'2020-10-01T00%3A38%3A35.8940075Z'\"","PartitionKey":"listEntitiesTest","RowKey":"binary1","Timestamp":"2020-10-01T00:38:35.8940075Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -17,9 +17,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '08ac11c5-5002-0120-64a8-7d7e4d000000',
+  '681493f3-b002-0050-218b-97b6f1000000',
   'x-ms-client-request-id',
-  '8cb05409-fb48-4e2e-bc35-47115474563a',
+  '98935a12-e605-451b-a7d4-d3d6f1c10752',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -29,5 +29,5 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Sat, 29 Aug 2020 02:04:46 GMT'
+  'Thu, 01 Oct 2020 00:38:36 GMT'
 ]);

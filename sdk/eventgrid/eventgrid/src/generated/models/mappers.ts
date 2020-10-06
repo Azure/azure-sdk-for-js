@@ -3708,6 +3708,57 @@ export const KeyVaultSecretExpiredEventData: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyVaultAccessPolicyChangedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultAccessPolicyChangedEventData",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      vaultName: {
+        serializedName: "vaultName",
+        type: {
+          name: "String"
+        }
+      },
+      objectType: {
+        serializedName: "objectType",
+        type: {
+          name: "String"
+        }
+      },
+      objectName: {
+        serializedName: "objectName",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      nbf: {
+        serializedName: "nbf",
+        type: {
+          name: "Number"
+        }
+      },
+      exp: {
+        serializedName: "exp",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const MachineLearningServicesModelRegisteredEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4801,6 +4852,430 @@ export const WebAppServicePlanUpdatedEventDataSku: coreHttp.CompositeMapper = {
         serializedName: "Capacity",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatEventBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatEventBase",
+    modelProperties: {
+      recipientId: {
+        serializedName: "recipientId",
+        type: {
+          name: "String"
+        }
+      },
+      transactionId: {
+        serializedName: "transactionId",
+        type: {
+          name: "String"
+        }
+      },
+      threadId: {
+        serializedName: "threadId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMessageEventBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMessageEventBase",
+    modelProperties: {
+      ...ACSChatEventBase.type.modelProperties,
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      senderId: {
+        serializedName: "senderId",
+        type: {
+          name: "String"
+        }
+      },
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
+        type: {
+          name: "String"
+        }
+      },
+      composeTime: {
+        serializedName: "composeTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMessageReceivedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMessageReceivedEventData",
+    modelProperties: {
+      ...ACSChatMessageEventBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMessageEditedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMessageEditedEventData",
+    modelProperties: {
+      ...ACSChatMessageEventBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        type: {
+          name: "String"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMessageDeletedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMessageDeletedEventData",
+    modelProperties: {
+      ...ACSChatMessageEventBase.type.modelProperties,
+      deleteTime: {
+        serializedName: "deleteTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadEventBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadEventBase",
+    modelProperties: {
+      ...ACSChatEventBase.type.modelProperties,
+      createTime: {
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadCreatedWithUserEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadCreatedWithUserEventData",
+    modelProperties: {
+      ...ACSChatThreadEventBase.type.modelProperties,
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      members: {
+        serializedName: "members",
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ACSChatThreadMember" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadMember: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadMember",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      memberId: {
+        serializedName: "memberId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadWithUserDeletedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadWithUserDeletedEventData",
+    modelProperties: {
+      ...ACSChatThreadEventBase.type.modelProperties,
+      deletedBy: {
+        serializedName: "deletedBy",
+        type: {
+          name: "String"
+        }
+      },
+      deleteTime: {
+        serializedName: "deleteTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadPropertiesUpdatedPerUserEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadPropertiesUpdatedPerUserEventData",
+    modelProperties: {
+      ...ACSChatThreadEventBase.type.modelProperties,
+      editedBy: {
+        serializedName: "editedBy",
+        type: {
+          name: "String"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMemberAddedToThreadWithUserEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMemberAddedToThreadWithUserEventData",
+    modelProperties: {
+      ...ACSChatThreadEventBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      addedBy: {
+        serializedName: "addedBy",
+        type: {
+          name: "String"
+        }
+      },
+      memberAdded: {
+        serializedName: "memberAdded",
+        type: {
+          name: "Composite",
+          className: "ACSChatThreadMember"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatMemberRemovedFromThreadWithUserEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatMemberRemovedFromThreadWithUserEventData",
+    modelProperties: {
+      ...ACSChatThreadEventBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      removedBy: {
+        serializedName: "removedBy",
+        type: {
+          name: "String"
+        }
+      },
+      memberRemoved: {
+        serializedName: "memberRemoved",
+        type: {
+          name: "Composite",
+          className: "ACSChatThreadMember"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsEventBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsEventBase",
+    modelProperties: {
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      from: {
+        serializedName: "from",
+        type: {
+          name: "String"
+        }
+      },
+      to: {
+        serializedName: "to",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsDeliveryReportReceivedEventData",
+    modelProperties: {
+      ...AcsSmsEventBase.type.modelProperties,
+      deliveryStatus: {
+        serializedName: "deliveryStatus",
+        type: {
+          name: "String"
+        }
+      },
+      deliveryStatusDetails: {
+        serializedName: "deliveryStatusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      deliveryAttempts: {
+        serializedName: "deliveryAttempts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "AcsSmsDeliveryAttempt" }
+          }
+        }
+      },
+      receivedTimestamp: {
+        serializedName: "receivedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryAttempt: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsDeliveryAttempt",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      segmentsSucceeded: {
+        serializedName: "segmentsSucceeded",
+        type: {
+          name: "Number"
+        }
+      },
+      segmentsFailed: {
+        serializedName: "segmentsFailed",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsReceivedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsReceivedEventData",
+    modelProperties: {
+      ...AcsSmsEventBase.type.modelProperties,
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      receivedTimestamp: {
+        serializedName: "receivedTimestamp",
+        type: {
+          name: "DateTime"
         }
       }
     }

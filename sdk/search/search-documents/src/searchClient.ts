@@ -41,12 +41,14 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest
+  SearchRequest,
+  SearchIndexingBufferedSenderOptions
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
+import { SearchIndexingBufferedSender } from ".";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -248,7 +250,7 @@ export class SearchClient<T> {
 
       const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
 
-      let modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
+      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
       const converted: SearchDocumentsPageResult<T> = {
         results: modifiedResults,
@@ -614,6 +616,18 @@ export class SearchClient<T> {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Gets an instance of SearchIndexingBufferedSender.
+   *
+   * @param options SearchIndexingBufferedSender Options
+   */
+
+  public getSearchIndexingBufferedSenderInstance(
+    options: SearchIndexingBufferedSenderOptions = {}
+  ): SearchIndexingBufferedSender<T> {
+    return new SearchIndexingBufferedSender(this, options);
   }
 
   private encodeContinuationToken(

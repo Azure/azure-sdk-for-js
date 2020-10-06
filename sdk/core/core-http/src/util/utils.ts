@@ -189,11 +189,21 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   };
 }
 
-export function prepareXMLRootList(obj: any, elementName: string): { [s: string]: any } {
+export function prepareXMLRootList(
+  obj: any,
+  elementName: string,
+  xmlNamespaceKey?: string,
+  xmlNamespace?: string
+): { [s: string]: any } {
   if (!Array.isArray(obj)) {
     obj = [obj];
   }
-  return { [elementName]: obj };
+
+  if (!xmlNamespaceKey || !xmlNamespace) {
+    return { [elementName]: obj };
+  }
+
+  return { [elementName]: obj, $: {[xmlNamespaceKey]: xmlNamespace} };
 }
 
 /**
@@ -243,4 +253,13 @@ export function replaceAll(
  */
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
+}
+
+export function getEnvironmentValue(name: string): string | undefined {
+  if (process.env[name]) {
+    return process.env[name];
+  } else if (process.env[name.toLowerCase()]) {
+    return process.env[name.toLowerCase()];
+  }
+  return undefined;
 }

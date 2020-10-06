@@ -2,7 +2,7 @@
 
 This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
 It provides a set of `TokenCredential` implementations which can be passed into SDK libraries
-to authenticate API requests. It supports token authentication using an Azure Active Directory [service principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) or [managed identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
+to authenticate API requests. It supports token authentication using an Azure Active Directory [service principal](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli) or [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
 ## Getting started
 

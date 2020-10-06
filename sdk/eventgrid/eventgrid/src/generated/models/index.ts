@@ -2318,6 +2318,40 @@ export interface KeyVaultSecretExpiredEventData {
 }
 
 /**
+ * Schema of the Data property of an EventGridEvent for an VaultAccessPolicyChanged event.
+ */
+export interface KeyVaultAccessPolicyChangedEventData {
+  /**
+   * The id of the object that triggered this event.
+   */
+  id?: string;
+  /**
+   * Key vault name of the object that triggered this event.
+   */
+  vaultName?: string;
+  /**
+   * The type of the object that triggered this event
+   */
+  objectType?: string;
+  /**
+   * The name of the object that triggered this event
+   */
+  objectName?: string;
+  /**
+   * The version of the object that triggered this event
+   */
+  version?: string;
+  /**
+   * Not before date of the object that triggered this event
+   */
+  nbf?: number;
+  /**
+   * The expiration date of the object that triggered this event
+   */
+  exp?: number;
+}
+
+/**
  * Schema of the Data property of an EventGridEvent for an Microsoft.MachineLearningServices.ModelRegistered event.
  */
 export interface MachineLearningServicesModelRegisteredEventData {
@@ -3039,6 +3073,273 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
+/**
+ * Schema of common properties of all chat events
+ */
+export interface ACSChatEventBase {
+  /**
+   * The MRI of the target user
+   */
+  recipientId?: string;
+  /**
+   * The transaction id will be used as co-relation vector
+   */
+  transactionId?: string;
+  /**
+   * The chat thread id
+   */
+  threadId?: string;
+}
+
+/**
+ * Schema of common properties of all chat message events
+ */
+export type ACSChatMessageEventBase = ACSChatEventBase & {
+  /**
+   * The chat message id
+   */
+  messageId?: string;
+  /**
+   * The MRI of the sender
+   */
+  senderId?: string;
+  /**
+   * The display name of the sender
+   */
+  senderDisplayName?: string;
+  /**
+   * The original compose time of the message
+   */
+  composeTime?: Date;
+  /**
+   * The type of the message
+   */
+  type?: string;
+  /**
+   * The version of the message
+   */
+  version?: number;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageReceived event.
+ */
+export type ACSChatMessageReceivedEventData = ACSChatMessageEventBase & {
+  /**
+   * The body of the chat message
+   */
+  messageBody?: string;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageEdited event.
+ */
+export type ACSChatMessageEditedEventData = ACSChatMessageEventBase & {
+  /**
+   * The body of the chat message
+   */
+  messageBody?: string;
+  /**
+   * The time at which the message was edited
+   */
+  editTime?: Date;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageDeleted event.
+ */
+export type ACSChatMessageDeletedEventData = ACSChatMessageEventBase & {
+  /**
+   * The time at which the message was deleted
+   */
+  deleteTime?: Date;
+};
+
+/**
+ * Schema of common properties of all chat thread events
+ */
+export type ACSChatThreadEventBase = ACSChatEventBase & {
+  /**
+   * The original creation time of the thread
+   */
+  createTime?: Date;
+  /**
+   * The version of the thread
+   */
+  version?: number;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadCreatedWithUser event.
+ */
+export type ACSChatThreadCreatedWithUserEventData = ACSChatThreadEventBase & {
+  /**
+   * The MRI of the creator of the thread
+   */
+  createdBy?: string;
+  /**
+   * The thread properties
+   */
+  properties?: { [propertyName: string]: any };
+  /**
+   * The list of properties of users who are part of the thread
+   */
+  members?: ACSChatThreadMember[];
+};
+
+/**
+ * Schema of the chat thread member
+ */
+export interface ACSChatThreadMember {
+  /**
+   * The name of the user
+   */
+  displayName?: string;
+  /**
+   * The MRI of the user
+   */
+  memberId?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadWithUserDeleted event.
+ */
+export type ACSChatThreadWithUserDeletedEventData = ACSChatThreadEventBase & {
+  /**
+   * The MRI of the user who deleted the thread
+   */
+  deletedBy?: string;
+  /**
+   * The deletion time of the thread
+   */
+  deleteTime?: Date;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event.
+ */
+export type ACSChatThreadPropertiesUpdatedPerUserEventData = ACSChatThreadEventBase & {
+  /**
+   * The MRI of the user who updated the thread properties
+   */
+  editedBy?: string;
+  /**
+   * The time at which the properties of the thread were updated
+   */
+  editTime?: Date;
+  /**
+   * The updated thread properties
+   */
+  properties?: { [propertyName: string]: any };
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMemberAddedToThreadWithUser event.
+ */
+export type ACSChatMemberAddedToThreadWithUserEventData = ACSChatThreadEventBase & {
+  /**
+   * The time at which the user was added to the thread
+   */
+  time?: Date;
+  /**
+   * The MRI of the user who added the user
+   */
+  addedBy?: string;
+  /**
+   * The details of the user who was added
+   */
+  memberAdded?: ACSChatThreadMember;
+};
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMemberRemovedFromThreadWithUser event.
+ */
+export type ACSChatMemberRemovedFromThreadWithUserEventData = ACSChatThreadEventBase & {
+  /**
+   * The time at which the user was removed to the thread
+   */
+  time?: Date;
+  /**
+   * The MRI of the user who removed the user
+   */
+  removedBy?: string;
+  /**
+   * The details of the user who was removed
+   */
+  memberRemoved?: ACSChatThreadMember;
+};
+
+/**
+ * Schema of common properties of all SMS events
+ */
+export interface AcsSmsEventBase {
+  /**
+   * The identity of the SMS message
+   */
+  messageId?: string;
+  /**
+   * The identity of SMS message sender
+   */
+  from?: string;
+  /**
+   * The identity of SMS message receiver
+   */
+  to?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.SMSDeliveryReportReceived event.
+ */
+export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
+  /**
+   * Status of Delivery
+   */
+  deliveryStatus?: string;
+  /**
+   * Details about Delivery Status
+   */
+  deliveryStatusDetails?: string;
+  /**
+   * List of details of delivery attempts made
+   */
+  deliveryAttempts?: AcsSmsDeliveryAttempt[];
+  /**
+   * The time at which the SMS delivery report was received
+   */
+  receivedTimestamp?: Date;
+};
+
+/**
+ * Schema for details of a delivery attempt
+ */
+export interface AcsSmsDeliveryAttempt {
+  /**
+   * TimeStamp when delivery was attempted
+   */
+  timestamp?: Date;
+  /**
+   * Number of segments that were successfully delivered
+   */
+  segmentsSucceeded?: number;
+  /**
+   * Number of segments whose delivery failed
+   */
+  segmentsFailed?: number;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.SMSReceived event.
+ */
+export type AcsSmsReceivedEventData = AcsSmsEventBase & {
+  /**
+   * The SMS content
+   */
+  message?: string;
+  /**
+   * The time at which the SMS was received
+   */
+  receivedTimestamp?: Date;
+};
 /**
  * Defines values for AppAction.
  */

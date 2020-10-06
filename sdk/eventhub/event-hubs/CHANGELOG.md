@@ -169,7 +169,7 @@ Construction of both objects is the same as it was for the previous client.
 ### Breaking changes
 
 - Removed the `createFromIotHubConnectionString` method from `EventHubClient`. ([PR #5311](https://github.com/Azure/azure-sdk-for-js/pull/5311)).
-  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
+  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
   when instantiating an `EventHubClient` to read properties or events from an IoT Hub.
 
   Previously:

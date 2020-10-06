@@ -7,7 +7,7 @@
  */
 
 export {
-  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
   OperationListResult,
   OperationValue

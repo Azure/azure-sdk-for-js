@@ -2,6 +2,16 @@
 // Licensed under the MIT license.
 
 import {
+  ACSChatMessageReceivedEventData,
+  ACSChatMessageEditedEventData,
+  ACSChatMessageDeletedEventData,
+  ACSChatThreadCreatedWithUserEventData,
+  ACSChatThreadWithUserDeletedEventData,
+  ACSChatThreadPropertiesUpdatedPerUserEventData,
+  ACSChatMemberAddedToThreadWithUserEventData,
+  ACSChatMemberRemovedFromThreadWithUserEventData,
+  AcsSmsDeliveryReportReceivedEventData,
+  AcsSmsReceivedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryImagePushedEventData,
@@ -13,6 +23,16 @@ import {
   IotHubDeviceConnectedEventData,
   IotHubDeviceDisconnectedEventData,
   IotHubDeviceTelemetryEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultAccessPolicyChangedEventData,
   SubscriptionValidationEventData,
   SubscriptionDeletedEventData,
   EventHubCaptureFileCreatedEventData,
@@ -90,6 +110,16 @@ import { CloudEvent, EventGridEvent } from "./models";
 export type KnownSystemEventTypes =
   | "Microsoft.AppConfiguration.KeyValueDeleted"
   | "Microsoft.AppConfiguration.KeyValueModified"
+  | "Microsoft.Communication.ChatMessageReceived"
+  | "Microsoft.Communication.ChatMessageEdited"
+  | "Microsoft.Communication.ChatMessageDeleted"
+  | "Microsoft.Communication.ChatThreadCreatedWithUser"
+  | "Microsoft.Communication.ChatThreadWithUserDeleted"
+  | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser"
+  | "Microsoft.Communication.ChatMemberAddedToThreadWithUser"
+  | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser"
+  | "Microsoft.Communication.SMSDeliveryReportReceived"
+  | "Microsoft.Communication.SMSReceived"
   | "Microsoft.ContainerRegistry.ImagePushed"
   | "Microsoft.ContainerRegistry.ImageDeleted"
   | "Microsoft.ContainerRegistry.ChartDeleted"
@@ -102,6 +132,16 @@ export type KnownSystemEventTypes =
   | "Microsoft.EventGrid.SubscriptionValidationEvent"
   | "Microsoft.EventGrid.SubscriptionDeletedEvent"
   | "Microsoft.EventHub.CaptureFileCreated"
+  | "Microsoft.KeyVault.CertificateNewVersionCreated"
+  | "Microsoft.KeyVault.CertificateNearExpiry"
+  | "Microsoft.KeyVault.CertificateExpired"
+  | "Microsoft.KeyVault.KeyNewVersionCreated"
+  | "Microsoft.KeyVault.KeyNearExpiry"
+  | "Microsoft.KeyVault.KeyExpired"
+  | "Microsoft.KeyVault.SecretNewVersionCreated"
+  | "Microsoft.KeyVault.SecretNearExpiry"
+  | "Microsoft.KeyVault.SecretExpired"
+  | "Microsoft.KeyVault.VaultAccessPolicyChanged"
   | "Microsoft.MachineLearningServices.DatasetDriftDetected"
   | "Microsoft.MachineLearningServices.ModelDeployed"
   | "Microsoft.MachineLearningServices.ModelRegistered"
@@ -172,6 +212,26 @@ export type KnownSystemEventTypes =
  * @ignore
  */
 export interface SystemEventNameToEventData {
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
+  "Microsoft.Communication.ChatMessageReceived": ACSChatMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */
+  "Microsoft.Communication.ChatMessageEdited": ACSChatMessageEditedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeleted" event. */
+  "Microsoft.Communication.ChatMessageDeleted": ACSChatMessageDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreatedWithUser" event. */
+  "Microsoft.Communication.ChatThreadCreatedWithUser": ACSChatThreadCreatedWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
+  "Microsoft.Communication.ChatThreadWithUserDeleted": ACSChatThreadWithUserDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
+  "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": ACSChatThreadPropertiesUpdatedPerUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMemberAddedToThreadWithUser" event. */
+  "Microsoft.Communication.ChatMemberAddedToThreadWithUser": ACSChatMemberAddedToThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" event. */
+  "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": ACSChatMemberRemovedFromThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.SMSDeliveryReportReceived" event. */
+  "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
+  "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueDeleted" event. */
   "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueModified" event. */
@@ -200,6 +260,26 @@ export interface SystemEventNameToEventData {
   "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
   /** An interface for the event data of a "Microsoft.EventHub.CaptureFileCreated" event. */
   "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateNewVersionCreated" event. */
+  "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateNearExpiry" event. */
+  "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateExpired" event. */
+  "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyNewVersionCreated" event. */
+  "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyNearExpiry" event. */
+  "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyExpired" event. */
+  "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretNewVersionCreated" event. */
+  "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretNearExpiry" event. */
+  "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretExpired" event. */
+  "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.VaultAccessPolicyChanged" event. */
+  "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
   /** An interface for the event data of a "Microsoft.MachineLearningServices.DatasetDriftDetected" event. */
   "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
   /** An interface for the event data of a "Microsoft.MachineLearningServices.ModelDeployed" event. */

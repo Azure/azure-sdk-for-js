@@ -30,6 +30,7 @@ import {
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
@@ -66,11 +67,9 @@ export class TableServiceClient {
    * );
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(
     url: string,
     credential: TablesSharedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   );
   /**
@@ -91,12 +90,10 @@ export class TableServiceClient {
    * );
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
     credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ) {
     const credential =

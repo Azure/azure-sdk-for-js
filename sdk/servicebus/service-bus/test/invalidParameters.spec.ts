@@ -38,9 +38,10 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-        sessionId: TestMessage.sessionId
-      });
+      receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+        entityNames,
+        TestMessage.sessionId
+      );
 
       await sender.sendMessages(TestMessage.getSessionSample());
     });
@@ -58,8 +59,7 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.createSessionReceiver(queue!, {
-          sessionId: TestMessage.sessionId,
+        await serviceBusClient.acceptSession(queue!, TestMessage.sessionId, {
           receiveMode: 123 as any
         });
       } catch (error) {

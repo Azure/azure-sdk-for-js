@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AccessToken, TokenCredential, GetTokenOptions, delay } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { credentialLogger, formatSuccess } from "../util/logging";
-import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
+import { credentialLogger } from "../util/logging";
+import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
@@ -43,11 +43,18 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 const logger = credentialLogger("DeviceCodeCredential");
 
 /**
+ * Method that logs the user code from the DeviceCodeCredential.
+ * @param deviceCodeInfo The device code.
+ */
+export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
+  console.log(deviceCodeInfo.message);
+}
+
+/**
  * Enables authentication to Azure Active Directory using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
-  private identityClient: IdentityClient;
   private pca: PublicClientApplication;
   private tenantId: string;
   private clientId: string;
@@ -62,16 +69,15 @@ export class DeviceCodeCredential implements TokenCredential {
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
-                               {@link DeviceCodeInfo} to the user.
+                               {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string | "organizations",
     clientId: string,
-    userPromptCallback: DeviceCodePromptCallback,
+    userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
@@ -85,10 +91,13 @@ export class DeviceCodeCredential implements TokenCredential {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
 
+    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
+
     const publicClientConfig = {
       auth: {
         clientId: this.clientId,
-        authority: this.authorityHost
+        authority: this.authorityHost,
+        knownAuthorities: knownAuthorities
       },
       cache: {
         cachePlugin: undefined
@@ -109,7 +118,7 @@ export class DeviceCodeCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("DeviceCodeCredential-getToken", options);
+    const { span } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 

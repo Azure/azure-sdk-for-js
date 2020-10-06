@@ -1,7 +1,11 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 12.1.2 (Unreleased)
 
+
+## 12.1.1 (2020-09-17)
+
+- Bug fix - Fixes an issue where`DataLakeFileClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).
 
 ## 12.1.0 (2020-09-08)
 

@@ -23,7 +23,8 @@ jobs:
   - template: ../common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: ""
-
+      CheckLinkGuidance: $true
+      
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Install tool dependencies'

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   HttpOperationResponse,
@@ -10,7 +10,8 @@ import {
   stringifyXML,
   stripRequest,
   stripResponse,
-  RequestPrepareOptions
+  RequestPrepareOptions,
+  OperationOptions
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -18,7 +19,6 @@ import { logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
-import { OperationOptions } from "@azure/core-http";
 import { logError } from "./errors";
 
 /**
