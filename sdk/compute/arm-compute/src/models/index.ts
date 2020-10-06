@@ -6593,6 +6593,16 @@ export interface VirtualMachineImagesListOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
+export interface VirtualMachinesDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to force delete virtual machines.
+   */
+  forceDeletion?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'instanceView'
@@ -6642,6 +6652,16 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extend
    * of 120 minutes.
    */
   sasUriExpirationTimeInMinutes?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to force delete virtual machines.
+   */
+  forceDeletion?: boolean;
 }
 
 /**
