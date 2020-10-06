@@ -12,7 +12,7 @@
   [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
 - Message locks can be auto-renewed in all receive methods (receiver.receiveMessages, receiver.subcribe
   and receiver.getMessageIterator). This can be configured in options when calling `ServiceBusClient.createReceiver()`.
-  [PR]()
+  [PR 11658](https://github.com/Azure/azure-sdk-for-js/pull/11658)
 
 ### Breaking changes
 
