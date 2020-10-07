@@ -27,7 +27,7 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, MessageHandlerOptionsBase } from "../models";
+import { AcceptSessionOptions, SubscribeOptions } from "../models";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -624,7 +624,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    *
    * @returns void
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptionsBase): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options?: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
