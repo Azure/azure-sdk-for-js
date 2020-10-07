@@ -277,16 +277,15 @@ export class Items {
   ): Promise<ItemResponse<T>> {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
-    const item = body;
-    if ((item.id === undefined || item.id === "") && !options.disableAutomaticIdGeneration) {
-      item.id = uuid();
+    if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+      body.id = uuid();
     }
 
     const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKey(item, partitionKeyDefinition);
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
-    if (!isResourceValid(item, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
@@ -294,7 +293,7 @@ export class Items {
     const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<T>({
-      body: item,
+      body,
       path,
       resourceType: ResourceType.item,
       resourceId: id,
