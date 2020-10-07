@@ -17,3 +17,23 @@ add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200826.1"
 ```
+
+### Rename KeyValue to ConfigurationSetting
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyValue
+    transform: >
+      $["x-ms-client-name"] = "ConfigurationSetting";
+```
+
+### Rename locked to isReadOnly
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyValue.properties.locked
+    transform: >
+      $["x-ms-client-name"] = "isReadOnly";
+```

@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/design-tutorial";
+const packageName = "@azure/implementation-tutorial";
 const packageVersion = "1.0.0";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
