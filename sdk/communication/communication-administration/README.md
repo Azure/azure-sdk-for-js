@@ -179,14 +179,12 @@ Fetching area codes for geographic phone plans will require the the location opt
 Use the `getAreaCodes` method to get the area codes for geographic phone plans.
 
 ```typescript
-const { primaryAreaCodes } = await client.getAreaCodes(
-  {
-    locationType: "selection",
-    countryCode: "US",
-    phonePlanId: "phonePlanId",
-    locationOptionsQueries
-  }
-);
+const { primaryAreaCodes } = await client.getAreaCodes({
+  locationType: "selection",
+  countryCode: "US",
+  phonePlanId: "phonePlanId",
+  locationOptionsQueries
+});
 ```
 
 #### Reserving phone numbers for purchase
