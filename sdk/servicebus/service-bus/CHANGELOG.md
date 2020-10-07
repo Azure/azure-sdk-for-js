@@ -2,6 +2,9 @@
 
 ## 7.0.0-preview.7 (Unreleased)
 
+- [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651/commits/f262e4562eb78828ee816a54f9a9778692e0eff9)
+
 ### New features:
 
 - Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
