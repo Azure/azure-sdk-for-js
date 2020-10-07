@@ -1,0 +1,39 @@
+{
+  "name": "azure-template-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure template client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/template/template"
+  },
+  "keywords": [
+    "Azure",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/identity": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
+  }
+}

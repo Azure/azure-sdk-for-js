@@ -578,13 +578,18 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/digital-twins",
-      "projectFolder": "sdk/digitaltwins/digital-twins",
+      "packageName": "@azure/design-tutorial",
+      "projectFolder": "sdk/api-learn/design-tutorial",
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/design-tutorial",
-      "projectFolder": "sdk/api-learn/design-tutorial",
+      "packageName": "@azure/implementation-tutorial",
+      "projectFolder": "sdk/api-learn/implementation-tutorial",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/digital-twins",
+      "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
     }
   ]
