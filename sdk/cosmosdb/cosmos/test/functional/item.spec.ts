@@ -441,6 +441,23 @@ describe("bulk item operations", function() {
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[0].statusCode, 201);
     });
+    it("handles operations with null partition keys", async function() {
+      readItemId = addEntropy("item1");
+      await v2Container.items.create({
+        id: readItemId,
+        key: null,
+        class: "2010"
+      });
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Read,
+          id: readItemId,
+          partitionKey: null
+        }
+      ];
+      const response = await v2Container.items.bulk(operations);
+      assert.equal(response[0].statusCode, 201);
+    });
   });
   describe("v2 single partition container", async function() {
     let container: Container;

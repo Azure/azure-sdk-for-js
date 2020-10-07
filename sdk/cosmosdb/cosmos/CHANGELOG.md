@@ -2,6 +2,8 @@
 
 ## 3.9.3 (Unreleased)
 
+- BUGFIX: Stops mutating `body` in `items.create`
+- BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
 
 ## 3.9.2 (2020-09-16)
 
