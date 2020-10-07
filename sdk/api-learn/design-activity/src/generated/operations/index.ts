@@ -7,4 +7,4 @@
  */
 
 export * from "./computeNodeAdministration";
-export * from "./computation";
+export * from "./computations";

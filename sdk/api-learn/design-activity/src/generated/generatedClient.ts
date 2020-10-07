@@ -7,7 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { ComputeNodeAdministration, Computation } from "./operations";
+import { ComputeNodeAdministration, Computations } from "./operations";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
@@ -30,7 +30,7 @@ export class GeneratedClient extends GeneratedClientContext {
   ) {
     super($host, nodeName, options);
     this.computeNodeAdministration = new ComputeNodeAdministration(this);
-    this.computation = new Computation(this);
+    this.computations = new Computations(this);
   }
 
   /**
@@ -51,7 +51,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   computeNodeAdministration: ComputeNodeAdministration;
-  computation: Computation;
+  computations: Computations;
 }
 // Operation Specifications
 

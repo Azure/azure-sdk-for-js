@@ -42,9 +42,9 @@ export type WindowsComputeNode = ComputeNode & {
 };
 
 /**
- * Defines headers for Computation_computePi operation.
+ * Defines headers for Computations_computePi operation.
  */
-export interface ComputationComputePiHeaders {
+export interface ComputationsComputePiHeaders {
   /**
    * This will point to an operation (/operations/{operationId}) that can be used to monitor the progress
    */
@@ -141,7 +141,7 @@ export type ComputeNodeAdministrationGetResponse = ComputeNodeUnion & {
 /**
  * Optional parameters.
  */
-export interface ComputationComputePiOptionalParams
+export interface ComputationsComputePiOptionalParams
   extends coreHttp.OperationOptions {
   precision?: number;
 }
@@ -149,7 +149,7 @@ export interface ComputationComputePiOptionalParams
 /**
  * Contains response data for the computePi operation.
  */
-export type ComputationComputePiResponse = ComputationComputePiHeaders & {
+export type ComputationsComputePiResponse = ComputationsComputePiHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -157,7 +157,7 @@ export type ComputationComputePiResponse = ComputationComputePiHeaders & {
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: ComputationComputePiHeaders;
+    parsedHeaders: ComputationsComputePiHeaders;
   };
 };
 

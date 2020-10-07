@@ -11,18 +11,18 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  ComputationComputePiOptionalParams,
-  ComputationComputePiResponse
+  ComputationsComputePiOptionalParams,
+  ComputationsComputePiResponse
 } from "../models";
 
 /**
- * Class representing a Computation.
+ * Class representing a Computations.
  */
-export class Computation {
+export class Computations {
   private readonly client: GeneratedClient;
 
   /**
-   * Initialize a new instance of the class Computation class.
+   * Initialize a new instance of the class Computations class.
    * @param client Reference to the service client
    */
   constructor(client: GeneratedClient) {
@@ -33,15 +33,15 @@ export class Computation {
    * @param options The options parameters.
    */
   computePi(
-    options?: ComputationComputePiOptionalParams
-  ): Promise<ComputationComputePiResponse> {
+    options?: ComputationsComputePiOptionalParams
+  ): Promise<ComputationsComputePiResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { options: operationOptions },
       computePiOperationSpec
-    ) as Promise<ComputationComputePiResponse>;
+    ) as Promise<ComputationsComputePiResponse>;
   }
 }
 // Operation Specifications
@@ -53,7 +53,7 @@ const computePiOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.ComputationComputePiHeaders
+      headersMapper: Mappers.ComputationsComputePiHeaders
     }
   },
   queryParameters: [Parameters.precision],

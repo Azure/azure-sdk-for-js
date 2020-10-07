@@ -139,10 +139,10 @@ export const WindowsComputeNode: coreHttp.CompositeMapper = {
   }
 };
 
-export const ComputationComputePiHeaders: coreHttp.CompositeMapper = {
+export const ComputationsComputePiHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComputationComputePiHeaders",
+    className: "ComputationsComputePiHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
