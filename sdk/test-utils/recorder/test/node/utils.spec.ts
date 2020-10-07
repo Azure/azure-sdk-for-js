@@ -271,6 +271,56 @@ describe("NodeJS utils", () => {
   'Last-Modified',
   'Thu, 20 Aug 2020 09:22:11 GMT',
 ]);`
+      },
+      {
+        name: `Hex encoding decodes for "avro/binary" content type even for partial success(status code 206)`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\">")
+  .query(true)
+  .reply(206, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\">")
+  .query(true)
+  .reply(206, Buffer.from("4f626a0131c2", "hex"), [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      },
+      {
+        name: `Hex encoding is not decoded for non-successful status codes`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(400, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(400, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
       }
     ].forEach((test) => {
       it(test.name, () => {

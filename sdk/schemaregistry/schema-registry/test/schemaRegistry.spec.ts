@@ -91,8 +91,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("rejects schema registration with invalid args", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     await assert.isRejected(client.registerSchema({ ...schema, name: null! }), /null/);
     await assert.isRejected(client.registerSchema({ ...schema, group: null! }), /null/);
     await assert.isRejected(client.registerSchema({ ...schema, content: null! }), /null/);
@@ -104,8 +102,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("registers schema", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     const registered = await client.registerSchema(schema);
     assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
@@ -113,15 +109,13 @@ describe("SchemaRegistryClient", function() {
     // changing schema content bumps version, generates new id/locations
     const changed = await client.registerSchema({
       ...schema,
-      content: schema.content.replace("name", "fullName")
+      content: schema.content.replace("favoriteNumber", "secondFavoriteNumber")
     });
     assertStatus(changed, 200);
     assertIsValidSchemaId(changed);
   });
 
   it("fails to get schema ID when given invalid args", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     await assert.isRejected(client.getSchemaId({ ...schema, name: null! }), /null/);
     await assert.isRejected(client.getSchemaId({ ...schema, group: null! }), /null/);
     await assert.isRejected(client.getSchemaId({ ...schema, content: null! }), /null/);
@@ -133,7 +127,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
     await assert.isRejected(
       client.getSchemaId({ ...schema, name: "never-registered" }),
       /never-registered/
@@ -141,8 +134,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("gets schema ID", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     const registered = await client.registerSchema(schema);
     assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
@@ -159,8 +150,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     await assert.isRejected(
       client.getSchemaById("ffffffffffffffffffffffffffffffff"),
       /ffffffffffffffffffffffffffffffff/
@@ -168,8 +157,6 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("gets schema by ID", async () => {
-    recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
-
     const registered = await client.registerSchema(schema);
     assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
@@ -177,7 +164,6 @@ describe("SchemaRegistryClient", function() {
     const found = await client.getSchemaById(registered.id);
     assertStatus(found, 200);
     assertIsValidSchemaId(found);
-
     assert.equal(found.content, schema.content);
   });
 });

@@ -52,13 +52,13 @@ async function createAlertConfig(adminClient, detectionConfigId) {
       scopeType: "All"
     }
   };
-  const result = await adminClient.createAnomalyAlertConfiguration(
-    "js alerting config name " + new Date().getTime().toString(),
-    "AND",
-    [metricAlertingConfig, metricAlertingConfig],
-    [],
-    "alerting config description"
-  );
+  const result = await adminClient.createAnomalyAlertConfiguration({
+    name: "js alerting config name " + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig],
+    hookIds: [],
+    description: "alerting config description"
+  });
   console.log(result);
   return result;
 }

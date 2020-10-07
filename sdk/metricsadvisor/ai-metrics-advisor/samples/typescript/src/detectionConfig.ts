@@ -11,7 +11,6 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  AnomalyDetectionConfigurationPatch,
   AnomalyDetectionConfiguration
 } from "@azure/ai-metrics-advisor";
 
@@ -81,19 +80,10 @@ async function createDetectionConfig(
         upperBound: 400,
         suppressCondition: { minNumber: 2, minRatio: 2 }
       }
-    },
-    seriesGroupDetectionConditions: [],
-    seriesDetectionConditions: []
+    }
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createMetricAnomalyDetectionConfiguration(
-    config.name,
-    config.metricId,
-    config.wholeSeriesDetectionCondition,
-    config.description,
-    config.seriesGroupDetectionConditions,
-    config.seriesDetectionConditions
-  );
+  return await adminClient.createMetricAnomalyDetectionConfiguration(config);
 }
 
 // updating an detection configuration
@@ -101,7 +91,7 @@ async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   configId: string
 ) {
-  const patch: AnomalyDetectionConfigurationPatch = {
+  const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
     description: "new description",
     wholeSeriesDetectionCondition: {

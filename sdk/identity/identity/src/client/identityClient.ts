@@ -10,11 +10,7 @@ import {
   RequestPrepareOptions,
   GetTokenOptions,
   createPipelineFromOptions,
-  isNode,
-  OperationArguments,
-  OperationSpec,
-  RawHttpHeaders,
-  HttpHeaders
+  isNode
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 
@@ -23,6 +19,7 @@ import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 import { getAuthorityHostEnvironment } from "../util/authHostEnv";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -143,8 +140,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
 
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
       const webResource = this.createWebResource({
-        url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
+        url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,

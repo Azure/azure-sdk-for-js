@@ -8,6 +8,7 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
 
@@ -63,8 +64,9 @@ export class ClientSecretCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
