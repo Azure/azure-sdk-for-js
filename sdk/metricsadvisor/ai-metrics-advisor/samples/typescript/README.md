@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
-urlFragment: ai-form-recognizer-typescript
+urlFragment: ai-metrics-advisor-typescript
 ---
 
 # Azure Metrics Advisor client library samples for TypeScript
