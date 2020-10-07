@@ -3,12 +3,7 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
-import {
-  PeekMessagesOptions,
-  GetMessageIteratorOptions,
-  MessageHandlerOptionsBase,
-  SessionSubscribeOptions
-} from "../models";
+import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
@@ -68,7 +63,7 @@ export interface ServiceBusSessionReceiver<
    */
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SessionSubscribeOptions
+    options?: SubscribeOptions
   ): {
     /**
      * Causes the subscriber to stop receiving new messages.
@@ -406,7 +401,7 @@ export class ServiceBusSessionReceiverImpl<
 
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SessionSubscribeOptions
+    options?: SubscribeOptions
   ): {
     close(): Promise<void>;
   } {
@@ -455,7 +450,7 @@ export class ServiceBusSessionReceiverImpl<
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: MessageHandlerOptionsBase
+    options?: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
