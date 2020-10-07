@@ -9,7 +9,7 @@ dotenv.config();
 
 const sasConnectionString = process.env["SAS_CONNECTION_STRING"] || "";
 
-export async function createAndDeleteTable() {
+async function createAndDeleteTable() {
   console.log("== Delete and create table Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
@@ -23,7 +23,7 @@ export async function createAndDeleteTable() {
   await serviceClient.deleteTable(tableName);
 }
 
-export async function createAndDeleteTableWithTableClient() {
+async function createAndDeleteTableWithTableClient() {
   // A table can also be created and deleted using a TableClient
   console.log("== Delete and create table with TableClient Sample ==");
 

@@ -40,7 +40,11 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
     hookParameter: {
       endpoint: "https://httpbin.org/post",
       username: "user",
-      password: "pass"
+      password: "pass",
+      headers: {
+        name1: "value1",
+        name2: "value2"
+      }
       // certificateKey: "k",
       // certificatePassword: "kp"
     }
@@ -90,8 +94,21 @@ async function listHooks(client: MetricsAdvisorAdministrationClient) {
   for await (const hook of client.listHooks({
     hookName: "js "
   })) {
-    console.log(`hook ${i++}`);
-    console.log(hook);
+    console.log(`hook ${i++} - type ${hook.hookType}`);
+    console.log(`  description: ${hook.description}`);
+    if (hook.hookType === "Email") {
+      console.log(`  TO: list ${hook.hookParameter.toList}`);
+    } else {
+      console.log(`  endpoint: ${hook.hookParameter.endpoint}`);
+      console.log(`  username: ${hook.hookParameter.username}`);
+      if (hook.hookParameter.headers) {
+        console.log(`  headers:`);
+        for (const key of Object.keys(hook.hookParameter.headers)) {
+          console.log(`    ${key}: ${hook.hookParameter.headers[key]}`);
+        }
+      }
+      console.log(`  certificate key: ${hook.hookParameter.certificateKey}`);
+    }
   }
 }
 

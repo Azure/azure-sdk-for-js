@@ -11,7 +11,7 @@ const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
-export async function createAndDeleteEntities() {
+async function createAndDeleteEntities() {
   console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists

@@ -70,4 +70,5 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

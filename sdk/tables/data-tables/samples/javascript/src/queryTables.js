@@ -9,7 +9,7 @@ dotenv.config();
 
 const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
-export async function queryTables() {
+async function queryTables() {
   console.log("== Query tables Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
