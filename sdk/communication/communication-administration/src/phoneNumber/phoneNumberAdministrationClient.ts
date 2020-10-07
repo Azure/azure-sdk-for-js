@@ -402,6 +402,37 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
+   * Gets the reservation associated with a given id.
+   * Use this function to query the status of a phone number reservation.
+   * @param reservationId The id of the reservation returned by createReservation.
+   * @param options Additional request options.
+   */
+  public async getReservation(
+    reservationId: string,
+    options: GetReservationOptions = {}
+  ): Promise<GetReservationResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-getReservation",
+      options
+    );
+    try {
+      const { _response, ...rest } = await this.client.getSearchById(
+        reservationId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * @internal
    * @ignore
    * Deals with the pagination of listSearches.
@@ -1082,37 +1113,6 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<CreateReservationResponse>({ reservationId: searchId }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Gets the reservation associated with a given id.
-   * Use this function to query the status of a phone number reservation.
-   * @param reservationId The id of the reservation returned by createReservation.
-   * @param options Additional request options.
-   */
-  private async getReservation(
-    reservationId: string,
-    options: GetReservationOptions = {}
-  ): Promise<GetReservationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getReservation",
-      options
-    );
-    try {
-      const { _response, ...rest } = await this.client.getSearchById(
-        reservationId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

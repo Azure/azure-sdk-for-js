@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { ListPhonePlansRequest, LocationOptions, PhoneNumberAdministrationClient } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
@@ -28,7 +28,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get phonePlanGroupId and phonePlanId for other tests", async function() {
-    if (!includePhoneNumberTests) {
+    if (!includePhoneNumberTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -53,7 +53,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   }).timeout(5000);
 
   it("can get location options", async function() {
-    if (!includePhoneNumberTests) {
+    if (!includePhoneNumberTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -69,7 +69,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get area codes", async function() {
-    if (!includePhoneNumberTests) {
+    if (!includePhoneNumberTests && !isPlaybackMode()) {
       this.skip();
     }
 

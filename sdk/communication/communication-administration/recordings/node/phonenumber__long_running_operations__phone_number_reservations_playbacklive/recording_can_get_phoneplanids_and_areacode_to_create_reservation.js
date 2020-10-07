@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "1a4ba6af0469e1a931c49a965aadd8cd";
+module.exports.hash = "94e44043049458bd9e485a4c3758bf1a";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -38,13 +38,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "A8oNtBci20aKVLyOBVGTLQ.0",
+      "FSb7lv2Pu0KPRgP7ScoQ/w.0",
       "X-Processing-Time",
-      "235ms",
+      "236ms",
       "X-Azure-Ref",
-      "0fil+XwAAAABtktZ5+9zFS5PjMS1QpDkuWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0aCl+XwAAAABd+v5BUu6lRYEJlneLlSC/WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:57 GMT"
+      "Wed, 07 Oct 2020 20:47:35 GMT"
     ]
   );
 
@@ -80,12 +80,35 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "mpWK1YyYfUuzIsGu4ysbwA.0",
+      "f5okYymJZkmgVWvWq5W9Eg.0",
       "X-Processing-Time",
-      "228ms",
+      "232ms",
       "X-Azure-Ref",
-      "0fil+XwAAAACyHjEArDXBSY28rLMYbOu4WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0aCl+XwAAAADlXGGqIxPzTYtU6NpOJveXWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:58 GMT"
+      "Wed, 07 Oct 2020 20:47:36 GMT"
     ]
   );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .post("/administration/phonenumbers/countries/US/areacodes", {
+    locationOptions: [
+      { labelId: "state", optionsValue: "AL" },
+      { labelId: "city", optionsValue: "NOAM-US-AL-BI" }
+    ]
+  })
+  .query(true)
+  .reply(200, { primaryAreaCodes: ["205"], secondaryAreaCodes: [], nextLink: null }, [
+    "Transfer-Encoding",
+    "chunked",
+    "Content-Type",
+    "application/json; charset=utf-8",
+    "MS-CV",
+    "3WDKECbGYkiNBYypoexhHA.0",
+    "X-Processing-Time",
+    "193ms",
+    "X-Azure-Ref",
+    "0aCl+XwAAAABo5g9yVvrBTq9FDCPDiDqAWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "Date",
+    "Wed, 07 Oct 2020 20:47:36 GMT"
+  ]);

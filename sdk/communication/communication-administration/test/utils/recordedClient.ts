@@ -47,8 +47,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     },
     (recording: string): string =>
       recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized"),
-    (recording: string): string =>
-      recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`),
+    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
     (recording: string): string =>
       recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],

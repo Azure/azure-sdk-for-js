@@ -9,14 +9,14 @@ nock("https://endpoint", { encodedQueryParams: true })
   .query(true)
   .reply(
     200,
-    { id: "sanitized", token: "sanitized", expiresOn: "2020-10-06T11:24:09.0551068+00:00" },
+    { id: "sanitized", token: "sanitized", expiresOn: "2020-10-08T20:47:30.0349118+00:00" },
     [
       "Transfer-Encoding",
       "chunked",
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "7s8M3COwTEecqn0oiJEfRQ.0",
+      "uWssoFOL0EaTf0As2m1axw.0",
       "Strict-Transport-Security",
       "max-age=2592000",
       "x-ms-client-request-id",
@@ -26,8 +26,8 @@ nock("https://endpoint", { encodedQueryParams: true })
       "X-Processing-Time",
       "27ms",
       "X-Azure-Ref",
-      "0WQJ7XwAAAAAppZPbQL18TIb18yefacV6WVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Yil+XwAAAAAoRFXJ/gZZQr7Dss6fwqZmWVZSMzBFREdFMDMxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:09 GMT"
+      "Wed, 07 Oct 2020 20:47:30 GMT"
     ]
   );
