@@ -17,21 +17,15 @@ const packageVersion = "3.1.0";
 
 export class PolicyClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the PolicyClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.PolicyClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
-    }
-    if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -44,13 +38,11 @@ export class PolicyClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2019-09-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-    this.subscriptionId = subscriptionId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

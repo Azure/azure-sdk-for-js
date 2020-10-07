@@ -36,11 +36,11 @@ export const ErrorAdditionalInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
+export const CloudErrorError: msRest.CompositeMapper = {
+  serializedName: "CloudError_error",
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "CloudErrorError",
     modelProperties: {
       code: {
         readOnly: true,
@@ -71,7 +71,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
+              className: "CloudError"
             }
           }
         }
@@ -87,6 +87,23 @@ export const ErrorResponse: msRest.CompositeMapper = {
               className: "ErrorAdditionalInfo"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: msRest.CompositeMapper = {
+  serializedName: "CloudError",
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorError"
         }
       }
     }
@@ -606,6 +623,208 @@ export const PolicySetDefinition: msRest.CompositeMapper = {
   }
 };
 
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyExemption: msRest.CompositeMapper = {
+  serializedName: "PolicyExemption",
+  type: {
+    name: "Composite",
+    className: "PolicyExemption",
+    modelProperties: {
+      policyAssignmentId: {
+        required: true,
+        serializedName: "properties.policyAssignmentId",
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceIds: {
+        serializedName: "properties.policyDefinitionReferenceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      exemptionCategory: {
+        required: true,
+        serializedName: "properties.exemptionCategory",
+        type: {
+          name: "String"
+        }
+      },
+      expiresOn: {
+        serializedName: "properties.expiresOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Object"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: msRest.CompositeMapper = {
+  serializedName: "TrackedResource",
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureEntityResource: msRest.CompositeMapper = {
+  serializedName: "AzureEntityResource",
+  type: {
+    name: "Composite",
+    className: "AzureEntityResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
 export const PolicyAssignmentListResult: msRest.CompositeMapper = {
   serializedName: "PolicyAssignmentListResult",
   type: {
@@ -681,6 +900,35 @@ export const PolicySetDefinitionListResult: msRest.CompositeMapper = {
         }
       },
       nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyExemptionListResult: msRest.CompositeMapper = {
+  serializedName: "PolicyExemptionListResult",
+  type: {
+    name: "Composite",
+    className: "PolicyExemptionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyExemption"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
         serializedName: "nextLink",
         type: {
           name: "String"
