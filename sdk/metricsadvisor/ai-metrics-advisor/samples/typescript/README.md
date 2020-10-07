@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+  - typescript
+products:
+  - azure
+  - azure-cognitive-services
+urlFragment: ai-form-recognizer-typescript
+---
+
 # Azure Metrics Advisor client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Metrics Advisor in some common scenarios.
