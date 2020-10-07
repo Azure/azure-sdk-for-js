@@ -583,6 +583,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/design-activity",
+      "projectFolder": "sdk/api-learn/design-activity",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/implementation-tutorial",
       "projectFolder": "sdk/api-learn/implementation-tutorial",
       "versionPolicyName": "client"
