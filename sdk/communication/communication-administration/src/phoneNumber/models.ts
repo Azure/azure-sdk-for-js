@@ -185,19 +185,19 @@ export type GetReleaseOptions = OperationOptions;
 export type GetPhoneNumberConfigurationOptions = OperationOptions;
 
 /**
- * Additional request option for get phone number reservation operations.
+ * Additional request option for the get phone number reservation operation.
  */
 export type GetReservationOptions = OperationOptions;
 
 /**
- * Additional request option for cancel phone number reservation operations.
+ * Additional request option for the cancel phone number reservation operation.
  */
 export type CancelReservationOptions = OperationOptions;
 
 /**
- * Additional request option for get search operations.
+ * Additional request option for the purchase reservation operation.
  */
-export type PurchaseSearchOptions = OperationOptions;
+export type PurchaseReservationOptions = OperationOptions;
 
 /**
  * The capabilities update for each of a set of phone numbers.

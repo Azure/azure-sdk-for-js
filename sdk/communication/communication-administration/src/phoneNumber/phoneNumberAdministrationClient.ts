@@ -65,7 +65,6 @@ import {
   GetPhoneNumberConfigurationOptions,
   GetReleaseOptions,
   UnconfigurePhoneNumberOptions,
-  PurchaseSearchOptions,
   ReleasePhoneNumbersOptions,
   CreateReservationRequest,
   CreateReservationOptions,
@@ -73,11 +72,13 @@ import {
   CreateReservationResponse,
   GetReservationOptions,
   GetReservationResponse,
-  CancelReservationOptions
+  CancelReservationOptions,
+  PurchaseReservationOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import {
+  StartPurchaseReservationOptions,
   StartReleasePhoneNumbersOptions,
   StartReservePhoneNumbersOptions,
   _PhoneNumberPollerClient
@@ -85,6 +86,7 @@ import {
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
 import { ReservePhoneNumbersPoller } from "./lro/reserve/poller";
+import { PurchaseReservationPoller } from "./lro/purchase/poller";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -113,7 +115,7 @@ export class PhoneNumberAdministrationClient {
     createReservation: this.createReservation.bind(this),
     getReservation: this.getReservation.bind(this),
     cancelReservation: this.cancelReservation.bind(this),
-    purchaseSearch: this.purchaseSearch.bind(this),
+    purchaseReservation: this.purchaseReservation.bind(this),
     releasePhoneNumbers: this.releasePhoneNumbers.bind(this),
     getRelease: this.getRelease.bind(this)
   };
@@ -304,74 +306,6 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Starts the release of a list of acquired phone numbers.
-   *
-   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
-   *
-   * Example usage:
-   * ```ts
-   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const releasePoller = await client.startReleasePhoneNumbers(PHONE_NUMBERS);
-   *
-   * // Serializing the poller
-   * const serialized = releasePoller.toString();
-   *
-   * // Waiting until it's done
-   * const results = await releasePoller.pollUntilDone();
-   * console.log(results);
-   * ```
-   * @param {string[]} phoneNumbers The phone numbers to be released.
-   * @param {StartReleasePhoneNumbersOptions} options Additional request options.
-   */
-  public async startReleasePhoneNumbers(
-    phoneNumbers: string[],
-    options: StartReleasePhoneNumbersOptions
-  ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
-    const poller = new ReleasePhoneNumbersPoller({
-      phoneNumbers,
-      client: this.pollerClient,
-      options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts a search for phone numbers given some constraints such as name or area code.
-   * The phone numbers that are found are reserved until you cancel, purchase or make the reservation expire.
-   *
-   * Example usage:
-   * ```ts
-   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const reservePoller = await client.startReservePhoneNumbers(RESERVATION_REQUEST);
-   *
-   * // Serializing the poller
-   * const serialized = reservePoller.toString();
-   *
-   * // Waiting until it's done
-   * const results = await reservePoller.pollUntilDone();
-   * console.log(results);
-   * ```
-   *
-   * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
-   * @param {StartReservePhoneNumbersOptions} options Additional request options.
-   */
-  public async startReservePhoneNumbers(
-    reservationRequest: CreateReservationRequest,
-    options: StartReservePhoneNumbersOptions
-  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
-    const poller = new ReservePhoneNumbersPoller({
-      reservationRequest,
-      client: this.pollerClient,
-      options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  /**
    * Gets a list of the supported area codes based on location.
    * @param request Request properties to constraint the search scope.
    * @param options Additional request options.
@@ -393,6 +327,69 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<AreaCodes>(rest, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the configuration for a given phone number.
+   * @param phoneNumber The E.164 representation of the phone number whose configuration is requested.
+   * @param options Additional request options.
+   */
+  public async getPhoneNumberConfiguration(
+    phoneNumber: string,
+    options: GetPhoneNumberConfigurationOptions = {}
+  ): Promise<GetPhoneNumberConfigurationResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-getPhoneNumberConfiguration",
+      options
+    );
+    try {
+      const { pstnConfiguration, _response } = await this.client.getNumberConfiguration(
+        phoneNumber,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<NumberConfigurationResponse>({ pstnConfiguration }, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the location options for a given phone plan.
+   * @param request Request properties to constraint the search scope.
+   * @param options Additional request options.
+   */
+  public async getPhonePlanLocationOptions(
+    request: GetPhonePlanLocationOptionsRequest,
+    options: GetPhonePlanLocationOptionsOptions = {}
+  ): Promise<GetPhonePlanLocationOptionsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-getPhonePlanLocationOptions",
+      options
+    );
+    const { countryCode, phonePlanGroupId, phonePlanId } = request;
+    try {
+      const { locationOptions, _response } = await this.client.getPhonePlanLocationOptions(
+        countryCode,
+        phonePlanGroupId,
+        phonePlanId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<LocationOptionsResponse>({ locationOptions }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -718,36 +715,6 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Gets the configuration for a given phone number.
-   * @param phoneNumber The E.164 representation of the phone number whose configuration is requested.
-   * @param options Additional request options.
-   */
-  public async getPhoneNumberConfiguration(
-    phoneNumber: string,
-    options: GetPhoneNumberConfigurationOptions = {}
-  ): Promise<GetPhoneNumberConfigurationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getPhoneNumberConfiguration",
-      options
-    );
-    try {
-      const { pstnConfiguration, _response } = await this.client.getNumberConfiguration(
-        phoneNumber,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<NumberConfigurationResponse>({ pstnConfiguration }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * @internal
    * @ignore
    * Deals with the pagination of listPhonePlanGroups.
@@ -925,36 +892,108 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Gets the location options for a given phone plan.
-   * @param request Request properties to constraint the search scope.
-   * @param options Additional request options.
+   * Starts the release of a list of acquired phone numbers.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const releasePoller = await client.startReleasePhoneNumbers(PHONE_NUMBERS);
+   *
+   * // Serializing the poller
+   * const serialized = releasePoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await releasePoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   * @param {string[]} phoneNumbers The phone numbers to be released.
+   * @param {StartReleasePhoneNumbersOptions} options Additional request options.
    */
-  public async getPhonePlanLocationOptions(
-    request: GetPhonePlanLocationOptionsRequest,
-    options: GetPhonePlanLocationOptionsOptions = {}
-  ): Promise<GetPhonePlanLocationOptionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getPhonePlanLocationOptions",
+  public async startReleasePhoneNumbers(
+    phoneNumbers: string[],
+    options: StartReleasePhoneNumbersOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
+    const poller = new ReleasePhoneNumbersPoller({
+      phoneNumbers,
+      client: this.pollerClient,
       options
-    );
-    const { countryCode, phonePlanGroupId, phonePlanId } = request;
-    try {
-      const { locationOptions, _response } = await this.client.getPhonePlanLocationOptions(
-        countryCode,
-        phonePlanGroupId,
-        phonePlanId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<LocationOptionsResponse>({ locationOptions }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a search for phone numbers given some constraints such as name or area code.
+   * The phone numbers that are found are reserved until you cancel, purchase or make the reservation expire.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const reservePoller = await client.startReservePhoneNumbers(RESERVATION_REQUEST);
+   *
+   * // Serializing the poller
+   * const serialized = reservePoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await reservePoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   *
+   * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
+   * @param {StartReservePhoneNumbersOptions} options Additional request options.
+   */
+  public async startReservePhoneNumbers(
+    reservationRequest: CreateReservationRequest,
+    options: StartReservePhoneNumbersOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    const poller = new ReservePhoneNumbersPoller({
+      reservationRequest,
+      client: this.pollerClient,
+      options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts the purchase of the phone number(s) in the reservation associated with a given id.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const purchasePoller = await client.startPurchaseReservation(RESERVATION_ID);
+   *
+   * // Serializing the poller
+   * const serialized = purchasePoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await purchasePoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   *
+   * @param {string} reservationId The id of the reservation to purchase.
+   * @param {StartPurchaseReservationOptions} options Additional request options.
+   */
+  public async startPurchaseReservation(
+    reservationId: string,
+    options: StartPurchaseReservationOptions = {}
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    const poller = new PurchaseReservationPoller({
+      reservationId,
+      client: this.pollerClient,
+      options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1116,16 +1155,16 @@ export class PhoneNumberAdministrationClient {
   }
 
   /**
-   * Purchases the search associated with a given id.
-   * @param searchId The id of the search returned by createSearch.
+   * Purchases the phone number(s) in the reservation associated with a given id.
+   * @param searchId The id of the reservation returned by createReservation.
    * @param options Additional request options.
    */
-  private async purchaseSearch(
+  private async purchaseReservation(
     searchId: string,
-    options: PurchaseSearchOptions = {}
+    options: PurchaseReservationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-purchaseSearch",
+      "PhoneNumberAdministrationClient-purchaseReservation",
       options
     );
     try {

@@ -295,8 +295,9 @@ export class PhoneNumberAdministrationClient {
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    startReleasePhoneNumbers(phoneNumbers: string[], options: StartReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
-    startReservePhoneNumbers(reservationRequest: CreateReservationRequest, options: StartReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    startPurchaseReservation(reservationId: string, options?: StartPurchaseReservationOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    startReleasePhoneNumbers(phoneNumbers: string[], options?: StartReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
+    startReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: StartReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
@@ -414,7 +415,7 @@ export interface _PhoneNumberPollerClient {
     // (undocumented)
     getReservation(reservationId: string, options: OperationOptions): Promise<GetReservationResponse>;
     // (undocumented)
-    purchaseSearch(reservationId: string, options: PurchaseSearchOptions): Promise<VoidResponse>;
+    purchaseReservation(reservationId: string, options: PurchaseReservationOptions): Promise<VoidResponse>;
     // (undocumented)
     releasePhoneNumbers: (phoneNumbers: string[], options?: StartReleasePhoneNumbersOptions) => Promise<ReleasePhoneNumbersResponse>;
 }
@@ -505,7 +506,27 @@ export interface PstnConfiguration {
 }
 
 // @public
-export type PurchaseSearchOptions = OperationOptions;
+export type PurchaseReservationOptions = OperationOptions;
+
+// @public
+export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptions {
+    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
+    client: _PhoneNumberPollerClient;
+    options?: CreateReservationOptions;
+    reservationId: string;
+}
+
+// @public
+export interface PurchaseReservationPollOperation extends PollOperation<PurchaseReservationPollOperationState, PhoneNumberSearch> {
+}
+
+// @public
+export interface PurchaseReservationPollOperationState extends PollOperationState<PhoneNumberSearch> {
+    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
+    client: _PhoneNumberPollerClient;
+    options?: CreateReservationOptions;
+    reservationId: string;
+}
 
 // @public
 export interface RateInformation {
@@ -517,7 +538,7 @@ export interface RateInformation {
 // @public
 export type ReleasePhoneNumbersOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
     // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
     client: _PhoneNumberPollerClient;
@@ -525,11 +546,11 @@ export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
     phoneNumbers: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface ReleasePhoneNumbersPollOperation extends PollOperation<ReleasePhoneNumbersPollOperationState, PhoneNumberRelease> {
 }
 
-// @public (undocumented)
+// @public
 export interface ReleasePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberRelease> {
     // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
     client: _PhoneNumberPollerClient;
@@ -549,7 +570,7 @@ export interface ReleaseResponse {
 // @public
 export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
 
-// @public (undocumented)
+// @public
 export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
     // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
     client: _PhoneNumberPollerClient;
@@ -558,11 +579,11 @@ export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
     reservationRequest: CreateReservationRequest;
 }
 
-// @public (undocumented)
+// @public
 export interface ReservePhoneNumbersPollOperation extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberSearch> {
 }
 
-// @public (undocumented)
+// @public
 export interface ReservePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberSearch> {
     // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
     client: _PhoneNumberPollerClient;
@@ -575,10 +596,14 @@ export interface ReservePhoneNumbersPollOperationState extends PollOperationStat
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
 
 // @public
+export interface StartPurchaseReservationOptions extends PhoneNumberPollerOptions {
+}
+
+// @public
 export interface StartReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface StartReservePhoneNumbersOptions extends PhoneNumberPollerOptions {
 }
 
