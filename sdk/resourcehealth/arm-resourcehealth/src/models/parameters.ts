@@ -54,6 +54,18 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
+export const issueName: msRest.OperationURLParameter = {
+  parameterPath: "issueName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "issueName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
