@@ -10,8 +10,13 @@ export {
   OperationDisplayInfo,
   OperationEntity,
   OperationEntityListResult,
+  OperationProperties,
+  OperationResourceMetricSpecification,
+  OperationResourceMetricSpecificationDimension,
+  OperationResourceServiceSpecification,
   OperationsListHeaders,
   StorageSyncApiError,
   StorageSyncError,
-  StorageSyncErrorDetails
+  StorageSyncErrorDetails,
+  StorageSyncInnerErrorDetails
 } from "../models/mappers";

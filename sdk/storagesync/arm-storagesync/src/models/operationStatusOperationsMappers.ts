@@ -11,5 +11,6 @@ export {
   OperationStatusGetHeaders,
   StorageSyncApiError,
   StorageSyncError,
-  StorageSyncErrorDetails
+  StorageSyncErrorDetails,
+  StorageSyncInnerErrorDetails
 } from "../models/mappers";
