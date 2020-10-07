@@ -448,7 +448,7 @@ const checkKeyValuesOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select1
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -466,11 +466,7 @@ const getKeyValueOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select2
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -539,11 +535,7 @@ const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select3
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -569,7 +561,7 @@ const getLabelsOperationSpec: coreHttp.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -592,7 +584,7 @@ const checkLabelsOperationSpec: coreHttp.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -659,7 +651,7 @@ const getRevisionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -683,7 +675,7 @@ const checkRevisionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select6
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -753,7 +745,7 @@ const getLabelsNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
@@ -780,7 +772,7 @@ const getRevisionsNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [

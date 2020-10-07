@@ -192,7 +192,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }
@@ -282,7 +286,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }
@@ -375,7 +383,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }
@@ -660,7 +672,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }
@@ -1068,7 +1084,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }
@@ -1158,7 +1178,11 @@
                                 "tags",
                                 "locked",
                                 "etag"
-                            ]
+                            ],
+                            "x-ms-enum": {
+                                "name": "SettingFields",
+                                "modelAsString": false
+                            }
                         },
                         "collectionFormat": "csv"
                     }

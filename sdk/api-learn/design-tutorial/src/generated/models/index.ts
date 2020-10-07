@@ -352,9 +352,9 @@ export interface GeneratedClientGetRevisionsNextHeaders {
 }
 
 /**
- * Defines values for Get6ItemsItem.
+ * Defines values for SettingFields.
  */
-export type Get6ItemsItem =
+export type SettingFields =
   | "key"
   | "label"
   | "content_type"
@@ -362,73 +362,7 @@ export type Get6ItemsItem =
   | "last_modified"
   | "tags"
   | "locked"
-  | "etag"
-  | string;
-/**
- * Defines values for Head6ItemsItem.
- */
-export type Head6ItemsItem =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag"
-  | string;
-/**
- * Defines values for Get7ItemsItem.
- */
-export type Get7ItemsItem =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag"
-  | string;
-/**
- * Defines values for Head7ItemsItem.
- */
-export type Head7ItemsItem =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag"
-  | string;
-/**
- * Defines values for Enum4.
- */
-export type Enum4 =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag"
-  | string;
-/**
- * Defines values for Enum5.
- */
-export type Enum5 =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag"
-  | string;
+  | "etag";
 
 /**
  * Optional parameters.
@@ -532,7 +466,7 @@ export interface GeneratedClientGetKeyValuesOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Get6ItemsItem[];
+  select?: SettingFields[];
 }
 
 /**
@@ -584,7 +518,7 @@ export interface GeneratedClientCheckKeyValuesOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Head6ItemsItem[];
+  select?: SettingFields[];
 }
 
 /**
@@ -616,6 +550,10 @@ export interface GeneratedClientGetKeyValueOptionalParams
    */
   label?: string;
   /**
+   * Used to select what fields are present in the returned resource(s).
+   */
+  select?: SettingFields[];
+  /**
    * Used to perform an operation only if the targeted resource's etag matches the value provided.
    */
   ifMatch?: string;
@@ -623,10 +561,6 @@ export interface GeneratedClientGetKeyValueOptionalParams
    * Used to perform an operation only if the targeted resource's etag does not match the value provided.
    */
   ifNoneMatch?: string;
-  /**
-   * Used to select what fields are present in the returned resource(s).
-   */
-  select?: Get7ItemsItem[];
 }
 
 /**
@@ -756,6 +690,10 @@ export interface GeneratedClientCheckKeyValueOptionalParams
    */
   label?: string;
   /**
+   * Used to select what fields are present in the returned resource(s).
+   */
+  select?: SettingFields[];
+  /**
    * Used to perform an operation only if the targeted resource's etag matches the value provided.
    */
   ifMatch?: string;
@@ -763,10 +701,6 @@ export interface GeneratedClientCheckKeyValueOptionalParams
    * Used to perform an operation only if the targeted resource's etag does not match the value provided.
    */
   ifNoneMatch?: string;
-  /**
-   * Used to select what fields are present in the returned resource(s).
-   */
-  select?: Head7ItemsItem[];
 }
 
 /**
@@ -982,7 +916,7 @@ export interface GeneratedClientGetRevisionsOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Enum4[];
+  select?: SettingFields[];
 }
 
 /**
@@ -1034,7 +968,7 @@ export interface GeneratedClientCheckRevisionsOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Enum5[];
+  select?: SettingFields[];
 }
 
 /**
@@ -1120,7 +1054,7 @@ export interface GeneratedClientGetKeyValuesNextOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Get6ItemsItem[];
+  select?: SettingFields[];
 }
 
 /**
@@ -1220,7 +1154,7 @@ export interface GeneratedClientGetRevisionsNextOptionalParams
   /**
    * Used to select what fields are present in the returned resource(s).
    */
-  select?: Enum4[];
+  select?: SettingFields[];
 }
 
 /**
