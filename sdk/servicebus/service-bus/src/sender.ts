@@ -21,7 +21,12 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import {
+  createSendSpan,
+  getParentSpan,
+  OperationOptionsBase
+} from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode, SpanContext } from "@opentelemetry/api";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -179,14 +184,19 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
+    // link message span contexts
+    let spanContextsToLink: SpanContext[] = [];
+    if (isServiceBusMessage(messages)) {
+      messages = [messages];
+    }
+    let batch: ServiceBusMessageBatch;
     if (Array.isArray(messages)) {
-      const batch = await this.createBatch(options);
-
+      batch = await this.createBatch(options);
       for (const message of messages) {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
-        if (!batch.tryAdd(message)) {
+        if (!batch.tryAdd(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
           const error = new MessagingError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
@@ -195,14 +205,33 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           throw error;
         }
       }
-
-      return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messages)) {
-      return this._sender.sendBatch(messages, options);
-    } else if (isServiceBusMessage(messages)) {
-      return this._sender.send(messages, options);
+      spanContextsToLink = messages._messageSpanContexts;
+      batch = messages;
+    } else {
+      throw new TypeError(invalidTypeErrMsg);
     }
-    throw new TypeError(invalidTypeErrMsg);
+
+    const sendSpan = createSendSpan(
+      getParentSpan(options?.tracingOptions),
+      spanContextsToLink,
+      this.entityPath,
+      this._context.config.host
+    );
+
+    try {
+      const result = await this._sender.sendBatch(batch, options);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
+    } catch (error) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      sendSpan.end();
+    }
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
