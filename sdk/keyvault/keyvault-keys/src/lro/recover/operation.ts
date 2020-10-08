@@ -128,11 +128,6 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
       }
     }
 
-    return new RecoverDeletedKeyPollOperation(
-      state,
-      this.vaultUrl,
-      this.client,
-      this.requestOptions
-    );
+    return this;
   }
 }

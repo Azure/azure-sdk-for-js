@@ -123,6 +123,6 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
       }
     }
 
-    return new DeleteKeyPollOperation(state, this.vaultUrl, this.client, this.requestOptions);
+    return this;
   }
 }
