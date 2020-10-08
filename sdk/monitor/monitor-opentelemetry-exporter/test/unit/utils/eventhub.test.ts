@@ -30,18 +30,6 @@ describe("#parseEventHubSpan(...)", () => {
     [MessageBusDestination]: destination
   };
 
-  it("should not crash when provided an incomplete envelope", () => {
-    const span = new Span(
-      tracer,
-      "parent span",
-      { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-      SpanKind.CLIENT,
-      "parentSpanId"
-    );
-
-    assert.doesNotThrow(() => parseEventHubSpan(span, ({ data: null } as unknown) as Envelope));
-  });
-
   it("should correctly parse SpanKind.CLIENT", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const span = new Span(
@@ -52,9 +40,9 @@ describe("#parseEventHubSpan(...)", () => {
     );
     span.setAttributes(attributes);
 
-    parseEventHubSpan(span, envelope);
-
     const baseData = envelope.data?.baseData as RemoteDependencyData;
+    parseEventHubSpan(span, baseData);
+
     assert.strictEqual(baseData.type, attributes[AzNamespace]);
     assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
 
@@ -72,9 +60,9 @@ describe("#parseEventHubSpan(...)", () => {
     );
     span.setAttributes(attributes);
 
-    parseEventHubSpan(span, envelope);
-
     const baseData = envelope.data?.baseData as RemoteDependencyData;
+    parseEventHubSpan(span, baseData);
+
     assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
 
@@ -111,8 +99,8 @@ describe("#parseEventHubSpan(...)", () => {
     (span as { startTime: HrTime }).startTime = timeInputToHrTime(startTime);
     span.setAttributes(attributes);
 
-    parseEventHubSpan(span, envelope);
     const baseData = envelope.data?.baseData as RemoteDependencyData;
+    parseEventHubSpan(span, baseData);
     assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
     assert.deepStrictEqual(baseData.measurements, {

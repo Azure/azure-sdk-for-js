@@ -189,32 +189,35 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
 
 export function readableSpanToEnvelope(
   span: ReadableSpan,
-  instrumentationKey: string,
+  ikey: string,
   logger?: Logger
 ): Envelope {
-  const envelope: Partial<Envelope> = {};
-  envelope.sampleRate = 100;
-  envelope.data = {};
+  let name: string;
+  let baseType: "RemoteDependencyData" | "RequestData";
+  const sampleRate = 100;
+  let baseData: RemoteDependencyData | RequestData;
+
+  const time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
+  const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
-  let data;
   switch (span.kind) {
     case SpanKind.CLIENT:
     case SpanKind.PRODUCER:
-      envelope.name = "Microsoft.ApplicationInsights.RemoteDependency";
-      envelope.data.baseType = "RemoteDependencyData";
-      data = createDependencyData(span);
+      name = "Microsoft.ApplicationInsights.RemoteDependency";
+      baseType = "RemoteDependencyData";
+      baseData = createDependencyData(span);
       break;
     case SpanKind.SERVER:
     case SpanKind.CONSUMER:
-      envelope.name = "Microsoft.ApplicationInsights.Request";
-      envelope.data.baseType = "RequestData";
-      data = createRequestData(span);
+      name = "Microsoft.ApplicationInsights.Request";
+      baseType = "RequestData";
+      baseData = createRequestData(span);
       break;
     case SpanKind.INTERNAL:
-      envelope.data.baseType = "RemoteDependencyData";
-      envelope.name = "Microsoft.ApplicationInsights.RemoteDependency";
-      data = createInProcData(span);
+      baseType = "RemoteDependencyData";
+      name = "Microsoft.ApplicationInsights.RemoteDependency";
+      baseData = createInProcData(span);
       break;
     default:
       // never
@@ -224,27 +227,31 @@ export function readableSpanToEnvelope(
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  envelope.data.baseData = {
-    ...data,
-    properties,
-    measurements
-  } as RequestData | RemoteDependencyData;
-  envelope.tags = tags;
-  envelope.time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
-  envelope.instrumentationKey = instrumentationKey;
-  envelope.version = 1;
-
   if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-    parseEventHubSpan(span, envelope as Envelope);
+    parseEventHubSpan(span, baseData);
   } else if (span.attributes[AzNamespace]) {
     switch (span.kind) {
       case SpanKind.INTERNAL:
-        (envelope.data
-          .baseData as RemoteDependencyData).type = `${INPROC} | ${span.attributes[AzNamespace]}`;
+        (baseData as RemoteDependencyData).type = `${INPROC} | ${span.attributes[AzNamespace]}`;
         break;
       default: // no op
     }
   }
 
-  return envelope as Envelope;
+  return {
+    name,
+    sampleRate,
+    time,
+    instrumentationKey,
+    tags,
+    version: 1,
+    data: {
+      baseType,
+      baseData: {
+        ...baseData,
+        properties,
+        measurements
+      }
+    }
+  };
 }

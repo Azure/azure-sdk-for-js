@@ -5,7 +5,7 @@ import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { GeneralAttribute } from "@opentelemetry/semantic-conventions";
 import { ReadableSpan } from "@opentelemetry/tracing";
-import { RemoteDependencyData, TelemetryItem as Envelope } from "../generated";
+import { RemoteDependencyData, RequestData } from "../generated";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
 import {
   AzNamespace,
@@ -37,16 +37,15 @@ const getTimeSinceEnqueued = (span: ReadableSpan) => {
  *
  * https://gist.github.com/lmolkova/e4215c0f44a49ef824983382762e6b92#mapping-to-azure-monitor-application-insights-telemetry
  */
-export const parseEventHubSpan = (span: ReadableSpan, envelope: Envelope): void => {
-  if (!envelope.data?.baseData) return;
-
+export const parseEventHubSpan = (
+  span: ReadableSpan,
+  baseData: RequestData | RemoteDependencyData
+): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
   const peerAddress = ((span.attributes[GeneralAttribute.NET_PEER_ADDRESS] ||
     span.attributes["peer.address"] ||
     "unknown") as string).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
-
-  const baseData = envelope.data.baseData as RemoteDependencyData;
 
   switch (span.kind) {
     case SpanKind.CLIENT:
