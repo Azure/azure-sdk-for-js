@@ -10,7 +10,7 @@ import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPolle
  */
 export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationState, DeletedKey> {
   constructor(options: KeyVaultKeyPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { vaultUrl, client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteKeyPollOperationState | undefined;
 
@@ -23,6 +23,7 @@ export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationSta
         ...state,
         name
       },
+      vaultUrl,
       client,
       requestOptions
     );

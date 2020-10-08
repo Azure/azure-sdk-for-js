@@ -1,12 +1,13 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { KeyClientInterface } from "../keysModels";
+import { KeyVaultClient } from "../generated/keyVaultClient";
 
 /**
  * Common parameters to a Key Vault Key Poller.
  */
 export interface KeyVaultKeyPollerOptions {
-  client: KeyClientInterface;
+  vaultUrl: string;
+  client: KeyVaultClient;
   name: string;
   requestOptions?: RequestOptionsBase;
   intervalInMs?: number;
