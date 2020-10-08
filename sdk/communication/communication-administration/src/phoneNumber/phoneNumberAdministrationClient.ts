@@ -81,7 +81,7 @@ import {
   StartPurchaseReservationOptions,
   StartReleasePhoneNumbersOptions,
   StartReservePhoneNumbersOptions,
-  _PhoneNumberPollerClient
+  PhoneNumberPollerClient
 } from "./lroModels";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
@@ -111,7 +111,7 @@ export class PhoneNumberAdministrationClient {
    * @ignore
    * A self reference that bypasses private methods, for the pollers.
    */
-  private readonly pollerClient: _PhoneNumberPollerClient = {
+  private readonly pollerClient: PhoneNumberPollerClient = {
     createReservation: this.createReservation.bind(this),
     getReservation: this.getReservation.bind(this),
     cancelReservation: this.cancelReservation.bind(this),

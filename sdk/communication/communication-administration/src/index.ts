@@ -6,4 +6,9 @@ export * from "./communicationIdentity/communicationIdentityClient";
 export * from "./communicationIdentity/models";
 export * from "./phoneNumber/phoneNumberAdministrationClient";
 export * from "./phoneNumber/models";
-export * from "./phoneNumber/lroModels";
+export {
+  PhoneNumberPollerOptions,
+  StartPurchaseReservationOptions,
+  StartReleasePhoneNumbersOptions,
+  StartReservePhoneNumbersOptions
+} from "./phoneNumber/lroModels";

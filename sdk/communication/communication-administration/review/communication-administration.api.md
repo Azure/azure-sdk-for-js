@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/core-http';
 import { CommunicationUser } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
@@ -13,7 +12,6 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperation } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
@@ -405,22 +403,6 @@ export interface PhoneNumberEntity {
     status?: string;
 }
 
-// @internal
-export interface _PhoneNumberPollerClient {
-    // (undocumented)
-    cancelReservation(reservationId: string, options: CancelReservationOptions): Promise<VoidResponse>;
-    // (undocumented)
-    createReservation(reservationRequest: CreateReservationRequest, options: CreateReservationOptions): Promise<CreateReservationResponse>;
-    // (undocumented)
-    getRelease: (releaseId: string, options?: GetReleaseOptions) => Promise<GetReleaseResponse>;
-    // (undocumented)
-    getReservation(reservationId: string, options: OperationOptions): Promise<GetReservationResponse>;
-    // (undocumented)
-    purchaseReservation(reservationId: string, options: PurchaseReservationOptions): Promise<VoidResponse>;
-    // (undocumented)
-    releasePhoneNumbers: (phoneNumbers: string[], options?: StartReleasePhoneNumbersOptions) => Promise<ReleasePhoneNumbersResponse>;
-}
-
 // @public
 export interface PhoneNumberPollerOptions extends OperationOptions {
     intervalInMs?: number;
@@ -510,26 +492,6 @@ export interface PstnConfiguration {
 export type PurchaseReservationOptions = OperationOptions;
 
 // @public
-export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptions {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: CreateReservationOptions;
-    reservationId: string;
-}
-
-// @public
-export interface PurchaseReservationPollOperation extends PollOperation<PurchaseReservationPollOperationState, PhoneNumberSearch> {
-}
-
-// @public
-export interface PurchaseReservationPollOperationState extends PollOperationState<PhoneNumberSearch> {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: CreateReservationOptions;
-    reservationId: string;
-}
-
-// @public
 export interface RateInformation {
     currencyType?: CurrencyType;
     monthlyRate?: number;
@@ -538,27 +500,6 @@ export interface RateInformation {
 
 // @public
 export type ReleasePhoneNumbersOptions = OperationOptions;
-
-// @public
-export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: ReleasePhoneNumbersOptions;
-    phoneNumbers: string[];
-}
-
-// @public
-export interface ReleasePhoneNumbersPollOperation extends PollOperation<ReleasePhoneNumbersPollOperationState, PhoneNumberRelease> {
-}
-
-// @public
-export interface ReleasePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberRelease> {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: ReleasePhoneNumbersOptions;
-    phoneNumbers: string[];
-    releaseId?: string;
-}
 
 // @public
 export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
@@ -570,28 +511,6 @@ export interface ReleaseResponse {
 
 // @public
 export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
-
-// @public
-export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: CreateReservationOptions;
-    reservationId?: string;
-    reservationRequest: CreateReservationRequest;
-}
-
-// @public
-export interface ReservePhoneNumbersPollOperation extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberSearch> {
-}
-
-// @public
-export interface ReservePhoneNumbersPollOperationState extends PollOperationState<PhoneNumberSearch> {
-    // Warning: (ae-incompatible-release-tags) The symbol "client" is marked as @public, but its signature references "_PhoneNumberPollerClient" which is marked as @internal
-    client: _PhoneNumberPollerClient;
-    options?: CreateReservationOptions;
-    reservationId?: string;
-    reservationRequest: CreateReservationRequest;
-}
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
@@ -636,14 +555,6 @@ export interface UpdatePhoneNumberCapabilitiesResponse {
     phoneNumberCapabilitiesUpdates?: {
         [propertyName: string]: NumberUpdateCapabilities;
     };
-}
-
-// @public (undocumented)
-export interface UpdatePollerOptions<T> {
-    // (undocumented)
-    abortSignal?: AbortSignalLike;
-    // (undocumented)
-    fireProgress?: (state: T) => void;
 }
 
 // @public
