@@ -27,9 +27,8 @@ export class HttpSender implements Sender {
   }
 
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const res = await this._appInsightsClient.track(envelopes);
-    // eslint-disable-next-line no-underscore-dangle
-    return { statusCode: res._response.status, result: res._response.bodyAsText || "" };
+    const { _response: res } = await this._appInsightsClient.track(envelopes);
+    return { statusCode: res.status, result: res.bodyAsText || "" };
   }
 
   shutdown(): void {
