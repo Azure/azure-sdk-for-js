@@ -262,12 +262,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.checkIfConnectionReady();
 
       logger.verbose(`${this._logPrefix} Creating with options %O`, options);
-      if (this.link) {
-        // For the cases such as connection is disconnected, onAmqpClose and onSessionClose events,
-        // we don't clear the link for sender. To compensate for the above,
-        // we are calling close on the link to cleanup before creating the new one.
-        await this.link.close();
-      }
       this._link = await this.createRheaLink(options);
       checkAborted();
 
