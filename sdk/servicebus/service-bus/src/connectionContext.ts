@@ -314,6 +314,41 @@ export namespace ConnectionContext {
         await connectionContext.managementClients[entityPath].close();
       }
 
+      // Calling onDetached on sender
+      if (!state.wasConnectionCloseCalled && state.numSenders) {
+        // We don't do recovery for the sender:
+        //   Because we don't want to keep the sender active all the time
+        //   and the "next" send call would bear the burden of creating the link.
+        // Call onDetached() on sender so that it can gracefully shutdown
+        //   by cleaning up the timers and closing the links.
+        // We don't call onDetached for sender after `refreshConnection()`
+        //   because any new send calls that potentially initialize links would also get affected if called later.
+        // TODO: do the same for batching receiver
+        const detachCalls: Promise<void>[] = [];
+        for (const senderName of Object.keys(connectionContext.senders)) {
+          const sender = connectionContext.senders[senderName];
+          if (sender) {
+            logger.verbose(
+              "[%s] calling detached on sender '%s'.",
+              connectionContext.connection.id,
+              sender.name
+            );
+            detachCalls.push(
+              sender.onDetached().catch((err) => {
+                logError(
+                  err,
+                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
+                  connectionContext.connection.id,
+                  sender.name,
+                  err
+                );
+              })
+            );
+          }
+        }
+        await Promise.all(detachCalls);
+      }
+
       await refreshConnection(connectionContext);
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
@@ -329,14 +364,6 @@ export namespace ConnectionContext {
         await delay(Constants.connectionReconnectDelay);
 
         const detachCalls: Promise<void>[] = [];
-        // Neither we do recovery for the sender, nor we cleanup
-        // No recovery:
-        //   Because we don't want to keep the sender active all the time
-        //   and the "next" send call would bear the burden of creating the link
-        // No cleanup:
-        //   "Closing the link" cleanup would step over new link initializations
-        //   and can possibly clear the link once created, hence we do the cleanup
-        //   at the time of new link creation
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
         // and streaming receivers can decide whether to reconnect or not.
