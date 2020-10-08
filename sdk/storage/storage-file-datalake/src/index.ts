@@ -23,6 +23,7 @@ export * from "./StorageRetryPolicyFactory";
 export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./sas/SASQueryParameters";
 export * from "./models";
+export * from "./utils/DataLakeAclChangeFailedError";
 export { CommonOptions } from "./StorageClient";
 export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
