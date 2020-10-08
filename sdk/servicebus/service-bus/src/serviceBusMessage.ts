@@ -14,7 +14,7 @@ import {
 import { messageLogger as logger, receiverLogger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode, logError } from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
 
@@ -1168,12 +1168,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      logError(
+      logger.logError(
         error,
-        "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
+        "[%s] An error occurred when renewing the lock on the message with id '%s'",
         this._context.connectionId,
-        this.messageId,
-        error
+        this.messageId
       );
       throw error;
     }
@@ -1233,12 +1232,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      logError(
+      logger.logError(
         error,
-        "[%s] An error occurred when settling a message with id '%s': %O",
+        "[%s] An error occurred when settling a message with id '%s'",
         this._context.connectionId,
-        this.messageId,
-        error
+        this.messageId
       );
       throw error;
     }
@@ -1268,12 +1266,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
         });
       }
       if (error) {
-        logError(
+        logger.logError(
           error,
-          "[%s] An error occurred when settling a message with id '%s': %O",
+          "[%s] An error occurred when settling a message with id '%s'",
           this._context.connectionId,
-          this.messageId,
-          error
+          this.messageId
         );
         throw error;
       }

@@ -356,7 +356,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(entityPath, entityPath, context, "ms", logger, {
+    super(entityPath, entityPath, context, "session", logger, {
       address: entityPath,
       audience: `${context.config.endpoint}${entityPath}`
     });

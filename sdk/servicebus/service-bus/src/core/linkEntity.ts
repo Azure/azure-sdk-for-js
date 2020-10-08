@@ -21,7 +21,6 @@ import {
 } from "rhea-promise";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { logError } from "../util/errors";
 import { ServiceBusLogger } from "../log";
 
 /**
@@ -58,9 +57,9 @@ export interface RequestResponseLinkOptions {
  * @ignore
  */
 export type ReceiverType =
-  | "br" // batching receiver
-  | "sr" // streaming receiver;
-  | "ms"; // message session
+  | "batching" // batching receiver
+  | "streaming" // streaming receiver;
+  | "session"; // message session
 
 /**
  * @internal
@@ -85,9 +84,9 @@ type LinkTypeT<
 > = LinkT extends Receiver
   ? ReceiverType
   : LinkT extends AwaitableSender
-  ? "s" // sender
+  ? "sender" // sender
   : LinkT extends RequestResponseLink
-  ? "m" // management link
+  ? "mgmt" // management link
   : never;
 
 /**
@@ -274,7 +273,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
       this._logger.verbose(`${this._logPrefix} Link has been created.`);
     } catch (err) {
-      logError(err, `${this._logPrefix} Error thrown when creating the link:`, err);
+      this._logger.logError(err, `${this._logPrefix} Error thrown when creating the link`);
       await this.closeLinkImpl();
       throw err;
     }
@@ -362,7 +361,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
         this._logger.verbose(`${this._logPrefix} closed.`);
       } catch (err) {
-        logError(err, `${this._logPrefix} An error occurred while closing the link.: %O`, err);
+        this._logger.logError(err, `${this._logPrefix} An error occurred while closing the link`);
       }
     }
   }
@@ -506,14 +505,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        logError(
+        this._logger.logError(
           err,
-          "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId,
+          "%s %s '%s' with address %s, an error occurred while renewing the token",
+          this.logPrefix,
           this._type,
           this.name,
-          this.address,
-          err
+          this.address
         );
       }
     }, this._tokenTimeout);

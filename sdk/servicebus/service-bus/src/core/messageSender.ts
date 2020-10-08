@@ -69,7 +69,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _retryOptions: RetryOptions;
 
   constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
-    super(entityPath, entityPath, context, "s", logger, {
+    super(entityPath, entityPath, context, "sender", logger, {
       address: entityPath,
       audience: `${context.config.endpoint}${entityPath}`
     });

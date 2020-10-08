@@ -20,7 +20,6 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
-import { logError } from "./util/errors";
 
 /**
  * @internal
@@ -274,20 +273,18 @@ export namespace ConnectionContext {
       const connectionError =
         context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
-        logError(
+        logger.logError(
           connectionError,
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          connectionError
+          "[%s] Error (context.connection.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
       const contextError = context.error;
       if (contextError) {
-        logError(
+        logger.logError(
           contextError,
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          contextError
+          "[%s] Error (context.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
       const state: Readonly<{
@@ -341,12 +338,11 @@ export namespace ConnectionContext {
             );
             detachCalls.push(
               sender.onDetached().catch((err) => {
-                logError(
+                logger.logError(
                   err,
-                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
+                  "[%s] An error occurred while calling onDetached() the sender '%s'",
                   connectionContext.connection.id,
-                  sender.name,
-                  err
+                  sender.name
                 );
               })
             );
@@ -369,13 +365,12 @@ export namespace ConnectionContext {
               receiver
                 .onDetached(connectionError || contextError, causedByDisconnect)
                 .catch((err) => {
-                  logError(
+                  logger.logError(
                     err,
-                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s': %O.",
+                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
                     connectionContext.connection.id,
                     receiver.receiverType,
-                    receiver.name,
-                    err
+                    receiver.name
                   );
                 })
             );
@@ -388,38 +383,34 @@ export namespace ConnectionContext {
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        logError(
+        logger.logError(
           context.connection.error,
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          context.connection.error
+          "[%s] Error (context.connection.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
       if (context.error) {
-        logError(
+        logger.logError(
           context.error,
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          context.error
+          "[%s] Error (context.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
     };
 
     const error: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        logError(
+        logger.logError(
           context.connection.error,
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          context.connection && context.connection.error
+          "[%s] Error (context.connection.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
       if (context.error) {
-        logError(
+        logger.logError(
           context.error,
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id,
-          context.error
+          "[%s] Error (context.error) occurred on the amqp connection",
+          connectionContext.connection.id
         );
       }
     };
@@ -429,10 +420,9 @@ export namespace ConnectionContext {
       try {
         await cleanConnectionContext(connectionContext);
       } catch (err) {
-        logError(
+        logger.logError(
           err,
-          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
-          err
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting`
         );
       }
       // Create a new connection, id, locks, and cbs client.
@@ -513,7 +503,7 @@ export namespace ConnectionContext {
       }
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-      logError(
+      logger.logError(
         err,
         `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
       );

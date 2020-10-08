@@ -124,7 +124,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(context, entityPath, "sr", options);
+    super(context, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;

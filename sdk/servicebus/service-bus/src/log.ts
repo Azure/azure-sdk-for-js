@@ -3,7 +3,6 @@
 
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
-import { isError } from "util";
 
 /**
  * The @azure/logger configuration for this package.
@@ -29,7 +28,7 @@ export const connectionLogger = createServiceBusLogger("service-bus:connection")
 /**
  * Logging for the ServiceBusAdministrationClient
  */
-export const atomLogger = createServiceBusLogger("service-bus:administration");
+export const administrationLogger = createServiceBusLogger("service-bus:administration");
 
 /**
  * Logging related to message encoding/decoding.
@@ -39,7 +38,7 @@ export const messageLogger = createServiceBusLogger("service-bus:messages");
 /**
  * Logging related to message encoding/decoding.
  */
-export const managementClientLogger = createServiceBusLogger("service-bus:messages");
+export const managementClientLogger = createServiceBusLogger("service-bus:management");
 
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
@@ -58,9 +57,13 @@ export function logErrorStackTrace(_logger: AzureLogger, error: any) {
  */
 export interface ServiceBusLogger extends AzureLogger {
   /**
-   * Logs an error with an associated message in this format:
-   * `formatted `args`: %O
-   * where the value for %O is the error object.
+   * Logs an error with an associated message, formatted. If there is a stack
+   * trace in the error that will be logged to the verbose stream.
+   *
+   * Example:
+   *   receiverLogger.logError(new Error("hello, this is the error"), "this is my message");
+   * will output:
+   *   azure:service-bus:receiver:warning this is my message : Error: hello, this is the error
    * @param err
    * @param args
    */
@@ -72,7 +75,7 @@ export interface ServiceBusLogger extends AzureLogger {
  * @internal
  * @ignore
  */
-function createServiceBusLogger(namespace: string) {
+export function createServiceBusLogger(namespace: string) {
   const _logger = createClientLogger(namespace) as ServiceBusLogger;
 
   _logger["logError"] = (err: Error | AmqpError | undefined, ...args: any[]): void => {
@@ -87,7 +90,7 @@ function createServiceBusLogger(namespace: string) {
     }
 
     // tack on the error object so it also gets logged.
-    args.push("; ", err);
+    args.push(":", err);
 
     // let the normal formatting work and include the error at the end.
     l(...args);
@@ -99,4 +102,12 @@ function createServiceBusLogger(namespace: string) {
   };
 
   return _logger;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+function isError(err: Error | AmqpError | undefined): err is Error {
+  return err != null && (err as any).name != null;
 }

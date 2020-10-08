@@ -35,12 +35,7 @@ import {
   fromAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
-import {
-  managementClientLogger,
-  receiverLogger,
-  senderLogger,
-  ServiceBusLogger
-} from "../log";
+import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
@@ -213,7 +208,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * "$management" client.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ManagementClientOptions) {
-    super(`${entityPath}/$management`, entityPath, context, "m", managementClientLogger, {
+    super(`${entityPath}/$management`, entityPath, context, "mgmt", managementClientLogger, {
       address: options && options.address ? options.address : Constants.management,
       audience:
         options && options.audience

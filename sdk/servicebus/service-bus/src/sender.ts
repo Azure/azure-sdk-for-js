@@ -7,7 +7,6 @@ import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
@@ -22,6 +21,7 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { senderLogger as logger } from "./log";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -141,6 +141,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   private _sender: MessageSender;
   public entityPath: string;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|sender:${this.entityPath}]`;
+  }
+
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
@@ -161,7 +165,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(this._entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `[${this._context.connectionId}] is closed`);
       throw error;
     }
   }
@@ -313,13 +317,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this._isClosed = true;
       await this._sender.close();
     } catch (err) {
-      logError(
-        err,
-        "[%s] An error occurred while closing the Sender for %s: %O",
-        this._context.connectionId,
-        this._entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Sender`);
       throw err;
     }
   }

@@ -53,7 +53,6 @@ export function wrapProcessErrorHandler(
     try {
       await handlers.processError(err);
     } catch (err) {
-      // TODO: it'd be nice to get the actual recever's log prefix in here.
       logger.logError(err, `An error was thrown from the user's processError handler`);
     }
   };

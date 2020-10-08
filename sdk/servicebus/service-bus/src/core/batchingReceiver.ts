@@ -36,7 +36,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(context, entityPath, "br", options);
+    super(context, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
