@@ -5,6 +5,7 @@ import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
 import { Readable } from "stream";
 
+import { BufferScheduler } from "../../storage-common/src";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
@@ -21,12 +22,16 @@ import {
   FileCreateIfNotExistsResponse,
   FileCreateOptions,
   FileCreateResponse,
+  FileExpiryMode,
   FileFlushOptions,
   FileFlushResponse,
   FileParallelUploadOptions,
+  FileQueryOptions,
   FileReadOptions,
   FileReadResponse,
   FileReadToBufferOptions,
+  FileSetExpiryOptions,
+  FileSetExpiryResponse,
   FileUploadResponse,
   Metadata,
   PathAccessControlItem,
@@ -57,11 +62,7 @@ import {
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
-  RemovePathAccessControlItem,
-  FileQueryOptions,
-  FileExpiryMode,
-  FileSetExpiryOptions,
-  FileSetExpiryResponse
+  RemovePathAccessControlItem
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
@@ -74,7 +75,6 @@ import {
   toProperties
 } from "./transforms";
 import { Batch } from "./utils/Batch";
-
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -84,10 +84,10 @@ import {
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "./utils/constants";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath, setURLPath } from "./utils/utils.common";
-import { fsStat, fsCreateReadStream } from "./utils/utils.node";
-import { BufferScheduler } from "../../storage-common/src";
+import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -159,14 +159,20 @@ export class DataLakePathClient extends StorageClient {
       let batchCounter = 0;
       let reachMaxBatches = false;
       do {
-        const response = await this.pathContext.setAccessControlRecursive(mode, {
-          ...options,
-          acl: toAclString(acl as PathAccessControlItem[]),
-          maxRecords: options.batchSize,
-          continuation: continuationToken,
-          forceFlag: options.continueOnFailure,
-          spanOptions
-        });
+        let response;
+        try {
+          response = await this.pathContext.setAccessControlRecursive(mode, {
+            ...options,
+            acl: toAclString(acl as PathAccessControlItem[]),
+            maxRecords: options.batchSize,
+            continuation: continuationToken,
+            forceFlag: options.continueOnFailure,
+            spanOptions
+          });
+        } catch (e) {
+          throw new DataLakeAclChangeFailedError(e, continuationToken);
+        }
+
         batchCounter++;
         continuationToken = response.continuation;
 

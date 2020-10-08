@@ -153,6 +153,13 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
+export class DataLakeAclChangeFailedError extends Error {
+    constructor(error: RestError | Error, continuationToken?: string);
+    continuationToken?: string;
+    internalError: RestError | Error;
+}
+
+// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
