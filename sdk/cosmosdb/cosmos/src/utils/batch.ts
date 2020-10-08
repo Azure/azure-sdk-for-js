@@ -152,7 +152,7 @@ export function decorateOperation(
       operation.resourceBody.id = uuid();
     }
   }
-  if ('partitionKey' in operation) {
+  if ("partitionKey" in operation) {
     const extracted = extractPartitionKey(operation, { paths: ["/partitionKey"] });
     return { ...operation, partitionKey: JSON.stringify(extracted) } as Operation;
   } else if (

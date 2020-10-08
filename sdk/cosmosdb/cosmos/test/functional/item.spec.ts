@@ -443,8 +443,8 @@ describe("bulk item operations", function() {
     });
     it("handles operations with null, undefined, and 0 partition keys", async function() {
       const item1Id = addEntropy("item1");
-      const item2Id = addEntropy("item2")
-      const item3Id = addEntropy("item2")
+      const item2Id = addEntropy("item2");
+      const item3Id = addEntropy("item2");
       await v2Container.items.create({
         id: item1Id,
         key: null,
@@ -452,11 +452,11 @@ describe("bulk item operations", function() {
       });
       await v2Container.items.create({
         id: item2Id,
-        key: 0,
+        key: 0
       });
       await v2Container.items.create({
         id: item3Id,
-        key: undefined,
+        key: undefined
       });
       const operations: OperationInput[] = [
         {
