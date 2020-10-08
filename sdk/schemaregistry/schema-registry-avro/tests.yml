@@ -3,7 +3,7 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/schema-registry"
+    PackageName: "@azure/schema-registry-avro"
     ResourceServiceDirectory: schemaregistry
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
