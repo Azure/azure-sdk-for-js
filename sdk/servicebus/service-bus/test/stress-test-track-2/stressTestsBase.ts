@@ -38,7 +38,7 @@ export class SBStressTestsBase {
   // Receive metrics
   receiveInfo: OperationInfo = initializeOperationInfo();
   // Close
-  closeInfo: { [key: string]: OperationInfo } = {
+  closeInfo: Record<"sender" | "receiver" | "client", OperationInfo> = {
     sender: initializeOperationInfo(),
     receiver: initializeOperationInfo(),
     client: initializeOperationInfo()
@@ -389,6 +389,16 @@ export class SBStressTestsBase {
             ]
           : []
       )
+      .concat(
+        this.snapshotOptions.snapshotFocus.includes("close-info")
+          ? [
+              `Number of successful closes for sender so far: ${this.closeInfo.sender.numberOfSuccesses}`,
+              `Number of failed closes for sender so far: ${this.closeInfo.sender.numberOfFailures}`,
+              `Number of successful closes for receiver so far: ${this.closeInfo.receiver.numberOfSuccesses}`,
+              `Number of failed closes for receiver so far: ${this.closeInfo.receiver.numberOfFailures}`
+            ]
+          : []
+      )
       .reduce((output, entry) => output + "\n" + entry)
       .concat("\n\n");
     await appendFile(this.reportFileName, currentSnapshot);
@@ -417,7 +427,7 @@ export class SBStressTestsBase {
     }
     if (this.closeInfo) {
       await writeFile(
-        `close-calls-logged-${this.queueName}.json`,
+        `temp/close-calls-logged-${this.queueName}.json`,
         JSON.stringify(this.closeInfo, null, 2) // Third argument prettifies
       );
     }
