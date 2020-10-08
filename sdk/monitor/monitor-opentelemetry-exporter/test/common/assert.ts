@@ -87,7 +87,6 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
           (expectation.data?.baseData as RequestData).name
         }`
       );
-      return;
     }
 
     for (const [key, value] of Object.entries(expectation) as [keyof Expectation, unknown][]) {
