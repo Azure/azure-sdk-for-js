@@ -18,7 +18,7 @@ import {
 } from "./generated/src/models";
 
 /**
- * Request to .
+ * Request to create phone number reservations.
  */
 export interface CreateReservationRequest {
   /**
