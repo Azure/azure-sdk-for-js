@@ -32,6 +32,23 @@ import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * @internal
  * @ignore
+ */
+export interface CreateStreamingReceiverOptions
+  extends ReceiveOptions,
+    Pick<OperationOptionsBase, "abortSignal"> {
+  /**
+   * Used for mocking/stubbing in tests.
+   */
+  _createStreamingReceiverStubForTests?: (
+    context: ConnectionContext,
+    options?: ReceiveOptions
+  ) => StreamingReceiver;
+  cachedStreamingReceiver?: StreamingReceiver;
+}
+
+/**
+ * @internal
+ * @ignore
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
@@ -106,7 +123,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
+  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
     super(context, entityPath, "sr", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
@@ -127,7 +144,7 @@ export class StreamingReceiver extends MessageReceiver {
         receiverError
       );
 
-      this._autolockRenewer?.stopAll();
+      this._lockRenewer?.stopAll(this);
 
       if (receiver && !receiver.isItselfClosed()) {
         await this.onDetached(receiverError);
@@ -154,7 +171,7 @@ export class StreamingReceiver extends MessageReceiver {
         sessionError
       );
 
-      this._autolockRenewer?.stopAll();
+      this._lockRenewer?.stopAll(this);
 
       if (receiver && !receiver.isSessionItselfClosed()) {
         await this.onDetached(sessionError);
@@ -258,7 +275,7 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode
       );
 
-      this._autolockRenewer?.start(bMessage, (err) => {
+      this._lockRenewer?.start(this, bMessage, (err) => {
         if (this._onError) {
           this._onError(err);
         }
@@ -266,7 +283,6 @@ export class StreamingReceiver extends MessageReceiver {
 
       try {
         await this._onMessage(bMessage);
-        this._autolockRenewer?.stop(bMessage);
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
@@ -284,7 +300,7 @@ export class StreamingReceiver extends MessageReceiver {
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
-        this._autolockRenewer?.stop(bMessage);
+        this._lockRenewer?.stop(this, bMessage);
         const error = translate(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
@@ -548,17 +564,9 @@ export class StreamingReceiver extends MessageReceiver {
   static async create(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions &
-      Pick<OperationOptionsBase, "abortSignal"> & {
-        _createStreamingReceiverStubForTests?: (
-          context: ConnectionContext,
-          options?: ReceiveOptions
-        ) => StreamingReceiver;
-        cachedStreamingReceiver?: StreamingReceiver;
-      }
+    options: CreateStreamingReceiverOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context);
-    if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
 
     let sReceiver: StreamingReceiver;

@@ -7,15 +7,14 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 import * as sinon from "sinon";
-import { AutoLockRenewer } from "../../src/core/autoLockRenewer";
+import { LockRenewer } from "../../src/core/autoLockRenewer";
 import { ManagementClient, SendManagementRequestOptions } from "../../src/core/managementClient";
-import { InternalReceiveMode } from "../../src/serviceBusMessage";
 import { getPromiseResolverForTest } from "./unittestUtils";
 
 describe("autoLockRenewer unit tests", () => {
   let clock: ReturnType<typeof sinon.useFakeTimers>;
 
-  let autoLockRenewer: AutoLockRenewer;
+  let autoLockRenewer: LockRenewer;
 
   let renewLockSpy: sinon.SinonSpy<
     Parameters<ManagementClient["renewLock"]>,
@@ -28,6 +27,12 @@ describe("autoLockRenewer unit tests", () => {
     maxAdditionalTimeToRenewLock: 7,
     nextLockExpirationTime: 10,
     msToNextRenewal: 5
+  };
+
+  const testLinkEntity = {
+    name: "linkName",
+    logPrefix: "this is my log prefix",
+    entityPath: "entity path"
   };
 
   let stopTimerPromise: Promise<void>;
@@ -48,22 +53,15 @@ describe("autoLockRenewer unit tests", () => {
     renewLockSpy = sinon.spy(managementClient, "renewLock");
     onErrorFake = sinon.fake(async (_err: Error | MessagingError) => {});
 
-    autoLockRenewer = AutoLockRenewer.create(
-      {
-        name: "linkName",
-        logPrefix: "this is my log prefix",
-        entityPath: "entity path"
-      },
+    autoLockRenewer = LockRenewer.create(
       {
         getManagementClient: (entityPath) => {
           assert.equal(entityPath, "entity path");
           return managementClient;
         }
       },
-      {
-        maxAutoRenewLockDurationInMs: limits.maxAdditionalTimeToRenewLock,
-        receiveMode: InternalReceiveMode.peekLock
-      }
+      limits.maxAdditionalTimeToRenewLock,
+      "peekLock"
     )!;
 
     // always just start the next auto-renew timer after 5 milliseconds to keep things simple.
@@ -74,13 +72,29 @@ describe("autoLockRenewer unit tests", () => {
 
     const origStop = autoLockRenewer["stop"].bind(autoLockRenewer);
 
-    autoLockRenewer["stop"] = (message) => {
-      origStop(message);
+    autoLockRenewer["stop"] = (linkEntity, message) => {
+      origStop(linkEntity, message);
       stopTimerResolve();
     };
   });
 
   afterEach(() => {
+    // each test should properly end "clean" as far as removing any
+    // message timers.
+    let lockRenewalTimersTotal = 0;
+    for (const value of autoLockRenewer["_messageRenewLockTimers"].values()) {
+      lockRenewalTimersTotal += value.size;
+    }
+
+    assert.equal(
+      lockRenewalTimersTotal,
+      0,
+      "Should be no active lock timers after test have completed."
+    );
+
+    // the per-link map is not cleaned up automatically - you must
+    // stopAll() to remove it.
+    autoLockRenewer.stopAll(testLinkEntity);
     assert.equal(
       autoLockRenewer["_messageRenewLockTimers"].size,
       0,
@@ -92,6 +106,7 @@ describe("autoLockRenewer unit tests", () => {
 
   it("standard renewal", async () => {
     autoLockRenewer.start(
+      testLinkEntity,
       {
         lockToken: "lock token",
         lockedUntilUtc: new Date(),
@@ -103,7 +118,7 @@ describe("autoLockRenewer unit tests", () => {
     clock.tick(limits.msToNextRenewal - 1); // right before the renew timer would run
 
     assert.exists(
-      autoLockRenewer["_messageRenewLockTimers"].get("message id"),
+      autoLockRenewer["_messageRenewLockTimers"].get(testLinkEntity.name)?.get("message id"),
       "auto-renew timer should be set up"
     );
 
@@ -123,8 +138,21 @@ describe("autoLockRenewer unit tests", () => {
     assert.isFalse(onErrorFake.called, "no errors");
   });
 
+  it("delete multiple times", () => {
+    // no lock renewal for this message
+    autoLockRenewer.stop(testLinkEntity, {
+      messageId: "hello"
+    });
+
+    // no locks have been setup
+    autoLockRenewer.stopAll(testLinkEntity);
+
+    assert.isEmpty(autoLockRenewer["_messageRenewLockTimers"]);
+  });
+
   it("renewal timer not scheduled: message is already locked for longer than our renewal would extend it", () => {
     autoLockRenewer.start(
+      testLinkEntity,
       {
         lockToken: "lock token",
         // this date exceeds the max time we would renew for so we don't need to do anything.
@@ -144,6 +172,7 @@ describe("autoLockRenewer unit tests", () => {
 
   it("renewal timer is not (re)scheduled: the current date has passed our max lock renewal time", async () => {
     autoLockRenewer.start(
+      testLinkEntity,
       {
         lockToken: "lock token",
         lockedUntilUtc: new Date(),
@@ -175,6 +204,7 @@ describe("autoLockRenewer unit tests", () => {
 
   it("invalid message can't renew", () => {
     autoLockRenewer.start(
+      testLinkEntity,
       {
         messageId: "my message id"
       },
@@ -198,17 +228,10 @@ describe("autoLockRenewer unit tests", () => {
     };
 
     it("doesn't support receiveAndDelete mode", () => {
-      const autoLockRenewer = AutoLockRenewer.create(
-        {
-          name: "linkName",
-          logPrefix: "this is my log prefix",
-          entityPath: "entity path"
-        },
+      const autoLockRenewer = LockRenewer.create(
         unusedMgmtClient,
-        {
-          maxAutoRenewLockDurationInMs: 1, // this is okay
-          receiveMode: InternalReceiveMode.receiveAndDelete // this is not okay - there aren't any locks to renew in receiveAndDelete mode.
-        }
+        1, // this is okay,
+        "receiveAndDelete" // this is not okay - there aren't any locks to renew in receiveAndDelete mode.
       );
 
       assert.notExists(
@@ -219,17 +242,10 @@ describe("autoLockRenewer unit tests", () => {
 
     [0, -1].forEach((invalidMaxAutoRenewLockDurationInMs) => {
       it(`Invalid maxAutoRenewLockDurationInMs duration: ${invalidMaxAutoRenewLockDurationInMs}`, () => {
-        const autoLockRenewer = AutoLockRenewer.create(
-          {
-            name: "linkName",
-            logPrefix: "this is my log prefix",
-            entityPath: "entity path"
-          },
+        const autoLockRenewer = LockRenewer.create(
           unusedMgmtClient,
-          {
-            receiveMode: InternalReceiveMode.peekLock, // this is okay
-            maxAutoRenewLockDurationInMs: invalidMaxAutoRenewLockDurationInMs
-          }
+          invalidMaxAutoRenewLockDurationInMs,
+          "peekLock" // this is okay
         );
 
         assert.notExists(
@@ -237,27 +253,6 @@ describe("autoLockRenewer unit tests", () => {
           "Shouldn't create an autolockRenewer when the auto lock duration is invalid"
         );
       });
-    });
-
-    it(`maxAutoRenewLockDurationInMs of undefined becomes the default (5 minutes)`, () => {
-      const autoLockRenewer = AutoLockRenewer.create(
-        {
-          name: "linkName",
-          logPrefix: "this is my log prefix",
-          entityPath: "entity path"
-        },
-        unusedMgmtClient,
-        {
-          receiveMode: InternalReceiveMode.peekLock
-        }
-      );
-
-      assert.exists(autoLockRenewer);
-      assert.equal(
-        autoLockRenewer!["_maxAutoRenewDurationInMs"],
-        1000 * 5 * 60,
-        "By default our max auto renew lock duration is 5 minutes"
-      );
     });
   });
 });

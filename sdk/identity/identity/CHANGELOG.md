@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.0-beta.3 (Unreleased)
+
+
 ## 1.2.0-beta.2 (2020-10-06)
 
 - `DefaultAzureCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.

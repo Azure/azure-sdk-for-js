@@ -41,19 +41,27 @@ async function listIngestionStatus(
   endTime: Date
 ) {
   console.log("Listing ingestion status...");
-
+  // iterate through all ingestions using for-await-of
+  for await (const ingestion of adminClient.listDataFeedIngestionStatus(
+    dataFeedId,
+    startTime,
+    endTime
+  )) {
+    console.log(`  ${ingestion.timestamp} ${ingestion.status}  ${ingestion.message}`);
+  }
+  // listing by pages
   const iterator = adminClient
     .listDataFeedIngestionStatus(dataFeedId, startTime, endTime)
-    .byPage({ maxPageSize: 5 });
+    .byPage({ maxPageSize: 2 });
   const result = await iterator.next();
 
   if (!result.done) {
-    console.log("first page");
-    console.table(result.value.statusList);
+    console.log("  -- Page --");
+    console.table(result.value.statusList, ["timestamp", "status", "message"]);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
-      console.log("second page");
-      console.table(nextPage.value.statusList);
+      console.log("  -- Page --");
+      console.table(result.value.statusList, ["timestamp", "status", "message"]);
     }
   }
 }
@@ -66,6 +74,7 @@ async function getIngestionProgress(
   const result = await adminClient.getDataFeedIngestionProgress(dataFeedId);
   console.log(result);
 }
+
 async function refreshIngestion(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,

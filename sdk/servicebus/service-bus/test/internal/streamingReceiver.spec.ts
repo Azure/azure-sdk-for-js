@@ -11,10 +11,16 @@ import { OperationOptions } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import sinon from "sinon";
+import { InternalReceiveMode } from "../../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
+  const defaultOptions = {
+    lockRenewer: undefined,
+    receiveMode: InternalReceiveMode.peekLock
+  };
+
   let closeables: { close(): Promise<void> }[];
 
   beforeEach(() => {
@@ -31,7 +37,8 @@ describe("StreamingReceiver unit tests", () => {
     it("off by default", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(streamingReceiver);
       assert.isFalse(streamingReceiver.isReceivingMessages);
@@ -47,7 +54,8 @@ describe("StreamingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
-          maxConcurrentCalls: 101
+          maxConcurrentCalls: 101,
+          ...defaultOptions
         }
       );
       closeables.push(streamingReceiver);
@@ -107,7 +115,8 @@ describe("StreamingReceiver unit tests", () => {
     it("isReceivingMessages set to false by close()'ing", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(streamingReceiver);
 
@@ -127,7 +136,8 @@ describe("StreamingReceiver unit tests", () => {
     it("isReceivingMessages set to false by calling stopReceivingMessages()", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(streamingReceiver);
 
@@ -147,7 +157,8 @@ describe("StreamingReceiver unit tests", () => {
     it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(streamingReceiver);
 
@@ -171,7 +182,8 @@ describe("StreamingReceiver unit tests", () => {
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(streamingReceiver);
 
@@ -198,7 +210,10 @@ describe("StreamingReceiver unit tests", () => {
 
   it("create() with an existing receiver and that receiver is open()", async () => {
     const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath");
+    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
+      lockRenewer: undefined,
+      receiveMode: InternalReceiveMode.peekLock
+    });
     closeables.push(existingStreamingReceiver);
 
     await existingStreamingReceiver.init(false);
@@ -208,7 +223,9 @@ describe("StreamingReceiver unit tests", () => {
     const spy = sinon.spy(existingStreamingReceiver, "init");
 
     const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver
+      cachedStreamingReceiver: existingStreamingReceiver,
+      lockRenewer: undefined,
+      receiveMode: InternalReceiveMode.peekLock
     });
 
     assert.isTrue(spy.called, "We do still call init() on the receiver");
@@ -229,7 +246,10 @@ describe("StreamingReceiver unit tests", () => {
 
   it("create() with an existing receiver and that receiver is NOT open()", async () => {
     const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath");
+    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
+      lockRenewer: undefined,
+      receiveMode: InternalReceiveMode.peekLock
+    });
     closeables.push(existingStreamingReceiver);
 
     await existingStreamingReceiver.init(false);
@@ -247,7 +267,9 @@ describe("StreamingReceiver unit tests", () => {
     );
 
     const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver
+      cachedStreamingReceiver: existingStreamingReceiver,
+      receiveMode: InternalReceiveMode.peekLock,
+      lockRenewer: undefined
     });
 
     assert.isTrue(spy.called, "We do still call init() on the receiver");
@@ -270,7 +292,8 @@ describe("StreamingReceiver unit tests", () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
       closeables.push(receiverImpl);
 
@@ -333,7 +356,9 @@ describe("StreamingReceiver unit tests", () => {
             }
           } as any) as StreamingReceiver;
         },
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
+        lockRenewer: undefined,
+        receiveMode: InternalReceiveMode.receiveAndDelete
       });
 
       assert.isTrue(wasCalled);

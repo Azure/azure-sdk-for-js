@@ -7,7 +7,7 @@ Use the client library `@azure/service-bus` in your application to
 - Send messages to an Azure Service Bus Queue or Topic
 - Receive messages from an Azure Service Bus Queue or Subscription
 
-Resources for the v7.0.0-preview.6 of `@azure/service-bus`:
+Resources for the v7.0.0-preview.7 of `@azure/service-bus`:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
@@ -92,7 +92,7 @@ const serviceBusClient = new ServiceBusClient(endpoint, credential);
 > the appropriate token:
 
 > ```typescript
-> ["https://servicebus.azure.net//user_impersonation"]
+> ["https://servicebus.azure.net//user_impersonation"];
 > ```
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
