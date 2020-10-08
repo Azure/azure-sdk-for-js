@@ -4,7 +4,7 @@
 import { MessageHandlers } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { logger } from "../log";
+import { receiverLogger, ServiceBusLogger } from "../log";
 
 /**
  * @internal
@@ -47,13 +47,14 @@ export async function* getMessageIterator<ReceivedMessageT>(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers<unknown>, "processError">,
-  logError: (formatter: any, ...args: any[]) => void = logger.error
+  logger: ServiceBusLogger = receiverLogger
 ): MessageHandlers<unknown>["processError"] {
   return async (err: Error) => {
     try {
       await handlers.processError(err);
     } catch (err) {
-      logError(`An error was thrown from the user's processError handler: ${err}`);
+      // TODO: it'd be nice to get the actual recever's log prefix in here.
+      logger.logError(err, `An error was thrown from the user's processError handler`);
     }
   };
 }

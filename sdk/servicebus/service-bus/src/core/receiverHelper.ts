@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Receiver, ReceiverEvents } from "rhea-promise";
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 
 /**
  * Wraps the receiver with some higher level operations for managing state
@@ -14,7 +14,9 @@ import { logger } from "../log";
 export class ReceiverHelper {
   private _isSuspended: boolean = false;
 
-  constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
+  constructor(
+    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string }
+  ) {}
 
   /**
    * Adds credits to the receiver, respecting any state that
@@ -26,13 +28,17 @@ export class ReceiverHelper {
    * or `stopReceivingMessages` has been called.
    */
   addCredit(credits: number): boolean {
-    const receiver = this._getCurrentReceiver();
+    const { receiver, logPrefix } = this._getCurrentReceiver();
 
     if (!this.canReceiveMessages()) {
+      logger.verbose(
+        `${logPrefix} Asked to add ${credits} credits but the receiver is not able to receive messages`
+      );
       return false;
     }
 
     if (receiver != null) {
+      logger.verbose(`${logPrefix} Adding ${credits} credits`);
       receiver.addCredit(credits);
     }
 
@@ -44,7 +50,7 @@ export class ReceiverHelper {
    * Call `resume()` to enable the `addCredit()` method.
    */
   async suspend(): Promise<void> {
-    const receiver = this._getCurrentReceiver();
+    const { receiver, logPrefix } = this._getCurrentReceiver();
 
     this._isSuspended = true;
 
@@ -53,7 +59,7 @@ export class ReceiverHelper {
     }
 
     logger.verbose(
-      `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+      `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`
     );
     return this.drain();
   }
@@ -73,7 +79,7 @@ export class ReceiverHelper {
    * still open.
    */
   canReceiveMessages(): boolean {
-    const receiver = this._getCurrentReceiver();
+    const { receiver } = this._getCurrentReceiver();
     return !this._isSuspended && this._isValidReceiver(receiver);
   }
 
@@ -82,17 +88,19 @@ export class ReceiverHelper {
    * the drain has completed.
    */
   async drain(): Promise<void> {
-    const receiver = this._getCurrentReceiver();
+    const { receiver, logPrefix } = this._getCurrentReceiver();
 
     if (!this._isValidReceiver(receiver)) {
       return;
     }
 
-    logger.verbose(`[${receiver.name}] Receiver is starting drain.`);
+    logger.verbose(
+      `${logPrefix} Receiver is starting drain. Remaining credits; ${receiver.credit}`
+    );
 
     const drainPromise = new Promise<void>((resolve) => {
       receiver.once(ReceiverEvents.receiverDrained, () => {
-        logger.verbose(`[${receiver.name}] Receiver has been drained.`);
+        logger.verbose(`${logPrefix} Receiver has been drained.`);
         receiver.drain = false;
         resolve();
       });

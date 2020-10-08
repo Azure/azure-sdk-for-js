@@ -24,7 +24,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
-import { logger } from "./log";
+import { atomLogger as logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,

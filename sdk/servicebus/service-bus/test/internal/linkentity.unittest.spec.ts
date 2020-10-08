@@ -9,6 +9,7 @@ import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { ConnectionContext } from "../../src/connectionContext";
 import { LinkEntity } from "../../src/core/linkEntity";
+import { receiverLogger } from "../../src/log";
 import { isLinkLocked } from "../utils/misc";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
@@ -31,6 +32,7 @@ describe("LinkEntity unit tests", () => {
       "some initial name",
       connectionContext,
       "sr",
+      receiverLogger,
       {
         address: "my-address"
       }

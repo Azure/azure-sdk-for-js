@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import { logger } from "../log";
+import { logger, receiverLogger, messageLogger } from "../log";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
@@ -91,15 +91,15 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const now = Date.now();
   const lockedUntil = lockedUntilUtc.getTime();
   const remainingTime = lockedUntil - now;
-  logger.verbose("Locked until utc  : %d", lockedUntil);
-  logger.verbose("Current time is   : %d", now);
-  logger.verbose("Remaining time is : %d", remainingTime);
+  receiverLogger.verbose("Locked until utc  : %d", lockedUntil);
+  receiverLogger.verbose("Current time is   : %d", now);
+  receiverLogger.verbose("Remaining time is : %d", remainingTime);
   if (remainingTime < 1000) {
     return 0;
   }
   const buffer = Math.min(remainingTime / 2, 10000); // 10 seconds
   const renewAfter = remainingTime - buffer;
-  logger.verbose("Renew after       : %d", renewAfter);
+  receiverLogger.verbose("Renew after       : %d", renewAfter);
   return renewAfter;
 }
 
@@ -152,7 +152,7 @@ export function getProcessorCount(): number {
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
-  logger.verbose(
+  messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
     input
   );
@@ -171,11 +171,11 @@ export function toBuffer(input: any): Buffer {
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
         `${err instanceof Error ? err.stack : JSON.stringify(err)}`;
-      logger.warning("[utils.toBuffer] " + msg);
+      messageLogger.warning("[utils.toBuffer] " + msg);
       throw err instanceof Error ? err : new Error(msg);
     }
   }
-  logger.verbose("[utils.toBuffer] The converted buffer is: %O.", result);
+  messageLogger.verbose("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
 

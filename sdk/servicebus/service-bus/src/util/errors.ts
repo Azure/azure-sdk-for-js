@@ -212,9 +212,10 @@ export function logError(err: Error | AmqpError | undefined, ...args: any[]): vo
     l = logger.warning;
   }
 
+  args.push("; ", err);
   l(...args);
 
-  logErrorStackTrace(err);
+  logErrorStackTrace(logger, err);
 }
 
 /**

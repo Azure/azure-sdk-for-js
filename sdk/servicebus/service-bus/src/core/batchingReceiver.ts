@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
@@ -15,7 +15,7 @@ import {
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
-import { logError, throwErrorIfConnectionClosed } from "../util/errors";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 
@@ -114,7 +114,7 @@ export class BatchingReceiver extends MessageReceiver {
     try {
       logger.verbose(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this._context.connectionId,
+        this.logPrefix,
         this.name
       );
 
@@ -136,13 +136,7 @@ export class BatchingReceiver extends MessageReceiver {
 
       return messages;
     } catch (error) {
-      logError(
-        error,
-        "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
-        this._context.connectionId,
-        this.name,
-        error
-      );
+      logger.logError(error, "[%s] Rejecting receiveMessages()", this.logPrefix);
       throw error;
     }
   }
@@ -338,10 +332,9 @@ export class BatchingReceiverLite {
 
         if (error) {
           error = translate(error);
-          logError(
+          logger.logError(
             error,
-            `${loggingPrefix} '${eventType}' event occurred. Received an error:\n%O`,
-            error
+            `${loggingPrefix} '${eventType}' event occurred. Received an error`
           );
         } else {
           error = new MessagingError("An error occurred while receiving messages.");
@@ -419,10 +412,9 @@ export class BatchingReceiverLite {
           }
         } catch (err) {
           const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-          logError(
+          logger.logError(
             err,
-            `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage:\n%O`,
-            errObj
+            `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`
           );
           reject(errObj);
         }
@@ -436,11 +428,7 @@ export class BatchingReceiverLite {
         const error = context.session?.error || context.receiver?.error;
 
         if (error) {
-          logError(
-            error,
-            `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
-            error
-          );
+          logger.logError(error, `${loggingPrefix} '${type}' event occurred. The associated error`);
         }
       };
 

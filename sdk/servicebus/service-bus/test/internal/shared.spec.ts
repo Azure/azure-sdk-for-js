@@ -4,6 +4,7 @@
 import { getMessageIterator, wrapProcessErrorHandler } from "../../src/receivers/shared";
 import chai from "chai";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
+import { ServiceBusLogger } from "../../src/log";
 const assert = chai.assert;
 
 describe("shared", () => {
@@ -16,9 +17,11 @@ describe("shared", () => {
           throw new Error("Whoops!");
         }
       },
-      (msg) => {
-        loggedMessages.push(msg);
-      }
+      {
+        logError: (_err, msg) => {
+          loggedMessages.push(msg);
+        }
+      } as ServiceBusLogger
     );
 
     wrappedProcessError(
