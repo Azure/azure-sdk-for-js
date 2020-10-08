@@ -311,23 +311,17 @@ export namespace ConnectionContext {
         await connectionContext.managementClients[entityPath].close();
       }
 
-      await refreshConnection(connectionContext);
-      waitForConnectionRefreshResolve();
-      waitForConnectionRefreshPromise = undefined;
-      // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was atleast one sender/receiver link on the connection before it went down.
-      logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
-      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "senders and/or receivers. We should reconnect.",
-          connectionContext.connection.id
-        );
-        await delay(Constants.connectionReconnectDelay);
-
-        const detachCalls: Promise<void>[] = [];
-
+      // Calling onDetached on sender
+      if (!state.wasConnectionCloseCalled && state.numSenders) {
+        // We don't do recovery for the sender:
+        //   Because we don't want to keep the sender active all the time
+        //   and the "next" send call would bear the burden of creating the link.
         // Call onDetached() on sender so that it can gracefully shutdown
+        //   by cleaning up the timers and closing the links.
+        // We don't call onDetached for sender after `refreshConnection()`
+        //   because any new send calls that potentially initialize links would also get affected if called later.
+        // TODO: do the same for batching receiver
+        const detachCalls: Promise<void>[] = [];
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (sender) {
@@ -348,6 +342,24 @@ export namespace ConnectionContext {
             );
           }
         }
+        await Promise.all(detachCalls);
+      }
+
+      await refreshConnection(connectionContext);
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
+      // The connection should always be brought back up if the sdk did not call connection.close()
+      // and there was atleast one sender/receiver link on the connection before it went down.
+      logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
+      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
+        logger.verbose(
+          "[%s] connection.close() was not called from the sdk and there were some " +
+            "senders and/or receivers. We should reconnect.",
+          connectionContext.connection.id
+        );
+        await delay(Constants.connectionReconnectDelay);
+
+        const detachCalls: Promise<void>[] = [];
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
         // and streaming receivers can decide whether to reconnect or not.

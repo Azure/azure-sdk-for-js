@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessage, toAmqpMessage, isServiceBusMessage } from "./serviceBusMessage";
+import {
+  ServiceBusMessage,
+  toAmqpMessage,
+  isServiceBusMessage,
+  getMessagePropertyTypeMismatchError
+} from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
@@ -10,6 +15,13 @@ import {
   message as RheaMessageUtil
 } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
+import { SpanContext } from "@opentelemetry/api";
+import {
+  instrumentServiceBusMessage,
+  TRACEPARENT_PROPERTY
+} from "./diagnostics/instrumentServiceBusMessage";
+import { createMessageSpan } from "./diagnostics/messageSpan";
+import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -65,7 +77,7 @@ export interface ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: ServiceBusMessage): boolean;
+  tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -77,6 +89,14 @@ export interface ServiceBusMessageBatch {
    * @ignore
    */
   _generateMessage(): Buffer;
+
+  /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
+   * @internal
+   * @ignore
+   */
+  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
@@ -95,6 +115,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @property Encoded amqp messages.
    */
   private _encodedMessages: Buffer[] = [];
+  /**
+   * List of 'message' span contexts.
+   */
+  private _spanContexts: SpanContext[] = [];
   /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
@@ -130,6 +154,15 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   get count(): number {
     return this._encodedMessages.length;
+  }
+
+  /**
+   * Gets the "message" span contexts that were created when adding messages to the batch.
+   * @internal
+   * @ignore
+   */
+  get _messageSpanContexts(): SpanContext[] {
+    return this._spanContexts;
   }
 
   /**
@@ -210,16 +243,37 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: ServiceBusMessage): boolean {
+  public tryAdd(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
     }
 
+    // check if the event has already been instrumented
+    const previouslyInstrumented = Boolean(
+      message.properties && message.properties[TRACEPARENT_PROPERTY]
+    );
+    let spanContext: SpanContext | undefined;
+    if (!previouslyInstrumented) {
+      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
+      message = instrumentServiceBusMessage(message, messageSpan);
+      spanContext = messageSpan.context();
+      messageSpan.end();
+    }
+
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
     amqpMessage.body = this._context.dataTransformer.encode(message.body);
-    const encodedMessage = RheaMessageUtil.encode(amqpMessage);
+
+    let encodedMessage: Buffer;
+    try {
+      encodedMessage = RheaMessageUtil.encode(amqpMessage);
+    } catch (error) {
+      if (error instanceof TypeError || error.name === "TypeError") {
+        throw getMessagePropertyTypeMismatchError(message) || error;
+      }
+      throw error;
+    }
 
     let currentSize = this._sizeInBytes;
 
@@ -261,6 +315,9 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // The message will fit in the batch, so it is now safe to store it.
     this._encodedMessages.push(encodedMessage);
+    if (spanContext) {
+      this._spanContexts.push(spanContext);
+    }
 
     this._sizeInBytes = currentSize;
     return true;
