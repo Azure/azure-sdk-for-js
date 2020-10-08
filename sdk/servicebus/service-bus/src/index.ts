@@ -21,13 +21,10 @@ export {
   CreateReceiverOptions,
   AcceptSessionOptions,
   GetMessageIteratorOptions,
-  MessageHandlerOptions,
-  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SessionSubscribeOptions,
   SubQueue,
   SubscribeOptions
 } from "./models";

@@ -192,16 +192,6 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-}
-
-// @public
-export interface MessageHandlerOptionsBase extends OperationOptionsBase {
-    autoComplete?: boolean;
-    maxConcurrentCalls?: number;
-}
-
-// @public
 export interface MessageHandlers<ReceivedMessageT> {
     processError(err: Error): Promise<void>;
     processMessage(message: ReceivedMessageT): Promise<void>;
@@ -467,13 +457,9 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
     readonly sessionId: string;
     readonly sessionLockedUntilUtc: Date;
     setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
-}
-
-// @public
-export interface SessionSubscribeOptions extends MessageHandlerOptionsBase {
 }
 
 // @public
@@ -496,7 +482,9 @@ export interface SqlRuleFilter {
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
-export interface SubscribeOptions extends MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsBase {
+    autoComplete?: boolean;
+    maxConcurrentCalls?: number;
 }
 
 // @public

@@ -14,7 +14,7 @@ import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { MessageHandlerOptions } from "../models";
+import { SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
@@ -42,7 +42,7 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
  * @internal
  * @ignore
  */
-export interface ReceiveOptions extends MessageHandlerOptions {
+export interface ReceiveOptions extends SubscribeOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    */

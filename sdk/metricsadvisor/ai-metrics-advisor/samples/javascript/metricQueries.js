@@ -27,30 +27,33 @@ async function main() {
 
 async function listMetricSeriesDefinitions(client, metricId) {
   console.log("Listing metric series definitions...");
-  console.log("  with iterator");
+  console.log("  with for-await-of loop");
+  for await (const definition of client.listMetricSeriesDefinitions(
+    metricId,
+    new Date("08/05/2020")
+  )) {
+    console.log(definition);
+  }
+
+  console.log("  first two pages using byPage()");
   const iterator = client
     .listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))
     .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   if (!result.done) {
-    console.log("first page");
+    console.log("    -- Page --");
     for (const definition of result.value.definitions || []) {
       console.log(definition);
     }
     result = await iterator.next();
     if (!result.done) {
-      console.log("second page");
+      console.log("    -- Page --");
       for (const definition of result.value.definitions || []) {
         console.log(definition);
       }
     }
   }
-  // second approach
-  // console.log("  with for-await-of loop");
-  // for await (const def of client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))) {
-  //   console.log(def);
-  // }
 }
 
 async function listEnrichmentStatus(client, metricId) {
@@ -60,6 +63,7 @@ async function listEnrichmentStatus(client, metricId) {
     new Date("09/01/2020"),
     new Date("09/09/2020")
   )) {
+    console.log("  Enrichment status");
     console.log(status.timestamp);
     console.log(status.status);
     console.log(status.message);

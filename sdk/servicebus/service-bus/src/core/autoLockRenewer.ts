@@ -19,6 +19,10 @@ export type RenewableMessageProperties = Readonly<
   // updated when we renew the lock
   Pick<ServiceBusMessageImpl, "lockedUntilUtc">;
 
+/**
+ * @internal
+ * @ignore
+ */
 type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
 
 /**
