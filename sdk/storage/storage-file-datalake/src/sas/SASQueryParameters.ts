@@ -485,7 +485,15 @@ export class SASQueryParameters {
     correlationId?: string
   );
 
-  constructor(version: string, signature: string, options: SASQueryParametersOptions);
+    /**
+   * Creates an instance of SASQueryParameters.
+   *
+   * @param {string} version Representing the storage version
+   * @param {string} signature Representing the signature for the SAS token
+   * @param {SASQueryParametersOptions} [options] Optional. Options to construct the SASQueryParameters.
+   * @memberof SASQueryParameters
+   */
+  constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 
   constructor(
     version: string,

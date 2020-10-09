@@ -1596,7 +1596,7 @@ export enum SASProtocol {
 // @public
 export class SASQueryParameters {
     constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
-    constructor(version: string, signature: string, options: SASQueryParametersOptions);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
