@@ -112,6 +112,7 @@ export {
   MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel,
   MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel,
   MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput,
+  MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput,
   MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput,
   MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput,
   MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
