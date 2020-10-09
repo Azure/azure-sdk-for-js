@@ -10,6 +10,18 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export const accessTier: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "accessTier"
+  ],
+  mapper: {
+    serializedName: "x-ms-access-tier",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const action0: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {

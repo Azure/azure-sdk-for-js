@@ -319,27 +319,27 @@ export class Share {
   }
 
   /**
-   * Sets quota for the specified share.
+   * Sets properties for the specified share.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ShareSetQuotaResponse>
+   * @returns Promise<Models.ShareSetPropertiesResponse>
    */
-  setQuota(options?: Models.ShareSetQuotaOptionalParams): Promise<Models.ShareSetQuotaResponse>;
+  setProperties(options?: Models.ShareSetPropertiesOptionalParams): Promise<Models.ShareSetPropertiesResponse>;
   /**
    * @param callback The callback
    */
-  setQuota(callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setQuota(options: Models.ShareSetQuotaOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setQuota(options?: Models.ShareSetQuotaOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
+  setProperties(options: Models.ShareSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(options?: Models.ShareSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setQuotaOperationSpec,
-      callback) as Promise<Models.ShareSetQuotaResponse>;
+      setPropertiesOperationSpec,
+      callback) as Promise<Models.ShareSetPropertiesResponse>;
   }
 
   /**
@@ -478,6 +478,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.metadata,
     Parameters.quota,
+    Parameters.accessTier,
     Parameters.version
   ],
   responses: {
@@ -800,7 +801,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const setQuotaOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
@@ -814,15 +815,16 @@ const setQuotaOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.quota,
+    Parameters.accessTier,
     Parameters.leaseId0
   ],
   responses: {
     200: {
-      headersMapper: Mappers.ShareSetQuotaHeaders
+      headersMapper: Mappers.ShareSetPropertiesHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareSetQuotaHeaders
+      headersMapper: Mappers.ShareSetPropertiesHeaders
     }
   },
   isXML: true,

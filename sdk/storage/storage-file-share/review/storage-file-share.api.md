@@ -1320,6 +1320,9 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
+// @public
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool';
+
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -1353,6 +1356,7 @@ export class ShareClient extends StorageClient {
     get name(): string;
     get rootDirectoryClient(): ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
+    setAccessTier(accessTier: ShareAccessTier, options?: ShareSetAccessTierOptions): Promise<ShareSetPropertiesResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
     withSnapshot(snapshot: string): ShareClient;
@@ -1377,6 +1381,7 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 // @public
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    accessTier?: ShareAccessTier;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1610,6 +1615,9 @@ export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHea
 
 // @public
 export interface ShareGetPropertiesHeaders {
+    accessTier?: string;
+    accessTierChangeTime?: Date;
+    accessTierTransitionState?: string;
     date?: Date;
     // (undocumented)
     errorCode?: string;
@@ -1713,6 +1721,12 @@ export interface SharePermission {
 // @public
 export interface ShareProperties {
     // (undocumented)
+    accessTier?: string;
+    // (undocumented)
+    accessTierChangeTime?: Date;
+    // (undocumented)
+    accessTierTransitionState?: string;
+    // (undocumented)
     deletedTime?: Date;
     // (undocumented)
     etag: string;
@@ -1793,6 +1807,12 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
 };
 
 // @public
+export interface ShareSetAccessTierOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
 export interface ShareSetMetadataHeaders {
     date?: Date;
     // (undocumented)
@@ -1817,7 +1837,7 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
 };
 
 // @public
-export interface ShareSetQuotaHeaders {
+export interface ShareSetPropertiesHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
@@ -1828,17 +1848,23 @@ export interface ShareSetQuotaHeaders {
 }
 
 // @public
+export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ShareSetPropertiesHeaders;
+    };
+};
+
+// @public
+export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
+
+// @public
 export interface ShareSetQuotaOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
-export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareSetQuotaHeaders;
-    };
-};
+export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
 
 // @public
 export interface ShareSmbSettings {

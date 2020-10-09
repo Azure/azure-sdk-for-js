@@ -485,7 +485,7 @@ export class SASQueryParameters {
     correlationId?: string
   );
 
-    /**
+  /**
    * Creates an instance of SASQueryParameters.
    *
    * @param {string} version Representing the storage version

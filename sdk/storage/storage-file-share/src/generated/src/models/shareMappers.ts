@@ -25,7 +25,7 @@ export {
   ShareRestoreHeaders,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
-  ShareSetQuotaHeaders,
+  ShareSetPropertiesHeaders,
   ShareStats,
   SignedIdentifier,
   StorageError

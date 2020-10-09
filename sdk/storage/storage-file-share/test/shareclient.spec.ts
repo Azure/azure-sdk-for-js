@@ -229,6 +229,31 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
   });
+
+  it("create share specifying accessTier and listShare", async () => {
+    const newShareName = recorder.getUniqueName("newshare");
+    const newShareClient = serviceClient.getShareClient(newShareName);
+    await newShareClient.create({ accessTier: "Hot" });
+
+    for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
+      if (shareItem.name === newShareName) {
+        assert.deepStrictEqual(shareItem.properties.accessTier, "Hot");
+        assert.ok(shareItem.properties.accessTierChangeTime);
+        break;
+      }
+    }
+
+    await newShareClient.delete();
+  });
+
+  it("setAccessTier", async () => {
+    await shareClient.setAccessTier("Hot");
+    const getRes = await shareClient.getProperties();
+
+    assert.deepStrictEqual(getRes.accessTier, "Hot");
+    assert.ok(getRes.accessTierChangeTime);
+    assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
+  });
 });
 
 describe("ShareDirectoryClient - Verify Name Properties", () => {
