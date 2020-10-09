@@ -234,7 +234,7 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<Models.KnowledgebaseDownloadResponse>
    */
-  download(kbId: string, environment: Models.EnvironmentType, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseDownloadResponse>;
+  download(kbId: string, environment: Models.EnvironmentType, options?: Models.KnowledgebaseDownloadOptionalParams): Promise<Models.KnowledgebaseDownloadResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param environment Specifies whether environment is Test or Prod. Possible values include:
@@ -249,8 +249,8 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  download(kbId: string, environment: Models.EnvironmentType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QnADocumentsDTO>): void;
-  download(kbId: string, environment: Models.EnvironmentType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnADocumentsDTO>, callback?: msRest.ServiceCallback<Models.QnADocumentsDTO>): Promise<Models.KnowledgebaseDownloadResponse> {
+  download(kbId: string, environment: Models.EnvironmentType, options: Models.KnowledgebaseDownloadOptionalParams, callback: msRest.ServiceCallback<Models.QnADocumentsDTO>): void;
+  download(kbId: string, environment: Models.EnvironmentType, options?: Models.KnowledgebaseDownloadOptionalParams | msRest.ServiceCallback<Models.QnADocumentsDTO>, callback?: msRest.ServiceCallback<Models.QnADocumentsDTO>): Promise<Models.KnowledgebaseDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -412,6 +412,10 @@ const downloadOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.kbId,
     Parameters.environment
+  ],
+  queryParameters: [
+    Parameters.source,
+    Parameters.changedSince
   ],
   responses: {
     200: {
