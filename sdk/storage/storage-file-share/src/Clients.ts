@@ -47,7 +47,9 @@ import {
   ShareSetMetadataResponse,
   ShareSetQuotaResponse,
   SignedIdentifierModel,
-  SourceModifiedAccessConditions
+  SourceModifiedAccessConditions,
+  ShareAccessTier,
+  ShareSetPropertiesResponse
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -99,7 +101,6 @@ import {
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
-import { ShareAccessTier, ShareSetPropertiesResponse } from "./generated/src/models";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
