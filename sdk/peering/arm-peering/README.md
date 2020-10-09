@@ -15,7 +15,7 @@ npm install @azure/arm-peering
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list legacyPeerings as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list cdnPeeringPrefixes as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -36,8 +36,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PeeringManagementClient(creds, subscriptionId);
   const peeringLocation = "testpeeringLocation";
-  const kind = "Direct";
-  client.legacyPeerings.list(peeringLocation, kind).then((result) => {
+  client.cdnPeeringPrefixes.list(peeringLocation).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list legacyPeerings as an example written in JavaScript.
+#### browser - Authentication, client creation and list cdnPeeringPrefixes as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -81,8 +80,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmPeering.PeeringManagementClient(res.creds, subscriptionId);
         const peeringLocation = "testpeeringLocation";
-        const kind = "Direct";
-        client.legacyPeerings.list(peeringLocation, kind).then((result) => {
+        client.cdnPeeringPrefixes.list(peeringLocation).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -100,4 +98,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpeering%2Farm-peering%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/peering/arm-peering/README.png)

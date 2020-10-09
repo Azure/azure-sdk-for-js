@@ -9,7 +9,6 @@
 export {
   ErrorDetail,
   ErrorResponse,
-  Operation,
-  OperationDisplayInfo,
-  OperationListResult
+  PeeringReceivedRoute,
+  PeeringReceivedRouteListResult
 } from "../models/mappers";

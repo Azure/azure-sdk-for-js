@@ -27,27 +27,138 @@ export class Prefixes {
   }
 
   /**
-   * Lists the peerings prefix in the resource group.
-   * @param resourceGroupName The resource group name.
-   * @param peeringServiceName The peering service name.
+   * Gets an existing prefix with the specified name under the given subscription, resource group and
+   * peering service.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrefixesGetResponse>
+   */
+  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: Models.PrefixesGetOptionalParams): Promise<Models.PrefixesGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options: Models.PrefixesGetOptionalParams, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: Models.PrefixesGetOptionalParams | msRest.ServiceCallback<Models.PeeringServicePrefix>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>): Promise<Models.PrefixesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        peeringServiceName,
+        prefixName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.PrefixesGetResponse>;
+  }
+
+  /**
+   * Creates a new prefix with the specified name under the given subscription, resource group and
+   * peering service.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrefixesCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: Models.PrefixesCreateOrUpdateOptionalParams): Promise<Models.PrefixesCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, options: Models.PrefixesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: Models.PrefixesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PeeringServicePrefix>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>): Promise<Models.PrefixesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        peeringServiceName,
+        prefixName,
+        options
+      },
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.PrefixesCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes an existing prefix with the specified name under the given subscription, resource group
+   * and peering service.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
+   * @param prefixName The name of the prefix.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        peeringServiceName,
+        prefixName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
+   * Lists all prefixes under the given subscription, resource group and peering service.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrefixesListByPeeringServiceResponse>
    */
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrefixesListByPeeringServiceResponse>;
+  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: Models.PrefixesListByPeeringServiceOptionalParams): Promise<Models.PrefixesListByPeeringServiceResponse>;
   /**
-   * @param resourceGroupName The resource group name.
-   * @param peeringServiceName The peering service name.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
    * @param callback The callback
    */
   listByPeeringService(resourceGroupName: string, peeringServiceName: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
   /**
-   * @param resourceGroupName The resource group name.
-   * @param peeringServiceName The peering service name.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringServiceName The name of the peering service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): Promise<Models.PrefixesListByPeeringServiceResponse> {
+  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options: Models.PrefixesListByPeeringServiceOptionalParams, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
+  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: Models.PrefixesListByPeeringServiceOptionalParams | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): Promise<Models.PrefixesListByPeeringServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +170,7 @@ export class Prefixes {
   }
 
   /**
-   * Lists the peerings prefix in the resource group.
+   * Lists all prefixes under the given subscription, resource group and peering service.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrefixesListByPeeringServiceNextResponse>
@@ -89,6 +200,103 @@ export class Prefixes {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.peeringServiceName,
+    Parameters.prefixName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.expand,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PeeringServicePrefix
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.peeringServiceName,
+    Parameters.prefixName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      prefix: [
+        "options",
+        "prefix"
+      ],
+      peeringServicePrefixKey: [
+        "options",
+        "peeringServicePrefixKey"
+      ]
+    },
+    mapper: {
+      ...Mappers.PeeringServicePrefix,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.PeeringServicePrefix
+    },
+    201: {
+      bodyMapper: Mappers.PeeringServicePrefix
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.peeringServiceName,
+    Parameters.prefixName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const listByPeeringServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
@@ -98,6 +306,7 @@ const listByPeeringServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.expand,
     Parameters.apiVersion
   ],
   headerParameters: [

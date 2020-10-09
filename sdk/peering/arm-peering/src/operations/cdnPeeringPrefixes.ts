@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/peeringServiceLocationsMappers";
+import * as Mappers from "../models/cdnPeeringPrefixesMappers";
 import * as Parameters from "../models/parameters";
 import { PeeringManagementClientContext } from "../peeringManagementClientContext";
 
-/** Class representing a PeeringServiceLocations. */
-export class PeeringServiceLocations {
+/** Class representing a CdnPeeringPrefixes. */
+export class CdnPeeringPrefixes {
   private readonly client: PeeringManagementClientContext;
 
   /**
-   * Create a PeeringServiceLocations.
+   * Create a CdnPeeringPrefixes.
    * @param {PeeringManagementClientContext} client Reference to the service client.
    */
   constructor(client: PeeringManagementClientContext) {
@@ -27,55 +27,59 @@ export class PeeringServiceLocations {
   }
 
   /**
-   * Lists all of the available locations for peering service.
+   * Lists all of the advertised prefixes for the specified peering location
+   * @param peeringLocation The peering location.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PeeringServiceLocationsListResponse>
+   * @returns Promise<Models.CdnPeeringPrefixesListResponse>
    */
-  list(options?: Models.PeeringServiceLocationsListOptionalParams): Promise<Models.PeeringServiceLocationsListResponse>;
+  list(peeringLocation: string, options?: msRest.RequestOptionsBase): Promise<Models.CdnPeeringPrefixesListResponse>;
   /**
+   * @param peeringLocation The peering location.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
+  list(peeringLocation: string, callback: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): void;
   /**
+   * @param peeringLocation The peering location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PeeringServiceLocationsListOptionalParams, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
-  list(options?: Models.PeeringServiceLocationsListOptionalParams | msRest.ServiceCallback<Models.PeeringServiceLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): Promise<Models.PeeringServiceLocationsListResponse> {
+  list(peeringLocation: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): void;
+  list(peeringLocation: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>, callback?: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): Promise<Models.CdnPeeringPrefixesListResponse> {
     return this.client.sendOperationRequest(
       {
+        peeringLocation,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PeeringServiceLocationsListResponse>;
+      callback) as Promise<Models.CdnPeeringPrefixesListResponse>;
   }
 
   /**
-   * Lists all of the available locations for peering service.
+   * Lists all of the advertised prefixes for the specified peering location
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PeeringServiceLocationsListNextResponse>
+   * @returns Promise<Models.CdnPeeringPrefixesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceLocationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CdnPeeringPrefixesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): Promise<Models.PeeringServiceLocationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>, callback?: msRest.ServiceCallback<Models.CdnPeeringPrefixListResult>): Promise<Models.CdnPeeringPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PeeringServiceLocationsListNextResponse>;
+      callback) as Promise<Models.CdnPeeringPrefixesListNextResponse>;
   }
 }
 
@@ -83,12 +87,12 @@ export class PeeringServiceLocations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceLocations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/cdnPeeringPrefixes",
   urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.country,
+    Parameters.peeringLocation,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -96,7 +100,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.CdnPeeringPrefixListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -117,7 +121,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.CdnPeeringPrefixListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
