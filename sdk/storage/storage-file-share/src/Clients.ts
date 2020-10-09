@@ -99,6 +99,7 @@ import {
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
+import { ShareAccessTier, ShareSetPropertiesResponse } from "./generated/src/models";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -131,6 +132,14 @@ export interface ShareCreateOptions extends CommonOptions {
    * @memberof ShareCreateOptions
    */
   quota?: number;
+
+  /**
+   * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
+   * 'Hot', 'Cool'
+   * @type {ShareAccessTier}
+   * @memberof ShareCreateOptions
+   */
+  accessTier?: ShareAccessTier;
 }
 
 /**
@@ -306,6 +315,30 @@ export interface ShareSetQuotaOptions extends CommonOptions {
    *
    * @type {LeaseAccessConditions}
    * @memberof ShareSetQuotaOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Options to configure the {@link ShareClient.setAccessTier} operation.
+ *
+ * @export
+ * @interface ShareSetAccessTierOptions
+ */
+export interface ShareSetAccessTierOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ShareSetAccessTierOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareSetAccessTierOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -1219,10 +1252,40 @@ export class ShareClient extends StorageClient {
           `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
         );
       }
-      return await this.context.setQuota({
+      return await this.context.setProperties({
         ...options,
         quota: quotaInGB,
         spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets access tier of the share.
+   *
+   * @param {ShareAccessTier} accessTier Access tier to set on the share.
+   * @param {ShareSetAccessTierOptions} [option] Options to Share Set Quota operation.
+   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Get Quota operation.
+   * @memberof ShareClient
+   */
+  public async setAccessTier(
+    accessTier: ShareAccessTier,
+    options: ShareSetAccessTierOptions = {}
+  ): Promise<ShareSetPropertiesResponse> {
+    const { span, spanOptions } = createSpan("ShareClient-setAccessTier", options.tracingOptions);
+    try {
+      return await this.context.setProperties({
+        ...options,
+        accessTier,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({
