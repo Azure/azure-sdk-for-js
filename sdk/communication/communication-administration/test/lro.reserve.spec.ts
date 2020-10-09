@@ -15,7 +15,7 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
-  let includePhoneNumberTests: boolean;
+  let includePhoneNumberLiveTests: boolean;
   let reservationId: string;
   let areaCode: string;
   let poller: PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>;
@@ -23,9 +23,11 @@ describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Pla
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
-    ({ client, recorder, includePhoneNumberTests } = createRecordedPhoneNumberAdministrationClient(
-      this
-    ));
+    ({
+      client,
+      recorder,
+      includePhoneNumberLiveTests
+    } = createRecordedPhoneNumberAdministrationClient(this));
   });
 
   afterEach(async function() {
@@ -35,7 +37,7 @@ describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Pla
   });
 
   it("can get phonePlanIds and areaCode to create reservation", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -80,7 +82,7 @@ describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Pla
   });
 
   it("can wait until a search is completed", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -91,7 +93,7 @@ describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Pla
       areaCode,
       quantity: 1
     };
-    poller = await client.startReservePhoneNumbers(reservationRequest);
+    poller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(poller.getOperationState().isStarted);
 
     const phoneNumberSearch: PhoneNumberSearch = await poller.pollUntilDone();
@@ -103,7 +105,7 @@ describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Pla
   }).timeout(30000);
 
   it("can cancel a phone number reservation", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 

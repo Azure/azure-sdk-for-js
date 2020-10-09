@@ -78,9 +78,9 @@ import {
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import {
-  StartPurchaseReservationOptions,
-  StartReleasePhoneNumbersOptions,
-  StartReservePhoneNumbersOptions,
+  BeginPurchaseReservationOptions,
+  BeginReleasePhoneNumbersOptions,
+  BeginReservePhoneNumbersOptions,
   PhoneNumberPollerClient
 } from "./lroModels";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -421,6 +421,36 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<PhoneNumberSearch>(rest, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Cancels the reservation associated with a given id.
+   * @param reservationId The id of the reservation returned by createReservation.
+   * @param options Additional request options.
+   */
+  public async cancelReservation(
+    reservationId: string,
+    options: CancelReservationOptions = {}
+  ): Promise<VoidResponse> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-cancelReservation",
+      options
+    );
+    try {
+      const { _response } = await this.client.cancelSearch(
+        reservationId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -930,7 +960,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const releasePoller = await client.startReleasePhoneNumbers(PHONE_NUMBERS);
+   * const releasePoller = await client.beginReleasePhoneNumbers(PHONE_NUMBERS);
    *
    * // Serializing the poller
    * const serialized = releasePoller.toString();
@@ -940,11 +970,11 @@ export class PhoneNumberAdministrationClient {
    * console.log(results);
    * ```
    * @param {string[]} phoneNumbers The phone numbers to be released.
-   * @param {StartReleasePhoneNumbersOptions} options Additional request options.
+   * @param {BeginReleasePhoneNumbersOptions} options Additional request options.
    */
-  public async startReleasePhoneNumbers(
+  public async beginReleasePhoneNumbers(
     phoneNumbers: string[],
-    options: StartReleasePhoneNumbersOptions = {}
+    options: BeginReleasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
     const poller = new ReleasePhoneNumbersPoller({
       phoneNumbers,
@@ -958,14 +988,14 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Starts a search for phone numbers given some constraints such as name or area code.
-   * The phone numbers that are found are reserved until you cancel, purchase or make the reservation expire.
+   * The phone numbers that are found are reserved until you cancel, purchase or the reservation expires.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const reservePoller = await client.startReservePhoneNumbers(RESERVATION_REQUEST);
+   * const reservePoller = await client.beginReservePhoneNumbers(RESERVATION_REQUEST);
    *
    * // Serializing the poller
    * const serialized = reservePoller.toString();
@@ -976,11 +1006,11 @@ export class PhoneNumberAdministrationClient {
    * ```
    *
    * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
-   * @param {StartReservePhoneNumbersOptions} options Additional request options.
+   * @param {BeginReservePhoneNumbersOptions} options Additional request options.
    */
-  public async startReservePhoneNumbers(
+  public async beginReservePhoneNumbers(
     reservationRequest: CreateReservationRequest,
-    options: StartReservePhoneNumbersOptions = {}
+    options: BeginReservePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
@@ -1000,7 +1030,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const purchasePoller = await client.startPurchaseReservation(RESERVATION_ID);
+   * const purchasePoller = await client.beginPurchaseReservation(RESERVATION_ID);
    *
    * // Serializing the poller
    * const serialized = purchasePoller.toString();
@@ -1011,12 +1041,12 @@ export class PhoneNumberAdministrationClient {
    * ```
    *
    * @param {string} reservationId The id of the reservation to purchase.
-   * @param {StartPurchaseReservationOptions} options Additional request options.
+   * @param {BeginPurchaseReservationOptions} options Additional request options.
    */
-  public async startPurchaseReservation(
+  public async beginPurchaseReservation(
     reservationId: string,
-    options: StartPurchaseReservationOptions = {}
-  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+    options: BeginPurchaseReservationOptions = {}
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const poller = new PurchaseReservationPoller({
       reservationId,
       client: this.pollerClient,
@@ -1113,36 +1143,6 @@ export class PhoneNumberAdministrationClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<CreateReservationResponse>({ reservationId: searchId }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Cancels the reservation associated with a given id.
-   * @param reservationId The id of the reservation returned by createReservation.
-   * @param options Additional request options.
-   */
-  private async cancelReservation(
-    reservationId: string,
-    options: CancelReservationOptions = {}
-  ): Promise<VoidResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-cancelReservation",
-      options
-    );
-    try {
-      const { _response } = await this.client.cancelSearch(
-        reservationId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

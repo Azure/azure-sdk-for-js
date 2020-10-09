@@ -35,17 +35,17 @@ export interface PhoneNumberPollerOptions extends OperationOptions {
 /**
  * Additional request options for requesting the release of a list of phone numbers.
  */
-export interface StartReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {}
+export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {}
 
 /**
  * Additional request options for requesting the reservation of phone numbers.
  */
-export interface StartReservePhoneNumbersOptions extends PhoneNumberPollerOptions {}
+export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptions {}
 
 /**
  * Additional request options for requesting the purchase of a phone number reservation.
  */
-export interface StartPurchaseReservationOptions extends PhoneNumberPollerOptions {}
+export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptions {}
 
 /**
  * @ignore
@@ -131,7 +131,7 @@ export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptio
 export interface PhoneNumberPollerClient {
   releasePhoneNumbers: (
     phoneNumbers: string[],
-    options?: StartReleasePhoneNumbersOptions
+    options?: BeginReleasePhoneNumbersOptions
   ) => Promise<ReleasePhoneNumbersResponse>;
   getRelease: (releaseId: string, options?: GetReleaseOptions) => Promise<GetReleaseResponse>;
   createReservation(
@@ -208,8 +208,7 @@ export interface ReservePhoneNumbersPollOperationState
  * @ignore
  * Represents the operation state of the purchase reservation poller
  */
-export interface PurchaseReservationPollOperationState
-  extends PollOperationState<PhoneNumberSearch> {
+export interface PurchaseReservationPollOperationState extends PollOperationState<void> {
   /**
    * The id returned from the create reservation request.
    */
@@ -245,4 +244,4 @@ export interface ReservePhoneNumbersPollOperation
  * Represents the poll operation of the purchase reservation poller
  */
 export interface PurchaseReservationPollOperation
-  extends PollOperation<PurchaseReservationPollOperationState, PhoneNumberSearch> {}
+  extends PollOperation<PurchaseReservationPollOperationState, void> {}

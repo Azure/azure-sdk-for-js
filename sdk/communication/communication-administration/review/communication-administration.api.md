@@ -44,6 +44,18 @@ export interface AreaCodes {
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
 // @public
+export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptions {
+}
+
+// @public
+export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {
+}
+
+// @public
+export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptions {
+}
+
+// @public
 export type CancelReservationOptions = OperationOptions;
 
 // @public
@@ -282,6 +294,10 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
+    beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    cancelReservation(reservationId: string, options?: CancelReservationOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
@@ -294,9 +310,6 @@ export class PhoneNumberAdministrationClient {
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    startPurchaseReservation(reservationId: string, options?: StartPurchaseReservationOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
-    startReleasePhoneNumbers(phoneNumbers: string[], options?: StartReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
-    startReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: StartReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
@@ -514,18 +527,6 @@ export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
-
-// @public
-export interface StartPurchaseReservationOptions extends PhoneNumberPollerOptions {
-}
-
-// @public
-export interface StartReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {
-}
-
-// @public
-export interface StartReservePhoneNumbersOptions extends PhoneNumberPollerOptions {
-}
 
 // @public
 export type TokenScope = "chat" | "voip" | "pstn";

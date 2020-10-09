@@ -8,7 +8,7 @@ export * from "./phoneNumber/phoneNumberAdministrationClient";
 export * from "./phoneNumber/models";
 export {
   PhoneNumberPollerOptions,
-  StartPurchaseReservationOptions,
-  StartReleasePhoneNumbersOptions,
-  StartReservePhoneNumbersOptions
+  BeginPurchaseReservationOptions,
+  BeginReleasePhoneNumbersOptions,
+  BeginReservePhoneNumbersOptions
 } from "./phoneNumber/lroModels";

@@ -19,7 +19,7 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_TESTS: "false"
+  INCLUDE_PHONENUMBER_LIVE_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -68,13 +68,13 @@ export function createRecordedCommunicationIdentityClient(
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
-  includePhoneNumberTests: boolean;
+  includePhoneNumberLiveTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
   return {
     client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
-    includePhoneNumberTests: env.INCLUDE_PHONENUMBER_TESTS == "true"
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }

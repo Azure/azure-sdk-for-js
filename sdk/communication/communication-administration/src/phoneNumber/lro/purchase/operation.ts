@@ -32,8 +32,8 @@ async function update(
     }
 
     if (!state.isCompleted) {
-      state.result = await client.getReservation(reservationId, requestOptions);
-      state.isCompleted = isComplete(state.result, "Success");
+      const result = await client.getReservation(reservationId, requestOptions);
+      state.isCompleted = isComplete(result, "Success");
     }
   } catch (error) {
     state.error = error;

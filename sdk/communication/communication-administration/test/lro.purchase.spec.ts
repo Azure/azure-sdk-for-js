@@ -14,16 +14,18 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
-  let includePhoneNumberTests: boolean;
+  let includePhoneNumberLiveTests: boolean;
   let reservationId: string;
   let areaCode: string;
   let countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
-    ({ client, recorder, includePhoneNumberTests } = createRecordedPhoneNumberAdministrationClient(
-      this
-    ));
+    ({
+      client,
+      recorder,
+      includePhoneNumberLiveTests
+    } = createRecordedPhoneNumberAdministrationClient(this));
   });
 
   afterEach(async function() {
@@ -33,7 +35,7 @@ describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback
   });
 
   it("can get phonePlanIds and areaCode to create reservation", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -42,7 +44,6 @@ describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback
       if (phonePlanGroup.phoneNumberType == "Geographic") {
         assert.isString(phonePlanGroup.phonePlanGroupId);
         ({ phonePlanGroupId } = phonePlanGroup);
-        assert.isString(phonePlanGroupId);
         break;
       }
     }
@@ -78,7 +79,7 @@ describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback
   });
 
   it("can wait until a reservation is purchased", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -89,7 +90,7 @@ describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback
       areaCode,
       quantity: 1
     };
-    const reservePoller = await client.startReservePhoneNumbers(reservationRequest);
+    const reservePoller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(reservePoller.getOperationState().isStarted);
 
     const phoneNumberSearch: PhoneNumberSearch = await reservePoller.pollUntilDone();
@@ -99,11 +100,10 @@ describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback
     assert.equal(phoneNumberSearch.status, "Reserved");
     assert.equal(phoneNumberSearch.phoneNumbers?.length, 1);
 
-    const purchasePoller = await client.startPurchaseReservation(reservationId);
+    const purchasePoller = await client.beginPurchaseReservation(reservationId);
     assert.ok(purchasePoller.getOperationState().isStarted);
 
-    const results = await purchasePoller.pollUntilDone();
+    await purchasePoller.pollUntilDone();
     assert.ok(purchasePoller.getOperationState().isCompleted);
-    assert.equal(results.status, "Success");
   }).timeout(60000);
 });

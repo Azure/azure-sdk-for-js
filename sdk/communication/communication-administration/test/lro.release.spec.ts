@@ -9,13 +9,15 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumber - Long Running Operations - Release [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
-  let includePhoneNumberTests: boolean;
+  let includePhoneNumberLiveTests: boolean;
   let phoneNumberToRelease: string;
 
   beforeEach(function() {
-    ({ client, recorder, includePhoneNumberTests } = createRecordedPhoneNumberAdministrationClient(
-      this
-    ));
+    ({
+      client,
+      recorder,
+      includePhoneNumberLiveTests
+    } = createRecordedPhoneNumberAdministrationClient(this));
   });
 
   afterEach(async function() {
@@ -25,7 +27,7 @@ describe("PhoneNumber - Long Running Operations - Release [Playback/Live]", func
   });
 
   it("can get phone number to release", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -36,11 +38,11 @@ describe("PhoneNumber - Long Running Operations - Release [Playback/Live]", func
   });
 
   it("can wait until a phone number is released", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
-    const poller = await client.startReleasePhoneNumbers([phoneNumberToRelease]);
+    const poller = await client.beginReleasePhoneNumbers([phoneNumberToRelease]);
     assert.ok(poller.getOperationState().isStarted);
 
     const release: PhoneNumberRelease = await poller.pollUntilDone();

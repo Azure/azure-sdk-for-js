@@ -9,16 +9,18 @@ import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedC
 describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
-  let includePhoneNumberTests: boolean;
+  let includePhoneNumberLiveTests: boolean;
   let phonePlanGroupId: string;
   let phonePlanId: string;
   let locationOptions: LocationOptions | undefined;
   const countryCode = "US";
 
   beforeEach(function() {
-    ({ client, recorder, includePhoneNumberTests } = createRecordedPhoneNumberAdministrationClient(
-      this
-    ));
+    ({
+      client,
+      recorder,
+      includePhoneNumberLiveTests
+    } = createRecordedPhoneNumberAdministrationClient(this));
   });
 
   afterEach(async function() {
@@ -28,7 +30,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get phonePlanGroupId and phonePlanId for other tests", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -53,7 +55,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   }).timeout(5000);
 
   it("can get location options", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
@@ -69,7 +71,7 @@ describe("PhoneNumberAdministrationClient [Playback/Live]", function() {
   });
 
   it("can get area codes", async function() {
-    if (!includePhoneNumberTests && !isPlaybackMode()) {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
