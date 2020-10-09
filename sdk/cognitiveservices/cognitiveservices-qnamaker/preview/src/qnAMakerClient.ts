@@ -24,8 +24,8 @@ class QnAMakerClient extends QnAMakerClientContext {
 
   /**
    * Initializes a new instance of the QnAMakerClient class.
-   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name>
-   * .api.cognitiveservices.azure.com).
+   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name
+   * >.api.cognitiveservices.azure.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */

@@ -245,6 +245,10 @@ export interface QnADTO {
    * Context of a QnA
    */
   context?: QnADTOContext;
+  /**
+   * Timestamp when the QnA was last updated.
+   */
+  lastUpdatedTimestamp?: string;
 }
 
 /**
@@ -592,18 +596,220 @@ export interface EndpointKeysDTO {
 }
 
 /**
+ * Context object with previous QnA's information.
+ */
+export interface QueryContextDTO {
+  /**
+   * Previous QnA Id - qnaId of the top result.
+   */
+  previousQnaId?: number;
+  /**
+   * Previous user query.
+   */
+  previousUserQuery?: string;
+}
+
+/**
+ * Context object with previous QnA's information.
+ */
+export interface QueryDTOContext extends QueryContextDTO {
+}
+
+/**
+ * To configure Answer span prediction feature.
+ */
+export interface AnswerSpanRequestDTO {
+  /**
+   * Enable or Disable Answer Span prediction.
+   */
+  enable?: boolean;
+  /**
+   * Minimum threshold score required to include an answer span.
+   */
+  scoreThreshold?: number;
+  /**
+   * Number of Top answers to be considered for span prediction.
+   */
+  topAnswersWithSpan?: number;
+}
+
+/**
+ * To configure Answer span prediction feature.
+ */
+export interface QueryDTOAnswerSpanRequest extends AnswerSpanRequestDTO {
+}
+
+/**
+ * POST body schema to query the knowledgebase.
+ */
+export interface QueryDTO {
+  /**
+   * Exact qnaId to fetch from the knowledgebase, this field takes priority over question.
+   */
+  qnaId?: string;
+  /**
+   * User question to query against the knowledge base.
+   */
+  question?: string;
+  /**
+   * Max number of answers to be returned for the question.
+   */
+  top?: number;
+  /**
+   * Unique identifier for the user.
+   */
+  userId?: string;
+  /**
+   * Query against the test index.
+   */
+  isTest?: boolean;
+  /**
+   * Minimum threshold score for answers.
+   */
+  scoreThreshold?: number;
+  /**
+   * Context object with previous QnA's information.
+   */
+  context?: QueryDTOContext;
+  /**
+   * Optional field. Set to 'QuestionOnly' for using a question only Ranker.
+   */
+  rankerType?: string;
+  /**
+   * Find QnAs that are associated with the given list of metadata.
+   */
+  strictFilters?: MetadataDTO[];
+  /**
+   * Optional field. Set to 'OR' for using OR operation for strict filters. Possible values
+   * include: 'AND', 'OR'
+   */
+  strictFiltersCompoundOperationType?: StrictFiltersCompoundOperationType;
+  /**
+   * To configure Answer span prediction feature.
+   */
+  answerSpanRequest?: QueryDTOAnswerSpanRequest;
+}
+
+/**
+ * Context object of the QnA
+ */
+export interface QnASearchResultContext extends ContextDTO {
+}
+
+/**
+ * Answer span object of QnA.
+ */
+export interface AnswerSpanResponseDTO {
+  /**
+   * Predicted text of answer span.
+   */
+  text?: string;
+  /**
+   * Predicted score of answer span.
+   */
+  score?: number;
+  /**
+   * Start index of answer span in answer.
+   */
+  startIndex?: number;
+  /**
+   * End index of answer span in answer.
+   */
+  endIndex?: number;
+}
+
+/**
+ * Answer span object of QnA with respect to user's question.
+ */
+export interface QnASearchResultAnswerSpan extends AnswerSpanResponseDTO {
+}
+
+/**
+ * Represents Search Result.
+ */
+export interface QnASearchResult {
+  /**
+   * List of questions.
+   */
+  questions?: string[];
+  /**
+   * Answer.
+   */
+  answer?: string;
+  /**
+   * Search result score.
+   */
+  score?: number;
+  /**
+   * Id of the QnA result.
+   */
+  id?: number;
+  /**
+   * Source of QnA result.
+   */
+  source?: string;
+  /**
+   * List of metadata.
+   */
+  metadata?: MetadataDTO[];
+  /**
+   * Context object of the QnA
+   */
+  context?: QnASearchResultContext;
+  /**
+   * Answer span object of QnA with respect to user's question.
+   */
+  answerSpan?: QnASearchResultAnswerSpan;
+}
+
+/**
+ * Represents List of Question Answers.
+ */
+export interface QnASearchResultList {
+  /**
+   * Represents Search Result list.
+   */
+  answers?: QnASearchResult[];
+}
+
+/**
+ * Active learning feedback record.
+ */
+export interface FeedbackRecordDTO {
+  /**
+   * Unique identifier for the user.
+   */
+  userId?: string;
+  /**
+   * The suggested question being provided as feedback.
+   */
+  userQuestion?: string;
+  /**
+   * The qnaId for which the suggested question is provided as feedback.
+   */
+  qnaId?: number;
+}
+
+/**
+ * Active learning feedback records.
+ */
+export interface FeedbackRecordsDTO {
+  /**
+   * List of feedback records.
+   */
+  feedbackRecords?: FeedbackRecordDTO[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface KnowledgebaseDownloadOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The source property filter to apply. Sample value: Editorial, smartLight%20FAQ.tsv .
+   * The source property filter to apply.
    */
   source?: string;
   /**
-   * changedSince property is used to return all QnAs created or updated after a specific time
-   * duration. The user can filter QnAs by seconds (s), minutes (m), hours (h) and days (d). The
-   * user may use any integral value along with the suffix for time. For instance, the value of 5m
-   * returns all QnA pairs updated or created in the last 5 minutes.
+   * The last changed status property filter to apply.
    */
   changedSince?: string;
 }
@@ -647,6 +853,14 @@ export type ErrorCodeType = 'BadArgument' | 'Forbidden' | 'NotFound' | 'KbNotFou
  * @enum {string}
  */
 export type OperationStateType = 'Failed' | 'NotStarted' | 'Running' | 'Succeeded';
+
+/**
+ * Defines values for StrictFiltersCompoundOperationType.
+ * Possible values include: 'AND', 'OR'
+ * @readonly
+ * @enum {string}
+ */
+export type StrictFiltersCompoundOperationType = 'AND' | 'OR';
 
 /**
  * Defines values for EnvironmentType.
@@ -720,6 +934,26 @@ export type EndpointKeysRefreshKeysResponse = EndpointKeysDTO & {
  * Contains response data for the get operation.
  */
 export type AlterationsGetResponse = WordAlterationsDTO & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WordAlterationsDTO;
+    };
+};
+
+/**
+ * Contains response data for the getAlterationsForKb operation.
+ */
+export type AlterationsGetAlterationsForKbResponse = WordAlterationsDTO & {
   /**
    * The underlying HTTP response.
    */
@@ -838,6 +1072,26 @@ export type KnowledgebaseDownloadResponse = QnADocumentsDTO & {
        * The response body as parsed JSON or XML
        */
       parsedBody: QnADocumentsDTO;
+    };
+};
+
+/**
+ * Contains response data for the generateAnswer operation.
+ */
+export type KnowledgebaseGenerateAnswerResponse = QnASearchResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QnASearchResultList;
     };
 };
 
