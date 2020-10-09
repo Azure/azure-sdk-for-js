@@ -17,19 +17,16 @@ import {
   newPipeline,
   PathAccessControlItem,
   PathPermissions,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
+  SASQueryParameters
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
 import {
   getDataLakeServiceClient,
-  // getDataLakeServiceClientWithDefualtCredential,
   getTokenDataLakeServiceClient,
   recorderEnvSetup
 } from "../utils";
-
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
@@ -629,9 +626,54 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await fileSystemClient.delete();
   });
+
+  it("construct SASQueryParameters with a option bag", async () => {
+    // no option and optional parameters
+    const sasQP = new SASQueryParameters("2020-02-10", "signature");
+    assert.equal(sasQP.toString(), "sv=2020-02-10&sig=signature");
+
+    const sasQP2 = new SASQueryParameters("2020-02-10", "signature", {
+      permissions: "permissions",
+      correlationId: "correlationId",
+      directoryDepth: 2,
+      preauthorizedAgentObjectId: "preauthorizedAgentObjectId"
+    });
+    assert.equal(
+      sasQP2.toString(),
+      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
+    );
+
+    const sasQP3 = new SASQueryParameters(
+      "2020-02-10",
+      "signature",
+      "permissions",
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      2,
+      "preauthorizedAgentObjectId",
+      undefined,
+      "correlationId"
+    );
+    assert.equal(
+      sasQP3.toString(),
+      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
+    );
+  });
 });
 
-describe("Shared Access Signature (SAS) generation Node.js only for permissions m, e, o, p", () => {
+describe("Shared Access Signature (SAS) generation Node.js only for directory SAS", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
   let fileSystemClient: DataLakeFileSystemClient;
@@ -660,39 +702,6 @@ describe("Shared Access Signature (SAS) generation Node.js only for permissions 
       execute: false
     }
   };
-
-  // const acl: PathAccessControlItem[] = [
-  //   {
-  //     accessControlType: "user",
-  //     entityId: "",
-  //     defaultScope: false,
-  //     permissions: {
-  //       read: true,
-  //       write: true,
-  //       execute: true
-  //     }
-  //   },
-  //   {
-  //     accessControlType: "group",
-  //     entityId: "",
-  //     defaultScope: false,
-  //     permissions: {
-  //       read: true,
-  //       write: false,
-  //       execute: true
-  //     }
-  //   },
-  //   {
-  //     accessControlType: "other",
-  //     entityId: "",
-  //     defaultScope: false,
-  //     permissions: {
-  //       read: false,
-  //       write: true,
-  //       execute: false
-  //     }
-  //   }
-  // ];
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -747,20 +756,54 @@ describe("Shared Access Signature (SAS) generation Node.js only for permissions 
       newPipeline(new AnonymousCredential())
     );
 
-    // Does not work yet.
-    // m
-    // const newFileName = recorder.getUniqueName("newfile");
-    // await directoryClientwithSAS.move(newFileName);
-
-    // o
-    // const guid = "ca761232ed4211cebacd00aa0057b223";
-    // await directoryClientwithSAS.setAccessControl(acl, { owner: guid });
-
     // e
     await directoryClientwithSAS.getAccessControl();
 
     // p
     await directoryClientwithSAS.setPermissions(permissions);
+  });
+
+  function getDefualtDirctorySAS(directoryName: string): SASQueryParameters {
+    return generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: directoryName,
+        isDirectory: true,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+  }
+
+  it("generateDataLakeSASQueryParameters could calculate directory depth", async () => {
+    const directorySAS = getDefualtDirctorySAS(directoryClient.name);
+    assert.equal(directorySAS.directoryDepth, 1);
+    const directoryClientwithSAS = new DataLakeDirectoryClient(
+      `${directoryClient.url}?${directorySAS}`
+    );
+    await directoryClientwithSAS.setPermissions(permissions);
+
+    // root directory, depth = 0
+    const directorySAS2 = getDefualtDirctorySAS("");
+    assert.equal(directorySAS2.directoryDepth, 0);
+    const directoryClientwithSAS2 = new DataLakeDirectoryClient(
+      `${directoryClient.url}?${directorySAS2}`
+    );
+    await directoryClientwithSAS2.setPermissions(permissions);
+
+    // "/d1/d2/", "d1/d2", "/d1/d2" depth = 2
+    const directorySAS3 = getDefualtDirctorySAS("/d1/d2/");
+    assert.equal(directorySAS3.directoryDepth, 2);
+
+    const directorySAS4 = getDefualtDirctorySAS("d1/d2");
+    assert.equal(directorySAS4.directoryDepth, 2);
+
+    const directorySAS5 = getDefualtDirctorySAS("/d1/d2");
+    assert.equal(directorySAS5.directoryDepth, 2);
   });
 
   it("generateDataLakeSASQueryParameters for file should work for permissions m, e, o, p", async () => {
@@ -782,15 +825,6 @@ describe("Shared Access Signature (SAS) generation Node.js only for permissions 
       sasURL,
       newPipeline(new AnonymousCredential())
     );
-
-    // Does not work yet.
-    // m
-    // const newFileName = recorder.getUniqueName("newfile");
-    // await fileClientWithSAS.move(newFileName);
-
-    // o
-    // const guid = "ca761232ed4211cebacd00aa0057b223";
-    // await fileClientWithSAS.setAccessControl(acl, { owner: guid });
 
     // e
     await fileClientWithSAS.getAccessControl();
@@ -818,15 +852,6 @@ describe("Shared Access Signature (SAS) generation Node.js only for permissions 
       newPipeline(new AnonymousCredential())
     );
 
-    // Does not work yet.
-    // m
-    // const newFileName = recorder.getUniqueName("newfile");
-    // await directoryClientwithSAS.move(newFileName);
-
-    // o
-    // const guid = "ca761232ed4211cebacd00aa0057b223";
-    // await directoryClientwithSAS.setAccessControl(acl, { owner: guid });
-
     // e
     await directoryClientwithSAS.getAccessControl();
 
@@ -837,7 +862,7 @@ describe("Shared Access Signature (SAS) generation Node.js only for permissions 
 
 describe("Shared Access Signature (SAS) generation Node.js only for delegation SAS", () => {
   let recorder: Recorder;
-  let serviceClient: DataLakeServiceClient;
+  let oauthServiceClient: DataLakeServiceClient;
   let fileSystemClient: DataLakeFileSystemClient;
   let directoryClient: DataLakeDirectoryClient;
   let fileClient: DataLakeFileClient;
@@ -870,8 +895,9 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
     recorder = record(this, recorderEnvSetup);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
-      serviceClient = getTokenDataLakeServiceClient();
+      oauthServiceClient = getTokenDataLakeServiceClient();
     } catch (err) {
+      console.log(err);
       this.skip();
     }
 
@@ -879,10 +905,10 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
     now.setHours(now.getHours() - 1);
     tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 5);
-    userDelegationKey = await serviceClient.getUserDelegationKey(now, tmr);
+    userDelegationKey = await oauthServiceClient.getUserDelegationKey(now, tmr);
 
     const fileSystemName = recorder.getUniqueName("filesystem");
-    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
     const directoryName = recorder.getUniqueName("directory");
@@ -901,10 +927,12 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
     await recorder.stop();
   });
 
-  it.only("GenerateUserDelegationSAS for directory should work for permissions m, e, o, p", async () => {
+  it("GenerateUserDelegationSAS for directory should work for permissions m, e, o, p", async () => {
     const fileSystemSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName: fileSystemClient.name,
+        pathName: directoryClient.name,
+        isDirectory: true,
         expiresOn: tmr,
         permissions: FileSystemSASPermissions.parse("racwdlmeop")
       },
@@ -914,16 +942,6 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
 
     const sasURL = `${directoryClient.url}?${fileSystemSAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
-
-    // Does not work yet.
-    // // m
-    // const newFileName = recorder.getUniqueName("newfile");
-    // await directoryClientwithSAS.move(newFileName);
-
-    // // o
-    // const guid = "ca761232ed4211cebacd00aa0057b223";
-    // await directoryClientwithSAS.setAccessControl([], { owner: guid });
-
     // e
     await directoryClientwithSAS.getAccessControl();
 
@@ -931,32 +949,13 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
     await directoryClientwithSAS.setPermissions(permissions);
   });
 
-  it("GenerateUserDelegationSAS should work with unauthorizedUserObjectId", async () => {
-    const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
-    const fileSystemSAS = generateDataLakeSASQueryParameters(
-      {
-        fileSystemName: fileSystemClient.name,
-        expiresOn: tmr,
-        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
-        unauthorizedUserObjectId: guid
-      },
-      userDelegationKey,
-      accountName
-    );
-
-    // const sasURL = `${fileClient.url}?${fileSystemSAS}`;
-    // const fileClientWithSAS = new DataLakeDirectoryClient(sasURL);
-
-    // try {
-    //   await fileClientWithSAS.exists();
-    // } catch (err) {
-    //   assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
-    // }
-
+  it("GenerateUserDelegationSAS should work with agentObjectId, preauthorizedAgentObjectId", async () => {
+    const authorizedGuid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const rootDirectoryClient = fileSystemClient.getDirectoryClient("/");
     const acl: PathAccessControlItem[] = [
       {
         accessControlType: "user",
-        entityId: guid,
+        entityId: authorizedGuid,
         defaultScope: false,
         permissions: {
           read: true,
@@ -965,12 +964,86 @@ describe("Shared Access Signature (SAS) generation Node.js only for delegation S
         }
       }
     ];
-    await directoryClient.setAccessControl(acl);
+    await rootDirectoryClient.setAccessControl(acl);
 
-    console.log(await directoryClient.getAccessControl());
-    const newfileClient = directoryClient.getFileClient(recorder.getUniqueName("newfile"));
-    const SASURL = `${newfileClient.url}?${fileSystemSAS}`;
-    const newFileClientWithSAS = new DataLakeFileClient(SASURL);
+    const fileSystemSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        agentObjectId: authorizedGuid
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const newFileName = recorder.getUniqueName("newFile");
+    const newFileClient = fileSystemClient.getFileClient(newFileName);
+    const newFileClientWithSAS = new DataLakeDirectoryClient(
+      `${newFileClient.url}?${fileSystemSAS}`
+    );
     await newFileClientWithSAS.createIfNotExists();
+
+    const unauthoriziedGuid = "7d53815c-1b73-49ab-b44d-002bfb890633";
+
+    // suoid for an unauthoriziedGuid
+    const fileSystemSAS2 = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        agentObjectId: unauthoriziedGuid
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const newFileClientWithSAS2 = new DataLakeDirectoryClient(
+      `${newFileClient.url}?${fileSystemSAS2}`
+    );
+    try {
+      await newFileClientWithSAS2.createIfNotExists();
+    } catch (err) {
+      assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
+    }
+
+    // saoid for an unauthoriziedGuid
+    const fileSystemSAS3 = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        preauthorizedAgentObjectId: unauthoriziedGuid
+      },
+      userDelegationKey,
+      accountName
+    );
+    const newFileClientWithSAS3 = new DataLakeDirectoryClient(
+      `${newFileClient.url}?${fileSystemSAS3}`
+    );
+    await newFileClientWithSAS3.createIfNotExists();
+  });
+
+  it("GenerateUserDelegationSAS should work with correlationId", async () => {
+    const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const fileSystemSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        correlationId: guid
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const fileSystemClientWithSAS = new DataLakeFileSystemClient(
+      `${fileSystemClient.url}?${fileSystemSAS}`
+    );
+
+    await fileSystemClientWithSAS
+      .listPaths()
+      .byPage()
+      .next();
   });
 });

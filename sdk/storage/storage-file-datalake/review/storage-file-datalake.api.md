@@ -7,7 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
-import { BlobQueryArrowField } from '@azure/storage-blob';
+import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -268,10 +268,10 @@ export class DataLakeSASPermissions {
     create: boolean;
     delete: boolean;
     execute: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
     move: boolean;
-    ownership: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
-    permission: boolean;
     read: boolean;
     toString(): string;
     write: boolean;
@@ -279,7 +279,7 @@ export class DataLakeSASPermissions {
 
 // @public
 export interface DataLakeSASSignatureValues {
-    authorizedUserObjectId?: string;
+    agentObjectId?: string;
     cacheControl?: string;
     contentDisposition?: string;
     contentEncoding?: string;
@@ -294,10 +294,10 @@ export interface DataLakeSASSignatureValues {
     isDirectory?: boolean;
     pathName?: string;
     permissions?: DataLakeSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
-    unauthorizedUserObjectId?: string;
     version?: string;
 }
 
@@ -396,10 +396,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
 }
 
 // @public
-export interface FileQueryArrowConfiguration {
-    kind: "arrow";
-    schema: BlobQueryArrowField[];
-}
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 
 // @public
 export interface FileQueryCsvTextConfiguration {
@@ -773,10 +770,10 @@ export class FileSystemSASPermissions {
     delete: boolean;
     execute: boolean;
     list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
     move: boolean;
-    ownership: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
-    permission: boolean;
     read: boolean;
     toString(): string;
     write: boolean;
@@ -1605,16 +1602,21 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, authorizedUserObjectId?: string, unauthorizedUserObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
+    readonly agentObjectId?: string;
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
+    readonly directoryDepth?: number;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -1623,6 +1625,29 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    agentObjectId?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
 }
 
 // @public (undocumented)

@@ -5,6 +5,7 @@ import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   recorderEnvSetup,
@@ -560,5 +561,75 @@ describe("BlobServiceClient", () => {
     assert.ok(staticWebsite?.enabled);
     assert.equal(staticWebsite?.errorDocument404Path, errorDocument404Path);
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
+  });
+
+  it("restore container", async function() {
+    let blobServiceClient: BlobServiceClient;
+    try {
+      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    await containerClient.create();
+    await containerClient.delete();
+
+    await delay(30 * 1000);
+
+    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
+      if (containerItem.deleted && containerItem.name === containerName) {
+        // check list container response
+        assert.ok(containerItem.version);
+        assert.ok(containerItem.properties.deletedOn);
+        assert.ok(containerItem.properties.remainingRetentionDays);
+
+        const restoreRes = await blobServiceClient.undeleteContainer(
+          containerName,
+          containerItem.version!
+        );
+        assert.equal(restoreRes.containerClient.containerName, containerName);
+        break;
+      }
+    }
+  });
+
+  it("restore container to a new name", async function() {
+    let blobServiceClient: BlobServiceClient;
+    try {
+      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    await containerClient.create();
+    await containerClient.delete();
+    await delay(30 * 1000);
+
+    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
+      if (containerItem.deleted && containerItem.name === containerName) {
+        // check list container response
+        assert.ok(containerItem.version);
+        assert.ok(containerItem.properties.deletedOn);
+        assert.ok(containerItem.properties.remainingRetentionDays);
+
+        const newContainerName = recorder.getUniqueName("newcontainer");
+        const restoreRes2 = await blobServiceClient.undeleteContainer(
+          containerName,
+          containerItem.version!,
+          {
+            destinationContainerName: newContainerName
+          }
+        );
+        assert.equal(restoreRes2.containerClient.containerName, newContainerName);
+
+        break;
+      }
+    }
   });
 });

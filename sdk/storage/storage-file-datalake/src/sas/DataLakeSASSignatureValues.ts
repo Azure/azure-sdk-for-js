@@ -98,9 +98,8 @@ export interface DataLakeSASSignatureValues {
   isDirectory?: boolean;
 
   /**
-   * Optional. Beginning in version 2020-02-10, indicate the depth of the directory
-   * specified in the canonicalizedresource field of the string-to-sign. The depth of the directory is the number of directories
-   * beneath the root folder.
+   * Optional. Beginning in version 2020-02-10, indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
+   * The depth of the directory is the number of directories beneath the root folder.
    *
    * @type {number}
    * @memberof DataLakeSASSignatureValues
@@ -109,26 +108,26 @@ export interface DataLakeSASSignatureValues {
 
   /**
    * Optional. Beginning in version 2020-02-10, specifies the Authorized AAD Object Id in GUID format. The AAD Object ID of a user
-   * authorized by the owner of the User Delegation Key to perform the action granted by the SAS. The Azure Storage service will
+   * authorized by the owner of the user delegation key to perform the action granted by the SAS. The Azure Storage service will
    * ensure that the owner of the user delegation key has the required permissions before granting access but no additional permission
-   * check for the user specified in this value will be performed. This cannot be used in conjuction with {@link unauthorizedUserObjectId}.
+   * check for the user specified in this value will be performed. This cannot be used in conjuction with {@link agentObjectId}.
    * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof DataLakeSASSignatureValues
    */
-  authorizedUserObjectId?: string;
+  preauthorizedAgentObjectId?: string;
 
   /**
    * Optional. Beginning in version 2020-02-10, specifies the Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed
-   * to be unauthorized by the owner of the User Delegation Key. The Azure Storage Service will perform an additional POSIX ACL check to determine
-   * if the user is authorized to perform the requested operation. This cannot be used in conjuction with {@link authorizedUserObjectId}.
+   * to be unauthorized by the owner of the user delegation key. The Azure Storage Service will perform an additional POSIX ACL check to determine
+   * if the user is authorized to perform the requested operation. This cannot be used in conjuction with {@link preauthorizedAgentObjectId}.
    * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof DataLakeSASSignatureValues
    */
-  unauthorizedUserObjectId?: string;
+  agentObjectId?: string;
 
   /**
    * Optional. Beginning in version 2020-02-10, this is a GUID value that will be logged in the storage diagnostic logs and can be used to
@@ -680,8 +679,8 @@ function generateBlobSASQueryParametersUDK20181109(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    dataLakeSASSignatureValues.authorizedUserObjectId,
-    dataLakeSASSignatureValues.unauthorizedUserObjectId,
+    dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+    dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId,
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
@@ -716,8 +715,8 @@ function generateBlobSASQueryParametersUDK20181109(
     dataLakeSASSignatureValues.contentType,
     userDelegationKeyCredential.userDelegationKey,
     dataLakeSASSignatureValues.directoryDepth,
-    dataLakeSASSignatureValues.authorizedUserObjectId,
-    dataLakeSASSignatureValues.unauthorizedUserObjectId,
+    dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+    dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId
   );
 }
@@ -771,28 +770,28 @@ function SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues.permissions &&
     (dataLakeSASSignatureValues.permissions.move ||
       dataLakeSASSignatureValues.permissions.execute ||
-      dataLakeSASSignatureValues.permissions.ownership ||
-      dataLakeSASSignatureValues.permissions.permission)
+      dataLakeSASSignatureValues.permissions.manageOwnership ||
+      dataLakeSASSignatureValues.permissions.manageAccessControl)
   ) {
     throw RangeError("'version' must be >= '2020-02-10' when providing m, e, o or p permission.");
   }
 
   if (
     version < "2020-02-10" &&
-    (dataLakeSASSignatureValues.authorizedUserObjectId ||
-      dataLakeSASSignatureValues.unauthorizedUserObjectId ||
+    (dataLakeSASSignatureValues.preauthorizedAgentObjectId ||
+      dataLakeSASSignatureValues.agentObjectId ||
       dataLakeSASSignatureValues.correlationId)
   ) {
     throw RangeError(
-      "'version' must be >= '2020-02-10' when providing 'authorizedUserObjectId', 'unauthorizedUserObjectId' or 'correlationId'."
+      "'version' must be >= '2020-02-10' when providing 'preauthorizedAgentObjectId', 'agentObjectId' or 'correlationId'."
     );
   }
   if (
-    dataLakeSASSignatureValues.authorizedUserObjectId &&
-    dataLakeSASSignatureValues.unauthorizedUserObjectId
+    dataLakeSASSignatureValues.preauthorizedAgentObjectId &&
+    dataLakeSASSignatureValues.agentObjectId
   ) {
     throw RangeError(
-      "'authorizedUserObjectId' or 'unauthorizedUserObjectId' shouldn't be specified at the same time."
+      "'preauthorizedAgentObjectId' or 'agentObjectId' shouldn't be specified at the same time."
     );
   }
 

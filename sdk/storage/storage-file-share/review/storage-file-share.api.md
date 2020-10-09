@@ -1089,7 +1089,7 @@ export interface LeaseOperationResponseHeaders {
     etag?: string;
     lastModified?: Date;
     leaseId?: string;
-    leaseTime?: number;
+    leaseTimeInSeconds?: number;
     requestId?: string;
     version?: string;
 }

@@ -5682,7 +5682,7 @@ export interface LeaseOperationResponseHeaders {
   /**
    * Approximate time remaining in the lease period, in seconds. Only availabe for {@link ShareLeaseClient.breakLease} for share lease.
    */
-  leaseTime?: number;
+  leaseTimeInSeconds?: number;
   /**
    * Uniquely identifies a file's lease, won't be set when returned by releaseLease.
    */
@@ -5938,12 +5938,12 @@ export class ShareLeaseClient {
   public async renewLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("ShareLeaseClient-renewLease", options.tracingOptions);
 
-    if (this.isShare) {
+    if (!this.isShare) {
       throw new RangeError("The renewLease operation is not available for lease on file.");
     }
 
     try {
-      return await this.fileOrShare.releaseLease(this._leaseId, {
+      return await (this.fileOrShare as Share).renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
         spanOptions
       });
