@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-blob";
-const packageVersion = "12.3.0";
+const packageVersion = "12.3.0-prerelease.1";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
