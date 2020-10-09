@@ -18,6 +18,8 @@ import { ConnectionContext } from "../connectionContext";
 import { logError, throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -107,7 +109,7 @@ export class BatchingReceiver extends MessageReceiver {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    userAbortSignal?: AbortSignalLike
+    options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
 
@@ -122,7 +124,7 @@ export class BatchingReceiver extends MessageReceiver {
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        userAbortSignal
+        ...options
       });
 
       if (this._lockRenewer) {
@@ -222,11 +224,10 @@ type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
  * @internal
  * @ignore
  */
-interface ReceiveMessageArgs {
+interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
   maxWaitTimeInMs: number;
   maxTimeAfterFirstMessageInMs: number;
-  userAbortSignal?: AbortSignalLike;
 }
 
 /**
@@ -239,17 +240,21 @@ interface ReceiveMessageArgs {
  * @ignore
  */
 export class BatchingReceiverLite {
+  private _createAndEndProcessingSpan: typeof createAndEndProcessingSpan;
+
   constructor(
-    connectionContext: ConnectionContext,
-    entityPath: string,
+    private _connectionContext: ConnectionContext,
+    public entityPath: string,
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: InternalReceiveMode
   ) {
+    this._createAndEndProcessingSpan = createAndEndProcessingSpan;
+
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        connectionContext,
+        _connectionContext,
         entityPath,
         context.message!,
         context.delivery!,
@@ -284,14 +289,16 @@ export class BatchingReceiverLite {
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
     try {
       this.isReceivingMessages = true;
-      const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+      const receiver = await this._getCurrentReceiver(args.abortSignal);
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
         return [];
       }
 
-      return await this._receiveMessagesImpl(receiver, args);
+      const messages = await this._receiveMessagesImpl(receiver, args);
+      this._createAndEndProcessingSpan(messages, this, this._connectionContext.config, args);
+      return messages;
     } finally {
       this._closeHandler = undefined;
       this.isReceivingMessages = false;
@@ -486,7 +493,7 @@ export class BatchingReceiverLite {
       abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
         cleanupBeforeResolveOrReject("removeDrainHandler");
         reject(err);
-      }, args.userAbortSignal);
+      }, args.abortSignal);
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {

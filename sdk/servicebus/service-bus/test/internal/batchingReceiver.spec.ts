@@ -16,7 +16,7 @@ import {
 } from "../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
 import {
   Receiver as RheaReceiver,
@@ -30,6 +30,7 @@ import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -63,9 +64,9 @@ describe("BatchingReceiver unit tests", () => {
             _maxMessageCount: number,
             _maxWaitTimeInMs: number,
             _maxTimeAfterFirstMessageMs: number,
-            abortSignal?: AbortSignalLike
+            options?: OperationOptionsBase
           ): Promise<ServiceBusMessageImpl[]> {
-            assert.equal(abortSignal, origAbortSignal);
+            assert.equal(options?.abortSignal, origAbortSignal);
             wasCalled = true;
             return [];
           }
@@ -90,7 +91,9 @@ describe("BatchingReceiver unit tests", () => {
       });
 
       try {
-        await receiver.receive(1, 60 * 1000, 60 * 1000, abortController.signal);
+        await receiver.receive(1, 60 * 1000, 60 * 1000, {
+          abortSignal: abortController.signal
+        });
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -150,7 +153,7 @@ describe("BatchingReceiver unit tests", () => {
       };
 
       try {
-        await receiver.receive(1, 60 * 1000, 60 * 1000, abortController.signal);
+        await receiver.receive(1, 60 * 1000, 60 * 1000, { abortSignal: abortController.signal });
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -198,7 +201,7 @@ describe("BatchingReceiver unit tests", () => {
           receiver
         );
 
-        const receivePromise = receiver.receive(1, bigTimeout, bigTimeout);
+        const receivePromise = receiver.receive(1, bigTimeout, bigTimeout, {});
         await receiveIsReady;
 
         // batch fulfillment is checked when we receive a message...
@@ -230,7 +233,7 @@ describe("BatchingReceiver unit tests", () => {
 
         const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
-        const receivePromise = receiver.receive(1, littleTimeout, bigTimeout);
+        const receivePromise = receiver.receive(1, littleTimeout, bigTimeout, {});
 
         await receiveIsReady;
 
@@ -264,7 +267,7 @@ describe("BatchingReceiver unit tests", () => {
             receiver
           );
 
-          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
+          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -316,7 +319,7 @@ describe("BatchingReceiver unit tests", () => {
             receiver
           );
 
-          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
+          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -393,7 +396,7 @@ describe("BatchingReceiver unit tests", () => {
             };
           };
 
-          const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2);
+          const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2, {});
           await receiveIsReady;
 
           emitter.emit(ReceiverEvents.message, {
@@ -566,7 +569,7 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ConnectionContext,
+        createConnectionContextForTests(),
         "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
@@ -628,7 +631,7 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ConnectionContext,
+        createConnectionContextForTests(),
         "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;

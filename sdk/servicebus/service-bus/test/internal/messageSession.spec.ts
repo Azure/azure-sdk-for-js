@@ -58,7 +58,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
-          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -87,7 +87,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
-          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout, {});
 
           await receiveIsReady;
 
@@ -116,7 +116,7 @@ describe("Message session unit tests", () => {
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
 
             // batch fulfillment is checked when we receive a message...
@@ -163,7 +163,7 @@ describe("Message session unit tests", () => {
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
 
             // batch fulfillment is checked when we receive a message...
@@ -235,7 +235,7 @@ describe("Message session unit tests", () => {
               };
             };
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2, {});
             await receiveIsReady;
 
             emitter.emit(ReceiverEvents.message, {
