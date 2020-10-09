@@ -46,7 +46,7 @@ function assertEnvelope(
   assert.ok(envelope.data);
 
   if (expectedTime) {
-    assert.strictEqual(envelope.time, expectedTime.toISOString());
+    assert.deepStrictEqual(envelope.time, expectedTime);
   }
 
   assert.deepStrictEqual(envelope.tags, { ...context.tags, ...expectedTags });
