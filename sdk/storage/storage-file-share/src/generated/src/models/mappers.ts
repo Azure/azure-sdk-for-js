@@ -463,6 +463,27 @@ export const ShareProperties: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      accessTier: {
+        xmlName: "AccessTier",
+        serializedName: "AccessTier",
+        type: {
+          name: "String"
+        }
+      },
+      accessTierChangeTime: {
+        xmlName: "AccessTierChangeTime",
+        serializedName: "AccessTierChangeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      accessTierTransitionState: {
+        xmlName: "AccessTierTransitionState",
+        serializedName: "AccessTierTransitionState",
+        type: {
+          name: "String"
+        }
+      },
       leaseStatus: {
         xmlName: "LeaseStatus",
         serializedName: "LeaseStatus",
@@ -1347,6 +1368,24 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
+      accessTier: {
+        serializedName: "x-ms-access-tier",
+        type: {
+          name: "String"
+        }
+      },
+      accessTierChangeTime: {
+        serializedName: "x-ms-access-tier-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      accessTierTransitionState: {
+        serializedName: "x-ms-access-tier-transition-state",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1807,11 +1846,11 @@ export const ShareGetPermissionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShareSetQuotaHeaders: coreHttp.CompositeMapper = {
-  serializedName: "share-setquota-headers",
+export const ShareSetPropertiesHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-setproperties-headers",
   type: {
     name: "Composite",
-    className: "ShareSetQuotaHeaders",
+    className: "ShareSetPropertiesHeaders",
     modelProperties: {
       etag: {
         serializedName: "etag",
