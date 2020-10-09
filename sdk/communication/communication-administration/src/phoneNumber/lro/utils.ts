@@ -8,7 +8,7 @@ export const isComplete = (
   results: PhoneNumberSearch | PhoneNumberRelease,
   completionStatus: SearchStatus | ReleaseStatus
 ): boolean | never => {
-  if (results.status == "Error" || results.status == "Failed") {
+  if (results.status === "Error" || results.status === "Failed") {
     throw new Error(JSON.stringify(results));
   }
 
