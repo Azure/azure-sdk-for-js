@@ -31,7 +31,7 @@ export const TelemetryItem: coreHttp.CompositeMapper = {
         serializedName: "time",
         required: true,
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
       sampleRate: {
