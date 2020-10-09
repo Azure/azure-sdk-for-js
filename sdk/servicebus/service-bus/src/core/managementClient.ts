@@ -738,7 +738,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const error = translate(err);
         receiverLogger.logError(
           error,
-          `${this.logPrefix}An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
+          `${this.logPrefix} An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
         );
         throw error;
       }
