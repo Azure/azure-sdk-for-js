@@ -3,7 +3,7 @@
 
 import { Delivery } from "rhea-promise";
 import { translate } from "@azure/core-amqp";
-import { logger } from "../log";
+import { receiverLogger } from "../log";
 
 /**
  * @internal
@@ -29,7 +29,7 @@ export interface DeferredPromiseAndTimer {
  * @ignore
  */
 export function onMessageSettled(
-  connectionId: string,
+  logPrefix: string,
   delivery: Delivery | undefined,
   deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>
 ): void {
@@ -37,9 +37,9 @@ export function onMessageSettled(
     const id = delivery.id;
     const state = delivery.remote_state;
     const settled = delivery.remote_settled;
-    logger.verbose(
-      "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
-      connectionId,
+    receiverLogger.verbose(
+      "%s Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
+      logPrefix,
       id,
       settled,
       state && state.error ? state.error : state
@@ -47,15 +47,15 @@ export function onMessageSettled(
     if (settled && deliveryDispositionMap.has(id)) {
       const promise = deliveryDispositionMap.get(id) as DeferredPromiseAndTimer;
       clearTimeout(promise.timer);
-      logger.verbose(
-        "[%s] Found the delivery with id %d in the map and cleared the timer.",
-        connectionId,
+      receiverLogger.verbose(
+        "%s Found the delivery with id %d in the map and cleared the timer.",
+        logPrefix,
         id
       );
       const deleteResult = deliveryDispositionMap.delete(id);
-      logger.verbose(
-        "[%s] Successfully deleted the delivery with id %d from the map.",
-        connectionId,
+      receiverLogger.verbose(
+        "%s Successfully deleted the delivery with id %d from the map.",
+        logPrefix,
         id,
         deleteResult
       );

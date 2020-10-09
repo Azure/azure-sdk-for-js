@@ -15,7 +15,6 @@ import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
@@ -30,6 +29,7 @@ import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../ser
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
+import { receiverLogger as logger } from "../log";
 
 /**
  * A receiver that does not handle sessions.
@@ -158,6 +158,10 @@ export class ServiceBusReceiverImpl<
   private _streamingReceiver?: StreamingReceiver;
   private _lockRenewer: LockRenewer | undefined;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
+  }
+
   /**
    * @throws Error if the underlying connection is closed.
    */
@@ -181,7 +185,7 @@ export class ServiceBusReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is already receiving`);
       throw error;
     }
   }
@@ -191,7 +195,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is closed`);
       throw error;
     }
   }
@@ -464,13 +468,7 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      logError(
-        err,
-        "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.connectionId,
-        this.entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Receiver`);
       throw err;
     }
   }

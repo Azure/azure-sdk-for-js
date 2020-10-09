@@ -11,10 +11,10 @@ import {
   MessageProperties,
   translate
 } from "@azure/core-amqp";
-import { logger } from "./log";
+import { messageLogger as logger, receiverLogger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode, logError } from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
 
@@ -1077,7 +1077,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
-    logger.verbose(
+    receiverLogger.verbose(
       "[%s] Completing the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1090,7 +1090,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    logger.verbose(
+    receiverLogger.verbose(
       "[%s] Abandoning the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1104,7 +1104,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    logger.verbose(
+    receiverLogger.verbose(
       "[%s] Deferring the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1118,7 +1118,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    logger.verbose(
+    receiverLogger.verbose(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1168,12 +1168,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      logError(
+      logger.logError(
         error,
-        "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
+        "[%s] An error occurred when renewing the lock on the message with id '%s'",
         this._context.connectionId,
-        this.messageId,
-        error
+        this.messageId
       );
       throw error;
     }
@@ -1233,12 +1232,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      logError(
+      logger.logError(
         error,
-        "[%s] An error occurred when settling a message with id '%s': %O",
+        "[%s] An error occurred when settling a message with id '%s'",
         this._context.connectionId,
-        this.messageId,
-        error
+        this.messageId
       );
       throw error;
     }
@@ -1268,12 +1266,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
         });
       }
       if (error) {
-        logError(
+        logger.logError(
           error,
-          "[%s] An error occurred when settling a message with id '%s': %O",
+          "[%s] An error occurred when settling a message with id '%s'",
           this._context.connectionId,
-          this.messageId,
-          error
+          this.messageId
         );
         throw error;
       }
