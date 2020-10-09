@@ -393,22 +393,6 @@ export interface StorageProfile {
 }
 
 /**
- * The network settings.
- */
-export interface NetworkSettings {
-  /**
-   * Specifies whether public network access is enabled for inbound and outbound, or outbound only.
-   * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * The mechanism through which the cluster will have outbound access to the public network.
-   * Possible values include: 'PublicLoadBalancer', 'UDR'
-   */
-  outboundOnlyPublicNetworkAccessType?: OutboundOnlyPublicNetworkAccessType;
-}
-
-/**
  * The disk encryption properties
  */
 export interface DiskEncryptionProperties {
@@ -498,10 +482,6 @@ export interface ClusterCreateProperties {
    * The minimal supported tls version.
    */
   minSupportedTlsVersion?: string;
-  /**
-   * The network settings.
-   */
-  networkSettings?: NetworkSettings;
 }
 
 /**
@@ -697,10 +677,6 @@ export interface ClusterGetProperties {
    * The minimal supported tls version.
    */
   minSupportedTlsVersion?: string;
-  /**
-   * The network settings.
-   */
-  networkSettings?: NetworkSettings;
 }
 
 /**
@@ -1624,22 +1600,6 @@ export type DirectoryType = 'ActiveDirectory';
  * @enum {string}
  */
 export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-
-/**
- * Defines values for PublicNetworkAccess.
- * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
- * @readonly
- * @enum {string}
- */
-export type PublicNetworkAccess = 'InboundAndOutbound' | 'OutboundOnly';
-
-/**
- * Defines values for OutboundOnlyPublicNetworkAccessType.
- * Possible values include: 'PublicLoadBalancer', 'UDR'
- * @readonly
- * @enum {string}
- */
-export type OutboundOnlyPublicNetworkAccessType = 'PublicLoadBalancer' | 'UDR';
 
 /**
  * Defines values for OSType.

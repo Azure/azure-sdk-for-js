@@ -34,7 +34,6 @@ export {
   HardwareProfile,
   KafkaRestProperties,
   LinuxOperatingSystemProfile,
-  NetworkSettings,
   OsProfile,
   ProxyResource,
   QuotaInfo,

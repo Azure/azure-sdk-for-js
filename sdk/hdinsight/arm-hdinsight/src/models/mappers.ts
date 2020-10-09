@@ -682,28 +682,6 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSettings: msRest.CompositeMapper = {
-  serializedName: "NetworkSettings",
-  type: {
-    name: "Composite",
-    className: "NetworkSettings",
-    modelProperties: {
-      publicNetworkAccess: {
-        serializedName: "publicNetworkAccess",
-        type: {
-          name: "String"
-        }
-      },
-      outboundOnlyPublicNetworkAccessType: {
-        serializedName: "outboundOnlyPublicNetworkAccessType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DiskEncryptionProperties: msRest.CompositeMapper = {
   serializedName: "DiskEncryptionProperties",
   type: {
@@ -853,13 +831,6 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
         serializedName: "minSupportedTlsVersion",
         type: {
           name: "String"
-        }
-      },
-      networkSettings: {
-        serializedName: "networkSettings",
-        type: {
-          name: "Composite",
-          className: "NetworkSettings"
         }
       }
     }
@@ -1208,13 +1179,6 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
         serializedName: "minSupportedTlsVersion",
         type: {
           name: "String"
-        }
-      },
-      networkSettings: {
-        serializedName: "networkSettings",
-        type: {
-          name: "Composite",
-          className: "NetworkSettings"
         }
       }
     }
