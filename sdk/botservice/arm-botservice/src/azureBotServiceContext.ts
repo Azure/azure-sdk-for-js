@@ -44,7 +44,7 @@ export class AzureBotServiceContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2018-07-12';
+    this.apiVersion = '2020-06-02';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
