@@ -12,7 +12,7 @@ import {
 } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
-describe("PhoneNumber - Long Running Operations - Phone Number Reservations [Playback/Live]", function() {
+describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
   let includePhoneNumberLiveTests: boolean;

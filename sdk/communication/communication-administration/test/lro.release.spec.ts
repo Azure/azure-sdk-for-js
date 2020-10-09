@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { PhoneNumberAdministrationClient, PhoneNumberRelease } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
-describe("PhoneNumber - Long Running Operations - Release [Playback/Live]", function() {
+describe("PhoneNumber - LROs - Release [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
   let includePhoneNumberLiveTests: boolean;

@@ -11,7 +11,7 @@ import {
 } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
-describe("PhoneNumber - Long Running Operations - Purchase Reservation [Playback/Live]", function() {
+describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function() {
   let recorder: Recorder;
   let client: PhoneNumberAdministrationClient;
   let includePhoneNumberLiveTests: boolean;
