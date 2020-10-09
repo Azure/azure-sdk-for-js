@@ -7,42 +7,57 @@ import { AmqpError } from "rhea-promise";
 /**
  * The @azure/logger configuration for this package.
  * This will output logs using the `azure:service-bus` namespace prefix.
+ * @internal
+ * @ignore
  */
 export const logger = createServiceBusLogger("service-bus");
 
 /**
  * Logging for ServiceBusReceivers of any type (session, non-session)
+ * @internal
+ * @ignore
  */
 export const receiverLogger = createServiceBusLogger("service-bus:receiver");
 
 /**
  * Logging for ServiceBusSenders
+ * @internal
+ * @ignore
  */
 export const senderLogger = createServiceBusLogger("service-bus:sender");
 
 /**
  * Logging for connection management
+ * @internal
+ * @ignore
  */
 export const connectionLogger = createServiceBusLogger("service-bus:connection");
 
 /**
  * Logging for the ServiceBusAdministrationClient
+ * @internal
+ * @ignore
  */
 export const administrationLogger = createServiceBusLogger("service-bus:administration");
 
 /**
  * Logging related to message encoding/decoding.
+ * @internal
+ * @ignore
  */
 export const messageLogger = createServiceBusLogger("service-bus:messages");
 
 /**
  * Logging related to message encoding/decoding.
+ * @internal
+ * @ignore
  */
 export const managementClientLogger = createServiceBusLogger("service-bus:management");
 
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
  * @param error Error containing a stack trace.
+ * @internal
  * @ignore
  */
 export function logErrorStackTrace(_logger: AzureLogger, error: any) {
