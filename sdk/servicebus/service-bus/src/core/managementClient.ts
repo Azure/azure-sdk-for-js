@@ -228,18 +228,20 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         target: { address: this.replyTo },
         onSessionError: (context: EventContext) => {
           const id = context.connection.options.id;
-          const ehError = translate(context.session!.error!);
+          const sbError = translate(context.session!.error!);
           logError(
-            ehError,
+            sbError,
             "[%s] An error occurred on the session for request/response links for " +
               "$management: %O",
             id,
-            ehError
+            sbError
           );
         }
       };
       const sropt: SenderOptions = { target: { address: this.address } };
 
+      // If multiple parallel requests reach here, the initLink secures a lock
+      // which ensures that there won't be multiple initializations
       await this.initLink(
         {
           senderOptions: sropt,
@@ -248,31 +250,43 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         abortSignal
       );
 
-      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
-        const id = context.connection.options.id;
-        const ehError = translate(context.sender!.error!);
-        logError(
-          ehError,
-          "[%s] An error occurred on the $management sender link.. %O",
-          id,
-          ehError
-        );
-      });
-      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-        const id = context.connection.options.id;
-        const ehError = translate(context.receiver!.error!);
-        logError(
-          ehError,
-          "[%s] An error occurred on the $management receiver link.. %O",
-          id,
-          ehError
-        );
-      });
+      // Attach listeners for the `sender_error` and `receiver_error` events to log the errors.
+      //  - It is possible that the previous "_init" call had already added the listeners
+      //    (example: parallel _init calls can cause this),
+      //    hence checking the count of the listeners and adding them only if they're not present.
+      const senderErrorListenerCount = this.link?.sender.listenerCount(SenderEvents.senderError);
+      const receiverErrorListenerCount = this.link?.receiver.listenerCount(
+        ReceiverEvents.receiverError
+      );
+      if (senderErrorListenerCount && senderErrorListenerCount < 1) {
+        this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const sbError = translate(context.sender!.error!);
+          logError(
+            sbError,
+            "[%s] An error occurred on the $management sender link.. %O",
+            id,
+            sbError
+          );
+        });
+      }
+      if (receiverErrorListenerCount && receiverErrorListenerCount < 1) {
+        this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const sbError = translate(context.receiver!.error!);
+          logError(
+            sbError,
+            "[%s] An error occurred on the $management receiver link.. %O",
+            id,
+            sbError
+          );
+        });
+      }
     } catch (err) {
       err = translate(err);
       logError(
         err,
-        "[%s] An error occured while establishing the $management links: %O",
+        "[%s] An error occurred while establishing the $management links: %O",
         this._context.connectionId,
         err
       );
