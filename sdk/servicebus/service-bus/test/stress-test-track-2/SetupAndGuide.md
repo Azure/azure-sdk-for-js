@@ -3,8 +3,7 @@
 Before running the code,
 
 - Setup the `SERVICEBUS_CONNECTION_STRING` environment variable. (Queue resource will be created in the beginning for the test period and teared down at the end)
-- Install the `@azure/service-bus` package in this folder
-  Do `npm install @azure/service-bus@next`
+- Run `npm` install` in this folder to install the Service Bus package that should be stress tested.
 
 ### Scenarios
 
