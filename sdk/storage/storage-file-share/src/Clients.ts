@@ -1132,12 +1132,23 @@ export class ShareClient extends StorageClient {
       };
 
       for (const identifier of response) {
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
+
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
+
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
+        }
+
         res.signedIdentifiers.push({
-          accessPolicy: {
-            expiresOn: new Date(identifier.accessPolicy!.expiresOn!),
-            permissions: identifier.accessPolicy!.permissions!,
-            startsOn: new Date(identifier.accessPolicy!.startsOn!)
-          },
+          accessPolicy,
           id: identifier.id
         });
       }
@@ -1182,9 +1193,13 @@ export class ShareClient extends StorageClient {
       for (const identifier of shareAcl || []) {
         acl.push({
           accessPolicy: {
-            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
+            expiresOn: identifier.accessPolicy?.expiresOn
+              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+              : undefined,
+            permissions: identifier.accessPolicy?.permissions,
+            startsOn: identifier.accessPolicy?.startsOn
+              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+              : undefined
           },
           id: identifier.id
         });
