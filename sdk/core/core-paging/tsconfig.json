@@ -7,7 +7,7 @@
     "declarationMap": false,
     "sourceMap": false,
     "inlineSources": false,
-    "outDir": "./dist-esm",
+    "outDir": "./dist",
     "resolveJsonModule": true
   },
   "exclude": ["node_modules"],

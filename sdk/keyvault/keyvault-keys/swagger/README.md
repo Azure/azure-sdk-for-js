@@ -15,3 +15,18 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f9caf92
 output-folder: ../
 source-code-folder-path: ./src/generated
 ```
+
+## Customizations for Track 2 Generator
+
+See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
+for more about how we're customizing things.
+
+### Rename aad as KeyOperationsParameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyOperationsParameters.properties.aad
+    transform: >
+      $["x-ms-client-name"] = "additionalAuthenticatedData";
+```

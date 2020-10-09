@@ -35,12 +35,12 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
-    super(context, _entityPath, "br", options);
+  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(context, entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      _entityPath,
+      entityPath,
       async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
@@ -118,12 +118,23 @@ export class BatchingReceiver extends MessageReceiver {
         this.name
       );
 
-      return await this._batchingReceiverLite.receiveMessages({
+      const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
         userAbortSignal
       });
+
+      if (this._lockRenewer) {
+        for (const message of messages) {
+          this._lockRenewer.start(this, message, (_error) => {
+            // the auto lock renewer already logs this in a detailed way. So this hook is mainly here
+            // to potentially forward the error to the user (which we're not doing yet)
+          });
+        }
+      }
+
+      return messages;
     } catch (error) {
       logError(
         error,
@@ -139,7 +150,7 @@ export class BatchingReceiver extends MessageReceiver {
   static create(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions
+    options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);

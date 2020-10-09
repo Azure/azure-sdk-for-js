@@ -7,7 +7,8 @@ import {
   SearchMode,
   FacetResult,
   AutocompleteMode,
-  IndexActionType
+  IndexActionType,
+  ScoringStatistics
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -27,6 +28,37 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
  * Options for retrieving suggestions based on the searchText.
  */
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
+
+/**
+ * Options for SearchIndexingBufferedSender.
+ */
+export interface SearchIndexingBufferedSenderOptions {
+  /**
+   * Indicates if autoFlush is enabled.
+   */
+  autoFlush?: boolean;
+}
+
+/**
+ * Options for SearchIndexingBufferedSenderUploadDocuments.
+ */
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderMergeDocuments.
+ */
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderMergeOrUploadDocuments.
+ */
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderDeleteDocuments.
+ */
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+/**
+ * Options for SearchIndexingBufferedSenderFlushDocuments.
+ */
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
 
 /**
  * Options for retrieving a single document.
@@ -153,6 +185,22 @@ export interface SearchRequest {
    */
   queryType?: QueryType;
   /**
+   * A value that specifies whether we want to calculate scoring statistics (such as document
+   * frequency) globally for more consistent scoring, or locally, for lower latency. The default is
+   * 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global
+   * scoring statistics can increase latency of search queries. Possible values include: 'Local',
+   * 'Global'
+   */
+  scoringStatistics?: ScoringStatistics;
+  /**
+   * A value to be used to create a sticky session, which can help getting more consistent results.
+   * As long as the same sessionId is used, a best-effort attempt will be made to target the same
+   * replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the
+   * load balancing of the requests across replicas and adversely affect the performance of the
+   * search service. The value used as sessionId cannot start with a '_' character.
+   */
+  sessionId?: string;
+  /**
    * The list of parameter values to be used in scoring functions (for example,
    * referencePointParameter) using the format name-values. For example, if the scoring profile
    * defines a function with a parameter called 'mylocation' the parameter string would be
@@ -276,6 +324,20 @@ export interface SearchRequestOptions<Fields> {
    * count the document as a match. Possible values include: 'any', 'all'
    */
   searchMode?: SearchMode;
+  /**
+   * A value that specifies whether we want to calculate scoring statistics (such as document
+   * frequency) globally for more consistent scoring, or locally, for lower latency. Possible
+   * values include: 'Local', 'Global'
+   */
+  scoringStatistics?: ScoringStatistics;
+  /**
+   * A value to be used to create a sticky session, which can help to get more consistent results.
+   * As long as the same sessionId is used, a best-effort attempt will be made to target the same
+   * replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the
+   * load balancing of the requests across replicas and adversely affect the performance of the
+   * search service. The value used as sessionId cannot start with a '_' character.
+   */
+  sessionId?: string;
   /**
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.

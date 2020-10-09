@@ -50,6 +50,6 @@ export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2018-01-01-preview";
+    this.apiVersion = options.apiVersion || "2020-09-01-preview";
   }
 }

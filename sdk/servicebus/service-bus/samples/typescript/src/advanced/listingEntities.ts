@@ -122,5 +122,6 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("Error running sample:", err.message);
+  console.log("Error occurred: ", err);
+  process.exit(1);
 });

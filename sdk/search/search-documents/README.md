@@ -141,7 +141,7 @@ An item stored inside a search index. The shape of this document is described in
 
 ### Pagination
 
-Typically you will only wish to [show a subset of search results](https://docs.microsoft.com/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalResultCount` parameters to provide a paged experience on top of search results.
+Typically you will only wish to [show a subset of search results](https://docs.microsoft.com/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalCount` parameters to provide a paged experience on top of search results.
 
 ### Document field encoding
 

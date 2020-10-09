@@ -50,7 +50,7 @@ describe("odata", () => {
   });
 
   it("bool", () => {
-    let x: boolean = true;
+    const x: boolean = true;
     assert.strictEqual(odata`Foo eq ${x}`, "Foo eq true");
     assert.strictEqual(odata`Foo eq ${true}`, "Foo eq true");
   });

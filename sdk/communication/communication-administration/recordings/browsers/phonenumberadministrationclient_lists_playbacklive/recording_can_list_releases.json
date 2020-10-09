@@ -1,0 +1,24 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases",
+      "query": {
+        "skip": "0",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"entities\":[{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:26:27.8090563+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:24:32.6798496+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:23:21.6530804+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:20:29.7346818+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:20:06.562253+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:14:24.6662992+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-02T22:14:17.7449264+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Failed\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "8ee9733a608b4eacfe34d7e8bb2ac5d1"
+}

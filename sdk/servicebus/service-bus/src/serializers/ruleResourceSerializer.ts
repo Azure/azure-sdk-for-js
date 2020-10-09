@@ -250,7 +250,7 @@ const TypeMapForRequestSerialization: Record<string, string> = {
   int: "l28:int",
   string: "l28:string",
   long: "l28:long",
-  date: "l28:date",
+  date: "l28:dateTime",
   boolean: "l28:boolean"
 };
 
@@ -261,7 +261,8 @@ const TypeMapForRequestSerialization: Record<string, string> = {
 const TypeMapForResponseDeserialization: Record<string, string> = {
   number: "int",
   string: "string",
-  boolean: "boolean"
+  boolean: "boolean",
+  date: "dateTime"
 };
 
 /**
@@ -325,6 +326,8 @@ function getKeyValuePairsOrUndefined(
         properties[rawProperty.Key] = rawProperty.Value["_"];
       } else if (encodedValueType === TypeMapForResponseDeserialization.boolean) {
         properties[rawProperty.Key] = rawProperty.Value["_"] === "true" ? true : false;
+      } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
+        properties[rawProperty.Key] = new Date(rawProperty.Value["_"]);
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
@@ -376,6 +379,9 @@ export function buildInternalRawKeyValuePairs(
       type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {
       type = TypeMapForRequestSerialization.boolean;
+    } else if (value instanceof Date && !isNaN(value.valueOf())) {
+      type = TypeMapForRequestSerialization.date;
+      value = value.toJSON();
     } else {
       throw new TypeError(
         `Unsupported type for the value in the ${attribute} for the key '${key}'`

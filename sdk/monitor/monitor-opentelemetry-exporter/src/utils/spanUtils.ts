@@ -5,7 +5,6 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
-import { Envelope, Base } from "../Declarations/Contracts";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -31,7 +30,7 @@ import { getInstance } from "../platform";
 import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
-import { RemoteDependencyData, RequestData } from "../generated";
+import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -190,31 +189,35 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
 
 export function readableSpanToEnvelope(
   span: ReadableSpan,
-  instrumentationKey: string,
+  ikey: string,
   logger?: Logger
 ): Envelope {
-  const envelope = new Envelope();
-  envelope.data = new Base();
+  let name: string;
+  let baseType: "RemoteDependencyData" | "RequestData";
+  const sampleRate = 100;
+  let baseData: RemoteDependencyData | RequestData;
+
+  const time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
+  const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
-  let data;
   switch (span.kind) {
     case SpanKind.CLIENT:
     case SpanKind.PRODUCER:
-      envelope.name = "Microsoft.ApplicationInsights.RemoteDependency";
-      envelope.data.baseType = "RemoteDependencyData";
-      data = createDependencyData(span);
+      name = "Microsoft.ApplicationInsights.RemoteDependency";
+      baseType = "RemoteDependencyData";
+      baseData = createDependencyData(span);
       break;
     case SpanKind.SERVER:
     case SpanKind.CONSUMER:
-      envelope.name = "Microsoft.ApplicationInsights.Request";
-      envelope.data.baseType = "RequestData";
-      data = createRequestData(span);
+      name = "Microsoft.ApplicationInsights.Request";
+      baseType = "RequestData";
+      baseData = createRequestData(span);
       break;
     case SpanKind.INTERNAL:
-      envelope.data.baseType = "RemoteDependencyData";
-      envelope.name = "Microsoft.ApplicationInsights.RemoteDependency";
-      data = createInProcData(span);
+      baseType = "RemoteDependencyData";
+      name = "Microsoft.ApplicationInsights.RemoteDependency";
+      baseData = createInProcData(span);
       break;
     default:
       // never
@@ -224,22 +227,31 @@ export function readableSpanToEnvelope(
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  envelope.data.baseData = { ...data, properties, measurements };
-  envelope.tags = tags;
-  envelope.time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
-  envelope.iKey = instrumentationKey;
-  envelope.ver = 1;
-
   if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-    parseEventHubSpan(span, envelope);
+    parseEventHubSpan(span, baseData);
   } else if (span.attributes[AzNamespace]) {
     switch (span.kind) {
       case SpanKind.INTERNAL:
-        envelope.data.baseData.type = `${INPROC} | ${span.attributes[AzNamespace]}`;
+        (baseData as RemoteDependencyData).type = `${INPROC} | ${span.attributes[AzNamespace]}`;
         break;
       default: // no op
     }
   }
 
-  return envelope;
+  return {
+    name,
+    sampleRate,
+    time,
+    instrumentationKey,
+    tags,
+    version: 1,
+    data: {
+      baseType,
+      baseData: {
+        ...baseData,
+        properties,
+        measurements
+      }
+    }
+  };
 }

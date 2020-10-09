@@ -29,6 +29,13 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
+                    - task: PowerShell@2
+                      displayName: Prep template pipeline for release
+                      condition: and(succeeded(),eq(variables['TestPipeline'],'true'))
+                      inputs:
+                        pwsh: true
+                        workingDirectory: $(Build.SourcesDirectory)
+                        filePath: eng/scripts/SetTestPipelineVersion.ps1
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -203,7 +210,9 @@ stages:
     dependsOn: ${{parameters.DependsOn}}
     jobs:
     - job: PublishPackages
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
+      # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
         vmImage: ubuntu-18.04

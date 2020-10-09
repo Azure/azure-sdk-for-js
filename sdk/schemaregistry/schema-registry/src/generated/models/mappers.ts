@@ -34,26 +34,26 @@ export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSchemaType: {
-        serializedName: "x-schema-type",
+      serializationType: {
+        serializedName: "serialization-type",
         type: {
           name: "String"
         }
       },
-      xSchemaId: {
-        serializedName: "x-schema-id",
+      schemaId: {
+        serializedName: "schema-id",
         type: {
           name: "String"
         }
       },
-      xSchemaIdLocation: {
-        serializedName: "x-schema-id-location",
+      schemaIdLocation: {
+        serializedName: "schema-id-location",
         type: {
           name: "String"
         }
       },
-      xSchemaVersion: {
-        serializedName: "x-schema-version",
+      schemaVersion: {
+        serializedName: "schema-version",
         type: {
           name: "Number"
         }
@@ -73,26 +73,26 @@ export const SchemaQueryIdByContentHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSchemaType: {
-        serializedName: "x-schema-type",
+      serializationType: {
+        serializedName: "serialization-type",
         type: {
           name: "String"
         }
       },
-      xSchemaId: {
-        serializedName: "x-schema-id",
+      schemaId: {
+        serializedName: "schema-id",
         type: {
           name: "String"
         }
       },
-      xSchemaIdLocation: {
-        serializedName: "x-schema-id-location",
+      schemaIdLocation: {
+        serializedName: "schema-id-location",
         type: {
           name: "String"
         }
       },
-      xSchemaVersion: {
-        serializedName: "x-schema-version",
+      schemaVersion: {
+        serializedName: "schema-version",
         type: {
           name: "Number"
         }
@@ -112,26 +112,26 @@ export const SchemaRegisterHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSchemaType: {
-        serializedName: "x-schema-type",
+      serializationType: {
+        serializedName: "serialization-type",
         type: {
           name: "String"
         }
       },
-      xSchemaId: {
-        serializedName: "x-schema-id",
+      schemaId: {
+        serializedName: "schema-id",
         type: {
           name: "String"
         }
       },
-      xSchemaIdLocation: {
-        serializedName: "x-schema-id-location",
+      schemaIdLocation: {
+        serializedName: "schema-id-location",
         type: {
           name: "String"
         }
       },
-      xSchemaVersion: {
-        serializedName: "x-schema-version",
+      schemaVersion: {
+        serializedName: "schema-version",
         type: {
           name: "Number"
         }

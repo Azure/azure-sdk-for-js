@@ -9,7 +9,7 @@ package-name: azure-communication-administration-identity
 title: CommunicationIdentityConfigurationClient
 override-client-name: GeneratedCommunicationIdentityClient
 description: Communication identity configuration client
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.3
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/communicationIdentity/generated

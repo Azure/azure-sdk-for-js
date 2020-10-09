@@ -142,4 +142,5 @@ async function receiveMessage() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

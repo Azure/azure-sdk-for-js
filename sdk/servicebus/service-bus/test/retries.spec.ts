@@ -18,6 +18,7 @@ import {
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { InternalReceiveMode } from "../src/serviceBusMessage";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -49,7 +50,7 @@ describe("Retries - ManagementClient", () => {
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -331,7 +332,7 @@ describe("Retries - Receive methods", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -353,7 +354,11 @@ describe("Retries - Receive methods", () => {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
         (receiver as any)._context,
-        "dummyEntityPath"
+        "dummyEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: InternalReceiveMode.peekLock
+        }
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
@@ -443,7 +448,7 @@ describe("Retries - onDetached", () => {
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {

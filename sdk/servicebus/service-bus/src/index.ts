@@ -19,19 +19,16 @@ export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
   CreateReceiverOptions,
-  CreateSessionReceiverOptions,
+  AcceptSessionOptions,
   GetMessageIteratorOptions,
-  MessageHandlerOptions,
-  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SessionSubscribeOptions,
   SubQueue,
   SubscribeOptions
 } from "./models";
-export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
 export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
 export { ServiceBusSender } from "./sender";
@@ -76,4 +73,4 @@ export {
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus } from "./util/utils";
+export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";

@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { FileSystemPersist } from "../../../../../src/platform/nodejs/persist/fileSystemPersist";
-import { Envelope } from "../../../../../src/Declarations/Contracts";
+import { TelemetryItem as Envelope } from "../../../../../src/generated";
 import { promisify } from "util";
 
 const statAsync = promisify(fs.stat);
@@ -73,8 +73,12 @@ describe("FileSystemPersist", () => {
 
   describe("#push()", () => {
     it("should store to disk the value provided", async () => {
+      const envelope: Envelope = {
+        name: "name",
+        time: new Date().toISOString()
+      };
       const persister = new FileSystemPersist({ instrumentationKey });
-      const envelopes = [new Envelope()];
+      const envelopes = [envelope];
       const success = await persister.push(envelopes);
       assert.strictEqual(success, true);
 

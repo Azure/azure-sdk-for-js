@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "1.0.0-beta.2";
+export const SDK_VERSION: string = "1.0.0-beta.3";
 export const LIB_INFO = `azsdk-js-data-tables/${SDK_VERSION}`;
 
 export const HeaderConstants = {
@@ -9,8 +9,10 @@ export const HeaderConstants = {
   CONTENT_LENGTH: "content-length",
   CONTENT_MD5: "content-md5",
   CONTENT_TYPE: "content-type",
+  CONTENT_TRANSFER_ENCODING: "content-transfer-encoding",
   DATE: "date",
-  X_MS_DATE: "x-ms-date"
+  X_MS_DATE: "x-ms-date",
+  X_MS_VERSION: "x-ms-version"
 };
 
 export const TablesLoggingAllowedHeaderNames = [

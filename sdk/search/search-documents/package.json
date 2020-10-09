@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "11.0.4",
+  "version": "11.1.0-beta.1",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -60,7 +60,7 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "Azure",
+    "azure",
     "cloud"
   ],
   "author": "Microsoft Corporation",
@@ -80,7 +80,8 @@
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "events": "^3.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -94,16 +95,10 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-no-null": "^1.0.2",
-    "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",

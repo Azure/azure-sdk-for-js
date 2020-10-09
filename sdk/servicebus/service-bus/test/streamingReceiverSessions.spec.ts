@@ -34,7 +34,7 @@ describe("Streaming with sessions", () => {
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -77,30 +77,23 @@ describe("Streaming with sessions", () => {
     receiver = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
-              sessionId: TestMessage.sessionId,
+          ? await serviceBusClient.acceptSession(entityNames.queue, TestMessage.sessionId, {
               receiveMode: "receiveAndDelete"
             })
-          : await serviceBusClient.createSessionReceiver(
+          : await serviceBusClient.acceptSession(
               entityNames.topic!,
               entityNames.subscription!,
+              TestMessage.sessionId,
               {
-                // TODO: we should just be able to randomly generate this. Change _soon_.
-                sessionId: TestMessage.sessionId,
                 receiveMode: "receiveAndDelete"
               }
             )
         : entityNames.queue
-        ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
-            sessionId: TestMessage.sessionId
-          })
-        : await serviceBusClient.createSessionReceiver(
+        ? await serviceBusClient.acceptSession(entityNames.queue, TestMessage.sessionId)
+        : await serviceBusClient.acceptSession(
             entityNames.topic!,
             entityNames.subscription!,
-            {
-              // TODO: we should just be able to randomly generate this. Change _soon_.
-              sessionId: TestMessage.sessionId
-            }
+            TestMessage.sessionId
           )
     );
     return entityNames;
@@ -117,9 +110,10 @@ describe("Streaming with sessions", () => {
         sessionId: TestMessage.sessionId
       });
 
-      const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
-        sessionId: TestMessage.sessionId
-      });
+      const actualReceiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+        entities,
+        TestMessage.sessionId
+      );
       const { subscriber, messages } = await singleMessagePromise(actualReceiver);
 
       messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
@@ -144,7 +138,7 @@ describe("Streaming with sessions", () => {
 
       await actualReceiver.close(); // release the session lock
 
-      const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entities);
 
       // clean out the remaining message that never arrived.
       const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
@@ -797,7 +791,7 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
     }
 

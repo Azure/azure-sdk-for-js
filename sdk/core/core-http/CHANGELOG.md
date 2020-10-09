@@ -1,7 +1,19 @@
 # Release History
 
-## 1.1.9 (Unreleased)
+## 1.1.10 (Unreleased)
 
+
+## 1.1.9 (2020-09-30)
+
+- Add support for XML namespaces in deserialization [PR 11201](https://github.com/Azure/azure-sdk-for-js/pull/11201)
+
+- Add support for NDJSON format [PR 11325](https://github.com/Azure/azure-sdk-for-js/pull/11325)
+
+- Add support for `NO_PROXY` and `ALL_PROXY` environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
+
+- Serializer now resolves `additionalProperties` correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
+
+- Empty wrapped XML element lists are no properly de-serialized. This fixes [issue 11071](https://github.com/Azure/azure-sdk-for-js/issues/11071)
 
 ## 1.1.8 (2020-09-08)
 

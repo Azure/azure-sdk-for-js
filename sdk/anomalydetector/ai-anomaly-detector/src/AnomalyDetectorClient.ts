@@ -29,6 +29,10 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 
+export type DetectEntireSeriesOptions = OperationOptions;
+export type DetectLastPointOptions = OperationOptions;
+export type DetectChangePointOptions = OperationOptions;
+
 /**
  * Client class for interacting with Azure Anomaly Detector service.
  */
@@ -64,7 +68,6 @@ export class AnomalyDetectorClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: AnomalyDetectorClientOptions
   ) {
     this.endpointUrl = endpointUrl;
@@ -110,8 +113,7 @@ export class AnomalyDetectorClient {
    */
   public detectEntireSeries(
     body: DetectRequest,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: DetectEntireSeriesOptions
   ): Promise<AnomalyDetectorClientDetectEntireResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -142,8 +144,7 @@ export class AnomalyDetectorClient {
    */
   public detectLastPoint(
     body: DetectRequest,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: DetectLastPointOptions
   ): Promise<AnomalyDetectorClientDetectLastPointResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -172,8 +173,7 @@ export class AnomalyDetectorClient {
    */
   detectChangePoint(
     body: DetectChangePointRequest,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: DetectChangePointOptions
   ): Promise<AnomalyDetectorClientDetectChangePointResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(

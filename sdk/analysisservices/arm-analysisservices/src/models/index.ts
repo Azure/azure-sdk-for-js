@@ -268,7 +268,7 @@ export interface IPv4FirewallSettings {
    */
   firewallRules?: IPv4FirewallRule[];
   /**
-   * @member {string} [enablePowerBIService] The indicator of enableing PBI
+   * @member {string} [enablePowerBIService] The indicator of enabling PBI
    * service.
    */
   enablePowerBIService?: string;
@@ -387,7 +387,7 @@ export interface CheckServerNameAvailabilityParameters {
 /**
  * @interface
  * An interface representing CheckServerNameAvailabilityResult.
- * The checking result of server name availibility.
+ * The checking result of server name availability.
  *
  */
 export interface CheckServerNameAvailabilityResult {
@@ -590,15 +590,15 @@ export type ServersGetDetailsResponse = AnalysisServicesServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServer;
+  };
 };
 
 /**
@@ -609,15 +609,15 @@ export type ServersCreateResponse = AnalysisServicesServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServer;
+  };
 };
 
 /**
@@ -628,15 +628,15 @@ export type ServersUpdateResponse = AnalysisServicesServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServer;
+  };
 };
 
 /**
@@ -647,15 +647,15 @@ export type ServersListByResourceGroupResponse = AnalysisServicesServers & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServers;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServers;
+  };
 };
 
 /**
@@ -666,15 +666,15 @@ export type ServersListResponse = AnalysisServicesServers & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServers;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServers;
+  };
 };
 
 /**
@@ -685,15 +685,15 @@ export type ServersListSkusForNewResponse = SkuEnumerationForNewResourceResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuEnumerationForNewResourceResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuEnumerationForNewResourceResult;
+  };
 };
 
 /**
@@ -704,15 +704,15 @@ export type ServersListSkusForExistingResponse = SkuEnumerationForExistingResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuEnumerationForExistingResourceResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuEnumerationForExistingResourceResult;
+  };
 };
 
 /**
@@ -723,15 +723,15 @@ export type ServersListGatewayStatusResponse = GatewayListStatusLive & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayListStatusLive;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayListStatusLive;
+  };
 };
 
 /**
@@ -742,15 +742,15 @@ export type ServersCheckNameAvailabilityResponse = CheckServerNameAvailabilityRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckServerNameAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckServerNameAvailabilityResult;
+  };
 };
 
 /**
@@ -761,15 +761,15 @@ export type ServersListOperationStatusesResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -780,15 +780,15 @@ export type ServersBeginCreateResponse = AnalysisServicesServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServer;
+  };
 };
 
 /**
@@ -799,15 +799,15 @@ export type ServersBeginUpdateResponse = AnalysisServicesServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalysisServicesServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalysisServicesServer;
+  };
 };
 
 /**
@@ -818,15 +818,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -837,13 +837,13 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
