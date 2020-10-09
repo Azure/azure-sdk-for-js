@@ -80,7 +80,11 @@ export async function scenarioPeekMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     let fromSequenceNumber = undefined;
     while (elapsedTime < testDurationInMs) {
-      const peekedMessages = await stressBase.peekMessages(receiver, peekMaxMessageCount);
+      const peekedMessages = await stressBase.peekMessages(
+        receiver,
+        peekMaxMessageCount,
+        fromSequenceNumber
+      );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
       const numberOfMessages = peekedMessages.length;
       fromSequenceNumber =
