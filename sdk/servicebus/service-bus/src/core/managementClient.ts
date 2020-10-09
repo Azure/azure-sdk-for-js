@@ -240,8 +240,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       const sropt: SenderOptions = { target: { address: this.address } };
 
-      // If multiple parallel requests reach here, the initLink secures a lock
-      // which ensures that there won't be multiple initializations
+      // Even if multiple parallel requests reach here, the initLink secures a lock
+      // to ensure there won't be multiple initializations
       await this.initLink(
         {
           senderOptions: sropt,
