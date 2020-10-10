@@ -12,6 +12,8 @@ import {
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { ConfigurationSetting, GeneratedClient } from "./generated";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 // re-export generated types that are used as public interfaces.
 export { ConfigurationSetting };
@@ -72,9 +74,66 @@ export class ConfigurationClient {
     options?: GetConfigurationSettingOptions
   ): Promise<ConfigurationSetting>;
   public async getConfigurationSetting(
-    _keyOrSetting: string | ConfigurationSetting,
-    _options: GetConfigurationSettingOptions = {}
+    keyOrSetting: string | ConfigurationSetting,
+    options: GetConfigurationSettingOptions = {}
   ): Promise<ConfigurationSetting> {
-    throw new Error("Not yet implemented.");
+    let key: string;
+    let ifNoneMatch: string | undefined;
+
+    if (typeof keyOrSetting === "string") {
+      key = keyOrSetting;
+      if (options.onlyIfChanged) {
+        throw new RangeError(
+          "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch."
+        );
+      }
+    } else {
+      key = keyOrSetting.key;
+      const etag = keyOrSetting.etag;
+      if (options.onlyIfChanged) {
+        ifNoneMatch = quoteETag(etag);
+      }
+    }
+    const { span, updatedOptions } = createSpan(
+      // Here you set the name of the span, usually clientName-operationName
+      "ConfigurationClient-getConfigurationSetting",
+      options
+    );
+    try {
+      const result = await this.client.getKeyValue(key, {
+        ...updatedOptions,
+        ifNoneMatch
+      });
+      return result;
+    } catch (e) {
+      // There are different standard codes available for different errors:
+      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
+}
+
+// This is important because the etag inside the body of the configuration object
+// isn't quoted, even though the header is.
+function quoteETag(etag: string | undefined): string | undefined {
+  // https://tools.ietf.org/html/rfc7232#section-3.1
+  if (etag === undefined || etag === "*") {
+    return etag;
+  }
+
+  if (etag.startsWith('"') && etag.endsWith('"')) {
+    return etag;
+  }
+
+  if (etag.startsWith("'") && etag.endsWith("'")) {
+    return etag;
+  }
+
+  return `"${etag}"`;
 }
