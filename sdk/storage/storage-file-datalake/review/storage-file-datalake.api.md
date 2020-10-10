@@ -156,7 +156,7 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export class DataLakeAclChangeFailedError extends Error {
     constructor(error: RestError | Error, continuationToken?: string);
     continuationToken?: string;
-    internalError: RestError | Error;
+    innerError: RestError | Error;
 }
 
 // @public

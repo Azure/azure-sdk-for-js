@@ -10,7 +10,7 @@ import {
   DataLakeFileSystemClient,
   DataLakeServiceClient,
   PathAccessControlItem,
-  PathPermissions
+  PathPermissions,
 } from "../../src";
 import { toAcl, toRemoveAcl } from "../../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
@@ -591,8 +591,9 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         }
       );
     } catch (err) {
-      assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(err.name, "DataLakeAclChangeFailedError");
+      assert.equal(err.innerError.name, "AbortError");
+      assert.equal(err.innerError.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
 
     const result = await directoryClient.setAccessControlRecursive(
@@ -709,5 +710,78 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     assert.deepStrictEqual(undefined, removeResult.continuationToken);
   });
 
-  it("setAccessControlRecursive should work with progress failures - TODO", async () => {});
+  it("setAccessControlRecursive should work with progress failures", async () => {
+    // Manually execution needed
+    // TODO: Cannot set up environment to reproduce progress failure due to service change
+    // Blob Data Contributor unexpectedly doesn't have permission for setRecursiveAcl API
+    // Check with feature team
+    
+    // /directory
+    // /directory/subdirectory1
+    // /directory/subdirectory1/fileName1
+    // /directory/subdirectory1/fileName2
+    // /directory/subdirectory2/fileName3
+    // /directory/subdirectory2/fileName4
+    // Service client with SharedKey authentication creates following directories and files
+    // /directory/subdirectory1/fileName5
+    // /directory/subdirectory2/fileName6
+
+    /*
+
+    const token = "";
+    const fileSystemClientOAuth = new DataLakeFileSystemClient(fileSystemClient.url, new SimpleTokenCredential(token));
+
+    const directoryName = recorder.getUniqueName("directory");
+    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
+    const fileName1 = recorder.getUniqueName("fileName1");
+    const fileName2 = recorder.getUniqueName("fileName2");
+    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
+    const fileName3 = recorder.getUniqueName("fileName3");
+    const fileName4 = recorder.getUniqueName("fileName4");
+    const fileName5 = recorder.getUniqueName("fileName5");
+    const fileName6 = recorder.getUniqueName("fileName6");
+
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const directoryClientOAuth = fileSystemClientOAuth.getDirectoryClient(directoryName);
+    const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
+    const subDirectoryClientOAuth1 = directoryClientOAuth.getSubdirectoryClient(subDirectoryName1);
+    const fileClientOAuth1 = subDirectoryClientOAuth1.getFileClient(fileName1);
+    const fileClientOAuth2 = subDirectoryClientOAuth1.getFileClient(fileName2);
+    const fileClient5 = subDirectoryClient1.getFileClient(fileName5);
+    const subDirectoryClient2 = directoryClient.getSubdirectoryClient(subDirectoryName2);
+    const subDirectoryClientOAuth2 = directoryClientOAuth.getSubdirectoryClient(subDirectoryName2);
+    const fileClientOAuth3 = subDirectoryClientOAuth2.getFileClient(fileName3);
+    const fileClientOAuth4 = subDirectoryClientOAuth2.getFileClient(fileName4);
+    const fileClient6 = subDirectoryClient2.getFileClient(fileName6);
+
+    await directoryClientOAuth.create();
+    await subDirectoryClientOAuth1.create();
+    await subDirectoryClientOAuth2.create();
+
+    await fileClientOAuth1.create();
+    await fileClientOAuth2.create();
+    await fileClientOAuth3.create();
+    await fileClientOAuth4.create();
+    await fileClient5.create();
+    await fileClient6.create();
+    
+    // let continuation;
+    // let midProgress: AccessControlChanges;
+
+    await directoryClientOAuth.setAccessControlRecursive(
+        toAcl(
+          "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        ),
+        {
+          batchSize: 2,
+          // onProgress: (progress) => {
+            // midProgress = progress;
+            // continuation = progress.continuationToken;
+          // },
+          continueOnFailure: true
+        }
+      );
+
+    */
+  });
 });
