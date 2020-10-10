@@ -12,9 +12,9 @@ import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from 
 import { receiverLogger as logger } from "../log";
 import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
-import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { SubscribeOptions } from "../models";
+import { ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
@@ -45,7 +45,7 @@ export interface ReceiveOptions extends SubscribeOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
@@ -99,7 +99,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -145,7 +145,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     });
 
     this.receiverType = receiverType;
-    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -161,11 +161,11 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this.baseName) : this.name,
-      autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
+      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
       source: {
         address: this.address
       },
