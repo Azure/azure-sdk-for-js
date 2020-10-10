@@ -673,7 +673,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 });
 
-describe("Shared Access Signature (SAS) generation Node.js only for directory SAS", () => {
+describe("SAS generation Node.js only for directory SAS", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
   let fileSystemClient: DataLakeFileSystemClient;
@@ -860,7 +860,7 @@ describe("Shared Access Signature (SAS) generation Node.js only for directory SA
   });
 });
 
-describe("Shared Access Signature (SAS) generation Node.js only for delegation SAS", () => {
+describe("SAS generation Node.js only for delegation SAS", () => {
   let recorder: Recorder;
   let oauthServiceClient: DataLakeServiceClient;
   let fileSystemClient: DataLakeFileSystemClient;
