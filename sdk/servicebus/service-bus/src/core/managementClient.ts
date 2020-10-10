@@ -226,17 +226,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         name: this.replyTo,
         target: { address: this.replyTo },
         onSessionError: (context: EventContext) => {
-          const sbError = translate(context.session!.error!);
+          const ehError = translate(context.session!.error!);
           managementClientLogger.logError(
-            sbError,
+            ehError,
             `${this.logPrefix} An error occurred on the session for request/response links for $management`
           );
         }
       };
       const sropt: SenderOptions = { target: { address: this.address } };
 
-      // Even if multiple parallel requests reach here, the initLink secures a lock
-      // to ensure there won't be multiple initializations
       await this.initLink(
         {
           senderOptions: sropt,
@@ -245,37 +243,25 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         abortSignal
       );
 
-      // Attach listeners for the `sender_error` and `receiver_error` events to log the errors.
-      //  - It is possible that the previous "_init" call had already added the listeners
-      //    (example: parallel _init calls can cause this),
-      //    hence checking the count of the listeners and adding them only if they're not present.
-      const senderErrorListenerCount = this.link?.sender.listenerCount(SenderEvents.senderError);
-      const receiverErrorListenerCount = this.link?.receiver.listenerCount(
-        ReceiverEvents.receiverError
-      );
-      if (senderErrorListenerCount && senderErrorListenerCount < 1) {
-        this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
-          const ehError = translate(context.sender!.error!);
-          managementClientLogger.logError(
-            ehError,
-            `${this.logPrefix} An error occurred on the $management sender link`
-          );
-        });
-      }
-      if (receiverErrorListenerCount && receiverErrorListenerCount < 1) {
-        this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const ehError = translate(context.receiver!.error!);
-          managementClientLogger.logError(
-            ehError,
-            `${this.logPrefix} An error occurred on the $management receiver link`
-          );
-        });
-      }
+      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+        const ehError = translate(context.sender!.error!);
+        managementClientLogger.logError(
+          ehError,
+          `${this.logPrefix} An error occurred on the $management sender link`
+        );
+      });
+      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+        const ehError = translate(context.receiver!.error!);
+        managementClientLogger.logError(
+          ehError,
+          `${this.logPrefix} An error occurred on the $management receiver link`
+        );
+      });
     } catch (err) {
       err = translate(err);
       managementClientLogger.logError(
         err,
-        `${this.logPrefix} An error occurred while establishing the $management links`
+        `${this.logPrefix} An error occured while establishing the $management links`
       );
       throw err;
     }
