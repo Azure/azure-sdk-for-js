@@ -1162,7 +1162,7 @@ export class BlobServiceClient extends StorageClient {
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
-      include
+      ...(include.length > 0 ? { include } : {})
     };
 
     const iter = this.listItems(listSegmentOptions);
