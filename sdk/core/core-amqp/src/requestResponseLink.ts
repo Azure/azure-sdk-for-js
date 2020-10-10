@@ -43,9 +43,12 @@ export interface SendRequestOptions {
  * @internal
  * @ignore
  */
-interface DeferredPromiseAndCleanupMethod {
+interface DeferredPromiseWithCallback {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
+  /**
+   * To be called before resolving or rejecting the deferred promise
+   */
   cleanupBeforeResolveOrReject: () => void;
 }
 
@@ -74,9 +77,9 @@ export class RequestResponseLink implements ReqResLink {
    * are being actively returned. It acts as a store for correlating the responses received for
    * the send requests.
    */
-  private _responsesMap: Map<string, DeferredPromiseAndCleanupMethod> = new Map<
+  private _responsesMap: Map<string, DeferredPromiseWithCallback> = new Map<
     string,
-    DeferredPromiseAndCleanupMethod
+    DeferredPromiseWithCallback
   >();
 
   /**
@@ -259,7 +262,7 @@ const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
  */
 export function onMessageReceived(
   context: EventContext,
-  responsesMap: Map<string, DeferredPromiseAndCleanupMethod>
+  responsesMap: Map<string, DeferredPromiseWithCallback>
 ): void {
   const message = context.message;
   if (message) {
@@ -267,7 +270,7 @@ export function onMessageReceived(
     if (responsesMap.has(responseCorrelationId as string)) {
       const promise = responsesMap.get(
         responseCorrelationId as string
-      ) as DeferredPromiseAndCleanupMethod;
+      ) as DeferredPromiseWithCallback;
       promise.cleanupBeforeResolveOrReject();
 
       const info = getCodeDescriptionAndError(message.application_properties);
