@@ -8,7 +8,6 @@ import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
@@ -31,6 +30,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
+import { receiverLogger as logger } from "../log";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -114,6 +114,10 @@ export class ServiceBusSessionReceiverImpl<
    */
   private _isClosed: boolean = false;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|session:${this.entityPath}]`;
+  }
+
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
@@ -136,7 +140,7 @@ export class ServiceBusSessionReceiverImpl<
       if (this._isClosed) {
         const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        logError(error, `[${this._context.connectionId}] %O`, error);
+        logger.logError(error, `${this.logPrefix} already closed`);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -151,7 +155,7 @@ export class ServiceBusSessionReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is already receiving.`);
       throw error;
     }
   }
@@ -479,13 +483,11 @@ export class ServiceBusSessionReceiverImpl<
     try {
       await this._messageSession.close();
     } catch (err) {
-      logError(
+      logger.logError(
         err,
-        "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
-        this._context.connectionId,
-        this.sessionId,
-        this.entityPath,
-        err
+        "%s An error occurred while closing the SessionReceiver for session %s",
+        this.logPrefix,
+        this.sessionId
       );
       throw err;
     } finally {

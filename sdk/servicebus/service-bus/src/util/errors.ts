@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../log";
+import { logger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
-import { AmqpError } from "rhea-promise";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -197,30 +196,4 @@ export function throwTypeErrorIfParameterIsEmptyString(
  */
 export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
   return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
-}
-
-/**
- * @internal
- * @ignore
- */
-export function logError(err: Error | AmqpError | undefined, ...args: any[]): void {
-  let l: typeof logger.info;
-
-  if (isError(err) && err.name === "AbortError") {
-    l = logger.info;
-  } else {
-    l = logger.warning;
-  }
-
-  l(...args);
-
-  logErrorStackTrace(err);
-}
-
-/**
- * @internal
- * @ignore
- */
-function isError(err: Error | AmqpError | undefined): err is Error {
-  return err != null && (err as any).name != null;
 }
