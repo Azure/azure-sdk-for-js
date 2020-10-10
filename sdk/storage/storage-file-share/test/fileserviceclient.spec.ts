@@ -334,8 +334,8 @@ describe("FileServiceClient", () => {
       cors: serviceProperties.cors,
       minuteMetrics: serviceProperties.minuteMetrics,
       hourMetrics: serviceProperties.hourMetrics
-    }
-    
+    };
+
     await serviceClient.setProperties(newServiceProperties);
     await delay(5 * 1000);
 

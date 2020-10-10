@@ -350,7 +350,8 @@ export const deleteSnapshots: coreHttp.OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: [
-        "include"
+        "include",
+        "include-leased"
       ]
     }
   }

@@ -150,7 +150,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = 'include';
+export type DeleteSnapshotsOptionType = 'include' | 'include-leased';
 
 export { deserializationPolicy }
 
