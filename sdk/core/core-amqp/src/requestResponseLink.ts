@@ -68,7 +68,7 @@ export class RequestResponseLink implements ReqResLink {
     this.sender = sender;
     this.receiver = receiver;
     this.receiver.on(ReceiverEvents.message, (context) => {
-      onMessageReceived(context, this._responsesMap);
+      onMessageReceived(context, this.connection, this._responsesMap);
     });
   }
 
@@ -262,6 +262,7 @@ const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
  */
 export function onMessageReceived(
   context: EventContext,
+  connection: Connection,
   responsesMap: Map<string, DeferredPromiseWithCallback>
 ): void {
   const message = context.message;
@@ -279,7 +280,7 @@ export function onMessageReceived(
         const deleteResult = responsesMap.delete(responseCorrelationId as string);
         logger.verbose(
           "%s Successfully deleted the response with id %s from the map.",
-          context.connection.id,
+          connection.id,
           responseCorrelationId,
           deleteResult
         );
