@@ -24,6 +24,7 @@ import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
 import {
   getDataLakeServiceClient,
+  getDataLakeServiceClientWithDefualtCredential,
   getTokenDataLakeServiceClient,
   recorderEnvSetup
 } from "../utils";
@@ -860,7 +861,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
   });
 });
 
-describe("SAS generation Node.js only for delegation SAS", () => {
+describe.only("SAS generation Node.js only for delegation SAS", () => {
   let recorder: Recorder;
   let oauthServiceClient: DataLakeServiceClient;
   let fileSystemClient: DataLakeFileSystemClient;
@@ -895,7 +896,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     recorder = record(this, recorderEnvSetup);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
-      oauthServiceClient = getTokenDataLakeServiceClient();
+      oauthServiceClient = getDataLakeServiceClientWithDefualtCredential();
     } catch (err) {
       console.log(err);
       this.skip();
