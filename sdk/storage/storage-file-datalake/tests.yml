@@ -7,6 +7,7 @@ extends:
     ResourceServiceDirectory: storage
     TimeoutInMinutes: 90
     ResourceGroupLocation: canadacentral
+    SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
