@@ -421,7 +421,7 @@ describe("LeaseClient for share", () => {
   it("acquireLease again with same lease id", async () => {
     const leaseClient = shareClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
-    leaseClient.acquireLease(infiniteDuration);
+    await leaseClient.acquireLease(infiniteDuration);
 
     await leaseClient.releaseLease();
   });
