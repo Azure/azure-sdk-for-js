@@ -57,7 +57,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/azure-template.js",
+      file: "dist-browser/azure-learn-implementation.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
