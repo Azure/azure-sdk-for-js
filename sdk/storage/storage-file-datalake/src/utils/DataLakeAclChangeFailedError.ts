@@ -24,12 +24,12 @@ export class DataLakeAclChangeFailedError extends Error {
    * @type {(RestError | Error)}
    * @memberof DataLakeAclChangeFailedError
    */
-  public internalError: RestError | Error;
+  public innerError: RestError | Error;
 
   constructor(error: RestError | Error, continuationToken?: string) {
     super(error.message);
     this.name = "DataLakeAclChangeFailedError";
-    this.internalError = error;
+    this.innerError = error;
     this.continuationToken = continuationToken;
     Object.setPrototypeOf(this, DataLakeAclChangeFailedError.prototype);
   }
