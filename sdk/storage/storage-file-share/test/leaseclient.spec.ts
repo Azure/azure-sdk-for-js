@@ -389,6 +389,8 @@ describe("LeaseClient for share", () => {
     assert.equal(result.leaseDuration, undefined);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
+
+    await leaseClient.releaseLease();
   });
 
   it("acquireLease without proposed lease id, with a finite duration", async () => {

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0-prerelease.1 (2020-10-13)
+## 12.2.0-beta.1 (2020-10-13)
 
 - Updated Azure Storage Service API version to 2020-02-10.
 - Added support for Directory SAS.

@@ -329,7 +329,14 @@ describe("FileServiceClient", () => {
       serviceProperties.cors.push(newCORS);
     }
 
-    await serviceClient.setProperties(serviceProperties);
+    // SMB multi-channel is returned by getProperties() even when the feature is not supproted on the account.
+    const newServiceProperties = {
+      cors: serviceProperties.cors,
+      minuteMetrics: serviceProperties.minuteMetrics,
+      hourMetrics: serviceProperties.hourMetrics
+    }
+    
+    await serviceClient.setProperties(newServiceProperties);
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
