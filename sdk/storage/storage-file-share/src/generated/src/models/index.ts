@@ -588,7 +588,7 @@ export interface ShareDeleteMethodOptionalParams extends coreHttp.RequestOptions
   timeoutInSeconds?: number;
   /**
    * Specifies the option include to delete the base share and all of its snapshots. Possible
-   * values include: 'include'
+   * values include: 'include', 'include-leased'
    */
   deleteSnapshots?: DeleteSnapshotsOptionType;
   /**
@@ -3477,11 +3477,11 @@ export type PermissionCopyModeType = 'source' | 'override';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
- * Possible values include: 'include'
+ * Possible values include: 'include', 'include-leased'
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = 'include';
+export type DeleteSnapshotsOptionType = 'include' | 'include-leased';
 
 /**
  * Defines values for ListSharesIncludeType.
