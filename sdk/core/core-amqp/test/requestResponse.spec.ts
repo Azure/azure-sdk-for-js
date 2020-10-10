@@ -584,7 +584,8 @@ describe("RequestResponseLink", function() {
         },
         createReceiver: () => {
           return Promise.resolve({
-            close: fake()
+            close: fake(),
+            on: () => {}
           });
         }
       } as any);
