@@ -51,9 +51,11 @@
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "fullAccountName": "[concat('f', parameters('baseName'))]",
+    "premiumFileAccountName": "[concat('pf', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
     "datalakeAccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
     "fullAccountNameTidy": "[toLower(trim(variables('fullAccountName')))]",
+    "premiumFileAccountNameTidy": "[toLower(trim(variables('premiumFileAccountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
@@ -293,6 +295,46 @@
           "dependsOn": ["[variables('fullAccountName')]"]
         }
       ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('premiumFileAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Premium_LRS"
+      },
+      "kind": "FileStorage",
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "fileservices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "dependsOn": ["[variables('premiumFileAccountName')]"]
+        }
+      ]
     }
   ],
   "outputs": {
@@ -365,6 +407,22 @@
       "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "CONTAINER_SOFT_DELETE_STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+    },
+    "PREMIUM_FILE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('fullAccountName')]"
+    },
+    "PREMIUM_FILE_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "PREMIUM_FILE_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "PREMIUM_FILE_STORAGE_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     }
