@@ -693,6 +693,9 @@ function generateBlobSASQueryParametersUDK20181109(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
+    undefined, // preauthorizedAgentObjectId
+    undefined, // agentObjectId
+    undefined, // correlationId
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     version,
