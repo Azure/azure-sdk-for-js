@@ -54,7 +54,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it.only("Set blob tags should work", async function() {
+  it("Set blob tags should work", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -80,11 +80,6 @@ describe("BlobClient", () => {
   });
 
   it("Get blob tags should work with a snapshot", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -99,11 +94,6 @@ describe("BlobClient", () => {
   });
 
   it("Create block blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     await blockBlobClient.delete();
 
     const tags = {
@@ -117,11 +107,6 @@ describe("BlobClient", () => {
   });
 
   it("Create append blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -136,11 +121,6 @@ describe("BlobClient", () => {
   });
 
   it("Create page blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"

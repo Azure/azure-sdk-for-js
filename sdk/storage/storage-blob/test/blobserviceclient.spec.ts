@@ -472,11 +472,6 @@ describe("BlobServiceClient", () => {
   });
 
   it("Find blob by tags should work", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container1");
