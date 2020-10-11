@@ -54,12 +54,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it("Set blob tags should work", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
+  it.only("Set blob tags should work", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
