@@ -55,6 +55,38 @@ export class Providers {
   }
 
   /**
+   * Registers a management group with a resource provider.
+   * @param resourceProviderNamespace The namespace of the resource provider to register.
+   * @param groupId The management group ID.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider to register.
+   * @param groupId The management group ID.
+   * @param callback The callback
+   */
+  registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider to register.
+   * @param groupId The management group ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceProviderNamespace,
+        groupId,
+        options
+      },
+      registerAtManagementGroupScopeOperationSpec,
+      callback);
+  }
+
+  /**
    * Registers a subscription with a resource provider.
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param [options] The optional parameters
@@ -262,6 +294,28 @@ const unregisterOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Provider
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const registerAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/{resourceProviderNamespace}/register",
+  urlParameters: [
+    Parameters.resourceProviderNamespace,
+    Parameters.groupId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
