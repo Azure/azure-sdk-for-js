@@ -106,6 +106,9 @@ export function getDataLakeServiceClientWithDefualtCredential(
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   let accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
 
   const credential = new DefaultAzureCredential();
   const pipeline = newPipeline(credential, {
