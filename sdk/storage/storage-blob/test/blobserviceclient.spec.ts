@@ -13,7 +13,6 @@ import {
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { Tags } from "../src/models";
-import { isNode } from "@azure/core-http";
 dotenv.config();
 
 describe("BlobServiceClient", () => {
