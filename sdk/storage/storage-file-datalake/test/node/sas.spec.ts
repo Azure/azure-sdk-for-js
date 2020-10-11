@@ -861,6 +861,9 @@ describe("SAS generation Node.js only for directory SAS", () => {
   });
 });
 
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
+
 describe.only("SAS generation Node.js only for delegation SAS", () => {
   let recorder: Recorder;
   let oauthServiceClient: DataLakeServiceClient;
