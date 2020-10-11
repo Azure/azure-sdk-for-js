@@ -172,26 +172,6 @@
       "kind": "StorageV2",
       "properties": {
         "isHnsEnabled": true,
-        "cors": {
-          "corsRules": [
-            {
-              "allowedOrigins": ["*"],
-              "allowedMethods": [
-                "DELETE",
-                "GET",
-                "HEAD",
-                "MERGE",
-                "POST",
-                "OPTIONS",
-                "PUT",
-                "PATCH"
-              ],
-              "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            }
-          ]
-        },
         "networkAcls": {
           "bypass": "AzureServices",
           "virtualNetworkRules": [],
@@ -224,26 +204,6 @@
       },
       "kind": "StorageV2",
       "properties": {
-        "cors": {
-          "corsRules": [
-            {
-              "allowedOrigins": ["*"],
-              "allowedMethods": [
-                "DELETE",
-                "GET",
-                "HEAD",
-                "MERGE",
-                "POST",
-                "OPTIONS",
-                "PUT",
-                "PATCH"
-              ],
-              "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            }
-          ]
-        },
         "networkAcls": {
           "bypass": "AzureServices",
           "virtualNetworkRules": [],
@@ -285,7 +245,27 @@
             "changeFeed": {
               "enabled": true
             },
-            "isVersioningEnabled": true
+            "isVersioningEnabled": true,
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
           },
           "dependsOn": ["[variables('fullAccountName')]"]
         },
@@ -297,6 +277,17 @@
             "shareDeleteRetentionPolicy": {
               "enabled": true,
               "days": 7
+            },
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
             }
           },
           "dependsOn": ["[variables('fullAccountName')]"]
