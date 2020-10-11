@@ -544,7 +544,7 @@ describe("BlobServiceClient", () => {
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 
-  it("setProperties for static website", async () => {
+  it.only("setProperties for static website", async () => {
     const errorDocument404Path = "error/404.html";
     const defaultIndexDocumentPath = "index.html";
 
@@ -563,7 +563,7 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function() {
+  it.only("restore container", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
@@ -596,7 +596,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("restore container to a new name", async function() {
+  it.only("restore container to a new name", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
