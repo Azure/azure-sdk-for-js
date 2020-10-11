@@ -566,7 +566,7 @@ describe("BlobServiceClient", () => {
   it("restore container", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
-      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
     } catch (err) {
       this.skip();
     }
@@ -599,7 +599,7 @@ describe("BlobServiceClient", () => {
   it("restore container to a new name", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
-      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
     } catch (err) {
       this.skip();
     }

@@ -67,7 +67,7 @@ Write-Host "Creating SAS for full storage account $fullStorageAccount"
 $storageContext = New-AzStorageContext -StorageAccountName $fullStorageAccount -StorageAccountKey $DeploymentOutputs['FULL_ACCOUNT_KEY']
 $storageSas = New-AzStorageAccountSASToken -ResourceType Service, Container, Object -Service Blob, File, Queue, Table -Permission "rwdxftlacup" -Context $storageContext
 $AdditionalEnvKeys["FULL_ACCOUNT_SAS"] = $storageSas
-$AdditionalEnvKeys["CONTAINER_SOFT_DELETE_ACCOUNT_SAS"] = $storageSas
+$AdditionalEnvKeys["SOFT_DELETE_ACCOUNT_SAS"] = $storageSas
 
 # Try to detect the shell based on the parent process name (e.g. launch via shebang).
 $shell, $shellExportFormat = if (($parentProcessName = (Get-Process -Id $PID).Parent.ProcessName) -and $parentProcessName -eq 'cmd') {

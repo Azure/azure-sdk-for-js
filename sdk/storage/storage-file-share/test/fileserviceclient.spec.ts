@@ -395,7 +395,7 @@ describe("FileServiceClient", () => {
   });
 });
 
-describe("FileServiceClient", () => {
+describe.only("FileServiceClient", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 

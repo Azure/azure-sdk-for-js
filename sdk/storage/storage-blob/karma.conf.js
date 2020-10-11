@@ -68,8 +68,8 @@ module.exports = function(config) {
       "ENCRYPTION_SCOPE_2",
       "ORS_DEST_ACCOUNT_NAME",
       "ORS_DEST_ACCOUNT_SAS",
-      "CONTAINER_SOFT_DELETE_ACCOUNT_NAME",
-      "CONTAINER_SOFT_DELETE_ACCOUNT_SAS"
+      "SOFT_DELETE_ACCOUNT_NAME",
+      "SOFT_DELETE_ACCOUNT_SAS"
     ],
 
     // test results reporter to use

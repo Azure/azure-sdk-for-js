@@ -394,19 +394,19 @@
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
-    "CONTAINER_SOFT_DELETE_ACCOUNT_NAME": {
+    "SOFT_DELETE_ACCOUNT_NAME": {
       "type": "string",
       "value": "[variables('fullAccountName')]"
     },
-    "CONTAINER_SOFT_DELETE_ACCOUNT_KEY": {
+    "SOFT_DELETE_ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value]"
     },
-    "CONTAINER_SOFT_DELETE_ACCOUNT_SAS": {
+    "SOFT_DELETE_ACCOUNT_SAS": {
       "type": "string",
       "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
-    "CONTAINER_SOFT_DELETE_STORAGE_CONNECTION_STRING": {
+    "SOFT_DELETE_STORAGE_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
