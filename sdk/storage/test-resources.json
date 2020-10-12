@@ -285,12 +285,15 @@
       "name": "[variables('premiumFileAccountName')]",
       "location": "[variables('location')]",
       "sku": {
-        "name": "Premium_LRS"
+        "name": "Premium_LRS",
+        "tier": "Premium"
       },
       "kind": "FileStorage",
       "properties": {
         "networkAcls": "[variables('networkAcls')]",
-        "supportsHttpsTrafficOnly": true
+        "supportsHttpsTrafficOnly": true,
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
       },
       "resources": [
         {
