@@ -204,6 +204,6 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
       sbMessage._amqpAnnotatedMessage.properties?.replyToGroupId,
       sbMessage.replyToSessionId
     );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, sbMessage.label);
+    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, sbMessage.subject);
   });
 });

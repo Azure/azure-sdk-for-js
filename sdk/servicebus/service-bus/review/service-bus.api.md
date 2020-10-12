@@ -202,7 +202,7 @@ export { MessagingError }
 // @public
 export interface NamespaceProperties {
     createdAt: Date;
-    messagingSku: string;
+    messagingSku: "Basic" | "Premium" | "Standard";
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
@@ -363,21 +363,22 @@ export interface ServiceBusClientOptions {
 
 // @public
 export interface ServiceBusMessage {
+    applicationProperties?: {
+        [key: string]: number | boolean | string | Date;
+    };
     body: any;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
-    properties?: {
-        [key: string]: number | boolean | string | Date;
-    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
+    subject?: string;
     timeToLive?: number;
     to?: string;
+    userId?: string;
     viaPartitionKey?: string;
 }
 
@@ -420,7 +421,7 @@ export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMes
     defer(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
-    renewLock(): Promise<Date>;
+    renewMessageLock(): Promise<Date>;
 }
 
 // @public
@@ -472,7 +473,7 @@ export type SqlRuleAction = {
 
 // @public
 export interface SqlRuleFilter {
-    sqlExpression?: string;
+    sqlExpression: string;
     sqlParameters?: {
         [key: string]: string | number | boolean;
     };

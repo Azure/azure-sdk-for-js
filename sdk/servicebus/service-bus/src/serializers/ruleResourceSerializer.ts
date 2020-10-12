@@ -143,7 +143,7 @@ export interface SqlRuleFilter {
    * SQL expression to use in the rule filter.
    * Defaults to creating a true filter if none specified
    */
-  sqlExpression?: string;
+  sqlExpression: string;
 
   /**
    * SQL parameters to the SQL expression in the rule filter.

@@ -200,7 +200,7 @@ export interface ServiceBusMessage {
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
-  label?: string;
+  subject?: string;
   /**
    * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
@@ -229,7 +229,12 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  properties?: { [key: string]: number | boolean | string | Date };
+  applicationProperties?: { [key: string]: number | boolean | string | Date };
+
+  /**
+   * @property The identity of the user producing the message.
+   */
+  userId?: string;
 }
 
 /**
@@ -369,7 +374,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
     return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
 
-  if (msg.label != null && typeof msg.label !== "string") {
+  if (msg.subject != null && typeof msg.subject !== "string") {
     return new TypeError("The property 'label' on the message must be of type 'string'");
   }
 
@@ -427,8 +432,8 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     body: msg.body,
     message_annotations: {}
   };
-  if (msg.properties != null) {
-    amqpMsg.application_properties = msg.properties;
+  if (msg.applicationProperties != null) {
+    amqpMsg.application_properties = msg.applicationProperties;
   }
   if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
@@ -447,8 +452,8 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.to != null) {
     amqpMsg.to = msg.to;
   }
-  if (msg.label != null) {
-    amqpMsg.subject = msg.label;
+  if (msg.subject != null) {
+    amqpMsg.subject = msg.subject;
   }
   if (msg.messageId != null) {
     if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
@@ -492,6 +497,11 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
+
+  if (msg.userId != null) {
+    amqpMsg.user_id = msg.userId;
+  }
+
   logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
@@ -701,7 +711,7 @@ export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMes
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  renewLock(): Promise<Date>;
+  renewMessageLock(): Promise<Date>;
 }
 
 /**
@@ -724,7 +734,7 @@ export function fromAmqpMessage(
   };
 
   if (msg.application_properties != null) {
-    sbmsg.properties = msg.application_properties;
+    sbmsg.applicationProperties = msg.application_properties;
   }
   if (msg.content_type != null) {
     sbmsg.contentType = msg.content_type;
@@ -742,7 +752,7 @@ export function fromAmqpMessage(
     sbmsg.timeToLive = msg.ttl;
   }
   if (msg.subject != null) {
-    sbmsg.label = msg.subject;
+    sbmsg.subject = msg.subject;
   }
   if (msg.message_id != null) {
     sbmsg.messageId = msg.message_id;
@@ -794,6 +804,10 @@ export function fromAmqpMessage(
     props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
   }
 
+  if (msg.user_id != null) {
+    sbmsg.userId = msg.user_id;
+  }
+
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
     _delivery: delivery,
@@ -812,8 +826,8 @@ export function fromAmqpMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    deadLetterReason: sbmsg.properties?.DeadLetterReason,
-    deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
+    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason,
+    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
   };
 
   logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
@@ -866,7 +880,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
   /**
    * @property The application specific properties.
    */
-  properties?: { [key: string]: any };
+  applicationProperties?: { [key: string]: any };
   /**
    * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -938,7 +952,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
-  label?: string;
+  subject?: string;
   /**
    * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
@@ -1152,7 +1166,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  async renewLock(): Promise<Date> {
+  async renewMessageLock(): Promise<Date> {
     let associatedLinkName: string | undefined;
     let error: Error | undefined;
     if (this.sessionId) {
@@ -1197,7 +1211,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       body: this.body,
       contentType: this.contentType,
       correlationId: this.correlationId,
-      label: this.label,
+      subject: this.subject,
       messageId: this.messageId,
       partitionKey: this.partitionKey,
       replyTo: this.replyTo,
@@ -1206,7 +1220,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      properties: this.properties,
+      applicationProperties: this.applicationProperties,
       viaPartitionKey: this.viaPartitionKey
     };
 

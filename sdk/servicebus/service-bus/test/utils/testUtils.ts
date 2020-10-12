@@ -21,11 +21,11 @@ export class TestMessage {
       contentType: `content type ${randomTag}`,
       correlationId: `correlation id ${randomTag}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomTag}`,
+      subject: `label ${randomTag}`,
       to: `to ${randomTag}`,
       replyTo: `reply to ${randomTag}`,
       scheduledEnqueueTimeUtc: new Date(),
-      properties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
         propThree: true,
@@ -43,11 +43,11 @@ export class TestMessage {
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
+      subject: `label ${randomNumber}`,
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      properties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -67,13 +67,13 @@ export class TestMessage {
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
-    if (sent.properties) {
-      if (!received.properties) {
+    if (sent.applicationProperties) {
+      if (!received.applicationProperties) {
         chai.assert.fail("Received message doesnt have any user properties");
         return;
       }
-      const expectedUserProperties = sent.properties;
-      const receivedUserProperties = received.properties;
+      const expectedUserProperties = sent.applicationProperties;
+      const receivedUserProperties = received.applicationProperties;
       Object.keys(expectedUserProperties).forEach((key) => {
         chai.assert.equal(
           receivedUserProperties[key],

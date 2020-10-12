@@ -1735,6 +1735,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options with a single property",
     input: {
       filter: {
+        sqlExpression: "",
         correlationId: "abcd",
         properties: {
           randomState: "WA"
@@ -1767,6 +1768,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
+        sqlExpression: "",
         correlationId: "abcd",
         properties: {
           randomState: "WA",

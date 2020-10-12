@@ -23,16 +23,16 @@ export function instrumentServiceBusMessage(
   message: ServiceBusMessage,
   span: Span
 ): ServiceBusMessage {
-  if (message.properties && message.properties[TRACEPARENT_PROPERTY]) {
+  if (message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return message;
   }
 
   // create a copy so the original isn't modified
-  message = { ...message, properties: { ...message.properties } };
+  message = { ...message, applicationProperties: { ...message.applicationProperties } };
 
   const traceParent = getTraceParentHeader(span.context());
   if (traceParent) {
-    message.properties![TRACEPARENT_PROPERTY] = traceParent;
+    message.applicationProperties![TRACEPARENT_PROPERTY] = traceParent;
   }
 
   return message;
@@ -47,10 +47,10 @@ export function instrumentServiceBusMessage(
 export function extractSpanContextFromServiceBusMessage(
   message: ServiceBusMessage
 ): SpanContext | undefined {
-  if (!message.properties || !message.properties[TRACEPARENT_PROPERTY]) {
+  if (!message.applicationProperties || !message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return;
   }
 
-  const diagnosticId = message.properties[TRACEPARENT_PROPERTY] as string;
+  const diagnosticId = message.applicationProperties[TRACEPARENT_PROPERTY] as string;
   return extractSpanContextFromTraceParentHeader(diagnosticId);
 }

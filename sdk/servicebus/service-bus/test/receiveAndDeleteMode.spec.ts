@@ -309,7 +309,7 @@ describe("receive and delete", () => {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
       // have to cast it - the type system doesn't allow us to call into this method otherwise.
-      await (msg as ServiceBusReceivedMessageWithLock).renewLock().catch((err) => {
+      await (msg as ServiceBusReceivedMessageWithLock).renewMessageLock().catch((err) => {
         should.equal(
           err.message,
           getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
@@ -516,7 +516,7 @@ describe("receive and delete", () => {
       // as your lock mode.
 
       // have to cast it - the type system doesn't allow us to call into this method otherwise.
-      await (deferredMsg as ServiceBusReceivedMessageWithLock).renewLock().catch((err) => {
+      await (deferredMsg as ServiceBusReceivedMessageWithLock).renewMessageLock().catch((err) => {
         should.equal(
           err.message,
           getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
