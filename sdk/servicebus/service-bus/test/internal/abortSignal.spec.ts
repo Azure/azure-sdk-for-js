@@ -24,12 +24,12 @@ import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { MessageSession } from "../../src/session/messageSession";
-import { InternalReceiveMode } from "../../src/serviceBusMessage";
+import { ReceiveMode } from "../../src";
 
 describe("AbortSignal", () => {
   const defaultOptions = {
     lockRenewer: undefined,
-    receiveMode: InternalReceiveMode.peekLock
+    receiveMode: <ReceiveMode>"peekLock"
   };
 
   const testMessageThatDoesntMatter = {
