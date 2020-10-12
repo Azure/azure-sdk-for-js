@@ -209,6 +209,13 @@ export const BigDataPoolResourceInfo: msRest.CompositeMapper = {
           className: "LibraryRequirements"
         }
       },
+      sparkConfigProperties: {
+        serializedName: "properties.sparkConfigProperties",
+        type: {
+          name: "Composite",
+          className: "LibraryRequirements"
+        }
+      },
       sparkVersion: {
         serializedName: "properties.sparkVersion",
         type: {

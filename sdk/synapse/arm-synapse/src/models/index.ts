@@ -140,6 +140,10 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
    */
   libraryRequirements?: LibraryRequirements;
   /**
+   * Spark configuration file to specify additional properties
+   */
+  sparkConfigProperties?: LibraryRequirements;
+  /**
    * The Apache Spark version.
    */
   sparkVersion?: string;
