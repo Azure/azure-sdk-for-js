@@ -200,6 +200,25 @@ export class CustomDomains {
    */
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: Models.CustomDomainsEnableCustomHttpsOptionalParams, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
+    if (typeof options === "function") {
+      callback = options;
+      options = undefined;
+    }
+
+    if (!options) {
+      options = {};
+    }
+    
+    if (!options.customDomainHttpsParameters) {
+      options.customDomainHttpsParameters = {
+                        certificateSource: "Cdn",
+                        certificateSourceParameters: {
+                            certificateType: "Dedicated"
+                        },
+                        protocolType: "ServerNameIndication"
+                    }
+    }
+    
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
