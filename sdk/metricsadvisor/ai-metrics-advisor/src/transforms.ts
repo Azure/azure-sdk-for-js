@@ -39,10 +39,10 @@ import {
   MySqlDataFeedSource,
   PostgreSqlDataFeedSource,
   SQLServerDataFeedSource,
-  HookUnion,
+  NotificationHookUnion,
   DataFeedRollupSettings,
   MetricFeedbackCommon,
-  HookCommon,
+  NotificationHook,
   ElasticsearchDataFeedSource,
   AnomalyAlertConfiguration,
   MetricAnomalyAlertScope,
@@ -396,8 +396,8 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
   }
 }
 
-export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUnion {
-  const common: HookCommon = {
+export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): NotificationHookUnion {
+  const common: NotificationHook = {
     id: original.id,
     name: original.name,
     description: original.description,
@@ -407,7 +407,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUn
   switch (original.hookType) {
     case "Email": {
       const orig1 = original as EmailHookInfo;
-      const result1: HookUnion = {
+      const result1: NotificationHookUnion = {
         ...common,
         hookType: "Email",
         hookParameter: orig1.hookParameter
@@ -416,7 +416,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUn
     }
     case "Webhook": {
       const orig2 = original as WebhookHookInfo;
-      const result2: HookUnion = {
+      const result2: NotificationHookUnion = {
         ...common,
         hookType: "Webhook",
         hookParameter: orig2.hookParameter

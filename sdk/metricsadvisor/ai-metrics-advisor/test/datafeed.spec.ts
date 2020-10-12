@@ -13,8 +13,8 @@ import {
   DataFeedPatch,
   DataFeedSchema,
   DataFeedSource,
-  Dimension,
-  Metric,
+  DataFeedDimension,
+  DataFeedMetric,
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorKeyCredential
 } from "../src";
@@ -98,7 +98,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   let createdPostGreSqlId: string;
 
   describe("DataFeed", async () => {
-    const metric: Metric[] = [
+    const metric: DataFeedMetric[] = [
       {
         name: "Metric1",
         displayName: "Metric1",
@@ -110,7 +110,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         description: ""
       }
     ];
-    const dimension: Dimension[] = [
+    const dimension: DataFeedDimension[] = [
       { name: "Dim1", displayName: "Dim1 display" },
       { name: "Dim2", displayName: "Dim2 display" }
     ];

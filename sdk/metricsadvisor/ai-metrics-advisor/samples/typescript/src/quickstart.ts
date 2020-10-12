@@ -12,17 +12,17 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   DataFeedSchema,
-  Metric,
-  Dimension,
+  DataFeedMetric,
+  DataFeedDimension,
   DataFeedIngestionSettings,
   DataFeedGranularity,
   DataFeedSource,
   DataFeedOptions,
   GetDataFeedResponse,
   MetricsAdvisorClient,
-  WebhookHook,
+  WebNotificationHook,
   MetricAlertConfiguration,
-  Alert
+  AnomalyAlert
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -94,7 +94,7 @@ async function createDataFeed(
   sqlServerConnectionString: string,
   sqlServerQuery: string
 ): Promise<GetDataFeedResponse> {
-  const metric: Metric[] = [
+  const metric: DataFeedMetric[] = [
     {
       name: "revenue",
       displayName: "revenue",
@@ -106,7 +106,7 @@ async function createDataFeed(
       description: "Metric2 description"
     }
   ];
-  const dimension: Dimension[] = [
+  const dimension: DataFeedDimension[] = [
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
   ];
@@ -199,7 +199,7 @@ async function configureAnomalyDetectionConfiguration(
 
 async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
   console.log("Creating a webhook hook");
-  const hook: WebhookHook = {
+  const hook: WebNotificationHook = {
     hookType: "Webhook",
     name: "web hook " + new Date().getTime().toFixed(),
     description: "description",

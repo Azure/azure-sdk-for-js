@@ -18,9 +18,9 @@ import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy
 import { CanonicalCode } from "@opentelemetry/api";
 import {
   MetricFeedbackUnion,
-  Incident,
-  Anomaly,
-  Alert,
+  AnomalyIncident,
+  DataPointAnomaly,
+  AnomalyAlert,
   GetMetricEnrichedSeriesDataResponse,
   GetIncidentRootCauseResponse,
   GetFeedbackResponse,
@@ -36,12 +36,12 @@ import {
   DimensionKey,
   GetMetricSeriesDataResponse,
   ListMetricDimensionValuesPageResponse,
-  ListMetricFeedbackPageResponse
+  ListMetricFeedbackPageResponse,
+  AlertQueryTimeMode
 } from "./models";
 import {
   SeverityFilterCondition,
   EnrichmentStatus,
-  TimeMode,
   FeedbackType,
   FeedbackQueryTimeMode
 } from "./generated/models";
@@ -240,7 +240,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     continuationToken?: string,
     options: ListAlertsOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<ListAlertsForAlertConfigurationPageResponse> {
@@ -306,9 +306,9 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions
-  ): AsyncIterableIterator<Alert> {
+  ): AsyncIterableIterator<AnomalyAlert> {
     for await (const segment of this.listSegmentOfAlertsForAlertingConfig(
       alertConfigId,
       startTime,
@@ -384,9 +384,9 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions = {}
-  ): PagedAsyncIterableIterator<Alert, ListAlertsForAlertConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse> {
     const iter = this.listItemsOfAlertsForAlertingConfig(
       alertConfigId,
       startTime,
@@ -507,7 +507,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListAnomaliesForAlertConfigurationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<Anomaly> {
+  ): AsyncIterableIterator<DataPointAnomaly> {
     for await (const segment of this.listSegmentsOfAnomaliesForAlert(
       alertConfigId,
       alertId,
@@ -575,7 +575,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListAnomaliesForAlertConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForAlertPageResponse> {
+  ): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse> {
     const iter = this.listItemsOfAnomaliesForAlert(alertConfigId, alertId, options);
     return {
       /**
@@ -686,7 +686,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListIncidentsForAlertOptions = {}
-  ): AsyncIterableIterator<Incident> {
+  ): AsyncIterableIterator<AnomalyIncident> {
     for await (const segment of this.listSegmentsOfIncidentsForAlert(
       alertConfigId,
       alertId,
@@ -753,7 +753,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListIncidentsForAlertOptions = {}
-  ): PagedAsyncIterableIterator<Incident, ListIncidentsForAlertPageResponse> {
+  ): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse> {
     const iter = this.listItemsOfIncidentsForAlert(alertConfigId, alertId, options);
     return {
       /**
@@ -907,7 +907,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListAnomaliesForDetectionConfigurationOptions
-  ): AsyncIterableIterator<Anomaly> {
+  ): AsyncIterableIterator<DataPointAnomaly> {
     for await (const segment of this.listSegmentsOfAnomaliesForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -978,7 +978,10 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListAnomaliesForDetectionConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForDetectionConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<
+    DataPointAnomaly,
+    ListAnomaliesForDetectionConfigurationPageResponse
+  > {
     const iter = this.listItemsOfAnomaliesForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -1269,7 +1272,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListIncidentsForDetectionConfigurationOptions
-  ): AsyncIterableIterator<Incident> {
+  ): AsyncIterableIterator<AnomalyIncident> {
     for await (const segment of this.listSegmentsOfIncidentsForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -1340,7 +1343,10 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListIncidentsForDetectionConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Incident, ListIncidentsByDetectionConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<
+    AnomalyIncident,
+    ListIncidentsByDetectionConfigurationPageResponse
+  > {
     const iter = this.listItemsOfIncidentsForDetectionConfig(
       detectionConfigId,
       startTime,

@@ -3,9 +3,9 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  EmailHook,
-  WebhookHook,
-  EmailHookPatch
+  EmailNotificationHook,
+  WebNotificationHook,
+  EmailNotificationHookPatch
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -33,7 +33,7 @@ export async function main() {
 
 async function createWebHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new web hook...");
-  const hook: WebhookHook = {
+  const hook: WebNotificationHook = {
     hookType: "Webhook",
     name: "js web hook example" + new Date().getTime().toFixed(),
     description: "description",
@@ -56,7 +56,7 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
 
 async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new email hook...");
-  const hook: EmailHook = {
+  const hook: EmailNotificationHook = {
     hookType: "Email",
     name: "js email hook example" + new Date().getTime().toFixed(),
     description: "description",
@@ -77,7 +77,7 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
 
 async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
   console.log(`Updating hook ${hookId}`);
-  const emailPatch: EmailHookPatch = {
+  const emailPatch: EmailNotificationHookPatch = {
     hookType: "Email",
     hookParameter: {
       toList: ["test2@example.com", "test3@example.com"]

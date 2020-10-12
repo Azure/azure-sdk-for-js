@@ -25,17 +25,17 @@ import {
   DataFeedOptions,
   DataFeed,
   DataFeedPatch,
-  WebhookHook,
-  EmailHook,
-  WebhookHookPatch,
-  EmailHookPatch,
+  WebNotificationHook,
+  EmailNotificationHook,
+  WebNotificationHookPatch,
+  EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
   AnomalyAlertConfiguration,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
   GetHookResponse,
-  HookUnion,
+  NotificationHookUnion,
   DataFeedRollupMethod,
   ListDataFeedsPageResponse,
   ListDataFeedIngestionStatusPageResponse,
@@ -947,7 +947,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options The options parameter.
    */
   public async createHook(
-    hookInfo: EmailHook | WebhookHook,
+    hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -999,7 +999,9 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getHook(id, requestOptions);
-      const resultHookResponse: HookUnion = fromServiceHookInfoUnion(result._response.parsedBody);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
+        result._response.parsedBody
+      );
       return { ...resultHookResponse, _response: result._response };
     } catch (e) {
       span.setStatus({
@@ -1051,7 +1053,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
-  ): AsyncIterableIterator<HookUnion> {
+  ): AsyncIterableIterator<NotificationHookUnion> {
     for await (const segment of this.listSegmentOfHooks(undefined, options)) {
       if (segment?.hooks) {
         yield* segment.hooks;
@@ -1111,7 +1113,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public listHooks(
     options: ListHooksOptions = {}
-  ): PagedAsyncIterableIterator<HookUnion, ListHooksPageResponse> {
+  ): PagedAsyncIterableIterator<NotificationHookUnion, ListHooksPageResponse> {
     const iter = this.listItemsOfHooks(options);
     return {
       /**
@@ -1146,7 +1148,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateHook(
     id: string,
-    patch: EmailHookPatch | WebhookHookPatch,
+    patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
