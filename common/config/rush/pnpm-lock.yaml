@@ -1560,12 +1560,12 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-XWX3OX8Onv97LMk/ftVyBibpGwY5a8SmuxZPzeOxqmuEqUCOM9ZE+uIaD1VNJ5QnvU2UQusvmKbuM1FR8QWGfQ==
-  /avsc/5.4.22:
+  /avsc/5.5.1:
     dev: false
     engines:
       node: '>=0.11'
     resolution:
-      integrity: sha512-3PuueubBH33oLLhnnwmjZh/+kvcpyyuOlsmvUaNAgvsk/cAZe0Zs8OgYmL7z6sXWyEfV2PjyyxwCeoiJIwYpEg==
+      integrity: sha512-Z5srUrB/P0Acr2/XmaF/y5hM09QK3j/Hc2BVRGAMNtbSy3QAyfQOsWar/2obat1Eh58GgaoDpRHqQwWLykLxWA==
   /aws-sign2/0.7.0:
     dev: false
     resolution:
@@ -10903,7 +10903,7 @@ packages:
       '@types/node': 8.10.62
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
-      avsc: 5.4.22
+      avsc: 5.5.1
       buffer: 5.6.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -10944,7 +10944,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-kXzs7U3iK+aKtRPkj8fGsmctRbpq/i4EwTZ35ORXCNbO9Sxs6z81AhQ9RpLQCB8j6HqsDp8EkRy4EZdabJ5i4A==
+      integrity: sha512-qeV4tYGGsJbAqS9TcL9GuPZlAK4kr6riY3TWDEUvNkTm6a7UpIqcdPDpig3s8xxUpPn0R5bJVjigcY2auMZ/dg==
       tarball: 'file:projects/schema-registry-avro.tgz'
     version: 0.0.0
   'file:projects/schema-registry.tgz':
