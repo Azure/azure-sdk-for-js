@@ -811,10 +811,10 @@ describe("BlobClient", () => {
     const getPropertiesRes = await blockBlobClient.getProperties();
     assert.ok(getPropertiesRes.lastAccessed);
 
-    for await (const blobItem of containerClient.listBlobsFlat({prefix: blobName})) {
+    for await (const blobItem of containerClient.listBlobsFlat({ prefix: blobName })) {
       if (blobItem.name === blobName) {
-      assert.ok(blobItem.properties.lastAccessedOn);
-      break;
+        assert.ok(blobItem.properties.lastAccessedOn);
+        break;
       }
     }
   });
