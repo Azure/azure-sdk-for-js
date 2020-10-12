@@ -54,7 +54,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/util/constants/applicationinsights.ts",
+        "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
       }
     ]
