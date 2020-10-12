@@ -804,18 +804,18 @@ describe("BlobClient", () => {
   });
 
   // Preview in STG74, limited regions and customers
-  it.skip("lastAccessed returned", async () => {
+  it("lastAccessed returned", async () => {
     const downloadRes = await blockBlobClient.download();
-    // assert.ok(downloadRes.lastAccessed);
-    console.log(downloadRes.lastAccessed);
+    assert.ok(downloadRes.lastAccessed);
 
     const getPropertiesRes = await blockBlobClient.getProperties();
-    // assert.ok(getPropertiesRes.lastAccessed);
-    console.log(getPropertiesRes);
+    assert.ok(getPropertiesRes.lastAccessed);
 
-    for await (const blobItem of containerClient.listBlobsFlat()) {
-      console.log(blobItem.properties);
-      // assert.ok(blobItem.properties.lastAccessedOn);
+    for await (const blobItem of containerClient.listBlobsFlat({prefix: blobName})) {
+      if (blobItem.name === blobName) {
+      assert.ok(blobItem.properties.lastAccessedOn);
+      break;
+      }
     }
   });
 
