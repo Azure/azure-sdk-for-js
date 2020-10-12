@@ -18,6 +18,9 @@ import { isIE } from "./utils/index.browser";
 
 dotenv.config();
 
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
+
 describe("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
@@ -556,7 +559,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async () => {
+  it.only("getRangeListDiff", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -576,7 +579,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async () => {
+  it.only("getRangeListDiff with share snapshot", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
