@@ -68,7 +68,7 @@ async function getHook(client, hookId) {
   const result = await client.getHook(hookId);
   console.log(result.hookName);
   console.log(result.description);
-  console.log(result.admins);
+  console.log(result.adminEmails);
 }
 
 async function updateEmailHook(client, hookId) {

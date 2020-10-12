@@ -227,6 +227,8 @@ export class MetricsAdvisorAdministrationClient {
         fillMissingPointType,
         fillMissingPointValue,
         viewMode: options?.accessMode,
+        admins: options?.adminEmails,
+        viewers: options?.viewerEmails,
         ...finalOptions
       };
       const result = await this.client.createDataFeed(body, requestOptions);
@@ -460,8 +462,8 @@ export class MetricsAdvisorAdministrationClient {
             : undefined,
         // other options
         viewMode: patch.options?.accessMode,
-        admins: patch.options?.admins,
-        viewers: patch.options?.viewers,
+        admins: patch.options?.adminEmails,
+        viewers: patch.options?.viewerEmails,
         status: patch.options?.status,
         actionLinkTemplate: patch.options?.actionLinkTemplate
       };

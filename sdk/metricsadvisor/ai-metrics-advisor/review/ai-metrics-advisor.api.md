@@ -237,11 +237,11 @@ export type DataFeedMissingDataPointFillSettings = {
 export interface DataFeedOptions {
     accessMode?: DataFeedAccessMode;
     actionLinkTemplate?: string;
-    admins?: string[];
+    adminEmails?: string[];
     dataFeedDescription?: string;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     rollupSettings?: DataFeedRollupSettings;
-    viewers?: string[];
+    viewerEmails?: string[];
 }
 
 // @public
@@ -964,7 +964,7 @@ export type MySqlDataFeedSource = {
 
 // @public
 export interface NotificationHook {
-    readonly admins?: string[];
+    readonly adminEmails?: string[];
     description?: string;
     externalLink?: string;
     readonly id?: string;

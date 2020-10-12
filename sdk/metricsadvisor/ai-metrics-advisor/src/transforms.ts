@@ -243,8 +243,8 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
               fillType: original.fillMissingPointType!
             },
       accessMode: original.viewMode,
-      admins: original.admins,
-      viewers: original.viewers
+      adminEmails: original.admins,
+      viewerEmails: original.viewers
     }
   };
   switch (original.dataSourceType) {
@@ -402,7 +402,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
     name: original.name,
     description: original.description,
     externalLink: original.externalLink,
-    admins: original.admins
+    adminEmails: original.admins
   };
   switch (original.hookType) {
     case "Email": {

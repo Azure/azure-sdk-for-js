@@ -142,7 +142,7 @@ async function createDataFeed(
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    admins: ["xyz@microsoft.com"]
+    adminEmails: ["xyz@microsoft.com"]
   };
 
   console.log("Creating Datafeed...");

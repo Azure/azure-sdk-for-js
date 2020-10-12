@@ -224,14 +224,14 @@ export interface DataFeedOptions {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * data feed administrators
+   * email addresses of data feed administrators
    */
-  admins?: string[];
+  adminEmails?: string[];
 
   /**
-   * data feed viewers
+   * email addresses of data feed viewers
    */
-  viewers?: string[];
+  viewerEmails?: string[];
 
   /**
    * action link template for alert
@@ -789,9 +789,9 @@ export interface NotificationHook {
    */
   externalLink?: string;
   /**
-   * hook administrators
+   * email addresses of hook administrators
    */
-  readonly admins?: string[];
+  readonly adminEmails?: string[];
 }
 
 /**

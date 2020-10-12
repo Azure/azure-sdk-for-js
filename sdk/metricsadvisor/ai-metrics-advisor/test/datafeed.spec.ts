@@ -309,7 +309,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
             fillType: "PreviousValue"
           },
           accessMode: "Public",
-          viewers: ["viewer1@example.com"],
+          viewerEmails: ["viewer1@example.com"],
           actionLinkTemplate: "Updated Azure Blob action link template"
         }
       };
@@ -329,7 +329,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       );
       assert.equal(updated.options!.missingDataPointFillSettings?.fillType, "PreviousValue");
       assert.equal(updated.options!.accessMode, "Public");
-      assert.deepStrictEqual(updated.options!.viewers, ["viewer1@example.com"]);
+      assert.deepStrictEqual(updated.options!.viewerEmails, ["viewer1@example.com"]);
       assert.equal(updated.options?.actionLinkTemplate, "Updated Azure Blob action link template");
     });
 
