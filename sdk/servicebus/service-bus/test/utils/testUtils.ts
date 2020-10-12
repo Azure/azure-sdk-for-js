@@ -9,18 +9,21 @@ dotenv.config();
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  static getSample(): ServiceBusMessage {
-    const randomNumber = Math.random();
+  static getSample(randomTag?: string): ServiceBusMessage {
+    if (randomTag == null) {
+      randomTag = Math.random().toString();
+    }
+
     return {
-      body: `message body ${randomNumber}`,
-      messageId: `message id ${randomNumber}`,
+      body: `message body ${randomTag}`,
+      messageId: `message id ${randomTag}`,
       partitionKey: `dummy partition key`,
-      contentType: `content type ${randomNumber}`,
-      correlationId: `correlation id ${randomNumber}`,
+      contentType: `content type ${randomTag}`,
+      correlationId: `correlation id ${randomTag}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
-      to: `to ${randomNumber}`,
-      replyTo: `reply to ${randomNumber}`,
+      label: `label ${randomTag}`,
+      to: `to ${randomTag}`,
+      replyTo: `reply to ${randomTag}`,
       scheduledEnqueueTimeUtc: new Date(),
       properties: {
         propOne: 1,

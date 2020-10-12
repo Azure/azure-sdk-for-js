@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-communication-administration-identity";
-const packageVersion = "1.0.0-beta.2";
+const packageVersion = "1.0.0-beta.3";
 
 export class GeneratedCommunicationIdentityClientContext extends coreHttp.ServiceClient {
   /**

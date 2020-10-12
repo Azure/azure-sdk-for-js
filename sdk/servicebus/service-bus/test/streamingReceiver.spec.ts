@@ -171,7 +171,8 @@ describe("Streaming Receiver Tests", () => {
           (receiver as any)._context,
           receiver.entityPath,
           {
-            receiveMode: InternalReceiveMode.peekLock
+            receiveMode: InternalReceiveMode.peekLock,
+            lockRenewer: undefined
           }
         );
 

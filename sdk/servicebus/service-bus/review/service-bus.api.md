@@ -15,6 +15,8 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -126,6 +128,7 @@ export interface CreateQueueOptions extends OperationOptions {
 
 // @public
 export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+    maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveModeT;
     subQueue?: SubQueue;
 }
@@ -186,17 +189,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
-}
-
-// @public
-export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-    maxAutoRenewLockDurationInMs?: number;
-}
-
-// @public
-export interface MessageHandlerOptionsBase extends OperationOptionsBase {
-    autoComplete?: boolean;
-    maxConcurrentCalls?: number;
 }
 
 // @public
@@ -395,8 +387,10 @@ export interface ServiceBusMessageBatch {
     // @internal
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
+    // @internal
+    readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage): boolean;
+    tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -463,13 +457,9 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
     readonly sessionId: string;
     readonly sessionLockedUntilUtc: Date;
     setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
-}
-
-// @public
-export interface SessionSubscribeOptions extends MessageHandlerOptionsBase {
 }
 
 // @public
@@ -492,7 +482,9 @@ export interface SqlRuleFilter {
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
-export interface SubscribeOptions extends MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsBase {
+    autoComplete?: boolean;
+    maxConcurrentCalls?: number;
 }
 
 // @public
@@ -575,6 +567,11 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
+}
+
+// @public
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext | null;
 }
 
 export { WebSocketImpl }

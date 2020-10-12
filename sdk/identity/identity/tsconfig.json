@@ -5,10 +5,7 @@
     "lib": ["DOM"],
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "resolveJsonModule": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": false
+    "resolveJsonModule": true
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["test/manual*/**/*", "node_modules"]

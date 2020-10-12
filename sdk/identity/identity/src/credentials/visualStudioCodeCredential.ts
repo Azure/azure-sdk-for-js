@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import fs from "fs";
 import os from "os";
@@ -144,7 +142,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     await this.prepareOnce();
     if (!keytar) {

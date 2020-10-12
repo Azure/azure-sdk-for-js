@@ -3708,6 +3708,57 @@ export const KeyVaultSecretExpiredEventData: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyVaultAccessPolicyChangedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultAccessPolicyChangedEventData",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      vaultName: {
+        serializedName: "vaultName",
+        type: {
+          name: "String"
+        }
+      },
+      objectType: {
+        serializedName: "objectType",
+        type: {
+          name: "String"
+        }
+      },
+      objectName: {
+        serializedName: "objectName",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      nbf: {
+        serializedName: "nbf",
+        type: {
+          name: "Number"
+        }
+      },
+      exp: {
+        serializedName: "exp",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const MachineLearningServicesModelRegisteredEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5118,10 +5169,10 @@ export const ACSChatMemberRemovedFromThreadWithUserEventData: coreHttp.Composite
   }
 };
 
-export const AcssmsEventBase: coreHttp.CompositeMapper = {
+export const AcsSmsEventBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcssmsEventBase",
+    className: "AcsSmsEventBase",
     modelProperties: {
       messageId: {
         serializedName: "messageId",
@@ -5145,12 +5196,12 @@ export const AcssmsEventBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcssmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
+export const AcsSmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcssmsDeliveryReportReceivedEventData",
+    className: "AcsSmsDeliveryReportReceivedEventData",
     modelProperties: {
-      ...AcssmsEventBase.type.modelProperties,
+      ...AcsSmsEventBase.type.modelProperties,
       deliveryStatus: {
         serializedName: "deliveryStatus",
         type: {
@@ -5168,7 +5219,7 @@ export const AcssmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "AcssmsDeliveryAttempt" }
+            type: { name: "Composite", className: "AcsSmsDeliveryAttempt" }
           }
         }
       },
@@ -5182,10 +5233,10 @@ export const AcssmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcssmsDeliveryAttempt: coreHttp.CompositeMapper = {
+export const AcsSmsDeliveryAttempt: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcssmsDeliveryAttempt",
+    className: "AcsSmsDeliveryAttempt",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
@@ -5209,12 +5260,12 @@ export const AcssmsDeliveryAttempt: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcssmsReceivedEventData: coreHttp.CompositeMapper = {
+export const AcsSmsReceivedEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcssmsReceivedEventData",
+    className: "AcsSmsReceivedEventData",
     modelProperties: {
-      ...AcssmsEventBase.type.modelProperties,
+      ...AcsSmsEventBase.type.modelProperties,
       message: {
         serializedName: "message",
         type: {

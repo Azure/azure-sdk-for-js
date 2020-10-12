@@ -35,12 +35,16 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new web hook...");
   const hook: WebhookHook = {
     hookType: "Webhook",
-    hookName: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
       username: "user",
-      password: "pass"
+      password: "pass",
+      headers: {
+        name1: "value1",
+        name2: "value2"
+      }
       // certificateKey: "k",
       // certificatePassword: "kp"
     }
@@ -54,7 +58,7 @@ async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new email hook...");
   const hook: EmailHook = {
     hookType: "Email",
-    hookName: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };
@@ -66,7 +70,7 @@ async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
 async function getHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
   console.log(`Retrieving an existing hook for id ${hookId}...`);
   const result = await client.getHook(hookId);
-  console.log(result.hookName);
+  console.log(result.name);
   console.log(result.description);
   console.log(result.admins);
 }
@@ -90,8 +94,21 @@ async function listHooks(client: MetricsAdvisorAdministrationClient) {
   for await (const hook of client.listHooks({
     hookName: "js "
   })) {
-    console.log(`hook ${i++}`);
-    console.log(hook);
+    console.log(`hook ${i++} - type ${hook.hookType}`);
+    console.log(`  description: ${hook.description}`);
+    if (hook.hookType === "Email") {
+      console.log(`  TO: list ${hook.hookParameter.toList}`);
+    } else {
+      console.log(`  endpoint: ${hook.hookParameter.endpoint}`);
+      console.log(`  username: ${hook.hookParameter.username}`);
+      if (hook.hookParameter.headers) {
+        console.log(`  headers:`);
+        for (const key of Object.keys(hook.hookParameter.headers)) {
+          console.log(`    ${key}: ${hook.hookParameter.headers[key]}`);
+        }
+      }
+      console.log(`  certificate key: ${hook.hookParameter.certificateKey}`);
+    }
   }
 }
 

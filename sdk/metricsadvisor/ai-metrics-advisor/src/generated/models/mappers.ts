@@ -2123,14 +2123,14 @@ export const HookInfo: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      hookId: {
+      id: {
         serializedName: "hookId",
         readOnly: true,
         type: {
           name: "Uuid"
         }
       },
-      hookName: {
+      name: {
         serializedName: "hookName",
         required: true,
         type: {

@@ -57,7 +57,7 @@ async function createDetectionConfig(adminClient, metricId) {
     name: "fresh detection" + new Date().getTime().toString(),
     description: "fresh detection",
     metricId,
-    wholeMetricConfiguration: {
+    wholeSeriesDetectionCondition: {
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -74,14 +74,7 @@ async function createDetectionConfig(adminClient, metricId) {
     }
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createMetricAnomalyDetectionConfiguration(
-    config.name,
-    config.metricId,
-    config.wholeMetricConfiguration,
-    config.description,
-    config.dimensionGroupOverrideConfigurations,
-    config.seriesOverrideConfigurations
-  );
+  return await adminClient.createMetricAnomalyDetectionConfiguration(config);
 }
 
 // updating an detection configuration

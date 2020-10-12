@@ -12,11 +12,11 @@
    "responseHeaders": {
     "api-supported-versions": "2018-01-01",
     "content-length": "0",
-    "date": "Mon, 27 Jul 2020 21:02:26 GMT",
+    "date": "Fri, 02 Oct 2020 06:19:39 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "a2b97d35-f1aa-4033-9886-e6907c7d6769"
+    "x-ms-request-id": "dab12263-7746-4a18-b9f5-36b83d744385"
    }
   }
  ],

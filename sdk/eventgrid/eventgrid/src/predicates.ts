@@ -10,8 +10,8 @@ import {
   ACSChatThreadPropertiesUpdatedPerUserEventData,
   ACSChatMemberAddedToThreadWithUserEventData,
   ACSChatMemberRemovedFromThreadWithUserEventData,
-  AcssmsDeliveryReportReceivedEventData,
-  AcssmsReceivedEventData,
+  AcsSmsDeliveryReportReceivedEventData,
+  AcsSmsReceivedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryImagePushedEventData,
@@ -23,6 +23,16 @@ import {
   IotHubDeviceConnectedEventData,
   IotHubDeviceDisconnectedEventData,
   IotHubDeviceTelemetryEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultAccessPolicyChangedEventData,
   SubscriptionValidationEventData,
   SubscriptionDeletedEventData,
   EventHubCaptureFileCreatedEventData,
@@ -122,6 +132,16 @@ export type KnownSystemEventTypes =
   | "Microsoft.EventGrid.SubscriptionValidationEvent"
   | "Microsoft.EventGrid.SubscriptionDeletedEvent"
   | "Microsoft.EventHub.CaptureFileCreated"
+  | "Microsoft.KeyVault.CertificateNewVersionCreated"
+  | "Microsoft.KeyVault.CertificateNearExpiry"
+  | "Microsoft.KeyVault.CertificateExpired"
+  | "Microsoft.KeyVault.KeyNewVersionCreated"
+  | "Microsoft.KeyVault.KeyNearExpiry"
+  | "Microsoft.KeyVault.KeyExpired"
+  | "Microsoft.KeyVault.SecretNewVersionCreated"
+  | "Microsoft.KeyVault.SecretNearExpiry"
+  | "Microsoft.KeyVault.SecretExpired"
+  | "Microsoft.KeyVault.VaultAccessPolicyChanged"
   | "Microsoft.MachineLearningServices.DatasetDriftDetected"
   | "Microsoft.MachineLearningServices.ModelDeployed"
   | "Microsoft.MachineLearningServices.ModelRegistered"
@@ -209,9 +229,9 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" event. */
   "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": ACSChatMemberRemovedFromThreadWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSDeliveryReportReceived" event. */
-  "Microsoft.Communication.SMSDeliveryReportReceived": AcssmsDeliveryReportReceivedEventData;
+  "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
-  "Microsoft.Communication.SMSReceived": AcssmsReceivedEventData;
+  "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueDeleted" event. */
   "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueModified" event. */
@@ -240,6 +260,26 @@ export interface SystemEventNameToEventData {
   "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
   /** An interface for the event data of a "Microsoft.EventHub.CaptureFileCreated" event. */
   "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateNewVersionCreated" event. */
+  "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateNearExpiry" event. */
+  "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.CertificateExpired" event. */
+  "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyNewVersionCreated" event. */
+  "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyNearExpiry" event. */
+  "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.KeyExpired" event. */
+  "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretNewVersionCreated" event. */
+  "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretNearExpiry" event. */
+  "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.SecretExpired" event. */
+  "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
+  /** An interface for the event data of a "Microsoft.KeyVault.VaultAccessPolicyChanged" event. */
+  "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
   /** An interface for the event data of a "Microsoft.MachineLearningServices.DatasetDriftDetected" event. */
   "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
   /** An interface for the event data of a "Microsoft.MachineLearningServices.ModelDeployed" event. */

@@ -11,8 +11,8 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  AnomalyAlertConfigurationPatch,
-  MetricAlertConfiguration
+  MetricAlertConfiguration,
+  AnomalyAlertConfiguration
 } from "@azure/ai-metrics-advisor";
 
 main()
@@ -57,13 +57,13 @@ async function createAlertConfig(
       scopeType: "All"
     }
   };
-  const result = await adminClient.createAnomalyAlertConfiguration(
-    "js alerting config name " + new Date().getTime().toString(),
-    "AND",
-    [metricAlertingConfig, metricAlertingConfig],
-    [],
-    "alerting config description"
-  );
+  const result = await adminClient.createAnomalyAlertConfiguration({
+    name: "js alerting config name " + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig],
+    hookIds: [],
+    description: "alerting config description"
+  });
   console.log(result);
   return result;
 }
@@ -81,7 +81,7 @@ async function updateAlertConfig(
       scopeType: "All"
     }
   };
-  const patch: AnomalyAlertConfigurationPatch = {
+  const patch: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "new Name",
     //description: "new description",
     hookIds,

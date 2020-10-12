@@ -49,7 +49,7 @@ describe("MetricsAdvisorClient hooks", () => {
   it("creates email Hook", async () => {
     const hook: EmailHook = {
       hookType: "Email",
-      hookName: emailHookName,
+      name: emailHookName,
       description: "description",
       hookParameter: {
         toList: ["test@example.com"]
@@ -63,7 +63,7 @@ describe("MetricsAdvisorClient hooks", () => {
   it("creates web Hook", async () => {
     const hook: WebhookHook = {
       hookType: "Webhook",
-      hookName: webHookName,
+      name: webHookName,
       description: "description",
       hookParameter: {
         endpoint: "https://httpbin.org/post",
@@ -111,9 +111,9 @@ describe("MetricsAdvisorClient hooks", () => {
       hookName: "js-test"
     });
     let result = await iterator.next();
-    assert.ok(result.value.hookName, "Expecting first definition");
+    assert.ok(result.value.name, "Expecting first definition");
     result = await iterator.next();
-    assert.ok(result.value.hookName, "Expecting second definition");
+    assert.ok(result.value.name, "Expecting second definition");
   });
 
   it("lists hooks by page", async function() {
