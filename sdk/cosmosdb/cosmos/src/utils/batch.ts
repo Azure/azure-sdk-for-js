@@ -129,12 +129,18 @@ export function hasResource(
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string) {
   const toHashKey = hasResource(operation)
     ? (operation.resourceBody as any)[partitionProperty]
-    : (operation.partitionKey && operation.partitionKey.replace(/[\[\]\"\']/g, "")) ||
+    : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
       operation.partitionKey;
   // We check for empty object since replace will stringify the value
   // The second check avoids cases where the partitionKey value is actually the string '{}'
   if (toHashKey === "{}" && operation.partitionKey === "[{}]") {
     return {};
+  }
+  if (toHashKey === "null" && operation.partitionKey === "[null]") {
+    return null;
+  }
+  if (toHashKey === "0" && operation.partitionKey === "[0]") {
+    return 0;
   }
   return toHashKey;
 }

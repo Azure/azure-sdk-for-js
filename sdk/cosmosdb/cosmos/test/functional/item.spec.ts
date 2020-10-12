@@ -476,7 +476,9 @@ describe("bulk item operations", function() {
         }
       ];
       const response = await v2Container.items.bulk(operations);
-      assert.equal(response[0].statusCode, 201);
+      assert.equal(response[0].statusCode, 200);
+      assert.equal(response[1].statusCode, 200);
+      assert.equal(response[2].statusCode, 200);
     });
   });
   describe("v2 single partition container", async function() {
