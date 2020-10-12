@@ -1,4 +1,5 @@
-!package-lock.json
+package-lock.json
+run-manifest.json
 
 *.js
 *.js.map
