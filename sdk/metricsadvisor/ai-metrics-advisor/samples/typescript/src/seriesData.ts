@@ -45,16 +45,16 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
     for (const enriched of result.results || []) {
       console.log("enriched series:");
       console.log(enriched.series);
-      if (enriched.timestampList?.length) {
-        for (let i = 0; i < enriched.timestampList!.length; i++) {
+      if (enriched.timestamps && enriched.timestamps.length > 0) {
+        for (let i = 0; i < enriched.timestamps.length; i++) {
           console.log("  ----");
-          console.log(`  timestamp: ${enriched.timestampList![i]}`);
-          console.log(`  is abnormal?: ${enriched.isAnomalyList![i]}`);
-          console.log(`  value: ${enriched.valueList![i]}`);
-          console.log(`  expected value: ${enriched.expectedValueList![i]}`);
-          console.log(`  lower bound: ${enriched.lowerBoundaryList![i]}`);
-          console.log(`  upper bound: ${enriched.upperBoundaryList![i]}`);
-          console.log(`  period: ${enriched.periodList![i]}`);
+          console.log(`  timestamp: ${enriched.timestamps[i]}`);
+          console.log(`  is abnormal?: ${enriched.isAnomaly[i]}`);
+          console.log(`  value: ${enriched.values[i]}`);
+          console.log(`  expected value: ${enriched.expectedValues[i]}`);
+          console.log(`  lower bound: ${enriched.lowerBounds[i]}`);
+          console.log(`  upper bound: ${enriched.upperBounds[i]}`);
+          console.log(`  period: ${enriched.periods[i]}`);
         }
       }
     }

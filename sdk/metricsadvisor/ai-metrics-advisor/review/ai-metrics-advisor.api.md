@@ -824,14 +824,14 @@ export type MetricDetectionCondition = DetectionConditionsCommon;
 
 // @public
 export interface MetricEnrichedSeriesData {
-    expectedValueList?: number[];
-    isAnomalyList?: boolean[];
-    lowerBoundaryList?: number[];
-    periodList?: number[];
+    expectedValues?: number[];
+    isAnomaly?: boolean[];
+    lowerBounds?: number[];
+    periods?: number[];
     series: DimensionKey;
-    timestampList?: Date[];
-    upperBoundaryList?: number[];
-    valueList?: number[];
+    timestamps?: Date[];
+    upperBounds?: number[];
+    values?: number[];
 }
 
 // @public
@@ -923,8 +923,8 @@ export class MetricsAdvisorKeyCredential {
 // @public
 export interface MetricSeriesData {
     definition: MetricSeriesDefinition;
-    timestampList?: Date[];
-    valueList?: number[];
+    timestamps?: Date[];
+    values?: number[];
 }
 
 // @public

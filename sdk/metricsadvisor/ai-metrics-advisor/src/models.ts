@@ -1216,11 +1216,11 @@ export interface MetricSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
 }
 
 /**
@@ -1234,31 +1234,31 @@ export interface MetricEnrichedSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
   /**
    * list of booleans incidating whether a data point is anomaly or not
    */
-  isAnomalyList?: boolean[];
+  isAnomaly?: boolean[];
   /**
    * list of expected values
    */
-  expectedValueList?: number[];
+  expectedValues?: number[];
   /**
    * list of lower bounds
    */
-  lowerBoundaryList?: number[];
+  lowerBounds?: number[];
   /**
    * list of upper bounds
    */
-  upperBoundaryList?: number[];
+  upperBounds?: number[];
   /**
    * list of period values
    */
-  periodList?: number[];
+  periods?: number[];
 }
 
 // Response types

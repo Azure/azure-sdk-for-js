@@ -812,7 +812,18 @@ export class MetricsAdvisorClient {
       options
     );
     return {
-      results: result.value,
+      results: result.value.map((d) => {
+        return {
+          series: d.series,
+          timestamps: d.timestampList,
+          values: d.valueList,
+          expectedValues: d.expectedValueList,
+          lowerBounds: d.lowerBoundaryList,
+          upperBounds: d.upperBoundaryList,
+          isAnomaly: d.isAnomalyList,
+          periods: d.periodList
+        };
+      }),
       _response: result._response
     };
   }
@@ -1660,8 +1671,8 @@ export class MetricsAdvisorClient {
       metricSeriesDataList: result.value?.map((s) => {
         return {
           definition: { metricId: s.id!.metricId!, dimension: s.id!.dimension! },
-          timestampList: s.timestampList,
-          valueList: s.valueList
+          timestamps: s.timestampList,
+          values: s.valueList
         };
       }),
       _response: result._response
