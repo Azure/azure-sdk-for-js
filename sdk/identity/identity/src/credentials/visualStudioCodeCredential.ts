@@ -176,7 +176,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     // We want to make sure we use the one assigned by the user on the VSCode settings.
     // Or just `Azure` by default.
-    const cloudName = getPropertyFromVSCode("azure.cloud") || "Azure";
+    const cloudName = getPropertyFromVSCode("azure.cloud") || "AzureCloud";
 
     // If we can't find the credential based on the name, we'll pick the first one available.
     const { password } =
