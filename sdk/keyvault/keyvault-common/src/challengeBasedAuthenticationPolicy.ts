@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
 import { TokenCredential } from "@azure/core-http";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyOptions,
-  RequestPolicyFactory,
+  RequestPolicyFactory
 } from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
@@ -39,7 +40,7 @@ export class AuthenticationChallenge {
    * https://github.com/Azure/azure-sdk-for-net/blob/70e54b878ff1d01a45266fb3674a396b4ab9c1d2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L143-L147
    * @param other The other AuthenticationChallenge
    */
-  public equalTo(other: AuthenticationChallenge | undefined) {
+  public equalTo(other: AuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
           this.authorization.toLowerCase() === other.authorization.toLowerCase()
@@ -54,7 +55,7 @@ export class AuthenticationChallenge {
 export class AuthenticationChallengeCache {
   public challenge?: AuthenticationChallenge;
 
-  public setCachedChallenge(challenge: AuthenticationChallenge) {
+  public setCachedChallenge(challenge: AuthenticationChallenge): void {
     this.challenge = challenge;
   }
 }
@@ -78,7 +79,7 @@ export function challengeBasedAuthenticationPolicy(
         tokenCache,
         challengeCache
       );
-    },
+    }
   };
 }
 
@@ -103,7 +104,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
     (result, [key, value]: string[]) => ({
       ...result,
-      [key]: value.slice(1, -1),
+      [key]: value.slice(1, -1)
     }),
     {}
   );
@@ -210,7 +211,10 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // The next request will happen differently whether we have a challenge or not.
     let response: HttpOperationResponse;
 
-    if (this.challengeCache.challenge == undefined) {
+    if (
+      this.challengeCache.challenge === undefined ||
+      this.challengeCache.challenge === undefined
+    ) {
       // If there's no challenge in cache, a blank body will start the challenge.
       const originalBody = webResource.body;
       webResource.body = "";
@@ -236,6 +240,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     }
 
     // We re-generate the challenge and see if we have to re-authenticate.
-    return await this.regenerateChallenge(wwwAuthenticate, webResource);
+    return this.regenerateChallenge(wwwAuthenticate, webResource);
   }
 }

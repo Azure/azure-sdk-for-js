@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LocalCryptographyUnsupportedError } from "./models";
 import {
-  localSupportedAlgorithms,
+  LocalCryptographyOperationName,
+  LocalCryptographyUnsupportedError,
   LocalSupportedAlgorithm,
-  LocalSupportedAlgorithmName,
-  LocalCryptographyOperationName
-} from "./algorithms";
+  LocalSupportedAlgorithmName
+} from "./models";
+import { localSupportedAlgorithms } from "./algorithms";
 import { JsonWebKey } from "../keysModels";
 import { convertJWKtoPEM } from "./conversions";
 
@@ -18,7 +18,7 @@ export async function runOperation(
   data: Buffer,
   signature?: Buffer
 ): Promise<Buffer | boolean> {
-  const algorithm: LocalSupportedAlgorithm = localSupportedAlgorithms[algorithmName];
+  const algorithm: LocalSupportedAlgorithm | undefined = localSupportedAlgorithms[algorithmName];
   if (!algorithm) {
     throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
   }

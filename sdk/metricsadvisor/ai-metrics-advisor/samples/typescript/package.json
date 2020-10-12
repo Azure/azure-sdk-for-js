@@ -1,0 +1,40 @@
+{
+  "name": "azure-metrics-advisor-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Cognitive Metrics Advisor client library samples for TypeScript",
+  "engine": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Metrics Advisor",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/metrics-advisor",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/ai-metrics-advisor": "latest",
+    "@azure/identity": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.7.5"
+  }
+}

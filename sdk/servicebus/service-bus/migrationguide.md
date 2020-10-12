@@ -1,4 +1,4 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.6
+# Guide to migrate from @azure/service-bus v1 to v7.preview.7
 
 This document is intended for users that would like to try out preview 7
 for @azure/service-bus. As the package is in preview, these details might
@@ -73,7 +73,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription");
   ```
 
-- `createSessionReceiver()` method is now split into two async methods `acceptSession()` and `acceptNextSession()` 
+- `createSessionReceiver()` method is now split into two async methods `acceptSession()` and `acceptNextSession()`
   - The promise returned by these methods is resolved when a receiver link has been initialized with a session in the service.
   - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
     receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`

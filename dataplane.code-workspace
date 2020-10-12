@@ -105,6 +105,10 @@
       "path": "sdk/core/logger"
     },
     {
+      "name": "metrics-advisor",
+      "path": "sdk\\metricsadvisor\\ai-metrics-advisor"
+    },
+    {
       "name": "search",
       "path": "sdk/search/search-documents"
     },

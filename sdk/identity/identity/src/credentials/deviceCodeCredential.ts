@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AccessToken, TokenCredential, GetTokenOptions, delay } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { credentialLogger, formatSuccess } from "../util/logging";
-import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
+import { credentialLogger } from "../util/logging";
+import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
@@ -55,7 +55,6 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
-  private identityClient: IdentityClient;
   private pca: PublicClientApplication;
   private tenantId: string;
   private clientId: string;
@@ -79,7 +78,6 @@ export class DeviceCodeCredential implements TokenCredential {
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
@@ -93,10 +91,13 @@ export class DeviceCodeCredential implements TokenCredential {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
 
+    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
+
     const publicClientConfig = {
       auth: {
         clientId: this.clientId,
-        authority: this.authorityHost
+        authority: this.authorityHost,
+        knownAuthorities: knownAuthorities
       },
       cache: {
         cachePlugin: undefined
@@ -117,7 +118,7 @@ export class DeviceCodeCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("DeviceCodeCredential-getToken", options);
+    const { span } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 

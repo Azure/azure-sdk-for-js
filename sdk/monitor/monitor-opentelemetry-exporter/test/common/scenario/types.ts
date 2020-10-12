@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Envelope } from "../../../src/Declarations/Contracts";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 
 export interface Expectation extends Partial<Envelope> {
   children: Expectation[];
