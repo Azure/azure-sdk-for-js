@@ -451,7 +451,7 @@ async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
   );
   for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );
   }
 }

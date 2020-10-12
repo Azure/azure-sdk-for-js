@@ -870,7 +870,7 @@ export interface AnomalyIncident {
   /**
    * identifies the time series or time series group
    */
-  dimensionKey: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * metric unique id
    *
@@ -934,7 +934,7 @@ export interface DataPointAnomaly {
   /**
    * dimension specified for series
    */
-  dimension: Record<string, string>;
+  seriesKey: DimensionKey;
   /**
    * anomaly severity
    */

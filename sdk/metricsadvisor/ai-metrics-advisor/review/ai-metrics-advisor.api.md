@@ -55,10 +55,10 @@ export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 // @public
 export interface AnomalyIncident {
     detectionConfigurationId: string;
-    dimensionKey: DimensionKey;
     id: string;
     lastOccuredTime: Date;
     metricId?: string;
+    seriesKey: DimensionKey;
     severity: AnomalySeverity;
     startTime?: Date;
     status?: AnomalyStatus;
@@ -295,9 +295,9 @@ export type DataFeedStatus = "Paused" | "Active";
 export interface DataPointAnomaly {
     createdOn?: Date;
     detectionConfigurationId: string;
-    dimension: Record<string, string>;
     metricId?: string;
     modifiedOn?: Date;
+    seriesKey: DimensionKey;
     severity: AnomalySeverity;
     status?: AnomalyStatus;
     timestamp: Date;

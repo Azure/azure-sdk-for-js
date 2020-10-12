@@ -43,9 +43,9 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 8, 5))
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting first anomaly");
+    assert.ok(result.value.seriesKey, "Expecting first anomaly");
     result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting second anomaly");
+    assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
   it("listAnomaliesForDetectionConfiguration() by page", async function() {
@@ -69,9 +69,9 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 8, 5))
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimensionKey, "Expecting first incident");
+    assert.ok(result.value.seriesKey, "Expecting first incident");
     result = await iterator.next();
-    assert.ok(result.value.dimensionKey, "Expecting second incident");
+    assert.ok(result.value.seriesKey, "Expecting second incident");
   });
 
   it("listIncidentsForDetectionConfiguration() by page", async function() {
@@ -158,9 +158,9 @@ describe("MetricsAdvisorClient", () => {
       testEnv.METRICS_ADVISOR_ALERT_ID
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting first anomaly");
+    assert.ok(result.value.seriesKey, "Expecting first anomaly");
     result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting second anomaly");
+    assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
   it("lists anomalies for alert by page", async function() {

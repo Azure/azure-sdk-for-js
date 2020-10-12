@@ -453,7 +453,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -485,7 +485,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -632,7 +632,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          dimensionKey: incident.rootNode,
+          seriesKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -663,7 +663,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          dimensionKey: incident.rootNode,
+          seriesKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -868,7 +868,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -896,7 +896,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -1233,7 +1233,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          dimensionKey: incident.rootNode,
+          seriesKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1262,7 +1262,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          dimensionKey: incident.rootNode,
+          seriesKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
