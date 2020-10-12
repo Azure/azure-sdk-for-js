@@ -894,7 +894,7 @@ export class MetricsAdvisorClient {
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
     getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
     getMetricFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
-    getMetricSeriesData(metricId: string, startTime: Date, endTime: Date, seriesToFilter: Record<string, string>[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
+    getMetricSeriesData(metricId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
     listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date, endTime: Date, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse>;
     listAnomaliesForAlert(alertConfigId: string, alertId: string, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
     listAnomaliesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;

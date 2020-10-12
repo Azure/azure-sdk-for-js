@@ -1657,13 +1657,13 @@ export class MetricsAdvisorClient {
     metricId: string,
     startTime: Date,
     endTime: Date,
-    seriesToFilter: Record<string, string>[],
+    seriesToFilter: DimensionKey[],
     options: GetMetricSeriesDataOptions = {}
   ): Promise<GetMetricSeriesDataResponse> {
     const optionsBody = {
       startTime: startTime,
       endTime: endTime,
-      series: seriesToFilter
+      series: seriesToFilter.map((f) => f.dimension)
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
 

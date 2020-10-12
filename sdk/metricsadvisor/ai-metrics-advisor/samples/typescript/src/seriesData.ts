@@ -72,8 +72,8 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
       new Date("09/01/2020"),
       new Date("09/12/2020"),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
       ]
     );
 

@@ -259,8 +259,8 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
       ]
     );
     assert.ok(
