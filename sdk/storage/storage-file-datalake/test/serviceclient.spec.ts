@@ -3,7 +3,11 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import {
+  getDataLakeServiceClient,
+  getDataLakeServiceClientWithDefaultCredential,
+  recorderEnvSetup
+} from "./utils";
 
 dotenv.config();
 
@@ -320,11 +324,11 @@ describe("DataLakeServiceClient", () => {
   // });
 
   it("getUserDelegationKey should work", async function() {
-    // Try to get serviceURL object with TokenCredential
-    // when DFS_ACCOUNT_TOKEN environment variable is set
+    // Try to get serviceURL object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceURLWithToken = getTokenDataLakeServiceClient();
+      serviceURLWithToken = getDataLakeServiceClientWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime

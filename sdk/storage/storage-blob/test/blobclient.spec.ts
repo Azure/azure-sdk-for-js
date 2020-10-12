@@ -803,8 +803,11 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  // Preview in STG74, limited regions and customers
-  it("lastAccessed returned", async () => {
+  it("lastAccessed returned", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it needs be enabled on the account.
+      this.skip();
+    }
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 

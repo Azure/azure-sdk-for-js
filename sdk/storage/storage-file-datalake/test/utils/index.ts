@@ -99,7 +99,7 @@ export function getDataLakeServiceClient(
   return getGenericDataLakeServiceClient("DFS_", undefined, pipelineOptions);
 }
 
-export function getDataLakeServiceClientWithDefualtCredential(
+export function getDataLakeServiceClientWithDefaultCredential(
   accountType: string = "DFS_",
   pipelineOptions: StoragePipelineOptions = {},
   accountNameSuffix: string = ""

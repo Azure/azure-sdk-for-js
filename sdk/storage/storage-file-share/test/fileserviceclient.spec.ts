@@ -7,7 +7,7 @@ import {
   getSoftDeleteBSU,
   getGenericBSU
 } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, ShareItem } from "../src";
 dotenv.config();
@@ -475,7 +475,7 @@ describe("FileServiceClient", () => {
   });
 });
 
-describe.only("FileServiceClient Premium", () => {
+describe("FileServiceClient Premium", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
@@ -492,7 +492,11 @@ describe.only("FileServiceClient Premium", () => {
     await recorder.stop();
   });
 
-  it("SMB Multichannel", async () => {
+  it("SMB Multichannel", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it needs be enabled on the account.
+      this.skip();
+    }
     await serviceClient.setProperties({
       protocol: { smb: { multichannel: { enabled: true } } }
     });
