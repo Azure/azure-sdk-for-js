@@ -99,9 +99,9 @@ import {
   VerifyOptions,
   WrapKeyOptions
 } from "./cryptographyClientModels";
-import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 
 export {
   CryptographyClientOptions,
