@@ -109,7 +109,8 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "DeviceCodeCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: DeviceCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 

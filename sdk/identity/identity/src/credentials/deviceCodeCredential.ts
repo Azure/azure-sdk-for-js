@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { AuthenticationRecord, AuthenticationRequired } from "./authentication";
+import { DeviceCodeCredentialOptions } from "./deviceCodeCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { credentialLogger } from "../util/logging";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
-import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
+import { PublicClientApplication, DeviceCodeRequest, TokenCache } from "@azure/msal-node";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -60,6 +61,9 @@ export class DeviceCodeCredential implements TokenCredential {
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
   private authorityHost: string;
+  private persistenceEnabled: boolean;
+  private authenticationRecord: AuthenticationRecord | undefined;
+  private msalCacheManager: TokenCache;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -76,11 +80,15 @@ export class DeviceCodeCredential implements TokenCredential {
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
-    options?: TokenCredentialOptions
+    options?: DeviceCodeCredentialOptions
   ) {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
+
+    this.persistenceEnabled = this.persistenceEnabled = options?.cacheOptions !== undefined;
+    this.authenticationRecord = options?.authenticationRecord;
+
     if (options && options.authorityHost) {
       if (options.authorityHost.endsWith("/")) {
         this.authorityHost = options.authorityHost + this.tenantId;
@@ -99,12 +107,11 @@ export class DeviceCodeCredential implements TokenCredential {
         authority: this.authorityHost,
         knownAuthorities: knownAuthorities
       },
-      cache: {
-        cachePlugin: undefined
-      }
+      cache: options?.cacheOptions
     };
 
     this.pca = new PublicClientApplication(publicClientConfig);
+    this.msalCacheManager = this.pca.getTokenCache();
   }
 
   /**
@@ -129,29 +136,80 @@ export class DeviceCodeCredential implements TokenCredential {
 
     logger.info("Sending devicecode request");
 
-    try {
-      return this.acquireTokenByDeviceCode(deviceCodeRequest);
-    } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
-      span.setStatus({
-        code,
-        message: err.message
+    if (this.authenticationRecord && this.persistenceEnabled) {
+      return this.acquireTokenFromCache().catch((e) => {
+        if (e instanceof AuthenticationRequired) {
+          try {
+            return this.acquireTokenByDeviceCode(deviceCodeRequest);
+          } catch (err) {
+            const code =
+              err.name === AuthenticationErrorName
+                ? CanonicalCode.UNAUTHENTICATED
+                : CanonicalCode.UNKNOWN;
+            span.setStatus({
+              code,
+              message: err.message
+            });
+            logger.getToken.info(err);
+            throw err;
+          } finally {
+            span.end();
+          }
+        } else {
+          throw e;
+        }
       });
-      logger.getToken.info(err);
-      throw err;
-    } finally {
-      span.end();
+    } else {
+      try {
+        return this.acquireTokenByDeviceCode(deviceCodeRequest);
+      } catch (err) {
+        const code =
+          err.name === AuthenticationErrorName
+            ? CanonicalCode.UNAUTHENTICATED
+            : CanonicalCode.UNKNOWN;
+        span.setStatus({
+          code,
+          message: err.message
+        });
+        logger.getToken.info(err);
+        throw err;
+      } finally {
+        span.end();
+      }
+    }
+  }
+
+  private async acquireTokenFromCache(): Promise<AccessToken | null> {
+    await this.msalCacheManager.readFromPersistence();
+
+    const silentRequest = {
+      account: this.authenticationRecord!,
+      scopes: ["https://vault.azure.net/user_impersonation", "https://vault.azure.net/.default"]
+    };
+
+    try {
+      const response = await this.pca.acquireTokenSilent(silentRequest);
+      logger.info("Successful silent token acquisition");
+      return {
+        expiresOnTimestamp: response.expiresOn.getTime(),
+        token: response.accessToken
+      };
+    } catch (e) {
+      throw new AuthenticationRequired("Could not authenticate silently using the cache");
     }
   }
 
   private async acquireTokenByDeviceCode(
     deviceCodeRequest: DeviceCodeRequest
   ): Promise<AccessToken | null> {
+    if (this.persistenceEnabled) {
+      await this.msalCacheManager.readFromPersistence();
+    }
     try {
       const deviceResponse = await this.pca.acquireTokenByDeviceCode(deviceCodeRequest);
+      if (this.persistenceEnabled) {
+        await this.msalCacheManager.writeToPersistence();
+      }
       return {
         expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
         token: deviceResponse.accessToken

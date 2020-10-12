@@ -5,13 +5,13 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import {
-  InteractiveBrowserCredentialOptions,
-  AuthenticationRecord
+  InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { IdentityClient } from "../client/identityClient";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
+import { AuthenticationRecord, AuthenticationRequired } from "./authentication";
 
 import express from "express";
 import {
@@ -22,11 +22,8 @@ import {
 } from "@azure/msal-node";
 import open from "open";
 import http from "http";
-import { CredentialUnavailable } from "../client/errors";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
-
-class AuthenticationRequired extends CredentialUnavailable {}
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -50,7 +47,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.tenantId = (options && options.tenantId) || DefaultTenantId;
     this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
-    // Future update: this is for persistent caching
     this.persistenceEnabled = this.persistenceEnabled = options?.cacheOptions !== undefined;
     this.authenticationRecord = options?.authenticationRecord;
 

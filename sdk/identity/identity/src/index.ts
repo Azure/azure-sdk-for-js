@@ -17,10 +17,10 @@ export {
 } from "./credentials/visualStudioCodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 
+export { AuthenticationRecord } from "./credentials/authentication";
 export {
   InteractiveBrowserCredentialOptions,
-  BrowserLoginStyle,
-  AuthenticationRecord
+  BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export {
