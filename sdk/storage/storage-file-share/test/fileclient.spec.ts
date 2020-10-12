@@ -18,9 +18,6 @@ import { isIE } from "./utils/index.browser";
 
 dotenv.config();
 
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
-
 describe("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
@@ -559,7 +556,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it.only("getRangeListDiff", async () => {
+  it("getRangeListDiff", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -570,6 +567,10 @@ describe("FileClient", () => {
     await fileClient.uploadRange("World", 1023, 5);
 
     const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
+    console.log(result.clearRanges);
+    console.log(result.ranges);
+    console.log(result.requestId);
+
     assert.ok(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
@@ -579,7 +580,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it.only("getRangeListDiff with share snapshot", async () => {
+  it("getRangeListDiff with share snapshot", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -596,6 +597,9 @@ describe("FileClient", () => {
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+    console.log(result.clearRanges);
+    console.log(result.ranges);
+    console.log(result.requestId);
 
     assert.ok(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
