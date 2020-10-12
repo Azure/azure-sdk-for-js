@@ -99,7 +99,7 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
-      "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
+      "name": "[guid(concat('blobDataOwnerRoleId', variables('accountName')))]",
       "dependsOn": ["[variables('accountName')]"],
       "properties": {
         "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",

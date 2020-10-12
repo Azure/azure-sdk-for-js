@@ -1005,7 +1005,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob version delete", async function() {
+  it.only("GenerateUserDelegationSAS should work for blob version delete", async function() {
     // Try to get blobServiceClient object with TokenCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
