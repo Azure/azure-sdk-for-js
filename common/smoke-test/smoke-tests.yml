@@ -6,45 +6,43 @@ jobs:
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          SmokeTestNodeVersion: "8.x"
         Linux (AzureCloud Canary):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          Location: 'eastus2euap'
+          Location: "eastus2euap"
+          SmokeTestNodeVersion: "14.x"
         Windows (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        Windows (AzureCloud Canary):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          Location: 'eastus2euap'
+          SmokeTestNodeVersion: "12.x"
         Mac (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        Mac (AzureCloud Canary):
-          OSVmImage: "macOS-10.14"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          Location: 'eastus2euap'
+          SmokeTestNodeVersion: "10.x"
         Linux (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+          SmokeTestNodeVersion: "10.x"
         Windows (AzureUSGovernment):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+          SmokeTestNodeVersion: "14.x"
         Linux (AzureChinaCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+          SmokeTestNodeVersion: "12.x"
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+          SmokeTestNodeVersion: "10.x"
 
     pool:
       vmImage: $(OSVmImage)
@@ -64,9 +62,9 @@ jobs:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
       - task: NodeTool@0
-        displayName: Use Node $(NodeVersion)
+        displayName: Use Node $(SmokeTestNodeVersion)
         inputs:
-          versionSpec: $(NodeVersion)
+          versionSpec: $(SmokeTestNodeVersion)
 
       - pwsh: npm install -g
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
