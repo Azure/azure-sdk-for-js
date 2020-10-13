@@ -28,7 +28,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentAccountSummary,
   EnrollmentPolicies,
   ErrorDetails,
@@ -43,8 +42,13 @@ export {
   PaymentProperties,
   Policy,
   Product,
+  ProductsListResult,
+  ProductsMoveHeaders,
   RebillDetails,
   Reseller,
   Resource,
-  Transaction
+  Transaction,
+  TransferProductRequestProperties,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";
