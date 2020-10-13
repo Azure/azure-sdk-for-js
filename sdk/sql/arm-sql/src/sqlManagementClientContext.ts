@@ -57,23 +57,4 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
-
-  /**
-   * NOTE: This is an override added manually to workaround bug Azure/ms-rest-js/issues/395
-   * When this library is regenerated, this override needs to be brought back
-   * This override adds the header "Accept: application/json" to every request
-   */
-  sendRequest(options: msRest.RequestPrepareOptions | msRest.WebResourceLike) {
-    if(!options.headers) {
-      options.headers = {accept: "application/json"};
-    } else {
-      if (options.headers.set) {
-        options.headers.set("accept", "application/json");
-      } else {
-        (options.headers as {[key: string]: any})["accept"] = "application/json"
-      }
-    }
-
-    return super.sendRequest(options);
-  }
 }

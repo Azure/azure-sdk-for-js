@@ -28,58 +28,6 @@ export class Servers {
   }
 
   /**
-   * Determines whether a resource can be created with the specified name.
-   * @param parameters The parameters to request for name availability.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServersCheckNameAvailabilityResponse>
-   */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServersCheckNameAvailabilityResponse>;
-  /**
-   * @param parameters The parameters to request for name availability.
-   * @param callback The callback
-   */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
-  /**
-   * @param parameters The parameters to request for name availability.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): Promise<Models.ServersCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        parameters,
-        options
-      },
-      checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ServersCheckNameAvailabilityResponse>;
-  }
-
-  /**
-   * Gets a list of all servers in the subscription.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServersListResponse>
-   */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ServersListResponse>;
-  /**
-   * @param callback The callback
-   */
-  list(callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListResponse> {
-    return this.client.sendOperationRequest(
-      {
-        options
-      },
-      listOperationSpec,
-      callback) as Promise<Models.ServersListResponse>;
-  }
-
-  /**
    * Gets a list of servers in a resource groups.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -187,6 +135,72 @@ export class Servers {
   }
 
   /**
+   * Gets a list of all servers in the subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServersListResponse>
+   */
+  list(options?: msRest.RequestOptionsBase): Promise<Models.ServersListResponse>;
+  /**
+   * @param callback The callback
+   */
+  list(callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.ServersListResponse>;
+  }
+
+  /**
+   * Determines whether a resource can be created with the specified name.
+   * @param parameters The name availability request parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServersCheckNameAvailabilityResponse>
+   */
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServersCheckNameAvailabilityResponse>;
+  /**
+   * @param parameters The name availability request parameters.
+   * @param callback The callback
+   */
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
+  /**
+   * @param parameters The name availability request parameters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): Promise<Models.ServersCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        parameters,
+        options
+      },
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.ServersCheckNameAvailabilityResponse>;
+  }
+
+  /**
+   * Imports a bacpac into a new database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param parameters The database import request parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServersImportDatabaseResponse>
+   */
+  importDatabase(resourceGroupName: string, serverName: string, parameters: Models.ImportNewDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<Models.ServersImportDatabaseResponse> {
+    return this.beginImportDatabase(resourceGroupName,serverName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServersImportDatabaseResponse>;
+  }
+
+  /**
    * Creates or updates a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -248,31 +262,24 @@ export class Servers {
   }
 
   /**
-   * Gets a list of all servers in the subscription.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * Imports a bacpac into a new database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param parameters The database import request parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ServersListNextResponse>
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListNextResponse> {
-    return this.client.sendOperationRequest(
+  beginImportDatabase(resourceGroupName: string, serverName: string, parameters: Models.ImportNewDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        serverName,
+        parameters,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.ServersListNextResponse>;
+      beginImportDatabaseOperationSpec,
+      options);
   }
 
   /**
@@ -302,32 +309,79 @@ export class Servers {
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.ServersListByResourceGroupNextResponse>;
   }
+
+  /**
+   * Gets a list of all servers in the subscription.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServersListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.ServersListNextResponse>;
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability",
+const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers",
   urlParameters: [
+    Parameters.resourceGroupName0,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.CheckNameAvailabilityRequest,
-      required: true
-    }
-  },
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.ServerListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
+  urlParameters: [
+    Parameters.resourceGroupName0,
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Server
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -359,11 +413,10 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers",
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability",
   urlParameters: [
-    Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -372,34 +425,16 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CheckNameAvailabilityRequest,
+      required: true
     }
   },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
   responses: {
     200: {
-      bodyMapper: Mappers.Server
+      bodyMapper: Mappers.CheckNameAvailabilityResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -412,7 +447,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.subscriptionId
   ],
@@ -448,7 +483,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.subscriptionId
   ],
@@ -473,7 +508,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.subscriptionId
   ],
@@ -502,7 +537,40 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const beginImportDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import",
+  urlParameters: [
+    Parameters.resourceGroupName0,
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ImportNewDatabaseDefinition,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportExportOperationResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -523,7 +591,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
