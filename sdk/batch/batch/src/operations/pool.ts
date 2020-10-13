@@ -338,29 +338,41 @@ export class Pool {
    * evaluate a formula.
    * @summary Gets the result of evaluating an automatic scaling formula on the Pool.
    * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
-   * @param poolEvaluateAutoScaleParameter The parameters for the request.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
+   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEvaluateAutoScaleResponse>
    */
-  evaluateAutoScale(poolId: string, poolEvaluateAutoScaleParameter: Models.PoolEvaluateAutoScaleParameter, options?: Models.PoolEvaluateAutoScaleOptionalParams): Promise<Models.PoolEvaluateAutoScaleResponse>;
+  evaluateAutoScale(poolId: string, autoScaleFormula: string, options?: Models.PoolEvaluateAutoScaleOptionalParams): Promise<Models.PoolEvaluateAutoScaleResponse>;
   /**
    * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
-   * @param poolEvaluateAutoScaleParameter The parameters for the request.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
+   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param callback The callback
    */
-  evaluateAutoScale(poolId: string, poolEvaluateAutoScaleParameter: Models.PoolEvaluateAutoScaleParameter, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
+  evaluateAutoScale(poolId: string, autoScaleFormula: string, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
   /**
    * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
-   * @param poolEvaluateAutoScaleParameter The parameters for the request.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
+   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param options The optional parameters
    * @param callback The callback
    */
-  evaluateAutoScale(poolId: string, poolEvaluateAutoScaleParameter: Models.PoolEvaluateAutoScaleParameter, options: Models.PoolEvaluateAutoScaleOptionalParams, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
-  evaluateAutoScale(poolId: string, poolEvaluateAutoScaleParameter: Models.PoolEvaluateAutoScaleParameter, options?: Models.PoolEvaluateAutoScaleOptionalParams | msRest.ServiceCallback<Models.AutoScaleRun>, callback?: msRest.ServiceCallback<Models.AutoScaleRun>): Promise<Models.PoolEvaluateAutoScaleResponse> {
+  evaluateAutoScale(poolId: string, autoScaleFormula: string, options: Models.PoolEvaluateAutoScaleOptionalParams, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
+  evaluateAutoScale(poolId: string, autoScaleFormula: string, options?: Models.PoolEvaluateAutoScaleOptionalParams | msRest.ServiceCallback<Models.AutoScaleRun>, callback?: msRest.ServiceCallback<Models.AutoScaleRun>): Promise<Models.PoolEvaluateAutoScaleResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
-        poolEvaluateAutoScaleParameter,
+        autoScaleFormula,
         options
       },
       evaluateAutoScaleOperationSpec,
@@ -938,7 +950,9 @@ const evaluateAutoScaleOperationSpec: msRest.OperationSpec = {
     Parameters.ocpDate13
   ],
   requestBody: {
-    parameterPath: "poolEvaluateAutoScaleParameter",
+    parameterPath: {
+      autoScaleFormula: "autoScaleFormula"
+    },
     mapper: {
       ...Mappers.PoolEvaluateAutoScaleParameter,
       required: true

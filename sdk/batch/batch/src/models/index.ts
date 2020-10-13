@@ -42,9 +42,9 @@ export interface PoolUsageMetrics {
 
 /**
  * An interface representing ImageReference.
- * @summary A reference to an Azure Virtual Machines Marketplace Image or a custom Azure Virtual
- * Machine Image. To get the list of all Azure Marketplace Image references verified by Azure
- * Batch, see the 'List supported Images' operation.
+ * @summary A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery
+ * Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see
+ * the 'List Supported Images' operation.
  */
 export interface ImageReference {
   /**
@@ -69,13 +69,15 @@ export interface ImageReference {
   version?: string;
   /**
    * The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will
-   * be created using this Image Id. This is of the
-   * form/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}.
-   * This property is mutually exclusive with other ImageReference properties. For Virtual Machine
-   * Image it must be in the same region and subscription as the Azure Batch account. The Shared
-   * Image Gallery Image must have replicas in the same region as the Azure Batch account. For
-   * information about the firewall settings for the Batch Compute Node agent to communicate with
-   * the Batch service see
+   * be created using this Image Id. This is of the form
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
+   * or
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
+   * for always defaulting to the latest image version. This property is mutually exclusive with
+   * other ImageReference properties. The Shared Image Gallery Image must have replicas in the same
+   * region and must be in the same subscription as the Azure Batch account. If the image version
+   * is not specified in the imageId, the latest version will be used. For information about the
+   * firewall settings for the Batch Compute Node agent to communicate with the Batch service see
    * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   virtualMachineImageId?: string;
@@ -1018,7 +1020,9 @@ export interface OutputFileUploadOptions {
 }
 
 /**
- * An interface representing OutputFile.
+ * On every file uploads, Batch service writes two log files to the compute node,
+ * 'fileuploadout.txt' and 'fileuploaderr.txt'. These log files are used to learn more about a
+ * specific failure.
  * @summary A specification for uploading files from an Azure Batch Compute Node to another
  * location after the Batch service has finished executing the Task process.
  */
@@ -1127,6 +1131,12 @@ export interface JobManagerTask {
    * Constraints that apply to the Job Manager Task.
    */
   constraints?: TaskConstraints;
+  /**
+   * The number of scheduling slots that the Task requires to run. The default is 1. A Task can
+   * only be scheduled to run on a compute node if the node has enough free scheduling slots
+   * available. For multi-instance Tasks, this must be 1.
+   */
+  requiredSlots?: number;
   /**
    * Whether completion of the Job Manager Task signifies completion of the entire Job. If true,
    * when the Job Manager Task completes, the Batch service marks the Job as complete. If any Tasks
@@ -1291,7 +1301,7 @@ export interface JobPreparationTask {
  * while the Job Release Task is still running, the Job Release Task runs again when the Compute
  * Node starts up. The Job is not marked as complete until all Job Release Tasks have completed.
  * The Job Release Task runs in the background. It does not occupy a scheduling slot; that is, it
- * does not count towards the maxTasksPerNode limit specified on the Pool.
+ * does not count towards the taskSlotsPerNode limit specified on the Pool.
  * @summary A Job Release Task to run on Job completion on any Compute Node where the Job has run.
  */
 export interface JobReleaseTask {
@@ -1551,7 +1561,8 @@ export interface WindowsConfiguration {
 export interface DataDisk {
   /**
    * The logical unit number. The lun is used to uniquely identify each data disk. If attaching
-   * multiple disks, each should have a distinct lun.
+   * multiple disks, each should have a distinct lun. The value must be between 0 and 63,
+   * inclusive.
    */
   lun: number;
   /**
@@ -1759,6 +1770,7 @@ export interface PoolEndpointConfiguration {
    * A list of inbound NAT Pools that can be used to address specific ports on an individual
    * Compute Node externally. The maximum number of inbound NAT Pools per Batch Pool is 5. If the
    * maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400.
+   * This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses.
    */
   inboundNATPools: InboundNATPool[];
 }
@@ -1774,8 +1786,8 @@ export interface PublicIPAddressConfiguration {
   provision?: IPAddressProvisioningType;
   /**
    * The list of public IPs which the Batch service will use when provisioning Compute Nodes. The
-   * number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20
-   * low-priority nodes can be allocated for each public IP. For example, a pool needing 150
+   * number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100
+   * low-priority nodes can be allocated for each public IP. For example, a pool needing 250
    * dedicated VMs would need at least 3 public IPs specified. Each element of this collection is
    * of the form:
    * /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}.
@@ -2008,11 +2020,11 @@ export interface PoolSpecification {
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
-   * The maximum number of Tasks that can run concurrently on a single Compute Node in the Pool.
-   * The default value is 1. The maximum value is the smaller of 4 times the number of cores of the
-   * vmSize of the Pool or 256.
+   * The number of task slots that can be used to run concurrent tasks on a single compute node in
+   * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
+   * cores of the vmSize of the pool or 256.
    */
-  maxTasksPerNode?: number;
+  taskSlotsPerNode?: number;
   /**
    * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is
    * spread.
@@ -3017,6 +3029,48 @@ export interface TaskCounts {
 }
 
 /**
+ * An interface representing TaskSlotCounts.
+ * @summary The TaskSlot counts for a Job.
+ */
+export interface TaskSlotCounts {
+  /**
+   * The number of TaskSlots for active Tasks.
+   */
+  active: number;
+  /**
+   * The number of TaskSlots for running Tasks.
+   */
+  running: number;
+  /**
+   * The number of TaskSlots for completed Tasks.
+   */
+  completed: number;
+  /**
+   * The number of TaskSlots for succeeded Tasks.
+   */
+  succeeded: number;
+  /**
+   * The number of TaskSlots for failed Tasks.
+   */
+  failed: number;
+}
+
+/**
+ * An interface representing TaskCountsResult.
+ * @summary The Task and TaskSlot counts for a Job.
+ */
+export interface TaskCountsResult {
+  /**
+   * The number of Tasks per state.
+   */
+  taskCounts: TaskCounts;
+  /**
+   * The number of TaskSlots required by Tasks per state.
+   */
+  taskSlotCounts: TaskSlotCounts;
+}
+
+/**
  * An interface representing AutoScaleRunError.
  * @summary An error that occurred when executing or evaluating a Pool autoscale formula.
  */
@@ -3244,11 +3298,11 @@ export interface CloudPool {
    */
   applicationLicenses?: string[];
   /**
-   * The maximum number of Tasks that can run concurrently on a single Compute Node in the Pool.
-   * The default value is 1. The maximum value is the smaller of 4 times the number of cores of the
-   * vmSize of the Pool or 256.
+   * The number of task slots that can be used to run concurrent tasks on a single compute node in
+   * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
+   * cores of the vmSize of the pool or 256.
    */
-  maxTasksPerNode?: number;
+  taskSlotsPerNode?: number;
   /**
    * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is
    * spread.
@@ -3405,11 +3459,11 @@ export interface PoolAddParameter {
    */
   applicationLicenses?: string[];
   /**
-   * The maximum number of Tasks that can run concurrently on a single Compute Node in the Pool.
-   * The default value is 1. The maximum value is the smaller of 4 times the number of cores of the
-   * vmSize of the Pool or 256.
+   * The number of task slots that can be used to run concurrent tasks on a single compute node in
+   * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
+   * cores of the vmSize of the pool or 256.
    */
-  maxTasksPerNode?: number;
+  taskSlotsPerNode?: number;
   /**
    * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is
    * spread.
@@ -3815,6 +3869,12 @@ export interface CloudTask {
    */
   constraints?: TaskConstraints;
   /**
+   * The number of scheduling slots that the Task requires to run. The default is 1. A Task can
+   * only be scheduled to run on a compute node if the node has enough free scheduling slots
+   * available. For multi-instance Tasks, this must be 1.
+   */
+  requiredSlots?: number;
+  /**
    * The user identity under which the Task runs. If omitted, the Task runs as a non-administrative
    * user unique to the Task.
    */
@@ -3944,6 +4004,12 @@ export interface TaskAddParameter {
    * infinite, and the retentionTime is 7 days.
    */
   constraints?: TaskConstraints;
+  /**
+   * The number of scheduling slots that the Task required to run. The default is 1. A Task can
+   * only be scheduled to run on a compute node if the node has enough free scheduling slots
+   * available. For multi-instance Tasks, this must be 1.
+   */
+  requiredSlots?: number;
   /**
    * The user identity under which the Task runs. If omitted, the Task runs as a non-administrative
    * user unique to the Task.
@@ -4402,6 +4468,12 @@ export interface ComputeNode {
    * Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks.
    */
   runningTasksCount?: number;
+  /**
+   * The total number of scheduling slots used by currently running Job Tasks on the Compute Node.
+   * This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or
+   * Start Tasks.
+   */
+  runningTaskSlotsCount?: number;
   /**
    * The total number of Job Tasks which completed successfully (with exitCode 0) on the Compute
    * Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release
@@ -8504,9 +8576,9 @@ export interface JobEnableOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface JobTerminateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The parameters for the request.
+   * The text you want to appear as the Job's TerminateReason. The default is 'UserTerminate'.
    */
-  jobTerminateParameter?: JobTerminateParameter;
+  terminateReason?: string;
   /**
    * Additional parameters for the operation
    */
@@ -8941,6 +9013,12 @@ export interface TaskGetOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface TaskUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * Constraints that apply to this Task. If omitted, the Task is given the default constraints.
+   * For multi-instance Tasks, updating the retention time applies only to the primary Task and not
+   * subtasks.
+   */
+  constraints?: TaskConstraints;
+  /**
    * Additional parameters for the operation
    */
   taskUpdateOptions?: TaskUpdateOptions;
@@ -9031,9 +9109,10 @@ export interface ComputeNodeGetOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface ComputeNodeRebootOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The parameters for the request.
+   * When to reboot the Compute Node and what to do with currently running Tasks. The default value
+   * is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
    */
-  nodeRebootParameter?: NodeRebootParameter;
+  nodeRebootOption?: ComputeNodeRebootOption;
   /**
    * Additional parameters for the operation
    */
@@ -9045,9 +9124,11 @@ export interface ComputeNodeRebootOptionalParams extends msRest.RequestOptionsBa
  */
 export interface ComputeNodeReimageOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The parameters for the request.
+   * When to reimage the Compute Node and what to do with currently running Tasks. The default
+   * value is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion',
+   * 'retainedData'
    */
-  nodeReimageParameter?: NodeReimageParameter;
+  nodeReimageOption?: ComputeNodeReimageOption;
   /**
    * Additional parameters for the operation
    */
@@ -9059,9 +9140,11 @@ export interface ComputeNodeReimageOptionalParams extends msRest.RequestOptionsB
  */
 export interface ComputeNodeDisableSchedulingOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The parameters for the request.
+   * What to do with currently running Tasks when disabling Task scheduling on the Compute Node.
+   * The default value is requeue. Possible values include: 'requeue', 'terminate',
+   * 'taskCompletion'
    */
-  nodeDisableSchedulingParameter?: NodeDisableSchedulingParameter;
+  nodeDisableSchedulingOption?: DisableComputeNodeSchedulingOption;
   /**
    * Additional parameters for the operation
    */
@@ -12554,7 +12637,7 @@ export type JobListPreparationAndReleaseTaskStatusResponse = CloudJobListPrepara
 /**
  * Contains response data for the getTaskCounts operation.
  */
-export type JobGetTaskCountsResponse = TaskCounts & JobGetTaskCountsHeaders & {
+export type JobGetTaskCountsResponse = TaskCountsResult & JobGetTaskCountsHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -12572,7 +12655,7 @@ export type JobGetTaskCountsResponse = TaskCounts & JobGetTaskCountsHeaders & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: TaskCounts;
+      parsedBody: TaskCountsResult;
     };
 };
 

@@ -1487,6 +1487,12 @@ export const JobManagerTask: msRest.CompositeMapper = {
           className: "TaskConstraints"
         }
       },
+      requiredSlots: {
+        serializedName: "requiredSlots",
+        type: {
+          name: "Number"
+        }
+      },
       killJobOnCompletion: {
         serializedName: "killJobOnCompletion",
         type: {
@@ -2511,8 +2517,8 @@ export const PoolSpecification: msRest.CompositeMapper = {
           className: "VirtualMachineConfiguration"
         }
       },
-      maxTasksPerNode: {
-        serializedName: "maxTasksPerNode",
+      taskSlotsPerNode: {
+        serializedName: "taskSlotsPerNode",
         type: {
           name: "Number"
         }
@@ -3904,6 +3910,77 @@ export const TaskCounts: msRest.CompositeMapper = {
   }
 };
 
+export const TaskSlotCounts: msRest.CompositeMapper = {
+  serializedName: "TaskSlotCounts",
+  type: {
+    name: "Composite",
+    className: "TaskSlotCounts",
+    modelProperties: {
+      active: {
+        required: true,
+        serializedName: "active",
+        type: {
+          name: "Number"
+        }
+      },
+      running: {
+        required: true,
+        serializedName: "running",
+        type: {
+          name: "Number"
+        }
+      },
+      completed: {
+        required: true,
+        serializedName: "completed",
+        type: {
+          name: "Number"
+        }
+      },
+      succeeded: {
+        required: true,
+        serializedName: "succeeded",
+        type: {
+          name: "Number"
+        }
+      },
+      failed: {
+        required: true,
+        serializedName: "failed",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TaskCountsResult: msRest.CompositeMapper = {
+  serializedName: "TaskCountsResult",
+  type: {
+    name: "Composite",
+    className: "TaskCountsResult",
+    modelProperties: {
+      taskCounts: {
+        required: true,
+        serializedName: "taskCounts",
+        type: {
+          name: "Composite",
+          className: "TaskCounts"
+        }
+      },
+      taskSlotCounts: {
+        required: true,
+        serializedName: "taskSlotCounts",
+        type: {
+          name: "Composite",
+          className: "TaskSlotCounts"
+        }
+      }
+    }
+  }
+};
+
 export const AutoScaleRunError: msRest.CompositeMapper = {
   serializedName: "AutoScaleRunError",
   type: {
@@ -4219,8 +4296,8 @@ export const CloudPool: msRest.CompositeMapper = {
           }
         }
       },
-      maxTasksPerNode: {
-        serializedName: "maxTasksPerNode",
+      taskSlotsPerNode: {
+        serializedName: "taskSlotsPerNode",
         type: {
           name: "Number"
         }
@@ -4410,8 +4487,8 @@ export const PoolAddParameter: msRest.CompositeMapper = {
           }
         }
       },
-      maxTasksPerNode: {
-        serializedName: "maxTasksPerNode",
+      taskSlotsPerNode: {
+        serializedName: "taskSlotsPerNode",
         type: {
           name: "Number"
         }
@@ -4955,6 +5032,12 @@ export const CloudTask: msRest.CompositeMapper = {
           className: "TaskConstraints"
         }
       },
+      requiredSlots: {
+        serializedName: "requiredSlots",
+        type: {
+          name: "Number"
+        }
+      },
       userIdentity: {
         serializedName: "userIdentity",
         type: {
@@ -5108,6 +5191,12 @@ export const TaskAddParameter: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TaskConstraints"
+        }
+      },
+      requiredSlots: {
+        serializedName: "requiredSlots",
+        type: {
+          name: "Number"
         }
       },
       userIdentity: {
@@ -5793,6 +5882,12 @@ export const ComputeNode: msRest.CompositeMapper = {
       },
       runningTasksCount: {
         serializedName: "runningTasksCount",
+        type: {
+          name: "Number"
+        }
+      },
+      runningTaskSlotsCount: {
+        serializedName: "runningTaskSlotsCount",
         type: {
           name: "Number"
         }

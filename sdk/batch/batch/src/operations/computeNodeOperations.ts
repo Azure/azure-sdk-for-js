@@ -652,10 +652,12 @@ const rebootOperationSpec: msRest.OperationSpec = {
     Parameters.ocpDate81
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "nodeRebootParameter"
-    ],
+    parameterPath: {
+      nodeRebootOption: [
+        "options",
+        "nodeRebootOption"
+      ]
+    },
     mapper: Mappers.NodeRebootParameter
   },
   contentType: "application/json; odata=minimalmetadata; charset=utf-8",
@@ -690,10 +692,12 @@ const reimageOperationSpec: msRest.OperationSpec = {
     Parameters.ocpDate82
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "nodeReimageParameter"
-    ],
+    parameterPath: {
+      nodeReimageOption: [
+        "options",
+        "nodeReimageOption"
+      ]
+    },
     mapper: Mappers.NodeReimageParameter
   },
   contentType: "application/json; odata=minimalmetadata; charset=utf-8",
@@ -728,10 +732,12 @@ const disableSchedulingOperationSpec: msRest.OperationSpec = {
     Parameters.ocpDate83
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "nodeDisableSchedulingParameter"
-    ],
+    parameterPath: {
+      nodeDisableSchedulingOption: [
+        "options",
+        "nodeDisableSchedulingOption"
+      ]
+    },
     mapper: Mappers.NodeDisableSchedulingParameter
   },
   contentType: "application/json; odata=minimalmetadata; charset=utf-8",

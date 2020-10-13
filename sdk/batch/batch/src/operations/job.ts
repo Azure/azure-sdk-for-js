@@ -197,29 +197,32 @@ export class Job {
    * with status code 409.
    * @summary Disables the specified Job, preventing new Tasks from running.
    * @param jobId The ID of the Job to disable.
-   * @param jobDisableParameter The parameters for the request.
+   * @param disableTasks What to do with active Tasks associated with the Job. Possible values
+   * include: 'requeue', 'terminate', 'wait'
    * @param [options] The optional parameters
    * @returns Promise<Models.JobDisableResponse>
    */
-  disable(jobId: string, jobDisableParameter: Models.JobDisableParameter, options?: Models.JobDisableOptionalParams): Promise<Models.JobDisableResponse>;
+  disable(jobId: string, disableTasks: Models.DisableJobOption, options?: Models.JobDisableOptionalParams): Promise<Models.JobDisableResponse>;
   /**
    * @param jobId The ID of the Job to disable.
-   * @param jobDisableParameter The parameters for the request.
+   * @param disableTasks What to do with active Tasks associated with the Job. Possible values
+   * include: 'requeue', 'terminate', 'wait'
    * @param callback The callback
    */
-  disable(jobId: string, jobDisableParameter: Models.JobDisableParameter, callback: msRest.ServiceCallback<void>): void;
+  disable(jobId: string, disableTasks: Models.DisableJobOption, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param jobId The ID of the Job to disable.
-   * @param jobDisableParameter The parameters for the request.
+   * @param disableTasks What to do with active Tasks associated with the Job. Possible values
+   * include: 'requeue', 'terminate', 'wait'
    * @param options The optional parameters
    * @param callback The callback
    */
-  disable(jobId: string, jobDisableParameter: Models.JobDisableParameter, options: Models.JobDisableOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disable(jobId: string, jobDisableParameter: Models.JobDisableParameter, options?: Models.JobDisableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDisableResponse> {
+  disable(jobId: string, disableTasks: Models.DisableJobOption, options: Models.JobDisableOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  disable(jobId: string, disableTasks: Models.DisableJobOption, options?: Models.JobDisableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDisableResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
-        jobDisableParameter,
+        disableTasks,
         options
       },
       disableOperationSpec,
@@ -415,7 +418,9 @@ export class Job {
 
   /**
    * Task counts provide a count of the Tasks by active, running or completed Task state, and a count
-   * of Tasks which succeeded or failed. Tasks in the preparing state are counted as running.
+   * of Tasks which succeeded or failed. Tasks in the preparing state are counted as running. Note
+   * that the numbers returned may not always be up to date. If you need exact task counts, use a
+   * list query.
    * @summary Gets the Task counts for the specified Job.
    * @param jobId The ID of the Job.
    * @param [options] The optional parameters
@@ -426,14 +431,14 @@ export class Job {
    * @param jobId The ID of the Job.
    * @param callback The callback
    */
-  getTaskCounts(jobId: string, callback: msRest.ServiceCallback<Models.TaskCounts>): void;
+  getTaskCounts(jobId: string, callback: msRest.ServiceCallback<Models.TaskCountsResult>): void;
   /**
    * @param jobId The ID of the Job.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTaskCounts(jobId: string, options: Models.JobGetTaskCountsOptionalParams, callback: msRest.ServiceCallback<Models.TaskCounts>): void;
-  getTaskCounts(jobId: string, options?: Models.JobGetTaskCountsOptionalParams | msRest.ServiceCallback<Models.TaskCounts>, callback?: msRest.ServiceCallback<Models.TaskCounts>): Promise<Models.JobGetTaskCountsResponse> {
+  getTaskCounts(jobId: string, options: Models.JobGetTaskCountsOptionalParams, callback: msRest.ServiceCallback<Models.TaskCountsResult>): void;
+  getTaskCounts(jobId: string, options?: Models.JobGetTaskCountsOptionalParams | msRest.ServiceCallback<Models.TaskCountsResult>, callback?: msRest.ServiceCallback<Models.TaskCountsResult>): Promise<Models.JobGetTaskCountsResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -738,7 +743,9 @@ const disableOperationSpec: msRest.OperationSpec = {
     Parameters.ifUnmodifiedSince12
   ],
   requestBody: {
-    parameterPath: "jobDisableParameter",
+    parameterPath: {
+      disableTasks: "disableTasks"
+    },
     mapper: {
       ...Mappers.JobDisableParameter,
       required: true
@@ -812,10 +819,12 @@ const terminateOperationSpec: msRest.OperationSpec = {
     Parameters.ifUnmodifiedSince14
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "jobTerminateParameter"
-    ],
+    parameterPath: {
+      terminateReason: [
+        "options",
+        "terminateReason"
+      ]
+    },
     mapper: Mappers.JobTerminateParameter
   },
   contentType: "application/json; odata=minimalmetadata; charset=utf-8",
@@ -986,7 +995,7 @@ const getTaskCountsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.TaskCounts,
+      bodyMapper: Mappers.TaskCountsResult,
       headersMapper: Mappers.JobGetTaskCountsHeaders
     },
     default: {

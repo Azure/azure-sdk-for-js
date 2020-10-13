@@ -106,29 +106,38 @@ export class Task {
    * that time.
    * @summary Adds a collection of Tasks to the specified Job.
    * @param jobId The ID of the Job to which the Task collection is to be added.
-   * @param taskCollection The Tasks to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
+   * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskAddCollectionResponse>
    */
-  addCollection(jobId: string, taskCollection: Models.TaskAddCollectionParameter, options?: Models.TaskAddCollectionOptionalParams): Promise<Models.TaskAddCollectionResponse>;
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams): Promise<Models.TaskAddCollectionResponse>;
   /**
    * @param jobId The ID of the Job to which the Task collection is to be added.
-   * @param taskCollection The Tasks to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
+   * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param callback The callback
    */
-  addCollection(jobId: string, taskCollection: Models.TaskAddCollectionParameter, callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
+  addCollection(jobId: string, value: Models.TaskAddParameter[], callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
   /**
    * @param jobId The ID of the Job to which the Task collection is to be added.
-   * @param taskCollection The Tasks to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
+   * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCollection(jobId: string, taskCollection: Models.TaskAddCollectionParameter, options: Models.TaskAddCollectionOptionalParams, callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
-  addCollection(jobId: string, taskCollection: Models.TaskAddCollectionParameter, options?: Models.TaskAddCollectionOptionalParams | msRest.ServiceCallback<Models.TaskAddCollectionResult>, callback?: msRest.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options: Models.TaskAddCollectionOptionalParams, callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams | msRest.ServiceCallback<Models.TaskAddCollectionResult>, callback?: msRest.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
-        taskCollection,
+        value,
         options
       },
       addCollectionOperationSpec,
@@ -209,32 +218,28 @@ export class Task {
    * Updates the properties of the specified Task.
    * @param jobId The ID of the Job containing the Task.
    * @param taskId The ID of the Task to update.
-   * @param taskUpdateParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskUpdateResponse>
    */
-  update(jobId: string, taskId: string, taskUpdateParameter: Models.TaskUpdateParameter, options?: Models.TaskUpdateOptionalParams): Promise<Models.TaskUpdateResponse>;
+  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams): Promise<Models.TaskUpdateResponse>;
   /**
    * @param jobId The ID of the Job containing the Task.
    * @param taskId The ID of the Task to update.
-   * @param taskUpdateParameter The parameters for the request.
    * @param callback The callback
    */
-  update(jobId: string, taskId: string, taskUpdateParameter: Models.TaskUpdateParameter, callback: msRest.ServiceCallback<void>): void;
+  update(jobId: string, taskId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param jobId The ID of the Job containing the Task.
    * @param taskId The ID of the Task to update.
-   * @param taskUpdateParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(jobId: string, taskId: string, taskUpdateParameter: Models.TaskUpdateParameter, options: Models.TaskUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(jobId: string, taskId: string, taskUpdateParameter: Models.TaskUpdateParameter, options?: Models.TaskUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
+  update(jobId: string, taskId: string, options: Models.TaskUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
         taskId,
-        taskUpdateParameter,
         options
       },
       updateOperationSpec,
@@ -470,7 +475,9 @@ const addCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.ocpDate69
   ],
   requestBody: {
-    parameterPath: "taskCollection",
+    parameterPath: {
+      value: "value"
+    },
     mapper: {
       ...Mappers.TaskAddCollectionParameter,
       required: true
@@ -584,7 +591,12 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.ifUnmodifiedSince29
   ],
   requestBody: {
-    parameterPath: "taskUpdateParameter",
+    parameterPath: {
+      constraints: [
+        "options",
+        "constraints"
+      ]
+    },
     mapper: {
       ...Mappers.TaskUpdateParameter,
       required: true
