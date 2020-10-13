@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { UserDelegationKey } from "./models";
+import { UserDelegationKey } from "../models";
 import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { truncatedISO8061Date } from "../utils/utils.common";
 
 /**
  * Protocols for generated SAS.
@@ -20,6 +20,160 @@ export enum SASProtocol {
    * Protocol that allows both HTTPS and HTTP
    */
   HttpsAndHttp = "https,http"
+}
+
+/**
+ * Options interfac to construct {@link SASQueryParameters}.
+ *
+ * @export
+ * @interface SASQueryParametersOptions
+ */
+export interface SASQueryParametersOptions {
+  /**
+   * Optional only when identifier is provided.
+   * Please refer to {@link AccountSASPermissions}, {@link BlobSASPermissions}, or {@link ContainerSASPermissions} for
+   * more details.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  permissions?: string;
+  /**
+   * Optional. The storage services being accessed (only for Account SAS). Please refer to {@link AccountSASServices}
+   * for more details.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  services?: string;
+  /**
+   * Optional. The storage resource types being accessed (only for Account SAS). Please refer to
+   * {@link AccountSASResourceTypes} for more details.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  resourceTypes?: string;
+  /**
+   * Optional. The allowed HTTP protocol(s).
+   *
+   * @type {SASProtocol}
+   * @memberof SASQueryParametersOptions
+   */
+  protocol?: SASProtocol;
+  /**
+   * Optional. The start time for this SAS token.
+   *
+   * @type {Date}
+   * @memberof SASQueryParametersOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional only when identifier is provided. The expiry time for this SAS token.
+   *
+   * @type {Date}
+   * @memberof SASQueryParametersOptions
+   */
+  expiresOn?: Date;
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof SASQueryParametersOptions
+   */
+  ipRange?: SasIPRange;
+  /**
+   * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  identifier?: string;
+  /**
+   * Optional. The storage container or blob (only for {@link BlobSASSignatureValues}).
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  resource?: string;
+  /**
+   * Value for cache-control header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  cacheControl?: string;
+  /**
+   * Value for content-disposition header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  contentDisposition?: string;
+  /**
+   * Value for content-encoding header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  contentEncoding?: string;
+  /**
+   * Value for content-length header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  contentLanguage?: string;
+  /**
+   * Value for content-type header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  contentType?: string;
+  /**
+   * User delegation key properties.
+   *
+   * @type {UserDelegationKey}
+   * @memberof SASQueryParametersOptions
+   */
+  userDelegationKey?: UserDelegationKey;
+  /**
+   * Indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
+   * The depth of the directory is the number of directories beneath the root folder.
+   *
+   * @type {number}
+   * @memberof SASQueryParametersOptions
+   */
+  directoryDepth?: number;
+  /**
+   * Authorized AAD Object Id in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
+   * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
+   * has the required permissions before granting access but no additional permission check for the user specified in
+   * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  preauthorizedAgentObjectId?: string;
+  /**
+   * Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
+   * The Azure Storage Service will perform an additional POSIX ACL check to determine if the user is authorized to perform the requested operation.
+   * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  agentObjectId?: string;
+  /**
+   * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+   *
+   * @type {string}
+   * @memberof SASQueryParametersOptions
+   */
+  correlationId?: string;
 }
 
 /**
@@ -231,6 +385,44 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * Indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
+   * The depth of the directory is the number of directories beneath the root folder.
+   *
+   * @type {number}
+   * @memberof SASQueryParameters
+   */
+  public readonly directoryDepth?: number;
+
+  /**
+   * Authorized AAD Object Id in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
+   * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
+   * has the required permissions before granting access but no additional permission check for the user specified in
+   * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly preauthorizedAgentObjectId?: string;
+
+  /**
+   * Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
+   * The Azure Storage Service will perform an additional POSIX ACL check to determine if the user is authorized to perform the requested operation.
+   * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly agentObjectId?: string;
+
+  /**
+   * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly correlationId?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -286,32 +478,107 @@ export class SASQueryParameters {
     contentEncoding?: string,
     contentLanguage?: string,
     contentType?: string,
-    userDelegationKey?: UserDelegationKey
+    userDelegationKey?: UserDelegationKey,
+    directoryDepth?: number,
+    preauthorizedAgentObjectId?: string,
+    agentObjectId?: string,
+    correlationId?: string
+  );
+
+  /**
+   * Creates an instance of SASQueryParameters.
+   *
+   * @param {string} version Representing the storage version
+   * @param {string} signature Representing the signature for the SAS token
+   * @param {SASQueryParametersOptions} [options] Optional. Options to construct the SASQueryParameters.
+   * @memberof SASQueryParameters
+   */
+  constructor(version: string, signature: string, options?: SASQueryParametersOptions);
+
+  constructor(
+    version: string,
+    signature: string,
+    permissionsOrOptions?: string | SASQueryParametersOptions,
+    services?: string,
+    resourceTypes?: string,
+    protocol?: SASProtocol,
+    startsOn?: Date,
+    expiresOn?: Date,
+    ipRange?: SasIPRange,
+    identifier?: string,
+    resource?: string,
+    cacheControl?: string,
+    contentDisposition?: string,
+    contentEncoding?: string,
+    contentLanguage?: string,
+    contentType?: string,
+    userDelegationKey?: UserDelegationKey,
+    directoryDepth?: number,
+    preauthorizedAgentObjectId?: string,
+    agentObjectId?: string,
+    correlationId?: string
   ) {
     this.version = version;
-    this.services = services;
-    this.resourceTypes = resourceTypes;
-    this.expiresOn = expiresOn;
-    this.permissions = permissions;
-    this.protocol = protocol;
-    this.startsOn = startsOn;
-    this.ipRangeInner = ipRange;
-    this.identifier = identifier;
-    this.resource = resource;
     this.signature = signature;
-    this.cacheControl = cacheControl;
-    this.contentDisposition = contentDisposition;
-    this.contentEncoding = contentEncoding;
-    this.contentLanguage = contentLanguage;
-    this.contentType = contentType;
 
-    if (userDelegationKey) {
-      this.signedOid = userDelegationKey.signedObjectId;
-      this.signedTenantId = userDelegationKey.signedTenantId;
-      this.signedStartsOn = userDelegationKey.signedStartsOn;
-      this.signedExpiresOn = userDelegationKey.signedExpiresOn;
-      this.signedService = userDelegationKey.signedService;
-      this.signedVersion = userDelegationKey.signedVersion;
+    if (permissionsOrOptions !== undefined && typeof permissionsOrOptions !== "string") {
+      // SASQueryParametersOptions
+      const options = permissionsOrOptions;
+      this.services = options.services;
+      this.resourceTypes = options.resourceTypes;
+      this.expiresOn = options.expiresOn;
+      this.permissions = options.permissions;
+      this.protocol = options.protocol;
+      this.startsOn = options.startsOn;
+      this.ipRangeInner = options.ipRange;
+      this.identifier = options.identifier;
+      this.resource = options.resource;
+      this.cacheControl = options.cacheControl;
+      this.contentDisposition = options.contentDisposition;
+      this.contentEncoding = options.contentEncoding;
+      this.contentLanguage = options.contentLanguage;
+      this.contentType = options.contentType;
+      this.directoryDepth = options.directoryDepth;
+      this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
+      this.agentObjectId = options.agentObjectId;
+      this.correlationId = options.correlationId;
+
+      if (options.userDelegationKey) {
+        this.signedOid = options.userDelegationKey.signedObjectId;
+        this.signedTenantId = options.userDelegationKey.signedTenantId;
+        this.signedStartsOn = options.userDelegationKey.signedStartsOn;
+        this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
+        this.signedService = options.userDelegationKey.signedService;
+        this.signedVersion = options.userDelegationKey.signedVersion;
+      }
+    } else {
+      this.services = services;
+      this.resourceTypes = resourceTypes;
+      this.expiresOn = expiresOn;
+      this.permissions = permissionsOrOptions;
+      this.protocol = protocol;
+      this.startsOn = startsOn;
+      this.ipRangeInner = ipRange;
+      this.identifier = identifier;
+      this.resource = resource;
+      this.cacheControl = cacheControl;
+      this.contentDisposition = contentDisposition;
+      this.contentEncoding = contentEncoding;
+      this.contentLanguage = contentLanguage;
+      this.contentType = contentType;
+      this.directoryDepth = directoryDepth;
+      this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
+      this.agentObjectId = agentObjectId;
+      this.correlationId = correlationId;
+
+      if (userDelegationKey) {
+        this.signedOid = userDelegationKey.signedObjectId;
+        this.signedTenantId = userDelegationKey.signedTenantId;
+        this.signedStartsOn = userDelegationKey.signedStartsOn;
+        this.signedExpiresOn = userDelegationKey.signedExpiresOn;
+        this.signedService = userDelegationKey.signedService;
+        this.signedVersion = userDelegationKey.signedVersion;
+      }
     }
   }
 
@@ -344,7 +611,11 @@ export class SASQueryParameters {
       "rscd",
       "rsce",
       "rscl",
-      "rsct"
+      "rsct",
+      "sdd",
+      "saoid",
+      "suoid",
+      "scid"
     ];
     const queries: string[] = [];
 
@@ -435,6 +706,18 @@ export class SASQueryParameters {
           break;
         case "rsct":
           this.tryAppendQueryParameter(queries, param, this.contentType);
+          break;
+        case "sdd":
+          this.tryAppendQueryParameter(queries, param, this.directoryDepth?.toString());
+          break;
+        case "saoid":
+          this.tryAppendQueryParameter(queries, param, this.preauthorizedAgentObjectId);
+          break;
+        case "suoid":
+          this.tryAppendQueryParameter(queries, param, this.agentObjectId);
+          break;
+        case "scid":
+          this.tryAppendQueryParameter(queries, param, this.correlationId);
           break;
       }
     }

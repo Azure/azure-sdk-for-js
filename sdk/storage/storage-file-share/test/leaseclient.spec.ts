@@ -1,12 +1,17 @@
 import * as assert from "assert";
-import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { FileSystemAttributes } from "../src/FileSystemAttributes";
-
+import {
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  ShareLeaseClient,
+  ShareServiceClient
+} from "../src";
+import * as dotenv from "dotenv";
 dotenv.config();
 
+// for file
 describe("LeaseClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
@@ -19,16 +24,6 @@ describe("LeaseClient", () => {
   const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
 
   let recorder: Recorder;
-
-  let fullFileAttributes = new FileSystemAttributes();
-  fullFileAttributes.readonly = true;
-  fullFileAttributes.hidden = true;
-  fullFileAttributes.system = true;
-  fullFileAttributes.archive = true;
-  fullFileAttributes.temporary = true;
-  fullFileAttributes.offline = true;
-  fullFileAttributes.notContentIndexed = true;
-  fullFileAttributes.noScrubData = true;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -96,11 +91,12 @@ describe("LeaseClient", () => {
   });
 
   it("invalid duration for acquireLease", async () => {
-    const invalid_duration = 2;
+    // only -1 for infinite is allowed.
+    const invalid_duration = 20;
     const leaseClient = fileClient.getShareLeaseClient();
     try {
       await leaseClient.acquireLease(invalid_duration);
-      assert.fail("acquireLease should fail for an invalid duration: -2");
+      assert.fail(`acquireLease should fail for an invalid duration: ${invalid_duration}`);
     } catch (err) {
       assert.equal(err.statusCode, 400);
     }
@@ -141,7 +137,9 @@ describe("LeaseClient", () => {
     let result = await fileClient.getProperties();
     assert.equal(result.leaseState, "leased");
 
-    await leaseClient.breakLease();
+    const res = await leaseClient.breakLease();
+    assert.equal(res.leaseTimeInSeconds, undefined);
+
     result = await fileClient.getProperties();
     assert.equal(result.leaseState, "broken");
 
@@ -333,5 +331,269 @@ describe("LeaseClient", () => {
     }
 
     await fileClient.getProperties({ leaseAccessConditions: { leaseId: leaseClient.leaseId } });
+  });
+});
+
+describe("LeaseClient for share", () => {
+  let serviceClient: ShareServiceClient;
+  let shareName: string;
+  let shareClient: ShareClient;
+  const infiniteDuration = -1;
+  const finiteDuration = 15;
+  const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
+
+  let recorder: Recorder;
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getBSU();
+    shareName = recorder.getUniqueName("share");
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
+
+  afterEach(async function() {
+    await shareClient.deleteIfExists({ deleteSnapshots: "include-leased" });
+    await recorder.stop();
+  });
+
+  // lease management:
+  it("acquireLease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient(guid);
+
+    const acquireResp = await leaseClient.acquireLease(infiniteDuration);
+    assert.equal(acquireResp.leaseId, guid);
+
+    const result = await shareClient.getProperties();
+    assert.equal(result.leaseDuration, "infinite");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+
+    await leaseClient.releaseLease();
+  });
+
+  it("acquireLease for snapshot", async () => {
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+    const snapshotShareClient = shareClient.withSnapshot(snapshotRes.snapshot!);
+
+    const leaseClient = snapshotShareClient.getShareLeaseClient(guid);
+    const acquireResp = await leaseClient.acquireLease(infiniteDuration);
+    assert.equal(acquireResp.leaseId, guid);
+
+    const snapshotResult = await snapshotShareClient.getProperties();
+    assert.equal(snapshotResult.leaseDuration, "infinite");
+    assert.equal(snapshotResult.leaseState, "leased");
+    assert.equal(snapshotResult.leaseStatus, "locked");
+
+    const result = await shareClient.getProperties();
+    assert.equal(result.leaseDuration, undefined);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+  });
+
+  it("acquireLease without proposed lease id, with a finite duration", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease(finiteDuration);
+
+    const result = await shareClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+
+    await leaseClient.releaseLease();
+  });
+
+  it("acquireLease again with another lease id", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease(infiniteDuration);
+
+    const anotherLeaseClient = shareClient.getShareLeaseClient(guid);
+    try {
+      await anotherLeaseClient.acquireLease(infiniteDuration);
+      assert.fail("acquireLease a leased lease should fail with a different lease id");
+    } catch (err) {
+      assert.equal(err.statusCode, 409);
+    }
+
+    await leaseClient.releaseLease();
+  });
+
+  it("acquireLease again with same lease id", async () => {
+    const leaseClient = shareClient.getShareLeaseClient(guid);
+    await leaseClient.acquireLease();
+    await leaseClient.acquireLease(infiniteDuration);
+
+    await leaseClient.releaseLease();
+  });
+
+  it("invalid duration for acquireLease", async () => {
+    // only -1 for infinite is allowed.
+    const invalidDuration = 1;
+    const leaseClient = shareClient.getShareLeaseClient();
+    try {
+      await leaseClient.acquireLease(invalidDuration);
+      assert.fail(`acquireLease should fail for an invalid duration: ${invalidDuration}`);
+    } catch (err) {
+      assert.equal(err.statusCode, 400);
+    }
+  });
+
+  it("changeLease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease(infiniteDuration);
+    const changeResp = await leaseClient.changeLease(guid);
+    assert.equal(changeResp.leaseId, guid);
+
+    await leaseClient.releaseLease();
+  });
+
+  it("changeLease before acquiring a lease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    try {
+      const changeResp = await leaseClient.changeLease(guid);
+      assert.equal(changeResp.leaseId, guid);
+      await leaseClient.releaseLease();
+    } catch (err) {
+      assert.equal(err.statusCode, 409);
+    }
+  });
+
+  it("release lease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease();
+    await leaseClient.releaseLease();
+
+    const result = await shareClient.getProperties();
+    assert.equal(result.leaseDuration, undefined);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+  });
+
+  it("break lease and then release it", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease();
+    let result = await shareClient.getProperties();
+    assert.equal(result.leaseState, "leased");
+
+    const breakRes = await leaseClient.breakLease();
+    // infinite lease broken immediately
+    assert.equal(breakRes.leaseTimeInSeconds, 0);
+
+    result = await shareClient.getProperties();
+    assert.equal(result.leaseState, "broken");
+
+    await leaseClient.releaseLease();
+  });
+
+  it("break a broken lease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease(finiteDuration);
+    const breakRes = await leaseClient.breakLease();
+    assert.ok(breakRes.leaseTimeInSeconds);
+    await leaseClient.breakLease();
+
+    await leaseClient.releaseLease();
+  });
+
+  it("acquire a broken lease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease();
+    await leaseClient.breakLease();
+    let result = await shareClient.getProperties();
+    assert.equal(result.leaseState, "broken");
+
+    await leaseClient.acquireLease();
+    result = await shareClient.getProperties();
+    assert.equal(result.leaseState, "leased");
+
+    await leaseClient.releaseLease();
+  });
+
+  it("renew a lease", async () => {
+    const leaseClient = shareClient.getShareLeaseClient(guid);
+    await leaseClient.acquireLease();
+    await leaseClient.renewLease();
+
+    await leaseClient.releaseLease();
+  });
+
+  it("lease properties properly returned", async () => {
+    const leaseClient = shareClient.getShareLeaseClient();
+    await leaseClient.acquireLease();
+
+    const getPropertiesRes = await shareClient.getProperties();
+    assert.equal(getPropertiesRes.leaseDuration, "infinite");
+    assert.equal(getPropertiesRes.leaseState, "leased");
+    assert.equal(getPropertiesRes.leaseStatus, "locked");
+
+    for await (const shareItem of serviceClient.listShares()) {
+      if (shareItem.name === shareName) {
+        assert.equal(shareItem.properties.leaseDuration, "infinite");
+        assert.equal(shareItem.properties.leaseState, "leased");
+        assert.equal(shareItem.properties.leaseStatus, "locked");
+      }
+    }
+
+    await leaseClient.releaseLease();
+  });
+
+  // lease conditions
+  it("lease condition for delete", async () => {
+    const leaseClient = new ShareLeaseClient(shareClient, guid);
+    await leaseClient.acquireLease();
+
+    try {
+      await shareClient.delete();
+      assert.fail("Delete without lease condition should have failed.");
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMissing");
+    }
+
+    await shareClient.delete({ leaseAccessConditions: { leaseId: guid } });
+  });
+
+  it("lease condition for get operations", async () => {
+    const leaseClient = new ShareLeaseClient(shareClient);
+    await leaseClient.acquireLease();
+
+    await shareClient.getProperties();
+
+    try {
+      await shareClient.getProperties({ leaseAccessConditions: { leaseId: guid } });
+      assert.fail("get with miss-match lease ID should have failed.");
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithContainerOperation");
+    }
+
+    await shareClient.getProperties({ leaseAccessConditions: { leaseId: leaseClient.leaseId } });
+
+    await leaseClient.releaseLease();
+  });
+
+  it("lease condition for write operations", async () => {
+    const leaseClient = new ShareLeaseClient(shareClient);
+    await leaseClient.acquireLease();
+
+    const meta = { key: "val" };
+
+    try {
+      await shareClient.setMetadata(meta);
+      assert.fail("write without lease ID should have failed.");
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMissing");
+    }
+
+    try {
+      await shareClient.setMetadata(meta, { leaseAccessConditions: { leaseId: guid } });
+      assert.fail("write with miss-match lease ID should have failed.");
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithContainerOperation");
+    }
+
+    await shareClient.setMetadata(meta, {
+      leaseAccessConditions: { leaseId: leaseClient.leaseId }
+    });
+
+    await leaseClient.releaseLease();
   });
 });

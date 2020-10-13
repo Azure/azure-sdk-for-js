@@ -223,6 +223,9 @@ export interface ObjectReplicationRule {
  * This is used when retrieving the Object Replication Properties on the source blob. The policy id for the
  * destination blob is set in ObjectReplicationDestinationPolicyId of the respective method responses
  * (e.g. {@link BlobProperties.ObjectReplicationDestinationPolicyId}.
+ *
+ * @export
+ * @interface ObjectReplicationPolicy
  */
 export interface ObjectReplicationPolicy {
   /**
@@ -236,7 +239,7 @@ export interface ObjectReplicationPolicy {
   /**
    * The Rule ID(s) and respective Replication Status(s) that are under the Policy ID.
    *
-   * @type {string}
+   * @type {ObjectReplicationRule[]}
    * @memberof ObjectReplicationPolicy
    */
   rules: ObjectReplicationRule[];
@@ -264,4 +267,55 @@ export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
    * @memberof BlobDownloadResponseParsed
    */
   objectReplicationDestinationPolicyId?: string;
+}
+
+/**
+ * The type of a {@link BlobQueryArrowField}.
+ */
+export type BlobQueryArrowFieldType =
+  | "int64"
+  | "bool"
+  | "timestamp[ms]"
+  | "string"
+  | "double"
+  | "decimal";
+
+/**
+ * Describe a field in {@link BlobQueryArrowConfiguration}.
+ *
+ * @export
+ * @interface BlobQueryArrowField
+ */
+export interface BlobQueryArrowField {
+  /**
+   * The type of the field.
+   *
+   * @type {BlobQueryArrowFieldType}
+   * @memberof BlobQueryArrowField
+   */
+  type: BlobQueryArrowFieldType;
+
+  /**
+   * The name of the field.
+   *
+   * @type {string}
+   * @memberof BlobQueryArrowField
+   */
+  name?: string;
+
+  /**
+   * The precision of the field. Required if type is "decimal".
+   *
+   * @type {number}
+   * @memberof BlobQueryArrowField
+   */
+  precision?: number;
+
+  /**
+   * The scale of the field.  Required if type is is "decimal".
+   *
+   * @type {number}
+   * @memberof BlobQueryArrowField
+   */
+  scale?: number;
 }

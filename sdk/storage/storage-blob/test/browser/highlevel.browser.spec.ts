@@ -154,8 +154,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  // SAS in test pipeline need to support the new permission.
-  it.skip("uploadBrowserDataToBlockBlob should work with tags", async function() {
+  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
