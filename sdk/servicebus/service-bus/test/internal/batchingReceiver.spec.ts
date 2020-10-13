@@ -16,8 +16,8 @@ import {
 } from "../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
+import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 import {
   Receiver as RheaReceiver,
   ReceiverEvents,

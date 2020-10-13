@@ -5,7 +5,6 @@ import chai from "chai";
 import { getTracer, NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
 import { CanonicalCode, SpanOptions } from "@opentelemetry/api";
 import {
-  InternalReceiveMode,
   ServiceBusMessage,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
@@ -59,7 +58,7 @@ describe("Tracing tests", () => {
       createConnectionContextForTests(),
       "my entity path",
       async () => (({} as any) as Receiver),
-      InternalReceiveMode.peekLock
+      "peekLock"
     );
 
     br["_createAndEndProcessingSpan"] = createSpanStub;
