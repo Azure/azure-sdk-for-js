@@ -166,7 +166,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
-  it("setProperties with default parameters", async () => {
+  it.only("setProperties with default parameters", async function() {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -181,7 +181,12 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
+    // IE11 sends "cache-control: no-cache"/"cache-control:max-age=0" for every requests
+    if (!isNode && isIE()) {
+      assert.ok(result.cacheControl);
+    } else {
+      assert.ok(!result.cacheControl);
+    }
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
