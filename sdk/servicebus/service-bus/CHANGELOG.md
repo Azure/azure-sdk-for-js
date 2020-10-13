@@ -1,6 +1,14 @@
 # Release History
 
+## 7.0.0-preview.8 (Unreleased)
+
+- `sendMessages` method on the sender and `tryAdd` method to add messages to a batch now support tracing.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
+
 ## 7.0.0-preview.7 (2020-10-07)
+
+- [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651/commits/f262e4562eb78828ee816a54f9a9778692e0eff9)
 
 ### New features:
 
@@ -13,7 +21,6 @@
   [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
 - "properties" in the correlation rule filter now supports `Date`.
   [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
-
 
 ### Breaking changes
 

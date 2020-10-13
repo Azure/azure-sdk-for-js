@@ -3,13 +3,13 @@
 
 import * as assert from "assert";
 import { HttpSender } from "../../../../src/platform/nodejs/httpSender";
-import { Envelope } from "../../../../src/Declarations/Contracts";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse
 } from "../../breezeTestUtils";
+import { TelemetryItem as Envelope } from "../../../../src/generated";
 import nock = require("nock");
 
 describe("HttpSender", () => {
@@ -29,7 +29,10 @@ describe("HttpSender", () => {
   });
 
   describe("#send()", () => {
-    const envelope = new Envelope();
+    const envelope: Envelope = {
+      name: "name",
+      time: new Date().toISOString()
+    };
     it("should send a valid envelope", async () => {
       const sender = new HttpSender();
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));

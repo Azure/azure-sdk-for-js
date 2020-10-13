@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates Detection Configuration CRUD operations.
+ * This sample demonstrates how to retrieve time series data.
  */
 // Load the .env file if it exists
 require("dotenv").config();
@@ -41,13 +41,21 @@ async function getEnrichedSeriesData(client, detectionConfigId) {
       ]
     );
 
-    for (const r of result.results || []) {
-      console.log("series:");
-      console.log(r.series);
-      console.log("isAbnomalList:");
-      console.table(r.isAnomalyList);
-      console.log("expectedValueList:");
-      console.table(r.expectedValueList);
+    for (const enriched of result.results || []) {
+      console.log("enriched series:");
+      console.log(enriched.series);
+      if (enriched.timestampList && enriched.timestampList.length > 0) {
+        for (let i = 0; i < enriched.timestampList.length; i++) {
+          console.log("  ----");
+          console.log(`  timestamp: ${enriched.timestampList[i]}`);
+          console.log(`  is abnormal?: ${enriched.isAnomalyList[i]}`);
+          console.log(`  value: ${enriched.valueList[i]}`);
+          console.log(`  expected value: ${enriched.expectedValueList[i]}`);
+          console.log(`  lower bound: ${enriched.lowerBoundaryList[i]}`);
+          console.log(`  upper bound: ${enriched.upperBoundaryList[i]}`);
+          console.log(`  period: ${enriched.periodList[i]}`);
+        }
+      }
     }
   } catch (err) {
     console.log("!!!!!  error in listing enriched series data");
@@ -68,8 +76,13 @@ async function getMetricSeriesData(client, metricId) {
       ]
     );
 
-    for (const r of result.metricSeriesDataList || []) {
-      console.dir(r);
+    for (const series of result.metricSeriesDataList || []) {
+      console.log(series.definition);
+      if (series.timestampList && series.timestampList.length > 0)
+        for (let i = 0; i < series.timestampList.length; i++) {
+          console.log(`  ${series.timestampList[i]}`);
+          console.log(`  ${series.valueList[i]}`);
+        }
     }
   } catch (err) {
     console.log("!!!!!  error in listing metric series data");

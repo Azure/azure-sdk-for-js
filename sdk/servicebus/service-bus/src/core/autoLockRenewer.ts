@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { ConnectionContext } from "../connectionContext";
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { logError } from "../util/errors";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { LinkEntity } from "./linkEntity";
 import { OnError } from "./messageReceiver";
@@ -19,6 +18,10 @@ export type RenewableMessageProperties = Readonly<
   // updated when we renew the lock
   Pick<ServiceBusMessageImpl, "lockedUntilUtc">;
 
+/**
+ * @internal
+ * @ignore
+ */
 type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
 
 /**
@@ -189,7 +192,7 @@ export class LockRenewer {
 
                 autoRenewLockTask();
               } catch (err) {
-                logError(
+                logger.logError(
                   err,
                   `${logPrefix} An error occurred while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
                 );

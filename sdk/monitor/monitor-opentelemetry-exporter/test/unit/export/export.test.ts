@@ -5,7 +5,6 @@ import * as assert from "assert";
 import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "../../../src/export/exporter";
 import { TelemetryProcessor } from "../../../src/types";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
@@ -13,6 +12,7 @@ import {
   successfulBreezeResponse
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../../src/platform";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 import nock = require("nock");
 
 function toObject<T>(obj: T): T {
@@ -23,7 +23,7 @@ describe("#AzureMonitorBaseExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     constructor() {
       super({
-        instrumentationKey: "foo"
+        instrumentationKey: "foo-ikey"
       });
     }
 
@@ -48,7 +48,14 @@ describe("#AzureMonitorBaseExporter", () => {
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
       const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
-      const envelope = new Envelope();
+      const envelope = {
+        name: "Name",
+        time: new Date().toISOString()
+      };
+
+      before(() => {
+        nock.cleanAll();
+      });
 
       after(() => {
         nock.cleanAll();
@@ -56,8 +63,8 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should persist retriable failed telemetry", async () => {
         const exporter = new TestExporter();
-        const response = failedBreezeResponse(1, 408);
-        scope.reply(408, JSON.stringify(response));
+        const response = failedBreezeResponse(1, 429);
+        scope.reply(429, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopes([envelope]);
         assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
@@ -158,10 +165,14 @@ describe("#AzureMonitorBaseExporter", () => {
 
     describe("#_applyTelemetryProcessors()", () => {
       it("should filter envelopes", () => {
-        const fooEnvelope = new Envelope();
-        const barEnvelope = new Envelope();
-        fooEnvelope.name = "foo";
-        barEnvelope.name = "bar";
+        const fooEnvelope = {
+          name: "foo",
+          time: new Date().toISOString()
+        };
+        const barEnvelope = {
+          name: "bar",
+          time: new Date().toISOString()
+        };
 
         const exporter = new TestExporter();
         assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
@@ -175,10 +186,14 @@ describe("#AzureMonitorBaseExporter", () => {
       });
 
       it("should filter modified envelopes", () => {
-        const fooEnvelope = new Envelope();
-        const barEnvelope = new Envelope();
-        fooEnvelope.name = "foo";
-        barEnvelope.name = "bar";
+        const fooEnvelope = {
+          name: "foo",
+          time: new Date().toISOString()
+        };
+        const barEnvelope = {
+          name: "bar",
+          time: new Date().toISOString()
+        };
 
         const exporter = new TestExporter();
         assert.strictEqual(exporter.getTelemetryProcesors().length, 0);

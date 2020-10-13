@@ -2,9 +2,10 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-
+  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
@@ -97,13 +98,11 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
   await sender.close();
 }
 async function processMessageFromSession(sessionId) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
-    sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
   const messages = await sessionReceiver.receiveMessages(1, {
-    maxWaitTimeSeconds: 10
+    maxWaitTimeInMs: 10000
   });
   // Custom logic for processing the messages
   if (messages.length > 0) {
@@ -134,4 +133,5 @@ async function processMessageFromSession(sessionId) {
 }
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });
