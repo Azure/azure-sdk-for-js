@@ -94,7 +94,7 @@ describe("DigitalTwinsClient", () => {
       etag: testEtag
     };
     testError = new Error("Promise Rejected");
-    decommissionPatch = [{ 'op': 'replace', 'path': '/decommissioned', 'value': true }];
+    decommissionPatch = [{ op: "replace", path: "/decommissioned", value: true }];
   });
 
   it(`Constructor creates an instance of the DigitalTwinsClient`, function() {

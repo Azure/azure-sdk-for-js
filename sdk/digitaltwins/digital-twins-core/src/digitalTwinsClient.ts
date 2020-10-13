@@ -723,11 +723,8 @@ export class DigitalTwinsClient {
    * defined by this model. However, existing digital twins may continue to use this model.
    * Once a model is decomissioned, it may not be recommissioned.
    */
-  public decomissionModel(
-    modelId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
-    const jsonPatch = [{ 'op': 'replace', 'path': '/decommissioned', 'value': true }]
+  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
+    const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
     return this.client.digitalTwinModels.update(modelId, jsonPatch, options);
   }
 
