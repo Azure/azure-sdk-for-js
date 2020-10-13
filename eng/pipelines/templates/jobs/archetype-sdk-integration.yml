@@ -66,6 +66,10 @@ parameters:
       OSVmImage: "macOS-10.15"
       TestType: "node"
       NodeTestVersion: "12.x"
+    Linux Node 14:
+      OSVmImage: "ubuntu-18.04"
+      TestType: "node"
+      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"

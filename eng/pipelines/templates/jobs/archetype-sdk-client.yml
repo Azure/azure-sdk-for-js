@@ -18,6 +18,10 @@ parameters:
       OSVmImage: "ubuntu-18.04"
       NodeTestVersion: "12.x"
       TestType: "browser"
+    Linux_Node14:
+      OSVmImage: "ubuntu-18.04"
+      NodeTestVersion: "14.x"
+      TestType: "node"
 
 jobs:
   - job: "Build"
