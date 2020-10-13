@@ -162,7 +162,7 @@ describe("DigitalTwinsClient", () => {
         ifMatch: testEtag,
         ...operationOptions
       }
-    }
+    };
     const stub = sinon.stub(testClient["client"].digitalTwins, "update");
     testClient.updateDigitalTwin(testTwinId, testJsonPatch, testEtag, operationOptions);
     assert.isTrue(stub.calledOnce);
@@ -190,7 +190,7 @@ describe("DigitalTwinsClient", () => {
         ifMatch: testEtag,
         ...operationOptions
       }
-    }
+    };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "delete");
     testClient.deleteDigitalTwin(testTwinId, testEtag, operationOptions);
@@ -242,7 +242,7 @@ describe("DigitalTwinsClient", () => {
         ifMatch: testEtag,
         ...operationOptions
       }
-    }
+    };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateComponent");
     testClient.updateComponent(
@@ -259,23 +259,17 @@ describe("DigitalTwinsClient", () => {
   it("updateComponent returns a promise of the generated code return value", async () => {
     const testReturn = testHeaders + testDefaultResponse;
     sinon.stub(testClient["client"].digitalTwins, "updateComponent").resolves(testReturn);
-    const retVal = await testClient.updateComponent(
-      testTwinId, 
-      testComponentPath,
-      testJsonPatch
-    );
+    const retVal = await testClient.updateComponent(testTwinId, testComponentPath, testJsonPatch);
     assert.deepEqual(retVal, testReturn);
   });
 
   it("updateComponent rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "updateComponent").rejects(testError);
-    await testClient.updateComponent(
-      testTwinId,
-      testComponentPath,
-      testJsonPatch
-    ).catch((error) => {
-      expect(error.message).to.equal("Promise Rejected");
-    });
+    await testClient
+      .updateComponent(testTwinId, testComponentPath, testJsonPatch)
+      .catch((error) => {
+        expect(error.message).to.equal("Promise Rejected");
+      });
   });
 
   it("getRelationship calls the getRelationshipById method with twinId and relationshipId on the generated client if there is no option defined", function() {
@@ -341,7 +335,7 @@ describe("DigitalTwinsClient", () => {
         ifMatch: testEtag,
         ...operationOptions
       }
-    }
+    };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateRelationship");
     testClient.updateRelationship(
@@ -382,7 +376,7 @@ describe("DigitalTwinsClient", () => {
         ifMatch: testEtag,
         ...operationOptions
       }
-    }
+    };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "deleteRelationship");
     testClient.deleteRelationship(testTwinId, testRelationshipId, testEtag, operationOptions);
@@ -570,15 +564,21 @@ describe("DigitalTwinsClient", () => {
   it("upsertEventRoute returns a promise of the generated code return value", async () => {
     const testReturn = testHeaders + testBody + testDefaultOperationalResponse;
     sinon.stub(testClient["client"].eventRoutes, "add").resolves(testReturn);
-    const retVal = await testClient.upsertEventRoute(testEventRouteId, testEndpointName, testFilter);
+    const retVal = await testClient.upsertEventRoute(
+      testEventRouteId,
+      testEndpointName,
+      testFilter
+    );
     assert.deepEqual(retVal, testReturn);
   });
 
   it("upsertEventRoute rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].eventRoutes, "add").rejects(testError);
-    await testClient.upsertEventRoute(testEventRouteId, testEndpointName, testFilter).catch((error) => {
-      expect(error.message).to.equal("Promise Rejected");
-    });
+    await testClient
+      .upsertEventRoute(testEventRouteId, testEndpointName, testFilter)
+      .catch((error) => {
+        expect(error.message).to.equal("Promise Rejected");
+      });
   });
 
   it("deleteEventRoute calls the deleteMethod method with eventRouteId and options on the generated client", function() {

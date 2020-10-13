@@ -183,7 +183,7 @@ export class DigitalTwinsClient {
         ifMatch: etag,
         ...options
       }
-    }
+    };
     return this.client.digitalTwins.update(
       digitalTwinId,
       twinPatch,
@@ -208,11 +208,11 @@ export class DigitalTwinsClient {
     var digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
     digitalTwinsDeleteOptionalParams = {
       digitalTwinsDeleteOptions: {
-      ifMatch: etag,
-      ...options
+        ifMatch: etag,
+        ...options
       }
-    }
-    
+    };
+
     return this.client.digitalTwins.delete(digitalTwinId, digitalTwinsDeleteOptionalParams);
   }
 
@@ -256,7 +256,7 @@ export class DigitalTwinsClient {
         ifMatch: etag,
         ...options
       }
-    }
+    };
 
     return this.client.digitalTwins.updateComponent(
       digitalTwinId,
@@ -329,8 +329,8 @@ export class DigitalTwinsClient {
         ifMatch: etag,
         ...options
       }
-    }
-    
+    };
+
     return this.client.digitalTwins.updateRelationship(
       digitalTwinId,
       relationshipId,
@@ -361,8 +361,8 @@ export class DigitalTwinsClient {
         ifMatch: etag,
         ...options
       }
-    }
-    
+    };
+
     return this.client.digitalTwins.deleteRelationship(
       digitalTwinId,
       relationshipId,
@@ -575,7 +575,9 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
-    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date().getTime().toString();
+    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date()
+      .getTime()
+      .toString();
     if (!messageId) {
       messageId = generateUuid();
     }
