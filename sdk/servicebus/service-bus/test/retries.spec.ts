@@ -18,7 +18,6 @@ import {
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { InternalReceiveMode } from "../src/serviceBusMessage";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -357,7 +356,7 @@ describe("Retries - Receive methods", () => {
         "dummyEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: InternalReceiveMode.peekLock
+          receiveMode: "peekLock"
         }
       );
       batchingReceiver.isOpen = () => true;

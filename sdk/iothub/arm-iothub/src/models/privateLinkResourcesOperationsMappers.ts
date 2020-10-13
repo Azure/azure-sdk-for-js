@@ -7,7 +7,8 @@
  */
 
 export {
-  CloudError,
-  SubscriptionCreationResult,
-  SubscriptionOperationGetHeaders
+  ErrorDetails,
+  GroupIdInformation,
+  GroupIdInformationProperties,
+  PrivateLinkResources
 } from "../models/mappers";

@@ -7,11 +7,9 @@
  */
 
 export {
-  AdPrincipal,
+  BillingPermissionsListResult,
+  BillingPermissionsProperties,
+  ErrorDetails,
   ErrorResponse,
-  ModernSubscriptionCreationParameters,
-  SubscriptionCreationParameters,
-  SubscriptionCreationResult,
-  SubscriptionFactoryCreateSubscriptionHeaders,
-  SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
+  ErrorSubDetailsItem
 } from "../models/mappers";

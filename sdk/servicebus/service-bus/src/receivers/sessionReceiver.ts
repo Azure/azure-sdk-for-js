@@ -14,7 +14,6 @@ import {
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -349,17 +348,12 @@ export class ServiceBusSessionReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          this.sessionId,
-          {
-            ...options,
-            associatedLinkName: this._messageSession.name,
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {

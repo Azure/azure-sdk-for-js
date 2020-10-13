@@ -26,7 +26,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
-import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
@@ -242,10 +242,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
-      if (
-        this.receiveMode === InternalReceiveMode.peekLock &&
-        (!this.link || !this.link.isOpen())
-      ) {
+      if (this.receiveMode === "peekLock" && (!this.link || !this.link.isOpen())) {
         logger.verbose(
           "%s Not calling the user's message handler for the current message " +
             "as the receiver is closed",
@@ -293,7 +290,7 @@ export class StreamingReceiver extends MessageReceiver {
         if (
           !bMessage.delivery.remote_settled &&
           error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
-          this.receiveMode === InternalReceiveMode.peekLock &&
+          this.receiveMode === "peekLock" &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
           try {
@@ -329,7 +326,7 @@ export class StreamingReceiver extends MessageReceiver {
       // completing the message.
       if (
         this.autoComplete &&
-        this.receiveMode === InternalReceiveMode.peekLock &&
+        this.receiveMode === "peekLock" &&
         !bMessage.delivery.remote_settled
       ) {
         try {

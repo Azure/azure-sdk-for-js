@@ -16,7 +16,16 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["fs", "util", "stream", "zlib", "crypto", "path", "events"];
+  const externalNodeBuiltins = [
+    "fs",
+    "util",
+    "stream",
+    "zlib",
+    "crypto",
+    "path",
+    "events",
+    "process"
+  ];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -68,7 +77,7 @@ export function browserConfig(test = false, production = false) {
       globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
-    external: [],
+    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
@@ -79,12 +88,14 @@ export function browserConfig(test = false, production = false) {
         "if (isNode)": "if (false)"
       }),
       shim({
+        constants: `export default {}`,
         fs: `export default {}`,
         stream: `export default {}`,
         zlib: `export default {}`,
         crypto: `export default {}`,
         os: `export default {}`,
-        path: `export default {}`
+        path: `export default {}`,
+        dotenv: `export function config() { }`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],

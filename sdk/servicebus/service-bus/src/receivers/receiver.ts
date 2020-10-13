@@ -23,7 +23,6 @@ import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { CreateStreamingReceiverOptions, StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
@@ -245,7 +244,7 @@ export class ServiceBusReceiverImpl<
 
     this._createStreamingReceiver(this._context, this.entityPath, {
       ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode),
+      receiveMode: this.receiveMode,
       retryOptions: this._retryOptions,
       cachedStreamingReceiver: this._streamingReceiver,
       lockRenewer: this._lockRenewer
@@ -297,7 +296,7 @@ export class ServiceBusReceiverImpl<
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
-          receiveMode: convertToInternalReceiveMode(this.receiveMode),
+          receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer
         };
         this._batchingReceiver = this._createBatchingReceiver(
@@ -351,17 +350,12 @@ export class ServiceBusReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          undefined,
-          {
-            ...options,
-            associatedLinkName: this._getAssociatedReceiverName(),
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
