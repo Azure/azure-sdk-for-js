@@ -8,6 +8,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
+import { DeveloperSignOnClientId } from '../constants';
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -74,7 +75,7 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(
     tenantId: string | "organizations",
-    clientId: string,
+    clientId: string = DeveloperSignOnClientId,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
