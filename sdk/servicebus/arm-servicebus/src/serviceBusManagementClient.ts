@@ -17,17 +17,19 @@ import { ServiceBusManagementClientContext } from "./serviceBusManagementClientC
 
 class ServiceBusManagementClient extends ServiceBusManagementClientContext {
   // Operation groups
-  operations: operations.Operations;
   namespaces: operations.Namespaces;
-  disasterRecoveryConfigs: operations.DisasterRecoveryConfigs;
-  migrationConfigs: operations.MigrationConfigs;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
+  operations: operations.Operations;
   queues: operations.Queues;
   topics: operations.Topics;
+  disasterRecoveryConfigs: operations.DisasterRecoveryConfigs;
+  eventHubs: operations.EventHubs;
+  migrationConfigs: operations.MigrationConfigs;
+  premiumMessagingRegions: operations.PremiumMessagingRegionsOperations;
+  regions: operations.Regions;
   subscriptions: operations.Subscriptions;
   rules: operations.Rules;
-  regions: operations.Regions;
-  premiumMessagingRegions: operations.PremiumMessagingRegionsOperations;
-  eventHubs: operations.EventHubs;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -38,17 +40,19 @@ class ServiceBusManagementClient extends ServiceBusManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ServiceBusManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.operations = new operations.Operations(this);
     this.namespaces = new operations.Namespaces(this);
-    this.disasterRecoveryConfigs = new operations.DisasterRecoveryConfigs(this);
-    this.migrationConfigs = new operations.MigrationConfigs(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.operations = new operations.Operations(this);
     this.queues = new operations.Queues(this);
     this.topics = new operations.Topics(this);
+    this.disasterRecoveryConfigs = new operations.DisasterRecoveryConfigs(this);
+    this.eventHubs = new operations.EventHubs(this);
+    this.migrationConfigs = new operations.MigrationConfigs(this);
+    this.premiumMessagingRegions = new operations.PremiumMessagingRegionsOperations(this);
+    this.regions = new operations.Regions(this);
     this.subscriptions = new operations.Subscriptions(this);
     this.rules = new operations.Rules(this);
-    this.regions = new operations.Regions(this);
-    this.premiumMessagingRegions = new operations.PremiumMessagingRegionsOperations(this);
-    this.eventHubs = new operations.EventHubs(this);
   }
 }
 

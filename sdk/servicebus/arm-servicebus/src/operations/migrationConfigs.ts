@@ -260,11 +260,11 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -285,12 +285,12 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.configName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -310,12 +310,12 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.configName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -336,12 +336,12 @@ const completeMigrationOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.configName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -360,12 +360,12 @@ const revertOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.configName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -384,12 +384,12 @@ const beginCreateAndStartMigrationOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.configName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
