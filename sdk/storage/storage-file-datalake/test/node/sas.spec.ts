@@ -24,7 +24,7 @@ import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
 import {
   getDataLakeServiceClient,
-  getTokenDataLakeServiceClient,
+  getDataLakeServiceClientWithDefaultCredential,
   recorderEnvSetup
 } from "../utils";
 
@@ -444,11 +444,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function() {
-    // Try to get DataLakeServiceClient object with TokenCredential
-    // when DFS_ACCOUNT_TOKEN environment variable is set
+    // Try to get DataLakeServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getTokenDataLakeServiceClient();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -502,11 +502,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function() {
-    // Try to get DataLakeServiceClient object with TokenCredential
-    // when DFS_ACCOUNT_TOKEN environment variable is set
+    // Try to get DataLakeServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getTokenDataLakeServiceClient();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -556,11 +556,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work for file", async function() {
-    // Try to get serviceClient object with TokenCredential
-    // when DFS_ACCOUNT_TOKEN environment variable is set
+    // Try to get serviceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getTokenDataLakeServiceClient();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -606,6 +606,79 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasClient = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await fileClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await fileSystemClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function() {
+    // Try to get serviceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    let serviceClientWithToken: DataLakeServiceClient | undefined;
+    try {
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceClientWithToken === undefined) {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 5);
+    const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create({
+      pathHttpHeaders: {
+        contentType: "content-type-original"
+      }
+    });
+
+    const fileSAS = generateDataLakeSASQueryParameters(
+      {
+        pathName: fileClient.name,
+        cacheControl: "cache-control-override",
+        fileSystemName: fileClient.fileSystemName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: DataLakeSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2019-12-12"
       },
       userDelegationKey,
       accountName
@@ -743,7 +816,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         directoryDepth: 1,
         expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        permissions: DataLakeSASPermissions.parse("racwdmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2020-02-10"
@@ -826,6 +899,10 @@ describe("SAS generation Node.js only for directory SAS", () => {
       newPipeline(new AnonymousCredential())
     );
 
+    // o
+    const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    await fileClientWithSAS.setAccessControl([], { owner: guid });
+
     // e
     await fileClientWithSAS.getAccessControl();
 
@@ -895,7 +972,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     recorder = record(this, recorderEnvSetup);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
-      oauthServiceClient = getTokenDataLakeServiceClient();
+      oauthServiceClient = getDataLakeServiceClientWithDefaultCredential();
     } catch (err) {
       console.log(err);
       this.skip();
@@ -934,7 +1011,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         pathName: directoryClient.name,
         isDirectory: true,
         expiresOn: tmr,
-        permissions: FileSystemSASPermissions.parse("racwdlmeop")
+        permissions: DataLakeSASPermissions.parse("racwdmeop")
       },
       userDelegationKey,
       accountName
@@ -979,9 +1056,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
 
     const newFileName = recorder.getUniqueName("newFile");
     const newFileClient = fileSystemClient.getFileClient(newFileName);
-    const newFileClientWithSAS = new DataLakeDirectoryClient(
-      `${newFileClient.url}?${fileSystemSAS}`
-    );
+    const newFileClientWithSAS = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS}`);
     await newFileClientWithSAS.createIfNotExists();
 
     const unauthoriziedGuid = "7d53815c-1b73-49ab-b44d-002bfb890633";
@@ -998,9 +1073,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       accountName
     );
 
-    const newFileClientWithSAS2 = new DataLakeDirectoryClient(
-      `${newFileClient.url}?${fileSystemSAS2}`
-    );
+    const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
     try {
       await newFileClientWithSAS2.createIfNotExists();
     } catch (err) {
@@ -1018,9 +1091,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       userDelegationKey,
       accountName
     );
-    const newFileClientWithSAS3 = new DataLakeDirectoryClient(
-      `${newFileClient.url}?${fileSystemSAS3}`
-    );
+    const newFileClientWithSAS3 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS3}`);
     await newFileClientWithSAS3.createIfNotExists();
   });
 

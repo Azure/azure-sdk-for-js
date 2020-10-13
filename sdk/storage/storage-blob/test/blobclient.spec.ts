@@ -55,11 +55,6 @@ describe("BlobClient", () => {
   });
 
   it("Set blob tags should work", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -85,11 +80,6 @@ describe("BlobClient", () => {
   });
 
   it("Get blob tags should work with a snapshot", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -104,11 +94,6 @@ describe("BlobClient", () => {
   });
 
   it("Create block blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     await blockBlobClient.delete();
 
     const tags = {
@@ -122,11 +107,6 @@ describe("BlobClient", () => {
   });
 
   it("Create append blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -141,11 +121,6 @@ describe("BlobClient", () => {
   });
 
   it("Create page blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -828,19 +803,22 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  // Preview in STG74, limited regions and customers
-  it.skip("lastAccessed returned", async () => {
+  it("lastAccessed returned", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it's not working in live tests pipeline.
+      this.skip();
+    }
     const downloadRes = await blockBlobClient.download();
-    // assert.ok(downloadRes.lastAccessed);
-    console.log(downloadRes.lastAccessed);
+    assert.ok(downloadRes.lastAccessed);
 
     const getPropertiesRes = await blockBlobClient.getProperties();
-    // assert.ok(getPropertiesRes.lastAccessed);
-    console.log(getPropertiesRes);
+    assert.ok(getPropertiesRes.lastAccessed);
 
-    for await (const blobItem of containerClient.listBlobsFlat()) {
-      console.log(blobItem.properties);
-      // assert.ok(blobItem.properties.lastAccessedOn);
+    for await (const blobItem of containerClient.listBlobsFlat({ prefix: blobName })) {
+      if (blobItem.name === blobName) {
+        assert.ok(blobItem.properties.lastAccessedOn);
+        break;
+      }
     }
   });
 

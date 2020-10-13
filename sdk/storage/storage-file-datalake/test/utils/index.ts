@@ -99,13 +99,16 @@ export function getDataLakeServiceClient(
   return getGenericDataLakeServiceClient("DFS_", undefined, pipelineOptions);
 }
 
-export function getDataLakeServiceClientWithDefualtCredential(
+export function getDataLakeServiceClientWithDefaultCredential(
   accountType: string = "DFS_",
   pipelineOptions: StoragePipelineOptions = {},
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   let accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
 
   const credential = new DefaultAzureCredential();
   const pipeline = newPipeline(credential, {

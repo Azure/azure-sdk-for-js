@@ -13,7 +13,6 @@ import {
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { Tags } from "../src/models";
-import { isNode } from "@azure/core-http";
 dotenv.config();
 
 describe("BlobServiceClient", () => {
@@ -472,11 +471,6 @@ describe("BlobServiceClient", () => {
   });
 
   it("Find blob by tags should work", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container1");
@@ -566,7 +560,7 @@ describe("BlobServiceClient", () => {
   it("restore container", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
-      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
     } catch (err) {
       this.skip();
     }
@@ -599,7 +593,7 @@ describe("BlobServiceClient", () => {
   it("restore container to a new name", async function() {
     let blobServiceClient: BlobServiceClient;
     try {
-      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
     } catch (err) {
       this.skip();
     }
