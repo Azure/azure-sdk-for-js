@@ -247,7 +247,7 @@ describe("Blob versioning", () => {
     }
     assert.ok(exceptionCaught);
 
-    blobClient.delete({ deleteSnapshots: "include" });
+    await blobClient.delete({ deleteSnapshots: "include" });
     const snapshotExists = await blobClient.withSnapshot(result.snapshot!).exists();
     assert.ok(!snapshotExists);
     const rootExists = await blobClient.exists();
