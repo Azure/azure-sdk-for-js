@@ -53,21 +53,21 @@ parameters:
 - name: Matrix
   type: object
   default:
-    Linux Node 8:
-      OSVmImage: "ubuntu-18.04"
+    Windows Node 8:
+      OSVmImage: "windows-2019"
       TestType: "node"
       NodeTestVersion: "8.x"
       PublishCodeCoverage: true
-    Windows Node 10:
-      OSVmImage: "windows-2019"
+    Linux Node 10:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "10.x"
-    MacOS Node 12:
-      OSVmImage: "macOS-10.15"
+    Linux Node 12:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "12.x"
-    Linux Node 14:
-      OSVmImage: "ubuntu-18.04"
+    MacOS Node 14:
+      OSVmImage: "macOS-10.15"
       TestType: "node"
       NodeTestVersion: "14.x"
 
