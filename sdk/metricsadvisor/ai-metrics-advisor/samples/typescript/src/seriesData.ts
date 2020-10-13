@@ -49,12 +49,12 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
         for (let i = 0; i < enriched.timestamps.length; i++) {
           console.log("  ----");
           console.log(`  timestamp: ${enriched.timestamps[i]}`);
-          console.log(`  is abnormal?: ${enriched.isAnomaly[i]}`);
-          console.log(`  value: ${enriched.values[i]}`);
-          console.log(`  expected value: ${enriched.expectedValues[i]}`);
-          console.log(`  lower bound: ${enriched.lowerBounds[i]}`);
-          console.log(`  upper bound: ${enriched.upperBounds[i]}`);
-          console.log(`  period: ${enriched.periods[i]}`);
+          console.log(`  is abnormal?: ${enriched.isAnomaly![i]}`);
+          console.log(`  value: ${enriched.values![i]}`);
+          console.log(`  expected value: ${enriched.expectedValues![i]}`);
+          console.log(`  lower bound: ${enriched.lowerBounds![i]}`);
+          console.log(`  upper bound: ${enriched.upperBounds![i]}`);
+          console.log(`  period: ${enriched.periods![i]}`);
         }
       }
     }
@@ -79,10 +79,10 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
 
     for (const series of result.metricSeriesDataList || []) {
       console.log(series.definition);
-      if (series.timestampList?.length)
-        for (let i = 0; i < series.timestampList!.length; i++) {
-          console.log(`  ${series.timestampList![i]}`);
-          console.log(`  ${series.valueList![i]}`);
+      if (series.timestamps?.length)
+        for (let i = 0; i < series.timestamps!.length; i++) {
+          console.log(`  ${series.timestamps![i]}`);
+          console.log(`  ${series.values![i]}`);
         }
     }
   } catch (err) {

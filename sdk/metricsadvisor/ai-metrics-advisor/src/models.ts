@@ -56,7 +56,6 @@ export {
   GeneratedClientGetIngestionProgressResponse,
   IngestionStatusType,
   DataSourceType,
-  EntityStatus,
   SeverityFilterCondition,
   SnoozeScope,
   AnomalyDetectorDirection,
@@ -870,7 +869,7 @@ export interface AnomalyIncident {
   /**
    * identifies the time series or time series group
    */
-  seriesKey: DimensionKey;
+  rootDimensionKey: DimensionKey;
   /**
    * metric unique id
    *
@@ -1176,7 +1175,7 @@ export interface IncidentRootCause {
   /**
    * identifies the contributing time series.
    */
-  dimensionKey: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * drilling down path from query anomaly to root cause
    */

@@ -21,8 +21,7 @@ import {
   GetDataFeedResponse,
   MetricsAdvisorClient,
   WebNotificationHook,
-  MetricAlertConfiguration,
-  AnomalyAlert
+  MetricAlertConfiguration
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -94,7 +93,7 @@ async function createDataFeed(
   sqlServerConnectionString: string,
   sqlServerQuery: string
 ): Promise<GetDataFeedResponse> {
-  const metric: DataFeedMetric[] = [
+  const metrics: DataFeedMetric[] = [
     {
       name: "revenue",
       displayName: "revenue",
@@ -106,13 +105,13 @@ async function createDataFeed(
       description: "Metric2 description"
     }
   ];
-  const dimension: DataFeedDimension[] = [
+  const dimensions: DataFeedDimension[] = [
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
   ];
   const dataFeedSchema: DataFeedSchema = {
-    metrics: metric,
-    dimensions: dimension,
+    metrics,
+    dimensions,
     timestampColumn: undefined
   };
   const dataFeedIngestion: DataFeedIngestionSettings = {
@@ -136,7 +135,7 @@ async function createDataFeed(
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
+      rollupIdentificationValue: "__SUM__"
     },
     missingDataPointFillSettings: {
       fillType: "SmartFilling"
@@ -147,7 +146,7 @@ async function createDataFeed(
 
   console.log("Creating Datafeed...");
   const result = await adminClient.createDataFeed({
-    name: "test_datafeed_" + new Date().getTime().toFixed(),
+    name: "test_datafeed_" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,
@@ -201,7 +200,7 @@ async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient
   console.log("Creating a webhook hook");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
-    name: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",

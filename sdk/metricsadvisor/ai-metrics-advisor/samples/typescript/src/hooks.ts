@@ -35,7 +35,7 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new web hook...");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
-    name: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -58,7 +58,7 @@ async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new email hook...");
   const hook: EmailNotificationHook = {
     hookType: "Email",
-    name: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };

@@ -51,16 +51,25 @@ async function createAlertConfig(
   detectionConfigId: string
 ) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig: MetricAlertConfiguration = {
+  const metricAlertingConfig1: MetricAlertConfiguration = {
     detectionConfigurationId: detectionConfigId,
     alertScope: {
       scopeType: "All"
     }
   };
+  const metricAlertingConfig2: MetricAlertConfiguration = {
+    detectionConfigurationId: detectionConfigId,
+    alertScope: {
+      scopeType: "Dimension",
+      dimensionAnomalyScope: {
+        dimension: { city: "Manila", category: "Handmade" }
+      }
+    }
+  };
   const result = await adminClient.createAnomalyAlertConfiguration({
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig],
+    metricAlertConfigurations: [metricAlertingConfig1, metricAlertingConfig2],
     hookIds: [],
     description: "alerting config description"
   });

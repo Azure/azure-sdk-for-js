@@ -78,10 +78,10 @@ async function getMetricSeriesData(client, metricId) {
 
     for (const series of result.metricSeriesDataList || []) {
       console.log(series.definition);
-      if (series.timestampList && series.timestampList.length > 0)
-        for (let i = 0; i < series.timestampList.length; i++) {
-          console.log(`  ${series.timestampList[i]}`);
-          console.log(`  ${series.valueList[i]}`);
+      if (series.timestamps && series.timestamps.length > 0)
+        for (let i = 0; i < series.timestamps.length; i++) {
+          console.log(`  ${series.timestamps[i]}`);
+          console.log(`  ${series.values[i]}`);
         }
     }
   } catch (err) {

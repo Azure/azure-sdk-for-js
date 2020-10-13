@@ -632,7 +632,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          seriesKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -663,7 +663,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          seriesKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1233,7 +1233,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          seriesKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1262,7 +1262,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          seriesKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1421,7 +1421,7 @@ export class MetricsAdvisorClient {
       );
       const transformed = result.value?.map((r) => {
         return {
-          dimensionKey: r.rootCause,
+          seriesKey: r.rootCause,
           path: r.path,
           score: r.score,
           description: r.description

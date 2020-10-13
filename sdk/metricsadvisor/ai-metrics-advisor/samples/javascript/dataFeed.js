@@ -76,13 +76,13 @@ async function createDataFeed(client) {
       description: ""
     }
   ];
-  const dimension = [
+  const dimensions = [
     { name: "Dim1", displayName: "Dim1 display" },
     { name: "Dim2", displayName: "Dim2 display" }
   ];
   const dataFeedSchema = {
     metrics,
-    dimensions: dimension,
+    dimensions,
     timestampColumn: null
   };
   const dataFeedIngestion = {
@@ -110,7 +110,7 @@ async function createDataFeed(client) {
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
+      rollupIdentificationValue: "__SUM__"
     },
     missingDataPointFillSettings: {
       fillType: "CustomValue",
@@ -121,7 +121,7 @@ async function createDataFeed(client) {
 
   console.log("Creating Datafeed...");
   const result = await client.createDataFeed({
-    name: "test-datafeed-" + new Date().getTime().toFixed(),
+    name: "test-datafeed-" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,

@@ -69,9 +69,9 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 8, 5))
     );
     let result = await iterator.next();
-    assert.ok(result.value.seriesKey, "Expecting first incident");
+    assert.ok(result.value.rootDimensionKey, "Expecting first incident");
     result = await iterator.next();
-    assert.ok(result.value.seriesKey, "Expecting second incident");
+    assert.ok(result.value.rootDimensionKey, "Expecting second incident");
   });
 
   it("listIncidentsForDetectionConfiguration() by page", async function() {

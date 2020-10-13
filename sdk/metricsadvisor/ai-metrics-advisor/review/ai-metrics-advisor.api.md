@@ -58,7 +58,7 @@ export interface AnomalyIncident {
     id: string;
     lastOccuredTime: Date;
     metricId?: string;
-    seriesKey: DimensionKey;
+    rootDimensionKey: DimensionKey;
     severity: AnomalySeverity;
     startTime?: Date;
     status?: AnomalyStatus;
@@ -361,9 +361,6 @@ export interface EnrichmentStatus {
 }
 
 // @public
-export type EntityStatus = "Active" | "Paused";
-
-// @public
 export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 
 // @public
@@ -496,9 +493,9 @@ export interface HttpRequestParameter {
 // @public
 export interface IncidentRootCause {
     description: string;
-    dimensionKey: DimensionKey;
     path: string[];
     score: number;
+    seriesKey: DimensionKey;
 }
 
 // @public
@@ -609,7 +606,7 @@ export type ListDataFeedsOptions = {
         dataFeedName?: string;
         dataSourceType?: DataSourceType;
         granularity?: DataFeedGranularity;
-        status?: EntityStatus;
+        status?: DataFeedStatus;
         creator?: string;
     };
 } & OperationOptions;

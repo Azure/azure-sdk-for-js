@@ -88,7 +88,7 @@ async function listFeedback(client, metricId, startTime, endTime) {
   for await (const feedback of client.listMetricFeedbacks(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
-      endTime: new Date("08/11/2020"),
+      endTime: new Date("08/03/2020"),
       timeMode: "MetricTimestamp"
     }
   })) {

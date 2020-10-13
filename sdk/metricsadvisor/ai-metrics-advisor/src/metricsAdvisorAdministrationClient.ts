@@ -41,11 +41,11 @@ import {
   ListDataFeedIngestionStatusPageResponse,
   ListAnomalyAlertConfigurationsPageResponse,
   ListAnomalyDetectionConfigurationsPageResponse,
-  ListHooksPageResponse
+  ListHooksPageResponse,
+  DataFeedStatus
 } from "./models";
 import {
   DataSourceType,
-  EntityStatus,
   GeneratedClientGetIngestionProgressResponse,
   NeedRollupEnum
 } from "./generated/models";
@@ -100,7 +100,7 @@ export type ListDataFeedsOptions = {
     /**
      * filter data feed by its status
      */
-    status?: EntityStatus;
+    status?: DataFeedStatus;
     /**
      * filter data feed by its creator
      */
