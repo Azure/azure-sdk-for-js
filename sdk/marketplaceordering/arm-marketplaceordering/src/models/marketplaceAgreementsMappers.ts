@@ -9,7 +9,6 @@
 export {
   AgreementTerms,
   BaseResource,
-  CloudError,
   ErrorResponse,
   ErrorResponseError,
   Resource

@@ -258,7 +258,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AgreementTerms
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -370,7 +370,7 @@ const getAgreementOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AgreementTerms
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -404,7 +404,7 @@ const listOperationSpec: msRest.OperationSpec = {
       }
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
