@@ -6,14 +6,29 @@ jobs:
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+        Linux (AzureCloud Canary):
+          OSVmImage: "ubuntu-18.04"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          Location: 'eastus2euap'
         Windows (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+        Windows (AzureCloud Canary):
+          OSVmImage: "windows-2019"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          Location: 'eastus2euap'
         Mac (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+        Mac (AzureCloud Canary):
+          OSVmImage: "macOS-10.14"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          Location: 'eastus2euap'
         Linux (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
@@ -69,6 +84,7 @@ jobs:
           ./Initialize-SmokeTests.ps1 `
             -CI `
             -Verbose `
+            -Location '$(Location)' `
             @subscriptionConfiguration `
             -AdditionalParameters $(ArmTemplateParameters)
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
