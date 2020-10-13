@@ -330,6 +330,7 @@ export function generateDataLakeSASQueryParameters(
         sharedKeyCredential
       );
     } else {
+      // Version 2020-02-10 delegation SAS signature construction includes preauthorizedAgentObjectId, agentObjectId, correlationId.
       if (version >= "2020-02-10") {
         return generateBlobSASQueryParametersUDK20200210(
           dataLakeSASSignatureValues,
@@ -643,81 +644,40 @@ function generateBlobSASQueryParametersUDK20181109(
   }
 
   // Signature is generated on the un-url-encoded values.
-  let stringToSign: string;
-  if (version < "2020-02-10") {
-    stringToSign = [
-      verifiedPermissions ? verifiedPermissions : "",
-      dataLakeSASSignatureValues.startsOn
-        ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
-        : "",
-      dataLakeSASSignatureValues.expiresOn
-        ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
-        : "",
-      getCanonicalName(
-        userDelegationKeyCredential.accountName,
-        dataLakeSASSignatureValues.fileSystemName,
-        dataLakeSASSignatureValues.pathName
-      ),
-      userDelegationKeyCredential.userDelegationKey.signedObjectId,
-      userDelegationKeyCredential.userDelegationKey.signedTenantId,
-      userDelegationKeyCredential.userDelegationKey.signedStartsOn
-        ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
-        : "",
-      userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-        ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
-        : "",
-      userDelegationKeyCredential.userDelegationKey.signedService,
-      userDelegationKeyCredential.userDelegationKey.signedVersion,
-      dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
-      dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
-      version,
-      resource,
-      dataLakeSASSignatureValues.snapshotTime,
-      dataLakeSASSignatureValues.cacheControl,
-      dataLakeSASSignatureValues.contentDisposition,
-      dataLakeSASSignatureValues.contentEncoding,
-      dataLakeSASSignatureValues.contentLanguage,
-      dataLakeSASSignatureValues.contentType
-    ].join("\n");
-  } else {
-    stringToSign = [
-      verifiedPermissions ? verifiedPermissions : "",
-      dataLakeSASSignatureValues.startsOn
-        ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
-        : "",
-      dataLakeSASSignatureValues.expiresOn
-        ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
-        : "",
-      getCanonicalName(
-        userDelegationKeyCredential.accountName,
-        dataLakeSASSignatureValues.fileSystemName,
-        dataLakeSASSignatureValues.pathName
-      ),
-      userDelegationKeyCredential.userDelegationKey.signedObjectId,
-      userDelegationKeyCredential.userDelegationKey.signedTenantId,
-      userDelegationKeyCredential.userDelegationKey.signedStartsOn
-        ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
-        : "",
-      userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-        ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
-        : "",
-      userDelegationKeyCredential.userDelegationKey.signedService,
-      userDelegationKeyCredential.userDelegationKey.signedVersion,
-      dataLakeSASSignatureValues.preauthorizedAgentObjectId,
-      dataLakeSASSignatureValues.agentObjectId,
-      dataLakeSASSignatureValues.correlationId,
-      dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
-      dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
-      version,
-      resource,
-      dataLakeSASSignatureValues.snapshotTime,
-      dataLakeSASSignatureValues.cacheControl,
-      dataLakeSASSignatureValues.contentDisposition,
-      dataLakeSASSignatureValues.contentEncoding,
-      dataLakeSASSignatureValues.contentLanguage,
-      dataLakeSASSignatureValues.contentType
-    ].join("\n");
-  }
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    dataLakeSASSignatureValues.startsOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      : "",
+    dataLakeSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      dataLakeSASSignatureValues.fileSystemName,
+      dataLakeSASSignatureValues.pathName
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
+    dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
+    version,
+    resource,
+    dataLakeSASSignatureValues.snapshotTime,
+    dataLakeSASSignatureValues.cacheControl,
+    dataLakeSASSignatureValues.contentDisposition,
+    dataLakeSASSignatureValues.contentEncoding,
+    dataLakeSASSignatureValues.contentLanguage,
+    dataLakeSASSignatureValues.contentType
+  ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
 
