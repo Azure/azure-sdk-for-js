@@ -22,7 +22,8 @@ steps:
 
   - template: ../../../common/pipelines/templates/steps/verify-links.yml
     parameters:
-      Directory: sdk/${{ parameters.ServiceDirectory }}
+      Directory: ''
+      Urls: (git diff origin/master HEAD --name-only -- *.md)
       CheckLinkGuidance: $true
 
   - script: |
