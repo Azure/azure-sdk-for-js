@@ -31,7 +31,7 @@ describe("HttpSender", () => {
   describe("#send()", () => {
     const envelope: Envelope = {
       name: "name",
-      time: new Date().toISOString()
+      time: new Date()
     };
     it("should send a valid envelope", async () => {
       const sender = new HttpSender();

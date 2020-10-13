@@ -7,7 +7,8 @@ extends:
     ResourceServiceDirectory: storage
     TimeoutInMinutes: 90
     ResourceGroupLocation: canadacentral
-    ArmTemplateParameters: '@{ enableVersioning = $true }'
+    SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+    ArmTemplateParameters: "@{ enableVersioning = $true }"
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

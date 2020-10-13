@@ -4,32 +4,34 @@
 import { getMessageIterator, wrapProcessErrorHandler } from "../../src/receivers/shared";
 import chai from "chai";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
+import { ServiceBusLogger } from "../../src/log";
 const assert = chai.assert;
 
 describe("shared", () => {
   it("error handler wrapper", () => {
-    const loggedMessages: string[] = [];
+    let logErrorCalled = false;
 
     const wrappedProcessError = wrapProcessErrorHandler(
       {
-        processError: () => {
+        processError: (err) => {
+          assert.equal(err.message, "Actual error that was passed in from service bus to the user");
           throw new Error("Whoops!");
         }
       },
-      (msg) => {
-        loggedMessages.push(msg);
-      }
+      {
+        logError: (err: Error, msg) => {
+          // we only call this if the user's callback throws an error - we don't funnel this back
+          // into their processError because that could cause an infinite set of failures.
+          assert.equal(msg, `An error was thrown from the user's processError handler`);
+          assert.equal(err.toString(), "Error: Whoops!");
+          logErrorCalled = true;
+        }
+      } as ServiceBusLogger
     );
 
-    wrappedProcessError(
-      new Error(
-        "Doesn't matter, testing internal behavior when the user's process error handler throws"
-      )
-    );
+    wrappedProcessError(new Error("Actual error that was passed in from service bus to the user"));
 
-    assert.deepEqual(loggedMessages, [
-      `An error was thrown from the user's processError handler: Error: Whoops!`
-    ]);
+    assert.isTrue(logErrorCalled, "log error should have been called");
   });
 
   it("getMessageIterator doesn't yield empty responses", async () => {

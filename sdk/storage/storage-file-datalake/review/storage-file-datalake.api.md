@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
+import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -36,6 +37,28 @@ import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
 import { WebResource } from '@azure/core-http';
+
+// @public
+export interface AccessControlChangeCounters {
+    changedDirectoriesCount: number;
+    changedFilesCount: number;
+    failedChangesCount: number;
+}
+
+// @public
+export interface AccessControlChangeError {
+    isDirectory: boolean;
+    message: string;
+    name: string;
+}
+
+// @public
+export interface AccessControlChanges {
+    aggregateCounters: AccessControlChangeCounters;
+    batchCounters: AccessControlChangeCounters;
+    batchFailures: AccessControlChangeError[];
+    continuationToken?: string;
+}
 
 // @public (undocumented)
 export type AccessControlType = "user" | "group" | "mask" | "other";
@@ -130,10 +153,17 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
+export class DataLakeAclChangeFailedError extends Error {
+    constructor(error: RestError | Error, continuationToken?: string);
+    continuationToken?: string;
+    innerError: RestError | Error;
+}
+
+// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
@@ -144,9 +174,9 @@ export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
@@ -154,6 +184,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
     upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
@@ -204,8 +235,8 @@ export class DataLakeLeaseClient {
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
     deleteIfExists(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteIfExistsResponse>;
     exists(options?: PathExistsOptions): Promise<boolean>;
@@ -216,12 +247,15 @@ export class DataLakePathClient extends StorageClient {
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     get name(): string;
+    removeAccessControlRecursive(acl: RemovePathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
     setAccessControl(acl: PathAccessControlItem[], options?: PathSetAccessControlOptions): Promise<PathSetAccessControlResponse>;
+    setAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetAccessControlResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
+    updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
 }
 
 // @public (undocumented)
@@ -233,6 +267,10 @@ export class DataLakeSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
     read: boolean;
     toString(): string;
@@ -241,17 +279,22 @@ export class DataLakeSASPermissions {
 
 // @public
 export interface DataLakeSASSignatureValues {
+    agentObjectId?: string;
     cacheControl?: string;
     contentDisposition?: string;
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
     expiresOn?: Date;
     fileSystemName: string;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     pathName?: string;
     permissions?: DataLakeSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
@@ -320,6 +363,9 @@ export interface FileCreateOptions extends PathCreateOptions {
 export interface FileCreateResponse extends PathCreateResponse {
 }
 
+// @public
+export type FileExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
+
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
@@ -348,6 +394,9 @@ export interface FileParallelUploadOptions extends CommonOptions {
     singleUploadThreshold?: number;
     umask?: string;
 }
+
+// @public
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 
 // @public
 export interface FileQueryCsvTextConfiguration {
@@ -380,7 +429,7 @@ export interface FileQueryOptions extends CommonOptions {
     inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
-    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
 }
 
 // @public (undocumented)
@@ -479,6 +528,32 @@ export interface FileReadToBufferOptions extends CommonOptions {
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
+
+// @public
+export interface FileSetExpiryHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface FileSetExpiryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    expiresOn?: Date;
+    timeToExpireInMs?: number;
+}
+
+// @public
+export type FileSetExpiryResponse = FileSetExpiryHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileSetExpiryHeaders;
+    };
+};
 
 // @public (undocumented)
 export interface FileSystemCreateHeaders {
@@ -693,7 +768,11 @@ export class FileSystemSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
     list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
     read: boolean;
     toString(): string;
@@ -888,22 +967,38 @@ export interface PathAccessControl {
 
 // @public (undocumented)
 export interface PathAccessControlItem {
-    // (undocumented)
     accessControlType: AccessControlType;
-    // (undocumented)
     defaultScope: boolean;
-    // (undocumented)
     entityId: string;
-    // (undocumented)
     permissions: RolePermissions;
 }
 
 // @public
 export interface PathAppendDataHeaders {
     clientRequestId?: string;
+    contentMD5?: Uint8Array;
     date?: Date;
+    etag?: string;
+    isServerEncrypted?: boolean;
     requestId?: string;
     version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
+export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    batchSize?: number;
+    continuationToken?: string;
+    continueOnFailure?: boolean;
+    maxBatches?: number;
+    onProgress?: (progress: AccessControlChanges) => void;
+}
+
+// @public
+export interface PathChangeAccessControlRecursiveResponse {
+    continuationToken?: string;
+    counters: AccessControlChangeCounters;
 }
 
 // @public
@@ -1075,6 +1170,9 @@ export enum PathGetPropertiesAction {
     GetStatus = "getStatus"
 }
 
+// @public
+export type PathGetPropertiesActionModel = 'getAccessControl' | 'getStatus';
+
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
     // (undocumented)
@@ -1125,6 +1223,7 @@ export interface PathGetPropertiesHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     etag?: string;
+    expiresOn?: Date;
     // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)
@@ -1292,12 +1391,18 @@ export enum PathRenameMode {
 }
 
 // @public
+export type PathRenameModeModel = 'legacy' | 'posix';
+
+// @public
 export enum PathResourceType {
     // (undocumented)
     Directory = "directory",
     // (undocumented)
     File = "file"
 }
+
+// @public
+export type PathResourceTypeModel = 'directory' | 'file';
 
 // @public
 export interface PathSetAccessControlHeaders {
@@ -1458,6 +1563,13 @@ export interface RawAccessPolicy {
     startsOn?: string;
 }
 
+// @public (undocumented)
+export interface RemovePathAccessControlItem {
+    accessControlType: AccessControlType;
+    defaultScope: boolean;
+    entityId?: string;
+}
+
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
@@ -1490,16 +1602,21 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
+    readonly agentObjectId?: string;
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
+    readonly directoryDepth?: number;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -1508,6 +1625,29 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    agentObjectId?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
 }
 
 // @public (undocumented)

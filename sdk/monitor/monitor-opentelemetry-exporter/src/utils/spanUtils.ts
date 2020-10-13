@@ -197,7 +197,7 @@ export function readableSpanToEnvelope(
   const sampleRate = 100;
   let baseData: RemoteDependencyData | RequestData;
 
-  const time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
+  const time = new Date(hrTimeToMilliseconds(span.startTime));
   const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);

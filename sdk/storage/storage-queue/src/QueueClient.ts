@@ -1258,7 +1258,7 @@ export class QueueClient extends StorageClient {
    *
    * @param {string} messageId Id of the message
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {string} message Message to update.
+   * @param {string} message Message to update. If this parameter is undefined, then the content of the message won't be updated.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
@@ -1271,23 +1271,22 @@ export class QueueClient extends StorageClient {
   public async updateMessage(
     messageId: string,
     popReceipt: string,
-    message: string,
+    message?: string,
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
+    let queueMessage = undefined;
+    if (message !== undefined) {
+      queueMessage = { messageText: message };
+    }
+
     try {
-      return await this.getMessageIdContext(messageId).update(
-        {
-          messageText: message
-        },
-        popReceipt,
-        visibilityTimeout || 0,
-        {
-          abortSignal: options.abortSignal,
-          spanOptions
-        }
-      );
+      return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
+        abortSignal: options.abortSignal,
+        spanOptions,
+        queueMessage
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

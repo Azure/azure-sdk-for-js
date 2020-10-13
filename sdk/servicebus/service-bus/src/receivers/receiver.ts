@@ -15,7 +15,6 @@ import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
@@ -24,13 +23,13 @@ import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { CreateStreamingReceiverOptions, StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { receiverLogger as logger } from "../log";
 
 /**
  * A receiver that does not handle sessions.
@@ -161,6 +160,10 @@ export class ServiceBusReceiverImpl<
 
   private _createProcessingSpan: typeof createProcessingSpan;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
+  }
+
   /**
    * @throws Error if the underlying connection is closed.
    */
@@ -185,7 +188,7 @@ export class ServiceBusReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is already receiving`);
       throw error;
     }
   }
@@ -195,7 +198,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is closed`);
       throw error;
     }
   }
@@ -245,7 +248,7 @@ export class ServiceBusReceiverImpl<
 
     this._createStreamingReceiver(this._context, this.entityPath, {
       ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode),
+      receiveMode: this.receiveMode,
       retryOptions: this._retryOptions,
       cachedStreamingReceiver: this._streamingReceiver,
       lockRenewer: this._lockRenewer
@@ -299,7 +302,7 @@ export class ServiceBusReceiverImpl<
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
-          receiveMode: convertToInternalReceiveMode(this.receiveMode),
+          receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer
         };
         this._batchingReceiver = this._createBatchingReceiver(
@@ -355,17 +358,12 @@ export class ServiceBusReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          undefined,
-          {
-            ...options,
-            associatedLinkName: this._getAssociatedReceiverName(),
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -474,13 +472,7 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      logError(
-        err,
-        "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.connectionId,
-        this.entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Receiver`);
       throw err;
     }
   }

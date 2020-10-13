@@ -50,7 +50,7 @@ describe("#AzureMonitorBaseExporter", () => {
       const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
       const envelope = {
         name: "Name",
-        time: new Date().toISOString()
+        time: new Date()
       };
 
       before(() => {
@@ -167,11 +167,11 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should filter envelopes", () => {
         const fooEnvelope = {
           name: "foo",
-          time: new Date().toISOString()
+          time: new Date()
         };
         const barEnvelope = {
           name: "bar",
-          time: new Date().toISOString()
+          time: new Date()
         };
 
         const exporter = new TestExporter();
@@ -188,11 +188,11 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should filter modified envelopes", () => {
         const fooEnvelope = {
           name: "foo",
-          time: new Date().toISOString()
+          time: new Date()
         };
         const barEnvelope = {
           name: "bar",
-          time: new Date().toISOString()
+          time: new Date()
         };
 
         const exporter = new TestExporter();
