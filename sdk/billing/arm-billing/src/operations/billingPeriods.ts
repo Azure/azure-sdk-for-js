@@ -122,7 +122,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter,
     Parameters.skiptoken,
     Parameters.top
@@ -149,7 +149,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.billingPeriodName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

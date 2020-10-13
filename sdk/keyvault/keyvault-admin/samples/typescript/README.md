@@ -13,7 +13,7 @@ urlFragment: keyvault-admin-typescript
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
 | **File Name** | **Description** |
-| ------------------------------- |
+| --------------|---------------- |
 | [accessControlHelloWorld.ts][accessControlHelloWorld] (RBAC) | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
 | [backupRestoreHelloWorld.ts][BackupRestoreHelloWorld] | Performs a full key backup, then a full key restore. |
 | [backupSelectiveRestore.ts][BackupSelectiveRestore] | Performs a selective key backup, then a selective key restore. |

@@ -23,9 +23,10 @@ import {
   ListContainersIncludeType,
   UserDelegationKeyModel,
   ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem
+  FilterBlobItem,
+  ContainerUndeleteResponse
 } from "./generatedModels";
-import { Service } from "./generated/src/operations";
+import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
@@ -213,6 +214,14 @@ export interface ServiceListContainersOptions extends CommonOptions {
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted containers should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListContainersOptions
+   */
+  includeDeleted?: boolean;
 }
 
 /**
@@ -312,6 +321,31 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
       parsedBody: UserDelegationKeyModel;
     };
   };
+
+/**
+ * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
+ *
+ * @export
+ * @interface ServiceUndeleteContainerOptions
+ */
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceUndeleteContainerOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the new name of the restored container.
+   * Will use its original name if this is not specified.
+   *
+   * @type {string}
+   * @memberof ServiceUndeleteContainerOptions
+   */
+  destinationContainerName?: string;
+}
 
 /**
  * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
@@ -527,6 +561,51 @@ export class BlobServiceClient extends StorageClient {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restore a previously deleted Blob container.
+   * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+   *
+   * @param {string} deletedContainerName Name of the previously deleted container.
+   * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
+   * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async undeleteContainer(
+    deletedContainerName: string,
+    deletedContainerVersion: string,
+    options: ServiceUndeleteContainerOptions = {}
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerUndeleteResponse: ContainerUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-undeleteContainer",
+      options.tracingOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(
+        options.destinationContainerName || deletedContainerName
+      );
+      // Hack to access a protected member.
+      const containerContext = new Container(containerClient["storageClientContext"]);
+      const containerUndeleteResponse = await containerContext.restore({
+        deletedContainerName,
+        deletedContainerVersion,
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return { containerClient, containerUndeleteResponse };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1071,10 +1150,19 @@ export class BlobServiceClient extends StorageClient {
     if (options.prefix === "") {
       options.prefix = undefined;
     }
+
+    const include: ListContainersIncludeType[] = [];
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
-      ...(options.includeMetadata ? { include: "metadata" } : {})
+      ...(include.length > 0 ? { include } : {})
     };
 
     const iter = this.listItems(listSegmentOptions);

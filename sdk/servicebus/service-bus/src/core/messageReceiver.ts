@@ -9,16 +9,15 @@ import {
   translate
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
-import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { MessageHandlerOptions } from "../models";
+import { ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
-import { logError } from "../util/errors";
 import { LockRenewer } from "./autoLockRenewer";
 
 /**
@@ -42,11 +41,11 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
  * @internal
  * @ignore
  */
-export interface ReceiveOptions extends MessageHandlerOptions {
+export interface ReceiveOptions extends SubscribeOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
@@ -100,7 +99,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -140,13 +139,13 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     receiverType: ReceiverType,
     options: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(entityPath, entityPath, context, receiverType, {
+    super(entityPath, entityPath, context, receiverType, logger, {
       address: entityPath,
       audience: `${context.config.endpoint}${entityPath}`
     });
 
     this.receiverType = receiverType;
-    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -162,21 +161,17 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this.baseName) : this.name,
-      autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
+      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
       source: {
         address: this.address
       },
       credit_window: 0,
       onSettled: (context) => {
-        return onMessageSettled(
-          this._context.connection.id,
-          context.delivery,
-          this._deliveryDispositionMap
-        );
+        return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
       },
       ...handlers
     };
@@ -198,13 +193,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
       err = translate(err);
-      logError(
-        err,
-        "[%s] An error occured while creating the receiver '%s': %O",
-        this._context.connectionId,
-        this.name,
-        err
-      );
+      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((err as MessagingError).code === "OperationTimeoutError") {
@@ -263,9 +252,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
         this._deliveryDispositionMap.delete(delivery.id);
 
         logger.verbose(
-          "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
+          "%s Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
-          this._context.connectionId,
+          this.logPrefix,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
         );
