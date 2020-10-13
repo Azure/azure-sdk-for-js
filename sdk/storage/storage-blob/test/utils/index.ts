@@ -99,7 +99,7 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getTokenBSUWithDefualtCredential(
+export function getTokenBSUWithDefaultCredential(
   pipelineOptions: StoragePipelineOptions = {},
   accountType: string = "",
   accountNameSuffix: string = ""

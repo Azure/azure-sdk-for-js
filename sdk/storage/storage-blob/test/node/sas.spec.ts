@@ -18,7 +18,7 @@ import {
   Tags
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSUWithDefualtCredential, recorderEnvSetup, sleep } from "../utils";
+import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
@@ -671,7 +671,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
-      blobServiceClientWithToken = getTokenBSUWithDefualtCredential();
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -729,7 +729,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
-      blobServiceClientWithToken = getTokenBSUWithDefualtCredential();
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -783,7 +783,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
-      blobServiceClientWithToken = getTokenBSUWithDefualtCredential();
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -852,7 +852,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
-      blobServiceClientWithToken = getTokenBSUWithDefualtCredential();
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
@@ -1010,7 +1010,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
-      blobServiceClientWithToken = getTokenBSUWithDefualtCredential();
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime

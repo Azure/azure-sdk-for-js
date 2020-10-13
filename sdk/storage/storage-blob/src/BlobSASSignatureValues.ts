@@ -311,6 +311,7 @@ export function generateBlobSASQueryParameters(
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(blobSASSignatureValues, sharedKeyCredential);
     } else {
+      // Version 2020-02-10 delegation SAS signature construction includes preauthorizedAgentObjectId, agentObjectId, correlationId.
       if (version >= "2020-02-10") {
         return generateBlobSASQueryParametersUDK20200210(
           blobSASSignatureValues,
