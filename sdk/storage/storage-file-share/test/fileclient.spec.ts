@@ -166,7 +166,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
-  it.only("setProperties with default parameters", async function() {
+  it("setProperties with default parameters", async function() {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
