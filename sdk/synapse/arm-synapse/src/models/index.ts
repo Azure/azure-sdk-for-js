@@ -140,6 +140,10 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
    */
   libraryRequirements?: LibraryRequirements;
   /**
+   * Spark configuration file to specify additional properties
+   */
+  sparkConfigProperties?: LibraryRequirements;
+  /**
    * The Apache Spark version.
    */
   sparkVersion?: string;
@@ -1574,6 +1578,24 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 /**
+ * Managed Virtual Network Settings
+ */
+export interface ManagedVirtualNetworkSettings {
+  /**
+   * Prevent Data Exfiltration
+   */
+  preventDataExfiltration?: boolean;
+  /**
+   * Linked Access Check On Target Resource
+   */
+  linkedAccessCheckOnTargetResource?: boolean;
+  /**
+   * Allowed Aad Tenant Ids For Linking
+   */
+  allowedAadTenantIdsForLinking?: string[];
+}
+
+/**
  * The workspace managed identity
  */
 export interface ManagedIdentity {
@@ -1645,6 +1667,10 @@ export interface Workspace extends TrackedResource {
    */
   readonly extraProperties?: { [propertyName: string]: any };
   /**
+   * Managed Virtual Network Settings
+   */
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  /**
    * Identity of the workspace
    */
   identity?: ManagedIdentity;
@@ -1673,6 +1699,24 @@ export interface WorkspaceAadAdminInfo extends BaseResource {
 }
 
 /**
+ * Managed Virtual Network Settings
+ */
+export interface WorkspacePatchInfoManagedVirtualNetworkSettings {
+  /**
+   * Prevent Data Exfiltration
+   */
+  preventDataExfiltration?: boolean;
+  /**
+   * Linked Access Check On Target Resource
+   */
+  linkedAccessCheckOnTargetResource?: boolean;
+  /**
+   * Allowed Aad Tenant Ids For Linking
+   */
+  allowedAadTenantIdsForLinking?: string[];
+}
+
+/**
  * Workspace patch details
  */
 export interface WorkspacePatchInfo {
@@ -1684,6 +1728,10 @@ export interface WorkspacePatchInfo {
    * The identity of the workspace
    */
   identity?: ManagedIdentity;
+  /**
+   * Managed Virtual Network Settings
+   */
+  managedVirtualNetworkSettings?: WorkspacePatchInfoManagedVirtualNetworkSettings;
   /**
    * SQL administrator login password
    */

@@ -48,6 +48,7 @@ export {
   ManagedIntegrationRuntimeNode,
   ManagedIntegrationRuntimeOperationResult,
   ManagedIntegrationRuntimeStatus,
+  ManagedVirtualNetworkSettings,
   MetadataSyncConfig,
   PrivateEndpoint,
   PrivateEndpointConnection,

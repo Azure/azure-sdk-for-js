@@ -209,6 +209,13 @@ export const BigDataPoolResourceInfo: msRest.CompositeMapper = {
           className: "LibraryRequirements"
         }
       },
+      sparkConfigProperties: {
+        serializedName: "properties.sparkConfigProperties",
+        type: {
+          name: "Composite",
+          className: "LibraryRequirements"
+        }
+      },
       sparkVersion: {
         serializedName: "properties.sparkVersion",
         type: {
@@ -2391,6 +2398,39 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedVirtualNetworkSettings: msRest.CompositeMapper = {
+  serializedName: "ManagedVirtualNetworkSettings",
+  type: {
+    name: "Composite",
+    className: "ManagedVirtualNetworkSettings",
+    modelProperties: {
+      preventDataExfiltration: {
+        serializedName: "preventDataExfiltration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      linkedAccessCheckOnTargetResource: {
+        serializedName: "linkedAccessCheckOnTargetResource",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowedAadTenantIdsForLinking: {
+        serializedName: "allowedAadTenantIdsForLinking",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagedIdentity: msRest.CompositeMapper = {
   serializedName: "ManagedIdentity",
   type: {
@@ -2512,6 +2552,13 @@ export const Workspace: msRest.CompositeMapper = {
           }
         }
       },
+      managedVirtualNetworkSettings: {
+        serializedName: "properties.managedVirtualNetworkSettings",
+        type: {
+          name: "Composite",
+          className: "ManagedVirtualNetworkSettings"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -2557,6 +2604,39 @@ export const WorkspaceAadAdminInfo: msRest.CompositeMapper = {
   }
 };
 
+export const WorkspacePatchInfoManagedVirtualNetworkSettings: msRest.CompositeMapper = {
+  serializedName: "WorkspacePatchInfo_managedVirtualNetworkSettings",
+  type: {
+    name: "Composite",
+    className: "WorkspacePatchInfoManagedVirtualNetworkSettings",
+    modelProperties: {
+      preventDataExfiltration: {
+        serializedName: "preventDataExfiltration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      linkedAccessCheckOnTargetResource: {
+        serializedName: "linkedAccessCheckOnTargetResource",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowedAadTenantIdsForLinking: {
+        serializedName: "allowedAadTenantIdsForLinking",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const WorkspacePatchInfo: msRest.CompositeMapper = {
   serializedName: "WorkspacePatchInfo",
   type: {
@@ -2579,6 +2659,13 @@ export const WorkspacePatchInfo: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedIdentity"
+        }
+      },
+      managedVirtualNetworkSettings: {
+        serializedName: "managedVirtualNetworkSettings",
+        type: {
+          name: "Composite",
+          className: "WorkspacePatchInfoManagedVirtualNetworkSettings"
         }
       },
       sqlAdministratorLoginPassword: {

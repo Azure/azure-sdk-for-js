@@ -43,6 +43,7 @@ export {
   ManagedIdentitySqlControlSettingsModel,
   ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity,
   ManagedIntegrationRuntime,
+  ManagedVirtualNetworkSettings,
   MetadataSyncConfig,
   PrivateEndpoint,
   PrivateEndpointConnection,
@@ -81,5 +82,6 @@ export {
   Workspace,
   WorkspaceAadAdminInfo,
   WorkspaceInfoListResult,
-  WorkspacePatchInfo
+  WorkspacePatchInfo,
+  WorkspacePatchInfoManagedVirtualNetworkSettings
 } from "../models/mappers";

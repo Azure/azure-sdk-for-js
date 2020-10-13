@@ -40,6 +40,7 @@ export {
   ManagedIdentitySqlControlSettingsModel,
   ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity,
   ManagedIntegrationRuntime,
+  ManagedVirtualNetworkSettings,
   MetadataSyncConfig,
   PrivateEndpoint,
   PrivateEndpointConnection,
