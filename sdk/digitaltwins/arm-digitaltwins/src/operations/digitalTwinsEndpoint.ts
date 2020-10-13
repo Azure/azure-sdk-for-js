@@ -100,11 +100,12 @@ export class DigitalTwinsEndpoint {
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param resourceName The name of the DigitalTwinsInstance.
    * @param endpointName Name of Endpoint Resource.
+   * @param properties DigitalTwinsInstance endpoint resource properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsEndpointCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, options?: Models.DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<Models.DigitalTwinsEndpointCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,endpointName,options)
+  createOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, properties: Models.DigitalTwinsEndpointResourcePropertiesUnion, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsEndpointCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,resourceName,endpointName,properties,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DigitalTwinsEndpointCreateOrUpdateResponse>;
   }
 
@@ -126,15 +127,17 @@ export class DigitalTwinsEndpoint {
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param resourceName The name of the DigitalTwinsInstance.
    * @param endpointName Name of Endpoint Resource.
+   * @param properties DigitalTwinsInstance endpoint resource properties.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, options?: Models.DigitalTwinsEndpointBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, properties: Models.DigitalTwinsEndpointResourcePropertiesUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         resourceName,
         endpointName,
+        properties,
         options
       },
       beginCreateOrUpdateOperationSpec,
@@ -260,10 +263,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      properties: [
-        "options",
-        "properties"
-      ]
+      properties: "properties"
     },
     mapper: {
       ...Mappers.DigitalTwinsEndpointResource,
@@ -300,7 +300,9 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.DigitalTwinsEndpointResource
+    },
     202: {
       bodyMapper: Mappers.DigitalTwinsEndpointResource
     },

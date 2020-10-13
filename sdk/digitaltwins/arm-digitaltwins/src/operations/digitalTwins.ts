@@ -81,9 +81,29 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsUpdateOptionalParams): Promise<Models.DigitalTwinsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DigitalTwinsUpdateResponse>;
+  update(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsUpdateOptionalParams): Promise<Models.DigitalTwinsUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
+   * @param resourceName The name of the DigitalTwinsInstance.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
+   * @param resourceName The name of the DigitalTwinsInstance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, resourceName: string, options: Models.DigitalTwinsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>): void;
+  update(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsUpdateOptionalParams | msRest.ServiceCallback<Models.DigitalTwinsDescription>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescription>): Promise<Models.DigitalTwinsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.DigitalTwinsUpdateResponse>;
   }
 
   /**
@@ -205,24 +225,6 @@ export class DigitalTwins {
   }
 
   /**
-   * Update metadata of DigitalTwinsInstance.
-   * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
-   * @param resourceName The name of the DigitalTwinsInstance.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdate(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        resourceName,
-        options
-      },
-      beginUpdateOperationSpec,
-      options);
-  }
-
-  /**
    * Delete a DigitalTwinsInstance.
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param resourceName The name of the DigitalTwinsInstance.
@@ -313,6 +315,43 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DigitalTwinsDescription
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      tags: [
+        "options",
+        "tags"
+      ]
+    },
+    mapper: {
+      ...Mappers.DigitalTwinsPatchDescription,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescription
@@ -439,44 +478,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
-    },
-    mapper: {
-      ...Mappers.DigitalTwinsPatchDescription,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DigitalTwinsDescription
-    },
-    201: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
@@ -492,7 +493,9 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.DigitalTwinsDescription
+    },
     202: {
       bodyMapper: Mappers.DigitalTwinsDescription
     },
