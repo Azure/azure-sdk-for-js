@@ -28,6 +28,7 @@ export * from "./virtualMachineScaleSetVMExtensions";
 export * from "./virtualMachineScaleSetVMs";
 export * from "./logAnalytics";
 export * from "./virtualMachineRunCommands";
+export * from "./virtualMachineScaleSetVMRunCommands";
 export * from "./resourceSkus";
 export * from "./disks";
 export * from "./snapshots";
