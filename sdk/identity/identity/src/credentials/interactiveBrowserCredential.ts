@@ -186,7 +186,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
         try {
           const authResponse = await this.pca.acquireTokenByCode(tokenRequest);
-          res.sendStatus(200);
+          res.status(200).send("Authentication Complete. You can close the browser and return to the application.");
 
           if (this.persistenceEnabled) {
             this.msalCacheManager.writeToPersistence();

@@ -117,7 +117,7 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     const { span } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
@@ -127,10 +127,12 @@ export class DeviceCodeCredential implements TokenCredential {
       scopes: scopeArray
     };
 
-    logger.info("Sending devicecode request");
+    logger.info(`DeviceCodeCredential invoked. Scopes: ${scopeArray.join(", ")}`);
 
     try {
-      return this.acquireTokenByDeviceCode(deviceCodeRequest);
+      const token = await this.acquireTokenByDeviceCode(deviceCodeRequest);
+      logger.info(`DeviceCodeCredential succeeded. Scopes: ${scopeArray.join(", ")} expiresOnTimestamp: ${token?.expiresOnTimestamp}`);
+      return token;
     } catch (err) {
       const code =
         err.name === AuthenticationErrorName
@@ -140,7 +142,7 @@ export class DeviceCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(err);
+      logger.getToken.info(`DeviceCodeCredential was unable to retrieve an access token. Scopes: ${scopeArray.join(", ")}. Error: ${err.message}`);
       throw err;
     } finally {
       span.end();
