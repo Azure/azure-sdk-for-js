@@ -313,6 +313,7 @@ export const DirectoryObject: msRest.CompositeMapper = {
         }
       },
       deletionTimestamp: {
+        nullable: true,
         readOnly: true,
         serializedName: "deletionTimestamp",
         type: {
@@ -617,7 +618,7 @@ export const ApplicationBase: msRest.CompositeMapper = {
       groupMembershipClaims: {
         serializedName: "groupMembershipClaims",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       homepage: {
@@ -946,7 +947,7 @@ export const Application: msRest.CompositeMapper = {
       groupMembershipClaims: {
         serializedName: "groupMembershipClaims",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       homepage: {

@@ -267,6 +267,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
+    Parameters.expand,
     Parameters.apiVersion
   ],
   headerParameters: [
