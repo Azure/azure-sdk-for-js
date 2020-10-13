@@ -10,7 +10,11 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
-import { QuerySpecification, QueryQueryTwinsResponse } from "../models";
+import {
+  QuerySpecification,
+  QueryQueryTwinsOptionalParams,
+  QueryQueryTwinsResponse
+} from "../models";
 
 /**
  * Class representing a Query.
@@ -29,14 +33,18 @@ export class Query {
   /**
    * Executes a query that allows traversing relationships and filtering by property values.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * BadRequest - The continuation token is invalid.
+   *   * SqlQueryError - The query contains some errors.
+   * * 429 Too Many Requests
+   *   * QuotaReachedError - The maximum query rate limit has been reached.
    * @param querySpecification The query specification to execute.
    * @param options The options parameters.
    */
   queryTwins(
     querySpecification: QuerySpecification,
-    options?: coreHttp.OperationOptions
+    options?: QueryQueryTwinsOptionalParams
   ): Promise<QueryQueryTwinsResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -66,7 +74,12 @@ const queryTwinsOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.querySpecification,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.traceparent5,
+    Parameters.tracestate5,
+    Parameters.maxItemsPerPage1
+  ],
   mediaType: "json",
   serializer
 };

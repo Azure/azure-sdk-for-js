@@ -8,10 +8,10 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const ModelData: coreHttp.CompositeMapper = {
+export const DigitalTwinsModelData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelData",
+    className: "DigitalTwinsModelData",
     modelProperties: {
       displayName: {
         serializedName: "displayName",
@@ -132,16 +132,18 @@ export const InnerError: coreHttp.CompositeMapper = {
   }
 };
 
-export const PagedModelDataCollection: coreHttp.CompositeMapper = {
+export const PagedDigitalTwinsModelDataCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PagedModelDataCollection",
+    className: "PagedDigitalTwinsModelDataCollection",
     modelProperties: {
       value: {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ModelData" } }
+          element: {
+            type: { name: "Composite", className: "DigitalTwinsModelData" }
+          }
         }
       },
       nextLink: {
@@ -180,8 +182,8 @@ export const QueryResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "QueryResult",
     modelProperties: {
-      items: {
-        serializedName: "items",
+      value: {
+        serializedName: "value",
         type: {
           name: "Sequence",
           element: { type: { name: "any" } }
@@ -319,6 +321,7 @@ export const EventRoute: coreHttp.CompositeMapper = {
       },
       filter: {
         serializedName: "filter",
+        required: true,
         type: {
           name: "String"
         }

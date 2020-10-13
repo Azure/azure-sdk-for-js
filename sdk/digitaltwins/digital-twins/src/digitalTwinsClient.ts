@@ -35,7 +35,7 @@ import {
   DigitalTwinsListRelationshipsResponse,
   IncomingRelationship,
   DigitalTwinsListIncomingRelationshipsResponse,
-  ModelData,
+  DigitalTwinsModelData,
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddResponse,
@@ -177,8 +177,13 @@ export class DigitalTwinsClient {
     etag: string = "*",
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateResponse> {
-    const digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = options;
-    digitalTwinsUpdateOptionalParams.ifMatch = etag;
+    var digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = options;
+    digitalTwinsUpdateOptionalParams = {
+      digitalTwinsUpdateOptions: {
+        ifMatch: etag,
+        ...options
+      }
+    }
     return this.client.digitalTwins.update(
       digitalTwinId,
       twinPatch,
@@ -200,8 +205,14 @@ export class DigitalTwinsClient {
     etag: string = "*",
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
-    digitalTwinsDeleteOptionalParams.ifMatch = etag;
+    var digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
+    digitalTwinsDeleteOptionalParams = {
+      digitalTwinsDeleteOptions: {
+      ifMatch: etag,
+      ...options
+      }
+    }
+    
     return this.client.digitalTwins.delete(digitalTwinId, digitalTwinsDeleteOptionalParams);
   }
 
@@ -235,16 +246,22 @@ export class DigitalTwinsClient {
   public updateComponent(
     digitalTwinId: string,
     componentPath: string,
-    componentPatch: any[] = [],
+    componentPatch: any[],
     etag: string = "*",
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    const digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = options;
-    digitalTwinsUpdateComponentOptionalParams.ifMatch = etag;
-    digitalTwinsUpdateComponentOptionalParams.patchDocument = componentPatch;
+    var digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = options;
+    digitalTwinsUpdateComponentOptionalParams = {
+      digitalTwinsUpdateComponentOptions: {
+        ifMatch: etag,
+        ...options
+      }
+    }
+
     return this.client.digitalTwins.updateComponent(
       digitalTwinId,
       componentPath,
+      componentPatch,
       digitalTwinsUpdateComponentOptionalParams
     );
   }
@@ -280,10 +297,11 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
-    digitalTwinsAddRelationshipOptionalParams.relationship = relationship;
+
     return this.client.digitalTwins.addRelationship(
       digitalTwinId,
       relationshipId,
+      relationship,
       digitalTwinsAddRelationshipOptionalParams
     );
   }
@@ -305,12 +323,18 @@ export class DigitalTwinsClient {
     etag: string = "*",
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    const digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = options;
-    digitalTwinsUpdateRelationshipOptionalParams.ifMatch = etag;
-    digitalTwinsUpdateRelationshipOptionalParams.patchDocument = relationshipPatch;
+    var digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = options;
+    digitalTwinsUpdateRelationshipOptionalParams = {
+      digitalTwinsUpdateRelationshipOptions: {
+        ifMatch: etag,
+        ...options
+      }
+    }
+    
     return this.client.digitalTwins.updateRelationship(
       digitalTwinId,
       relationshipId,
+      relationshipPatch,
       digitalTwinsUpdateRelationshipOptionalParams
     );
   }
@@ -330,8 +354,15 @@ export class DigitalTwinsClient {
     etag: string = "*",
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = options;
-    digitalTwinsDeleteRelationshipOptionalParams.ifMatch = etag;
+    var digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = options;
+
+    digitalTwinsDeleteRelationshipOptionalParams = {
+      digitalTwinsDeleteRelationshipOptions: {
+        ifMatch: etag,
+        ...options
+      }
+    }
+    
     return this.client.digitalTwins.deleteRelationship(
       digitalTwinId,
       relationshipId,
@@ -514,7 +545,7 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
-    digitalTwinsSendTelemetryOptionalParams.timestamp = new Date().getTime().toString();
+    digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().getTime().toString();
     if (!messageId) {
       messageId = generateUuid();
     }
@@ -544,7 +575,7 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
-    digitalTwinsSendComponentTelemetryOptionalParams.timestamp = new Date().getTime().toString();
+    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date().getTime().toString();
     if (!messageId) {
       messageId = generateUuid();
     }
@@ -591,7 +622,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: DigitalTwinModelsListOptionalParams = {
         digitalTwinModelsListOptions: {
-          maxItemCount: continuationState.maxPageSize
+          maxItemsPerPage: continuationState.maxPageSize
         },
         ...options
       };
@@ -618,7 +649,7 @@ export class DigitalTwinsClient {
    */
   private async *getModelsAll(
     options: DigitalTwinModelsListOptionalParams
-  ): AsyncIterableIterator<ModelData> {
+  ): AsyncIterableIterator<DigitalTwinsModelData> {
     const f = {};
 
     for await (const page of this.getModelsPage(options, f)) {
@@ -641,13 +672,13 @@ export class DigitalTwinsClient {
     dependeciesFor?: string[],
     includeModelDefinition: boolean = false,
     maxItemCount: number = -1
-  ): PagedAsyncIterableIterator<ModelData, DigitalTwinModelsListResponse> {
+  ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
     const options: DigitalTwinModelsListOptionalParams & PageSettings = {};
     options.dependenciesFor = dependeciesFor;
     options.includeModelDefinition = includeModelDefinition;
 
     const maxItemOption: DigitalTwinModelsListOptions = {};
-    maxItemOption.maxItemCount = maxItemCount;
+    maxItemOption.maxItemsPerPage = maxItemCount;
     options.digitalTwinModelsListOptions = maxItemOption;
 
     const iter = this.getModelsAll(options);
@@ -742,7 +773,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: EventRoutesListOptionalParams = {
         eventRoutesListOptions: {
-          maxItemCount: continuationState.maxPageSize
+          maxItemsPerPage: continuationState.maxPageSize
         },
         ...options
       };
@@ -792,7 +823,7 @@ export class DigitalTwinsClient {
     const options: EventRoutesListOptionalParams & PageSettings = {};
     if (maxItemCount !== -1) {
       options.eventRoutesListOptions = {};
-      options.eventRoutesListOptions.maxItemCount = maxItemCount;
+      options.eventRoutesListOptions.maxItemsPerPage = maxItemCount;
     }
 
     const iter = this.getEventRoutesAll(options);
@@ -820,7 +851,7 @@ export class DigitalTwinsClient {
   public upsertEventRoute(
     eventRouteId: string,
     endpointId: string,
-    filter?: string,
+    filter: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const requestOptions: EventRoutesAddOptionalParams = options;
@@ -890,8 +921,8 @@ export class DigitalTwinsClient {
     const f = {};
 
     for await (const page of this.queryTwinsPage(options, f)) {
-      if (page.items) {
-        for (const item of page.items) {
+      if (page.value) {
+        for (const item of page.value) {
           yield item;
         }
       }

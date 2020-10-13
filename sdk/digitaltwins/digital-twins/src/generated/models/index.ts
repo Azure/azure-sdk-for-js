@@ -11,7 +11,7 @@ import * as coreHttp from "@azure/core-http";
 /**
  * A model definition and metadata for that model.
  */
-export interface ModelData {
+export interface DigitalTwinsModelData {
   /**
    * A language map that contains the localized display names as specified in the model definition.
    */
@@ -85,13 +85,13 @@ export interface InnerError {
 }
 
 /**
- * A collection of ModelData objects.
+ * A collection of DigitalTwinsModelData objects.
  */
-export interface PagedModelDataCollection {
+export interface PagedDigitalTwinsModelDataCollection {
   /**
-   * The ModelData objects.
+   * The DigitalTwinsModelData objects.
    */
-  value?: ModelData[];
+  value?: DigitalTwinsModelData[];
   /**
    * A URI to retrieve the next page of objects.
    */
@@ -119,7 +119,7 @@ export interface QueryResult {
   /**
    * The query results.
    */
-  items?: any[];
+  value?: any[];
   /**
    * A token which can be used to construct a new QuerySpecification to retrieve the next set of results.
    */
@@ -202,7 +202,7 @@ export interface EventRoute {
   /**
    * An expression which describes the events which are routed to the endpoint.
    */
-  filter?: string;
+  filter: string;
 }
 
 /**
@@ -298,11 +298,309 @@ export interface DigitalTwinsUpdateComponentHeaders {
 /**
  * Parameter group
  */
+export interface DigitalTwinModelsAddOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
 export interface DigitalTwinModelsListOptions {
   /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
+   * Identifies the request in a distributed tracing system.
    */
-  maxItemCount?: number;
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
+   */
+  maxItemsPerPage?: number;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinModelsGetByIdOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinModelsUpdateOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinModelsDeleteOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface QueryTwinsOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
+   */
+  maxItemsPerPage?: number;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsGetByIdOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsAddOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsDeleteOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsUpdateOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsGetRelationshipByIdOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsAddRelationshipOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsDeleteRelationshipOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsUpdateRelationshipOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsListRelationshipsOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsListIncomingRelationshipsOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsSendTelemetryOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsSendComponentTelemetryOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsGetComponentOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface DigitalTwinsUpdateComponentOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   */
+  ifMatch?: string;
 }
 
 /**
@@ -310,9 +608,59 @@ export interface DigitalTwinModelsListOptions {
  */
 export interface EventRoutesListOptions {
   /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
+   * Identifies the request in a distributed tracing system.
    */
-  maxItemCount?: number;
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+  /**
+   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
+   */
+  maxItemsPerPage?: number;
+}
+
+/**
+ * Parameter group
+ */
+export interface EventRoutesGetByIdOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface EventRoutesAddOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
+}
+
+/**
+ * Parameter group
+ */
+export interface EventRoutesDeleteOptions {
+  /**
+   * Identifies the request in a distributed tracing system.
+   */
+  traceparent?: string;
+  /**
+   * Provides vendor-specific trace identification information and is a companion to traceparent.
+   */
+  tracestate?: string;
 }
 
 /**
@@ -320,6 +668,10 @@ export interface EventRoutesListOptions {
  */
 export interface DigitalTwinModelsAddOptionalParams
   extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinModelsAddOptions?: DigitalTwinModelsAddOptions;
   /**
    * An array of models to add.
    */
@@ -329,7 +681,7 @@ export interface DigitalTwinModelsAddOptionalParams
 /**
  * Contains response data for the add operation.
  */
-export type DigitalTwinModelsAddResponse = ModelData[] & {
+export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[] & {
   /**
    * The underlying HTTP response.
    */
@@ -342,7 +694,7 @@ export type DigitalTwinModelsAddResponse = ModelData[] & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ModelData[];
+    parsedBody: DigitalTwinsModelData[];
   };
 };
 
@@ -368,7 +720,7 @@ export interface DigitalTwinModelsListOptionalParams
 /**
  * Contains response data for the list operation.
  */
-export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
+export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -381,7 +733,7 @@ export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: PagedModelDataCollection;
+    parsedBody: PagedDigitalTwinsModelDataCollection;
   };
 };
 
@@ -391,6 +743,10 @@ export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
 export interface DigitalTwinModelsGetByIdOptionalParams
   extends coreHttp.OperationOptions {
   /**
+   * Parameter group
+   */
+  digitalTwinModelsGetByIdOptions?: DigitalTwinModelsGetByIdOptions;
+  /**
    * When true the model definition will be returned as part of the result.
    */
   includeModelDefinition?: boolean;
@@ -399,7 +755,7 @@ export interface DigitalTwinModelsGetByIdOptionalParams
 /**
  * Contains response data for the getById operation.
  */
-export type DigitalTwinModelsGetByIdResponse = ModelData & {
+export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData & {
   /**
    * The underlying HTTP response.
    */
@@ -412,9 +768,31 @@ export type DigitalTwinModelsGetByIdResponse = ModelData & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ModelData;
+    parsedBody: DigitalTwinsModelData;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinModelsUpdateOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinModelsUpdateOptions?: DigitalTwinModelsUpdateOptions;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinModelsDeleteOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinModelsDeleteOptions?: DigitalTwinModelsDeleteOptions;
+}
 
 /**
  * Optional parameters.
@@ -438,7 +816,7 @@ export interface DigitalTwinModelsListNextOptionalParams
 /**
  * Contains response data for the listNext operation.
  */
-export type DigitalTwinModelsListNextResponse = PagedModelDataCollection & {
+export type DigitalTwinModelsListNextResponse = PagedDigitalTwinsModelDataCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -451,9 +829,20 @@ export type DigitalTwinModelsListNextResponse = PagedModelDataCollection & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: PagedModelDataCollection;
+    parsedBody: PagedDigitalTwinsModelDataCollection;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface QueryQueryTwinsOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  queryTwinsOptions?: QueryTwinsOptions;
+}
 
 /**
  * Contains response data for the queryTwins operation.
@@ -479,6 +868,17 @@ export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders &
       parsedHeaders: QueryQueryTwinsHeaders;
     };
   };
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinsGetByIdOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsGetByIdOptions?: DigitalTwinsGetByIdOptions;
+}
 
 /**
  * Contains response data for the getById operation.
@@ -508,6 +908,17 @@ export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
     parsedHeaders: DigitalTwinsGetByIdHeaders;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinsAddOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsAddOptions?: DigitalTwinsAddOptions;
+}
 
 /**
  * Contains response data for the add operation.
@@ -544,9 +955,9 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 export interface DigitalTwinsDeleteOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * Parameter group
    */
-  ifMatch?: string;
+  digitalTwinsDeleteOptions?: DigitalTwinsDeleteOptions;
 }
 
 /**
@@ -555,9 +966,9 @@ export interface DigitalTwinsDeleteOptionalParams
 export interface DigitalTwinsUpdateOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * Parameter group
    */
-  ifMatch?: string;
+  digitalTwinsUpdateOptions?: DigitalTwinsUpdateOptions;
 }
 
 /**
@@ -574,6 +985,17 @@ export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders & {
     parsedHeaders: DigitalTwinsUpdateHeaders;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinsGetRelationshipByIdOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsGetRelationshipByIdOptions?: DigitalTwinsGetRelationshipByIdOptions;
+}
 
 /**
  * Contains response data for the getRelationshipById operation.
@@ -610,9 +1032,9 @@ export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshi
 export interface DigitalTwinsAddRelationshipOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * The data for the relationship.
+   * Parameter group
    */
-  relationship?: any;
+  digitalTwinsAddRelationshipOptions?: DigitalTwinsAddRelationshipOptions;
 }
 
 /**
@@ -650,9 +1072,9 @@ export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHea
 export interface DigitalTwinsDeleteRelationshipOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * Parameter group
    */
-  ifMatch?: string;
+  digitalTwinsDeleteRelationshipOptions?: DigitalTwinsDeleteRelationshipOptions;
 }
 
 /**
@@ -661,13 +1083,9 @@ export interface DigitalTwinsDeleteRelationshipOptionalParams
 export interface DigitalTwinsUpdateRelationshipOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * Parameter group
    */
-  ifMatch?: string;
-  /**
-   * JSON Patch description of the update to the relationship properties.
-   */
-  patchDocument?: any[];
+  digitalTwinsUpdateRelationshipOptions?: DigitalTwinsUpdateRelationshipOptions;
 }
 
 /**
@@ -690,6 +1108,10 @@ export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelations
  */
 export interface DigitalTwinsListRelationshipsOptionalParams
   extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsListRelationshipsOptions?: DigitalTwinsListRelationshipsOptions;
   /**
    * The name of the relationship.
    */
@@ -717,6 +1139,17 @@ export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
 };
 
 /**
+ * Optional parameters.
+ */
+export interface DigitalTwinsListIncomingRelationshipsOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsListIncomingRelationshipsOptions?: DigitalTwinsListIncomingRelationshipsOptions;
+}
+
+/**
  * Contains response data for the listIncomingRelationships operation.
  */
 export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection & {
@@ -742,9 +1175,13 @@ export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationship
 export interface DigitalTwinsSendTelemetryOptionalParams
   extends coreHttp.OperationOptions {
   /**
+   * Parameter group
+   */
+  digitalTwinsSendTelemetryOptions?: DigitalTwinsSendTelemetryOptions;
+  /**
    * An RFC 3339 timestamp that identifies the time the telemetry was measured.
    */
-  timestamp?: string;
+  telemetrySourceTime?: string;
 }
 
 /**
@@ -753,9 +1190,24 @@ export interface DigitalTwinsSendTelemetryOptionalParams
 export interface DigitalTwinsSendComponentTelemetryOptionalParams
   extends coreHttp.OperationOptions {
   /**
+   * Parameter group
+   */
+  digitalTwinsSendComponentTelemetryOptions?: DigitalTwinsSendComponentTelemetryOptions;
+  /**
    * An RFC 3339 timestamp that identifies the time the telemetry was measured.
    */
-  timestamp?: string;
+  telemetrySourceTime?: string;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinsGetComponentOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsGetComponentOptions?: DigitalTwinsGetComponentOptions;
 }
 
 /**
@@ -793,13 +1245,9 @@ export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders &
 export interface DigitalTwinsUpdateComponentOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * Parameter group
    */
-  ifMatch?: string;
-  /**
-   * An update specification described by JSON Patch. Updates to property values and $model elements may happen in the same request. Operations are limited to add, replace and remove.
-   */
-  patchDocument?: any[];
+  digitalTwinsUpdateComponentOptions?: DigitalTwinsUpdateComponentOptions;
 }
 
 /**
@@ -822,6 +1270,10 @@ export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHea
  */
 export interface DigitalTwinsListRelationshipsNextOptionalParams
   extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsListRelationshipsOptions?: DigitalTwinsListRelationshipsOptions;
   /**
    * The name of the relationship.
    */
@@ -847,6 +1299,17 @@ export type DigitalTwinsListRelationshipsNextResponse = RelationshipCollection &
     parsedBody: RelationshipCollection;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface DigitalTwinsListIncomingRelationshipsNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  digitalTwinsListIncomingRelationshipsOptions?: DigitalTwinsListIncomingRelationshipsOptions;
+}
 
 /**
  * Contains response data for the listIncomingRelationshipsNext operation.
@@ -900,6 +1363,17 @@ export type EventRoutesListResponse = EventRouteCollection & {
 };
 
 /**
+ * Optional parameters.
+ */
+export interface EventRoutesGetByIdOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  eventRoutesGetByIdOptions?: EventRoutesGetByIdOptions;
+}
+
+/**
  * Contains response data for the getById operation.
  */
 export type EventRoutesGetByIdResponse = EventRoute & {
@@ -925,9 +1399,24 @@ export type EventRoutesGetByIdResponse = EventRoute & {
 export interface EventRoutesAddOptionalParams
   extends coreHttp.OperationOptions {
   /**
+   * Parameter group
+   */
+  eventRoutesAddOptions?: EventRoutesAddOptions;
+  /**
    * The event route data
    */
   eventRoute?: EventRoute;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface EventRoutesDeleteOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Parameter group
+   */
+  eventRoutesDeleteOptions?: EventRoutesDeleteOptions;
 }
 
 /**

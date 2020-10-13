@@ -41,6 +41,6 @@ export class AzureDigitalTwinsAPIContext extends coreHttp.ServiceClient {
     // Assigning values to Constant parameters
     this.$host =
       options.$host || "https://digitaltwins-name.digitaltwins.azure.net";
-    this.apiVersion = options.apiVersion || "2020-05-31-preview";
+    this.apiVersion = options.apiVersion || "2020-10-31";
   }
 }

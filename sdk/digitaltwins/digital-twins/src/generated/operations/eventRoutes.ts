@@ -13,8 +13,10 @@ import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
 import {
   EventRoutesListOptionalParams,
   EventRoutesListResponse,
+  EventRoutesGetByIdOptionalParams,
   EventRoutesGetByIdResponse,
   EventRoutesAddOptionalParams,
+  EventRoutesDeleteOptionalParams,
   EventRoutesListNextOptionalParams,
   EventRoutesListNextResponse
 } from "../models";
@@ -36,8 +38,7 @@ export class EventRoutes {
   /**
    * Retrieves all event routes.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
+   * * 200 OK
    * @param options The options parameters.
    */
   list(
@@ -55,14 +56,15 @@ export class EventRoutes {
   /**
    * Retrieves an event route.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is no event route with the provided id.
+   * * 200 OK
+   * * 404 Not Found
+   *   * EventRouteNotFound - The event route was not found.
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param options The options parameters.
    */
   getById(
     id: string,
-    options?: coreHttp.OperationOptions
+    options?: EventRoutesGetByIdOptionalParams
   ): Promise<EventRoutesGetByIdResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -76,8 +78,12 @@ export class EventRoutes {
   /**
    * Adds or replaces an event route.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * EventRouteEndpointInvalid - The endpoint provided does not exist or is not active.
+   *   * EventRouteFilterInvalid - The event route filter is invalid.
+   *   * EventRouteIdInvalid - The event route id is invalid.
+   *   * LimitExceeded - The maximum number of event routes allowed has been reached.
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param options The options parameters.
    */
@@ -97,14 +103,15 @@ export class EventRoutes {
   /**
    * Deletes an event route.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is no event route with the provided id.
+   * * 204 No Content
+   * * 404 Not Found
+   *   * EventRouteNotFound - The event route was not found.
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param options The options parameters.
    */
   delete(
     id: string,
-    options?: coreHttp.OperationOptions
+    options?: EventRoutesDeleteOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -150,7 +157,11 @@ const listOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.maxItemCount1],
+  headerParameters: [
+    Parameters.traceparent20,
+    Parameters.tracestate20,
+    Parameters.maxItemsPerPage2
+  ],
   serializer
 };
 const getByIdOperationSpec: coreHttp.OperationSpec = {
@@ -166,6 +177,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent21, Parameters.tracestate21],
   serializer
 };
 const addOperationSpec: coreHttp.OperationSpec = {
@@ -180,7 +192,11 @@ const addOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.eventRoute,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.traceparent22,
+    Parameters.tracestate22
+  ],
   mediaType: "json",
   serializer
 };
@@ -195,6 +211,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent23, Parameters.tracestate23],
   serializer
 };
 const listNextOperationSpec: coreHttp.OperationSpec = {
@@ -210,6 +227,10 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.maxItemCount1],
+  headerParameters: [
+    Parameters.traceparent20,
+    Parameters.tracestate20,
+    Parameters.maxItemsPerPage2
+  ],
   serializer
 };

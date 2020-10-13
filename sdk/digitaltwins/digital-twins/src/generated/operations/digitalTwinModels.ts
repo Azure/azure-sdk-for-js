@@ -17,6 +17,8 @@ import {
   DigitalTwinModelsListResponse,
   DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsGetByIdResponse,
+  DigitalTwinModelsUpdateOptionalParams,
+  DigitalTwinModelsDeleteOptionalParams,
   DigitalTwinModelsListNextOptionalParams,
   DigitalTwinModelsListNextResponse
 } from "../models";
@@ -38,9 +40,14 @@ export class DigitalTwinModels {
   /**
    * Uploads one or more models. When any error occurs, no models are uploaded.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 409 (Conflict): One or more of the provided models already exist.
+   * * 201 Created
+   * * 400 Bad Request
+   *   * DTDLParserError - The models provided are not valid DTDL.
+   *   * InvalidArgument - The model id is invalid.
+   *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+   *   * ModelVersionNotSupported - The version of DTDL used is not supported.
+   * * 409 Conflict
+   *   * ModelAlreadyExists - The model provided already exists.
    * @param options The options parameters.
    */
   add(
@@ -58,8 +65,12 @@ export class DigitalTwinModels {
   /**
    * Retrieves model metadata and, optionally, model definitions.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The model id is invalid.
+   *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+   * * 404 Not Found
+   *   * ModelNotFound - The model was not found.
    * @param options The options parameters.
    */
   list(
@@ -77,8 +88,12 @@ export class DigitalTwinModels {
   /**
    * Retrieves model metadata and optionally the model definition.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is no model with the provided id.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The model id is invalid.
+   *   * MissingArgument - The model id was not provided.
+   * * 404 Not Found
+   *   * ModelNotFound - The model was not found.
    * @param id The id for the model. The id is globally unique and case sensitive.
    * @param options The options parameters.
    */
@@ -98,9 +113,15 @@ export class DigitalTwinModels {
   /**
    * Updates the metadata for a model.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no model with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The model id is invalid.
+   *   * JsonPatchInvalid - The JSON Patch provided is invalid.
+   *   * MissingArgument - The model id was not provided.
+   * * 404 Not Found
+   *   * ModelNotFound - The model was not found.
+   * * 409 Conflict
+   *   * ModelReferencesNotDecommissioned - The model refers to models that are not decommissioned.
    * @param id The id for the model. The id is globally unique and case sensitive.
    * @param updateModel An update specification described by JSON Patch. Only the decommissioned property
    *                    can be replaced.
@@ -109,7 +130,7 @@ export class DigitalTwinModels {
   update(
     id: string,
     updateModel: any[],
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinModelsUpdateOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -123,16 +144,20 @@ export class DigitalTwinModels {
   /**
    * Deletes a model. A model can only be deleted if no other models reference it.
    * Status codes:
-   * 204 (No Content): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no model with the provided id.
-   * 409 (Conflict): There are dependencies on the model that prevent it from being deleted.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The model id is invalid.
+   *   * MissingArgument - The model id was not provided.
+   * * 404 Not Found
+   *   * ModelNotFound - The model was not found.
+   * * 409 Conflict
+   *   * ModelReferencesNotDeleted - The model refers to models that are not deleted.
    * @param id The id for the model. The id is globally unique and case sensitive.
    * @param options The options parameters.
    */
   delete(
     id: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinModelsDeleteOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -173,7 +198,9 @@ const addOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ModelData" } }
+          element: {
+            type: { name: "Composite", className: "DigitalTwinsModelData" }
+          }
         }
       }
     },
@@ -184,7 +211,11 @@ const addOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.models,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.traceparent,
+    Parameters.tracestate
+  ],
   mediaType: "json",
   serializer
 };
@@ -193,7 +224,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedModelDataCollection
+      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -205,7 +236,11 @@ const listOperationSpec: coreHttp.OperationSpec = {
     Parameters.includeModelDefinition
   ],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.maxItemCount],
+  headerParameters: [
+    Parameters.traceparent1,
+    Parameters.tracestate1,
+    Parameters.maxItemsPerPage
+  ],
   serializer
 };
 const getByIdOperationSpec: coreHttp.OperationSpec = {
@@ -213,7 +248,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelData
+      bodyMapper: Mappers.DigitalTwinsModelData
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -221,6 +256,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeModelDefinition],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent2, Parameters.tracestate2],
   serializer
 };
 const updateOperationSpec: coreHttp.OperationSpec = {
@@ -235,7 +271,11 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.updateModel,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.contentType1],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.traceparent3,
+    Parameters.tracestate3
+  ],
   mediaType: "json",
   serializer
 };
@@ -250,6 +290,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent4, Parameters.tracestate4],
   serializer
 };
 const listNextOperationSpec: coreHttp.OperationSpec = {
@@ -257,7 +298,7 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedModelDataCollection
+      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -269,6 +310,10 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.includeModelDefinition
   ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.maxItemCount],
+  headerParameters: [
+    Parameters.traceparent1,
+    Parameters.tracestate1,
+    Parameters.maxItemsPerPage
+  ],
   serializer
 };

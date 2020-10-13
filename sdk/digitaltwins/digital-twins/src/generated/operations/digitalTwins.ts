@@ -11,11 +11,14 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
 import {
+  DigitalTwinsGetByIdOptionalParams,
   DigitalTwinsGetByIdResponse,
+  DigitalTwinsAddOptionalParams,
   DigitalTwinsAddResponse,
   DigitalTwinsDeleteOptionalParams,
   DigitalTwinsUpdateOptionalParams,
   DigitalTwinsUpdateResponse,
+  DigitalTwinsGetRelationshipByIdOptionalParams,
   DigitalTwinsGetRelationshipByIdResponse,
   DigitalTwinsAddRelationshipOptionalParams,
   DigitalTwinsAddRelationshipResponse,
@@ -24,14 +27,17 @@ import {
   DigitalTwinsUpdateRelationshipResponse,
   DigitalTwinsListRelationshipsOptionalParams,
   DigitalTwinsListRelationshipsResponse,
+  DigitalTwinsListIncomingRelationshipsOptionalParams,
   DigitalTwinsListIncomingRelationshipsResponse,
   DigitalTwinsSendTelemetryOptionalParams,
   DigitalTwinsSendComponentTelemetryOptionalParams,
+  DigitalTwinsGetComponentOptionalParams,
   DigitalTwinsGetComponentResponse,
   DigitalTwinsUpdateComponentOptionalParams,
   DigitalTwinsUpdateComponentResponse,
   DigitalTwinsListRelationshipsNextOptionalParams,
   DigitalTwinsListRelationshipsNextResponse,
+  DigitalTwinsListIncomingRelationshipsNextOptionalParams,
   DigitalTwinsListIncomingRelationshipsNextResponse
 } from "../models";
 
@@ -52,14 +58,17 @@ export class DigitalTwins {
   /**
    * Retrieves a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
   getById(
     id: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsGetByIdOptionalParams
   ): Promise<DigitalTwinsGetByIdResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -73,10 +82,14 @@ export class DigitalTwins {
   /**
    * Adds or replaces a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 412 (Precondition Failed): The model is decommissioned or the digital twin already exists (when
-   * using If-None-Match: *).
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or payload is invalid.
+   *   * ModelDecommissioned - The model for the digital twin is decommissioned.
+   *   * TwinLimitReached - The maximum number of digital twins allowed has been reached.
+   *   * ValidationFailed - The digital twin payload is not valid.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param twin The digital twin instance being added. If provided, the $dtId property is ignored.
    * @param options The options parameters.
@@ -84,7 +97,7 @@ export class DigitalTwins {
   add(
     id: string,
     twin: any,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsAddOptionalParams
   ): Promise<DigitalTwinsAddResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -98,9 +111,14 @@ export class DigitalTwins {
   /**
    * Deletes a digital twin. All relationships referencing the digital twin must already be deleted.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   *   * RelationshipsNotDeleted - The digital twin contains relationships.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
@@ -120,9 +138,15 @@ export class DigitalTwins {
   /**
    * Updates a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or payload is invalid.
+   *   * JsonPatchInvalid - The JSON Patch provided is invalid.
+   *   * ValidationFailed - Applying the patch results in an invalid digital twin.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param patchDocument An update specification described by JSON Patch. Updates to property values and
    *                      $model elements may happen in the same request. Operations are limited to add, replace and remove.
@@ -145,8 +169,12 @@ export class DigitalTwins {
   /**
    * Retrieves a relationship between two digital twins.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is either no digital twin or relationship with the provided id.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or relationship id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * RelationshipNotFound - The relationship was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param relationshipId The id of the relationship. The id is unique within the digital twin and case
    *                       sensitive.
@@ -155,7 +183,7 @@ export class DigitalTwins {
   getRelationshipById(
     id: string,
     relationshipId: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsGetRelationshipByIdOptionalParams
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -169,26 +197,34 @@ export class DigitalTwins {
   /**
    * Adds a relationship between two digital twins.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is either no digital twin, target digital twin, or relationship with the
-   * provided id.
-   * 409 (Conflict): A relationship with the provided id already exists.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id, relationship id, or payload is invalid.
+   *   * InvalidRelationship - The relationship is invalid.
+   *   * OperationNotAllowed - The relationship cannot connect to the same digital twin.
+   *   * ValidationFailed - The relationship content is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * TargetTwinNotFound - The digital twin target of the relationship was not found.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param relationshipId The id of the relationship. The id is unique within the digital twin and case
    *                       sensitive.
+   * @param relationship The data for the relationship.
    * @param options The options parameters.
    */
   addRelationship(
     id: string,
     relationshipId: string,
+    relationship: any,
     options?: DigitalTwinsAddRelationshipOptionalParams
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, relationshipId, options: operationOptions },
+      { id, relationshipId, relationship, options: operationOptions },
       addRelationshipOperationSpec
     ) as Promise<DigitalTwinsAddRelationshipResponse>;
   }
@@ -196,8 +232,14 @@ export class DigitalTwins {
   /**
    * Deletes a relationship between two digital twins.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is either no digital twin or relationship with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or relationship id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * RelationshipNotFound - The relationship was not found.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param relationshipId The id of the relationship. The id is unique within the digital twin and case
    *                       sensitive.
@@ -220,24 +262,36 @@ export class DigitalTwins {
   /**
    * Updates the properties on a relationship between two digital twins.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is either no digital twin or relationship with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or relationship id is invalid.
+   *   * InvalidRelationship - The relationship is invalid.
+   *   * JsonPatchInvalid - The JSON Patch provided is invalid.
+   *   * ValidationFailed - The relationship content is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * RelationshipNotFound - The relationship was not found.
+   * * 409 Conflict
+   *   * RelationshipAlreadyExists - The relationship already exists.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param relationshipId The id of the relationship. The id is unique within the digital twin and case
    *                       sensitive.
+   * @param patchDocument JSON Patch description of the update to the relationship properties.
    * @param options The options parameters.
    */
   updateRelationship(
     id: string,
     relationshipId: string,
+    patchDocument: any[],
     options?: DigitalTwinsUpdateRelationshipOptionalParams
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, relationshipId, options: operationOptions },
+      { id, relationshipId, patchDocument, options: operationOptions },
       updateRelationshipOperationSpec
     ) as Promise<DigitalTwinsUpdateRelationshipResponse>;
   }
@@ -245,9 +299,11 @@ export class DigitalTwins {
   /**
    * Retrieves the relationships from a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
@@ -267,15 +323,17 @@ export class DigitalTwins {
   /**
    * Retrieves all incoming relationship for a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
   listIncomingRelationships(
     id: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
   ): Promise<DigitalTwinsListIncomingRelationshipsResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -289,18 +347,21 @@ export class DigitalTwins {
   /**
    * Sends telemetry on behalf of a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is no digital twin with the provided id.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or message id is invalid.
+   *   * ValidationFailed - The telemetry content is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
-   * @param dtId A unique message identifier (in the scope of the digital twin id) that is commonly used
-   *             for de-duplicating messages.
+   * @param messageId A unique message identifier (in the scope of the digital twin id) that is commonly
+   *                  used for de-duplicating messages.
    * @param telemetry The telemetry measurements to send from the digital twin.
    * @param options The options parameters.
    */
   sendTelemetry(
     id: string,
-    dtId: string,
+    messageId: string,
     telemetry: any,
     options?: DigitalTwinsSendTelemetryOptionalParams
   ): Promise<coreHttp.RestResponse> {
@@ -308,7 +369,7 @@ export class DigitalTwins {
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, dtId, telemetry, options: operationOptions },
+      { id, messageId, telemetry, options: operationOptions },
       sendTelemetryOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -316,21 +377,24 @@ export class DigitalTwins {
   /**
    * Sends telemetry on behalf of a component in a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is either no digital twin with the provided id or the component path is
-   * invalid.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id, message id, or component path is invalid.
+   *   * ValidationFailed - The telemetry content is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * ComponentNotFound - The component path was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param componentPath The name of the DTDL component.
-   * @param dtId A unique message identifier (in the scope of the digital twin id) that is commonly used
-   *             for de-duplicating messages.
+   * @param messageId A unique message identifier (in the scope of the digital twin id) that is commonly
+   *                  used for de-duplicating messages.
    * @param telemetry The telemetry measurements to send from the digital twin's component.
    * @param options The options parameters.
    */
   sendComponentTelemetry(
     id: string,
     componentPath: string,
-    dtId: string,
+    messageId: string,
     telemetry: any,
     options?: DigitalTwinsSendComponentTelemetryOptionalParams
   ): Promise<coreHttp.RestResponse> {
@@ -338,7 +402,7 @@ export class DigitalTwins {
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, componentPath, dtId, telemetry, options: operationOptions },
+      { id, componentPath, messageId, telemetry, options: operationOptions },
       sendComponentTelemetryOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -346,9 +410,12 @@ export class DigitalTwins {
   /**
    * Retrieves a component from a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 404 (Not Found): There is either no digital twin with the provided id or the component path is
-   * invalid.
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id or component path is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   *   * ComponentNotFound - The component path was not found.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param componentPath The name of the DTDL component.
    * @param options The options parameters.
@@ -356,7 +423,7 @@ export class DigitalTwins {
   getComponent(
     id: string,
     componentPath: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsGetComponentOptionalParams
   ): Promise<DigitalTwinsGetComponentResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -370,24 +437,32 @@ export class DigitalTwins {
   /**
    * Updates a component on a digital twin.
    * Status codes:
-   * 200 (OK): Success.
-   * 400 (Bad Request): The request is invalid.
-   * 404 (Not Found): There is either no digital twin with the provided id or the component path is
-   * invalid.
+   * * 204 No Content
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id, component path, or payload is invalid.
+   *   * JsonPatchInvalid - The JSON Patch provided is invalid.
+   *   * ValidationFailed - Applying the patch results in an invalid digital twin.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   * * 412 Precondition Failed
+   *   * PreconditionFailed - The precondition check (If-Match or If-None-Match) failed.
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param componentPath The name of the DTDL component.
+   * @param patchDocument An update specification described by JSON Patch. Updates to property values and
+   *                      $model elements may happen in the same request. Operations are limited to add, replace and remove.
    * @param options The options parameters.
    */
   updateComponent(
     id: string,
     componentPath: string,
+    patchDocument: any[],
     options?: DigitalTwinsUpdateComponentOptionalParams
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, componentPath, options: operationOptions },
+      { id, componentPath, patchDocument, options: operationOptions },
       updateComponentOperationSpec
     ) as Promise<DigitalTwinsUpdateComponentResponse>;
   }
@@ -422,7 +497,7 @@ export class DigitalTwins {
   listIncomingRelationshipsNext(
     id: string,
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: DigitalTwinsListIncomingRelationshipsNextOptionalParams
   ): Promise<DigitalTwinsListIncomingRelationshipsNextResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
@@ -451,6 +526,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent6, Parameters.tracestate6],
   serializer
 };
 const addOperationSpec: coreHttp.OperationSpec = {
@@ -469,7 +545,12 @@ const addOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.twin,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.ifNoneMatch],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.traceparent7,
+    Parameters.tracestate7,
+    Parameters.ifNoneMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -484,7 +565,11 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.ifMatch],
+  headerParameters: [
+    Parameters.traceparent8,
+    Parameters.tracestate8,
+    Parameters.ifMatch
+  ],
   serializer
 };
 const updateOperationSpec: coreHttp.OperationSpec = {
@@ -502,7 +587,12 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.contentType1, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.traceparent9,
+    Parameters.tracestate9,
+    Parameters.ifMatch1
+  ],
   mediaType: "json",
   serializer
 };
@@ -520,6 +610,7 @@ const getRelationshipByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
+  headerParameters: [Parameters.traceparent10, Parameters.tracestate10],
   serializer
 };
 const addRelationshipOperationSpec: coreHttp.OperationSpec = {
@@ -537,7 +628,12 @@ const addRelationshipOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.relationship,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [Parameters.contentType, Parameters.ifNoneMatch],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.ifNoneMatch,
+    Parameters.traceparent11,
+    Parameters.tracestate11
+  ],
   mediaType: "json",
   serializer
 };
@@ -552,7 +648,11 @@ const deleteRelationshipOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [Parameters.ifMatch],
+  headerParameters: [
+    Parameters.traceparent12,
+    Parameters.tracestate12,
+    Parameters.ifMatch2
+  ],
   serializer
 };
 const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
@@ -566,10 +666,15 @@ const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.patchDocument1,
+  requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [Parameters.contentType1, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.traceparent13,
+    Parameters.tracestate13,
+    Parameters.ifMatch3
+  ],
   mediaType: "json",
   serializer
 };
@@ -586,6 +691,7 @@ const listRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent14, Parameters.tracestate14],
   serializer
 };
 const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
@@ -601,6 +707,7 @@ const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.traceparent15, Parameters.tracestate15],
   serializer
 };
 const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
@@ -617,8 +724,10 @@ const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.dtId,
-    Parameters.timestamp
+    Parameters.traceparent16,
+    Parameters.tracestate16,
+    Parameters.messageId,
+    Parameters.telemetrySourceTime
   ],
   mediaType: "json",
   serializer
@@ -637,8 +746,10 @@ const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [
     Parameters.contentType,
-    Parameters.dtId,
-    Parameters.timestamp
+    Parameters.messageId,
+    Parameters.telemetrySourceTime,
+    Parameters.traceparent17,
+    Parameters.tracestate17
   ],
   mediaType: "json",
   serializer
@@ -657,6 +768,7 @@ const getComponentOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
+  headerParameters: [Parameters.traceparent18, Parameters.tracestate18],
   serializer
 };
 const updateComponentOperationSpec: coreHttp.OperationSpec = {
@@ -671,10 +783,15 @@ const updateComponentOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.patchDocument1,
+  requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
-  headerParameters: [Parameters.contentType1, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.traceparent19,
+    Parameters.tracestate19,
+    Parameters.ifMatch4
+  ],
   mediaType: "json",
   serializer
 };
@@ -691,6 +808,7 @@ const listRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
+  headerParameters: [Parameters.traceparent14, Parameters.tracestate14],
   serializer
 };
 const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
@@ -706,5 +824,6 @@ const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
+  headerParameters: [Parameters.traceparent15, Parameters.tracestate15],
   serializer
 };

@@ -15,22 +15,24 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface DigitalTwinModelsAddOptionalParams extends coreHttp.OperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinModelsAddOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinModelsAddOptions?: DigitalTwinModelsAddOptions;
     models?: any[];
 }
 
 // @public
-export type DigitalTwinModelsAddResponse = ModelData[] & {
+export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[] & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: ModelData[];
+        parsedBody: DigitalTwinsModelData[];
     };
 };
 
 // @public
-export type DigitalTwinModelsGetByIdResponse = ModelData & {
+export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: ModelData;
+        parsedBody: DigitalTwinsModelData;
     };
 };
 
@@ -43,14 +45,18 @@ export interface DigitalTwinModelsListOptionalParams extends coreHttp.OperationO
 
 // @public
 export interface DigitalTwinModelsListOptions {
-    maxItemCount?: number;
+    maxItemsPerPage?: number;
+    traceparent?: string;
+    tracestate?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PagedDigitalTwinsModelDataCollection" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
+export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: PagedModelDataCollection;
+        parsedBody: PagedDigitalTwinsModelDataCollection;
     };
 };
 
@@ -66,7 +72,8 @@ export interface DigitalTwinsAddRelationshipHeaders {
 
 // @public
 export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.OperationOptions {
-    relationship?: any;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsAddRelationshipOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsAddRelationshipOptions?: DigitalTwinsAddRelationshipOptions;
 }
 
 // @public
@@ -105,16 +112,16 @@ export class DigitalTwinsClient {
     getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     listEventRoutes(maxItemCount?: number): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
     listIncomingRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
-    listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, maxItemCount?: number): PagedAsyncIterableIterator<ModelData, DigitalTwinModelsListResponse>;
+    listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, maxItemCount?: number): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
     listRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
     publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     publishTelemetry(digitalTwinId: string, payload: any, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentPath: string, componentPatch?: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
+    updateComponent(digitalTwinId: string, componentPath: string, componentPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
     updateDigitalTwin(digitalTwinId: string, twinPatch: any, etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, relationshipPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
-    upsertEventRoute(eventRouteId: string, endpointId: string, filter?: string, options?: OperationOptions): Promise<RestResponse>;
+    upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<RestResponse>;
     upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
@@ -125,7 +132,8 @@ export interface DigitalTwinsClientOptions extends PipelineOptions {
 
 // @public
 export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsDeleteRelationshipOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsDeleteRelationshipOptions?: DigitalTwinsDeleteRelationshipOptions;
 }
 
 // @public
@@ -168,6 +176,8 @@ export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationship
 
 // @public
 export interface DigitalTwinsListRelationshipsOptionalParams extends coreHttp.OperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsListRelationshipsOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsListRelationshipsOptions?: DigitalTwinsListRelationshipsOptions;
     relationshipName?: string;
 }
 
@@ -180,13 +190,31 @@ export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
 };
 
 // @public
+export interface DigitalTwinsModelData {
+    decommissioned?: boolean;
+    description?: {
+        [propertyName: string]: string;
+    };
+    displayName?: {
+        [propertyName: string]: string;
+    };
+    id: string;
+    model?: any;
+    uploadTime?: Date;
+}
+
+// @public
 export interface DigitalTwinsSendComponentTelemetryOptionalParams extends coreHttp.OperationOptions {
-    timestamp?: string;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsSendComponentTelemetryOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsSendComponentTelemetryOptions?: DigitalTwinsSendComponentTelemetryOptions;
+    telemetrySourceTime?: string;
 }
 
 // @public
 export interface DigitalTwinsSendTelemetryOptionalParams extends coreHttp.OperationOptions {
-    timestamp?: string;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsSendTelemetryOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsSendTelemetryOptions?: DigitalTwinsSendTelemetryOptions;
+    telemetrySourceTime?: string;
 }
 
 // @public
@@ -196,8 +224,8 @@ export interface DigitalTwinsUpdateComponentHeaders {
 
 // @public
 export interface DigitalTwinsUpdateComponentOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    patchDocument?: any[];
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateComponentOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsUpdateComponentOptions?: DigitalTwinsUpdateComponentOptions;
 }
 
 // @public
@@ -214,7 +242,8 @@ export interface DigitalTwinsUpdateHeaders {
 
 // @public
 export interface DigitalTwinsUpdateOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsUpdateOptions?: DigitalTwinsUpdateOptions;
 }
 
 // @public
@@ -224,8 +253,8 @@ export interface DigitalTwinsUpdateRelationshipHeaders {
 
 // @public
 export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    patchDocument?: any[];
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateRelationshipOptions" needs to be exported by the entry point index.d.ts
+    digitalTwinsUpdateRelationshipOptions?: DigitalTwinsUpdateRelationshipOptions;
 }
 
 // @public
@@ -245,7 +274,7 @@ export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders & {
 // @public
 export interface EventRoute {
     endpointName: string;
-    filter?: string;
+    filter: string;
     readonly id?: string;
 }
 
@@ -258,6 +287,8 @@ export interface EventRouteCollection {
 // @public
 export interface EventRoutesAddOptionalParams extends coreHttp.OperationOptions {
     eventRoute?: EventRoute;
+    // Warning: (ae-forgotten-export) The symbol "EventRoutesAddOptions" needs to be exported by the entry point index.d.ts
+    eventRoutesAddOptions?: EventRoutesAddOptions;
 }
 
 // @public
@@ -283,7 +314,9 @@ export interface EventRoutesListOptionalParams extends coreHttp.OperationOptions
 
 // @public
 export interface EventRoutesListOptions {
-    maxItemCount?: number;
+    maxItemsPerPage?: number;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -299,26 +332,6 @@ export interface IncomingRelationshipCollection {
     nextLink?: string;
     // (undocumented)
     value?: IncomingRelationship[];
-}
-
-// @public
-export interface ModelData {
-    decommissioned?: boolean;
-    description?: {
-        [propertyName: string]: string;
-    };
-    displayName?: {
-        [propertyName: string]: string;
-    };
-    id: string;
-    model?: any;
-    uploadTime?: Date;
-}
-
-// @public
-export interface PagedModelDataCollection {
-    nextLink?: string;
-    value?: ModelData[];
 }
 
 // @public
@@ -338,7 +351,7 @@ export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult & {
 // @public
 export interface QueryResult {
     continuationToken?: string;
-    items?: any[];
+    value?: any[];
 }
 
 // @public
