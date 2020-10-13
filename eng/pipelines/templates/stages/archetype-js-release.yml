@@ -45,7 +45,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}-*.tgz
+                        PackageName: ${{artifact.name}}-[0-9]+.[0-9]+.[0-9]+.*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
