@@ -803,11 +803,11 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function() {
-    if (isLiveMode()) {
-      // Skipped for now as it needs be enabled on the account.
-      this.skip();
-    }
+  it.only("lastAccessed returned", async function() {
+    // if (isLiveMode()) {
+    //   // Skipped for now as it needs be enabled on the account.
+    //   this.skip();
+    // }
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 

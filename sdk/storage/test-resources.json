@@ -49,7 +49,7 @@
     "storageApiVersion": "2019-04-01",
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
-    "datalakeAccountName": "[concat('d', parameters('baseName'))]",
+    "datalakeAccountName": "[concat('dl', parameters('baseName'))]",
     "fullAccountName": "[concat('f', parameters('baseName'))]",
     "premiumFileAccountName": "[concat('pf', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
@@ -149,6 +149,12 @@
                   "allowedHeaders": ["*"]
                 }
               ]
+            },
+            "lastAccessTimeTrackingPolicy": {
+              "enable": true,
+              "name": "AccessTimeTracking",
+              "trackingGranularityInDays": 1,
+              "blobType": ["blockBlob"]
             }
           },
           "resources": []
