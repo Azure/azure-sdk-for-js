@@ -2,6 +2,7 @@
 
 ## 1.2.0-beta.3 (Unreleased)
 
+- Added authority host for multiple clouds on `VisualStudioCodeCredential`, and specified `AzureCloud` as the default cloud name.
 
 ## 1.2.0-beta.2 (2020-10-06)
 
