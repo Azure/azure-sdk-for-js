@@ -8,7 +8,13 @@
 
 export {
   BaseResource,
-  CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
+  ErrorResponseError,
+  PrivateEndpoint,
+  PrivateEndpointConnection,
+  PrivateLinkResource,
+  PrivateLinkServiceConnectionState,
   ProxyResource,
   RedisAccessKeys,
   RedisFirewallRule,

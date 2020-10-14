@@ -22,6 +22,8 @@ class RedisManagementClient extends RedisManagementClientContext {
   firewallRules: operations.FirewallRules;
   patchSchedules: operations.PatchSchedules;
   linkedServer: operations.LinkedServer;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the RedisManagementClient class.
@@ -37,6 +39,8 @@ class RedisManagementClient extends RedisManagementClientContext {
     this.firewallRules = new operations.FirewallRules(this);
     this.patchSchedules = new operations.PatchSchedules(this);
     this.linkedServer = new operations.LinkedServer(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 }
 

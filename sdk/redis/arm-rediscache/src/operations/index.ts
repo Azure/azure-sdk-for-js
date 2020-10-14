@@ -13,3 +13,5 @@ export * from "./redis";
 export * from "./firewallRules";
 export * from "./patchSchedules";
 export * from "./linkedServer";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

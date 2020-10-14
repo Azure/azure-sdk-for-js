@@ -7,7 +7,9 @@
  */
 
 export {
-  CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
+  ErrorResponseError,
   Operation,
   OperationDisplay,
   OperationListResult

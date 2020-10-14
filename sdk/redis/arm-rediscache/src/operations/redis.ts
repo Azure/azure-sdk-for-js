@@ -218,25 +218,25 @@ export class Redis {
   /**
    * Gets all Redis caches in the specified subscription.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RedisListResponse>
+   * @returns Promise<Models.RedisListBySubscriptionResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.RedisListResponse>;
+  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.RedisListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.RedisListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListResponse> {
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.RedisListResponse>;
+      listBySubscriptionOperationSpec,
+      callback) as Promise<Models.RedisListBySubscriptionResponse>;
   }
 
   /**
@@ -485,28 +485,28 @@ export class Redis {
    * Gets all Redis caches in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RedisListNextResponse>
+   * @returns Promise<Models.RedisListBySubscriptionNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.RedisListNextResponse>;
+      listBySubscriptionNextOperationSpec,
+      callback) as Promise<Models.RedisListBySubscriptionNextResponse>;
   }
 }
 
@@ -534,7 +534,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -542,7 +542,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listUpgradeNotificationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listUpgradeNotifications",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -560,7 +560,7 @@ const listUpgradeNotificationsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NotificationListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -568,7 +568,7 @@ const listUpgradeNotificationsOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -592,7 +592,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -600,7 +600,7 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -617,7 +617,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -625,7 +625,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId
@@ -641,15 +641,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Cache/Redis",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Cache/redis",
   urlParameters: [
     Parameters.subscriptionId
   ],
@@ -664,7 +664,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -672,7 +672,7 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -689,7 +689,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisAccessKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -697,7 +697,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/regenerateKey",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/regenerateKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -723,7 +723,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisAccessKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -731,7 +731,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const forceRebootOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/forceReboot",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/forceReboot",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -755,7 +755,7 @@ const forceRebootOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisForceRebootResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -763,7 +763,7 @@ const forceRebootOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -790,7 +790,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -798,7 +798,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -815,7 +815,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -823,7 +823,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginImportDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/import",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -847,7 +847,7 @@ const beginImportDataOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -855,7 +855,7 @@ const beginImportDataOperationSpec: msRest.OperationSpec = {
 
 const beginExportDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/export",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -879,7 +879,7 @@ const beginExportDataOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -900,13 +900,13 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -921,7 +921,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RedisListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
