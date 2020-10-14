@@ -9,7 +9,7 @@ jobs:
           NodeTestVersion: "8.x"
         Linux (AzureCloud Canary):
           OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           Location: "eastus2euap"
           NodeTestVersion: "14.x"
