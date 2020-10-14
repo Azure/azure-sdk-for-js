@@ -8,9 +8,9 @@
 
 export {
   discriminators,
-  CloudError,
-  EstimatedVMPrice,
-  EstimatedVMPrices,
-  VirtualMachineSize,
-  VirtualMachineSizeListResult
+  AmlUserFeature,
+  ErrorDetail,
+  ErrorResponse,
+  ListAmlUserFeatureResult,
+  MachineLearningServiceError
 } from "../models/mappers";
