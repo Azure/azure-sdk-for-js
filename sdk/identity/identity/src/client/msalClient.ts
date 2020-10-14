@@ -3,7 +3,8 @@ import {
   PublicClientApplication,
   Configuration,
   AuthorizationCodeRequest,
-  AuthenticationResult
+  AuthenticationResult,
+  DeviceCodeRequest
 } from "@azure/msal-node";
 import { IdentityClient, TokenCredentialOptions } from "./identityClient";
 import { AccessToken } from "@azure/core-http";
@@ -165,11 +166,11 @@ export class MsalClient {
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {
+    await this.preparePublicClientApplication();
+
     if (!this.persistenceEnabled || !this.authenticationRecord) {
       throw new AuthenticationRequired();
     }
-
-    await this.preparePublicClientApplication();
 
     const silentRequest = {
       account: this.authenticationRecord!,
@@ -195,6 +196,14 @@ export class MsalClient {
   }
 
   async acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult> {
+    await this.preparePublicClientApplication();
+
     return this.pca!.acquireTokenByCode(request);
+  }
+
+  async acquireTokenByDeviceCode(request: DeviceCodeRequest): Promise<AuthenticationResult> {
+    await this.preparePublicClientApplication();
+
+    return this.pca!.acquireTokenByDeviceCode(request);
   }
 }
