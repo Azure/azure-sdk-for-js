@@ -139,14 +139,17 @@ export function createProcessingSpan(
  * Creates and immediately ends a processing span. Used when
  * the 'processing' occurs outside of our control so we don't
  * know the scope.
+ *
+ * @internal
+ * @ignore
  */
 export function createAndEndProcessingSpan(
-  receivedEvents: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
+  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver<any>, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
   options?: OperationOptionsBase
 ): void {
-  const span = createProcessingSpan(receivedEvents, receiver, connectionConfig, options);
+  const span = createProcessingSpan(receivedMessages, receiver, connectionConfig, options);
   span.setStatus({ code: CanonicalCode.OK });
   span.end();
 }
