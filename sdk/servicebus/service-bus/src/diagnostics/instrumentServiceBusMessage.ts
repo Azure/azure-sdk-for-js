@@ -106,7 +106,7 @@ export function createProcessingSpan(
   const links: Link[] = [];
 
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {
-    const spanContext = extractSpanContextFromServiceBusMessage(receivedEvent);
+    const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
 
     if (spanContext == null) {
       continue;
@@ -115,7 +115,7 @@ export function createProcessingSpan(
     links.push({
       context: spanContext,
       attributes: {
-        enqueuedTime: receivedEvent.enqueuedTimeUtc?.getTime()
+        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime()
       }
     });
   }
