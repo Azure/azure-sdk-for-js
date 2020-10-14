@@ -131,7 +131,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
     try {
       const token = await this.acquireTokenByDeviceCode(deviceCodeRequest);
-      logger.info(`DeviceCodeCredential succeeded. Scopes: ${scopeArray.join(", ")}. Expires on timestamp: ${token?.expiresOnTimestamp}`);
+      logger.info(`DeviceCodeCredential successfully retrieved the access token. Scopes: ${scopeArray.join(", ")}. Expires on timestamp: ${token?.expiresOnTimestamp}`);
       return token;
     } catch (err) {
       const code =
