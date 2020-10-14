@@ -195,7 +195,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowRunActionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -222,7 +222,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowRunAction
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -249,7 +249,7 @@ const listExpressionTracesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ExpressionTraces
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -270,7 +270,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowRunActionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
