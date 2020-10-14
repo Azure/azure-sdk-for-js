@@ -3,9 +3,9 @@ import {
   PublicClientApplication,
   Configuration,
   AuthorizationCodeRequest,
-  AuthenticationResult,
+  AuthenticationResult
 } from "@azure/msal-node";
-import {IdentityClient, TokenCredentialOptions} from "./identityClient";
+import { IdentityClient, TokenCredentialOptions } from "./identityClient";
 import { AccessToken } from "@azure/core-http";
 import { credentialLogger } from "../util/logging";
 
@@ -18,7 +18,9 @@ try {
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
-async function createPersistence(cachePath?: string): Promise<
+async function createPersistence(
+  cachePath?: string
+): Promise<
   | {
       cachePlugin?: {
         readFromStorage: () => Promise<string>;
@@ -38,25 +40,33 @@ async function createPersistence(cachePath?: string): Promise<
 
     return {
       cachePlugin: new msalExt.PersistenceCachePlugin(filePersistence)
-    }
+    };
   }
 
   // On Mac, uses keychain.
   if (process.platform === "darwin") {
-    let keychainPersistence = await msalExt.KeychainPersistence.create(cachePath, "serviceName", "accountName");
+    let keychainPersistence = await msalExt.KeychainPersistence.create(
+      cachePath,
+      "serviceName",
+      "accountName"
+    );
 
     return {
       cachePlugin: new msalExt.PersistenceCachePlugin(keychainPersistence)
-    }
+    };
   }
 
   // On Linux, uses  libsecret to store to secret service. Libsecret has to be installed.
   if (process.platform === "linux") {
-    let libSecretPersistence = await msalExt.LibSecretPersistence.create(cachePath, "serviceName", "accountName");
+    let libSecretPersistence = await msalExt.LibSecretPersistence.create(
+      cachePath,
+      "serviceName",
+      "accountName"
+    );
 
     return {
       cachePlugin: new msalExt.PersistenceCachePlugin(libSecretPersistence)
-    }
+    };
   }
 
   // fall back to using plain text file. Not recommended for storing secrets.
@@ -64,7 +74,7 @@ async function createPersistence(cachePath?: string): Promise<
 
   return {
     cachePlugin: new msalExt.PersistenceCachePlugin(filePersistence)
-  }
+  };
 }
 
 /**
@@ -109,7 +119,15 @@ export class MsalClient {
   private authorityHost: string;
   private cachePath?: string;
 
-  constructor(clientId: string, tenantId: string, authorityHost: string, persistenceEnabled: boolean, authenticationRecord?: AuthenticationRecord, cachePath?: string, options?: TokenCredentialOptions) {
+  constructor(
+    clientId: string,
+    tenantId: string,
+    authorityHost: string,
+    persistenceEnabled: boolean,
+    authenticationRecord?: AuthenticationRecord,
+    cachePath?: string,
+    options?: TokenCredentialOptions
+  ) {
     this.identityClient = new IdentityClient(options);
     this.clientId = clientId;
     this.tenantId = tenantId;
@@ -143,7 +161,7 @@ export class MsalClient {
       system: { networkClient: this.identityClient }
     };
     this.pca = new PublicClientApplication(publicClientConfig);
-    this.pca.getAuthCodeUrl
+    this.pca.getAuthCodeUrl;
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {
@@ -170,7 +188,7 @@ export class MsalClient {
     }
   }
 
-  async getAuthCodeUrl(request: { scopes: string[], redirectUri: string }): Promise<string> {
+  async getAuthCodeUrl(request: { scopes: string[]; redirectUri: string }): Promise<string> {
     await this.preparePublicClientApplication();
 
     return this.pca!.getAuthCodeUrl(request);

@@ -9,7 +9,7 @@ import { credentialLogger } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
-import { AuthorizationCodeRequest } from "@azure/msal-node"
+import { AuthorizationCodeRequest } from "@azure/msal-node";
 
 import express from "express";
 import open from "open";
@@ -61,7 +61,15 @@ export class InteractiveBrowserCredential implements TokenCredential {
       authorityHost = "https://login.microsoftonline.com/" + tenantId;
     }
 
-    this.msalClient = new MsalClient(clientId, tenantId, authorityHost, persistenceEnabled, authenticationRecord, ".", options);
+    this.msalClient = new MsalClient(
+      clientId,
+      tenantId,
+      authorityHost,
+      persistenceEnabled,
+      authenticationRecord,
+      ".",
+      options
+    );
   }
 
   /**
