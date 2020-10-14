@@ -42,7 +42,7 @@ describe("Receiver unit tests", () => {
       };
 
       // make an init() happen internally.
-      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1);
+      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1, {});
 
       assert.isEmpty(emptyArrayOfMessages);
       assert.isTrue(initWasCalled);
