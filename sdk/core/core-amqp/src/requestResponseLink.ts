@@ -68,7 +68,7 @@ export class RequestResponseLink implements ReqResLink {
     this.sender = sender;
     this.receiver = receiver;
     this.receiver.on(ReceiverEvents.message, (context) => {
-      onMessageReceived(context, this.connection, this._responsesMap);
+      onMessageReceived(context, this.connection.id, this._responsesMap);
     });
   }
 
@@ -262,41 +262,42 @@ const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
  */
 export function onMessageReceived(
   context: EventContext,
-  connection: Connection,
+  connectionId: string,
   responsesMap: Map<string, DeferredPromiseWithCallback>
 ): void {
   const message = context.message;
-  if (message) {
-    const responseCorrelationId = message.correlation_id;
-    if (responsesMap.has(responseCorrelationId as string)) {
-      const promise = responsesMap.get(
-        responseCorrelationId as string
-      ) as DeferredPromiseWithCallback;
-      promise.cleanupBeforeResolveOrReject();
+  if (!message) {
+    return;
+  }
 
-      const info = getCodeDescriptionAndError(message.application_properties);
-      if (info.statusCode > 199 && info.statusCode < 300) {
-        logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
-        const deleteResult = responsesMap.delete(responseCorrelationId as string);
-        logger.verbose(
-          "%s Successfully deleted the response with id %s from the map.",
-          connection.id,
-          responseCorrelationId,
-          deleteResult
-        );
-        return promise.resolve(message);
-      } else {
-        const condition =
-          info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
-        const e: AmqpError = {
-          condition: condition,
-          description: info.statusDescription
-        };
-        const error = translate(e);
-        logger.warning(`${error?.name}: ${error?.message}`);
-        logErrorStackTrace(error);
-        return promise.reject(error);
-      }
-    }
+  const responseCorrelationId = message.correlation_id;
+  if (!responsesMap.has(responseCorrelationId as string)) {
+    return;
+  }
+  const promise = responsesMap.get(responseCorrelationId as string) as DeferredPromiseWithCallback;
+  promise.cleanupBeforeResolveOrReject();
+
+  const info = getCodeDescriptionAndError(message.application_properties);
+  if (info.statusCode > 199 && info.statusCode < 300) {
+    logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
+    const deleteResult = responsesMap.delete(responseCorrelationId as string);
+    logger.verbose(
+      "%s Successfully deleted the response with id %s from the map.",
+      connectionId,
+      responseCorrelationId,
+      deleteResult
+    );
+    return promise.resolve(message);
+  } else {
+    const condition =
+      info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
+    const e: AmqpError = {
+      condition: condition,
+      description: info.statusDescription
+    };
+    const error = translate(e);
+    logger.warning(`${error?.name}: ${error?.message}`);
+    logErrorStackTrace(error);
+    return promise.reject(error);
   }
 }
