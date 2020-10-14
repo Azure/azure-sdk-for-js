@@ -527,6 +527,7 @@ export interface BlobDownloadHeaders {
     etag?: string;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -654,6 +655,7 @@ export interface BlobGetPropertiesHeaders {
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -868,6 +870,8 @@ export interface BlobProperties {
     // (undocumented)
     isSealed?: boolean;
     // (undocumented)
+    lastAccessedOn?: Date;
+    // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -880,6 +884,23 @@ export interface BlobProperties {
     // (undocumented)
     tagCount?: number;
 }
+
+// @public
+export interface BlobQueryArrowConfiguration {
+    kind: "arrow";
+    schema: BlobQueryArrowField[];
+}
+
+// @public
+export interface BlobQueryArrowField {
+    name?: string;
+    precision?: number;
+    scale?: number;
+    type: BlobQueryArrowFieldType;
+}
+
+// @public
+export type BlobQueryArrowFieldType = "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
 
 // @public
 export interface BlobQueryCsvTextConfiguration {
@@ -1024,6 +1045,10 @@ export class BlobServiceClient extends StorageClient {
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
+        containerClient: ContainerClient;
+        containerUndeleteResponse: ContainerUndeleteResponse;
+    }>;
 }
 
 // @public
@@ -1355,7 +1380,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
     onError?: (error: BlobQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
-    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
 }
 
 // @public
@@ -1870,6 +1895,23 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
 export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ContainerSetMetadataHeaders;
+    };
+};
+
+// @public
+export interface ContainerUndeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type ContainerUndeleteResponse = ContainerUndeleteHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerUndeleteHeaders;
     };
 };
 
@@ -2725,6 +2767,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGet
 // @public
 export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     prefix?: string;
 }
@@ -2792,6 +2835,12 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
         parsedHeaders: ServiceSubmitBatchHeaders;
     };
 };
+
+// @public
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    destinationContainerName?: string;
+}
 
 // @public
 export interface SignedIdentifier {

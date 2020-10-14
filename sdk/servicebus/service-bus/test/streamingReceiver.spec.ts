@@ -10,7 +10,6 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  InternalReceiveMode,
   ServiceBusReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
@@ -171,7 +170,8 @@ describe("Streaming Receiver Tests", () => {
           (receiver as any)._context,
           receiver.entityPath,
           {
-            receiveMode: InternalReceiveMode.peekLock
+            receiveMode: "peekLock",
+            lockRenewer: undefined
           }
         );
 

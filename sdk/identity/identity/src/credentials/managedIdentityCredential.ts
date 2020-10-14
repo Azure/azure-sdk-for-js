@@ -419,6 +419,24 @@ export class ManagedIdentityCredential implements TokenCredential {
           logger.getToken.info(formatError(error));
           throw error;
         }
+        
+        // Since `authenticateManagedIdentity` didn't throw, and the result was not null,
+        // We will assume that this endpoint is reachable from this point forward,
+        // and avoid pinging again to it.
+        // Details:
+        // - If `isEndpointUnavailable` is not true, `authenticateManagedIdentity` is called.
+        // - If `isEndpointUnavailable` is only set to false if `authenticateManagedIdentity` returns null.
+        // - If `isEndpointUnavailable` is null, `authenticateManagedIdentity` wil be called with "true" as the second parameter.
+        // - When `authenticateManagedIdentity` is called with `checkIfImdsEndpointAvailable` set to "true", `pingImdsEndpoint` is called.
+        // - If `pingImdsEndpoint` returns false, `authenticateManagedIdentity` returns null, which sets `isEndpointUnavailable` to false.
+        // - If `pingImdsEndpoint` returns true, `authenticateManagedIdentity` tries to authenticate with the IMDS endpoint.
+        // - If `authenticateManagedIdentity` tries to authenticate, and throws, we move to the catch section of this function.
+        // - If `authenticateManagedIdentity` manages to authenticate, `result` won't be null.
+        // - If `result` isn't null at this point, the endpoint was in fact available at first.
+        // - To avoid calling again to `pingImdsEndpoint`, we need to set `isEndpointUnavailable` to false,
+        //   so that `authenticateManagedIdentity` gets to be called with `checkIfImdsEndpointAvailable` set to "false",
+        //   thus skipping any further call to `pingImdsEndpoint`.
+        this.isEndpointUnavailable = false;
       } else {
         // We've previously determined that the endpoint was unavailable,
         // either because it was unreachable or permanently unable to authenticate.

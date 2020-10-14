@@ -22,6 +22,8 @@ class IotHubClient extends IotHubClientContext {
   resourceProviderCommon: operations.ResourceProviderCommon;
   certificates: operations.Certificates;
   iotHub: operations.IotHub;
+  privateLinkResources: operations.PrivateLinkResourcesOperations;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
 
   /**
    * Initializes a new instance of the IotHubClient class.
@@ -36,6 +38,8 @@ class IotHubClient extends IotHubClientContext {
     this.resourceProviderCommon = new operations.ResourceProviderCommon(this);
     this.certificates = new operations.Certificates(this);
     this.iotHub = new operations.IotHub(this);
+    this.privateLinkResources = new operations.PrivateLinkResourcesOperations(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
   }
 }
 

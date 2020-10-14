@@ -122,7 +122,7 @@ async function createDataFeed(
     ingestionRetryDelayInSeconds: -1,
     stopRetryAfterInSeconds: -1
   };
-  const granualarity: DataFeedGranularity = {
+  const granularity: DataFeedGranularity = {
     granularityType: "Daily"
   };
   const source: DataFeedSource = {
@@ -146,14 +146,14 @@ async function createDataFeed(
   };
 
   console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed(
-    "test_datafeed_" + new Date().getTime().toFixed(),
+  const result = await adminClient.createDataFeed({
+    name: "test_datafeed_" + new Date().getTime().toFixed(),
     source,
-    granualarity,
-    dataFeedSchema,
-    dataFeedIngestion,
+    granularity,
+    schema: dataFeedSchema,
+    ingestionSettings: dataFeedIngestion,
     options
-  );
+  });
 
   return result;
 }
@@ -180,10 +180,10 @@ async function configureAnomalyDetectionConfiguration(
   metricId: string
 ) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration(
-    "test_detection_configuration" + new Date().getTime().toString(),
+  return await adminClient.createMetricAnomalyDetectionConfiguration({
+    name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
-    {
+    wholeSeriesDetectionCondition: {
       smartDetectionCondition: {
         sensitivity: 100,
         anomalyDetectorDirection: "Both",
@@ -193,17 +193,15 @@ async function configureAnomalyDetectionConfiguration(
         }
       }
     },
-    "Detection configuration description",
-    [],
-    []
-  );
+    description: "Detection configuration description"
+  });
 }
 
 async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
   console.log("Creating a webhook hook");
   const hook: WebhookHook = {
     hookType: "Webhook",
-    hookName: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -220,7 +218,7 @@ async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient
 async function configureAlertConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-  hoookIds: string[]
+  hookIds: string[]
 ) {
   console.log("Creating a new alerting configuration...");
   const metricAlertingConfig: MetricAlertConfiguration = {
@@ -229,7 +227,10 @@ async function configureAlertConfiguration(
       scopeType: "All"
     },
     alertConditions: {
-      severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
+      severityCondition: {
+        minAlertSeverity: "Medium",
+        maxAlertSeverity: "High"
+      }
     },
     snoozeCondition: {
       autoSnooze: 0,
@@ -237,13 +238,13 @@ async function configureAlertConfiguration(
       onlyForSuccessive: true
     }
   };
-  return await adminClient.createAnomalyAlertConfiguration(
-    "test_alert_config_" + new Date().getTime().toString(),
-    "AND",
-    [metricAlertingConfig],
-    hoookIds,
-    "Alerting config description"
-  );
+  return await adminClient.createAnomalyAlertConfiguration({
+    name: "test_alert_config_" + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [metricAlertingConfig],
+    hookIds,
+    description: "Alerting config description"
+  });
 }
 
 async function queryAlerts(
@@ -252,25 +253,33 @@ async function queryAlerts(
   startTime: Date,
   endTime: Date
 ) {
-  // This shows how to use `byPage()` and iterator to list alerts
-  let alertIds: string[] = [];
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
+  // This shows how to use `for-await-of` syntax to list alerts
+  console.log("  using for-await-of syntax");
+  let alertIds: string[] = [];
+  for await (const alert of client.listAlertsForAlertConfiguration(
+    alertConfigId,
+    startTime,
+    endTime,
+    "AnomalyTime"
+  )) {
+    alertIds.push(alert.id);
+    console.log("    Alert");
+    console.log(`      id: ${alert.id}`);
+    console.log(`      timestamp: ${alert.timestamp}`);
+    console.log(`      created on: ${alert.createdOn}`);
+  }
+  // alternatively we could list results by pages
+  console.log(`  by pages`);
   const iterator = client
     .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
-  const result = await iterator.next();
-
-  if (!result.done) {
-    console.log("first page");
+  let result = await iterator.next();
+  while (!result.done) {
+    console.log("    -- Page -- ");
     console.table(result.value.alerts);
-    alertIds.push(...((result.value.alerts || []) as Alert[]).map((a) => a.id));
-    const nextPage = await iterator.next();
-    if (!nextPage.done) {
-      console.log("second page");
-      console.table(nextPage.value.alerts);
-      alertIds.push(...((nextPage.value.alerts || []) as Alert[]).map((a) => a.id));
-    }
+    result = await iterator.next();
   }
 
   return alertIds;

@@ -169,11 +169,11 @@ export class SchemaRegistryAvroSerializer {
     const schemaResponse = await this.registry.getSchemaById(schemaId);
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
       );
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schemaResponse.content));
+    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
     return this.cache(schemaId, schemaResponse.content, avroType);
   }
 
@@ -183,7 +183,7 @@ export class SchemaRegistryAvroSerializer {
       return cached;
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schema));
+    const avroType = this.getAvroTypeForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -207,5 +207,9 @@ export class SchemaRegistryAvroSerializer {
     this.cacheByContent.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
+  }
+
+  private getAvroTypeForSchema(schema: string) {
+    return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }

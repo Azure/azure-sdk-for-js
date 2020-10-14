@@ -805,6 +805,9 @@ export interface DataFeedDetail {
   actionLinkTemplate?: string;
 }
 
+/**
+ * Represents a metric of an ingested data feed
+ */
 export interface Metric {
   /**
    * metric id
@@ -824,6 +827,9 @@ export interface Metric {
   description?: string;
 }
 
+/**
+ * Represents a dimension of an ingested data feed
+ */
 export interface Dimension {
   /**
    * dimension name
@@ -1004,11 +1010,11 @@ export interface HookInfo {
   /**
    * Hook unique id
    */
-  readonly hookId?: string;
+  readonly id?: string;
   /**
    * hook unique name
    */
-  hookName: string;
+  name: string;
   /**
    * hook description
    */

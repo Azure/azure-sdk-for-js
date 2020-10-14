@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "cefc29910fbb6c53981faf8430a3521b";
 
-module.exports.testInfo = {"uniqueName":{"cloudMultiEventId1":"cloudMultiEventId1159588373674007628","cloudMultiEventId2":"cloudMultiEventId2159588373674005416"},"newDate":{"cloudMultiEventDate1":"2020-07-27T21:02:16.740Z","cloudMultiEventDate2":"2020-07-27T21:02:16.740Z"}}
+module.exports.testInfo = {"uniqueName":{"cloudMultiEventId1":"cloudMultiEventId1160161957330706944","cloudMultiEventId2":"cloudMultiEventId2160161957330706023"},"newDate":{"cloudMultiEventDate1":"2020-10-02T06:19:33.307Z","cloudMultiEventDate2":"2020-10-02T06:19:33.307Z"}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"cloudMultiEventId1159588373674007628","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2020-07-27T21:02:16.740Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 1"},{"id":"cloudMultiEventId2159588373674005416","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2020-07-27T21:02:16.740Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 2"}])
+  .post('/api/events', [{"id":"cloudMultiEventId1160161957330706944","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2020-10-02T06:19:33.307Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 1"},{"id":"cloudMultiEventId2160161957330706023","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2020-10-02T06:19:33.307Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 2"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  '9ff2a9d4-8089-4ac2-9c2d-1d184abf00e5',
+  'ce2dbd99-384b-450a-9644-23508bdcbfc0',
   'Date',
-  'Mon, 27 Jul 2020 21:02:16 GMT'
+  'Fri, 02 Oct 2020 06:19:34 GMT'
 ]);

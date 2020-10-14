@@ -353,7 +353,11 @@ describe("Retries - Receive methods", () => {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
         (receiver as any)._context,
-        "dummyEntityPath"
+        "dummyEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: "peekLock"
+        }
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;

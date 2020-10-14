@@ -5,10 +5,56 @@
 ```ts
 
 import { CommunicationUser } from '@azure/communication-common';
+import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+
+// @public
+export interface AcquiredPhoneNumber {
+    acquiredCapabilities: Capability[];
+    activationState?: ActivationState;
+    assignmentStatus?: AssignmentStatus;
+    availableCapabilities: Capability[];
+    phoneNumber: string;
+    placeName?: string;
+}
+
+// @public
+export interface AcquiredPhoneNumbers {
+    nextLink?: string;
+    phoneNumbers?: AcquiredPhoneNumber[];
+}
+
+// @public
+export type ActivationState = "Activated" | "AssignmentPending" | "AssignmentFailed" | "UpdatePending" | "UpdateFailed";
+
+// @public
+export interface AreaCodes {
+    nextLink?: string;
+    primaryAreaCodes?: string[];
+    secondaryAreaCodes?: string[];
+}
+
+// @public
+export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
+
+// @public
+export type CancelSearchOptions = OperationOptions;
+
+// @public
+export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
+
+// @public
+export type Capability = "UserAssignment" | "FirstPartyVoiceAppAssignment" | "ConferenceAssignment" | "P2PSmsEnabled" | "Geographic" | "NonGeographic" | "TollCalling" | "TollFreeCalling" | "Premium" | "P2PSmsCapable" | "A2PSmsCapable" | "A2PSmsEnabled" | "Calling" | "TollFree" | "FirstPartyAppAssignment" | "ThirdPartyAppAssignment" | "Azure" | "Office365" | "InboundCalling" | "OutboundCalling" | "InboundA2PSms" | "OutboundA2PSms" | "InboundP2PSms" | "OutboundP2PSms";
+
+// @public
+export interface CarrierDetails {
+    localizedName?: string;
+    name?: string;
+}
 
 // @public
 export class CommunicationIdentityClient {
@@ -42,13 +88,453 @@ export interface CommunicationUserToken extends Pick<CommunicationIdentityToken,
 }
 
 // @public
+export interface ConfigurePhoneNumberOptions extends OperationOptions {
+    applicationId?: string;
+    azurePstnTargetId?: string;
+}
+
+// @public
+export interface ConfigurePhoneNumberRequest {
+    callbackUrl: string;
+    phoneNumber: string;
+}
+
+// @public
+export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+
+// @public
+export interface CreateSearchOptions extends OperationOptions {
+    locationOptions?: LocationOptionsDetails[];
+}
+
+// @public
+export interface CreateSearchRequest {
+    areaCode: string;
+    description: string;
+    name: string;
+    phonePlanIds: string[];
+    quantity: number;
+}
+
+// @public
+export interface CreateSearchResponse {
+    searchId: string;
+}
+
+// @public
 export type CreateUserResponse = WithResponse<CommunicationUser>;
+
+// @public
+export type CurrencyType = "USD";
+
+// @public
+export type GetAreaCodesOptions = OperationOptions;
+
+// @public
+export interface GetAreaCodesRequest {
+    countryCode: string;
+    locationOptionsQueries: LocationOptionsQueries;
+    locationType: string;
+    phonePlanId: string;
+}
+
+// @public
+export type GetAreaCodesResponse = WithResponse<AreaCodes>;
+
+// @public
+export type GetCapabilitiesUpdateOptions = OperationOptions;
+
+// @public
+export type GetCapabilitiesUpdateResponse = WithResponse<UpdatePhoneNumberCapabilitiesResponse>;
+
+// @public
+export type GetPhoneNumberConfigurationOptions = OperationOptions;
+
+// @public
+export type GetPhoneNumberConfigurationResponse = WithResponse<NumberConfigurationResponse>;
+
+// @public
+export type GetPhonePlanLocationOptionsOptions = PageableLocalizationOptions;
+
+// @public (undocumented)
+export interface GetPhonePlanLocationOptionsRequest extends PageableLocalizationOptions {
+    countryCode: string;
+    phonePlanGroupId: string;
+    phonePlanId: string;
+}
+
+// @public
+export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsResponse>;
+
+// @public
+export type GetReleaseOptions = OperationOptions;
+
+// @public
+export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
+
+// @public
+export type GetSearchOptions = OperationOptions;
+
+// @public
+export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
 
 // @public
 export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
+export type ListPhoneNumbersOptions = PageableLocalizationOptions;
+
+// @public
+export interface ListPhonePlanGroupsOptions extends PageableLocalizationOptions {
+    // (undocumented)
+    includeRateInformation?: boolean;
+}
+
+// @public
+export type ListPhonePlansOptions = PageableLocalizationOptions;
+
+// @public (undocumented)
+export interface ListPhonePlansRequest {
+    countryCode: string;
+    phonePlanGroupId: string;
+}
+
+// @public
+export type ListSupportedCountriesOptions = PageableLocalizationOptions;
+
+// @public
+export interface LocalizationOptions extends OperationOptions {
+    locale?: string;
+}
+
+// @public
+export interface LocationOptions {
+    labelId?: string;
+    labelName?: string;
+    options?: LocationOptionsDetails[];
+}
+
+// @public
+export interface LocationOptionsDetails {
+    locationOptions?: LocationOptions[];
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface LocationOptionsQueries {
+    locationOptions?: LocationOptionsQuery[];
+}
+
+// @public
+export interface LocationOptionsQuery {
+    labelId?: string;
+    optionsValue?: string;
+}
+
+// @public
+export interface LocationOptionsResponse {
+    // (undocumented)
+    locationOptions?: LocationOptions;
+}
+
+// @public
+export type LocationType = "CivicAddress" | "NotRequired" | "Selection";
+
+// @public
+export interface NumberConfiguration {
+    phoneNumber: string;
+    // (undocumented)
+    pstnConfiguration: PstnConfiguration;
+}
+
+// @public
+export interface NumberConfigurationResponse {
+    // (undocumented)
+    pstnConfiguration: PstnConfiguration;
+}
+
+// @public
+export interface NumberUpdateCapabilities {
+    add?: Capability[];
+    remove?: Capability[];
+}
+
+// @public
+export interface PageableLocalizationOptions extends PageableOptions, LocalizationOptions {
+}
+
+// @public
+export interface PageableOptions extends OperationOptions {
+    skip?: number;
+    take?: number;
+}
+
+// @public
+export class PhoneNumberAdministrationClient {
+    constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
+    constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
+    configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
+    createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
+    getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
+    getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
+    getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
+    getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
+    getRelease(releaseId: string, options?: GetReleaseOptions): Promise<GetReleaseResponse>;
+    getSearch(searchId: string, options?: GetSearchOptions): Promise<GetSearchResponse>;
+    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
+    listPhonePlans(planGroupInfo: ListPhonePlansRequest, options?: ListPhonePlansOptions): PagedAsyncIterableIterator<PhonePlan>;
+    listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
+    listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
+    listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
+    purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
+    releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
+    unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
+    updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
+}
+
+// @public
+export interface PhoneNumberAdministrationClientOptions extends PipelineOptions {
+}
+
+// @public
+export type PhoneNumberAdministrationCreateSearchResponse = CreateSearchResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: CreateSearchResponse;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetAllAreaCodesResponse = AreaCodes & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AreaCodes;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetCapabilitiesUpdateResponse = UpdatePhoneNumberCapabilitiesResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: UpdatePhoneNumberCapabilitiesResponse;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetNumberConfigurationResponse = NumberConfigurationResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: NumberConfigurationResponse;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetPhonePlanLocationOptionsResponse = LocationOptionsResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LocationOptionsResponse;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetReleaseByIdResponse = PhoneNumberRelease & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PhoneNumberRelease;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberSearch & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PhoneNumberSearch;
+    };
+};
+
+// @public
+export type PhoneNumberAdministrationReleasePhoneNumbersResponse = ReleaseResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: ReleaseResponse;
+    };
+};
+
+// @public
+export type PhoneNumberCapabilitiesUpdates = {
+    [propertyName: string]: NumberUpdateCapabilities;
+};
+
+// @public
+export interface PhoneNumberCountries {
+    countries?: PhoneNumberCountry[];
+    nextLink?: string;
+}
+
+// @public
+export interface PhoneNumberCountry {
+    countryCode: string;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberEntities {
+    entities?: PhoneNumberEntity[];
+    nextLink?: string;
+}
+
+// @public
+export interface PhoneNumberEntity {
+    createdAt?: Date;
+    displayName?: string;
+    focDate?: Date;
+    id?: string;
+    quantity?: number;
+    quantityObtained?: number;
+    status?: string;
+}
+
+// @public
+export interface PhoneNumberRelease {
+    createdAt?: Date;
+    errorMessage?: string;
+    phoneNumberReleaseStatusDetails?: {
+        [propertyName: string]: PhoneNumberReleaseDetails;
+    };
+    releaseId?: string;
+    status?: ReleaseStatus;
+}
+
+// @public
+export interface PhoneNumberReleaseDetails {
+    errorCode?: number;
+    status?: PhoneNumberReleaseStatus;
+}
+
+// @public
+export type PhoneNumberReleaseStatus = "Pending" | "Success" | "Error" | "InProgress";
+
+// @public
+export interface PhoneNumberSearch {
+    areaCode?: string;
+    createdAt?: Date;
+    description?: string;
+    displayName?: string;
+    errorCode?: number;
+    locationOptions?: LocationOptionsDetails[];
+    phoneNumbers?: string[];
+    phonePlanIds?: string[];
+    quantity?: number;
+    reservationExpiryDate?: Date;
+    searchId?: string;
+    status?: SearchStatus;
+}
+
+// @public
+export type PhoneNumberType = "Unknown" | "Geographic" | "TollFree" | "Indirect";
+
+// @public
+export interface PhonePlan {
+    areaCodes?: string[];
+    capabilities?: Capability[];
+    localizedName: string;
+    locationType: LocationType;
+    maximumSearchSize?: number;
+    phonePlanId: string;
+}
+
+// @public
+export interface PhonePlanGroup {
+    // (undocumented)
+    carrierDetails?: CarrierDetails;
+    localizedDescription: string;
+    localizedName: string;
+    phoneNumberType?: PhoneNumberType;
+    phonePlanGroupId: string;
+    // (undocumented)
+    rateInformation?: RateInformation;
+}
+
+// @public
+export interface PhonePlanGroups {
+    nextLink?: string;
+    phonePlanGroups?: PhonePlanGroup[];
+}
+
+// @public
+export interface PhonePlansResponse {
+    nextLink?: string;
+    phonePlans?: PhonePlan[];
+}
+
+// @public
+export interface PstnConfiguration {
+    applicationId?: string;
+    callbackUrl: string;
+}
+
+// @public
+export type PurchaseSearchOptions = OperationOptions;
+
+// @public
+export interface RateInformation {
+    currencyType?: CurrencyType;
+    monthlyRate?: number;
+    rateErrorMessage?: string;
+}
+
+// @public
+export type RefreshSearchOptions = OperationOptions;
+
+// @public
+export type ReleasePhoneNumberOptions = OperationOptions;
+
+// @public
+export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
+
+// @public
+export interface ReleaseResponse {
+    releaseId: string;
+}
+
+// @public
+export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
+
+// @public
+export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
+
+// @public
 export type TokenScope = "chat" | "voip" | "pstn";
+
+// @public
+export type UnconfigurePhoneNumberOptions = OperationOptions;
+
+// @public
+export interface UpdateCapabilitiesOptions extends OperationOptions {
+    // (undocumented)
+    phoneNumbers?: PhoneNumberCapabilitiesUpdates;
+}
+
+// @public
+export interface UpdateNumberCapabilitiesResponse {
+    capabilitiesUpdateId: string;
+}
+
+// @public
+export type UpdateNumbersCapabilitiesResponse = WithResponse<UpdateNumberCapabilitiesResponse>;
+
+// @public
+export interface UpdatePhoneNumberCapabilitiesResponse {
+    capabilitiesUpdateId?: string;
+    capabilitiesUpdateStatus?: CapabilitiesUpdateStatus;
+    createdAt?: Date;
+    phoneNumberCapabilitiesUpdates?: {
+        [propertyName: string]: NumberUpdateCapabilities;
+    };
+}
 
 // @public
 export type VoidResponse = WithResponse<{}>;

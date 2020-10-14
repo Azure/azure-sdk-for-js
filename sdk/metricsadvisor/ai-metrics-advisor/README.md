@@ -72,20 +72,21 @@ const {
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
-const client = new MetricsAdvisorClient(
-  "<endpoint>",
-  new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>")
-);
+const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
 
-const adminClient = new MetricsAdvisorAdministrationClient(
-  "<endpoint>",
-  new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>")
-);
+const client = new MetricsAdvisorClient("<endpoint>", credential);
+const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
 
 ## Key concepts
 
-Please refer to [the Metrics Advisory Glossary][metrics_advisor_glossary] documentation page for a more comprehensive list of concepts. Some key ones are listed here.
+### MetricsAdvisorClient
+
+`MetricsAdvisorClient` is the primary querying interface for developers using the Metrics Advisor client library. It provides asynchronous methods to access a specific use of Metrics Advisor, such as listing incidents, retrive root causes of incidents, retrieving original time series data and time series data enriched by the service.
+
+### MetricsAdvisorAdministrationClient
+
+`MetricsAdvisorAdministrationClient` is the interface responsible for managing entities in the Metrics Advisor resources, such as managing data feeds, anomaly detection configurations, anomaly alerting configurations.
 
 ### DataFeed
 
@@ -93,7 +94,7 @@ A `DataFeed` is what Metrics Advisor ingests from your data source, such as Cosm
 
 - timestamps
 - zero or more dimensions
-- one or more measures.
+- one or more measures
 
 ### Metric
 
@@ -115,13 +116,7 @@ You can configure which anomalies should trigger an `Alert`. You can set multipl
 
 Metrics Advisor lets you create and subscribe to real-time alerts. These alerts are sent over the internet, using a `Hook`.
 
-### MetricsAdvisorClient
-
-`MetricsAdvisorClient` is the primary querying interface for developers using the Metrics Advisor client library. It provides asynchronous methods to access a specific use of Metrics Advisor, such as listing incidents, retrive root causes of incidents, retrieving original time series data and time series data enriched by the service.
-
-### MetricsAdvisorAdministrationClient
-
-`MetricsAdvisorAdministrationClient` is the interface responsible for managing entities in the Metrics Advisor resources, such as managing data feeds, anomaly detection configurations, anomaly alerting configurations.
+Please refer to [the Metrics Advisory Glossary][metrics_advisor_glossary] documentation page for a comprehensive list of concepts.
 
 ## Examples
 
@@ -141,7 +136,6 @@ Metrics Advisor supports connecting different types of data sources. Here is a s
 ```javascript
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
@@ -212,18 +206,18 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    admins: ["xyz@microsoft.com"]
+    admins: ["xyz@example.com"]
   };
 
   console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed(
-    "test_datafeed_" + new Date().getTime().toFixed(),
+  const result = await adminClient.createDataFeed({
+    name: "test_datafeed_" + new Date().getTime().toFixed(),
     source,
-    granualarity,
-    dataFeedSchema,
-    dataFeedIngestion,
+    granularity,
+    schema: dataFeedSchema,
+    ingestionSettings: dataFeedIngestion,
     options
-  );
+  });
 
   return result;
 }
@@ -236,7 +230,6 @@ After we start the data ingestion, we can check the ingestion status.
 ```javascript
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
@@ -278,7 +271,6 @@ While a default detection configuration is automatically applied to each metric,
 ```javascript
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
@@ -298,10 +290,10 @@ async function main() {
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration(
-    "test_detection_configuration" + new Date().getTime().toString(),
+  return await adminClient.createMetricAnomalyDetectionConfiguration({
+    name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
-    {
+    wholeSeriesDetectionCondition: {
       smartDetectionCondition: {
         sensitivity: 100,
         anomalyDetectorDirection: "Both",
@@ -311,10 +303,8 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
         }
       }
     },
-    "Detection configuration description",
-    [],
-    []
-  );
+    description: "Detection configuration description"
+  });
 }
 ```
 
@@ -325,7 +315,6 @@ We use hooks subscribe to real-time alerts. In this example, we create a webhook
 ```javascript
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
@@ -345,7 +334,7 @@ async function createWebhookHook(adminClient) {
   console.log("Creating a webhook hook");
   const hook = {
     hookType: "Webhook",
-    hookName: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toFixed(),
     description: "description",
     hookParameter: {
       endpoint: "https://example.com/handleAlerts",
@@ -362,12 +351,11 @@ async function createWebhookHook(adminClient) {
 
 ### Configure alert configuration
 
-Then let's configure in which conditions an alert needs to be triggered and which hoooks to send the alert.
+Then let's configure in which conditions an alert needs to be triggered and which hooks to send the alert.
 
 ```javascript
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
@@ -385,7 +373,7 @@ async function main() {
   console.log(`Alert configuration created: ${alertConfig.id}`);
 }
 
-async function configureAlertConfiguration(adminClient, detectionConfigId, hoookIds) {
+async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
   const metricAlertingConfig = {
     detectionConfigurationId: detectionConfigId,
@@ -401,13 +389,13 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hoook
       onlyForSuccessive: true
     }
   };
-  return await adminClient.createAnomalyAlertConfiguration(
-    "test_alert_config_" + new Date().getTime().toString(),
-    "AND",
-    [metricAlertingConfig],
-    hoookIds,
-    "Alerting config description"
-  );
+  return await adminClient.createAnomalyAlertConfiguration({
+    name: "test_alert_config_" + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [metricAlertingConfig],
+    hookIds,
+    description: "Alerting config description"
+  });
 }
 ```
 
@@ -416,11 +404,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hoook
 We can query the alerts and anomalies.
 
 ```javascript
-const {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
-  MetricsAdvisorAdministrationClient
-} = require("@azure/ai-metrics-advisor");
+const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -448,25 +432,14 @@ async function main() {
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
-  // This shows how to use `byPage()` and iterator to list alerts
   let alertIds = [];
-  console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
-  const iterator = client
-    .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
-    .byPage({ maxPageSize: 2 });
-
-  const result = await iterator.next();
-
-  if (!result.done) {
-    console.log("first page");
-    console.table(result.value.alerts);
-    alertIds.push(...(result.value.alerts || []).map((a) => a.id));
-    const nextPage = await iterator.next();
-    if (!nextPage.done) {
-      console.log("second page");
-      console.table(nextPage.value.alerts);
-      alertIds.push(...(nextPage.value.alerts || []).map((a) => a.id));
-    }
+  for await (const alert of client.listAlertsForAlertConfiguration(
+    alertConfigId,
+    startTime,
+    endTime,
+    "AnomalyTime"
+  )) {
+    alertIds.push(alert.id);
   }
 
   return alertIds;

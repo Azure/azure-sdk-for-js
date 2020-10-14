@@ -3,13 +3,13 @@
 
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel, ExportResult } from "@opentelemetry/core";
-import { Envelope } from "../Declarations/Contracts";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import { DEFAULT_EXPORTER_CONFIG, AzureExporterConfig } from "../config";
 import { BaseExporter, TelemetryProcessor, PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { ENV_CONNECTION_STRING, ENV_INSTRUMENTATION_KEY } from "../Declarations/Constants";
+import { TelemetryItem as Envelope } from "../generated";
 
 export abstract class AzureMonitorBaseExporter implements BaseExporter {
   protected readonly _persister: PersistentStorage;

@@ -1,6 +1,9 @@
 # Release History
-## 1.0.9-beta.3 (Unreleased)
+## 1.0.9-beta.13 (2020-10-13)
+- Test Release Pipeline
 
+## 1.0.9-beta.3 (2020-09-05)
+- Test Release Pipeline
 
 ## 1.0.9-beta.2 (2020-09-04)
 - Testing release tag replacement

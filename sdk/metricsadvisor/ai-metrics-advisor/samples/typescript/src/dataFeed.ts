@@ -104,7 +104,7 @@ async function createDataFeed(
     ingestionRetryDelayInSeconds: -1,
     stopRetryAfterInSeconds: -1
   };
-  const granualarity: DataFeedGranularity = {
+  const granularity: DataFeedGranularity = {
     granularityType: "Daily"
   };
   const source: DataFeedSource = {
@@ -132,17 +132,17 @@ async function createDataFeed(
   };
 
   console.log("Creating Datafeed...");
-  const res2 = await client.createDataFeed(
-    "test-datafeed",
+  const result = await client.createDataFeed({
+    name: "test-datafeed-" + new Date().getTime().toFixed(),
     source,
-    granualarity,
-    dataFeedSchema,
-    dataFeedIngestion,
+    granularity,
+    schema: dataFeedSchema,
+    ingestionSettings: dataFeedIngestion,
     options
-  );
+  });
 
-  console.dir(res2);
-  return res2;
+  console.dir(result);
+  return result;
 }
 
 async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {

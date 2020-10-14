@@ -38,7 +38,7 @@ import {
   UpdateKeyResponse
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./generated/utils/constants";
+import { SDK_VERSION } from "./constants";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
@@ -99,9 +99,9 @@ import {
   VerifyOptions,
   WrapKeyOptions
 } from "./cryptographyClientModels";
-import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 
 export {
   CryptographyClientOptions,
