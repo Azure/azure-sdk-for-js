@@ -105,7 +105,7 @@ export function createProcessingSpan(
 ): Span {
   const links: Link[] = [];
 
-  for (const receivedEvent of getReceivedMessages(receivedMessages)) {
+  for (const receivedMessage of getReceivedMessages(receivedMessages)) {
     const spanContext = extractSpanContextFromServiceBusMessage(receivedEvent);
 
     if (spanContext == null) {
