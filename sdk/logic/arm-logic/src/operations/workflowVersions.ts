@@ -145,7 +145,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowVersionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -171,7 +171,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowVersion
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -192,7 +192,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowVersionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
