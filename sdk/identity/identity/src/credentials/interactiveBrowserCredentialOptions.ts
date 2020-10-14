@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
-import { AuthenticationRecord } from "./authentication";
+import { AuthenticationRecord } from "../client/msalClient";
 
 /**
  * The "login style" to use in the authentication flow:
@@ -49,17 +49,12 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
   clientId?: string;
 
   /**
-   * The cache options to use when credentials are being checked.
+   * Whether to persist the authentication cache.
    */
-  cacheOptions?: {
-    cachePlugin?: {
-      readFromStorage: () => Promise<string>;
-      writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
-    };
-  };
+  persistenceEnabled?: boolean;
 
   /**
-   * The authentication record to use to find existing tokens in the cache
+   * The authentication record to use to find existing tokens in the cache.
    */
   authenticationRecord?: AuthenticationRecord;
 }

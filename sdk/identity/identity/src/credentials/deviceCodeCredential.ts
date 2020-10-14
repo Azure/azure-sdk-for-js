@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AuthenticationRecord, AuthenticationRequired } from "./authentication";
+import { AuthenticationRecord, AuthenticationRequired } from "../client/msalClient";
 import { DeviceCodeCredentialOptions } from "./deviceCodeCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { credentialLogger } from "../util/logging";

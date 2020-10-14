@@ -6,18 +6,12 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
 import { credentialLogger } from "../util/logging";
-import { IdentityClient } from "../client/identityClient";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
-import { AuthenticationRecord, AuthenticationRequired } from "./authentication";
+import { AuthenticationRequired, MsalClient } from "../client/msalClient";
+import { AuthorizationCodeRequest } from "@azure/msal-node"
 
 import express from "express";
-import {
-  PublicClientApplication,
-  TokenCache,
-  AuthorizationCodeRequest,
-  Configuration
-} from "@azure/msal-node";
 import open from "open";
 import http from "http";
 
@@ -29,24 +23,16 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-  private pca: PublicClientApplication;
-  private msalCacheManager: TokenCache;
-  private tenantId: string;
-  private clientId: string;
-  private persistenceEnabled: boolean;
   private redirectUri: string;
-  private authorityHost: string;
-  private authenticationRecord: AuthenticationRecord | undefined;
   private port: number;
+  private msalClient: MsalClient;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
-    this.identityClient = new IdentityClient(options);
-    this.tenantId = (options && options.tenantId) || DefaultTenantId;
-    this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
+    let tenantId = (options && options.tenantId) || DefaultTenantId;
+    let clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
-    this.persistenceEnabled = this.persistenceEnabled = options?.cacheOptions !== undefined;
-    this.authenticationRecord = options?.authenticationRecord;
+    let persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
+    let authenticationRecord = options?.authenticationRecord;
 
     if (options && options.redirectUri) {
       if (typeof options.redirectUri === "string") {
@@ -64,29 +50,18 @@ export class InteractiveBrowserCredential implements TokenCredential {
       this.port = 80;
     }
 
+    let authorityHost;
     if (options && options.authorityHost) {
       if (options.authorityHost.endsWith("/")) {
-        this.authorityHost = options.authorityHost + this.tenantId;
+        authorityHost = options.authorityHost + tenantId;
       } else {
-        this.authorityHost = options.authorityHost + "/" + this.tenantId;
+        authorityHost = options.authorityHost + "/" + tenantId;
       }
     } else {
-      this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
+      authorityHost = "https://login.microsoftonline.com/" + tenantId;
     }
 
-    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
-
-    const publicClientConfig: Configuration = {
-      auth: {
-        clientId: this.clientId,
-        authority: this.authorityHost,
-        knownAuthorities: knownAuthorities
-      },
-      cache: options?.cacheOptions,
-      system: { networkClient: this.identityClient }
-    };
-    this.pca = new PublicClientApplication(publicClientConfig);
-    this.msalCacheManager = this.pca.getTokenCache();
+    this.msalClient = new MsalClient(clientId, tenantId, authorityHost, persistenceEnabled, authenticationRecord, ".", options);
   }
 
   /**
@@ -105,37 +80,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
-    if (this.authenticationRecord && this.persistenceEnabled) {
-      return this.acquireTokenFromCache().catch((e) => {
-        if (e instanceof AuthenticationRequired) {
-          return this.acquireTokenFromBrowser(scopeArray);
-        } else {
-          throw e;
-        }
-      });
-    } else {
-      return this.acquireTokenFromBrowser(scopeArray);
-    }
-  }
-
-  private async acquireTokenFromCache(): Promise<AccessToken | null> {
-    await this.msalCacheManager.readFromPersistence();
-
-    const silentRequest = {
-      account: this.authenticationRecord!,
-      scopes: ["https://vault.azure.net/user_impersonation", "https://vault.azure.net/.default"]
-    };
-
-    try {
-      const response = await this.pca.acquireTokenSilent(silentRequest);
-      logger.info("Successful silent token acquisition");
-      return {
-        expiresOnTimestamp: response.expiresOn.getTime(),
-        token: response.accessToken
-      };
-    } catch (e) {
-      throw new AuthenticationRequired("Could not authenticate silently using the cache");
-    }
+    return this.msalClient.acquireTokenFromCache().catch((e) => {
+      if (e instanceof AuthenticationRequired) {
+        return this.acquireTokenFromBrowser(scopeArray);
+      } else {
+        throw e;
+      }
+    });
   }
 
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
@@ -144,12 +95,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
       redirectUri: this.redirectUri
     };
 
-    const response = await this.pca.getAuthCodeUrl(authCodeUrlParameters);
+    const response = await this.msalClient.getAuthCodeUrl(authCodeUrlParameters);
     await open(response);
-
-    if (this.persistenceEnabled) {
-      await this.msalCacheManager.readFromPersistence();
-    }
   }
 
   private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
@@ -179,12 +126,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
         };
 
         try {
-          const authResponse = await this.pca.acquireTokenByCode(tokenRequest);
+          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           res.sendStatus(200);
-
-          if (this.persistenceEnabled) {
-            this.msalCacheManager.writeToPersistence();
-          }
 
           resolve({
             expiresOnTimestamp: authResponse.expiresOn.valueOf(),
