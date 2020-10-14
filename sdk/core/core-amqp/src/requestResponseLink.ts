@@ -274,19 +274,20 @@ export function onMessageReceived(
   if (!responsesMap.has(responseCorrelationId as string)) {
     return;
   }
+
   const promise = responsesMap.get(responseCorrelationId as string) as DeferredPromiseWithCallback;
   promise.cleanupBeforeResolveOrReject();
 
   const info = getCodeDescriptionAndError(message.application_properties);
+  const deleteResult = responsesMap.delete(responseCorrelationId as string);
+  logger.verbose(
+    "%s Successfully deleted the response with id %s from the map.",
+    connectionId,
+    responseCorrelationId,
+    deleteResult
+  );
   if (info.statusCode > 199 && info.statusCode < 300) {
     logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
-    const deleteResult = responsesMap.delete(responseCorrelationId as string);
-    logger.verbose(
-      "%s Successfully deleted the response with id %s from the map.",
-      connectionId,
-      responseCorrelationId,
-      deleteResult
-    );
     return promise.resolve(message);
   } else {
     const condition =
