@@ -196,17 +196,17 @@ export class Invoices {
   }
 
   /**
-   * Gets a URL to download an multiple invoices documents (invoice pdf, tax receipts, credit notes)
-   * as a zip file. The operation is supported for billing accounts with agreement type Microsoft
-   * Partner Agreement or Microsoft Customer Agreement.
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a
+   * zip file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param downloadUrls An array of download urls for individual documents
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesDownloadMultipleModernInvoiceResponse>
+   * @returns Promise<Models.InvoicesDownloadMultipleBillingProfileInvoicesResponse>
    */
-  downloadMultipleModernInvoice(billingAccountName: string, downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<Models.InvoicesDownloadMultipleModernInvoiceResponse> {
-    return this.beginDownloadMultipleModernInvoice(billingAccountName,downloadUrls,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicesDownloadMultipleModernInvoiceResponse>;
+  downloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<Models.InvoicesDownloadMultipleBillingProfileInvoicesResponse> {
+    return this.beginDownloadMultipleBillingProfileInvoices(billingAccountName,downloadUrls,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
   }
 
   /**
@@ -282,15 +282,15 @@ export class Invoices {
   }
 
   /**
-   * Gets a URL to download multiple invoices documents (invoice pdf, tax receipts, credit notes) as
-   * a zip file.
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a
+   * zip file.
    * @param downloadUrls An array of download urls for individual documents
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoiceResponse>
+   * @returns Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>
    */
-  downloadMultipleBillingSubscriptionInvoice(downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoiceResponse> {
-    return this.beginDownloadMultipleBillingSubscriptionInvoice(downloadUrls,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoiceResponse>;
+  downloadMultipleBillingSubscriptionInvoices(downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse> {
+    return this.beginDownloadMultipleBillingSubscriptionInvoices(downloadUrls,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
   }
 
   /**
@@ -315,22 +315,22 @@ export class Invoices {
   }
 
   /**
-   * Gets a URL to download an multiple invoices documents (invoice pdf, tax receipts, credit notes)
-   * as a zip file. The operation is supported for billing accounts with agreement type Microsoft
-   * Partner Agreement or Microsoft Customer Agreement.
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a
+   * zip file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param downloadUrls An array of download urls for individual documents
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDownloadMultipleModernInvoice(billingAccountName: string, downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
         downloadUrls,
         options
       },
-      beginDownloadMultipleModernInvoiceOperationSpec,
+      beginDownloadMultipleBillingProfileInvoicesOperationSpec,
       options);
   }
 
@@ -353,19 +353,19 @@ export class Invoices {
   }
 
   /**
-   * Gets a URL to download multiple invoices documents (invoice pdf, tax receipts, credit notes) as
-   * a zip file.
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a
+   * zip file.
    * @param downloadUrls An array of download urls for individual documents
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDownloadMultipleBillingSubscriptionInvoice(downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownloadMultipleBillingSubscriptionInvoices(downloadUrls: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         downloadUrls,
         options
       },
-      beginDownloadMultipleBillingSubscriptionInvoiceOperationSpec,
+      beginDownloadMultipleBillingSubscriptionInvoicesOperationSpec,
       options);
   }
 
@@ -637,7 +637,7 @@ const beginDownloadInvoiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDownloadMultipleModernInvoiceOperationSpec: msRest.OperationSpec = {
+const beginDownloadMultipleBillingProfileInvoicesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/downloadDocuments",
   urlParameters: [
@@ -667,14 +667,14 @@ const beginDownloadMultipleModernInvoiceOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DownloadUrl,
-      headersMapper: Mappers.InvoicesDownloadMultipleModernInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingProfileInvoicesHeaders
     },
     202: {
-      headersMapper: Mappers.InvoicesDownloadMultipleModernInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingProfileInvoicesHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.InvoicesDownloadMultipleModernInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingProfileInvoicesHeaders
     }
   },
   serializer
@@ -710,7 +710,7 @@ const beginDownloadBillingSubscriptionInvoiceOperationSpec: msRest.OperationSpec
   serializer
 };
 
-const beginDownloadMultipleBillingSubscriptionInvoiceOperationSpec: msRest.OperationSpec = {
+const beginDownloadMultipleBillingSubscriptionInvoicesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments",
   urlParameters: [
@@ -740,14 +740,14 @@ const beginDownloadMultipleBillingSubscriptionInvoiceOperationSpec: msRest.Opera
   responses: {
     200: {
       bodyMapper: Mappers.DownloadUrl,
-      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders
     },
     202: {
-      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders
+      headersMapper: Mappers.InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders
     }
   },
   serializer

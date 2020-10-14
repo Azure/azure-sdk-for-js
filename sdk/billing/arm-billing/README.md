@@ -2,10 +2,6 @@
 
 This package contains an isomorphic SDK for BillingManagementClient.
 
-For more information about Billing:
-* [Azure documentation](https://docs.microsoft.com/en-us/azure/cost-management-billing/)
-* [SDK reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/billing?view=azure-node-latest)
-
 ### Currently supported environments
 
 - Node.js version 6.x.x or higher

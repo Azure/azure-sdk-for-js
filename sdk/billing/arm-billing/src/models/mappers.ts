@@ -2902,11 +2902,11 @@ export const InvoicesDownloadInvoiceHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const InvoicesDownloadMultipleModernInvoiceHeaders: msRest.CompositeMapper = {
-  serializedName: "invoices-downloadmultiplemoderninvoice-headers",
+export const InvoicesDownloadMultipleBillingProfileInvoicesHeaders: msRest.CompositeMapper = {
+  serializedName: "invoices-downloadmultiplebillingprofileinvoices-headers",
   type: {
     name: "Composite",
-    className: "InvoicesDownloadMultipleModernInvoiceHeaders",
+    className: "InvoicesDownloadMultipleBillingProfileInvoicesHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -2946,11 +2946,11 @@ export const InvoicesDownloadBillingSubscriptionInvoiceHeaders: msRest.Composite
   }
 };
 
-export const InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders: msRest.CompositeMapper = {
-  serializedName: "invoices-downloadmultiplebillingsubscriptioninvoice-headers",
+export const InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders: msRest.CompositeMapper = {
+  serializedName: "invoices-downloadmultiplebillingsubscriptioninvoices-headers",
   type: {
     name: "Composite",
-    className: "InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders",
+    className: "InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

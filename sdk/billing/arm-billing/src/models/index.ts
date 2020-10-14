@@ -2110,9 +2110,9 @@ export interface InvoicesDownloadInvoiceHeaders {
 }
 
 /**
- * Defines headers for DownloadMultipleModernInvoice operation.
+ * Defines headers for DownloadMultipleBillingProfileInvoices operation.
  */
-export interface InvoicesDownloadMultipleModernInvoiceHeaders {
+export interface InvoicesDownloadMultipleBillingProfileInvoicesHeaders {
   /**
    * GET this URL to retrieve the status of the asynchronous operation.
    */
@@ -2140,9 +2140,9 @@ export interface InvoicesDownloadBillingSubscriptionInvoiceHeaders {
 }
 
 /**
- * Defines headers for DownloadMultipleBillingSubscriptionInvoice operation.
+ * Defines headers for DownloadMultipleBillingSubscriptionInvoices operation.
  */
-export interface InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders {
+export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders {
   /**
    * GET this URL to retrieve the status of the asynchronous operation.
    */
@@ -3974,9 +3974,9 @@ export type InvoicesDownloadInvoiceResponse = DownloadUrl & InvoicesDownloadInvo
 };
 
 /**
- * Contains response data for the downloadMultipleModernInvoice operation.
+ * Contains response data for the downloadMultipleBillingProfileInvoices operation.
  */
-export type InvoicesDownloadMultipleModernInvoiceResponse = DownloadUrl & InvoicesDownloadMultipleModernInvoiceHeaders & {
+export type InvoicesDownloadMultipleBillingProfileInvoicesResponse = DownloadUrl & InvoicesDownloadMultipleBillingProfileInvoicesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -3984,7 +3984,7 @@ export type InvoicesDownloadMultipleModernInvoiceResponse = DownloadUrl & Invoic
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: InvoicesDownloadMultipleModernInvoiceHeaders;
+      parsedHeaders: InvoicesDownloadMultipleBillingProfileInvoicesHeaders;
 
       /**
        * The response body as text (string format)
@@ -4064,9 +4064,9 @@ export type InvoicesDownloadBillingSubscriptionInvoiceResponse = DownloadUrl & I
 };
 
 /**
- * Contains response data for the downloadMultipleBillingSubscriptionInvoice operation.
+ * Contains response data for the downloadMultipleBillingSubscriptionInvoices operation.
  */
-export type InvoicesDownloadMultipleBillingSubscriptionInvoiceResponse = DownloadUrl & InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders & {
+export type InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse = DownloadUrl & InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -4074,7 +4074,7 @@ export type InvoicesDownloadMultipleBillingSubscriptionInvoiceResponse = Downloa
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: InvoicesDownloadMultipleBillingSubscriptionInvoiceHeaders;
+      parsedHeaders: InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders;
 
       /**
        * The response body as text (string format)
