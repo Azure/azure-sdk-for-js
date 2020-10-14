@@ -77,12 +77,12 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(
     tenantId: string = "organizations",
-    clientId: string = DeveloperSignOnClientId,
+    clientId: string | undefined,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
     this.tenantId = tenantId;
-    this.clientId = clientId;
+    this.clientId = clientId || DeveloperSignOnClientId;
     this.userPromptCallback = userPromptCallback;
     if (options && options.authorityHost) {
       if (options.authorityHost.endsWith("/")) {
