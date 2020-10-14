@@ -61,7 +61,9 @@ jobs:
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
-      - template: ../../eng/pipelines/templates/steps/use-node-test-version.yml
+      - template: ../../eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
 
       - pwsh: npm install -g
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
