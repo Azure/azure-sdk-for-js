@@ -154,14 +154,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
-    cacheOptions?: {
-        cachePlugin?: {
-            readFromStorage: () => Promise<string>;
-            writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
-        };
-    };
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
+    persistenceEnabled?: boolean;
     postLogoutRedirectUri?: string | (() => string);
     redirectUri?: string | (() => string);
     tenantId?: string;

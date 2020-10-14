@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
-import { AuthenticationRecord } from "./authentication";
+import { AuthenticationRecord } from "../client/msalClient";
 
 /**
  * Defines options for the DeviceCodeCredential class.

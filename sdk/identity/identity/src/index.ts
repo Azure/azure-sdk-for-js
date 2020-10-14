@@ -17,7 +17,7 @@ export {
 } from "./credentials/visualStudioCodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 
-export { AuthenticationRecord } from "./credentials/authentication";
+export { AuthenticationRecord } from "./client/msalClient";
 export {
   InteractiveBrowserCredentialOptions,
   BrowserLoginStyle
