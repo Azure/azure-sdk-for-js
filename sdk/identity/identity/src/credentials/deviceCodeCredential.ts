@@ -92,7 +92,15 @@ export class DeviceCodeCredential implements TokenCredential {
       authorityHost = "https://login.microsoftonline.com/" + tenantId;
     }
 
-    this.msalClient = new MsalClient(clientId, tenantId, authorityHost, persistenceEnabled, authenticationRecord, ".", options);
+    this.msalClient = new MsalClient(
+      clientId,
+      tenantId,
+      authorityHost,
+      persistenceEnabled,
+      authenticationRecord,
+      ".",
+      options
+    );
   }
 
   /**
