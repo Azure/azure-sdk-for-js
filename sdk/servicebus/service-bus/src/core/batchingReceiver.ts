@@ -235,6 +235,9 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * @ignore
  */
 export class BatchingReceiverLite {
+  /**
+   * NOTE: exists only to make unit testing possible.
+   */
   private _createAndEndProcessingSpan: typeof createAndEndProcessingSpan;
 
   constructor(
