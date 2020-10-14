@@ -4,15 +4,14 @@
 import Long from "long";
 import {
   EventContext,
-  ReceiverEvents,
   ReceiverOptions,
   message as RheaMessageUtil,
-  SenderEvents,
   SenderOptions,
   generate_uuid,
   string_to_uuid,
   types,
-  Typed
+  Typed,
+  ReceiverEvents
 } from "rhea-promise";
 import {
   AmqpMessage,
@@ -233,7 +232,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           );
         }
       };
-      const sropt: SenderOptions = { target: { address: this.address } };
+      const sropt: SenderOptions = {
+        target: { address: this.address },
+        onError: (context: EventContext) => {
+          const ehError = translate(context.sender!.error!);
+          managementClientLogger.logError(
+            ehError,
+            `${this.logPrefix} An error occurred on the $management sender link`
+          );
+        }
+      };
 
       // Even if multiple parallel requests reach here, the initLink secures a lock
       // to ensure there won't be multiple initializations
@@ -244,33 +252,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
         abortSignal
       );
-
-      // Attach listeners for the `sender_error` and `receiver_error` events to log the errors.
-      //  - It is possible that the previous "_init" call had already added the listeners
-      //    (example: parallel _init calls can cause this),
-      //    hence checking the count of the listeners and adding them only if they're not present.
-      const senderErrorListenerCount = this.link?.sender.listenerCount(SenderEvents.senderError);
-      const receiverErrorListenerCount = this.link?.receiver.listenerCount(
-        ReceiverEvents.receiverError
-      );
-      if (senderErrorListenerCount && senderErrorListenerCount < 1) {
-        this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
-          const ehError = translate(context.sender!.error!);
-          managementClientLogger.logError(
-            ehError,
-            `${this.logPrefix} An error occurred on the $management sender link`
-          );
-        });
-      }
-      if (receiverErrorListenerCount && receiverErrorListenerCount < 1) {
-        this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const ehError = translate(context.receiver!.error!);
-          managementClientLogger.logError(
-            ehError,
-            `${this.logPrefix} An error occurred on the $management receiver link`
-          );
-        });
-      }
     } catch (err) {
       err = translate(err);
       managementClientLogger.logError(
@@ -281,12 +262,27 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
   }
 
-  protected createRheaLink(options: RequestResponseLinkOptions): Promise<RequestResponseLink> {
-    return RequestResponseLink.create(
+  protected async createRheaLink(
+    options: RequestResponseLinkOptions
+  ): Promise<RequestResponseLink> {
+    const rheaLink = await RequestResponseLink.create(
       this._context.connection,
       options.senderOptions,
       options.receiverOptions
     );
+    // Attach listener for the `receiver_error` events to log the errors.
+
+    // "message" event listener is added in core-amqp.
+    // "rhea" doesn't allow setting only the "onError" handler in the options if it is not accompanied by an "onMessage" handler.
+    // Hence, not passing onError handler in the receiver options, adding a handler below.
+    rheaLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+      const ehError = translate(context.receiver!.error!);
+      managementClientLogger.logError(
+        ehError,
+        `${this.logPrefix} An error occurred on the $management receiver link`
+      );
+    });
+    return rheaLink;
   }
 
   /**
