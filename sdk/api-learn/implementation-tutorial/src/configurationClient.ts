@@ -13,6 +13,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { ConfigurationSetting, GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
+import { quoteETag } from "./util";
 import { CanonicalCode } from "@opentelemetry/api";
 
 // re-export generated types that are used as public interfaces.
@@ -117,23 +118,4 @@ export class ConfigurationClient {
       span.end();
     }
   }
-}
-
-// This is important because the etag inside the body of the configuration object
-// isn't quoted, even though the header is.
-function quoteETag(etag: string | undefined): string | undefined {
-  // https://tools.ietf.org/html/rfc7232#section-3.1
-  if (etag === undefined || etag === "*") {
-    return etag;
-  }
-
-  if (etag.startsWith('"') && etag.endsWith('"')) {
-    return etag;
-  }
-
-  if (etag.startsWith("'") && etag.endsWith("'")) {
-    return etag;
-  }
-
-  return `"${etag}"`;
 }
