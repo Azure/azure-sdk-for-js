@@ -9,7 +9,6 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { RequestOptionsBase } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -105,19 +104,20 @@ export class DigitalTwinsClient {
     deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteRelationship(digitalTwinId: string, relationshipId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
-    getComponent(digitalTwinId: string, componentPath: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
+    getComponent(digitalTwinId: string, componentName: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
     getDigitalTwin(digitalTwinId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     getEventRoute(eventRouteId: string, options?: OperationOptions): Promise<EventRoutesGetByIdResponse>;
     getModel(modelId: string, includeModelDefinition?: boolean, options?: OperationOptions): Promise<DigitalTwinModelsGetByIdResponse>;
-    getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
-    listEventRoutes(maxItemCount?: number): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
-    listIncomingRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
-    listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, maxItemCount?: number): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
-    listRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
-    publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
-    publishTelemetry(digitalTwinId: string, payload: any, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
-    queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentPath: string, jsonPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
+    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsGetRelationshipByIdResponse" needs to be exported by the entry point index.d.ts
+    getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetRelationshipByIdResponse>;
+    listEventRoutes(resultsPerPage?: number, options?: OperationOptions): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
+    listIncomingRelationships(digitalTwinId: string, options?: OperationOptions): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
+    listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, resultsPerPage?: number, options?: OperationOptions): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
+    listRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
+    publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
+    publishTelemetry(digitalTwinId: string, payload: any, messageId: string, options?: OperationOptions): Promise<RestResponse>;
+    queryTwins(query: string, resultsPerPage?: number, options?: OperationOptions): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
+    updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
     updateDigitalTwin(digitalTwinId: string, jsonPatch: any, etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;

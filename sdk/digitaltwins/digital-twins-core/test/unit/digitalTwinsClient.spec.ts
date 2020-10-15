@@ -413,7 +413,7 @@ describe("DigitalTwinsClient", () => {
 
   it("publishTelemetry rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "sendTelemetry").rejects(testError);
-    await testClient.publishTelemetry(testTwinId, testPayload).catch((error) => {
+    await testClient.publishTelemetry(testTwinId, testPayload, testMessageId).catch((error) => {
       expect(error.message).to.equal("Promise Rejected");
     });
   });
