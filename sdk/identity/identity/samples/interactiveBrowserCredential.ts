@@ -3,6 +3,10 @@
 
 import { InteractiveBrowserCredential } from "../src/credentials/interactiveBrowserCredential";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 /**
  * The `InteractiveBrowserCredential` pops up a browser window where users
  * are be able to safely authenticate with the Azure Active Directory.
@@ -10,7 +14,12 @@ import { InteractiveBrowserCredential } from "../src/credentials/interactiveBrow
  * This sample file uses the `InteractiveBrowserCredential` to retrieve a token.
  */
 async function main() {
-  const credential = new InteractiveBrowserCredential();
+  const credential = new InteractiveBrowserCredential({
+    // By default, tenantId will be "organizations". You might assign a specific tenant this way.
+    tenantId: process.env.AZURE_TENANT_ID,
+    // By default, clientId will be the same used by the Azure CLI. You might assign a specific client ID this way.
+    clientId: process.env.AZURE_CLIENT_ID
+  });
   const token = await credential.getToken('https://vault.azure.net/.default');
   console.log({ token });
 }
