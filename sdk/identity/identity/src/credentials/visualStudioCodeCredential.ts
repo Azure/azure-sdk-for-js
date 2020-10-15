@@ -114,8 +114,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
 
     this.identityClient = new IdentityClient({
-      ...options,
-      authorityHost
+      authorityHost,
+      ...options
     });
 
     if (options && options.tenantId) {
