@@ -95,7 +95,9 @@ describe("Tracing tests", () => {
     );
 
     assert.deepEqual(
-      (messages as ServiceBusReceivedMessage[]).map((m) => m.properties!["Diagnostic-Id"]),
+      (messages as ServiceBusReceivedMessage[]).map(
+        (m) => m.applicationProperties!["Diagnostic-Id"]
+      ),
       ["diagnostic id 1", "diagnostic id 2"]
     );
 
@@ -125,7 +127,7 @@ describe("Tracing tests", () => {
     receiver.subscribe(
       {
         processMessage: async (msg) => {
-          if (msg.properties!["Diagnostic-Id"] === "should throw") {
+          if (msg.applicationProperties!["Diagnostic-Id"] === "should throw") {
             throw new Error("This message failed when we tried to process it");
           }
         },
@@ -182,7 +184,7 @@ describe("Tracing tests", () => {
     receiver.subscribe(
       {
         processMessage: async (msg) => {
-          if (msg.properties!["Diagnostic-Id"] === "should throw") {
+          if (msg.applicationProperties!["Diagnostic-Id"] === "should throw") {
             throw new Error("This message failed when we tried to process it");
           }
         },
@@ -327,7 +329,7 @@ describe("Tracing tests", () => {
 
       const receivedMessages: ServiceBusMessage[] = [
         instrumentServiceBusMessage({ ...requiredMessageProperties }, firstEvent),
-        { properties: {}, ...requiredMessageProperties }, // no diagnostic ID means it gets skipped
+        { applicationProperties: {}, ...requiredMessageProperties }, // no diagnostic ID means it gets skipped
         instrumentServiceBusMessage({ ...requiredMessageProperties }, thirdEvent)
       ];
 

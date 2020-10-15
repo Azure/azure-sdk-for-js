@@ -86,16 +86,16 @@ export type AuthorizationRule = {
 
 // @public
 export interface CorrelationRuleFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    properties?: {
+    applicationProperties?: {
         [key: string]: string | number | boolean | Date;
     };
+    contentType?: string;
+    correlationId?: string;
+    messageId?: string;
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
+    subject?: string;
     to?: string;
 }
 
@@ -421,7 +421,7 @@ export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMes
     defer(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
-    renewMessageLock(): Promise<Date>;
+    renewLock(): Promise<Date>;
 }
 
 // @public

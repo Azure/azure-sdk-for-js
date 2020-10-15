@@ -242,7 +242,7 @@ describe("Deferred Messages", () => {
       throw "Sequence Number can not be null";
     }
     const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
-    const lockedUntilAfterRenewlock = await deferredMsg.renewMessageLock();
+    const lockedUntilAfterRenewlock = await deferredMsg.renewLock();
     should.equal(
       lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
       true,

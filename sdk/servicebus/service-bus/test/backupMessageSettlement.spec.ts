@@ -297,7 +297,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
-      const lockedUntilAfterRenewlock = await msg.renewMessageLock();
+      const lockedUntilAfterRenewlock = await msg.renewLock();
       should.equal(
         lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
         true,

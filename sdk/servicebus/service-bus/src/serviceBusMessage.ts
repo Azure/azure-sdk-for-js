@@ -691,7 +691,7 @@ export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMes
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  renewMessageLock(): Promise<Date>;
+  renewLock(): Promise<Date>;
 }
 
 /**
@@ -1146,7 +1146,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  async renewMessageLock(): Promise<Date> {
+  async renewLock(): Promise<Date> {
     let associatedLinkName: string | undefined;
     let error: Error | undefined;
     if (this.sessionId) {

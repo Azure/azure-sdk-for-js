@@ -53,7 +53,8 @@ export class TestMessage {
         propThree: true
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id"
+      replyToSessionId: "some-other-session-id",
+      userId: `${randomNumber} userId`
     };
   }
 

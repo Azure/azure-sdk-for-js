@@ -9,7 +9,7 @@ import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
-import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
+import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
@@ -1694,7 +1694,11 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Rule tests
-[
+const createRuleTests: {
+  testCaseTitle: string;
+  input: Omit<CreateRuleOptions, "name"> | undefined;
+  output: RuleProperties;
+}[] = [
   {
     testCaseTitle: "Undefined rule options",
     input: undefined,
@@ -1735,9 +1739,8 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options with a single property",
     input: {
       filter: {
-        sqlExpression: "",
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1747,13 +1750,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1768,9 +1771,8 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
-        sqlExpression: "",
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -1784,13 +1786,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -1805,7 +1807,8 @@ describe("Atom management - Authentication", function(): void {
       name: managementRule1
     }
   }
-].forEach((testCase) => {
+];
+createRuleTests.forEach((testCase) => {
   describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
@@ -2412,7 +2415,7 @@ async function createEntity(
   queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<CreateTopicOptions, "name">,
   subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleProperties, "name">
+  ruleOptions?: Omit<CreateRuleOptions, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {

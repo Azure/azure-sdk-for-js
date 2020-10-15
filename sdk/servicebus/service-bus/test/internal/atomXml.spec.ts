@@ -565,7 +565,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: ["hello"]
           }
         }
@@ -581,7 +581,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: {}
           }
         }
@@ -597,7 +597,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: undefined
           }
         }
@@ -613,7 +613,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: 123
+          applicationProperties: 123
         }
       },
       output: {
@@ -627,7 +627,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: "abcd"
+          applicationProperties: "abcd"
         }
       },
       output: {
@@ -641,7 +641,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: ["abcd"]
+          applicationProperties: ["abcd"]
         }
       },
       output: {
@@ -655,7 +655,7 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {}
+          applicationProperties: {}
         }
       },
       output: {
