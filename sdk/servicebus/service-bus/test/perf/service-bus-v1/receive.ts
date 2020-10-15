@@ -115,8 +115,8 @@ function WriteResult(
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-      `\tRSS ${memoryUsage.rss}` +
-      `\tHeapUsed ${memoryUsage.heapUsed}`
+      `\tRSS\t${memoryUsage.rss}` +
+      `\tHeapUsed\t${memoryUsage.heapUsed}`
   );
 }
 
