@@ -51,7 +51,10 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      applicationProperties: getKeyValuePairsOrUndefined(value["Properties"], "UserProperties")
+      applicationProperties: getKeyValuePairsOrUndefined(
+        value["ApplicationProperties"],
+        "ApplicationProperties"
+      )
     };
   }
   return result;
@@ -198,7 +201,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           MessageId: correlationFilter.messageId,
           Properties: buildInternalRawKeyValuePairs(
             correlationFilter.applicationProperties,
-            "userProperties"
+            "applicationProperties"
           )
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
@@ -303,7 +306,7 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  */
 function getKeyValuePairsOrUndefined(
   value: any,
-  attribute: "UserProperties" | "SQLParameters"
+  attribute: "ApplicationProperties" | "SQLParameters"
 ): { [key: string]: any } | undefined {
   if (!value) {
     return undefined;
@@ -356,7 +359,7 @@ function getKeyValuePairsOrUndefined(
  */
 export function buildInternalRawKeyValuePairs(
   parameters: { [key: string]: any } | undefined,
-  attribute: "userProperties" | "sqlParameters"
+  attribute: "applicationProperties" | "sqlParameters"
 ): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;

@@ -571,7 +571,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -587,7 +587,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -603,7 +603,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -617,7 +617,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties 123, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -631,7 +631,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties "abcd", expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -645,7 +645,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties ["abcd"], expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -659,7 +659,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties {}, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     }

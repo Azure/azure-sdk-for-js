@@ -127,6 +127,8 @@ export class TestMessage {
         `Unexpected partitionKey in received msg`
       );
     }
+
+    chai.assert.equal(received.userId, sent.userId, "Unexpected userId in received msg");
   }
 }
 
