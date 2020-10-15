@@ -66,12 +66,12 @@ describe("Tracing tests", () => {
     br["_receiveMessagesImpl"] = async () => {
       return ([
         {
-          properties: {
+          applicationProperties: {
             "Diagnostic-Id": "diagnostic id 1"
           }
         },
         {
-          properties: {
+          applicationProperties: {
             "Diagnostic-Id": "diagnostic id 2"
           }
         }
@@ -88,7 +88,7 @@ describe("Tracing tests", () => {
     assert.isTrue(createSpanStub.calledOnce, "create span was called");
 
     const [messages, , , options] = createSpanStub.args[0];
-
+    console.log(messages);
     assert.isTrue(
       Array.isArray(messages),
       "only expect one call to the create a span (it can handle multiple messages)"
@@ -142,7 +142,7 @@ describe("Tracing tests", () => {
 
     try {
       await processMessage!(({
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: "should throw"
         }
       } as any) as ServiceBusMessageImpl);
@@ -157,7 +157,7 @@ describe("Tracing tests", () => {
     }
 
     await processMessage!(({
-      properties: {
+      applicationProperties: {
         [TRACEPARENT_PROPERTY]: "should NOT throw"
       }
     } as any) as ServiceBusMessageImpl);
@@ -199,7 +199,7 @@ describe("Tracing tests", () => {
 
     try {
       await processMessage!(({
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: "should throw"
         }
       } as any) as ServiceBusMessageImpl);
@@ -213,7 +213,7 @@ describe("Tracing tests", () => {
     }
 
     await processMessage!(({
-      properties: {
+      applicationProperties: {
         [TRACEPARENT_PROPERTY]: "should NOT throw"
       }
     } as any) as ServiceBusMessageImpl);

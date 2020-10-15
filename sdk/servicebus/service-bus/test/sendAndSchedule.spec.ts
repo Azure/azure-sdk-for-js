@@ -604,7 +604,7 @@ describe("Tracing for send", function(): void {
       { name: "Albert" },
       {
         name: "Marie",
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: "foo"
         }
       }
@@ -614,7 +614,7 @@ describe("Tracing for send", function(): void {
 
     for (let i = 0; i < 2; i++) {
       batch.tryAdd(
-        { body: `${list[i].name}`, applicationProperties: list[i].properties },
+        { body: `${list[i].name}`, applicationProperties: list[i].applicationProperties },
         { parentSpan: rootSpan }
       );
     }

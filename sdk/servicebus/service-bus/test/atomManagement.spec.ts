@@ -2320,13 +2320,13 @@ createRuleTests.forEach((testCase) => {
       filter: {
         correlationId: "defg",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: undefined
+        applicationProperties: undefined
       },
       action: {
         sqlExpression: "SET sys.label='RED'",

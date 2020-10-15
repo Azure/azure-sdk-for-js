@@ -137,11 +137,11 @@ const correlationProperties = [
   "messageId",
   "to",
   "replyTo",
-  "label",
+  "subject",
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "properties"
+  "applicationProperties"
 ];
 
 /**
@@ -1265,11 +1265,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             "message-id": filter.messageId,
             to: filter.to,
             "reply-to": filter.replyTo,
-            label: filter.subject,
+            subject: filter.subject,
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.applicationProperties
+            applicationProperties: filter.applicationProperties
           };
           break;
       }

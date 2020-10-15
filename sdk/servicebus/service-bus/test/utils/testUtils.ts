@@ -30,7 +30,8 @@ export class TestMessage {
         propTwo: "two",
         propThree: true,
         propFour: Date()
-      }
+      },
+      userId: `${randomTag} userId`
     };
   }
 
