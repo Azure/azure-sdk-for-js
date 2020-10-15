@@ -61,7 +61,11 @@ function handleRedirect(
   const locationHeader = response.headers.get("location");
   if (
     locationHeader &&
-    (status === 300 || status === 307 || (status === 303 && request.method === "POST")) &&
+    (status === 300 ||
+      (status === 301 && ["GET", "HEAD"].includes(request.method)) ||
+      (status === 302 && ["GET", "HEAD"].includes(request.method)) ||
+      (status === 303 && request.method === "POST") ||
+      status === 307) &&
     (!policy.maxRetries || currentRetries < policy.maxRetries)
   ) {
     const builder = URLBuilder.parse(request.url);
@@ -72,6 +76,7 @@ function handleRedirect(
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       request.method = "GET";
+      delete request.body;
     }
 
     return policy._nextPolicy
