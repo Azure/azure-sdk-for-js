@@ -12,7 +12,7 @@ import {
 import { IdentityClient, TokenCredentialOptions } from "./identityClient";
 import { AccessToken } from "@azure/core-http";
 import { credentialLogger } from "../util/logging";
-import {NodeAuthOptions} from "@azure/msal-node/dist/config/Configuration";
+import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
 
 let msalExt: any;
 try {
@@ -208,7 +208,9 @@ export class MsalClient {
     return this.pca!.acquireTokenByDeviceCode(request);
   }
 
-  async acquireTokenByClientCredential(request: ClientCredentialRequest): Promise<AuthenticationResult> {
+  async acquireTokenByClientCredential(
+    request: ClientCredentialRequest
+  ): Promise<AuthenticationResult> {
     await this.prepareClientApplications();
 
     return this.cca!.acquireTokenByClientCredential(request);

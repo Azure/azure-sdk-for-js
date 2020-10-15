@@ -93,7 +93,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
     this.msalClient = new MsalClient(
-      {clientId: clientId, authority: authorityHost},
+      { clientId: clientId, authority: authorityHost },
       tenantId,
       persistenceEnabled,
       authenticationRecord,
