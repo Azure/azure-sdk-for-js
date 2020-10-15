@@ -64,12 +64,10 @@ async function RunTest(
 }
 
 async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
-  while (++_messages <= messages) {
+  while (_messages <= messages) {
     await sender.send({ body: _payload });
+    _messages++;
   }
-
-  // Undo last increment, since a message was never sent on the final loop iteration
-  _messages--;
 }
 
 async function WriteResults(messages: number): Promise<void> {
