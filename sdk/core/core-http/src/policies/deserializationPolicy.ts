@@ -151,104 +151,11 @@ export function deserializeResponseBody(
 
     const responseSpec = getOperationResponse(parsedResponse);
 
-    const statusCodes: string[] = Object.keys(operationSpec.responses);
-    const errorResponseCodes: string[] = [],
-      nonErrorResponseCodes: string[] = [];
+    const errorResponse = handleErrorResponse(parsedResponse, operationSpec);
 
-    for (const statusCode of statusCodes) {
-      if (statusCode !== "default" && operationSpec.responses[statusCode].isError) {
-        errorResponseCodes.push(statusCode);
-      } else {
-        nonErrorResponseCodes.push(statusCode);
-      }
-    }
-
-    enum RESPONSE_STATUS {
-      NONERROR,
-      ERRORNONDEFAULT,
-      ERRORDEFAULT
-    }
-
-    let parsedResponseStatus: RESPONSE_STATUS;
-
-    if (
-      nonErrorResponseCodes.includes(parsedResponse.status + "") ||
-      (200 <= parsedResponse.status && parsedResponse.status < 300)
-    ) {
-      parsedResponseStatus = RESPONSE_STATUS.NONERROR;
-    } else {
-      if (errorResponseCodes.includes(parsedResponse.status + "")) {
-        parsedResponseStatus = RESPONSE_STATUS.ERRORNONDEFAULT;
-      } else {
-        parsedResponseStatus = RESPONSE_STATUS.ERRORDEFAULT;
-      }
-    }
-
-    if (
-      parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT ||
-      parsedResponseStatus === RESPONSE_STATUS.ERRORNONDEFAULT
-    ) {
-      const errorResponseSpec =
-        parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT
-          ? operationSpec.responses.default
-          : operationSpec.responses[parsedResponse.status];
-
-      if (!errorResponseSpec) {
-        return parsedResponse;
-      }
-
-      const defaultBodyMapper = errorResponseSpec.bodyMapper;
-      const defaultHeadersMapper = errorResponseSpec.headersMapper;
-
-      const initialErrorMessage = isStreamOperation(operationSpec)
-        ? `Unexpected status code: ${parsedResponse.status}`
-        : (parsedResponse.bodyAsText as string);
-
-      const error = new RestError(
-        initialErrorMessage,
-        undefined,
-        parsedResponse.status,
-        parsedResponse.request,
-        parsedResponse
-      );
-
-      try {
-        // If error response has a body, try to extract error code & message from it
-        // Then try to deserialize it using default body mapper
-        if (parsedResponse.parsedBody) {
-          const parsedBody = parsedResponse.parsedBody;
-          const internalError: any = parsedBody.error || parsedBody;
-          error.code = internalError.code;
-          if (internalError.message) {
-            error.message = internalError.message;
-          }
-
-          if (defaultBodyMapper) {
-            let valueToDeserialize: any = parsedBody;
-            if (operationSpec.isXML && defaultBodyMapper.type.name === MapperType.Sequence) {
-              valueToDeserialize =
-                typeof parsedBody === "object" ? parsedBody[defaultBodyMapper.xmlElementName!] : [];
-            }
-            error.response!.parsedBody = operationSpec.serializer.deserialize(
-              defaultBodyMapper,
-              valueToDeserialize,
-              "error.response.parsedBody"
-            );
-          }
-        }
-
-        // If error response has headers, try to deserialize it using default header mapper
-        if (parsedResponse.headers && defaultHeadersMapper) {
-          error.response!.parsedHeaders = operationSpec.serializer.deserialize(
-            defaultHeadersMapper,
-            parsedResponse.headers.rawHeaders(),
-            "operationRes.parsedHeaders"
-          );
-        }
-      } catch (defaultError) {
-        error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
-      }
-      throw error;
+    if (errorResponse) {
+      // There is no error spec. So, return it
+      return errorResponse;
     }
 
     // An operation response spec does exist for current status code, so
@@ -294,6 +201,111 @@ export function deserializeResponseBody(
 
     return parsedResponse;
   });
+}
+
+function handleErrorResponse(
+  parsedResponse: HttpOperationResponse,
+  operationSpec: OperationSpec
+): HttpOperationResponse | undefined {
+  enum RESPONSE_STATUS {
+    NONERROR,
+    ERRORNONDEFAULT,
+    ERRORDEFAULT
+  }
+  let parsedResponseStatus: RESPONSE_STATUS;
+  const statusCodes: string[] = Object.keys(operationSpec.responses);
+  const errorResponseCodes: string[] = [],
+    nonErrorResponseCodes: string[] = [];
+
+  for (const statusCode of statusCodes) {
+    if (statusCode !== "default" && operationSpec.responses[statusCode].isError) {
+      errorResponseCodes.push(statusCode);
+    } else {
+      nonErrorResponseCodes.push(statusCode);
+    }
+  }
+
+  if (
+    nonErrorResponseCodes.includes(parsedResponse.status + "") ||
+    (200 <= parsedResponse.status && parsedResponse.status < 300)
+  ) {
+    parsedResponseStatus = RESPONSE_STATUS.NONERROR;
+  } else {
+    if (errorResponseCodes.includes(parsedResponse.status + "")) {
+      parsedResponseStatus = RESPONSE_STATUS.ERRORNONDEFAULT;
+    } else {
+      parsedResponseStatus = RESPONSE_STATUS.ERRORDEFAULT;
+    }
+  }
+
+  if (
+    parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT ||
+    parsedResponseStatus === RESPONSE_STATUS.ERRORNONDEFAULT
+  ) {
+    const errorResponseSpec =
+      parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT
+        ? operationSpec.responses.default
+        : operationSpec.responses[parsedResponse.status];
+
+    if (!errorResponseSpec) {
+      return parsedResponse;
+    }
+
+    const defaultBodyMapper = errorResponseSpec.bodyMapper;
+    const defaultHeadersMapper = errorResponseSpec.headersMapper;
+
+    const initialErrorMessage = isStreamOperation(operationSpec)
+      ? `Unexpected status code: ${parsedResponse.status}`
+      : (parsedResponse.bodyAsText as string);
+
+    const error = new RestError(
+      initialErrorMessage,
+      undefined,
+      parsedResponse.status,
+      parsedResponse.request,
+      parsedResponse
+    );
+
+    try {
+      // If error response has a body, try to extract error code & message from it
+      // Then try to deserialize it using default body mapper
+      if (parsedResponse.parsedBody) {
+        const parsedBody = parsedResponse.parsedBody;
+        const internalError: any = parsedBody.error || parsedBody;
+        error.code = internalError.code;
+        if (internalError.message) {
+          error.message = internalError.message;
+        }
+
+        if (defaultBodyMapper) {
+          let valueToDeserialize: any = parsedBody;
+          if (operationSpec.isXML && defaultBodyMapper.type.name === MapperType.Sequence) {
+            valueToDeserialize =
+              typeof parsedBody === "object" ? parsedBody[defaultBodyMapper.xmlElementName!] : [];
+          }
+          error.response!.parsedBody = operationSpec.serializer.deserialize(
+            defaultBodyMapper,
+            valueToDeserialize,
+            "error.response.parsedBody"
+          );
+        }
+      }
+
+      // If error response has headers, try to deserialize it using default header mapper
+      if (parsedResponse.headers && defaultHeadersMapper) {
+        error.response!.parsedHeaders = operationSpec.serializer.deserialize(
+          defaultHeadersMapper,
+          parsedResponse.headers.rawHeaders(),
+          "operationRes.parsedHeaders"
+        );
+      }
+    } catch (defaultError) {
+      error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
+    }
+    throw error;
+  }
+
+  return undefined;
 }
 
 function parse(
