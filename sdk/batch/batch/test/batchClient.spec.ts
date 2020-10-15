@@ -11,6 +11,7 @@ import * as dotenv from "dotenv";
 import { duration } from "moment";
 import { AuthenticationContext, TokenResponse } from "adal-node";
 import { TokenCredentials } from "@azure/ms-rest-js";
+import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(), timeout));
@@ -26,15 +27,15 @@ describe("Batch Service", () => {
   let nonAdminPoolUser: string;
   let compute_nodes: string[];
 
-  const readStreamToBuffer = function (
+  const readStreamToBuffer = function(
     strm: NodeJS.ReadableStream,
     callback: (_a: any, buf: Buffer) => void
   ) {
     const bufs: any[] = [];
-    strm.on("data", function (d) {
+    strm.on("data", function(d) {
       bufs.push(d);
     });
-    strm.on("end", function () {
+    strm.on("end", function() {
       callback(null, Buffer.concat(bufs));
     });
   };
@@ -43,8 +44,8 @@ describe("Batch Service", () => {
     batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"]!;
     batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"]!;
     batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
-    clientId = process.env["CLIENT_ID"]!;
-    secret = process.env["APPLICATION_SECRET"]!;
+    clientId = process.env["AZURE_CLIENT_ID"]!;
+    secret = process.env["AZURE_CLIENT_SECRET"]!;
 
     // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
@@ -147,8 +148,16 @@ describe("Batch Service", () => {
     });
 
     it("should get a pool reference successfully", async () => {
-      const result = await client.pool.get("nodesdktestpool1");
-      const metadata = result.metadata![0];
+      let result, metadata;
+      while (true) {
+        result = await client.pool.get("nodesdktestpool1");
+        metadata = result.metadata![0];
+        if (result.allocationState === "resizing") {
+          await wait(10000);
+        } else {
+          break;
+        }
+      }
 
       assert.equal(result.id, "nodesdktestpool1");
       assert.equal(result.state, "active");
@@ -167,7 +176,7 @@ describe("Batch Service", () => {
       assert.equal(result.userAccounts![0].name, nonAdminPoolUser);
       assert.equal(result.userAccounts![0].elevationLevel, "nonadmin");
       assert.equal(result._response.status, 200);
-    });
+    }).timeout(1000000);
 
     it("should get a pool reference with odata successfully", async () => {
       const options: BatchServiceModels.PoolGetOptionalParams = {
@@ -183,10 +192,10 @@ describe("Batch Service", () => {
     });
 
     it("should perform AAD authentication successfully", (done) => {
-      const verifyAadAuth = function (token: string, callback: any) {
+      const verifyAadAuth = function(token: string, callback: any) {
         const tokenCreds = new TokenCredentials(token, "Bearer");
         const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
-        aadClient.account.listSupportedImages(function (err, result, request, response) {
+        aadClient.account.listSupportedImages(function(err, result, request, response) {
           assert.isNull(err);
           assert.isDefined(result);
           assert.isAtLeast(result!.length, 1);
@@ -206,7 +215,7 @@ describe("Batch Service", () => {
         "https://batch.core.windows.net/",
         clientId,
         secret,
-        function (err, tokenResponse) {
+        function(err, tokenResponse) {
           assert.isNull(err);
           assert.isDefined(tokenResponse);
           assert.isDefined((tokenResponse as TokenResponse).accessToken);
@@ -335,12 +344,18 @@ describe("Batch Service", () => {
       const result = await client.pool.add(pool);
 
       assert.equal(result._response.status, 201);
-
-      await wait(5000);
     });
 
     it("should get the details of a pool with endpoint configuration successfully", async () => {
-      const result = await client.computeNode.list("nodesdkinboundendpointpool");
+      let result;
+      while (true) {
+        result = await client.computeNode.list("nodesdkinboundendpointpool");
+        if (result.length > 0) {
+          break;
+        } else {
+          await wait(5000);
+        }
+      }
       assert.lengthOf(result, 1);
       assert.isDefined(result[0].endpointConfiguration);
       assert.lengthOf(result[0].endpointConfiguration!.inboundEndpoints, 2);
@@ -352,26 +367,41 @@ describe("Batch Service", () => {
     });
 
     it("should get pool node counts successfully", async () => {
-      const result = await client.account.listPoolNodeCounts();
-
+      let result: AccountListPoolNodeCountsResponse;
+      while (true) {
+        result = await client.account.listPoolNodeCounts();
+        if (result.length > 0 && result[0].dedicated!.idle > 0) {
+          break;
+        } else {
+          await wait(10000);
+        }
+      }
       assert.lengthOf(result, 2);
       assert.equal(result[0].poolId, "nodesdkinboundendpointpool");
       assert.equal(result[0].dedicated!.idle, 1);
       assert.equal(result[0].lowPriority!.total, 0);
       assert.equal(result._response.status, 200);
-    });
+    }).timeout(1000000);
 
     it("should list compute nodes successfully", async () => {
-      const result = await client.computeNode.list("nodesdktestpool1");
+      let result;
+      while (true) {
+        result = await client.computeNode.list("nodesdktestpool1");
+        if (result.length > 0 && result[0].state === "starting") {
+          await wait(10000);
+        } else {
+          break;
+        }
+      }
       assert.isAtLeast(result.length, 1);
       assert.equal(result[0].state, "idle");
       assert.equal(result[0].schedulingState, "enabled");
       assert.isTrue(result[0].isDedicated);
       assert.equal(result._response.status, 200);
-      compute_nodes = result.map(function (x) {
+      compute_nodes = result.map(function(x) {
         return x.id!;
       });
-    });
+    }).timeout(1000000);
 
     it("should get a compute node reference", async () => {
       const result = await client.computeNode.get("nodesdktestpool1", compute_nodes[0]);
@@ -418,7 +448,7 @@ describe("Batch Service", () => {
         .getRemoteDesktop("nodesdktestpool1", compute_nodes[0])
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -439,12 +469,22 @@ describe("Batch Service", () => {
     });
 
     it("should disable scheduling on a compute node successfully", async () => {
-      const result = await client.computeNode.disableScheduling(
-        "nodesdktestpool1",
-        compute_nodes[1]
-      );
-
-      assert.equal(result._response.status, 200);
+      while (true) {
+        try {
+          const result = await client.computeNode.disableScheduling(
+            "nodesdktestpool1",
+            compute_nodes[1]
+          );
+          assert.equal(result._response.status, 200);
+          break;
+        } catch (e) {
+          if (e.code === "NodeNotReady") {
+            await wait(5000);
+          } else {
+            throw e;
+          }
+        }
+      }
     });
 
     it("should enable scheduling on a compute node successfully", async () => {
@@ -496,9 +536,10 @@ describe("Batch Service", () => {
     });
 
     it("should evaluate pool autoscale successfully", async () => {
-      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", {
-        autoScaleFormula: "$TargetDedicatedNodes=3"
-      });
+      const result = await client.pool.evaluateAutoScale(
+        "nodesdktestpool1",
+        "$TargetDedicatedNodes=3"
+      );
 
       assert.equal(
         result.results,
@@ -508,9 +549,7 @@ describe("Batch Service", () => {
     });
 
     it("should fail to evaluate invalid autoscale formula", async () => {
-      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", {
-        autoScaleFormula: "something_useless"
-      });
+      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", "something_useless");
 
       assert.equal(
         result.results,
@@ -557,7 +596,7 @@ describe("Batch Service", () => {
 
     it("should fail to list pools with invalid max", async () => {
       const options = { poolListOptions: { maxResults: -5 } };
-      client.pool.list(options, function (err, result) {
+      client.pool.list(options, function(err, result) {
         assert.equal(
           err!.message,
           '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'
@@ -860,22 +899,28 @@ describe("Batch Service", () => {
 
       assert.equal(result._response.status, 201);
 
-      wait(15000);
-      const result2 = await client.task.get(jobId, taskId);
-
+      let result2: TaskGetResponse;
+      while (true) {
+        result2 = await client.task.get(jobId, taskId);
+        if (result2.executionInfo !== undefined && result2.executionInfo.result != undefined) {
+          break;
+        } else {
+          await wait(20000);
+        }
+      }
       assert.isDefined(result2.userIdentity);
       assert.equal(result2.userIdentity!.userName, nonAdminPoolUser);
       assert.isDefined(result2.executionInfo);
       assert.equal(result2.executionInfo!.result, "failure");
       assert.notEqual(result2.executionInfo!.exitCode, 0);
-    });
+    }).timeout(1000000);
 
     it("should count tasks sucessfully", async () => {
       const jobId = "HelloWorldJobNodeSDKTest";
       const result = await client.job.getTaskCounts(jobId);
 
-      assert.isDefined(result.active);
-      assert.isDefined(result.completed);
+      assert.isDefined(result.taskCounts.active);
+      assert.isDefined(result.taskCounts.completed);
     });
 
     it("should list files from task successfully", async () => {
@@ -903,7 +948,7 @@ describe("Batch Service", () => {
         .getFromTask("HelloWorldJobNodeSDKTest", "HelloWorldNodeSDKTestTask2", "stdout.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -927,7 +972,7 @@ describe("Batch Service", () => {
       const result = await client.computeNode.list("nodesdktestpool1");
 
       assert.isAtLeast(result.length, 1);
-      compute_nodes = result.map(function (x) {
+      compute_nodes = result.map(function(x) {
         return x.id!;
       });
       //wait(100000);
@@ -963,7 +1008,7 @@ describe("Batch Service", () => {
         .getFromComputeNode("nodesdktestpool1", compute_nodes[1], "startup/wd/hello.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -984,14 +1029,14 @@ describe("Batch Service", () => {
     });
 
     // the application is not added by the tests and should be added by the tester manually
-    it("should list applications successfully", async () => {
+    it.skip("should list applications successfully", async () => {
       const result = await client.application.list();
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should get application reference successfully", async () => {
+    it.skip("should get application reference successfully", async () => {
       await client.application.get("my_application_id");
     });
 
@@ -1056,9 +1101,7 @@ describe("Batch Service", () => {
     });
 
     it("should disable a job successfully", async () => {
-      const result = await client.job.disable("HelloWorldJobNodeSDKTest", {
-        disableTasks: "requeue"
-      });
+      const result = await client.job.disable("HelloWorldJobNodeSDKTest", "requeue");
 
       assert.equal(result._response.status, 202);
     });
@@ -1114,7 +1157,6 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    //TODO: Have the job schedule perform jobs
     it("should list jobs from job schedule successfully", async () => {
       const result = await client.job.listFromJobSchedule("NodeSDKTestSchedule");
 
@@ -1203,6 +1245,12 @@ describe("Batch Service", () => {
 
     it("should delete a second pool successfully", async () => {
       const result = await client.pool.deleteMethod("nodesdktestpool2");
+
+      assert.equal(result._response.status, 202);
+    });
+
+    it("should delete a third pool successfully", async () => {
+      const result = await client.pool.deleteMethod("nodesdkinboundendpointpool");
 
       assert.equal(result._response.status, 202);
     });
