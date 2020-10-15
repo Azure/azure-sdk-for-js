@@ -9,8 +9,14 @@
 export {
   discriminators,
   CloudError,
-  EstimatedVMPrice,
-  EstimatedVMPrices,
-  VirtualMachineSize,
-  VirtualMachineSizeListResult
+  ErrorDetail,
+  ErrorResponse,
+  ListWorkspaceQuotas,
+  MachineLearningServiceError,
+  QuotaBaseProperties,
+  QuotaUpdateParameters,
+  ResourceName,
+  ResourceQuota,
+  UpdateWorkspaceQuotas,
+  UpdateWorkspaceQuotasResult
 } from "../models/mappers";
