@@ -31,7 +31,27 @@ class AuthenticationRequired extends CredentialUnavailable {}
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow, either via browser redirects or a popup
- * window.  This credential is not currently supported in Node.js.
+ * window.
+ *
+ * Example usage authenticating the Key Vault Keys client:
+ * ```ts
+ * const identity = require("@azure/identity");
+ * const { KeyClient } = require("@azure/keyvault-keys");
+ *
+ * async function main() {
+ *   // To specify a specific port, in case the port 80 is busy, you can do:
+ *   // const credential = new identity.InteractiveBrowserCredential({ redirectUri: "http://localhost:8080" });
+ *
+ *   const credential = new identity.InteractiveBrowserCredential();
+ *   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+ *   const client = new KeyClient(keyVaultUrl, credential);
+ *
+ *   // Retrieving the properties of the existing keys in that specific Key Vault.
+ *   console.log(await client.listPropertiesOfKeys().next());
+ * }
+ *
+ * main().then(console.log).catch((e) => console.error(e));
+ * ```
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private identityClient: IdentityClient;
