@@ -26,15 +26,15 @@ describe("Batch Service", () => {
   let nonAdminPoolUser: string;
   let compute_nodes: string[];
 
-  const readStreamToBuffer = function (
+  const readStreamToBuffer = function(
     strm: NodeJS.ReadableStream,
     callback: (_a: any, buf: Buffer) => void
   ) {
     const bufs: any[] = [];
-    strm.on("data", function (d) {
+    strm.on("data", function(d) {
       bufs.push(d);
     });
-    strm.on("end", function () {
+    strm.on("end", function() {
       callback(null, Buffer.concat(bufs));
     });
   };
@@ -43,8 +43,8 @@ describe("Batch Service", () => {
     batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"]!;
     batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"]!;
     batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
-    clientId = process.env["CLIENT_ID"]!;
-    secret = process.env["APPLICATION_SECRET"]!;
+    clientId = process.env["AZURE_CLIENT_ID"]!;
+    secret = process.env["AZURE_CLIENT_SECRET"]!;
 
     // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
@@ -147,8 +147,16 @@ describe("Batch Service", () => {
     });
 
     it("should get a pool reference successfully", async () => {
-      const result = await client.pool.get("nodesdktestpool1");
-      const metadata = result.metadata![0];
+      let result, metadata;
+      while (true) {
+        result = await client.pool.get("nodesdktestpool1");
+        metadata = result.metadata![0];
+        if (result.allocationState === "resizing") {
+          await wait(10000);
+        } else {
+          break;
+        }
+      }
 
       assert.equal(result.id, "nodesdktestpool1");
       assert.equal(result.state, "active");
@@ -167,7 +175,7 @@ describe("Batch Service", () => {
       assert.equal(result.userAccounts![0].name, nonAdminPoolUser);
       assert.equal(result.userAccounts![0].elevationLevel, "nonadmin");
       assert.equal(result._response.status, 200);
-    });
+    }).timeout(1000000);
 
     it("should get a pool reference with odata successfully", async () => {
       const options: BatchServiceModels.PoolGetOptionalParams = {
@@ -183,10 +191,10 @@ describe("Batch Service", () => {
     });
 
     it("should perform AAD authentication successfully", (done) => {
-      const verifyAadAuth = function (token: string, callback: any) {
+      const verifyAadAuth = function(token: string, callback: any) {
         const tokenCreds = new TokenCredentials(token, "Bearer");
         const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
-        aadClient.account.listSupportedImages(function (err, result, request, response) {
+        aadClient.account.listSupportedImages(function(err, result, request, response) {
           assert.isNull(err);
           assert.isDefined(result);
           assert.isAtLeast(result!.length, 1);
@@ -206,7 +214,7 @@ describe("Batch Service", () => {
         "https://batch.core.windows.net/",
         clientId,
         secret,
-        function (err, tokenResponse) {
+        function(err, tokenResponse) {
           assert.isNull(err);
           assert.isDefined(tokenResponse);
           assert.isDefined((tokenResponse as TokenResponse).accessToken);
@@ -368,7 +376,7 @@ describe("Batch Service", () => {
       assert.equal(result[0].schedulingState, "enabled");
       assert.isTrue(result[0].isDedicated);
       assert.equal(result._response.status, 200);
-      compute_nodes = result.map(function (x) {
+      compute_nodes = result.map(function(x) {
         return x.id!;
       });
     });
@@ -418,7 +426,7 @@ describe("Batch Service", () => {
         .getRemoteDesktop("nodesdktestpool1", compute_nodes[0])
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -496,9 +504,10 @@ describe("Batch Service", () => {
     });
 
     it("should evaluate pool autoscale successfully", async () => {
-      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", {
-        autoScaleFormula: "$TargetDedicatedNodes=3"
-      });
+      const result = await client.pool.evaluateAutoScale(
+        "nodesdktestpool1",
+        "$TargetDedicatedNodes=3"
+      );
 
       assert.equal(
         result.results,
@@ -508,9 +517,7 @@ describe("Batch Service", () => {
     });
 
     it("should fail to evaluate invalid autoscale formula", async () => {
-      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", {
-        autoScaleFormula: "something_useless"
-      });
+      const result = await client.pool.evaluateAutoScale("nodesdktestpool1", "something_useless");
 
       assert.equal(
         result.results,
@@ -557,7 +564,7 @@ describe("Batch Service", () => {
 
     it("should fail to list pools with invalid max", async () => {
       const options = { poolListOptions: { maxResults: -5 } };
-      client.pool.list(options, function (err, result) {
+      client.pool.list(options, function(err, result) {
         assert.equal(
           err!.message,
           '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'
@@ -774,6 +781,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 204);
     });
 
+    // This hangs
     it("should update a task successfully", async () => {
       const options = { constraints: { maxTaskRetryCount: 3 } };
       const result = await client.task.update(
@@ -860,7 +868,7 @@ describe("Batch Service", () => {
 
       assert.equal(result._response.status, 201);
 
-      wait(15000);
+      await wait(20000);
       const result2 = await client.task.get(jobId, taskId);
 
       assert.isDefined(result2.userIdentity);
@@ -874,8 +882,8 @@ describe("Batch Service", () => {
       const jobId = "HelloWorldJobNodeSDKTest";
       const result = await client.job.getTaskCounts(jobId);
 
-      assert.isDefined(result.active);
-      assert.isDefined(result.completed);
+      assert.isDefined(result.taskCounts.active);
+      assert.isDefined(result.taskCounts.completed);
     });
 
     it("should list files from task successfully", async () => {
@@ -903,7 +911,7 @@ describe("Batch Service", () => {
         .getFromTask("HelloWorldJobNodeSDKTest", "HelloWorldNodeSDKTestTask2", "stdout.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -927,7 +935,7 @@ describe("Batch Service", () => {
       const result = await client.computeNode.list("nodesdktestpool1");
 
       assert.isAtLeast(result.length, 1);
-      compute_nodes = result.map(function (x) {
+      compute_nodes = result.map(function(x) {
         return x.id!;
       });
       //wait(100000);
@@ -963,7 +971,7 @@ describe("Batch Service", () => {
         .getFromComputeNode("nodesdktestpool1", compute_nodes[1], "startup/wd/hello.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -1056,9 +1064,7 @@ describe("Batch Service", () => {
     });
 
     it("should disable a job successfully", async () => {
-      const result = await client.job.disable("HelloWorldJobNodeSDKTest", {
-        disableTasks: "requeue"
-      });
+      const result = await client.job.disable("HelloWorldJobNodeSDKTest", "requeue");
 
       assert.equal(result._response.status, 202);
     });
@@ -1114,7 +1120,6 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    //TODO: Have the job schedule perform jobs
     it("should list jobs from job schedule successfully", async () => {
       const result = await client.job.listFromJobSchedule("NodeSDKTestSchedule");
 
@@ -1203,6 +1208,12 @@ describe("Batch Service", () => {
 
     it("should delete a second pool successfully", async () => {
       const result = await client.pool.deleteMethod("nodesdktestpool2");
+
+      assert.equal(result._response.status, 202);
+    });
+
+    it("should delete a third pool successfully", async () => {
+      const result = await client.pool.deleteMethod("nodesdkinboundendpointpool");
 
       assert.equal(result._response.status, 202);
     });
