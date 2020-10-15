@@ -108,11 +108,14 @@ function WriteResult(
   maxMessages: number,
   maxElapsed: number
 ): void {
+  const memoryUsage = process.memoryUsage();
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+      `\tRSS ${memoryUsage.rss}` +
+      `\tHeapUsed ${memoryUsage.heapUsed}`
   );
 }
 
