@@ -4,7 +4,6 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  AmqpError,
   Message as AmqpMessage,
   Connection,
   EventContext,
@@ -287,19 +286,25 @@ export function onMessageReceived(
   );
 
   const info = getCodeDescriptionAndError(message.application_properties);
+  let error;
+  if (!info.statusCode) {
+    error = new Error(
+      `No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`
+    );
+  }
   if (info.statusCode > 199 && info.statusCode < 300) {
     logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
     return promise.resolve(message);
-  } else {
+  }
+  if (!error) {
     const condition =
       info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
-    const e: AmqpError = {
+    error = translate({
       condition: condition,
       description: info.statusDescription
-    };
-    const error = translate(e);
+    });
     logger.warning(`${error?.name}: ${error?.message}`);
-    logErrorStackTrace(error);
-    return promise.reject(error);
   }
+  logErrorStackTrace(error);
+  return promise.reject(error);
 }
