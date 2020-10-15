@@ -66,7 +66,7 @@ async function createEmailHook(client) {
 async function getHook(client, hookId) {
   console.log(`Retrieving an existing hook for id ${hookId}...`);
   const result = await client.getHook(hookId);
-  console.log(result.hookName);
+  console.log(result.name);
   console.log(result.description);
   console.log(result.adminEmails);
 }
