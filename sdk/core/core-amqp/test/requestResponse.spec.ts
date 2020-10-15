@@ -8,12 +8,14 @@ import {
   RequestResponseLink,
   RetryConfig,
   RetryOperationType,
-  retry
+  retry,
+  Constants
 } from "../src";
 import { Connection, Message } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { getCodeDescriptionAndError } from "../src/requestResponseLink";
 interface Window {}
 declare let self: Window & typeof globalThis;
 
@@ -613,5 +615,47 @@ describe("RequestResponseLink", function() {
         "Session.close() should have been called once."
       );
     });
+  });
+
+  describe("utils - getCodeDescriptionAndError", () => {
+    // EventHubs
+    [
+      {
+        [Constants.statusCode]: 404,
+        [Constants.statusDescription]: "The messaging entity could not be found",
+        [Constants.errorCondition]: "amqp:not-found"
+      },
+      {
+        [Constants.statusCode]: 202,
+        [Constants.statusDescription]: "Accepted"
+      }
+    ].forEach((testCase) =>
+      it("EventHubs format", () => {
+        const info = getCodeDescriptionAndError(testCase);
+        assert.equal(info.statusCode, testCase[Constants.statusCode]);
+        assert.equal(info.statusDescription, testCase[Constants.statusDescription]);
+        assert.equal(info.errorCondition, testCase[Constants.errorCondition]);
+      })
+    );
+
+    // ServiceBus
+    [
+      {
+        statusCode: 404,
+        statusDescription: "The messaging entity could not be found",
+        errorCondition: "amqp:not-found"
+      },
+      {
+        statusCode: 202,
+        statusDescription: "Accepted"
+      }
+    ].forEach((testCase) =>
+      it("ServiceBus format", () => {
+        const info = getCodeDescriptionAndError(testCase);
+        assert.equal(info.statusCode, testCase.statusCode);
+        assert.equal(info.statusDescription, testCase.statusDescription);
+        assert.equal(info.errorCondition, testCase.errorCondition);
+      })
+    );
   });
 });
