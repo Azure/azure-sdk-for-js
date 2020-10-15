@@ -9,14 +9,9 @@ import { AuthenticationRecord } from "../client/msalClient";
  */
 export interface DeviceCodeCredentialOptions extends TokenCredentialOptions {
   /**
-   * The cache options to use when credentials are being checked.
+   * Whether to persist the authentication cache.
    */
-  cacheOptions?: {
-    cachePlugin?: {
-      readFromStorage: () => Promise<string>;
-      writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
-    };
-  };
+  persistenceEnabled?: boolean;
 
   /**
    * The authentication record to use to find existing tokens in the cache

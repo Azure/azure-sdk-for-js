@@ -62,9 +62,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
     this.msalClient = new MsalClient(
-      clientId,
+      {clientId, authority: authorityHost},
       tenantId,
-      authorityHost,
       persistenceEnabled,
       authenticationRecord,
       ".",

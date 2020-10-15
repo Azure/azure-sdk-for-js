@@ -78,7 +78,7 @@ export class DeviceCodeCredential implements TokenCredential {
   ) {
     this.userPromptCallback = userPromptCallback;
 
-    let persistenceEnabled = options?.cacheOptions !== undefined;
+    let persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
     let authenticationRecord = options?.authenticationRecord;
 
     let authorityHost;
@@ -93,9 +93,8 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
     this.msalClient = new MsalClient(
-      clientId,
+      {clientId: clientId, authority: authorityHost},
       tenantId,
-      authorityHost,
       persistenceEnabled,
       authenticationRecord,
       ".",

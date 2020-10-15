@@ -4,11 +4,15 @@ import {
   Configuration,
   AuthorizationCodeRequest,
   AuthenticationResult,
-  DeviceCodeRequest
+  DeviceCodeRequest,
+  ConfidentialClientApplication,
+  ClientCredentialRequest,
+  TokenCacheContext
 } from "@azure/msal-node";
 import { IdentityClient, TokenCredentialOptions } from "./identityClient";
 import { AccessToken } from "@azure/core-http";
 import { credentialLogger } from "../util/logging";
+import {NodeAuthOptions} from "@azure/msal-node/dist/config/Configuration";
 
 let msalExt: any;
 try {
@@ -24,8 +28,8 @@ async function createPersistence(
 ): Promise<
   | {
       cachePlugin?: {
-        readFromStorage: () => Promise<string>;
-        writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
+        beforeCacheAccess: (tokenCacheContext: TokenCacheContext) => Promise<void>;
+        afterCacheAccess: (tokenCacheContext: TokenCacheContext) => Promise<void>;
       };
     }
   | undefined
@@ -115,32 +119,30 @@ export class MsalClient {
   private authenticationRecord: AuthenticationRecord | undefined;
   private identityClient: IdentityClient;
   private pca: PublicClientApplication | undefined;
-  private clientId: string;
+  private cca: ConfidentialClientApplication | undefined;
   private tenantId: string;
-  private authorityHost: string;
   private cachePath?: string;
+  private msalConfig: NodeAuthOptions;
 
   constructor(
-    clientId: string,
+    msalConfig: NodeAuthOptions,
     tenantId: string,
-    authorityHost: string,
     persistenceEnabled: boolean,
     authenticationRecord?: AuthenticationRecord,
     cachePath?: string,
     options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
-    this.clientId = clientId;
+    this.msalConfig = msalConfig;
     this.tenantId = tenantId;
-    this.authorityHost = authorityHost;
     this.cachePath = cachePath;
     this.persistenceEnabled = persistenceEnabled;
     this.authenticationRecord = authenticationRecord;
   }
 
-  async preparePublicClientApplication() {
+  async prepareClientApplications() {
     // If we've already initialized the public client application, return
-    if (this.pca) {
+    if (this.pca && this.cca) {
       return;
     }
 
@@ -151,22 +153,21 @@ export class MsalClient {
     }
 
     // Construct the public client application, since it hasn't been initialized, yet
-    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
-    const publicClientConfig: Configuration = {
-      auth: {
-        clientId: this.clientId,
-        authority: this.authorityHost,
-        knownAuthorities: knownAuthorities
-      },
+    const knownAuthorities = this.tenantId === "adfs" ? [this.msalConfig.authority!] : [];
+    this.msalConfig.knownAuthorities = knownAuthorities;
+
+    const clientConfig: Configuration = {
+      auth: this.msalConfig,
       cache: plugin,
       system: { networkClient: this.identityClient }
     };
-    this.pca = new PublicClientApplication(publicClientConfig);
-    this.pca.getAuthCodeUrl;
+
+    this.pca = new PublicClientApplication(clientConfig);
+    this.cca = new ConfidentialClientApplication(clientConfig);
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {
-    await this.preparePublicClientApplication();
+    await this.prepareClientApplications();
 
     if (!this.persistenceEnabled || !this.authenticationRecord) {
       throw new AuthenticationRequired();
@@ -190,20 +191,26 @@ export class MsalClient {
   }
 
   async getAuthCodeUrl(request: { scopes: string[]; redirectUri: string }): Promise<string> {
-    await this.preparePublicClientApplication();
+    await this.prepareClientApplications();
 
     return this.pca!.getAuthCodeUrl(request);
   }
 
   async acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult> {
-    await this.preparePublicClientApplication();
+    await this.prepareClientApplications();
 
     return this.pca!.acquireTokenByCode(request);
   }
 
   async acquireTokenByDeviceCode(request: DeviceCodeRequest): Promise<AuthenticationResult> {
-    await this.preparePublicClientApplication();
+    await this.prepareClientApplications();
 
     return this.pca!.acquireTokenByDeviceCode(request);
+  }
+
+  async acquireTokenByClientCredential(request: ClientCredentialRequest): Promise<AuthenticationResult> {
+    await this.prepareClientApplications();
+
+    return this.cca!.acquireTokenByClientCredential(request);
   }
 }

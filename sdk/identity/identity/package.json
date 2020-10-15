@@ -82,7 +82,7 @@
     "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^1.0.0-alpha.8",
+    "@azure/msal-node": "^1.0.0-alpha.11",
     "@opentelemetry/api": "^0.10.2",
     "events": "^3.0.0",
     "jws": "^4.0.0",
