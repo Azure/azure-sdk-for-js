@@ -236,7 +236,7 @@ type NormalizedInfo = {
 };
 
 // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
-const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
+export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
   if (!props) props = {};
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
@@ -285,6 +285,7 @@ export function onMessageReceived(
     responseCorrelationId,
     deleteResult
   );
+
   const info = getCodeDescriptionAndError(message.application_properties);
   if (info.statusCode > 199 && info.statusCode < 300) {
     logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
