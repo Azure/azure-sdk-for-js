@@ -33,7 +33,7 @@ export {
   FileUploadRangeResponse,
   HandleItem,
   ListSharesIncludeType,
-  Range as RangeModel,
+  FileRange as RangeModel,
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentResponse,
   ServiceSetPropertiesResponse,
@@ -48,7 +48,7 @@ export {
   ShareItem,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
-  ShareSetQuotaResponse,
+  ShareSetPropertiesResponse,
   SignedIdentifier as SignedIdentifierModel,
   SourceModifiedAccessConditions,
   FileForceCloseHandlesHeaders,
@@ -94,11 +94,30 @@ export {
   ShareProperties,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
-  ShareSetQuotaHeaders,
+  ShareSetPropertiesHeaders,
   AccessPolicy,
   LeaseAccessConditions,
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  CopyFileSmbInfo
+  CopyFileSmbInfo,
+  ShareProtocolSettings,
+  ShareSmbSettings,
+  SmbMultichannel,
+  FileGetRangeListResponse as FileGetRangeListDiffResponse,
+  ShareFileRangeList,
+  ClearRange,
+  ShareAccessTier
 } from "./generated/src/models";
+
+import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";
+
+/**
+ * Contains response data for the setQuota operation.
+ */
+export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
+
+/**
+ * Defines headers for setQuota operation.
+ */
+export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;

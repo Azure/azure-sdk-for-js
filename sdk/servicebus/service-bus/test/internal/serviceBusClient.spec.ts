@@ -49,7 +49,12 @@ describe("serviceBusClient unit tests", () => {
       try {
         const abortSignalStuff = createAbortSignal();
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("a session id");
+        const origConnectionContext = client["_connectionContext"];
+
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
+          "a session id",
+          origConnectionContext.config
+        );
 
         let sessionReceiver: ServiceBusSessionReceiver<any>;
 
@@ -97,7 +102,12 @@ describe("serviceBusClient unit tests", () => {
       try {
         const abortSignalStuff = createAbortSignal();
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id");
+        const origConnectionContext = client["_connectionContext"];
+
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
+          "session id",
+          origConnectionContext.config
+        );
 
         let sessionReceiver: ServiceBusSessionReceiver<any>;
 

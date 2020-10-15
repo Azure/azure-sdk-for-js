@@ -5,6 +5,8 @@ import { SchemaRegistryAvroSerializer } from "../src";
 import { assert, use as chaiUse } from "chai";
 import * as avro from "avsc/";
 import chaiPromises from "chai-as-promised";
+import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { ClientSecretCredential } from "@azure/identity";
 
 import {
   GetSchemaByIdOptions,
@@ -13,12 +15,16 @@ import {
   Schema,
   SchemaDescription,
   SchemaId,
-  SchemaRegistry
+  SchemaRegistry,
+  SchemaRegistryClient
 } from "@azure/schema-registry";
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 chaiUse(chaiPromises);
 
-const testSchemaObject = {
+const testSchemaObject: avro.schema.RecordType = {
   type: "record",
   name: "AvroUser",
   namespace: "com.azure.schemaregistry.samples",
@@ -34,6 +40,8 @@ const testSchemaObject = {
   ]
 };
 
+const testGroup = "azsdk_js_test_group";
+
 const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
   "{DC7EF290-CDB1-4245-8EE8-3DD52965866E}"
@@ -41,32 +49,35 @@ const testSchemaIds = [
 
 const testSchema = JSON.stringify(testSchemaObject);
 const testValue = { name: "Nick", favoriteNumber: 42 };
-const testAvroType = avro.Type.forSchema(<any>testSchemaObject);
+const testAvroType = avro.Type.forSchema(testSchemaObject, { omitRecordMethods: true });
 
 describe("SchemaRegistryAvroSerializer", function() {
   it("rejects buffers that are too small", async () => {
-    await assert.isRejected(createTestSerializer().deserialize(Buffer.alloc(3)), /small/);
+    const serializer = await createTestSerializer();
+    await assert.isRejected(serializer.deserialize(Buffer.alloc(3)), /small/);
   });
 
   it("rejects invalid format", async () => {
+    const serializer = await createTestSerializer();
     const buffer = Buffer.alloc(42);
     buffer.writeUInt32BE(0x1234, 0);
-    await assert.isRejected(createTestSerializer().deserialize(buffer), /format.*0x1234/);
+    await assert.isRejected(serializer.deserialize(buffer), /format.*0x1234/);
   });
 
   it("rejects schema with no name", async () => {
+    const serializer = await createTestSerializer();
     const schema = JSON.stringify({ type: "record", fields: [] });
-    await assert.isRejected(createTestSerializer().serialize({}, schema), /name/);
+    await assert.isRejected(serializer.serialize({}, schema), /name/);
   });
 
   it("rejects a schema with different serialization type", async () => {
-    const registry = createTestRegistry();
-    const serializer = createTestSerializer(false, registry);
+    const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
+    const serializer = await createTestSerializer(false, registry);
     const schema = await registry.registerSchema({
       name: "_",
       content: "_",
       serializationType: "NotAvro",
-      group: "TestGroup"
+      group: testGroup
     });
 
     const buffer = Buffer.alloc(36);
@@ -78,44 +89,48 @@ describe("SchemaRegistryAvroSerializer", function() {
   });
 
   it("serializes to the expected format", async () => {
-    const buffer = await createTestSerializer().serialize(testValue, testSchema);
-    assert.equal(0x0, buffer.readUInt32BE(0));
-    assert.equal(testSchemaIds[0], buffer.toString("utf-8", 4, 36));
-
+    const registry = createTestRegistry();
+    const schemaId = await registerTestSchema(registry);
+    const serializer = await createTestSerializer(false, registry);
+    const buffer = await serializer.serialize(testValue, testSchema);
+    assert.strictEqual(0x0, buffer.readUInt32BE(0));
+    assert.strictEqual(schemaId, buffer.toString("utf-8", 4, 36));
     const payload = buffer.slice(36);
-    assertSameJsonRepresentation(testAvroType.fromBuffer(payload), testValue);
+    assert.deepStrictEqual(testAvroType.fromBuffer(payload), testValue);
   });
 
   it("deserializes from the expected format", async () => {
-    const serializer = createTestSerializer(false);
+    const registry = createTestRegistry();
+    const schemaId = await registerTestSchema(registry);
+    const serializer = await createTestSerializer(false, registry);
     const payload = testAvroType.toBuffer(testValue);
     const buffer = Buffer.alloc(36 + payload.length);
 
-    buffer.write(testSchemaIds[0], 4, 32, "utf-8");
+    buffer.write(schemaId, 4, 32, "utf-8");
     payload.copy(buffer, 36);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
   });
 
   it("serializes and deserializes in round trip", async () => {
-    let serializer = createTestSerializer();
+    let serializer = await createTestSerializer();
     let buffer = await serializer.serialize(testValue, testSchema);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // again for cache hit coverage on serialize
     buffer = await serializer.serialize(testValue, testSchema);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // throw away serializer for cache miss coverage on deserialize
-    serializer = createTestSerializer(false);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    serializer = await createTestSerializer(false);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // thow away serializer again and cover getSchemaId instead of registerSchema
-    serializer = createTestSerializer(false);
+    serializer = await createTestSerializer(false);
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), buffer);
   });
 
   it("works with trivial example in README", async () => {
-    const serializer = createTestSerializer();
+    const serializer = await createTestSerializer();
 
     // Example Avro schema
     const schema = JSON.stringify({
@@ -134,35 +149,40 @@ describe("SchemaRegistryAvroSerializer", function() {
     // Deserialize buffer to value
     const deserializedValue = await serializer.deserialize(buffer);
 
-    assertSameJsonRepresentation(deserializedValue, value);
+    assert.deepStrictEqual(deserializedValue, value);
   });
 });
 
-function assertSameJsonRepresentation(actual: any, expected: any) {
-  // avsc returns objects with different prototype than our plain object literal
-  // so assert.deepEqual fails.
-  //
-  // REVIEW: Is it a problem that this avsc detail leaks?
-  assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
-}
-
-function createTestSerializer(
+async function createTestSerializer(
   autoRegisterSchemas = true,
   registry = createTestRegistry()
-): SchemaRegistryAvroSerializer {
+): Promise<SchemaRegistryAvroSerializer> {
   if (!autoRegisterSchemas) {
-    registry.registerSchema({
-      name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
-      group: "TestGroup",
-      content: testSchema,
-      serializationType: "avro"
-    });
+    await registerTestSchema(registry);
   }
-
-  return new SchemaRegistryAvroSerializer(registry, "TestGroup", { autoRegisterSchemas });
+  return new SchemaRegistryAvroSerializer(registry, testGroup, { autoRegisterSchemas });
 }
 
-function createTestRegistry(): SchemaRegistry {
+async function registerTestSchema(registry: SchemaRegistry): Promise<string> {
+  const schema = await registry.registerSchema({
+    name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
+    group: testGroup,
+    content: testSchema,
+    serializationType: "avro"
+  });
+  return schema.id;
+}
+
+function createTestRegistry(neverLive = false): SchemaRegistry {
+  if (!neverLive && isLiveMode()) {
+    // NOTE: These tests don't record, they use a mocked schema registry
+    // implemented below, but if we're running live, then use the real
+    // service for end-to-end integration testing.
+    return new SchemaRegistryClient(
+      env.SCHEMA_REGISTRY_ENDPOINT,
+      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    );
+  }
   const mapById = new Map<string, Schema>();
   const mapByContent = new Map<string, Schema>();
   let idCounter = 0;
