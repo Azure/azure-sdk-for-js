@@ -142,6 +142,7 @@ export abstract class FetchHttpClient implements HttpClient {
       headers: httpRequest.headers.rawHeaders(),
       method: httpRequest.method,
       signal: abortController.signal,
+      redirect: "manual",
       ...platformSpecificRequestInit
     };
 
