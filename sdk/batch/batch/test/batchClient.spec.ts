@@ -469,12 +469,22 @@ describe("Batch Service", () => {
     });
 
     it("should disable scheduling on a compute node successfully", async () => {
-      const result = await client.computeNode.disableScheduling(
-        "nodesdktestpool1",
-        compute_nodes[1]
-      );
-
-      assert.equal(result._response.status, 200);
+      while (true) {
+        try {
+          const result = await client.computeNode.disableScheduling(
+            "nodesdktestpool1",
+            compute_nodes[1]
+          );
+          assert.equal(result._response.status, 200);
+          break;
+        } catch (e) {
+          if (e.code === "NodeNotReady") {
+            await wait(5000);
+          } else {
+            throw e;
+          }
+        }
+      }
     });
 
     it("should enable scheduling on a compute node successfully", async () => {
@@ -803,7 +813,6 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 204);
     });
 
-    // This hangs
     it("should update a task successfully", async () => {
       const options = { constraints: { maxTaskRetryCount: 3 } };
       const result = await client.task.update(
@@ -1020,14 +1029,14 @@ describe("Batch Service", () => {
     });
 
     // the application is not added by the tests and should be added by the tester manually
-    it("should list applications successfully", async () => {
+    it.skip("should list applications successfully", async () => {
       const result = await client.application.list();
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should get application reference successfully", async () => {
+    it.skip("should get application reference successfully", async () => {
       await client.application.get("my_application_id");
     });
 
