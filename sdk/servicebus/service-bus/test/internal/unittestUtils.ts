@@ -13,6 +13,13 @@ import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
 
+export interface CreateConnectionContextForTestsOptions {
+  host?: string;
+  entityPath?: string;
+  onCreateAwaitableSenderCalled?: () => void;
+  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
+}
+
 /**
  * Creates a fake ConnectionContext for tests that can create semi-realistic
  * senders (less realistic, could use some work) and receivers (decent!).
@@ -24,10 +31,9 @@ import { Link } from "rhea-promise/typings/lib/link";
  * is created (via onCreateAwaitableSenderCalled).
  *
  */
-export function createConnectionContextForTests(options?: {
-  onCreateAwaitableSenderCalled?: () => void;
-  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ConnectionContext & {
+export function createConnectionContextForTests(
+  options?: CreateConnectionContextForTestsOptions
+): ConnectionContext & {
   initWasCalled: boolean;
 } {
   let initWasCalled = false;
@@ -41,7 +47,12 @@ export function createConnectionContextForTests(options?: {
     senders: {},
     messageSessions: {},
     managementClients: {},
-    config: { endpoint: "my.service.bus" },
+    config: {
+      endpoint: "my.service.bus",
+      // used by tracing
+      entityPath: options?.entityPath ?? "fakeEntityPath",
+      host: options?.host ?? "fakeHost"
+    },
     connectionId: "connection-id",
     connection: {
       id: "connection-id",
@@ -105,11 +116,13 @@ export function createConnectionContextForTests(options?: {
  * @param sessionId A session ID to use or the default ("hello")
  */
 export function createConnectionContextForTestsWithSessionId(
-  sessionId: string = "hello"
+  sessionId: string = "hello",
+  options?: CreateConnectionContextForTestsOptions
 ): ConnectionContext & {
   initWasCalled: boolean;
 } {
   const connectionContext = createConnectionContextForTests({
+    ...options,
     onCreateReceiverCalled: (receiver) => {
       (receiver as any).source = {
         filter: {
@@ -120,6 +133,10 @@ export function createConnectionContextForTestsWithSessionId(
       (receiver as any).properties = {
         ["com.microsoft:locked-until-utc"]: Date.now()
       };
+
+      if (options?.onCreateReceiverCalled) {
+        options?.onCreateReceiverCalled(receiver);
+      }
     }
   });
 

@@ -142,7 +142,7 @@ export interface Bot extends Resource {
 /**
  * Contains the possible cases for Channel.
  */
-export type ChannelUnion = Channel | FacebookChannel | EmailChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel;
+export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel;
 
 /**
  * Channel definition
@@ -162,6 +162,44 @@ export interface BotChannel extends Resource {
    * The set of properties specific to bot channel resource
    */
   properties?: ChannelUnion;
+}
+
+/**
+ * The parameters to provide for the Alexa channel.
+ */
+export interface AlexaChannelProperties {
+  /**
+   * The Alexa skill Id
+   */
+  alexaSkillId: string;
+  /**
+   * Url fragment used in part of the Uri configured in Alexa
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly urlFragment?: string;
+  /**
+   * Full Uri used to configured the skill in Alexa
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceEndpointUri?: string;
+  /**
+   * Whether this channel is enabled for the bot
+   */
+  isEnabled: boolean;
+}
+
+/**
+ * Alexa channel definition
+ */
+export interface AlexaChannel {
+  /**
+   * Polymorphic Discriminator
+   */
+  channelName: "AlexaChannel";
+  /**
+   * The set of properties specific to Alexa channel resource
+   */
+  properties?: AlexaChannelProperties;
 }
 
 /**
@@ -636,6 +674,10 @@ export interface SlackChannelProperties {
    */
   readonly isValidated?: boolean;
   /**
+   * The Slack signing secret.
+   */
+  signingSecret?: string;
+  /**
    * Whether this channel is enabled for the bot
    */
   isEnabled: boolean;
@@ -653,6 +695,114 @@ export interface SlackChannel {
    * The set of properties specific to Slack channel resource
    */
   properties?: SlackChannelProperties;
+}
+
+/**
+ * The properties corresponding to a line channel registration
+ */
+export interface LineRegistration {
+  /**
+   * Id generated for the line channel registration
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly generatedId?: string;
+  /**
+   * Secret for the line channel registration
+   */
+  channelSecret?: string;
+  /**
+   * Access token for the line channel registration
+   */
+  channelAccessToken?: string;
+}
+
+/**
+ * The parameters to provide for the Line channel.
+ */
+export interface LineChannelProperties {
+  /**
+   * The list of line channel registrations
+   */
+  lineRegistrations: LineRegistration[];
+  /**
+   * Callback Url to enter in line registration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly callbackUrl?: string;
+  /**
+   * Whether this channel is validated for the bot
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isValidated?: boolean;
+}
+
+/**
+ * Line channel definition
+ */
+export interface LineChannel {
+  /**
+   * Polymorphic Discriminator
+   */
+  channelName: "LineChannel";
+  /**
+   * The set of properties specific to line channel resource
+   */
+  properties?: LineChannelProperties;
+}
+
+/**
+ * The parameters to provide for the DirectLine Speech channel.
+ */
+export interface DirectLineSpeechChannelProperties {
+  /**
+   * The cognitive service subscription ID to use with this channel registration.
+   */
+  cognitiveServicesSubscriptionId: string;
+  /**
+   * Whether this channel is enabled or not.
+   */
+  isEnabled?: boolean;
+  /**
+   * Custom speech model id (optional).
+   */
+  customVoiceDeploymentId?: string;
+  /**
+   * Custom voice deployment id (optional).
+   */
+  customSpeechModelId?: string;
+  /**
+   * Make this a default bot for chosen cognitive service account.
+   */
+  isDefaultBotForCogSvcAccount?: boolean;
+}
+
+/**
+ * DirectLine Speech channel definition
+ */
+export interface DirectLineSpeechChannel {
+  /**
+   * Polymorphic Discriminator
+   */
+  channelName: "DirectLineSpeechChannel";
+  /**
+   * The set of properties specific to DirectLine Speech channel resource
+   */
+  properties?: DirectLineSpeechChannelProperties;
+}
+
+/**
+ * Site information for WebChat or DirectLine Channels to identify which site to regenerate keys
+ * for.
+ */
+export interface SiteInfo {
+  /**
+   * The site name
+   */
+  siteName: string;
+  /**
+   * Determines which key is to be regenerated. Possible values include: 'key1', 'key2'
+   */
+  key: Key;
 }
 
 /**
@@ -808,15 +958,15 @@ export interface ServiceProvider {
 }
 
 /**
- * The list of bot service service providers response.
+ * The list of bot service providers response.
  */
 export interface ServiceProviderResponseList {
   /**
-   * The link used to get the next page of bot service service providers.
+   * The link used to get the next page of bot service providers.
    */
   nextLink?: string;
   /**
-   * Gets the list of bot service service providers and their properties.
+   * Gets the list of bot service providers and their properties.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: ServiceProvider[];
@@ -920,85 +1070,6 @@ export interface CheckNameAvailabilityResponseBody {
 }
 
 /**
- * A request to Bot Service Management to check availability of an Enterprise Channel name.
- */
-export interface EnterpriseChannelCheckNameAvailabilityRequest {
-  /**
-   * The name of the Enterprise Channel for which availability needs to be checked.
-   */
-  name?: string;
-}
-
-/**
- * A request to Bot Service Management to check availability of an Enterprise Channel name.
- */
-export interface EnterpriseChannelCheckNameAvailabilityResponse {
-  /**
-   * Indicates if the Enterprise Channel name is valid.
-   */
-  valid?: boolean;
-  /**
-   * Additional information about why a bot name is not available.
-   */
-  message?: string;
-}
-
-/**
- * The properties specific to an Enterprise Channel Node.
- */
-export interface EnterpriseChannelNode {
-  /**
-   * Id of Enterprise Channel Node. This is generated by the Bot Framework.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The current state of the Enterprise Channel Node. Possible values include: 'Creating',
-   * 'CreateFailed', 'Started', 'Starting', 'StartFailed', 'Stopped', 'Stopping', 'StopFailed',
-   * 'Deleting', 'DeleteFailed'
-   */
-  state?: EnterpriseChannelNodeState;
-  /**
-   * The name of the Enterprise Channel Node.
-   */
-  name: string;
-  /**
-   * The sku of the Enterprise Channel Node.
-   */
-  azureSku: string;
-  /**
-   * The location of the Enterprise Channel Node.
-   */
-  azureLocation: string;
-}
-
-/**
- * The parameters to provide for the Enterprise Channel.
- */
-export interface EnterpriseChannelProperties {
-  /**
-   * The current state of the Enterprise Channel. Possible values include: 'Creating',
-   * 'CreateFailed', 'Started', 'Starting', 'StartFailed', 'Stopped', 'Stopping', 'StopFailed',
-   * 'Deleting', 'DeleteFailed'
-   */
-  state?: EnterpriseChannelState;
-  /**
-   * The nodes associated with the Enterprise Channel.
-   */
-  nodes: EnterpriseChannelNode[];
-}
-
-/**
- * Enterprise Channel resource definition
- */
-export interface EnterpriseChannel extends Resource {
-  /**
-   * The set of properties specific to an Enterprise Channel resource.
-   */
-  properties?: EnterpriseChannelProperties;
-}
-
-/**
  * Optional Parameters.
  */
 export interface BotsUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -1061,68 +1132,6 @@ export interface ChannelsUpdateOptionalParams extends msRest.RequestOptionsBase 
 }
 
 /**
- * Optional Parameters.
- */
-export interface EnterpriseChannelsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Specifies the location of the resource.
-   */
-  location?: string;
-  /**
-   * Contains resource tags defined as key/value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Gets or sets the SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * Required. Gets or sets the Kind of the resource. Possible values include: 'sdk', 'designer',
-   * 'bot', 'function'
-   */
-  kind?: Kind;
-  /**
-   * Entity Tag
-   */
-  etag?: string;
-  /**
-   * The set of properties specific to an Enterprise Channel resource.
-   */
-  properties?: EnterpriseChannelProperties;
-}
-
-/**
- * Optional Parameters.
- */
-export interface EnterpriseChannelsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Specifies the location of the resource.
-   */
-  location?: string;
-  /**
-   * Contains resource tags defined as key/value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Gets or sets the SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * Required. Gets or sets the Kind of the resource. Possible values include: 'sdk', 'designer',
-   * 'bot', 'function'
-   */
-  kind?: Kind;
-  /**
-   * Entity Tag
-   */
-  etag?: string;
-  /**
-   * The set of properties specific to an Enterprise Channel resource.
-   */
-  properties?: EnterpriseChannelProperties;
-}
-
-/**
  * An interface representing AzureBotServiceOptions.
  */
 export interface AzureBotServiceOptions extends AzureServiceClientOptions {
@@ -1178,18 +1187,6 @@ export interface ConnectionSettingResponseList extends Array<ConnectionSetting> 
 }
 
 /**
- * @interface
- * The list of  bot service operation response.
- * @extends Array<EnterpriseChannel>
- */
-export interface EnterpriseChannelResponseList extends Array<EnterpriseChannel> {
-  /**
-   * The link used to get the next page of bot service resources.
-   */
-  nextLink?: string;
-}
-
-/**
  * Defines values for SkuName.
  * Possible values include: 'F0', 'S1'
  * @readonly
@@ -1214,32 +1211,30 @@ export type SkuTier = 'Free' | 'Standard';
 export type Kind = 'sdk' | 'designer' | 'bot' | 'function';
 
 /**
- * Defines values for EnterpriseChannelState.
- * Possible values include: 'Creating', 'CreateFailed', 'Started', 'Starting', 'StartFailed',
- * 'Stopped', 'Stopping', 'StopFailed', 'Deleting', 'DeleteFailed'
+ * Defines values for Key.
+ * Possible values include: 'key1', 'key2'
  * @readonly
  * @enum {string}
  */
-export type EnterpriseChannelState = 'Creating' | 'CreateFailed' | 'Started' | 'Starting' | 'StartFailed' | 'Stopped' | 'Stopping' | 'StopFailed' | 'Deleting' | 'DeleteFailed';
-
-/**
- * Defines values for EnterpriseChannelNodeState.
- * Possible values include: 'Creating', 'CreateFailed', 'Started', 'Starting', 'StartFailed',
- * 'Stopped', 'Stopping', 'StopFailed', 'Deleting', 'DeleteFailed'
- * @readonly
- * @enum {string}
- */
-export type EnterpriseChannelNodeState = 'Creating' | 'CreateFailed' | 'Started' | 'Starting' | 'StartFailed' | 'Stopped' | 'Stopping' | 'StopFailed' | 'Deleting' | 'DeleteFailed';
+export type Key = 'key1' | 'key2';
 
 /**
  * Defines values for ChannelName.
- * Possible values include: 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel',
- * 'SlackChannel', 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel',
- * 'SmsChannel'
+ * Possible values include: 'AlexaChannel', 'FacebookChannel', 'EmailChannel', 'KikChannel',
+ * 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel',
+ * 'DirectLineChannel', 'SmsChannel', 'LineChannel', 'DirectLineSpeechChannel'
  * @readonly
  * @enum {string}
  */
-export type ChannelName = 'FacebookChannel' | 'EmailChannel' | 'KikChannel' | 'TelegramChannel' | 'SlackChannel' | 'MsTeamsChannel' | 'SkypeChannel' | 'WebChatChannel' | 'DirectLineChannel' | 'SmsChannel';
+export type ChannelName = 'AlexaChannel' | 'FacebookChannel' | 'EmailChannel' | 'KikChannel' | 'TelegramChannel' | 'SlackChannel' | 'MsTeamsChannel' | 'SkypeChannel' | 'WebChatChannel' | 'DirectLineChannel' | 'SmsChannel' | 'LineChannel' | 'DirectLineSpeechChannel';
+
+/**
+ * Defines values for RegenerateKeysChannelName.
+ * Possible values include: 'WebChatChannel', 'DirectLineChannel'
+ * @readonly
+ * @enum {string}
+ */
+export type RegenerateKeysChannelName = 'WebChatChannel' | 'DirectLineChannel';
 
 /**
  * Contains response data for the create operation.
@@ -1522,6 +1517,26 @@ export type ChannelsListByResourceGroupNextResponse = ChannelResponseList & {
 };
 
 /**
+ * Contains response data for the regenerateKeys operation.
+ */
+export type DirectLineRegenerateKeysResponse = BotChannel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BotChannel;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationEntityListResult & {
@@ -1698,165 +1713,5 @@ export type BotConnectionListByBotServiceNextResponse = ConnectionSettingRespons
        * The response body as parsed JSON or XML
        */
       parsedBody: ConnectionSettingResponseList;
-    };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type EnterpriseChannelsCheckNameAvailabilityResponse = EnterpriseChannelCheckNameAvailabilityResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelCheckNameAvailabilityResponse;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type EnterpriseChannelsListByResourceGroupResponse = EnterpriseChannelResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelResponseList;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type EnterpriseChannelsCreateResponse = EnterpriseChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type EnterpriseChannelsUpdateResponse = EnterpriseChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type EnterpriseChannelsGetResponse = EnterpriseChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type EnterpriseChannelsBeginCreateResponse = EnterpriseChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type EnterpriseChannelsBeginUpdateResponse = EnterpriseChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type EnterpriseChannelsListByResourceGroupNextResponse = EnterpriseChannelResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelResponseList;
     };
 };

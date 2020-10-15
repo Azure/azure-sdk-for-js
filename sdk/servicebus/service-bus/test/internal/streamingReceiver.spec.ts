@@ -7,18 +7,18 @@ import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ReceiveOptions } from "../../src/core/messageReceiver";
-import { OperationOptions } from "../../src";
+import { OperationOptions, ReceiveMode } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import sinon from "sinon";
-import { InternalReceiveMode } from "../../src/serviceBusMessage";
+
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
   const defaultOptions = {
     lockRenewer: undefined,
-    receiveMode: InternalReceiveMode.peekLock
+    receiveMode: <ReceiveMode>"peekLock"
   };
 
   let closeables: { close(): Promise<void> }[];
@@ -212,7 +212,7 @@ describe("StreamingReceiver unit tests", () => {
     const context = createConnectionContextForTests();
     const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
       lockRenewer: undefined,
-      receiveMode: InternalReceiveMode.peekLock
+      receiveMode: "peekLock"
     });
     closeables.push(existingStreamingReceiver);
 
@@ -225,7 +225,7 @@ describe("StreamingReceiver unit tests", () => {
     const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
       cachedStreamingReceiver: existingStreamingReceiver,
       lockRenewer: undefined,
-      receiveMode: InternalReceiveMode.peekLock
+      receiveMode: "peekLock"
     });
 
     assert.isTrue(spy.called, "We do still call init() on the receiver");
@@ -248,7 +248,7 @@ describe("StreamingReceiver unit tests", () => {
     const context = createConnectionContextForTests();
     const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
       lockRenewer: undefined,
-      receiveMode: InternalReceiveMode.peekLock
+      receiveMode: "peekLock"
     });
     closeables.push(existingStreamingReceiver);
 
@@ -268,7 +268,7 @@ describe("StreamingReceiver unit tests", () => {
 
     const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
       cachedStreamingReceiver: existingStreamingReceiver,
-      receiveMode: InternalReceiveMode.peekLock,
+      receiveMode: "peekLock",
       lockRenewer: undefined
     });
 
@@ -358,7 +358,7 @@ describe("StreamingReceiver unit tests", () => {
         },
         abortSignal: abortController.signal,
         lockRenewer: undefined,
-        receiveMode: InternalReceiveMode.receiveAndDelete
+        receiveMode: "receiveAndDelete"
       });
 
       assert.isTrue(wasCalled);

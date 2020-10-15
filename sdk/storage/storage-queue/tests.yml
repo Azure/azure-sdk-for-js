@@ -5,3 +5,5 @@ extends:
   parameters:
     PackageName: "@azure/storage-queue"
     ResourceServiceDirectory: storage
+    ResourceGroupLocation: canadacentral
+    SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)

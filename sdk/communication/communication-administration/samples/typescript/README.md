@@ -53,7 +53,7 @@ node dist/issueToken.js
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONNECTION_STRING="<connection string>" node dist/issueToken.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/issueToken.js
 ```
 
 ## Next Steps

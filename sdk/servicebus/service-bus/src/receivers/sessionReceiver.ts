@@ -14,7 +14,6 @@ import {
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -27,9 +26,10 @@ import {
   ErrorNameConditionMapper,
   translate
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
+import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 
 /**
@@ -114,6 +114,8 @@ export class ServiceBusSessionReceiverImpl<
    */
   private _isClosed: boolean = false;
 
+  private _createProcessingSpan: typeof createProcessingSpan;
+
   private get logPrefix() {
     return `[${this._context.connectionId}|session:${this.entityPath}]`;
   }
@@ -132,6 +134,7 @@ export class ServiceBusSessionReceiverImpl<
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
+    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -349,17 +352,12 @@ export class ServiceBusSessionReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          this.sessionId,
-          {
-            ...options,
-            associatedLinkName: this._messageSession.name,
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -388,7 +386,7 @@ export class ServiceBusSessionReceiverImpl<
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options?.abortSignal
+        options ?? {}
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];
@@ -412,11 +410,14 @@ export class ServiceBusSessionReceiverImpl<
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
+    options = options ?? {};
+
     const processError = wrapProcessErrorHandler(handlers);
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage((message as any) as ReceivedMessageT);
+        const span = this._createProcessingSpan(message, this, this._context.config, options);
+        return trace(() => handlers.processMessage((message as any) as ReceivedMessageT), span);
       },
       processError,
       options
@@ -454,7 +455,7 @@ export class ServiceBusSessionReceiverImpl<
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: SubscribeOptions
+    options: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();

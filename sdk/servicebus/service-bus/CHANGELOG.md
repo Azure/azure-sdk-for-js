@@ -2,8 +2,12 @@
 
 ## 7.0.0-preview.8 (Unreleased)
 
-- `sendMessages` method on the sender and `tryAdd` method to add messages to a batch now support tracing.
+### New features:
+
+- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
+  and
+  [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 ## 7.0.0-preview.7 (2020-10-07)
 

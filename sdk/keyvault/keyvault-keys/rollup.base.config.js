@@ -125,7 +125,7 @@ export function browserConfig(test = false) {
     ]
   };
 
-  baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
+  baseConfig.external = ["fs-extra", "path"];
   if (test) {
     baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
