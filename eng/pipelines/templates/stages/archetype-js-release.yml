@@ -45,7 +45,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}-*.tgz
+                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -74,7 +74,7 @@ stages:
                     steps:
                       - checkout: self
                       - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
+                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                         displayName: Detecting package archive
 
@@ -107,7 +107,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -155,7 +155,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
@@ -224,7 +224,7 @@ stages:
         - ${{ each artifact in parameters.Artifacts }}:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
-                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-alpha*.tgz
+                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*-alpha*.tgz
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"

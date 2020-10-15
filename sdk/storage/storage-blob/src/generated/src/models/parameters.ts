@@ -1680,7 +1680,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2019-12-12',
+    defaultValue: '2020-02-10',
     type: {
       name: "String"
     }

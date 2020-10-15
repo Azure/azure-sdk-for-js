@@ -1,0 +1,98 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share160223292153606227",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 09 Oct 2020 08:42:01 GMT",
+    "etag": "\"0x8D86C2F31569253\"",
+    "last-modified": "Fri, 09 Oct 2020 08:42:01 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "f326ea15-b033-40d5-a6ad-1a89055ff503",
+    "x-ms-request-id": "cabdd380-901a-0073-1c18-9e3635000000",
+    "x-ms-version": "2020-02-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share160223292153606227",
+   "query": {
+    "restype": "share",
+    "comp": "properties"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 09 Oct 2020 08:42:01 GMT",
+    "etag": "\"0x8D86C2F31B22508\"",
+    "last-modified": "Fri, 09 Oct 2020 08:42:02 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "d56fc850-6721-444d-a95f-8bea4a422ac8",
+    "x-ms-request-id": "cabdd384-901a-0073-1e18-9e3635000000",
+    "x-ms-version": "2020-02-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share160223292153606227",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 09 Oct 2020 08:42:02 GMT",
+    "etag": "\"0x8D86C2F31B22508\"",
+    "last-modified": "Fri, 09 Oct 2020 08:42:02 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-access-tier": "Hot",
+    "x-ms-access-tier-change-time": "Fri, 09 Oct 2020 08:42:02 GMT",
+    "x-ms-access-tier-transition-state": "pending-from-transactionOptimized",
+    "x-ms-client-request-id": "1e56ea0d-ac8e-45b4-bada-54ba0e120771",
+    "x-ms-has-immutability-policy": "false",
+    "x-ms-has-legal-hold": "false",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-request-id": "cabdd388-901a-0073-2118-9e3635000000",
+    "x-ms-share-quota": "5120",
+    "x-ms-version": "2020-02-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share160223292153606227",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 09 Oct 2020 08:42:02 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "a8daebe7-5e7f-46ab-8243-15fa950bf24b",
+    "x-ms-request-id": "cabdd38c-901a-0073-2418-9e3635000000",
+    "x-ms-version": "2020-02-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share160223292153606227"
+  },
+  "newDate": {}
+ },
+ "hash": "27122424ce12efd6ef8d210c26be42c2"
+}

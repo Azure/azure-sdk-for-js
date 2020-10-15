@@ -62,6 +62,20 @@ describe("ShareClient Node.js only", () => {
     done();
   });
 
+  it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
+    const identifiers: any = [
+      {
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
+
+    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
+    assert.deepStrictEqual(getAccessPolicyResponse.signedIdentifiers[0].accessPolicy, undefined);
+  });
+
   it("can be created with a url and a credential", async () => {
     const factories = (shareClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;

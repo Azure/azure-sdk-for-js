@@ -26,6 +26,7 @@ import {
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { streamToBuffer3 } from "../../src/utils/utils.node";
 
 dotenv.config();
 
@@ -363,7 +364,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with conditional tags", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length, { tags: { tag: "val" } });
 
@@ -642,5 +642,44 @@ describe("BlobClient Node.js only", () => {
       }
     });
     assert.deepStrictEqual(await bodyToString(response), jsonContent);
+  });
+
+  it("query should work with arrow output configurations", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      outputTextConfiguration: {
+        kind: "arrow",
+        schema: [
+          {
+            type: "decimal",
+            name: "name",
+            precision: 4,
+            scale: 2
+          }
+        ]
+      }
+    });
+    assert.equal(
+      (await streamToBuffer3(response.readableStreamBody!)).toString("hex"),
+      "ffffffff800000001000000000000a000c000600050008000a000000000103000c000000080008000000040008000000040000000100000014000000100014000800060007000c000000100010000000000001072400000014000000040000000000000008000c0004000800080000000400000002000000040000006e616d650000000000000000ffffffff700000001000000000000a000e000600050008000a000000000303001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+    );
+  });
+
+  it("query should work with arrow output configurations for timestamp[ms]", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    await blockBlobClient.query("select * from BlobStorage", {
+      outputTextConfiguration: {
+        kind: "arrow",
+        schema: [
+          {
+            type: "timestamp[ms]"
+          }
+        ]
+      }
+    });
   });
 });

@@ -17,27 +17,7 @@ import { reorderLockToken } from "./util/utils";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
-
-// TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
-/**
- * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
- * @internal
- * @ignore
- * @enum {number}
- */
-export enum InternalReceiveMode {
-  /**
-   * Once a message is received in this mode, the receiver has a lock on the message for a
-   * particular duration. If the message is not settled by this time, it lands back on Service Bus
-   * to be fetched by the next receive operation.
-   */
-  peekLock = 1,
-
-  /**
-   * Messages received in this mode get automatically removed from Service Bus.
-   */
-  receiveAndDelete = 2
-}
+import { ReceiveMode } from "./models";
 
 /**
  * @internal
@@ -1072,12 +1052,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
     msg: AmqpMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
-    receiveMode: InternalReceiveMode
+    receiveMode: ReceiveMode
   ) {
     Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
-    if (receiveMode === InternalReceiveMode.receiveAndDelete) {
+    if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
     if (msg.body) {

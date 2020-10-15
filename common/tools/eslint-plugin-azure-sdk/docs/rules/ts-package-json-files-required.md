@@ -12,41 +12,25 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
-    "files": [
-        "dist",
-        "dist-esm/src"
-        "src"
-    ]
+  "files": ["dist", "dist-esm/src"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "./dist",
-        "./dist-esm/src"
-        "./src"
-    ]
+  "files": ["./dist", "./dist-esm/src"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "dist/",
-        "dist-esm/src/"
-        "src/"
-    ]
+  "files": ["dist/", "dist-esm/"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "dist/lib",
-        "dist-esm/src/lib"
-        "src/lib"
-    ]
+  "files": ["dist/lib", "dist-esm/src/lib"]
 }
 ```
 
@@ -54,7 +38,7 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
-  "files": ["dist", "dist-esm/src"]
+  "files": ["dist", "src"]
 }
 ```
 

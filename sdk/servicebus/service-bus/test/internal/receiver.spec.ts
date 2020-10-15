@@ -20,7 +20,6 @@ import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../src/session/messageSession";
-import { InternalReceiveMode } from "../../src/serviceBusMessage";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -30,7 +29,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: InternalReceiveMode.peekLock
+          receiveMode: "peekLock"
         }
       );
 
@@ -43,7 +42,7 @@ describe("Receiver unit tests", () => {
       };
 
       // make an init() happen internally.
-      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1);
+      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1, {});
 
       assert.isEmpty(emptyArrayOfMessages);
       assert.isTrue(initWasCalled);
@@ -55,7 +54,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: InternalReceiveMode.peekLock
+          receiveMode: "peekLock"
         }
       );
 
