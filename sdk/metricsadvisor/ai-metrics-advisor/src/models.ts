@@ -249,8 +249,8 @@ export type DataFeedGranularity =
         | "Weekly"
         | "Daily"
         | "Hourly"
-        | "Minutely"
-        | "Secondly";
+        | "PerMinute"
+        | "PerSecond";
     }
   | {
       granularityType: "Custom";
