@@ -151,11 +151,11 @@ export function deserializeResponseBody(
 
     const responseSpec = getOperationResponse(parsedResponse);
 
-    const errorResponse = handleErrorResponse(parsedResponse, operationSpec);
-
-    if (errorResponse) {
-      // There is no error spec. So, return it
-      return errorResponse;
+    const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec);
+    if (error) {
+      throw error;
+    } else if (shouldReturnResponse) {
+      return parsedResponse;
     }
 
     // An operation response spec does exist for current status code, so
@@ -206,19 +206,19 @@ export function deserializeResponseBody(
 function handleErrorResponse(
   parsedResponse: HttpOperationResponse,
   operationSpec: OperationSpec
-): HttpOperationResponse | undefined {
- const isSuccessByStatus = (200 <= parsedResponse.status && parsedResponse.status < 300);
+): { error: RestError | null; shouldReturnResponse: boolean } {
+  const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const responseSpec = operationSpec.responses[String(parsedResponse.status)];
   // Either we found a non-error response or the status is success.
   if ((responseSpec && !responseSpec.isError) || (!responseSpec && isSuccessByStatus)) {
-    return undefined;
+    return { error: null, shouldReturnResponse: false };
   }
-  
+
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
   // If the item failed but there's no error spec or default spec, just return it as-is.
   if (!errorResponseSpec) {
-    return parsedResponse;
+    return { error: null, shouldReturnResponse: true };
   }
 
   const defaultBodyMapper = errorResponseSpec.bodyMapper;
@@ -272,7 +272,8 @@ function handleErrorResponse(
   } catch (defaultError) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
-  throw error;
+
+  return { error, shouldReturnResponse: false };
 }
 
 function parse(

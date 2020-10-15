@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0 (2020-10-16)
+## 1.2.0 (2020-10-19)
 
 - Add support for multiple error response codes.[PR 11841](https://github.com/Azure/azure-sdk-for-js/pull/11841)
 
