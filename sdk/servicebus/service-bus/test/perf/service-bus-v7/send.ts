@@ -68,24 +68,17 @@ async function ExecuteSendsAsync(
   messages: number,
   batchAPI: boolean
 ): Promise<void> {
-  while (++_messages <= messages) {
+  while (_messages <= messages) {
     if (batchAPI) {
       const currentBatch = await sender.createBatch();
-      while (++_messages <= messages) {
-        if (!currentBatch.tryAdd({ body: _payload })) {
-          await sender.sendMessages(currentBatch);
-          // Undo last increment, since a message was never sent on the final loop iteration
-          _messages--;
-          break;
-        }
-      }
+      while (currentBatch.tryAdd({ body: _payload }) && _messages + currentBatch.count <= messages);
+      await sender.sendMessages(currentBatch);
+      _messages = _messages + currentBatch.count;
     } else {
       await sender.sendMessages({ body: _payload });
+      _messages++;
     }
   }
-
-  // Undo last increment, since a message was never sent on the final loop iteration
-  _messages--;
 }
 
 async function WriteResults(messages: number): Promise<void> {
