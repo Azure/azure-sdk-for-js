@@ -171,7 +171,10 @@ export function deserializeResponseBody(
 
     let parsedResponseStatus: RESPONSE_STATUS;
 
-    if (nonErrorResponseCodes.includes(parsedResponse.status + "")) {
+    if (
+      nonErrorResponseCodes.includes(parsedResponse.status + "") ||
+      (200 <= parsedResponse.status && parsedResponse.status < 300)
+    ) {
       parsedResponseStatus = RESPONSE_STATUS.NONERROR;
     } else {
       if (errorResponseCodes.includes(parsedResponse.status + "")) {
