@@ -154,7 +154,10 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
     const digitalTwinsGetByIdOptionalParams: DigitalTwinsGetByIdOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-getDigitalTwin", digitalTwinsGetByIdOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getDigitalTwin",
+      digitalTwinsGetByIdOptionalParams
+    );
     try {
       return this.client.digitalTwins.getById(digitalTwinId, digitalTwinsGetByIdOptionalParams);
     } catch (e) {
@@ -162,9 +165,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -183,17 +186,24 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsAddResponse> {
     const digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-upsertDigitalTwin", digitalTwinsAddOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-upsertDigitalTwin",
+      digitalTwinsAddOptionalParams
+    );
     try {
-      return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, digitalTwinsAddOptionalParams);
+      return this.client.digitalTwins.add(
+        digitalTwinId,
+        digitalTwinJson,
+        digitalTwinsAddOptionalParams
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -222,7 +232,10 @@ export class DigitalTwinsClient {
         ...options
       }
     };
-    const span = this.createSpan("DigitalTwinsClient-updateDigitalTwin", digitalTwinsUpdateOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-updateDigitalTwin",
+      digitalTwinsUpdateOptionalParams
+    );
     try {
       return this.client.digitalTwins.update(
         digitalTwinId,
@@ -234,9 +247,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -261,7 +274,10 @@ export class DigitalTwinsClient {
         ...options
       }
     };
-    const span = this.createSpan("DigitalTwinsClient-deleteDigitalTwin", digitalTwinsDeleteOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-deleteDigitalTwin",
+      digitalTwinsDeleteOptionalParams
+    );
     try {
       return this.client.digitalTwins.delete(digitalTwinId, digitalTwinsDeleteOptionalParams);
     } catch (e) {
@@ -269,9 +285,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -289,17 +305,24 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetComponentResponse> {
     const digitalTwinsGetComponentOptionalParams: DigitalTwinsGetComponentOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-getComponent", digitalTwinsGetComponentOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getComponent",
+      digitalTwinsGetComponentOptionalParams
+    );
     try {
-      return this.client.digitalTwins.getComponent(digitalTwinId, componentName, digitalTwinsGetComponentOptionalParams);
+      return this.client.digitalTwins.getComponent(
+        digitalTwinId,
+        componentName,
+        digitalTwinsGetComponentOptionalParams
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -328,7 +351,10 @@ export class DigitalTwinsClient {
         ...options
       }
     };
-    const span = this.createSpan("DigitalTwinsClient-updateComponent", digitalTwinsUpdateComponentOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-updateComponent",
+      digitalTwinsUpdateComponentOptionalParams
+    );
     try {
       return this.client.digitalTwins.updateComponent(
         digitalTwinId,
@@ -341,9 +367,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -361,17 +387,24 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
     const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-getRelationship", digitalTwinsGetRelationshipByIdOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getRelationship",
+      digitalTwinsGetRelationshipByIdOptionalParams
+    );
     try {
-      return this.client.digitalTwins.getRelationshipById(digitalTwinId, relationshipId, digitalTwinsGetRelationshipByIdOptionalParams);
+      return this.client.digitalTwins.getRelationshipById(
+        digitalTwinId,
+        relationshipId,
+        digitalTwinsGetRelationshipByIdOptionalParams
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -390,7 +423,10 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-upsertRelationship", digitalTwinsAddRelationshipOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-upsertRelationship",
+      digitalTwinsAddRelationshipOptionalParams
+    );
     try {
       return this.client.digitalTwins.addRelationship(
         digitalTwinId,
@@ -403,9 +439,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -433,7 +469,10 @@ export class DigitalTwinsClient {
         ...options
       }
     };
-    const span = this.createSpan("DigitalTwinsClient-updateRelationship", digitalTwinsUpdateRelationshipOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-updateRelationship",
+      digitalTwinsUpdateRelationshipOptionalParams
+    );
     try {
       return this.client.digitalTwins.updateRelationship(
         digitalTwinId,
@@ -446,9 +485,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -474,7 +513,10 @@ export class DigitalTwinsClient {
         ...options
       }
     };
-    const span = this.createSpan("DigitalTwinsClient-deleteRelationship", digitalTwinsDeleteRelationshipOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-deleteRelationship",
+      digitalTwinsDeleteRelationshipOptionalParams
+    );
     try {
       return this.client.digitalTwins.deleteRelationship(
         digitalTwinId,
@@ -486,9 +528,9 @@ export class DigitalTwinsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -557,9 +599,15 @@ export class DigitalTwinsClient {
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
     const digitalTwinsListRelationshipsOptionalParams: DigitalTwinsListRelationshipsOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-listRelationships", digitalTwinsListRelationshipsOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-listRelationships",
+      digitalTwinsListRelationshipsOptionalParams
+    );
     try {
-      const iter = this.listRelationshipsAll(digitalTwinId, digitalTwinsListRelationshipsOptionalParams);
+      const iter = this.listRelationshipsAll(
+        digitalTwinId,
+        digitalTwinsListRelationshipsOptionalParams
+      );
 
       return {
         next() {
@@ -569,16 +617,20 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listRelationshipsPage(digitalTwinId, digitalTwinsListRelationshipsOptionalParams, settings)
+          this.listRelationshipsPage(
+            digitalTwinId,
+            digitalTwinsListRelationshipsOptionalParams,
+            settings
+          )
       };
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -648,9 +700,15 @@ export class DigitalTwinsClient {
     DigitalTwinsListIncomingRelationshipsResponse
   > {
     const digitalTwinsListIncomingRelationshipsOptionalParams: DigitalTwinsListIncomingRelationshipsOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-listIncomingRelationships", digitalTwinsListIncomingRelationshipsOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-listIncomingRelationships",
+      digitalTwinsListIncomingRelationshipsOptionalParams
+    );
     try {
-      const iter = this.listIncomingRelationshipsAll(digitalTwinId, digitalTwinsListIncomingRelationshipsOptionalParams);
+      const iter = this.listIncomingRelationshipsAll(
+        digitalTwinId,
+        digitalTwinsListIncomingRelationshipsOptionalParams
+      );
 
       return {
         next() {
@@ -660,16 +718,20 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listIncomingRelationshipsPage(digitalTwinId, digitalTwinsListIncomingRelationshipsOptionalParams, settings)
+          this.listIncomingRelationshipsPage(
+            digitalTwinId,
+            digitalTwinsListIncomingRelationshipsOptionalParams,
+            settings
+          )
       };
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -693,7 +755,10 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const span = this.createSpan("DigitalTwinsClient-publishTelemetry", digitalTwinsSendTelemetryOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-publishTelemetry",
+      digitalTwinsSendTelemetryOptionalParams
+    );
     try {
       return this.client.digitalTwins.sendTelemetry(
         digitalTwinId,
@@ -702,13 +767,13 @@ export class DigitalTwinsClient {
         digitalTwinsSendTelemetryOptionalParams
       );
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -736,7 +801,10 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const span = this.createSpan("DigitalTwinsClient-publishComponentTelemetry", digitalTwinsSendComponentTelemetryOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-publishComponentTelemetry",
+      digitalTwinsSendComponentTelemetryOptionalParams
+    );
     try {
       return this.client.digitalTwins.sendComponentTelemetry(
         digitalTwinId,
@@ -746,13 +814,13 @@ export class DigitalTwinsClient {
         digitalTwinsSendComponentTelemetryOptionalParams
       );
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -771,17 +839,20 @@ export class DigitalTwinsClient {
   ): Promise<DigitalTwinModelsGetByIdResponse> {
     const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams = options;
     digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
-    const span = this.createSpan("DigitalTwinsClient-getModel", digitalTwinModelsGetByIdOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getModel",
+      digitalTwinModelsGetByIdOptionalParams
+    );
     try {
       return this.client.digitalTwinModels.getById(modelId, digitalTwinModelsGetByIdOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -861,8 +932,11 @@ export class DigitalTwinsClient {
       dependenciesFor: dependeciesFor,
       includeModelDefinition: includeModelDefinition,
       ...options
-    }
-    const span = this.createSpan("DigitalTwinsClient-listModels", digitalTwinModelsListOptionalParams);
+    };
+    const span = this.createSpan(
+      "DigitalTwinsClient-listModels",
+      digitalTwinModelsListOptionalParams
+    );
     try {
       const iter = this.getModelsAll(digitalTwinModelsListOptionalParams);
 
@@ -873,16 +947,17 @@ export class DigitalTwinsClient {
         [Symbol.asyncIterator]() {
           return this;
         },
-        byPage: (settings: PageSettings = {}) => this.getModelsPage(digitalTwinModelsListOptionalParams, settings)
+        byPage: (settings: PageSettings = {}) =>
+          this.getModelsPage(digitalTwinModelsListOptionalParams, settings)
       };
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -899,17 +974,20 @@ export class DigitalTwinsClient {
   ): Promise<DigitalTwinModelsAddResponse> {
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
     digitalTwinModelsAddOptionalParams.models = models;
-    const span = this.createSpan("DigitalTwinsClient-createModels", digitalTwinModelsAddOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-createModels",
+      digitalTwinModelsAddOptionalParams
+    );
     try {
       return this.client.digitalTwinModels.add(digitalTwinModelsAddOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -924,24 +1002,28 @@ export class DigitalTwinsClient {
    * defined by this model. However, existing digital twins may continue to use this model.
    * Once a model is decomissioned, it may not be recommissioned.
    */
-  public decomissionModel(
-    modelId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
     const digitalTwinModelsUpdateOptionalParams: DigitalTwinModelsUpdateOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-decomissionModel", digitalTwinModelsUpdateOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-decomissionModel",
+      digitalTwinModelsUpdateOptionalParams
+    );
     try {
-      return this.client.digitalTwinModels.update(modelId, jsonPatch, digitalTwinModelsUpdateOptionalParams);
+      return this.client.digitalTwinModels.update(
+        modelId,
+        jsonPatch,
+        digitalTwinModelsUpdateOptionalParams
+      );
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -954,22 +1036,22 @@ export class DigitalTwinsClient {
    * @param options The operation options
    * @returns The http response.
    */
-  public deleteModel(
-    modelId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const digitalTwinModelsDeleteOptionalParams: DigitalTwinModelsDeleteOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-deleteModel", digitalTwinModelsDeleteOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-deleteModel",
+      digitalTwinModelsDeleteOptionalParams
+    );
     try {
       return this.client.digitalTwinModels.delete(modelId, digitalTwinModelsDeleteOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -985,17 +1067,20 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<EventRoutesGetByIdResponse> {
     const eventRoutesGetByIdOptionalParams: EventRoutesGetByIdOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-getEventRoute", eventRoutesGetByIdOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getEventRoute",
+      eventRoutesGetByIdOptionalParams
+    );
     try {
       return this.client.eventRoutes.getById(eventRouteId, eventRoutesGetByIdOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -1066,12 +1151,15 @@ export class DigitalTwinsClient {
     var eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
       eventRoutesListOptions: {
-        maxItemsPerPage:resultsPerPage
+        maxItemsPerPage: resultsPerPage
       },
       ...options
-    }
+    };
 
-    const span = this.createSpan("DigitalTwinsClient-listEventRoutes", eventRoutesListOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-listEventRoutes",
+      eventRoutesListOptionalParams
+    );
     try {
       const iter = this.getEventRoutesAll(eventRoutesListOptionalParams);
 
@@ -1082,16 +1170,17 @@ export class DigitalTwinsClient {
         [Symbol.asyncIterator]() {
           return this;
         },
-        byPage: (settings: PageSettings = {}) => this.getEventRoutesPage(eventRoutesListOptionalParams, settings)
+        byPage: (settings: PageSettings = {}) =>
+          this.getEventRoutesPage(eventRoutesListOptionalParams, settings)
       };
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -1121,13 +1210,13 @@ export class DigitalTwinsClient {
     try {
       return this.client.eventRoutes.add(eventRouteId, eventRoutesAddOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -1143,17 +1232,20 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const eventRoutesDeleteOptionalParams: EventRoutesDeleteOptionalParams = options;
-    const span = this.createSpan("DigitalTwinsClient-getEventRoute", eventRoutesDeleteOptionalParams);
+    const span = this.createSpan(
+      "DigitalTwinsClient-getEventRoute",
+      eventRoutesDeleteOptionalParams
+    );
     try {
       return this.client.eventRoutes.delete(eventRouteId, eventRoutesDeleteOptionalParams);
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
@@ -1228,10 +1320,10 @@ export class DigitalTwinsClient {
     var queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {
       queryTwinsOptions: {
-        maxItemsPerPage:resultsPerPage
+        maxItemsPerPage: resultsPerPage
       },
       ...options
-    }
+    };
 
     const span = this.createSpan("DigitalTwinsClient-queryTwins", queryQueryTwinsOptionalParams);
     try {
@@ -1244,16 +1336,17 @@ export class DigitalTwinsClient {
         [Symbol.asyncIterator]() {
           return this;
         },
-        byPage: (settings: PageSettings = {}) => this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings)
+        byPage: (settings: PageSettings = {}) =>
+          this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings)
       };
     } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-      throw e
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
     } finally {
-        span.end();
+      span.end();
     }
   }
 
