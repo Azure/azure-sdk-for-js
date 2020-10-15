@@ -12,6 +12,11 @@ import {
 } from "./requestPolicy";
 
 /**
+ * Methods that are allowed to follow redirects 301 and 302
+ */
+const allowedRedirect = ["GET", "HEAD"];
+
+/**
  * Options for how redirect responses are handled.
  */
 export interface RedirectOptions {
@@ -62,8 +67,8 @@ function handleRedirect(
   if (
     locationHeader &&
     (status === 300 ||
-      (status === 301 && ["GET", "HEAD"].includes(request.method)) ||
-      (status === 302 && ["GET", "HEAD"].includes(request.method)) ||
+      (status === 301 && allowedRedirect.includes(request.method)) ||
+      (status === 302 && allowedRedirect.includes(request.method)) ||
       (status === 303 && request.method === "POST") ||
       status === 307) &&
     (!policy.maxRetries || currentRetries < policy.maxRetries)
