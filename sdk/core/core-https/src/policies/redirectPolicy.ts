@@ -47,7 +47,11 @@ async function handleRedirect(
   const locationHeader = headers.get("location");
   if (
     locationHeader &&
-    (status === 300 || status === 307 || (status === 303 && request.method === "POST")) &&
+    (status === 300 ||
+      (status === 301 && ["GET", "HEAD"].includes(request.method)) ||
+      (status === 302 && ["GET", "HEAD"].includes(request.method)) ||
+      (status === 303 && request.method === "POST") ||
+      status === 307) &&
     currentRetries < maxRetries
   ) {
     const url = new URL(locationHeader, request.url);
@@ -58,6 +62,7 @@ async function handleRedirect(
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       req.method = "GET";
+      delete req.body;
     }
 
     const res = await next(req);
