@@ -11,6 +11,7 @@ import * as dotenv from "dotenv";
 import { duration } from "moment";
 import { AuthenticationContext, TokenResponse } from "adal-node";
 import { TokenCredentials } from "@azure/ms-rest-js";
+import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(), timeout));
@@ -343,12 +344,18 @@ describe("Batch Service", () => {
       const result = await client.pool.add(pool);
 
       assert.equal(result._response.status, 201);
-
-      await wait(5000);
     });
 
     it("should get the details of a pool with endpoint configuration successfully", async () => {
-      const result = await client.computeNode.list("nodesdkinboundendpointpool");
+      let result;
+      while (true) {
+        result = await client.computeNode.list("nodesdkinboundendpointpool");
+        if (result.length > 0) {
+          break;
+        } else {
+          await wait(5000);
+        }
+      }
       assert.lengthOf(result, 1);
       assert.isDefined(result[0].endpointConfiguration);
       assert.lengthOf(result[0].endpointConfiguration!.inboundEndpoints, 2);
@@ -360,17 +367,32 @@ describe("Batch Service", () => {
     });
 
     it("should get pool node counts successfully", async () => {
-      const result = await client.account.listPoolNodeCounts();
-
+      let result: AccountListPoolNodeCountsResponse;
+      while (true) {
+        result = await client.account.listPoolNodeCounts();
+        if (result.length > 0 && result[0].dedicated!.idle > 0) {
+          break;
+        } else {
+          await wait(10000);
+        }
+      }
       assert.lengthOf(result, 2);
       assert.equal(result[0].poolId, "nodesdkinboundendpointpool");
       assert.equal(result[0].dedicated!.idle, 1);
       assert.equal(result[0].lowPriority!.total, 0);
       assert.equal(result._response.status, 200);
-    });
+    }).timeout(1000000);
 
     it("should list compute nodes successfully", async () => {
-      const result = await client.computeNode.list("nodesdktestpool1");
+      let result;
+      while (true) {
+        result = await client.computeNode.list("nodesdktestpool1");
+        if (result.length > 0 && result[0].state === "starting") {
+          await wait(10000);
+        } else {
+          break;
+        }
+      }
       assert.isAtLeast(result.length, 1);
       assert.equal(result[0].state, "idle");
       assert.equal(result[0].schedulingState, "enabled");
@@ -379,7 +401,7 @@ describe("Batch Service", () => {
       compute_nodes = result.map(function(x) {
         return x.id!;
       });
-    });
+    }).timeout(1000000);
 
     it("should get a compute node reference", async () => {
       const result = await client.computeNode.get("nodesdktestpool1", compute_nodes[0]);
@@ -868,15 +890,21 @@ describe("Batch Service", () => {
 
       assert.equal(result._response.status, 201);
 
-      await wait(20000);
-      const result2 = await client.task.get(jobId, taskId);
-
+      let result2: TaskGetResponse;
+      while (true) {
+        result2 = await client.task.get(jobId, taskId);
+        if (result2.executionInfo !== undefined && result2.executionInfo.result != undefined) {
+          break;
+        } else {
+          await wait(20000);
+        }
+      }
       assert.isDefined(result2.userIdentity);
       assert.equal(result2.userIdentity!.userName, nonAdminPoolUser);
       assert.isDefined(result2.executionInfo);
       assert.equal(result2.executionInfo!.result, "failure");
       assert.notEqual(result2.executionInfo!.exitCode, 0);
-    });
+    }).timeout(1000000);
 
     it("should count tasks sucessfully", async () => {
       const jobId = "HelloWorldJobNodeSDKTest";
