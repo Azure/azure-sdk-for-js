@@ -16,7 +16,7 @@
 
 - Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
-- `NamespaceProperties` interface propetry "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 ### New features:
 
