@@ -150,24 +150,52 @@ export function deserializeResponseBody(
     }
 
     const responseSpec = getOperationResponse(parsedResponse);
-    const expectedStatusCodes = Object.keys(operationSpec.responses);
-    const hasNoExpectedStatusCodes =
-      expectedStatusCodes.length === 0 ||
-      (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default");
-    const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes
-      ? 200 <= parsedResponse.status && parsedResponse.status < 300
-      : !!responseSpec;
 
-    // There is no operation response spec for current status code.
-    // So, treat it as an error case and use the default response spec to deserialize the response.
-    if (!isExpectedStatusCode) {
-      const defaultResponseSpec = operationSpec.responses.default;
-      if (!defaultResponseSpec) {
+    const statusCodes: string[] = Object.keys(operationSpec.responses);
+    const errorResponseCodes: string[] = [],
+      nonErrorResponseCodes: string[] = [];
+
+    for (const statusCode of statusCodes) {
+      if (statusCode !== "default" && operationSpec.responses[statusCode].isError) {
+        errorResponseCodes.push(statusCode);
+      } else {
+        nonErrorResponseCodes.push(statusCode);
+      }
+    }
+
+    enum RESPONSE_STATUS {
+      NONERROR,
+      ERRORNONDEFAULT,
+      ERRORDEFAULT
+    }
+
+    let parsedResponseStatus: RESPONSE_STATUS;
+
+    if (nonErrorResponseCodes.includes(parsedResponse.status + "")) {
+      parsedResponseStatus = RESPONSE_STATUS.NONERROR;
+    } else {
+      if (errorResponseCodes.includes(parsedResponse.status + "")) {
+        parsedResponseStatus = RESPONSE_STATUS.ERRORNONDEFAULT;
+      } else {
+        parsedResponseStatus = RESPONSE_STATUS.ERRORDEFAULT;
+      }
+    }
+
+    if (
+      parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT ||
+      parsedResponseStatus === RESPONSE_STATUS.ERRORNONDEFAULT
+    ) {
+      const errorResponseSpec =
+        parsedResponseStatus === RESPONSE_STATUS.ERRORDEFAULT
+          ? operationSpec.responses.default
+          : operationSpec.responses[parsedResponse.status];
+
+      if (!errorResponseSpec) {
         return parsedResponse;
       }
 
-      const defaultBodyMapper = defaultResponseSpec.bodyMapper;
-      const defaultHeadersMapper = defaultResponseSpec.headersMapper;
+      const defaultBodyMapper = errorResponseSpec.bodyMapper;
+      const defaultHeadersMapper = errorResponseSpec.headersMapper;
 
       const initialErrorMessage = isStreamOperation(operationSpec)
         ? `Unexpected status code: ${parsedResponse.status}`
