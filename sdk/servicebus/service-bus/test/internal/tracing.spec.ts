@@ -88,7 +88,6 @@ describe("Tracing tests", () => {
     assert.isTrue(createSpanStub.calledOnce, "create span was called");
 
     const [messages, , , options] = createSpanStub.args[0];
-    console.log(messages);
     assert.isTrue(
       Array.isArray(messages),
       "only expect one call to the create a span (it can handle multiple messages)"
