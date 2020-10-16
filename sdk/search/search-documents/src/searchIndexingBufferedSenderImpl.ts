@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SearchClient } from "./searchClient";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
@@ -78,7 +81,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
-      interval?.unref();
+      const unblock = interval?.unref;
+      unblock();
       this.cleanupTimer = () => {
         clearInterval(interval);
       };
@@ -244,7 +248,9 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     if (this.batchObject.actions.length > 0) {
       await this.internalFlush(true);
     }
-    this.cleanupTimer && this.cleanupTimer();
+    if (this.cleanupTimer) {
+      this.cleanupTimer();
+    }
   }
 
   /**
