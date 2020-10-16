@@ -3,7 +3,7 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/metrics-advisor"
+    PackageName: "@azure/ai-metrics-advisor"
     TestSamples: false
     ResourceGroupLocation: westus2
     EnvVars:
