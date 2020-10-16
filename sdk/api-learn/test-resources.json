@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    },
+    "sku": {
+      "defaultValue": "Standard",
+      "type": "string"
+    }
+  },
+  "variables": {
+    "configurationApiVersion": "2019-10-01",
+    "accountName": "[parameters('baseName')]",
+    "endpoint": "[concat('https://', parameters('baseName'), '.azconfig.io')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.AppConfiguration/configurationStores",
+      "apiVersion": "[variables('configurationApiVersion')]",
+      "name": "[variables('accountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[parameters('sku')]"
+      },
+      "properties": {
+        "endpoint": "[variables('endpoint')]"
+      }
+    }
+  ],
+  "outputs": {
+    "APPCONFIG_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores', variables('accountName')), variables('configurationApiVersion')).value[0].connectionString]"
+    },
+    "AZ_CONFIG_ENDPOINT": {
+      "type": "string",
+      "value": "[variables('endpoint')]"
+    }
+  }
+}
