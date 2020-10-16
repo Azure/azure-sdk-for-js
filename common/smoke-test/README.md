@@ -22,7 +22,7 @@ package.
 
 - AAD Application with `Owner` permissions to an Azure subscription
 - PowerShell 7
-- [Azure Powershell cmdlets](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.7.0)
+- [Azure Powershell cmdlets](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
 - Node 12.x
 - Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/dev-tool)
 
@@ -102,6 +102,6 @@ npm i
 node run.js
 ```
 
-NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run, 
+NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run,
 since that script sets the NODE_PATH variable to the current directory (so that module imports from the samples will be redirected).
 To run `node run.js` from a separate session, set/export the NODE_PATH variable to the `<current directory>/node_modules`.
