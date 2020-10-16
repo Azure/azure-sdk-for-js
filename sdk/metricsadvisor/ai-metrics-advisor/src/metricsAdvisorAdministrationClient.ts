@@ -889,7 +889,7 @@ export class MetricsAdvisorAdministrationClient {
    *
    * ```js
    * const pages = client.listAnomalyAlertConfigurations(detectionConfigurationId)
-   *   .byPage({ maxPageSize: 10 });
+   *   .byPage();
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
@@ -1262,7 +1262,7 @@ export class MetricsAdvisorAdministrationClient {
    *
    * ```js
    * const pages = client.listMetricAnomalyDetectionConfigurations(metricId)
-   *   .byPage({ maxPageSize: 2 });
+   *   .byPage();
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {

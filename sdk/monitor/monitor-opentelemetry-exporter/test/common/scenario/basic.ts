@@ -5,20 +5,19 @@ import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
-import { RemoteDependencyData, RequestData } from "../../../src/generated";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  iKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
   sampleRate: 100
 };
 
 const exporter = new AzureMonitorTraceExporter({
-  instrumentationKey: COMMON_ENVELOPE_PARAMS.iKey
+  instrumentationKey: COMMON_ENVELOPE_PARAMS.instrumentationKey
 });
 const processor = new FlushSpanProcessor(exporter);
 
@@ -44,7 +43,7 @@ export class BasicScenario implements Scenario {
         parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: 123
+          numbers: "123"
         }
       });
 
@@ -53,7 +52,7 @@ export class BasicScenario implements Scenario {
         parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: 1234
+          numbers: "1234"
         }
       });
 
@@ -85,6 +84,7 @@ export class BasicScenario implements Scenario {
       data: {
         baseType: "RequestData",
         baseData: {
+          version: 1,
           name: "BasicScenario.Root",
           duration: msToTimeSpan(600),
           responseCode: "0",
@@ -92,8 +92,7 @@ export class BasicScenario implements Scenario {
           properties: {
             foo: "bar"
           }
-        } as Partial<RequestData>,
-        properties: undefined
+        } as any
       },
       children: [
         {
@@ -101,15 +100,15 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
+              version: 1,
               name: "BasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
               properties: {
-                numbers: 123 as any
+                numbers: "123"
               }
-            } as Partial<RemoteDependencyData>,
-            properties: undefined
+            } as any
           },
           children: []
         },
@@ -118,15 +117,15 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
+              version: 1,
               name: "BasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
               properties: {
-                numbers: 1234 as any
+                numbers: "1234"
               }
-            } as Partial<RemoteDependencyData>,
-            properties: undefined
+            } as any
           },
           children: []
         }

@@ -9,6 +9,7 @@ import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { ConnectionContext } from "../../src/connectionContext";
 import { LinkEntity } from "../../src/core/linkEntity";
+import { receiverLogger } from "../../src/log";
 import { isLinkLocked } from "../utils/misc";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
@@ -30,7 +31,8 @@ describe("LinkEntity unit tests", () => {
       "some initial name",
       "some initial name",
       connectionContext,
-      "sr",
+      "streaming",
+      receiverLogger,
       {
         address: "my-address"
       }
@@ -288,7 +290,7 @@ describe("LinkEntity unit tests", () => {
         name: "some new name"
       });
 
-      assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name]");
+      assert.equal(linkEntity["_logPrefix"], "[connection-id|streaming:some new name]");
 
       // note that specifying a name is a complete override - no additional tacking
       // on of a GUID or anything happens (that's up to you when you override the
@@ -300,7 +302,7 @@ describe("LinkEntity unit tests", () => {
       );
 
       // we also update the log prefix
-      assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name]");
+      assert.equal(linkEntity["_logPrefix"], "[connection-id|streaming:some new name]");
     });
 
     it("multiple closes don't cause errors", async () => {

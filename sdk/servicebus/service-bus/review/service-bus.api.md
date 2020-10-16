@@ -15,6 +15,8 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -84,16 +86,16 @@ export type AuthorizationRule = {
 
 // @public
 export interface CorrelationRuleFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    properties?: {
+    applicationProperties?: {
         [key: string]: string | number | boolean | Date;
     };
+    contentType?: string;
+    correlationId?: string;
+    messageId?: string;
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
+    subject?: string;
     to?: string;
 }
 
@@ -126,6 +128,7 @@ export interface CreateQueueOptions extends OperationOptions {
 
 // @public
 export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+    maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveModeT;
     subQueue?: SubQueue;
 }
@@ -189,17 +192,6 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-    maxAutoRenewLockDurationInMs?: number;
-}
-
-// @public
-export interface MessageHandlerOptionsBase extends OperationOptionsBase {
-    autoComplete?: boolean;
-    maxConcurrentCalls?: number;
-}
-
-// @public
 export interface MessageHandlers<ReceivedMessageT> {
     processError(err: Error): Promise<void>;
     processMessage(message: ReceivedMessageT): Promise<void>;
@@ -210,7 +202,7 @@ export { MessagingError }
 // @public
 export interface NamespaceProperties {
     createdAt: Date;
-    messagingSku: string;
+    messagingSku: "Basic" | "Premium" | "Standard";
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
@@ -371,21 +363,22 @@ export interface ServiceBusClientOptions {
 
 // @public
 export interface ServiceBusMessage {
+    applicationProperties?: {
+        [key: string]: number | boolean | string | Date;
+    };
     body: any;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
-    properties?: {
-        [key: string]: number | boolean | string | Date;
-    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
+    subject?: string;
     timeToLive?: number;
     to?: string;
+    userId?: string;
     viaPartitionKey?: string;
 }
 
@@ -395,8 +388,10 @@ export interface ServiceBusMessageBatch {
     // @internal
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
+    // @internal
+    readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage): boolean;
+    tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -463,13 +458,9 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
     readonly sessionId: string;
     readonly sessionLockedUntilUtc: Date;
     setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
-}
-
-// @public
-export interface SessionSubscribeOptions extends MessageHandlerOptionsBase {
 }
 
 // @public
@@ -482,7 +473,7 @@ export type SqlRuleAction = {
 
 // @public
 export interface SqlRuleFilter {
-    sqlExpression?: string;
+    sqlExpression: string;
     sqlParameters?: {
         [key: string]: string | number | boolean;
     };
@@ -492,7 +483,9 @@ export interface SqlRuleFilter {
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
-export interface SubscribeOptions extends MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsBase {
+    autoComplete?: boolean;
+    maxConcurrentCalls?: number;
 }
 
 // @public
@@ -575,6 +568,11 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
+}
+
+// @public
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext | null;
 }
 
 export { WebSocketImpl }

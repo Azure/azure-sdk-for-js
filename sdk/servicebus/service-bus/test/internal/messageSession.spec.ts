@@ -15,7 +15,8 @@ import {
   SessionEvents
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
-import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+import { ReceiveMode } from "../../src";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -31,9 +32,10 @@ describe("Message session unit tests", () => {
     afterEach(() => {
       clock.restore();
     });
+    const receiveModes: ReceiveMode[] = ["peekLock", "receiveAndDelete"];
 
-    [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
-      describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
+    receiveModes.forEach((lockMode) => {
+      describe(`${lockMode} receive, exit paths`, () => {
         const bigTimeout = 60 * 1000;
         const littleTimeout = 30 * 1000;
         let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -58,7 +60,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
-          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -87,7 +89,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
-          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout, {});
 
           await receiveIsReady;
 
@@ -102,7 +104,7 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this check.
-        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === "peekLock" ? it : it.skip)(
           `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
           async () => {
             const receiver = new MessageSession(
@@ -116,7 +118,7 @@ describe("Message session unit tests", () => {
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
 
             // batch fulfillment is checked when we receive a message...
@@ -149,59 +151,56 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-        (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
-          `3b. (without idle timeout)`,
-          async () => {
-            const receiver = new MessageSession(
-              createConnectionContextForTests(),
-              "dummyEntityPath",
-              undefined,
-              {
-                receiveMode: lockMode
-              }
-            );
+        (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            undefined,
+            {
+              receiveMode: lockMode
+            }
+          );
 
-            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
-            await receiveIsReady;
+          const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
+          await receiveIsReady;
 
-            // batch fulfillment is checked when we receive a message...
-            emitter.emit(ReceiverEvents.message, {
-              message: {
-                body: "the first message"
-              } as RheaMessage
-            } as EventContext);
+          // batch fulfillment is checked when we receive a message...
+          emitter.emit(ReceiverEvents.message, {
+            message: {
+              body: "the first message"
+            } as RheaMessage
+          } as EventContext);
 
-            // In the peekLock algorithm we would've resolved the promise here but_ we disable
-            // that in receiveAndDelete. So we'll advance here....
-            clock.tick(littleTimeout);
+          // In the peekLock algorithm we would've resolved the promise here but_ we disable
+          // that in receiveAndDelete. So we'll advance here....
+          clock.tick(littleTimeout);
 
-            // ...and emit another message _after_ the idle timer would have fired. Now when we advance
-            // the time all the way....
-            emitter.emit(ReceiverEvents.message, {
-              message: {
-                body: "the second message"
-              } as RheaMessage
-            } as EventContext);
+          // ...and emit another message _after_ the idle timer would have fired. Now when we advance
+          // the time all the way....
+          emitter.emit(ReceiverEvents.message, {
+            message: {
+              body: "the second message"
+            } as RheaMessage
+          } as EventContext);
 
-            clock.tick(bigTimeout);
+          clock.tick(bigTimeout);
 
-            // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
-            // timer fired.
-            const messages = await receivePromise;
-            assert.deepEqual(
-              messages.map((m) => m.body),
-              ["the first message", "the second message"]
-            );
-          }
-        ).timeout(5 * 1000);
+          // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
+          // timer fired.
+          const messages = await receivePromise;
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"]
+          );
+        }).timeout(5 * 1000);
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can enable this test for all modes.
-        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === "peekLock" ? it : it.skip)(
           "4. sanity check that we're using getRemainingWaitTimeInMs",
           async () => {
             const receiver = new MessageSession(
@@ -235,7 +234,7 @@ describe("Message session unit tests", () => {
               };
             };
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2, {});
             await receiveIsReady;
 
             emitter.emit(ReceiverEvents.message, {

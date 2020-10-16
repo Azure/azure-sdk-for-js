@@ -53,6 +53,16 @@ export const eventHubEndpointName: msRest.OperationURLParameter = {
     }
   }
 };
+export const groupId: msRest.OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    required: true,
+    serializedName: "groupId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ifMatch0: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -125,6 +135,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",

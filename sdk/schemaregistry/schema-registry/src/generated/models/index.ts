@@ -29,19 +29,19 @@ export interface SchemaGetByIdHeaders {
   /**
    * Serialization type for the schema being stored.
    */
-  xSchemaType?: string;
+  serializationType?: string;
   /**
    * References specific schema in registry namespace.
    */
-  xSchemaId?: string;
+  schemaId?: string;
   /**
    * URL location of schema, identified by schema ID.
    */
-  xSchemaIdLocation?: string;
+  schemaIdLocation?: string;
   /**
    * Version of the returned schema.
    */
-  xSchemaVersion?: number;
+  schemaVersion?: number;
 }
 
 /**
@@ -55,19 +55,19 @@ export interface SchemaQueryIdByContentHeaders {
   /**
    * Serialization type for the schema being stored.
    */
-  xSchemaType?: string;
+  serializationType?: string;
   /**
    * References specific schema in registry namespace.
    */
-  xSchemaId?: string;
+  schemaId?: string;
   /**
    * URL location of schema, identified by schema ID.
    */
-  xSchemaIdLocation?: string;
+  schemaIdLocation?: string;
   /**
    * Version of the returned schema.
    */
-  xSchemaVersion?: number;
+  schemaVersion?: number;
 }
 
 /**
@@ -81,25 +81,25 @@ export interface SchemaRegisterHeaders {
   /**
    * Serialization type for the schema being registered.
    */
-  xSchemaType?: string;
+  serializationType?: string;
   /**
    * References specific schema in registry namespace.
    */
-  xSchemaId?: string;
+  schemaId?: string;
   /**
    * URL location of schema, identified by schema ID.
    */
-  xSchemaIdLocation?: string;
+  schemaIdLocation?: string;
   /**
    * Version of the returned schema.
    */
-  xSchemaVersion?: number;
+  schemaVersion?: number;
 }
 
 /**
  * Defines values for SerializationType.
  */
-export type SerializationType = "avro";
+export type SerializationType = "avro" | string;
 
 /**
  * Contains response data for the getById operation.

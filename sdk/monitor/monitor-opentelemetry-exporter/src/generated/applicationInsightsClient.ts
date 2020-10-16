@@ -26,11 +26,8 @@ export class ApplicationInsightsClient extends ApplicationInsightsClientContext 
   }
 
   /**
-   * This operation generates a model using an entire series, each point is detected with the same model.
-   * With this method, points before and after a certain point are used to determine whether it is an
-   * anomaly. The entire detection can give user an overall status of the time series.
-   * @param body Time series points and period if needed. Advanced model parameters can also be set in
-   *             the request.
+   * This operation sends a sequence of telemetry events that will be monitored by Azure Monitor.
+   * @param body The list of telemetry events to track.
    * @param options The options parameters.
    */
   track(

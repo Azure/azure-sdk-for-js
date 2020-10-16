@@ -1,7 +1,15 @@
 # Release History
 
-## 12.2.1 (Unreleased)
+## 12.3.0-beta.2 (Unreleased)
 
+
+## 12.3.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for SMB Multichannel.
+- Added support for Share and Share Snapshot Leases. Now can initialize a `ShareLeaseClient` with a `ShareClient` to manage leases for a share or share snapshot. Most operations on share now also support lease conditions.
+- Added support for Get File Range Diff. Added `ShareFileClient.getRangeListDiff()` for getting the list of ranges that differ between a previous share snapshot and the file.
+- Added support for Set Share Tier. Added `ShareClient.setAccessTier()` for setting the access tier of the share.
 
 ## 12.2.0 (2020-09-08)
 

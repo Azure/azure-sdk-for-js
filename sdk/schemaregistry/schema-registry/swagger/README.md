@@ -18,7 +18,16 @@ add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a90b9146e543d3eec11381bd52d3b6ff271b1b78/specification/schemaregistry/data-plane/Microsoft.EventHub/preview/2018-01-01-preview/schemaregistry.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e23d91e875e4464e57667639e06408cef99868d/specification/schemaregistry/data-plane/Microsoft.EventHub/preview/2020-09-01-preview/schemaregistry.json
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200715.2"
+  "@autorest/typescript": "6.0.0-dev.20200918.1"
+  "@autorest/modelerfour": "4.15.421"
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.paths..["Serialization-Type"]
+  transform: $.enum = undefined; $["x-ms-enum"] = undefined; return $;
+  reason: https://github.com/Azure/autorest.typescript/issues/736
 ```

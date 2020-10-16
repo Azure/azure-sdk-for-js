@@ -24,8 +24,14 @@ import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { MessageSession } from "../../src/session/messageSession";
+import { ReceiveMode } from "../../src";
 
 describe("AbortSignal", () => {
+  const defaultOptions = {
+    lockRenewer: undefined,
+    receiveMode: <ReceiveMode>"peekLock"
+  };
+
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
@@ -253,7 +259,8 @@ describe("AbortSignal", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -273,7 +280,8 @@ describe("AbortSignal", () => {
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -304,7 +312,7 @@ describe("AbortSignal", () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
@@ -366,7 +374,8 @@ describe("AbortSignal", () => {
       const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       try {

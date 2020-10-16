@@ -136,16 +136,16 @@ export class WorkflowTriggers {
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkflowTriggersRunResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowTriggersRunResponse>;
+  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param callback The callback
    */
-  run(resourceGroupName: string, workflowName: string, triggerName: string, callback: msRest.ServiceCallback<any>): void;
+  run(resourceGroupName: string, workflowName: string, triggerName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -153,8 +153,8 @@ export class WorkflowTriggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  run(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkflowTriggersRunResponse> {
+  run(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +163,7 @@ export class WorkflowTriggers {
         options
       },
       runOperationSpec,
-      callback) as Promise<Models.WorkflowTriggersRunResponse>;
+      callback);
   }
 
   /**
@@ -330,7 +330,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -356,7 +356,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTrigger
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -380,7 +380,7 @@ const resetOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -402,13 +402,10 @@ const runOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
+    202: {},
     default: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Object"
-        }
-      }
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -434,7 +431,7 @@ const getSchemaJsonOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JsonSchema
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -465,7 +462,7 @@ const setStateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -491,7 +488,7 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerCallbackUrl
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -512,7 +509,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

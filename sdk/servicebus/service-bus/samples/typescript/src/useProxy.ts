@@ -57,4 +57,5 @@ export async function main() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });
