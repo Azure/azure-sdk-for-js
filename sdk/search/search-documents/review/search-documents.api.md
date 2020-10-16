@@ -411,6 +411,9 @@ export type GetIndexOptions = OperationOptions;
 export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public
+export type getSearchClientOptions = SearchIndexClientOptions;
+
+// @public
 export type GetServiceStatisticsOptions = OperationOptions;
 
 // @public
@@ -1108,7 +1111,7 @@ export class SearchIndexClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
+    getSearchClient<T>(indexName: string, options?: getSearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
