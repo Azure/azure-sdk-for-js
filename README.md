@@ -8,7 +8,6 @@ This repository is for active development of the Azure SDK for JavaScript (NodeJ
 
 For your convenience, each service has a separate set of libraries that you can choose to use instead of one, large Azure package. To get started with a specific library, see the **README.md** file located in the library's project folder. You can find service libraries in the `/sdk` directory.
 
-
 Each service might have a number of libraries available from each of the following categories:
 
 - [Client - New Releases](#Client-New-Releases)
