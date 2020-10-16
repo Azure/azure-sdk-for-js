@@ -55,24 +55,18 @@ jobs:
         parameters:
           Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{parameters.ServiceDirectory}}
-
   # Only run tests if the matrix has entries
-  - ${{ if ne(parameters.RunUnitTests, false) }}:
-    - job: "UnitTest"
-
-      strategy:
-        matrix: ${{parameters.Matrix}}
-
-      pool:
-        vmImage: "$(OSVmImage)"
-
-      variables:
-        - template: ../variables/globals.yml
-
-      steps:
-        - template: ../steps/common.yml
-
-        - template: ../steps/test.yml
-          parameters:
-            Artifacts: ${{parameters.Artifacts}}
-            ServiceDirectory: ${{parameters.ServiceDirectory}}
+  # - ${{ if ne(parameters.RunUnitTests, false) }}:
+  #   - job: "UnitTest"
+  #     strategy:
+  #       matrix: ${{parameters.Matrix}}
+  #     pool:
+  #       vmImage: "$(OSVmImage)"
+  #     variables:
+  #       - template: ../variables/globals.yml
+  #     steps:
+  #       - template: ../steps/common.yml
+  #       - template: ../steps/test.yml
+  #         parameters:
+  #           Artifacts: ${{parameters.Artifacts}}
+  #           ServiceDirectory: ${{parameters.ServiceDirectory}}

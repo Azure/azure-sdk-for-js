@@ -20,10 +20,10 @@ param (
   $RepoId, # full repo id. EG azure/azure-sdk-for-net  DevOps: $(Build.Repository.Id). Used as a part of VerifyPackages
   
   [Parameter(Mandatory = $true)]
-  [ValidateSet("Nuget","NPM","PyPI","Maven")]
+  [ValidateSet("Nuget", "NPM", "PyPI", "Maven")]
   $Repository, # EG: "Maven", "PyPI", "NPM"
 
-  [Parameter(Mandatory = $true)]
+  #[Parameter(Mandatory = $true)]
   $CIRepository,
 
   [Parameter(Mandatory = $true)]
@@ -37,7 +37,7 @@ param (
 # Updates a python CI configuration json.
 # For "latest", the version attribute is cleared, as default behavior is to pull latest "non-preview".
 # For "preview", we update to >= the target releasing package version.
-function UpdateParamsJsonPython($pkgs, $ciRepo, $locationInDocRepo){
+function UpdateParamsJsonPython($pkgs, $ciRepo, $locationInDocRepo) {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
 
   if (-not (Test-Path $pkgJsonLoc)) {
@@ -45,10 +45,10 @@ function UpdateParamsJsonPython($pkgs, $ciRepo, $locationInDocRepo){
     exit(1)
   }
 
-  $allJson  = Get-Content $pkgJsonLoc | ConvertFrom-Json
+  $allJson = Get-Content $pkgJsonLoc | ConvertFrom-Json
   $visibleInCI = @{}
 
-  for ($i=0; $i -lt $allJson.packages.Length; $i++) {
+  for ($i = 0; $i -lt $allJson.packages.Length; $i++) {
     $pkgDef = $allJson.packages[$i]
 
     if ($pkgDef.package_info.name) {
@@ -76,18 +76,18 @@ function UpdateParamsJsonPython($pkgs, $ciRepo, $locationInDocRepo){
     }
     else {
       $newItem = New-Object PSObject -Property @{ 
-          package_info = New-Object PSObject -Property @{ 
-            prefer_source_distribution = "true"
-            install_type = "pypi"
-            name=$releasingPkg.PackageId
-          }
-          excludePath = @("test*","example*","sample*","doc*")
+        package_info = New-Object PSObject -Property @{ 
+          prefer_source_distribution = "true"
+          install_type               = "pypi"
+          name                       = $releasingPkg.PackageId
         }
+        excludePath  = @("test*", "example*", "sample*", "doc*")
+      }
       $allJson.packages += $newItem
     }
   }
 
-  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | % {$_ -replace "(?m)  (?<=^(?:  )*)", "  " }
+  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | % { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
 
   Set-Content -Path $pkgJsonLoc -Value $jsonContent
 }
@@ -95,53 +95,54 @@ function UpdateParamsJsonPython($pkgs, $ciRepo, $locationInDocRepo){
 # Updates a js CI configuration json.
 # For "latest", we simply set a target package name
 # For "preview", we add @next to the target package name
-function UpdateParamsJsonJS($pkgs, $ciRepo, $locationInDocRepo){
+function UpdateParamsJsonJS($pkgs, $ciRepo, $locationInDocRepo) {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
-  
+  Write-Host "$pkgJsonLoc"
   if (-not (Test-Path $pkgJsonLoc)) {
     Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
     exit(1)
   }
+  $content = Get-Content $pkgJsonLoc
+  Write-Host $content
+  $allJson = Get-Content $pkgJsonLoc | ConvertFrom-Json
 
-  $allJson  = Get-Content $pkgJsonLoc | ConvertFrom-Json
+  # $visibleInCI = @{}
 
-  $visibleInCI = @{}
+  # for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++) {
+  #   $pkgDef = $allJson.npm_package_sources[$i]
+  #   $accessor = ($pkgDef.name).Replace("`@next", "")
+  #   $visibleInCI[$accessor] = $i
+  # }
 
-  for ($i=0; $i -lt $allJson.npm_package_sources.Length; $i++) {
-    $pkgDef = $allJson.npm_package_sources[$i]
-    $accessor = ($pkgDef.name).Replace("`@next", "")
-    $visibleInCI[$accessor] = $i
-  }
+  # foreach ($releasingPkg in $pkgs) {
+  #   $name = $releasingPkg.PackageId
 
-  foreach ($releasingPkg in $pkgs) {
-    $name = $releasingPkg.PackageId
+  #   if ($releasingPkg.IsPrerelease) {
+  #     $name += "`@next"
+  #   }
 
-    if ($releasingPkg.IsPrerelease) {
-      $name += "`@next"
-    }
+  #   if ($visibleInCI.ContainsKey($releasingPkg.PackageId)) {
+  #     $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
+  #     $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
+  #     $existingPackageDef.name = $name
+  #   }
+  #   else {
+  #     $newItem = New-Object PSObject -Property @{ 
+  #       name = $name
+  #     }
 
-    if ($visibleInCI.ContainsKey($releasingPkg.PackageId)) {
-      $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
-      $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
-      $existingPackageDef.name = $name
-    }
-    else {
-      $newItem = New-Object PSObject -Property @{ 
-        name = $name
-      }
+  #     if ($newItem) { $allJson.npm_package_sources += $newItem }
+  #   }
+  #}
 
-      if ($newItem) { $allJson.npm_package_sources += $newItem }
-    }
-  }
+  # $jsonContent = $allJson | ConvertTo-Json -Depth 10 | % { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
 
-  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | % {$_ -replace "(?m)  (?<=^(?:  )*)", "  " }
-
-  Set-Content -Path $pkgJsonLoc -Value $jsonContent
+  # Set-Content -Path $pkgJsonLoc -Value $jsonContent
 }
 
 # details on CSV schema can be found here
 # https://review.docs.microsoft.com/en-us/help/onboard/admin/reference/dotnet/documenting-nuget?branch=master#set-up-the-ci-job
-function UpdateCSVBasedCI($pkgs, $ciRepo, $locationInDocRepo){
+function UpdateCSVBasedCI($pkgs, $ciRepo, $locationInDocRepo) {
   $csvLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
   
   if (-not (Test-Path $csvLoc)) {
@@ -153,7 +154,7 @@ function UpdateCSVBasedCI($pkgs, $ciRepo, $locationInDocRepo){
   $visibleInCI = @{}
 
   # first pull what's already available
-  for ($i=0; $i -lt $allCSVRows.Length; $i++) {
+  for ($i = 0; $i -lt $allCSVRows.Length; $i++) {
     $pkgDef = $allCSVRows[$i]
 
     # get rid of the modifiers to get just the package id
@@ -167,7 +168,7 @@ function UpdateCSVBasedCI($pkgs, $ciRepo, $locationInDocRepo){
     if ($releasingPkg.IsPrerelease) {
       $installModifiers += ";isPrerelease=true"
     }
-    $lineId = $releasingPkg.PackageId.Replace(".","").ToLower()
+    $lineId = $releasingPkg.PackageId.Replace(".", "").ToLower()
 
     if ($visibleInCI.ContainsKey($releasingPkg.PackageId)) {
       $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
@@ -184,7 +185,7 @@ function UpdateCSVBasedCI($pkgs, $ciRepo, $locationInDocRepo){
 
 # a "package.json configures target packages for all the monikers in a Repository, it also has a slightly different
 # schema than the moniker-specific json config that is seen in python and js
-function UpdatePackageJson($pkgs, $ciRepo, $locationInDocRepo, $monikerId){
+function UpdatePackageJson($pkgs, $ciRepo, $locationInDocRepo, $monikerId) {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
   
   if (-not (Test-Path $pkgJsonLoc)) {
@@ -196,7 +197,7 @@ function UpdatePackageJson($pkgs, $ciRepo, $locationInDocRepo, $monikerId){
 
   $visibleInCI = @{}
 
-  for ($i=0; $i -lt $allJsonData[$monikerId].packages.Length; $i++) {
+  for ($i = 0; $i -lt $allJsonData[$monikerId].packages.Length; $i++) {
     $pkgDef = $allJsonData[$monikerId].packages[$i]
     $visibleInCI[$pkgDef.packageArtifactId] = $i
   }
@@ -210,18 +211,18 @@ function UpdatePackageJson($pkgs, $ciRepo, $locationInDocRepo, $monikerId){
     else {
       $newItem = New-Object PSObject -Property @{ 
         packageDownloadUrl = "https://repo1.maven.org/maven2"
-        packageGroupId = $releasingPkg.GroupId
-        packageArtifactId = $releasingPkg.PackageId
-        packageVersion = $releasingPkg.PackageVersion
-        inputPath = @()
-        excludePath = @()
+        packageGroupId     = $releasingPkg.GroupId
+        packageArtifactId  = $releasingPkg.PackageId
+        packageVersion     = $releasingPkg.PackageVersion
+        inputPath          = @()
+        excludePath        = @()
       }
 
       $allJsonData[$monikerId].packages += $newItem
     }
   }
 
-  $jsonContent = $allJsonData | ConvertTo-Json -Depth 10 | % {$_ -replace "(?m)  (?<=^(?:  )*)", "    " }
+  $jsonContent = $allJsonData | ConvertTo-Json -Depth 10 | % { $_ -replace "(?m)  (?<=^(?:  )*)", "    " }
 
   Set-Content -Path $pkgJsonLoc -Value $jsonContent
 }
@@ -243,8 +244,7 @@ $pkgs = VerifyPackages -pkgRepository $Repository `
 
 foreach ($config in $targets) {
   if ($config.mode -eq "Preview") { $includePreview = $true } else { $includePreview = $false }
-  $pkgsFiltered = $pkgs | ? { $_.IsPrerelease -eq $includePreview}
-
+  $pkgsFiltered = $pkgs | ? { $_.IsPrerelease -eq $includePreview }
   if ($pkgs) {
     Write-Host "Given the visible artifacts, CI updates against $($config.path_to_config) will be processed for the following packages."
     Write-Host ($pkgsFiltered | % { $_.PackageId + " " + $_.PackageVersion })
