@@ -14,7 +14,7 @@ dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
-  process.env["CONNECTION_STRING"] || "<communication service connection string>";
+  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 async function main() {
   console.log("== Send SMS Message Sample ==");

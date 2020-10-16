@@ -43,7 +43,9 @@
     "ts-mocha": "^7.0.0",
     "typescript": "^3.9.5",
     "uglify-js": "^3.4.9",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "esm": "^3.2.25",
+    "ts-node": "^8.3.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/batch/batch",
   "repository": {
@@ -72,7 +74,7 @@
     "clean": "find src -type f -name \"*.js\" -delete",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/batch.js.map'\" -o ./dist/batch.min.js ./dist/batch.js",
     "prepack": "npm install && npm run build",
-    "test": "ts-mocha -p tsconfig.test.json test/*.spec.ts --timeout 100000"
+    "test": "mocha -r esm --require ts-node/register test/*.spec.ts --timeout 1200000 --full-trace"
   },
   "sideEffects": false
 }

@@ -179,6 +179,7 @@ foreach ($entry in $manifest) {
   $runManifest += $entry
 
   # Set sample's dependencies in all-up dependencies for smoke tests
+  Write-Verbose "Updating local package.json with dependencies from smoke test for $($entry.Name)"
   $packageSpec = (Get-Content -Path "$($entry.SamplesDirectory)/package.json"
     | ConvertFrom-Json -AsHashtable)
 
