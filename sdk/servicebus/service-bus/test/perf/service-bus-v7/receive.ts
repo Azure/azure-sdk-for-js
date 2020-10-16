@@ -7,11 +7,11 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
 4. This test presumes that there are messages in the queue.
-4. `ts-node receive.ts [totalMessages]`
-5. Example: `ts-node receive.ts 1000 1000000`
+4. `ts-node receive.ts [maxConcurrentCalls] [totalMessages] [isReceiveAndDelete]`
+5. Example: `ts-node receive.ts 1000 1000000 false`
  */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusReceivedMessageWithLock } from "@azure/service-bus";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
@@ -29,12 +29,14 @@ async function main(): Promise<void> {
 
   const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  const isReceiveAndDelete = process.argv.length > 4 ? Boolean(process.argv[4]) : true;
   log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
+  log(`isReceiveAndDelete: ${isReceiveAndDelete}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
+  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages, isReceiveAndDelete);
   await writeResultsPromise;
 }
 
@@ -42,13 +44,18 @@ async function RunTest(
   connectionString: string,
   entityPath: string,
   maxConcurrentCalls: number,
-  messages: number
+  messages: number,
+  isReceiveAndDelete: boolean
 ): Promise<void> {
   const ns = new ServiceBusClient(connectionString);
-  const receiver = ns.createReceiver(entityPath, { receiveMode: "receiveAndDelete" });
+  const receiver = ns.createReceiver(
+    entityPath,
+    isReceiveAndDelete ? { receiveMode: "receiveAndDelete" } : {}
+  );
 
-  const processMessage = async () => {
+  const processMessage = async (msg: ServiceBusReceivedMessageWithLock) => {
     _messages++;
+    if (!isReceiveAndDelete) await msg.complete();
     if (_messages === messages) {
       await receiver.close();
       await ns.close();

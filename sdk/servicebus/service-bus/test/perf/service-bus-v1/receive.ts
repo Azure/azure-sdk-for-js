@@ -11,7 +11,13 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 1000 1000000`
  */
 
-import { ServiceBusClient, ReceiveMode, OnError, OnMessage } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ReceiveMode,
+  OnError,
+  OnMessage,
+  ServiceBusMessage
+} from "@azure/service-bus";
 import delay from "delay";
 import moment from "moment";
 
@@ -30,12 +36,14 @@ async function main(): Promise<void> {
 
   const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  const isReceiveAndDelete = process.argv.length > 4 ? Boolean(process.argv[4]) : true;
   log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
+  log(`isReceiveAndDelete: ${isReceiveAndDelete}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
+  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages, isReceiveAndDelete);
   await writeResultsPromise;
 }
 
@@ -43,15 +51,19 @@ async function RunTest(
   connectionString: string,
   entityPath: string,
   maxConcurrentCalls: number,
-  messages: number
+  messages: number,
+  isReceiveAndDelete: boolean
 ): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   const client = ns.createQueueClient(entityPath);
-  const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);
+  const receiver = client.createReceiver(
+    isReceiveAndDelete ? ReceiveMode.receiveAndDelete : ReceiveMode.peekLock
+  );
 
-  const onMessageHandler: OnMessage = async () => {
+  const onMessageHandler: OnMessage = async (msg: ServiceBusMessage) => {
     _messages++;
+    if (!isReceiveAndDelete) await msg.complete();
     if (_messages === messages) {
       await receiver.close();
       await client.close();
