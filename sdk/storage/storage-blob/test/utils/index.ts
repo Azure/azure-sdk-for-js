@@ -18,6 +18,7 @@ import {
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
+import { DefaultAzureCredential } from "@azure/identity";
 
 dotenv.config();
 
@@ -95,6 +96,25 @@ export function getTokenBSU(): BlobServiceClient {
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export function getTokenBSUWithDefaultCredential(
+  pipelineOptions: StoragePipelineOptions = {},
+  accountType: string = "",
+  accountNameSuffix: string = ""
+): BlobServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  let accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = new DefaultAzureCredential();
+  const pipeline = newPipeline(credential, {
+    ...pipelineOptions
+  });
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 

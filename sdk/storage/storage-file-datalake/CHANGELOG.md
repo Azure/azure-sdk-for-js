@@ -1,7 +1,14 @@
 # Release History
 
-## 12.1.2 (Unreleased)
+## 12.2.0-beta.2 (Unreleased)
 
+
+## 12.2.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Directory SAS.
+- Added support for File Set Expiry.
+- Added support to set access control list recursively.
 
 ## 12.1.1 (2020-09-17)
 

@@ -224,7 +224,7 @@ export const clientRequestId2: msRest.OperationParameter = {
 export const clientRequestId20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -250,7 +250,7 @@ export const clientRequestId21: msRest.OperationParameter = {
 export const clientRequestId22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1430,7 +1430,7 @@ export const filter12: msRest.OperationQueryParameter = {
 export const filter2: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "filter"
   ],
   mapper: {
@@ -3240,7 +3240,7 @@ export const maxResults2: msRest.OperationQueryParameter = {
 export const maxResults3: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "maxResults"
   ],
   mapper: {
@@ -3556,7 +3556,7 @@ export const ocpDate2: msRest.OperationParameter = {
 export const ocpDate20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3582,7 +3582,7 @@ export const ocpDate21: msRest.OperationParameter = {
 export const ocpDate22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4787,7 +4787,7 @@ export const returnClientRequestId2: msRest.OperationParameter = {
 export const returnClientRequestId20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4815,7 +4815,7 @@ export const returnClientRequestId21: msRest.OperationParameter = {
 export const returnClientRequestId22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -6229,7 +6229,7 @@ export const timeout16: msRest.OperationQueryParameter = {
 export const timeout17: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "timeout"
   ],
   mapper: {

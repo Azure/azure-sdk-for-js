@@ -370,7 +370,7 @@ export class QueueClient extends StorageClient {
     sendMessage(messageText: string, options?: QueueSendMessageOptions): Promise<QueueSendMessageResponse>;
     setAccessPolicy(queueAcl?: SignedIdentifier[], options?: QueueSetAccessPolicyOptions): Promise<QueueSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: QueueSetMetadataOptions): Promise<QueueSetMetadataResponse>;
-    updateMessage(messageId: string, popReceipt: string, message: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
+    updateMessage(messageId: string, popReceipt: string, message?: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
 }
 
 // @public

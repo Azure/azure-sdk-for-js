@@ -435,7 +435,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -460,7 +460,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -485,7 +485,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -520,7 +520,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -552,7 +552,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -576,7 +576,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -608,7 +608,7 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CallbackUrl
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -640,7 +640,7 @@ const listKeyVaultKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.KeyVaultKeyCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -670,7 +670,7 @@ const logTrackingEventsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -702,7 +702,7 @@ const regenerateAccessKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -723,7 +723,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -744,7 +744,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

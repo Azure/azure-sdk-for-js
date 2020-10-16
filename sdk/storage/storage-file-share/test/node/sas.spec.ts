@@ -10,11 +10,10 @@ import {
   SASProtocol,
   StorageSharedKeyCredential
 } from "../../src";
-import { ShareFileClient } from "../../src/ShareFileClient";
+import { ShareFileClient, ShareClient } from "../../src";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { newPipeline } from "../../src/Pipeline";
-import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { getBSU, recorderEnvSetup } from "../utils";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";

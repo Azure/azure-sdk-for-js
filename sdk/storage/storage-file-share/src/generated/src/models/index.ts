@@ -175,6 +175,21 @@ export interface ShareProperties {
   nextAllowedQuotaDowngradeTime?: Date;
   deletedTime?: Date;
   remainingRetentionDays?: number;
+  accessTier?: string;
+  accessTierChangeTime?: Date;
+  accessTierTransitionState?: string;
+  /**
+   * Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus?: LeaseStatusType;
+  /**
+   * Possible values include: 'available', 'leased', 'expired', 'breaking', 'broken'
+   */
+  leaseState?: LeaseStateType;
+  /**
+   * Possible values include: 'infinite', 'fixed'
+   */
+  leaseDuration?: LeaseDurationType;
 }
 
 /**
@@ -238,9 +253,19 @@ export interface Metrics {
 }
 
 /**
+ * Settings for SMB multichannel
+ */
+export interface SmbMultichannel {
+  /**
+   * If SMB multichannel is enabled.
+   */
+  enabled?: boolean;
+}
+
+/**
  * An Azure Storage file range.
  */
-export interface Range {
+export interface FileRange {
   /**
    * Start of the range.
    */
@@ -249,6 +274,42 @@ export interface Range {
    * End of the range.
    */
   end: number;
+}
+
+/**
+ * An interface representing ClearRange.
+ */
+export interface ClearRange {
+  start: number;
+  end: number;
+}
+
+/**
+ * Settings for SMB protocol.
+ */
+export interface ShareSmbSettings {
+  /**
+   * Settings for SMB Multichannel.
+   */
+  multichannel?: SmbMultichannel;
+}
+
+/**
+ * Protocol settings
+ */
+export interface ShareProtocolSettings {
+  /**
+   * Settings for SMB protocol.
+   */
+  smb?: ShareSmbSettings;
+}
+
+/**
+ * The list of file ranges
+ */
+export interface ShareFileRangeList {
+  ranges?: FileRange[];
+  clearRanges?: ClearRange[];
 }
 
 /**
@@ -309,6 +370,21 @@ export interface FileServiceProperties {
    * The set of CORS rules.
    */
   cors?: CorsRule[];
+  /**
+   * Protocol settings
+   */
+  protocol?: ShareProtocolSettings;
+}
+
+/**
+ * Additional parameters for a set of operations.
+ */
+export interface LeaseAccessConditions {
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this
+   * ID.
+   */
+  leaseId?: string;
 }
 
 /**
@@ -340,17 +416,6 @@ export interface FileHttpHeaders {
    * Sets the file's Content-Disposition header.
    */
   fileContentDisposition?: string;
-}
-
-/**
- * Additional parameters for a set of operations.
- */
-export interface LeaseAccessConditions {
-  /**
-   * If specified, the operation only succeeds if the resource's lease is active and matches this
-   * ID.
-   */
-  leaseId?: string;
 }
 
 /**
@@ -478,6 +543,11 @@ export interface ShareCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * Specifies the maximum size of the share, in gigabytes.
    */
   quota?: number;
+  /**
+   * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
+   * 'Hot', 'Cool'
+   */
+  accessTier?: ShareAccessTier;
 }
 
 /**
@@ -495,6 +565,10 @@ export interface ShareGetPropertiesOptionalParams extends coreHttp.RequestOption
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -514,9 +588,155 @@ export interface ShareDeleteMethodOptionalParams extends coreHttp.RequestOptions
   timeoutInSeconds?: number;
   /**
    * Specifies the option include to delete the base share and all of its snapshots. Possible
-   * values include: 'include'
+   * values include: 'include', 'include-leased'
    */
   deleteSnapshots?: DeleteSnapshotsOptionType;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareAcquireLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never
+   * expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be
+   * changed using renew or change.
+   */
+  duration?: number;
+  /**
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
+   * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
+   * of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  shareSnapshot?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareReleaseLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  shareSnapshot?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareChangeLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
+   * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
+   * of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  shareSnapshot?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareRenewLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  shareSnapshot?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareBreakLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * For a break operation, proposed duration the lease should continue before it is broken, in
+   * seconds, between 0 and 60. This break period is only used if it is shorter than the time
+   * remaining on the lease. If longer, the time remaining on the lease is used. A new lease will
+   * not be available before the break period has expired, but the lease may be held for longer
+   * than the break period. If this header does not appear with a break operation, a fixed-duration
+   * lease breaks after the remaining lease period elapses, and an infinite lease breaks
+   * immediately.
+   */
+  breakPeriod?: number;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  shareSnapshot?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -562,7 +782,7 @@ export interface ShareGetPermissionOptionalParams extends coreHttp.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ShareSetQuotaOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ShareSetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -573,6 +793,15 @@ export interface ShareSetQuotaOptionalParams extends coreHttp.RequestOptionsBase
    * Specifies the maximum size of the share, in gigabytes.
    */
   quota?: number;
+  /**
+   * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
+   * 'Hot', 'Cool'
+   */
+  accessTier?: ShareAccessTier;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -589,6 +818,10 @@ export interface ShareSetMetadataOptionalParams extends coreHttp.RequestOptionsB
    * A name-value pair to associate with a file storage object.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -601,6 +834,10 @@ export interface ShareGetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -617,6 +854,10 @@ export interface ShareSetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -629,6 +870,10 @@ export interface ShareGetStatisticsOptionalParams extends coreHttp.RequestOption
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -1164,6 +1409,11 @@ export interface FileGetRangeListOptionalParams extends coreHttp.RequestOptionsB
    */
   shareSnapshot?: string;
   /**
+   * The previous snapshot parameter is an opaque DateTime value that, when present, specifies the
+   * previous snapshot.
+   */
+  prevsharesnapshot?: string;
+  /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
@@ -1413,6 +1663,32 @@ export interface ShareGetPropertiesHeaders {
    * Returns the current share next allowed quota downgrade time.
    */
   nextAllowedQuotaDowngradeTime?: Date;
+  /**
+   * When a share is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration?: LeaseDurationType;
+  /**
+   * Lease state of the share. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState?: LeaseStateType;
+  /**
+   * The current lease status of the share. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus?: LeaseStatusType;
+  /**
+   * Returns the access tier set on the share.
+   */
+  accessTier?: string;
+  /**
+   * Returns the last modified time (in UTC) of the access tier of the share.
+   */
+  accessTierChangeTime?: Date;
+  /**
+   * Returns the transition state betweeen access tiers, when present.
+   */
+  accessTierTransitionState?: string;
   errorCode?: string;
 }
 
@@ -1432,6 +1708,205 @@ export interface ShareDeleteHeaders {
   /**
    * A UTC date/time value generated by the service that indicates the time at which the response
    * was initiated.
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for AcquireLease operation.
+ */
+export interface ShareAcquireLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally, in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the share was last modified. Any operation that modifies the share
+   * or its properties updates the last modified time. Operations on files do not affect the last
+   * modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a share's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for ReleaseLease operation.
+ */
+export interface ShareReleaseLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally, in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the share was last modified. Any operation that modifies the share
+   * or its properties updates the last modified time. Operations on files do not affect the last
+   * modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for ChangeLease operation.
+ */
+export interface ShareChangeLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally, in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the share was last modified. Any operation that modifies the share
+   * or its properties updates the last modified time. Operations on files do not affect the last
+   * modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a share's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for RenewLease operation.
+ */
+export interface ShareRenewLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally, in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the share was last modified. Any operation that modifies the share
+   * or its properties updates the last modified time. Operations on files do not affect the last
+   * modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a share's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * Returns the current share next allowed quota downgrade time.
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for BreakLease operation.
+ */
+export interface ShareBreakLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally, in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the share was last modified. Any operation that modifies the share
+   * or its properties updates the last modified time. Operations on files do not affect the last
+   * modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * Approximate time remaining in the lease period, in seconds.
+   */
+  leaseTimeInSeconds?: number;
+  /**
+   * Uniquely identifies a share's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
    */
   date?: Date;
   errorCode?: string;
@@ -1528,9 +2003,9 @@ export interface ShareGetPermissionHeaders {
 }
 
 /**
- * Defines headers for SetQuota operation.
+ * Defines headers for SetProperties operation.
  */
-export interface ShareSetQuotaHeaders {
+export interface ShareSetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
@@ -2961,38 +3436,6 @@ export interface FileForceCloseHandlesHeaders {
 export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch' | 'FeatureVersionMismatch';
 
 /**
- * Defines values for PermissionCopyModeType.
- * Possible values include: 'source', 'override'
- * @readonly
- * @enum {string}
- */
-export type PermissionCopyModeType = 'source' | 'override';
-
-/**
- * Defines values for DeleteSnapshotsOptionType.
- * Possible values include: 'include'
- * @readonly
- * @enum {string}
- */
-export type DeleteSnapshotsOptionType = 'include';
-
-/**
- * Defines values for ListSharesIncludeType.
- * Possible values include: 'snapshots', 'metadata', 'deleted'
- * @readonly
- * @enum {string}
- */
-export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
-
-/**
- * Defines values for CopyStatusType.
- * Possible values include: 'pending', 'success', 'aborted', 'failed'
- * @readonly
- * @enum {string}
- */
-export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
-
-/**
  * Defines values for LeaseDurationType.
  * Possible values include: 'infinite', 'fixed'
  * @readonly
@@ -3015,6 +3458,46 @@ export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | '
  * @enum {string}
  */
 export type LeaseStatusType = 'locked' | 'unlocked';
+
+/**
+ * Defines values for ShareAccessTier.
+ * Possible values include: 'TransactionOptimized', 'Hot', 'Cool'
+ * @readonly
+ * @enum {string}
+ */
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool';
+
+/**
+ * Defines values for PermissionCopyModeType.
+ * Possible values include: 'source', 'override'
+ * @readonly
+ * @enum {string}
+ */
+export type PermissionCopyModeType = 'source' | 'override';
+
+/**
+ * Defines values for DeleteSnapshotsOptionType.
+ * Possible values include: 'include', 'include-leased'
+ * @readonly
+ * @enum {string}
+ */
+export type DeleteSnapshotsOptionType = 'include' | 'include-leased';
+
+/**
+ * Defines values for ListSharesIncludeType.
+ * Possible values include: 'snapshots', 'metadata', 'deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
+
+/**
+ * Defines values for CopyStatusType.
+ * Possible values include: 'pending', 'success', 'aborted', 'failed'
+ * @readonly
+ * @enum {string}
+ */
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for FileRangeWriteType.
@@ -3143,6 +3626,81 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
 };
 
 /**
+ * Contains response data for the acquireLease operation.
+ */
+export type ShareAcquireLeaseResponse = ShareAcquireLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareAcquireLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the releaseLease operation.
+ */
+export type ShareReleaseLeaseResponse = ShareReleaseLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareReleaseLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the changeLease operation.
+ */
+export type ShareChangeLeaseResponse = ShareChangeLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareChangeLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the renewLease operation.
+ */
+export type ShareRenewLeaseResponse = ShareRenewLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareRenewLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the breakLease operation.
+ */
+export type ShareBreakLeaseResponse = ShareBreakLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareBreakLeaseHeaders;
+    };
+};
+
+/**
  * Contains response data for the createSnapshot operation.
  */
 export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
@@ -3198,9 +3756,9 @@ export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHea
 };
 
 /**
- * Contains response data for the setQuota operation.
+ * Contains response data for the setProperties operation.
  */
-export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
+export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -3208,7 +3766,7 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: ShareSetQuotaHeaders;
+      parsedHeaders: ShareSetPropertiesHeaders;
     };
 };
 
@@ -3646,7 +4204,7 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & {
+export type FileGetRangeListResponse = ShareFileRangeList & FileGetRangeListHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -3664,7 +4222,7 @@ export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Range[];
+      parsedBody: ShareFileRangeList;
     };
 };
 

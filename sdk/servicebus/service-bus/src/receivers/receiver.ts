@@ -9,7 +9,7 @@ import {
   SubscribeOptions,
   InternalMessageHandlers
 } from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "..";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -28,6 +28,7 @@ import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../ser
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
+import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 
 /**
@@ -157,6 +158,8 @@ export class ServiceBusReceiverImpl<
   private _streamingReceiver?: StreamingReceiver;
   private _lockRenewer: LockRenewer | undefined;
 
+  private _createProcessingSpan: typeof createProcessingSpan;
+
   private get logPrefix() {
     return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
   }
@@ -178,6 +181,7 @@ export class ServiceBusReceiverImpl<
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
+    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -228,7 +232,7 @@ export class ServiceBusReceiverImpl<
     onInitialize: () => Promise<void>,
     onMessage: OnMessage,
     onError: OnError,
-    options?: SubscribeOptions
+    options: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -262,7 +266,9 @@ export class ServiceBusReceiverImpl<
         }
 
         if (!this.isClosed) {
-          sReceiver.subscribe(onMessage, onError);
+          sReceiver.subscribe(async (message) => {
+            await onMessage(message);
+          }, onError);
         } else {
           await sReceiver.close();
         }
@@ -305,12 +311,14 @@ export class ServiceBusReceiverImpl<
           options
         );
       }
+
       const receivedMessages = await this._batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options?.abortSignal
+        options ?? {}
       );
+
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -420,6 +428,7 @@ export class ServiceBusReceiverImpl<
     close(): Promise<void>;
   } {
     assertValidMessageHandlers(handlers);
+    options = options ?? {};
 
     const processError = wrapProcessErrorHandler(handlers);
 
@@ -434,7 +443,8 @@ export class ServiceBusReceiverImpl<
         }
       },
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage((message as any) as ReceivedMessageT);
+        const span = this._createProcessingSpan(message, this, this._context.config, options);
+        return trace(() => handlers.processMessage((message as any) as ReceivedMessageT), span);
       },
       processError,
       options

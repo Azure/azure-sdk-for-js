@@ -95,7 +95,7 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.2.0",
+    "@azure/storage-blob": "^12.3.0-beta.1",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",

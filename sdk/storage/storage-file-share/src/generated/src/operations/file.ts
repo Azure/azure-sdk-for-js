@@ -28,7 +28,7 @@ export class File {
 
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -38,7 +38,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -47,7 +47,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -445,13 +445,13 @@ export class File {
   /**
    * @param callback The callback
    */
-  getRangeList(callback: coreHttp.ServiceCallback<Models.Range[]>): void;
+  getRangeList(callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.Range[]>): void;
-  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.Range[]>, callback?: coreHttp.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
+  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
+  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.ShareFileRangeList>, callback?: coreHttp.ServiceCallback<Models.ShareFileRangeList>): Promise<Models.FileGetRangeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -779,7 +779,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
@@ -807,7 +807,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.duration,
@@ -837,7 +837,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -866,7 +866,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -896,12 +896,12 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.action3,
+    Parameters.action4,
     Parameters.leaseId0
   ],
   responses: {
@@ -1004,6 +1004,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
+    Parameters.prevsharesnapshot,
     Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
@@ -1014,19 +1015,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: {
-        xmlElementName: "Range",
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Range"
-            }
-          }
-        }
-      },
+      bodyMapper: Mappers.ShareFileRangeList,
       headersMapper: Mappers.FileGetRangeListHeaders
     },
     default: {
@@ -1114,7 +1103,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.version
@@ -1143,7 +1132,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.handleId,

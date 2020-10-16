@@ -28,6 +28,7 @@ import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 import { AcceptSessionOptions, ReceiveMode, SubscribeOptions } from "../models";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -573,7 +574,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    *
    * @returns void
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options?: SubscribeOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
@@ -713,14 +714,14 @@ export class MessageSession extends LinkEntity<Receiver> {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    userAbortSignal?: AbortSignalLike
+    options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     try {
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        userAbortSignal
+        ...options
       });
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);

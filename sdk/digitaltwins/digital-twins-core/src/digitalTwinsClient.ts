@@ -561,8 +561,8 @@ export class DigitalTwinsClient {
     }
     while (continuationState.continuationToken) {
       const listRelationshipResponse = await this.client.digitalTwins.listRelationshipsNext(
-        continuationState.continuationToken,
         "",
+        continuationState.continuationToken,
         options
       );
 
@@ -661,8 +661,8 @@ export class DigitalTwinsClient {
     }
     while (continuationState.continuationToken) {
       const listIncomingRelationshipsResponse = await this.client.digitalTwins.listIncomingRelationshipsNext(
-        continuationState.continuationToken,
         "",
+        continuationState.continuationToken,
         options
       );
 
