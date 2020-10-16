@@ -52,7 +52,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
       applicationProperties: getKeyValuePairsOrUndefined(
-        value["ApplicationProperties"],
+        value["Properties"],
         "ApplicationProperties"
       )
     };
