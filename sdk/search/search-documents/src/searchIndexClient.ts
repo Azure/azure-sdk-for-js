@@ -37,6 +37,7 @@ import {
   SearchIndexStatistics,
   SearchServiceStatistics
 } from "./serviceModels";
+import { getSearchClientOptions } from "./indexModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
@@ -46,12 +47,6 @@ import { SearchClient } from "./searchClient";
  * Client options used to configure Cognitive Search API requests.
  */
 export type SearchIndexClientOptions = PipelineOptions;
-
-/**
- * Alias of Search Index Client Options parameter to satisfy linting constraints
- */
-
-type getSearchClientOptions = SearchIndexClientOptions;
 
 /**
  * Class to perform operations to manage

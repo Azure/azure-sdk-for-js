@@ -11,6 +11,7 @@ import {
   ScoringStatistics
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SearchIndexClientOptions } from "./searchIndexClient";
 
 /**
  * Options for performing the count operation on the index.
@@ -60,6 +61,10 @@ export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOption
  */
 export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
 
+/**
+ * Alias of Search Index Client Options parameter to satisfy linting constraints
+ */
+export type getSearchClientOptions = SearchIndexClientOptions;
 /**
  * Options for retrieving a single document.
  */
