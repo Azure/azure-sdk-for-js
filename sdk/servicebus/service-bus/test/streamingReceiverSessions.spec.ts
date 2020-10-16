@@ -685,9 +685,9 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      const batchMessageToSend = await sender.createBatch();
+      const batchMessageToSend = await sender.createMessageBatch();
       for (const message of testMessages) {
-        batchMessageToSend.tryAdd(message);
+        batchMessageToSend.tryAddMessage(message);
       }
       await sender.sendMessages(batchMessageToSend);
 
@@ -754,7 +754,7 @@ describe("Streaming with sessions", () => {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
-      const batch = await sender.createBatch();
+      const batch = await sender.createMessageBatch();
       while (num <= totalNumOfMessages) {
         const message = {
           messageId: num,
@@ -765,7 +765,7 @@ describe("Streaming with sessions", () => {
         };
         num++;
         messages.push(message);
-        batch.tryAdd(message);
+        batch.tryAddMessage(message);
       }
       await sender.sendMessages(batch);
 

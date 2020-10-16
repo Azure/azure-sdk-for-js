@@ -267,15 +267,15 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: createBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.createBatch();
+      await sender.createMessageBatch();
     });
   });
 
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      const batch = await sender.createBatch();
-      batch.tryAdd({
+      const batch = await sender.createMessageBatch();
+      batch.tryAddMessage({
         body: "hello"
       });
       await sender.sendMessages(batch);
@@ -292,15 +292,15 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: createBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.createBatch();
+      await sender.createMessageBatch();
     });
   });
 
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      const batch = await sender.createBatch();
-      batch.tryAdd({
+      const batch = await sender.createMessageBatch();
+      batch.tryAddMessage({
         body: "hello"
       });
       await sender.sendMessages(batch);

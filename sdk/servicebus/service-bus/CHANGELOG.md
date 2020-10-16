@@ -9,6 +9,12 @@
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
+### Breaking changes
+
+- `ServiceBusSender` interface method `createBatch` renamed to `createMesageBatch`
+- `CreateBatchOptions` interface renamed to `CreateMessageBatchOptions`
+- `ServiceBusMessageBatch` interface method `tryAdd` renamed to `tryAddMessage`
+
 ## 7.0.0-preview.7 (2020-10-07)
 
 - [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
