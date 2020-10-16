@@ -48,7 +48,7 @@ export class ConfigurationClient {
 
     // The AAD scope for an API is usually the baseUri + "/.default", but it may
     // be different for your service.
-    const authPolicy = bearerTokenAuthenticationPolicy(credential, "{endpoint}/.default");
+    const authPolicy = bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
