@@ -251,7 +251,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
-      message.properties && message.properties[TRACEPARENT_PROPERTY]
+      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {

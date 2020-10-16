@@ -410,7 +410,7 @@ describe("ServiceBusMessage validations", function(): void {
       title: "contentType is of invalid type"
     },
     {
-      message: { body: "", label: 1 as any },
+      message: { body: "", subject: 1 as any },
       expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
       title: "label is of invalid type"
     },
@@ -604,7 +604,7 @@ describe("Tracing for send", function(): void {
       { name: "Albert" },
       {
         name: "Marie",
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: "foo"
         }
       }
@@ -614,7 +614,7 @@ describe("Tracing for send", function(): void {
 
     for (let i = 0; i < 2; i++) {
       batch.tryAdd(
-        { body: `${list[i].name}`, properties: list[i].properties },
+        { body: `${list[i].name}`, applicationProperties: list[i].applicationProperties },
         { parentSpan: rootSpan }
       );
     }
@@ -777,7 +777,7 @@ describe("Tracing for send", function(): void {
     for (let i = 0; i < 5; i++) {
       messages.push({ body: `multiple messages - manual trace propgation: ${i}` });
     }
-    messages[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+    messages[0].applicationProperties = { [TRACEPARENT_PROPERTY]: "foo" };
     await sender.sendMessages(messages, {
       tracingOptions: {
         spanOptions: {
