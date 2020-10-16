@@ -12,7 +12,6 @@ Use the client libraries in this package to:
 - Create/Read/List/Update/Delete Page Blobs
 - Create/Read/List/Update/Delete Append Blobs
 
-
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
