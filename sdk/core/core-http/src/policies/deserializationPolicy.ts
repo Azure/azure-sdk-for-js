@@ -203,6 +203,12 @@ export function deserializeResponseBody(
   });
 }
 
+function isOperationSpecEmpty(operationSpec: OperationSpec):boolean {
+  const expectedStatusCodes = Object.keys(operationSpec.responses);
+  return (expectedStatusCodes.length === 0 ||
+      (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default"));
+}
+
 function handleErrorResponse(
   parsedResponse: HttpOperationResponse,
   operationSpec: OperationSpec
@@ -210,9 +216,11 @@ function handleErrorResponse(
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const responseSpec = operationSpec.responses[String(parsedResponse.status)];
   // Either we found a non-error response or the status is success.
-  if ((responseSpec && !responseSpec.isError) || (!responseSpec && isSuccessByStatus)) {
-    return { error: null, shouldReturnResponse: false };
-  }
+  if((responseSpec && !responseSpec.isError)
+   || (!responseSpec && isOperationSpecEmpty(operationSpec) && isSuccessByStatus)
+   ) {
+    return { error: null, shouldReturnResponse: false};
+  }  
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
