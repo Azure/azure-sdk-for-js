@@ -94,7 +94,7 @@ export interface ClusterReportedProperties {
 }
 
 /**
- * An interface representing Resource.
+ * The resource model definition for a ARM tracked top level resource
  */
 export interface Resource extends BaseResource {
   /**
@@ -406,9 +406,9 @@ export type OperationsListResponse = AvailableOperations & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listBySubscription operation.
  */
-export type ClustersListResponse = ClusterList & {
+export type ClustersListBySubscriptionResponse = ClusterList & {
   /**
    * The underlying HTTP response.
    */
@@ -506,9 +506,9 @@ export type ClustersUpdateResponse = Cluster & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listBySubscriptionNext operation.
  */
-export type ClustersListNextResponse = ClusterList & {
+export type ClustersListBySubscriptionNextResponse = ClusterList & {
   /**
    * The underlying HTTP response.
    */
