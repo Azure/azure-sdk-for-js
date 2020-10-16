@@ -8,7 +8,7 @@ import {
   ImdsEndpoint,
   ImdsApiVersion,
   AppServiceMsiApiVersion
-} from "../../../src/credentials/managedIdentityCredential";
+} from "../../../src/credentials/managedIdentityCredential/";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";

@@ -9,7 +9,7 @@
   "browser": {
     "./dist-esm/src/credentials/azureCliCredential.js": "./dist-esm/src/credentials/azureCliCredential.browser.js",
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
-    "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
+    "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
