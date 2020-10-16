@@ -6,9 +6,8 @@ import assert from "assert";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   ImdsEndpoint,
-  ImdsApiVersion,
-  AppServiceMsiApiVersion
-} from "../../../src/credentials/managedIdentityCredential/";
+  ImdsApiVersion
+} from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";
@@ -161,7 +160,7 @@ describe("ManagedIdentityCredential", function() {
       );
       assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), process.env.IDENTITY_HEADER);
       assert.ok(
-        authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
+        authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
         "URL does not have expected version"
       );
       if (authDetails.token) {
@@ -199,7 +198,7 @@ describe("ManagedIdentityCredential", function() {
       );
       assert.equal(authRequest.headers.get("secret"), process.env.MSI_SECRET);
       assert.ok(
-        authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
+        authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
         "URL does not have expected version"
       );
       if (authDetails.token) {
