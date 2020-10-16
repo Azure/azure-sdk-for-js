@@ -47,7 +47,7 @@ param (
 
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
-function OutputWarning {
+function Write-CIWarning {
   param([string] $Output)
 
   if ($CI) {
@@ -59,7 +59,7 @@ function OutputWarning {
 
 }
 
-function SetEnvironmentVariable {
+function Set-EnvironmentVariable {
   param([string] $Name, [string] $Value)
 
   if ($CI) {
@@ -72,18 +72,18 @@ function SetEnvironmentVariable {
   }
 }
 
-function SetEnvironmentVariables {
+function Set-EnvironmentVariables {
   Write-Verbose "Setting AAD environment variables for Test Application..."
-  SetEnvironmentVariable -Name AZURE_CLIENT_ID -Value $TestApplicationId
-  SetEnvironmentVariable -Name AZURE_CLIENT_SECRET -Value $TestApplicationSecret
-  SetEnvironmentVariable -Name AZURE_TENANT_ID -Value $TenantId
+  Set-EnvironmentVariable -Name AZURE_CLIENT_ID -Value $TestApplicationId
+  Set-EnvironmentVariable -Name AZURE_CLIENT_SECRET -Value $TestApplicationSecret
+  Set-EnvironmentVariable -Name AZURE_TENANT_ID -Value $TenantId
 
   Write-Verbose "Setting cloud-specific environment variables"
   $cloudEnvironment = Get-AzEnvironment -Name $Environment
-  SetEnvironmentVariable -Name AZURE_AUTHORITY_HOST -Value $cloudEnvironment.ActiveDirectoryAuthority
+  Set-EnvironmentVariable -Name AZURE_AUTHORITY_HOST -Value $cloudEnvironment.ActiveDirectoryAuthority
 }
 
-function GenerateDeployManifest {
+function New-DeployManifest {
   Write-Verbose "Detecting samples..."
   $javascriptSamples = (Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Directory
     | Where-Object { Test-Path "$_/package.json" })
@@ -105,7 +105,7 @@ function GenerateDeployManifest {
   return $manifest
 }
 
-function UpdateSamplesForService {
+function Update-SamplesForService {
   Param([Parameter(Mandatory = $true)] $entry)
 
   Write-Verbose "Preparing samples for $($entry.Name)"
@@ -116,7 +116,7 @@ function UpdateSamplesForService {
   $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'dist-samples/javascript' -Resolve
 }
 
-function UpdateSampleDependencies {
+function Update-SampleDependencies {
   Param(
     [Parameter(Mandatory = $true)] $sample,
     [Parameter(Mandatory = $true)] $dependencies
@@ -137,50 +137,52 @@ function UpdateSampleDependencies {
   }
 }
 
-function NewTestResources {
+function Start-NewTestResourcesJob {
   Param(
     [Parameter(Mandatory = $true)] [System.Collections.Hashtable]$entry,
     [Parameter(Mandatory = $true)] [string]$baseName,
     [Parameter(Mandatory = $true)] [string]$resourceGroupName
   )
 
-  # Force -CI to false here. This is to have the script make use of
-  # -BaseName so that all resources are created within the same resource
-  # group for easier cleanup. All created environment variables are returned
-  # to $deployOutput so they can be set in the user's context or in CI.
-  $deployOutput = &"$repoRoot/eng/common/TestResources/New-TestResources.ps1" `
-    -BaseName  $baseName `
-    -ResourceGroupName $resourceGroupName `
-    -ServiceDirectory $entry.ResourcesDirectory `
-    -TestApplicationId $TestApplicationId `
-    -TestApplicationSecret $TestApplicationSecret `
-    -ProvisionerApplicationId $TestApplicationId `
-    -ProvisionerApplicationSecret $TestApplicationSecret `
-    -TestApplicationOid $TestApplicationOid `
-    -TenantId $TenantId `
-    -SubscriptionId $SubscriptionId `
-    -Location $Location `
-    -Environment $Environment `
-    -AdditionalParameters $AdditionalParameters `
-    -DeleteAfterHours 24 `
-    -Force `
-    -Verbose `
-    -CI:$CI
-
-  return $deployOutput
+  Start-Job -Name $entry.Name -ScriptBlock {
+    &"$using:repoRoot/eng/common/TestResources/New-TestResources.ps1" `
+       -BaseName  $using:baseName `
+       -ResourceGroupName $using:resourceGroupName `
+       -ServiceDirectory $using:entry.ResourcesDirectory `
+       -TestApplicationId $using:TestApplicationId `
+       -TestApplicationSecret $using:TestApplicationSecret `
+       -ProvisionerApplicationId $using:TestApplicationId `
+       -ProvisionerApplicationSecret $using:TestApplicationSecret `
+       -TestApplicationOid $using:TestApplicationOid `
+       -TenantId $using:TenantId `
+       -SubscriptionId $using:SubscriptionId `
+       -Location $using:Location `
+       -Environment $using:Environment `
+       -AdditionalParameters $using:AdditionalParameters `
+       -DeleteAfterHours 24 `
+       -Force `
+       -Verbose `
+       -CI:$using:CI
+  }
 }
 
-function DeployTestResources {
+function Deploy-TestResources {
   Param([Parameter(Mandatory = $true)] $deployManifest)
 
   $deployedServiceDirectories = @{ }
   $baseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
   $resourceGroupName = "rg-smoke-$baseName"
-  $dependencies = New-Object 'System.Collections.Concurrent.ConcurrentDictionary[string,string]'
-  $runManifest = [System.Collections.ArrayList]::Synchronized((New-Object 'System.Collections.ArrayList'))
+  $dependencies = New-Object 'System.Collections.Generic.Dictionary[string,string]'
+  $runManifest = @()
 
   # Use the same resource group name that New-TestResources.ps1 generates
-  SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
+  Set-EnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
+
+  $entryDeployJobs = @()
+
+  # Remove any lingering jobs from this session so output is not polluted
+  Get-Job | Stop-Job
+  Get-Job | Remove-Job
 
   foreach ($entry in $deployManifest) {
     if (!(Get-ChildItem -Path "$repoRoot/sdk/$($entry.ResourcesDirectory)" -Filter test-resources.json -Recurse)) {
@@ -188,42 +190,50 @@ function DeployTestResources {
       continue
     }
 
-    try {
-      if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
-        $deployOutput = NewTestResources $entry $baseName $resourceGroupName
-        $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
-
-        foreach ($key in $deployOutput.Keys) {
-          SetEnvironmentVariable -Name $key -Value $deployOutput[$key]
-        }
-      }
-      else {
-        Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.ResourcesDirectory)"
-      }
-
+    if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
+      Write-Verbose "Starting deploy job for $($entry.ResourcesDirectory)"
+      $job = Start-NewTestResourcesJob $entry $baseName $resourceGroupName
+      $entryDeployJobs += $job
+      $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
     }
-    catch {
-      OutputWarning "Failed to deploy $($entry.Name) $($_.Exception.Message)"
-      Write-Warning "Failed to deploy $($entry.Name)"
-      Write-Host $_.Exception.Message
+    else {
+      Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.ResourcesDirectory)"
+    }
+
+    Update-SamplesForService $entry
+    Update-SampleDependencies $entry $dependencies
+    $runManifest += $entry
+  }
+
+  Write-Verbose "Waiting for all deploy jobs to finish"
+  Get-Job | Wait-Job
+
+  foreach ($job in $entryDeployJobs) {
+    if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
+      $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
+      Write-CIWarning "Failed to deploy $($job.Name): $($errorMsg)"
+      Write-Warning "Failed to deploy $($job.Name)"
+      Write-Host $errorMsg
       continue
     }
 
-    UpdateSamplesForService $entry
-    UpdateSampleDependencies $entry $dependencies
-    $runManifest.Add($entry)
+    Write-Verbose "setting env"
+    $deployOutput = Receive-Job -Id $job.Id
+    foreach ($key in $deployOutput.Keys) {
+      Set-EnvironmentVariable -Name $key -Value $deployOutput[$key]
+    }
   }
 
-  return @{
-    Dependencies = $dependencies;
-    RunManifest = $runManifest
-  }
+  # Cleanup job records
+  Get-Job | Remove-Job
+
+  @{ Dependencies = $dependencies; RunManifest = $runManifest }
 }
 
-function WriteConfigs {
+function Export-Configs {
   Param(
     [Parameter(Mandatory = $true)] [System.Collections.Generic.Dictionary[string,string]]$dependencies,
-    [Parameter(Mandatory = $true)] [System.Object[]]$runManifest
+    [Parameter(Mandatory = $true)] $runManifest
   )
 
   Write-Verbose "Writing run-manifest.json"
@@ -235,13 +245,13 @@ function WriteConfigs {
   ($runnerPackageSpec | ConvertTo-Json | Set-Content "$repoRoot/common/smoke-test/package.json")
 }
 
-function InitializeSmokeTests {
-  SetEnvironmentVariables
-  $deployManifest = GenerateDeployManifest
-  $configs = DeployTestResources $deployManifest
-  WriteConfigs $configs.Dependencies $configs.RunManifest
+function Initialize-SmokeTests {
+  Set-EnvironmentVariables
+  $deployManifest = New-DeployManifest
+  $configs = Deploy-TestResources $deployManifest
+  Export-Configs $configs.Dependencies $configs.RunManifest
 
-  SetEnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
+  Set-EnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
 
   if ($CI) {
     # If in CI mark the task as successful even if there are warnings so the
@@ -250,7 +260,7 @@ function InitializeSmokeTests {
   }
 }
 
-InitializeSmokeTests
+Initialize-SmokeTests
 
 <#
 .SYNOPSIS
