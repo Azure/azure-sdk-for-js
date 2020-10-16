@@ -52,6 +52,19 @@ export class ConfigurationClient {
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
+      deserializationOptions: {
+        expectedContentTypes: {
+          // This helps the protocol layer decode the MIME types
+          // send by the service correctly.
+          json: [
+            "application/vnd.microsoft.appconfig.kvset+json",
+            "application/vnd.microsoft.appconfig.kv+json",
+            "application/vnd.microsoft.appconfig.kvs+json",
+            "application/vnd.microsoft.appconfig.keyset+json",
+            "application/vnd.microsoft.appconfig.revs+json"
+          ]
+        }
+      },
       ...{
         loggingOptions: {
           logger: logger.info,
