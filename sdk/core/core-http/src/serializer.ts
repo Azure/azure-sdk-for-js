@@ -4,7 +4,7 @@
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
-import { XML_ATTRKEY, XML_CHARKEY } from './util/xml.common';
+import { XML_ATTRKEY, XML_CHARKEY } from "./util/xml.common";
 
 export class Serializer {
   constructor(
@@ -211,8 +211,8 @@ export class Serializer {
       if (this.isXML) {
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
-         * both header ("$" i.e., XML2JS_ATTRKEY) and body ("#" i.e., XML2JS_CHARKEY) properties,
-         * then just reduce the responseBody value to the body ("#" i.e., XML2JS_CHARKEY) property.
+         * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
+         * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
         if (responseBody[XML_ATTRKEY] != undefined && responseBody[XML_CHARKEY] != undefined) {
           responseBody = responseBody[XML_CHARKEY];
@@ -504,9 +504,12 @@ function serializeSequenceType(
         ? `xmlns:${elementType.xmlNamespacePrefix}`
         : "xmlns";
       if (elementType.type.name === "Composite") {
-        tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        tempArray[i] = { ...serializedValue };
+        tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       } else {
-        tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        tempArray[i] = {};
+        tempArray[i][XML_CHARKEY] = serializedValue;
+        tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       }
     } else {
       tempArray[i] = serializedValue;
@@ -674,7 +677,10 @@ function serializeCompositeType(
           const xmlnsKey = mapper.xmlNamespacePrefix
             ? `xmlns:${mapper.xmlNamespacePrefix}`
             : "xmlns";
-          parentObject.$ = { ...parentObject.$, [xmlnsKey]: mapper.xmlNamespace };
+          parentObject[XML_ATTRKEY] = {
+            ...parentObject[XML_ATTRKEY],
+            [xmlnsKey]: mapper.xmlNamespace
+          };
         }
         const propertyObjectName =
           propertyMapper.serializedName !== ""
@@ -700,11 +706,11 @@ function serializeCompositeType(
         if (serializedValue !== undefined && propName != undefined) {
           const value = getXmlObjectValue(propertyMapper, serializedValue, isXml);
           if (isXml && propertyMapper.xmlIsAttribute) {
-            // $ is the key attributes are kept under in xml2js.
+            // XML_ATTRKEY, i.e., $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
             // with names in user documents.
-            parentObject.$ = parentObject.$ || {};
-            parentObject.$[propName] = serializedValue;
+            parentObject[XML_ATTRKEY] = parentObject[XML_ATTRKEY] || {};
+            parentObject[XML_ATTRKEY][propName] = serializedValue;
           } else if (isXml && propertyMapper.xmlIsWrapped) {
             parentObject[propName] = { [propertyMapper.xmlElementName!]: value };
           } else {
@@ -745,9 +751,18 @@ function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any, isXml: 
   const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
 
   if (["Composite"].includes(propertyMapper.type.name)) {
-    return { $: xmlNamespace, ...serializedValue };
+    if (serializedValue[XML_ATTRKEY]) {
+      return serializedValue;
+    } else {
+      const result: any = { ...serializedValue };
+      result[XML_ATTRKEY] = xmlNamespace;
+      return result;
+    }
   }
-  return { _: serializedValue, $: xmlNamespace };
+  const result: any = {};
+  result[XML_CHARKEY] = serializedValue;
+  result[XML_ATTRKEY] = xmlNamespace;
+  return result;
 }
 
 function isSpecialXmlProperty(propertyName: string): boolean {
@@ -794,10 +809,10 @@ function deserializeCompositeType(
       }
       instance[key] = dictionary;
     } else if (serializer.isXML) {
-      if (propertyMapper.xmlIsAttribute && responseBody.$) {
+      if (propertyMapper.xmlIsAttribute && responseBody[XML_ATTRKEY]) {
         instance[key] = serializer.deserialize(
           propertyMapper,
-          responseBody.$[xmlName!],
+          responseBody[XML_ATTRKEY][xmlName!],
           propertyObjectName
         );
       } else {

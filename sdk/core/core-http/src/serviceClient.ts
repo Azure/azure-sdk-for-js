@@ -60,6 +60,7 @@ import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePo
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
+import { XML_ATTRKEY, XML_CHARKEY } from "./util/xml.common";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -639,7 +640,10 @@ function getXmlValueWithNamespace(
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
   if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
-    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+    const result: any = {};
+    result[XML_CHARKEY] = serializedValue;
+    result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
+    return result;
   }
 
   return serializedValue;
