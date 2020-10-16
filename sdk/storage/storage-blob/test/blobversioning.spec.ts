@@ -130,11 +130,6 @@ describe("Blob versioning", () => {
   });
 
   it("delete a version", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
 
@@ -146,11 +141,6 @@ describe("Blob versioning", () => {
   });
 
   it("deleteBlobs should work for batch delete", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
@@ -212,11 +202,6 @@ describe("Blob versioning", () => {
   });
 
   it("deleting root blob with versionId should fail", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     await containerClient.deleteBlob(blobName, {
       versionId: uploadRes.versionId
     });
@@ -250,11 +235,6 @@ describe("Blob versioning", () => {
   });
 
   it("deleting a blob that has snapshots needs deleteSnapshots option", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -267,7 +247,7 @@ describe("Blob versioning", () => {
     }
     assert.ok(exceptionCaught);
 
-    blobClient.delete({ deleteSnapshots: "include" });
+    await blobClient.delete({ deleteSnapshots: "include" });
     const snapshotExists = await blobClient.withSnapshot(result.snapshot!).exists();
     assert.ok(!snapshotExists);
     const rootExists = await blobClient.exists();
@@ -310,11 +290,6 @@ describe("Blob versioning", () => {
   });
 
   it("promote a version: as the copy source", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.getProperties();
 
@@ -382,11 +357,6 @@ describe("Blob versioning", () => {
   });
 
   it("undelete a soft-deleted version", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({

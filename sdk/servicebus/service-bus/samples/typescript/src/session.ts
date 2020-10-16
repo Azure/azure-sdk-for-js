@@ -100,4 +100,5 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

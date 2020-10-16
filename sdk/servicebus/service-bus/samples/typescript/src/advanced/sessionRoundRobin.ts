@@ -23,8 +23,8 @@ dotenv.config();
 const serviceBusConnectionString =
   process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
-// NOTE: this sample uses a queue but would also work a session enabled subscription.
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+// NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
+const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;

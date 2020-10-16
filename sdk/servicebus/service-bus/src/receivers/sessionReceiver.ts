@@ -3,24 +3,17 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
-import {
-  PeekMessagesOptions,
-  GetMessageIteratorOptions,
-  MessageHandlerOptionsBase,
-  SessionSubscribeOptions
-} from "../models";
+import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -33,9 +26,11 @@ import {
   ErrorNameConditionMapper,
   translate
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
+import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { receiverLogger as logger } from "../log";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -68,7 +63,7 @@ export interface ServiceBusSessionReceiver<
    */
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SessionSubscribeOptions
+    options?: SubscribeOptions
   ): {
     /**
      * Causes the subscriber to stop receiving new messages.
@@ -119,6 +114,12 @@ export class ServiceBusSessionReceiverImpl<
    */
   private _isClosed: boolean = false;
 
+  private _createProcessingSpan: typeof createProcessingSpan;
+
+  private get logPrefix() {
+    return `[${this._context.connectionId}|session:${this.entityPath}]`;
+  }
+
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
@@ -133,6 +134,7 @@ export class ServiceBusSessionReceiverImpl<
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
+    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -141,7 +143,7 @@ export class ServiceBusSessionReceiverImpl<
       if (this._isClosed) {
         const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        logError(error, `[${this._context.connectionId}] %O`, error);
+        logger.logError(error, `${this.logPrefix} already closed`);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -156,7 +158,7 @@ export class ServiceBusSessionReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is already receiving.`);
       throw error;
     }
   }
@@ -350,17 +352,12 @@ export class ServiceBusSessionReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          this.sessionId,
-          {
-            ...options,
-            associatedLinkName: this._messageSession.name,
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -389,7 +386,7 @@ export class ServiceBusSessionReceiverImpl<
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options?.abortSignal
+        options ?? {}
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];
@@ -406,18 +403,21 @@ export class ServiceBusSessionReceiverImpl<
 
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SessionSubscribeOptions
+    options?: SubscribeOptions
   ): {
     close(): Promise<void>;
   } {
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
+    options = options ?? {};
+
     const processError = wrapProcessErrorHandler(handlers);
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage((message as any) as ReceivedMessageT);
+        const span = this._createProcessingSpan(message, this, this._context.config, options);
+        return trace(() => handlers.processMessage((message as any) as ReceivedMessageT), span);
       },
       processError,
       options
@@ -455,7 +455,7 @@ export class ServiceBusSessionReceiverImpl<
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: MessageHandlerOptionsBase
+    options: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -484,13 +484,11 @@ export class ServiceBusSessionReceiverImpl<
     try {
       await this._messageSession.close();
     } catch (err) {
-      logError(
+      logger.logError(
         err,
-        "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
-        this._context.connectionId,
-        this.sessionId,
-        this.entityPath,
-        err
+        "%s An error occurred while closing the SessionReceiver for session %s",
+        this.logPrefix,
+        this.sessionId
       );
       throw err;
     } finally {

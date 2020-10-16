@@ -105,4 +105,5 @@ async function receiveMessages(sbClient) {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

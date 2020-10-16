@@ -2,19 +2,29 @@
 // Licensed under the MIT License.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
+
 import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
-  UserDelegationKeyModel
+  UserDelegationKeyModel,
+  BlobQueryArrowConfiguration
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
+/**
+ * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface FileQueryArrowConfiguration
+ */
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
+
 import {
-  PathCreateResponse,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   FileSystemListPathsHeaders,
-  PathList as PathListModel,
-  PathDeleteResponse
+  PathCreateResponse,
+  PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  PathList as PathListModel
 } from "./generated/src/models";
 import { CommonOptions } from "./StorageClient";
 
@@ -39,15 +49,18 @@ export {
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType,
+  PathResourceType as PathResourceTypeModel,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
   PathAppendDataResponse as FileAppendResponse,
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction,
-  PathRenameMode
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -406,10 +419,59 @@ export interface PathPermissions {
 
 export type AccessControlType = "user" | "group" | "mask" | "other";
 
-export interface PathAccessControlItem {
+export interface RemovePathAccessControlItem {
+  /**
+   * Indicates whether this is the default entry for the ACL.
+   *
+   * @type {boolean}
+   * @memberof RemovePathAccessControlItem
+   */
   defaultScope: boolean;
+  /**
+   * Specifies which role this entry targets.
+   *
+   * @type {AccessControlType}
+   * @memberof RemovePathAccessControlItem
+   */
   accessControlType: AccessControlType;
+  /**
+   * Specifies the entity for which this entry applies.
+   * Must be omitted for types mask or other. It must also be omitted when the user or group is the owner.
+   *
+   * @type {string}
+   * @memberof RemovePathAccessControlItem
+   */
+  entityId?: string;
+}
+
+export interface PathAccessControlItem {
+  /**
+   * Indicates whether this is the default entry for the ACL.
+   *
+   * @type {boolean}
+   * @memberof PathAccessControlItem
+   */
+  defaultScope: boolean;
+  /**
+   * Specifies which role this entry targets.
+   *
+   * @type {AccessControlType}
+   * @memberof PathAccessControlItem
+   */
+  accessControlType: AccessControlType;
+  /**
+   * Specifies the entity for which this entry applies.
+   *
+   * @type {string}
+   * @memberof PathAccessControlItem
+   */
   entityId: string;
+  /**
+   * Access control permissions.
+   *
+   * @type {RolePermissions}
+   * @memberof PathAccessControlItem
+   */
   permissions: RolePermissions;
 }
 
@@ -480,6 +542,181 @@ export interface PathSetAccessControlOptions extends CommonOptions {
   group?: string;
 }
 
+/**
+ * Options type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface PathChangeAccessControlRecursiveOptions
+ * @extends {CommonOptions}
+ */
+export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. If data set size exceeds batch size then operation will be split into multiple requests so that progress can be tracked.
+   * Batch size should be between 1 and 2000. The default when unspecified is 2000.
+   *
+   * @type {number}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  batchSize?: number;
+  /**
+   * Optional. Defines maximum number of batches that single change Access Control operation can execute.
+   * If maximum is reached before all subpaths are processed then continuation token can be used to resume operation.
+   * Empty value indicates that maximum number of batches in unbound and operation continues till end.
+   *
+   * @type {number}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  maxBatches?: number;
+  /**
+   * Optional. Default false. If set to false, the operation will terminate quickly on encountering user failures.
+   * If true, the operation will ignore user failures and proceed with the operation on other sub-entities of the directory.
+   *
+   * @type {boolean}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  continueOnFailure?: boolean;
+  /**
+   * Continuation token to continue next batch of operations.
+   *
+   * @type {string}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  continuationToken?: string;
+  /**
+   * Callback where caller can track progress of the operation
+   * as well as collect paths that failed to change Access Control.
+   *
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  onProgress?: (progress: AccessControlChanges) => void;
+}
+
+/**
+ * Represents an entry that failed to update Access Control List during `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface AccessControlChangeFailure
+ */
+export interface AccessControlChangeError {
+  /**
+   * Returns name of an entry.
+   *
+   * @type {string}
+   * @memberof AccessControlChangeFailure
+   */
+  name: string;
+  /**
+   * Returns whether entry is a directory.
+   *
+   * @type {boolean}
+   * @memberof AccessControlChangeFailure
+   */
+  isDirectory: boolean;
+  /**
+   * Returns error message that is the reason why entry failed to update.
+   *
+   * @type {string}
+   * @memberof AccessControlChangeFailure
+   */
+  message: string;
+}
+
+/**
+ * AccessControlChanges contains batch and cumulative counts of operations that change Access Control Lists recursively.
+ * Additionally it exposes path entries that failed to update while these operations progress.
+ *
+ * @export
+ * @interface AccessControlChanges
+ */
+export interface AccessControlChanges {
+  /**
+   * Path entries that failed to update Access Control List within single batch.
+   *
+   * @type {AccessControlChangeError[]}
+   * @memberof AccessControlChanges
+   */
+  batchFailures: AccessControlChangeError[];
+  /**
+   * Counts of paths changed within single batch.
+   *
+   * @type {AccessControlChangeCounters}
+   * @memberof AccessControlChanges
+   */
+  batchCounters: AccessControlChangeCounters;
+  /**
+   * Counts of paths changed from start of the operation.
+   *
+   * @type {AccessControlChangeCounters}
+   * @memberof AccessControlChanges
+   */
+  aggregateCounters: AccessControlChangeCounters;
+  /**
+   * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
+   *
+   * @type {string}
+   * @memberof AccessControlChanges
+   */
+  continuationToken?: string;
+}
+
+/**
+ * AccessControlChangeCounters contains counts of operations that change Access Control Lists recursively.
+ *
+ * @export
+ * @interface AccessControlChangeCounters
+ */
+export interface AccessControlChangeCounters {
+  /**
+   * Returns number of directories where Access Control List has been updated successfully.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  changedDirectoriesCount: number;
+  /**
+   * Returns number of files where Access Control List has been updated successfully.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  changedFilesCount: number;
+  /**
+   * Returns number of paths where Access Control List update has failed.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  failedChangesCount: number;
+}
+
+/**
+ * Response type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface PathChangeAccessControlRecursiveResponse
+ */
+export interface PathChangeAccessControlRecursiveResponse {
+  /**
+   * Contains counts of paths changed from start of the operation.
+   */
+  counters: AccessControlChangeCounters;
+  /**
+   * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
+   *
+   * @type {string}
+   * @memberof PathChangeAccessControlRecursiveResponse
+   */
+  continuationToken?: string;
+}
+
 export interface PathSetPermissionsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   conditions?: DataLakeRequestConditions;
@@ -530,6 +767,11 @@ export interface PathGetPropertiesHeaders {
   accessTierInferred?: boolean;
   archiveStatus?: string;
   accessTierChangedOn?: Date;
+
+  /**
+   * The time the file will expire.
+   */
+  expiresOn?: Date;
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -661,6 +903,38 @@ export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
    * @memberof PathDeleteIfExistsResponse
    */
   succeeded: boolean;
+}
+
+// Keeping these for backward compatibility when we changed to use string unions.
+/**
+ * Defines values for PathGetPropertiesAction.
+ * Possible values include: 'getAccessControl', 'getStatus'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathGetPropertiesAction {
+  GetAccessControl = "getAccessControl",
+  GetStatus = "getStatus"
+}
+/**
+ * Defines values for PathRenameMode.
+ * Possible values include: 'legacy', 'posix'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathRenameMode {
+  Legacy = "legacy",
+  Posix = "posix"
+}
+/**
+ * Defines values for PathResourceType.
+ * Possible values include: 'directory', 'file'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathResourceType {
+  Directory = "directory",
+  File = "file"
 }
 
 /****************************************************************/
@@ -1079,10 +1353,13 @@ export interface FileQueryOptions extends CommonOptions {
   /**
    * Configurations for the query output.
    *
-   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration}
+   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration}
    * @memberof FileQueryOptions
    */
-  outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+  outputTextConfiguration?:
+    | FileQueryJsonTextConfiguration
+    | FileQueryCsvTextConfiguration
+    | FileQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    *
@@ -1105,6 +1382,39 @@ export interface FileQueryOptions extends CommonOptions {
   conditions?: DataLakeRequestConditions;
 }
 
+/**
+ * Option interface for the {@link DataLakeFileClient.setExpiry} operation.
+ *
+ * @export
+ * @interface FileSetExpiryOptions
+ */
+export interface FileSetExpiryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileSetExpiryOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * The time to set the file to expire on, used in combination with the "Absolute" {@link FileExpiryMode}.
+   * A time in the past is not allowed and milliseconds will be dropped.
+   *
+   * @type {Date}
+   * @memberof FileSetExpiryOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * The number of milliseconds to elapse before the file expires, used in combination with the "RelativeToCreation" or "RelativeToNow" {@link FileExpiryMode}.
+   *
+   * @type {number}
+   * @memberof FileSetExpiryOptions
+   */
+  timeToExpireInMs?: number;
+}
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */
 /***********************************************************/

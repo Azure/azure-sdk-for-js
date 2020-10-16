@@ -6,8 +6,7 @@ import { BasicScenario } from "../common/scenario/basic";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import nock from "nock";
 import { successfulBreezeResponse } from "../unit/breezeTestUtils";
-import { Envelope } from "../../src/Declarations/Contracts";
-import { gunzipSync } from "zlib";
+import { TelemetryItem as Envelope } from "../../src/generated";
 
 describe("Trace Exporter Scenarios", () => {
   describe(BasicScenario.prototype.constructor.name, () => {
@@ -15,10 +14,12 @@ describe("Trace Exporter Scenarios", () => {
 
     let ingest: Envelope[] = [];
     nock(DEFAULT_BREEZE_ENDPOINT)
-      .post("/v2/track", (body) => {
-        const buffer = gunzipSync(Buffer.from(body, "hex"));
-        ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
-        return body;
+      .post("/v2/track", (body: Envelope[]) => {
+        // todo: gzip is not supported by generated applicationInsightsClient
+        // const buffer = gunzipSync(Buffer.from(body, "hex"));
+        // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
+        ingest.push(...body);
+        return true;
       })
       .reply(200, successfulBreezeResponse(1))
       .persist();

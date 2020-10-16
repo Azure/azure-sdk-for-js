@@ -7,10 +7,22 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "text/plain; charset=utf-8",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -38,9 +50,7 @@ export const schemaId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    // TODO: Manually patched for now due to https://github.com/Azure/azure-rest-api-specs/pull/10220#discussion_r469588293
-    // defaultValue: "2018-01-01-preview",
-    defaultValue: "2017-04",
+    defaultValue: "2020-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -52,7 +62,7 @@ export const apiVersion: OperationQueryParameter = {
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "text/plain; charset=utf-8",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -66,6 +76,18 @@ export const schemaContent: OperationParameter = {
   mapper: {
     serializedName: "schemaContent",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -94,10 +116,10 @@ export const schemaName: OperationURLParameter = {
   }
 };
 
-export const xSchemaType: OperationParameter = {
-  parameterPath: "xSchemaType",
+export const serializationType: OperationParameter = {
+  parameterPath: "serializationType",
   mapper: {
-    serializedName: "X-Schema-Type",
+    serializedName: "Serialization-Type",
     required: true,
     type: {
       name: "String"

@@ -198,7 +198,10 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
       scopeType: "All"
     },
     alertConditions: {
-      severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
+      severityCondition: {
+        minAlertSeverity: "Medium",
+        maxAlertSeverity: "High"
+      }
     },
     snoozeCondition: {
       autoSnooze: 0,
@@ -216,25 +219,33 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
-  // This shows how to use `byPage()` and iterator to list alerts
-  let alertIds = [];
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
+  // This shows how to use `for-await-of` syntax to list alerts
+  console.log("  using for-await-of syntax");
+  let alertIds = [];
+  for await (const alert of client.listAlertsForAlertConfiguration(
+    alertConfigId,
+    startTime,
+    endTime,
+    "AnomalyTime"
+  )) {
+    alertIds.push(alert.id);
+    console.log("    Alert");
+    console.log(`      id: ${alert.id}`);
+    console.log(`      timestamp: ${alert.timestamp}`);
+    console.log(`      created on: ${alert.createdOn}`);
+  }
+  // alternatively we could list results by pages
+  console.log(`  by pages`);
   const iterator = client
     .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
-  const result = await iterator.next();
-
-  if (!result.done) {
-    console.log("first page");
+  let result = await iterator.next();
+  while (!result.done) {
+    console.log("    -- Page -- ");
     console.table(result.value.alerts);
-    alertIds.push(...(result.value.alerts || []).map((a) => a.id));
-    const nextPage = await iterator.next();
-    if (!nextPage.done) {
-      console.log("second page");
-      console.table(nextPage.value.alerts);
-      alertIds.push(...(nextPage.value.alerts || []).map((a) => a.id));
-    }
+    result = await iterator.next();
   }
 
   return alertIds;

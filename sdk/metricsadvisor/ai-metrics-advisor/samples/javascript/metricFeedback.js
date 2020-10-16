@@ -84,6 +84,31 @@ async function getFeedback(client, feedbackId) {
 
 async function listFeedback(client, metricId, startTime, endTime) {
   console.log("Listing feedbacks...");
+  console.log("  using for-await-of syntax");
+  for await (const feedback of client.listMetricFeedbacks(metricId, {
+    filter: {
+      startTime: new Date("08/01/2020"),
+      endTime: new Date("08/11/2020"),
+      timeMode: "MetricTimestamp"
+    }
+  })) {
+    console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
+    console.log(`      created time: ${feedback.createdTime}`);
+    console.log(`      metric id: ${feedback.metricId}`);
+    console.log(`      user principal: ${feedback.userPrincipal}`);
+    if (feedback.feedbackType === "Anomaly") {
+      console.log(`      feedback value: ${feedback.value}`);
+      console.log(`      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`);
+    } else if (feedback.feedbackType === "ChangePoint") {
+      console.log(`      feedback value: ${feedback.value}`);
+    } else if (feedback.feedbackType === "Period") {
+      console.log(`      period type: ${feedback.periodType}`);
+      console.log(`      period value: ${feedback.periodValue}`);
+    } else if (feedback.feedbackType === "Comment") {
+      console.log(`      feedback comment: ${feedback.comment}`);
+    }
+  }
+
   console.log("  first two pages using iterator");
   const iterator = client
     .listMetricFeedbacks(metricId, {
@@ -102,17 +127,6 @@ async function listFeedback(client, metricId, startTime, endTime) {
       console.log("second page");
       console.table(nextPage.value.feedbacks);
     }
-  }
-
-  console.log("  using for-await-of loop");
-  for await (const f of client.listMetricFeedbacks(metricId, {
-    filter: {
-      startTime: new Date("08/01/2020"),
-      endTime: new Date("08/11/2020"),
-      timeMode: "MetricTimestamp"
-    }
-  })) {
-    console.log(f);
   }
 }
 

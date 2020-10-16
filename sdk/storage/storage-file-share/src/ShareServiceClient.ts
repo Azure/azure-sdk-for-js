@@ -16,7 +16,7 @@ import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClientInternal } from "./ShareClientInternal";
-import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
+import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";

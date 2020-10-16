@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
@@ -12,12 +12,15 @@ import {
   Receiver,
   Session
 } from "rhea-promise";
-import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
-import { logError, throwErrorIfConnectionClosed } from "../util/errors";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { ReceiveMode } from "../models";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -35,8 +38,8 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
-    super(context, entityPath, "br", options);
+  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(context, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
@@ -107,31 +110,36 @@ export class BatchingReceiver extends MessageReceiver {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    userAbortSignal?: AbortSignalLike
+    options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
 
     try {
       logger.verbose(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this._context.connectionId,
+        this.logPrefix,
         this.name
       );
 
-      return await this._batchingReceiverLite.receiveMessages({
+      const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        userAbortSignal
+        ...options
       });
+
+      if (this._lockRenewer) {
+        for (const message of messages) {
+          this._lockRenewer.start(this, message, (_error) => {
+            // the auto lock renewer already logs this in a detailed way. So this hook is mainly here
+            // to potentially forward the error to the user (which we're not doing yet)
+          });
+        }
+      }
+
+      return messages;
     } catch (error) {
-      logError(
-        error,
-        "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
-        this._context.connectionId,
-        this.name,
-        error
-      );
+      logger.logError(error, "[%s] Rejecting receiveMessages()", this.logPrefix);
       throw error;
     }
   }
@@ -139,7 +147,7 @@ export class BatchingReceiver extends MessageReceiver {
   static create(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions
+    options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);
@@ -211,11 +219,10 @@ type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
  * @internal
  * @ignore
  */
-interface ReceiveMessageArgs {
+interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
   maxWaitTimeInMs: number;
   maxTimeAfterFirstMessageInMs: number;
-  userAbortSignal?: AbortSignalLike;
 }
 
 /**
@@ -228,17 +235,24 @@ interface ReceiveMessageArgs {
  * @ignore
  */
 export class BatchingReceiverLite {
+  /**
+   * NOTE: exists only to make unit testing possible.
+   */
+  private _createAndEndProcessingSpan: typeof createAndEndProcessingSpan;
+
   constructor(
-    connectionContext: ConnectionContext,
-    entityPath: string,
+    private _connectionContext: ConnectionContext,
+    public entityPath: string,
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: InternalReceiveMode
+    private _receiveMode: ReceiveMode
   ) {
+    this._createAndEndProcessingSpan = createAndEndProcessingSpan;
+
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        connectionContext,
+        _connectionContext,
         entityPath,
         context.message!,
         context.delivery!,
@@ -273,14 +287,16 @@ export class BatchingReceiverLite {
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
     try {
       this.isReceivingMessages = true;
-      const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+      const receiver = await this._getCurrentReceiver(args.abortSignal);
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
         return [];
       }
 
-      return await this._receiveMessagesImpl(receiver, args);
+      const messages = await this._receiveMessagesImpl(receiver, args);
+      this._createAndEndProcessingSpan(messages, this, this._connectionContext.config, args);
+      return messages;
     } finally {
       this._closeHandler = undefined;
       this.isReceivingMessages = false;
@@ -327,10 +343,9 @@ export class BatchingReceiverLite {
 
         if (error) {
           error = translate(error);
-          logError(
+          logger.logError(
             error,
-            `${loggingPrefix} '${eventType}' event occurred. Received an error:\n%O`,
-            error
+            `${loggingPrefix} '${eventType}' event occurred. Received an error`
           );
         } else {
           error = new MessagingError("An error occurred while receiving messages.");
@@ -345,7 +360,7 @@ export class BatchingReceiverLite {
           // no error, just closing. Go ahead and return what we have.
           error == null ||
           // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
-          (this._receiveMode === InternalReceiveMode.receiveAndDelete && brokeredMessages.length)
+          (this._receiveMode === "receiveAndDelete" && brokeredMessages.length)
         ) {
           logger.verbose(
             `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
@@ -387,7 +402,7 @@ export class BatchingReceiverLite {
         // TODO: this appears to be aggravating a bug that we need to look into more deeply.
         // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
         // to cause problems.
-        if (this._receiveMode === InternalReceiveMode.peekLock) {
+        if (this._receiveMode === "peekLock") {
           if (brokeredMessages.length === 0) {
             // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
             // and replace it with another timer that is a (probably) much shorter interval.
@@ -408,10 +423,9 @@ export class BatchingReceiverLite {
           }
         } catch (err) {
           const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-          logError(
+          logger.logError(
             err,
-            `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage:\n%O`,
-            errObj
+            `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`
           );
           reject(errObj);
         }
@@ -425,11 +439,7 @@ export class BatchingReceiverLite {
         const error = context.session?.error || context.receiver?.error;
 
         if (error) {
-          logError(
-            error,
-            `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
-            error
-          );
+          logger.logError(error, `${loggingPrefix} '${type}' event occurred. The associated error`);
         }
       };
 
@@ -475,7 +485,7 @@ export class BatchingReceiverLite {
       abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
         cleanupBeforeResolveOrReject("removeDrainHandler");
         reject(err);
-      }, args.userAbortSignal);
+      }, args.abortSignal);
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {

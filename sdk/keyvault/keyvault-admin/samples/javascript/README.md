@@ -13,7 +13,7 @@ urlFragment: keyvault-admin-javascript
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
 | **File Name** | **Description** |
-| ------------------------------- |
+| --------------|---------------- |
 | [accessControlHelloWorld.js][accessControlHelloWorld] (RBAC) | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
 | [backupRestoreHelloWorld.js][BackupRestoreHelloWorld] | Performs a full key backup, then a full key restore. |
 | [backupSelectiveRestore.js][BackupSelectiveRestore] | Performs a selective key backup, then a selective key restore. |

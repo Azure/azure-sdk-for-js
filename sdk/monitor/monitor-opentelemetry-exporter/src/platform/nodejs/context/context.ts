@@ -7,16 +7,15 @@ import * as path from "path";
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel, SDK_INFO } from "@opentelemetry/core";
 
-import * as Contracts from "../../../Declarations/Contracts";
+import { ContextTagKeys } from "../../../generated";
+import { Tags } from "../../../types";
 
 type PackageJson = { version: string };
 
 let instance: Context | null = null;
 
 export class Context {
-  public keys: Contracts.ContextTagKeys;
-
-  public tags: { [key: string]: string };
+  public tags: Tags;
 
   public static DefaultRoleName: string = "Node.js";
 
@@ -52,8 +51,7 @@ export class Context {
      */
     private _appPrefix = "../../../"
   ) {
-    this.keys = new Contracts.ContextTagKeys();
-    this.tags = {} as { [key: string]: string };
+    this.tags = {};
 
     this._loadApplicationContext();
     this._loadDeviceContext();
@@ -94,19 +92,19 @@ export class Context {
         Context.appVersion[packageJsonPath] = packageJson.version;
       }
 
-      this.tags[this.keys.applicationVersion] = Context.appVersion[packageJsonPath];
+      this.tags["ai.application.ver"] = Context.appVersion[packageJsonPath];
     }
   }
 
   private _loadDeviceContext(): void {
-    this.tags[this.keys.deviceId] = "";
-    this.tags[this.keys.cloudRoleInstance] = os && os.hostname();
-    this.tags[this.keys.deviceOSVersion] = os && `${os.type()} ${os.release()}`;
-    this.tags[this.keys.cloudRole] = Context.DefaultRoleName;
+    this.tags["ai.device.id"] = "";
+    this.tags["ai.cloud.role"] = Context.DefaultRoleName;
+    this.tags["ai.cloud.roleInstance"] = os && os.hostname();
+    this.tags["ai.device.osVersion"] = os && `${os.type()} ${os.release()}`;
 
     // not yet supported tags
-    this.tags["ai.device.osArchitecture"] = os && os.arch();
-    this.tags["ai.device.osPlatform"] = os && os.platform();
+    this.tags["ai.device.osArchitecture" as ContextTagKeys] = os && os.arch();
+    this.tags["ai.device.osPlatform" as ContextTagKeys] = os && os.platform();
   }
 
   private _loadInternalContext(): void {
@@ -148,7 +146,7 @@ export class Context {
     }
 
     this.tags[
-      this.keys.internalSdkVersion
+      "ai.internal.sdkVersion"
     ] = `node${Context.nodeVersion}:ot${SDK_INFO.VERSION}:ext${Context.sdkVersion}`;
   }
 }

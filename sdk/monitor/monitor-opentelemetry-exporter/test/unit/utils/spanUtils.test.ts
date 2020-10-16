@@ -7,7 +7,6 @@ import * as assert from "assert";
 import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 
 import { Tags, Properties, Measurements } from "../../../src/types";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import * as http from "../../../src/utils/constants/span/httpAttributes";
 import * as grpc from "../../../src/utils/constants/span/grpcAttributes";
 import * as ai from "../../../src/utils/constants/applicationinsights";
@@ -15,6 +14,7 @@ import { Context, getInstance } from "../../../src/platform";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData } from "../../../src/generated";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 
 const context = getInstance(undefined, "./", "../../");
 
@@ -30,8 +30,8 @@ function assertEnvelope(
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
-  expectedTime?: string
-) {
+  expectedTime?: Date
+): void {
   assert.strictEqual(Context.sdkVersion, ai.packageVersion);
   assert.strictEqual(Object.keys(Context.appVersion).length, 1);
   assert.notDeepStrictEqual(Context.appVersion, "unknown");
@@ -40,18 +40,21 @@ function assertEnvelope(
   assert.strictEqual(envelope.name, name);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);
 
-  assert.strictEqual(envelope.iKey, "ikey");
+  assert.strictEqual(envelope.instrumentationKey, "ikey");
   assert.ok(envelope.time);
-  assert.ok(envelope.ver);
+  assert.ok(envelope.version);
   assert.ok(envelope.data);
 
   if (expectedTime) {
-    assert.strictEqual(envelope.time, expectedTime);
+    assert.deepStrictEqual(envelope.time, expectedTime);
   }
 
   assert.deepStrictEqual(envelope.tags, { ...context.tags, ...expectedTags });
-  assert.deepStrictEqual(envelope?.data?.baseData?.properties, expectedProperties);
-  assert.deepStrictEqual(envelope?.data?.baseData?.measurements, expectedMeasurements);
+  assert.deepStrictEqual((envelope?.data?.baseData as RequestData).properties, expectedProperties);
+  assert.deepStrictEqual(
+    (envelope?.data?.baseData as RequestData).measurements,
+    expectedMeasurements
+  );
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
 }
 
@@ -187,7 +190,7 @@ describe("spanUtils.ts", () => {
           code: CanonicalCode.OK
         });
         span.end();
-        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
+        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: "traceid",
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"

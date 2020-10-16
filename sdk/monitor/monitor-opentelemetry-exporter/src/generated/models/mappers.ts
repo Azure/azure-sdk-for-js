@@ -100,11 +100,14 @@ export const MonitorDomain: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MonitorDomain",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
-      test: {
-        serializedName: "test",
+      version: {
+        defaultValue: 2,
+        serializedName: "ver",
+        required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
@@ -350,16 +353,9 @@ export const AvailabilityData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AvailabilityData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       id: {
         constraints: {
           MaxLength: 512
@@ -434,16 +430,9 @@ export const TelemetryEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryEventData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       name: {
         constraints: {
           MaxLength: 512
@@ -476,18 +465,12 @@ export const TelemetryExceptionData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryExceptionData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       exceptions: {
         serializedName: "exceptions",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -532,16 +515,9 @@ export const MessageData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MessageData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       message: {
         constraints: {
           MaxLength: 32768
@@ -580,16 +556,9 @@ export const MetricsData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricsData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       metrics: {
         serializedName: "metrics",
         required: true,
@@ -613,16 +582,9 @@ export const PageViewData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PageViewData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       id: {
         constraints: {
           MaxLength: 512
@@ -689,16 +651,9 @@ export const PageViewPerfData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PageViewPerfData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       id: {
         constraints: {
           MaxLength: 512
@@ -786,16 +741,9 @@ export const RemoteDependencyData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteDependencyData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       id: {
         constraints: {
           MaxLength: 512
@@ -887,16 +835,9 @@ export const RequestData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RequestData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       id: {
         constraints: {
           MaxLength: 512

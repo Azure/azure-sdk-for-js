@@ -28,7 +28,10 @@ describe("ReceiverHelper unit tests", () => {
      * checking.
      */
     it(`operations on an invalid receiver should just no-op harmlessly: ${invalidReceiver}`, async () => {
-      const helper = new ReceiverHelper(() => invalidReceiver);
+      const helper = new ReceiverHelper(() => ({
+        receiver: invalidReceiver,
+        logPrefix: "whatever"
+      }));
 
       assert.isFalse(helper.addCredit(101));
       await helper.drain();
@@ -52,7 +55,7 @@ describe("ReceiverHelper unit tests", () => {
 
   it("operations on an open receiver", async () => {
     const receiver = createRheaReceiverForTests();
-    const helper = new ReceiverHelper(() => receiver);
+    const helper = new ReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
 
     let drainWasCalled = false;
 

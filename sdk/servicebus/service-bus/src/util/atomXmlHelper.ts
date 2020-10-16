@@ -15,11 +15,10 @@ import {
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
-import { logger } from "../log";
+import { administrationLogger as logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
-import { logError } from "./errors";
 
 /**
  * @internal
@@ -85,7 +84,7 @@ export async function executeAtomXmlOperation(
       stripRequest(response.request),
       stripResponse(response)
     );
-    logError(err, "Error parsing response body from Service - %0", err);
+    logger.logError(err, "Error parsing response body from Service");
     throw error;
   }
 

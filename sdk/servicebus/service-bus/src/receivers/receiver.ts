@@ -9,26 +9,27 @@ import {
   SubscribeOptions,
   InternalMessageHandlers
 } from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "..";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
-import { StreamingReceiver } from "../core/streamingReceiver";
+import { CreateStreamingReceiverOptions, StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
-import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
+import { LockRenewer } from "../core/autoLockRenewer";
+import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { receiverLogger as logger } from "../log";
 
 /**
  * A receiver that does not handle sessions.
@@ -155,6 +156,13 @@ export class ServiceBusReceiverImpl<
    * Instance of the StreamingReceiver class to use to receive messages in push mode.
    */
   private _streamingReceiver?: StreamingReceiver;
+  private _lockRenewer: LockRenewer | undefined;
+
+  private _createProcessingSpan: typeof createProcessingSpan;
+
+  private get logPrefix() {
+    return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
+  }
 
   /**
    * @throws Error if the underlying connection is closed.
@@ -163,17 +171,24 @@ export class ServiceBusReceiverImpl<
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
+    maxAutoRenewLockDurationInMs: number,
     retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
+    this._lockRenewer = LockRenewer.create(
+      this._context,
+      maxAutoRenewLockDurationInMs,
+      receiveMode
+    );
+    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfAlreadyReceiving(): void {
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is already receiving`);
       throw error;
     }
   }
@@ -183,7 +198,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `${this.logPrefix} is closed`);
       throw error;
     }
   }
@@ -217,7 +232,7 @@ export class ServiceBusReceiverImpl<
     onInitialize: () => Promise<void>,
     onMessage: OnMessage,
     onError: OnError,
-    options?: SubscribeOptions
+    options: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -233,9 +248,10 @@ export class ServiceBusReceiverImpl<
 
     this._createStreamingReceiver(this._context, this.entityPath, {
       ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode),
+      receiveMode: this.receiveMode,
       retryOptions: this._retryOptions,
-      cachedStreamingReceiver: this._streamingReceiver
+      cachedStreamingReceiver: this._streamingReceiver,
+      lockRenewer: this._lockRenewer
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
@@ -250,7 +266,9 @@ export class ServiceBusReceiverImpl<
         }
 
         if (!this.isClosed) {
-          sReceiver.subscribe(onMessage, onError);
+          sReceiver.subscribe(async (message) => {
+            await onMessage(message);
+          }, onError);
         } else {
           await sReceiver.close();
         }
@@ -264,15 +282,7 @@ export class ServiceBusReceiverImpl<
   private _createStreamingReceiver(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions &
-      Pick<OperationOptionsBase, "abortSignal"> & {
-        createStreamingReceiver?: (
-          context: ConnectionContext,
-          entityPath: string,
-          options?: ReceiveOptions
-        ) => StreamingReceiver;
-        cachedStreamingReceiver?: StreamingReceiver;
-      }
+    options: CreateStreamingReceiverOptions
   ): Promise<StreamingReceiver> {
     return StreamingReceiver.create(context, entityPath, options);
   }
@@ -292,7 +302,8 @@ export class ServiceBusReceiverImpl<
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
-          receiveMode: convertToInternalReceiveMode(this.receiveMode)
+          receiveMode: this.receiveMode,
+          lockRenewer: this._lockRenewer
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -300,12 +311,14 @@ export class ServiceBusReceiverImpl<
           options
         );
       }
+
       const receivedMessages = await this._batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options?.abortSignal
+        options ?? {}
       );
+
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -345,17 +358,12 @@ export class ServiceBusReceiverImpl<
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
-        .receiveDeferredMessages(
-          deferredSequenceNumbers,
-          convertToInternalReceiveMode(this.receiveMode),
-          undefined,
-          {
-            ...options,
-            associatedLinkName: this._getAssociatedReceiverName(),
-            requestName: "receiveDeferredMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs
-          }
-        );
+        .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -420,6 +428,7 @@ export class ServiceBusReceiverImpl<
     close(): Promise<void>;
   } {
     assertValidMessageHandlers(handlers);
+    options = options ?? {};
 
     const processError = wrapProcessErrorHandler(handlers);
 
@@ -434,7 +443,8 @@ export class ServiceBusReceiverImpl<
         }
       },
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage((message as any) as ReceivedMessageT);
+        const span = this._createProcessingSpan(message, this, this._context.config, options);
+        return trace(() => handlers.processMessage((message as any) as ReceivedMessageT), span);
       },
       processError,
       options
@@ -462,13 +472,7 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      logError(
-        err,
-        "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.connectionId,
-        this.entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Receiver`);
       throw err;
     }
   }
@@ -498,7 +502,7 @@ export class ServiceBusReceiverImpl<
   private _createBatchingReceiver(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions
+    options: ReceiveOptions
   ): BatchingReceiver {
     return BatchingReceiver.create(context, entityPath, options);
   }

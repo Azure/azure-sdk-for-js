@@ -12,12 +12,12 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
-import { delay } from "rhea-promise";
 import {
   ServiceBusSessionReceiverImpl,
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { InternalMessageHandlers } from "../src/models";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -353,7 +353,11 @@ describe("Retries - Receive methods", () => {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
         (receiver as any)._context,
-        "dummyEntityPath"
+        "dummyEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: "peekLock"
+        }
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
@@ -477,11 +481,19 @@ describe("Retries - onDetached", () => {
   it("Unpartitioned Queue: streaming", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
-      receiver.subscribe({
-        async processMessage() {},
-        async processError() {}
+      const subscribeInitializedPromise = new Promise<void>((resolve, reject) => {
+        receiver.subscribe({
+          async processInitialize() {
+            resolve();
+          },
+          async processMessage() {},
+          async processError(err) {
+            reject(err);
+          }
+        } as InternalMessageHandlers<ServiceBusReceivedMessageWithLock>);
       });
-      await delay(2000);
+
+      await subscribeInitializedPromise;
 
       const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_streamingReceiver"]!;
       should.exist(streamingReceiver);

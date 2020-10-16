@@ -1234,8 +1234,7 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export class SearchIndexingBufferedSender<T> {
-    constructor(client: SearchClient<T>, options?: SearchIndexingBufferedSenderOptions);
+export interface SearchIndexingBufferedSender<T> {
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
