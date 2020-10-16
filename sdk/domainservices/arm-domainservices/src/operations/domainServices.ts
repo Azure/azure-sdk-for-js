@@ -30,7 +30,7 @@ export class DomainServices {
   /**
    * The List Domain Services in Subscription operation lists all the domain services available under
    * the given subscription (and across all resource groups within that subscription).
-   * @summary List Domain Services in Subscription (GET Resources)
+   * @summary List Domain Services in Subscription
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesListResponse>
    */
@@ -56,7 +56,7 @@ export class DomainServices {
   /**
    * The List Domain Services in Resource Group operation lists all the domain services available
    * under the given resource group.
-   * @summary List Domain Services in Resource Group (GET Resources)
+   * @summary List Domain Services in Resource Group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param [options] The optional parameters
@@ -105,7 +105,7 @@ export class DomainServices {
 
   /**
    * The Get Domain Service operation retrieves a json representation of the Domain Service.
-   * @summary Get Domain Service (GET Resources)
+   * @summary Get Domain Service
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param domainServiceName The name of the domain service.
@@ -146,11 +146,11 @@ export class DomainServices {
    * is case insensitive.
    * @param domainServiceName The name of the domain service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DomainServicesDeleteMethodResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, domainServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainServicesDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, domainServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,domainServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DomainServicesDeleteMethodResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -239,7 +239,7 @@ export class DomainServices {
   /**
    * The List Domain Services in Subscription operation lists all the domain services available under
    * the given subscription (and across all resource groups within that subscription).
-   * @summary List Domain Services in Subscription (GET Resources)
+   * @summary List Domain Services in Subscription
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesListNextResponse>
@@ -269,7 +269,7 @@ export class DomainServices {
   /**
    * The List Domain Services in Resource Group operation lists all the domain services available
    * under the given resource group.
-   * @summary List Domain Services in Resource Group (GET Resources)
+   * @summary List Domain Services in Resource Group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesListByResourceGroupNextResponse>
@@ -424,9 +424,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    202: {
-      bodyMapper: Mappers.DomainService
-    },
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
