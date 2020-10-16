@@ -179,6 +179,18 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
+export const forceDeletion: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceDeletion"
+  ],
+  mapper: {
+    serializedName: "forceDeletion",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const galleryApplicationName: msRest.OperationURLParameter = {
   parameterPath: "galleryApplicationName",
   mapper: {
@@ -372,6 +384,16 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const runCommandName: msRest.OperationURLParameter = {
+  parameterPath: "runCommandName",
+  mapper: {
+    required: true,
+    serializedName: "runCommandName",
     type: {
       name: "String"
     }

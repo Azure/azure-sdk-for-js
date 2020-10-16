@@ -37,6 +37,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSetVMs: operations.VirtualMachineScaleSetVMs;
   logAnalytics: operations.LogAnalytics;
   virtualMachineRunCommands: operations.VirtualMachineRunCommands;
+  virtualMachineScaleSetVMRunCommands: operations.VirtualMachineScaleSetVMRunCommands;
   resourceSkus: operations.ResourceSkus;
   disks: operations.Disks;
   snapshots: operations.Snapshots;
@@ -78,6 +79,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);
+    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(this);
     this.resourceSkus = new operations.ResourceSkus(this);
     this.disks = new operations.Disks(this);
     this.snapshots = new operations.Snapshots(this);
