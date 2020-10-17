@@ -151,7 +151,7 @@ export function deserializeResponseBody(
 
     const responseSpec = getOperationResponse(parsedResponse);
 
-    const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec);
+    const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec, responseSpec);
     if (error) {
       throw error;
     } else if (shouldReturnResponse) {
@@ -213,18 +213,24 @@ function isOperationSpecEmpty(operationSpec: OperationSpec): boolean {
 
 function handleErrorResponse(
   parsedResponse: HttpOperationResponse,
-  operationSpec: OperationSpec
+  operationSpec: OperationSpec,
+  responseSpec: OperationResponse | undefined
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
-  const responseSpec = operationSpec.responses[String(parsedResponse.status)];
-  // Either we found a non-error response or the status is success.
-  if (
-    (responseSpec && !responseSpec.isError) ||
-    (!responseSpec && isOperationSpecEmpty(operationSpec) && isSuccessByStatus)
-  ) {
-    return { error: null, shouldReturnResponse: false };
-  }
+  const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
+      ? isSuccessByStatus
+      : !!responseSpec;
 
+  if(isExpectedStatusCode) {
+    if (responseSpec) {
+      if(!responseSpec.isError) {
+        return { error: null, shouldReturnResponse: false };
+      }
+    } else {
+      return { error: null, shouldReturnResponse: false };
+    }
+  }
+  
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
   // If the item failed but there's no error spec or default spec, just return it as-is.

@@ -123,7 +123,7 @@ async function deserializeResponseBody(
   }
 
   const responseSpec = getOperationResponseMap(parsedResponse);
-  const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec);
+  const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec,responseSpec);
   if (error) {
     throw error;
   } else if (shouldReturnResponse) {
@@ -185,16 +185,22 @@ function isOperationSpecEmpty(operationSpec: OperationSpec): boolean {
 
 function handleErrorResponse(
   parsedResponse: FullOperationResponse,
-  operationSpec: OperationSpec
+  operationSpec: OperationSpec,
+  responseSpec: OperationResponseMap | undefined
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
-  const responseSpec = operationSpec.responses[String(parsedResponse.status)];
+  const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
+      ? isSuccessByStatus
+      : !!responseSpec;
 
-  if (
-    (responseSpec && !responseSpec.isError) ||
-    (!responseSpec && isOperationSpecEmpty(operationSpec) && isSuccessByStatus)
-  ) {
-    return { error: null, shouldReturnResponse: false };
+  if(isExpectedStatusCode) {
+    if (responseSpec) {
+      if(!responseSpec.isError) {
+        return { error: null, shouldReturnResponse: false };
+      }
+    } else {
+      return { error: null, shouldReturnResponse: false };
+    }
   }
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
