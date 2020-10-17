@@ -123,7 +123,11 @@ async function deserializeResponseBody(
   }
 
   const responseSpec = getOperationResponseMap(parsedResponse);
-  const { error, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec,responseSpec);
+  const { error, shouldReturnResponse } = handleErrorResponse(
+    parsedResponse,
+    operationSpec,
+    responseSpec
+  );
   if (error) {
     throw error;
   } else if (shouldReturnResponse) {
@@ -190,12 +194,12 @@ function handleErrorResponse(
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
-      ? isSuccessByStatus
-      : !!responseSpec;
+    ? isSuccessByStatus
+    : !!responseSpec;
 
-  if(isExpectedStatusCode) {
+  if (isExpectedStatusCode) {
     if (responseSpec) {
-      if(!responseSpec.isError) {
+      if (!responseSpec.isError) {
         return { error: null, shouldReturnResponse: false };
       }
     } else {
