@@ -78,8 +78,13 @@ export class ManagedIdentityCredential implements TokenCredential {
     );
 
     try {
+      // The order of credentials we try is:
+      // - First, we check if App Service MSI is available (in all of its versions).
+      // - If it's not available, we go with Cloud Shell MSI.
+      // - Otherwise, we go with IMDS MSI.
+
       const MSIs = [appServiceMsi, cloudShellMsi];
-      let availableMSI = MSIs.filter((msi) => msi.isAvailable({ resource, clientId }))[0];
+      let availableMSI = MSIs.find((msi) => msi.isAvailable({ resource, clientId }));
 
       if (!availableMSI) {
         const ok = await this.imdsCachedPing.pingOnce(resource, clientId, options);
