@@ -29,7 +29,7 @@ async function main(): Promise<void> {
 
   const maxMsgCount = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
-  const isReceiveAndDelete = process.argv.length > 4 ? Boolean(process.argv[4]) : true;
+  const isReceiveAndDelete = process.argv.length > 4 ? !(process.argv[4] === "false") : true;
   log(`Maximum Concurrent Calls: ${maxMsgCount}`);
   log(`Total messages: ${messages}`);
   log(`isReceiveAndDelete: ${isReceiveAndDelete}`);

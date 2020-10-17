@@ -29,9 +29,10 @@ async function main(): Promise<void> {
 
   const maxInflight = process.argv.length > 2 ? parseInt(process.argv[2]) : 1;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 10;
-  const batchAPI = process.argv.length > 4 ? Boolean(process.argv[4]) : false;
+  const batchAPI = process.argv.length > 4 ? process.argv[4] === "true" : false;
   log(`Maximum inflight messages: ${maxInflight}`);
   log(`Total messages: ${messages}`);
+  log(`Using batch API: ${batchAPI}`);
 
   const writeResultsPromise = WriteResults(messages);
 
