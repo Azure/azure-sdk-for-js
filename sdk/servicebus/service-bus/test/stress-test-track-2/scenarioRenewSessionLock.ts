@@ -92,7 +92,7 @@ export async function scenarioRenewSessionLock() {
     while (elapsedTime < testDurationInMs) {
       let receiver;
       try {
-        receiver = await sbClient.createSessionReceiver(stressBase.queueName, {
+        receiver = await sbClient.acceptNextSession(stressBase.queueName, {
           receiveMode,
           maxAutoRenewLockDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
         });

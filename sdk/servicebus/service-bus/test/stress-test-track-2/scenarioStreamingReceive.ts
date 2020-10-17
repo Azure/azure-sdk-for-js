@@ -73,7 +73,8 @@ export async function scenarioStreamingReceive() {
 
   if (receiveMode === "receiveAndDelete") {
     receiver = sbClient.createReceiver(stressBase.queueName, {
-      receiveMode: "receiveAndDelete"
+      receiveMode: "receiveAndDelete",
+      maxAutoLockRenewalDurationInMs: maxAutoRenewLockDurationInMs
     });
   } else {
     receiver = sbClient.createReceiver(stressBase.queueName);

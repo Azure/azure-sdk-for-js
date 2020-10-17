@@ -165,10 +165,11 @@ export class SBStressTestsBase {
   public async receiveStreaming<ReceivedMessageT extends ServiceBusReceivedMessage>(
     receiver: ServiceBusReceiver<ReceivedMessageT>,
     duration: number,
-    options: Pick<
-      SubscribeOptions,
-      "autoComplete" | "maxConcurrentCalls" | "maxAutoRenewLockDurationInMs"
-    > & { manualLockRenewal: boolean; completeMessageAfterDuration: boolean }
+    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
+      manualLockRenewal: boolean;
+      completeMessageAfterDuration: boolean;
+      maxAutoRenewLockDurationInMs: number;
+    }
   ) {
     const startTime = new Date();
     const processMessage = async (

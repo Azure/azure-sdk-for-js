@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/service-bus": "^7.0.0-preview.6",
+    "@azure/service-bus": "^7.0.0-preview.7",
     "minimist": "^1.2.5",
     "uuid": "^8.3.0"
   },
