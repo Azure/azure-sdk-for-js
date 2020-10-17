@@ -11,9 +11,9 @@
 
 ### Breaking changes
 
-- `ServiceBusSender` interface method `createBatch` renamed to `createMesageBatch`
-- `CreateBatchOptions` interface renamed to `CreateMessageBatchOptions`
-- `ServiceBusMessageBatch` interface method `tryAdd` renamed to `tryAddMessage`
+- The `createBatch` method on the sender is renamed to `createMesageBatch`
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
 
 ## 7.0.0-preview.7 (2020-10-07)
 
