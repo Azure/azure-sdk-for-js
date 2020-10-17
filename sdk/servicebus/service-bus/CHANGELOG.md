@@ -9,20 +9,27 @@
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
+- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
 ### Breaking changes
 
 - The `createBatch` method on the sender is renamed to `createMesageBatch`
 - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
 - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- `ServiceBusMessage` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `CorrelationRuleFilter` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
 
 ## 7.0.0-preview.7 (2020-10-07)
 
 - [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651/commits/f262e4562eb78828ee816a54f9a9778692e0eff9)
-
-- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-
-- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 ### New features:
 
@@ -42,13 +49,6 @@
   - `acceptSession`, which opens a session by name
   - `acceptNextSession`, which opens the next available session, determined by Service Bus.
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
-- `ServiceBusMessage` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `CorrelationRuleFilter` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
 
 ## 7.0.0-preview.6 (2020-09-10)
 
