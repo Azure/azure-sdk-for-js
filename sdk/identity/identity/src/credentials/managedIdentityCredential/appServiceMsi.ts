@@ -3,7 +3,7 @@
 
 import { RequestPrepareOptions } from "@azure/core-http";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIOptions, MSIExpiresInParser, MSIRequestPreparations } from "./models";
+import { MSI, MSIOptions, MSIExpiresInParser } from "./models";
 
 const logger = credentialLogger("ManagedIdentityCredential - AppServiceMSI");
 
@@ -46,12 +46,6 @@ export const appServiceMsi2019: MSI = {
       // Parses a string representation of the seconds since epoch into a number value
       return Number(requestBody.expires_on);
     };
-  },
-  prepareRequest(options: MSIOptions): MSIRequestPreparations {
-    return {
-      options: appServiceMsi2019.prepareRequestOptions(options),
-      expiresInParser: appServiceMsi2019.getExpiresInParser()
-    };
   }
 };
 
@@ -92,12 +86,6 @@ export const appServiceMsi2017: MSI = {
       // convert it into a JavaScript-formatted date
       return Date.parse(requestBody.expires_on);
     };
-  },
-  prepareRequest(options: MSIOptions): MSIRequestPreparations {
-    return {
-      options: appServiceMsi2017.prepareRequestOptions(options),
-      expiresInParser: appServiceMsi2017.getExpiresInParser()
-    };
   }
 };
 
@@ -130,10 +118,5 @@ export const appServiceMsi: MSI = {
   getExpiresInParser(): MSIExpiresInParser {
     const msi = findAvailableAppServiceMSI();
     return msi.getExpiresInParser();
-  },
-  prepareRequest(options: MSIOptions): MSIRequestPreparations {
-    const { resource, clientId } = options;
-    const msi = findAvailableAppServiceMSI();
-    return msi.prepareRequest({ resource, clientId });
   }
 };

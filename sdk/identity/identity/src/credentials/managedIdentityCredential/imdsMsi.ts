@@ -7,7 +7,7 @@ import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger, formatError } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { ImdsApiVersion, ImdsEndpoint } from "./constants";
-import { MSI, MSIExpiresInParser, MSIOptions, MSIRequestPreparations } from "./models";
+import { MSI, MSIExpiresInParser, MSIOptions } from "./models";
 
 const logger = credentialLogger("ManagedIdentityCredential - IMDS");
 
@@ -156,12 +156,6 @@ export const imdsMsi: MSI = {
         );
         return expires;
       }
-    };
-  },
-  prepareRequest(options: MSIOptions): MSIRequestPreparations {
-    return {
-      options: imdsMsi.prepareRequestOptions(options),
-      expiresInParser: imdsMsi.getExpiresInParser()
     };
   }
 };

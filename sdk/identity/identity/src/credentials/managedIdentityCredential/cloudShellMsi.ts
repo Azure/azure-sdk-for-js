@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { RequestPrepareOptions } from "@azure/core-http";
-import { MSI, MSIExpiresInParser, MSIOptions, MSIRequestPreparations } from "./models";
+import { MSI, MSIExpiresInParser, MSIOptions } from "./models";
 import { credentialLogger } from "../../util/logging";
 
 const logger = credentialLogger("ManagedIdentityCredential - CloudShellMSI");
@@ -40,11 +40,5 @@ export const cloudShellMsi: MSI = {
   },
   getExpiresInParser(): MSIExpiresInParser {
     return;
-  },
-  prepareRequest(options: MSIOptions): MSIRequestPreparations {
-    return {
-      options: cloudShellMsi.prepareRequestOptions(options),
-      expiresInParser: cloudShellMsi.getExpiresInParser()
-    };
   }
 };

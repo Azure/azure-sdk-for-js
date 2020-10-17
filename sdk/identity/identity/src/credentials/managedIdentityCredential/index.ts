@@ -99,19 +99,17 @@ export class ManagedIdentityCredential implements TokenCredential {
         }
       }
 
-      const preparedRequest = availableMSI.prepareRequest({ resource, clientId });
-
       const webResource = this.identityClient.createWebResource({
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
         abortSignal: options.abortSignal,
         spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
-        ...preparedRequest.options
+        ...availableMSI.prepareRequestOptions({ resource, clientId })
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(
         webResource,
-        preparedRequest.expiresInParser
+        availableMSI.getExpiresInParser()
       );
 
       return (tokenResponse && tokenResponse.accessToken) || null;
