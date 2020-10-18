@@ -61,5 +61,5 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
   /**
    * Path to the authentication cache, if file-based
    */
-  cachePath?: string,
+  cachePath?: string;
 }

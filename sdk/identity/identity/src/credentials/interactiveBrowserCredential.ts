@@ -137,7 +137,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           res.sendStatus(200);
 
           console.log(authResponse);
-          
+
           resolve({
             expiresOnTimestamp: authResponse.expiresOn.valueOf(),
             token: authResponse.accessToken

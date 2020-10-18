@@ -21,5 +21,5 @@ export interface DeviceCodeCredentialOptions extends TokenCredentialOptions {
   /**
    * Path to the authentication cache, if file-based
    */
-  cachePath?: string,
+  cachePath?: string;
 }

@@ -11,7 +11,7 @@ import { credentialLogger } from "../util/logging";
 // import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 // import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
-import {ClientCredentialRequest} from "@azure/msal-node";
+import { ClientCredentialRequest } from "@azure/msal-node";
 
 const logger = credentialLogger("ClientSecretCredential");
 
@@ -56,7 +56,14 @@ export class ClientSecretCredential implements TokenCredential {
       authorityHost = "https://login.microsoftonline.com/" + tenantId;
     }
 
-    this.msalClient = new MsalClient({clientId, clientSecret, authority: authorityHost}, tenantId, persistenceEnabled, authenticationRecord, options?.cachePath, options);
+    this.msalClient = new MsalClient(
+      { clientId, clientSecret, authority: authorityHost },
+      tenantId,
+      persistenceEnabled,
+      authenticationRecord,
+      options?.cachePath,
+      options
+    );
   }
 
   /**
@@ -81,7 +88,7 @@ export class ClientSecretCredential implements TokenCredential {
       console.log(e);
       if (e instanceof AuthenticationRequired) {
         try {
-          return this.acquireTokenByClientCredential({scopes: scopeArray});
+          return this.acquireTokenByClientCredential({ scopes: scopeArray });
         } catch (err) {
           const code =
             err.name === AuthenticationErrorName
@@ -150,7 +157,9 @@ export class ClientSecretCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     try {
       console.log("trying to acquire token by client credential");
-      const response = await this.msalClient.acquireTokenByClientCredential(clientCredentialRequest);
+      const response = await this.msalClient.acquireTokenByClientCredential(
+        clientCredentialRequest
+      );
       console.log("acquired: ");
       console.log(response);
       return {
@@ -162,5 +171,4 @@ export class ClientSecretCredential implements TokenCredential {
       throw new Error(`Client Secret Authentication Error "${JSON.stringify(error)}"`);
     }
   }
-
 }
