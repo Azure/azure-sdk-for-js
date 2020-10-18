@@ -66,7 +66,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       tenantId,
       persistenceEnabled,
       authenticationRecord,
-      ".",
+      options?.cachePath,
       options
     );
   }
@@ -136,6 +136,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           res.sendStatus(200);
 
+          console.log(authResponse);
+          
           resolve({
             expiresOnTimestamp: authResponse.expiresOn.valueOf(),
             token: authResponse.accessToken

@@ -57,4 +57,9 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * The authentication record to use to find existing tokens in the cache.
    */
   authenticationRecord?: AuthenticationRecord;
+
+  /**
+   * Path to the authentication cache, if file-based
+   */
+  cachePath?: string,
 }

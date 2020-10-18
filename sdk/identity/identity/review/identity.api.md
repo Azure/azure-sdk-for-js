@@ -88,7 +88,8 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, clientSecret: string, options?: TokenCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "ClientSecretCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(tenantId: string, clientId: string, clientSecret: string, options?: ClientSecretCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -154,6 +155,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
+    cachePath?: string;
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
     persistenceEnabled?: boolean;

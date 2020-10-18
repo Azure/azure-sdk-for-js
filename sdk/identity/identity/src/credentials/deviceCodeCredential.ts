@@ -97,7 +97,7 @@ export class DeviceCodeCredential implements TokenCredential {
       tenantId,
       persistenceEnabled,
       authenticationRecord,
-      ".",
+      options?.cachePath,
       options
     );
   }

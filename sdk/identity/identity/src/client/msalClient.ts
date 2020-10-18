@@ -17,13 +17,6 @@ import { AccessToken } from "@azure/core-http";
 import { credentialLogger } from "../util/logging";
 import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
 
-let msalExt: any;
-try {
-  msalExt = require("@azure/msal-node-extension");
-} catch (er) {
-  msalExt = null;
-}
-
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 async function createPersistence(
@@ -37,6 +30,15 @@ async function createPersistence(
     }
   | undefined
 > {
+  let msalExt: any;
+  try {
+    msalExt = require("@azure/msal-node-extensions");
+  } catch (er) {
+    console.log("Can't find @azure/msal-node-extensions");
+    msalExt = null;
+    return;
+  }
+
   console.log("process platform:", process.platform);
 
   // On Windows, uses a DPAPI encrypted file
@@ -138,14 +140,14 @@ export class MsalClient {
     this.identityClient = new IdentityClient(options);
     this.msalConfig = msalConfig;
     this.tenantId = tenantId;
-    this.cachePath = cachePath;
+    this.cachePath = cachePath ? cachePath : "cache.bin";
     this.persistenceEnabled = persistenceEnabled;
     this.authenticationRecord = authenticationRecord;
   }
 
   async prepareClientApplications() {
     // If we've already initialized the public client application, return
-    if (this.pca && this.cca) {
+    if (this.pca) {
       return;
     }
 
@@ -166,7 +168,9 @@ export class MsalClient {
     };
 
     this.pca = new PublicClientApplication(clientConfig);
-    this.cca = new ConfidentialClientApplication(clientConfig);
+    if (clientConfig.auth.clientSecret || clientConfig.auth.clientCertificate) {
+      this.cca = new ConfidentialClientApplication(clientConfig);
+    }
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {
