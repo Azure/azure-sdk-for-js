@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CredentialUnavailable } from "./errors";
 import {
   PublicClientApplication,
@@ -38,7 +41,7 @@ async function createPersistence(
 
   // On Windows, uses a DPAPI encrypted file
   if (process.platform === "win32") {
-    let filePersistence = await msalExt.FilePersistenceWithDataProtection.create(
+    const filePersistence = await msalExt.FilePersistenceWithDataProtection.create(
       cachePath,
       msalExt.DataProtectionScope.LocalMachine
     );
@@ -50,7 +53,7 @@ async function createPersistence(
 
   // On Mac, uses keychain.
   if (process.platform === "darwin") {
-    let keychainPersistence = await msalExt.KeychainPersistence.create(
+    const keychainPersistence = await msalExt.KeychainPersistence.create(
       cachePath,
       "serviceName",
       "accountName"
@@ -63,7 +66,7 @@ async function createPersistence(
 
   // On Linux, uses  libsecret to store to secret service. Libsecret has to be installed.
   if (process.platform === "linux") {
-    let libSecretPersistence = await msalExt.LibSecretPersistence.create(
+    const libSecretPersistence = await msalExt.LibSecretPersistence.create(
       cachePath,
       "serviceName",
       "accountName"
@@ -75,7 +78,7 @@ async function createPersistence(
   }
 
   // fall back to using plain text file. Not recommended for storing secrets.
-  let filePersistence = await msalExt.FilePersistence.create(cachePath);
+  const filePersistence = await msalExt.FilePersistence.create(cachePath);
 
   return {
     cachePlugin: new msalExt.PersistenceCachePlugin(filePersistence)

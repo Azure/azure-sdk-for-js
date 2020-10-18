@@ -28,11 +28,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private msalClient: MsalClient;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
-    let tenantId = (options && options.tenantId) || DefaultTenantId;
-    let clientId = (options && options.clientId) || DeveloperSignOnClientId;
+    const tenantId = (options && options.tenantId) || DefaultTenantId;
+    const clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
-    let persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    let authenticationRecord = options?.authenticationRecord;
+    const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
+    const authenticationRecord = options?.authenticationRecord;
 
     if (options && options.redirectUri) {
       if (typeof options.redirectUri === "string") {

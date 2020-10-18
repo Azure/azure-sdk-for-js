@@ -78,8 +78,8 @@ export class DeviceCodeCredential implements TokenCredential {
   ) {
     this.userPromptCallback = userPromptCallback;
 
-    let persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    let authenticationRecord = options?.authenticationRecord;
+    const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
+    const authenticationRecord = options?.authenticationRecord;
 
     let authorityHost;
     if (options && options.authorityHost) {
