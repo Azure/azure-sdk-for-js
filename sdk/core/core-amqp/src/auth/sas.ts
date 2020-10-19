@@ -79,7 +79,7 @@ export class SharedKeyCredential {
    */
   static fromConnectionString(connectionString: string): SharedKeyCredential {
     const parsed = parseConnectionString<
-      ServiceBusConnectionStringModel & { SharedAccessSignature: string }
+      ServiceBusConnectionStringModel
     >(connectionString);
 
     if (parsed.SharedAccessSignature == null) {
