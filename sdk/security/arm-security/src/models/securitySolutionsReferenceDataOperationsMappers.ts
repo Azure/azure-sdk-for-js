@@ -8,13 +8,7 @@
 
 export {
   discriminators,
-  AdaptiveApplicationControlGroup,
-  AdaptiveApplicationControlGroups,
-  AdaptiveApplicationControlIssueSummary,
   CloudError,
-  PathRecommendation,
-  ProtectionMode,
-  PublisherInfo,
-  UserRecommendation,
-  VmRecommendation
+  SecuritySolutionsReferenceData,
+  SecuritySolutionsReferenceDataList
 } from "../models/mappers";
