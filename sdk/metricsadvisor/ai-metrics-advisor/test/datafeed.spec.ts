@@ -373,6 +373,38 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       }
     });
 
+    it("creates an Azure SQL Server Feed", async () => {
+      const expectedSource: DataFeedSource = {
+        dataSourceType: "SqlServer",
+        dataSourceParameter: {
+          connectionString: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING,
+          query: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY
+        }
+      };
+      const actual = await client.createDataFeed({
+        name: sqlServerFeedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
+        options
+      });
+
+      assert.ok(actual.id, "Expecting valid data feed id");
+      createdSqlServerFeedId = actual.id;
+      assert.equal(actual.source.dataSourceType, "SqlServer");
+      if (actual.source.dataSourceType === "SqlServer") {
+        assert.equal(
+          actual.source.dataSourceParameter.connectionString,
+          testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING
+        );
+        assert.equal(
+          actual.source.dataSourceParameter.query,
+          testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY
+        );
+      }
+    });
+
     it("lists datafeed", async function() {
       const iterator = client.listDataFeeds({
         filter: {
@@ -405,38 +437,6 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
 
     it("deletes an Azure Application Insights feed", async function() {
       await verifyDataFeedDeletion(client, createdAppFeedId);
-    });
-
-    it("creates an Azure SQL Server Feed", async () => {
-      const expectedSource: DataFeedSource = {
-        dataSourceType: "SqlServer",
-        dataSourceParameter: {
-          connectionString: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING,
-          query: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY
-        }
-      };
-      const actual = await client.createDataFeed({
-        name: sqlServerFeedName,
-        source: expectedSource,
-        granularity,
-        schema: dataFeedSchema,
-        ingestionSettings: dataFeedIngestion,
-        options
-      });
-
-      assert.ok(actual.id, "Expecting valid data feed id");
-      createdSqlServerFeedId = actual.id;
-      assert.equal(actual.source.dataSourceType, "SqlServer");
-      if (actual.source.dataSourceType === "SqlServer") {
-        assert.equal(
-          actual.source.dataSourceParameter.connectionString,
-          testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING
-        );
-        assert.equal(
-          actual.source.dataSourceParameter.query,
-          testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY
-        );
-      }
     });
 
     it("deletes an Azure SQL Server feed", async function() {

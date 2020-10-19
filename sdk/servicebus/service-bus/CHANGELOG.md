@@ -2,8 +2,29 @@
 
 ## 7.0.0-preview.8 (Unreleased)
 
-- `sendMessages` method on the sender and `tryAdd` method to add messages to a batch now support tracing.
+### New features:
+
+- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
+  and
+  [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+### Breaking changes
+
+- The `createBatch` method on the sender is renamed to `createMesageBatch`
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- `ServiceBusMessage` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `CorrelationRuleFilter` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
 
 ## 7.0.0-preview.7 (2020-10-07)
 

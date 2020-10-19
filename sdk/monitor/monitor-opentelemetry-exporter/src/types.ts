@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { ExportResult } from "@opentelemetry/core";
-import { TelemetryItem as Envelope } from "./generated";
+import { ContextTagKeys, TelemetryItem as Envelope } from "./generated";
 
-export type Tags = { [key: string]: string };
+export type Tags = { [key in ContextTagKeys]: string };
 export type PropertyType = string | number | boolean | object | Array<PropertyType>;
 export type Properties = { [key: string]: Properties | PropertyType };
 export interface MSLink {

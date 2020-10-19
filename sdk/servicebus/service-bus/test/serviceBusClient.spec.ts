@@ -458,7 +458,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
 
     let errorCreateBatch: string = "";
-    await sender.createBatch().catch((err) => {
+    await sender.createMessageBatch().catch((err) => {
       errorCreateBatch = err.message;
     });
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");

@@ -86,21 +86,21 @@ export type AuthorizationRule = {
 
 // @public
 export interface CorrelationRuleFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    properties?: {
+    applicationProperties?: {
         [key: string]: string | number | boolean | Date;
     };
+    contentType?: string;
+    correlationId?: string;
+    messageId?: string;
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
+    subject?: string;
     to?: string;
 }
 
 // @public
-export interface CreateBatchOptions extends OperationOptionsBase {
+export interface CreateMessageBatchOptions extends OperationOptionsBase {
     maxSizeInBytes?: number;
 }
 
@@ -202,7 +202,7 @@ export { MessagingError }
 // @public
 export interface NamespaceProperties {
     createdAt: Date;
-    messagingSku: string;
+    messagingSku: "Basic" | "Premium" | "Standard";
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
@@ -363,21 +363,22 @@ export interface ServiceBusClientOptions {
 
 // @public
 export interface ServiceBusMessage {
+    applicationProperties?: {
+        [key: string]: number | boolean | string | Date;
+    };
     body: any;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
-    properties?: {
-        [key: string]: number | boolean | string | Date;
-    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
+    subject?: string;
     timeToLive?: number;
     to?: string;
+    userId?: string;
     viaPartitionKey?: string;
 }
 
@@ -390,7 +391,7 @@ export interface ServiceBusMessageBatch {
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+    tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -442,7 +443,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
 export interface ServiceBusSender {
     cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
-    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+    createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
     open(options?: OperationOptionsBase): Promise<void>;
@@ -472,7 +473,7 @@ export type SqlRuleAction = {
 
 // @public
 export interface SqlRuleFilter {
-    sqlExpression?: string;
+    sqlExpression: string;
     sqlParameters?: {
         [key: string]: string | number | boolean;
     };

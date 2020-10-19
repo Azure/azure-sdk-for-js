@@ -311,10 +311,18 @@ export function generateBlobSASQueryParameters(
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(blobSASSignatureValues, sharedKeyCredential);
     } else {
-      return generateBlobSASQueryParametersUDK20181109(
-        blobSASSignatureValues,
-        userDelegationKeyCredential!
-      );
+      // Version 2020-02-10 delegation SAS signature construction includes preauthorizedAgentObjectId, agentObjectId, correlationId.
+      if (version >= "2020-02-10") {
+        return generateBlobSASQueryParametersUDK20200210(
+          blobSASSignatureValues,
+          userDelegationKeyCredential!
+        );
+      } else {
+        return generateBlobSASQueryParametersUDK20181109(
+          blobSASSignatureValues,
+          userDelegationKeyCredential!
+        );
+      }
     }
   }
 
@@ -352,6 +360,8 @@ function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
   if (
     !blobSASSignatureValues.identifier &&
     !blobSASSignatureValues.permissions &&
@@ -362,38 +372,13 @@ function generateBlobSASQueryParameters20150405(
     );
   }
 
-  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "c";
-  let verifiedPermissions: string | undefined;
-
-  if (blobSASSignatureValues.snapshotTime) {
-    throw RangeError("'version' must be >= '2018-11-09' when provided 'snapshotTime'.");
-  }
-
-  if (blobSASSignatureValues.versionId) {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
-  }
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.deleteVersion &&
-    version < "2019-10-10"
-  ) {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
-  }
-
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.tag &&
-    version < "2019-12-12"
-  ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
-  }
-
   if (blobSASSignatureValues.blobName) {
     resource = "b";
   }
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
@@ -423,7 +408,7 @@ function generateBlobSASQueryParameters20150405(
     blobSASSignatureValues.identifier,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
-    version,
+    blobSASSignatureValues.version,
     blobSASSignatureValues.cacheControl ? blobSASSignatureValues.cacheControl : "",
     blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
     blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
@@ -434,7 +419,7 @@ function generateBlobSASQueryParameters20150405(
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
   return new SASQueryParameters(
-    version,
+    blobSASSignatureValues.version!,
     signature,
     verifiedPermissions,
     undefined,
@@ -474,6 +459,8 @@ function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
   if (
     !blobSASSignatureValues.identifier &&
     !blobSASSignatureValues.permissions &&
@@ -484,37 +471,7 @@ function generateBlobSASQueryParameters20181109(
     );
   }
 
-  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "c";
-  let verifiedPermissions: string | undefined;
-
-  if (blobSASSignatureValues.versionId && version < "2019-10-10") {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
-  }
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.deleteVersion &&
-    version < "2019-10-10"
-  ) {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
-  }
-
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.tag &&
-    version < "2019-12-12"
-  ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
-  }
-
-  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.snapshotTime) {
-    throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
-  }
-
-  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.versionId) {
-    throw RangeError("Must provide 'blobName' when provided 'versionId'.");
-  }
-
   let timestamp = blobSASSignatureValues.snapshotTime;
   if (blobSASSignatureValues.blobName) {
     resource = "b";
@@ -527,6 +484,7 @@ function generateBlobSASQueryParameters20181109(
   }
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
@@ -556,7 +514,7 @@ function generateBlobSASQueryParameters20181109(
     blobSASSignatureValues.identifier,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
-    version,
+    blobSASSignatureValues.version,
     resource,
     timestamp,
     blobSASSignatureValues.cacheControl ? blobSASSignatureValues.cacheControl : "",
@@ -569,7 +527,7 @@ function generateBlobSASQueryParameters20181109(
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
   return new SASQueryParameters(
-    version,
+    blobSASSignatureValues.version!,
     signature,
     verifiedPermissions,
     undefined,
@@ -595,7 +553,7 @@ function generateBlobSASQueryParameters20181109(
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startsOn and identifier.
+ * set corresponding properties directly, such as permissions, startsOn.
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
@@ -607,44 +565,16 @@ function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential
 ): SASQueryParameters {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
+  // Stored access policies are not supported for a user delegation SAS.
   if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
     );
   }
 
-  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
-
-  if (blobSASSignatureValues.versionId && version < "2019-10-10") {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
-  }
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.deleteVersion &&
-    version < "2019-10-10"
-  ) {
-    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
-  }
-
-  if (
-    blobSASSignatureValues.permissions &&
-    blobSASSignatureValues.permissions.tag &&
-    version < "2019-12-12"
-  ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
-  }
-
   let resource: string = "c";
-  let verifiedPermissions: string | undefined;
-
-  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.snapshotTime) {
-    throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
-  }
-
-  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.versionId) {
-    throw RangeError("Must provide 'blobName' when provided 'versionId'.");
-  }
-
   let timestamp = blobSASSignatureValues.snapshotTime;
   if (blobSASSignatureValues.blobName) {
     resource = "b";
@@ -657,6 +587,7 @@ function generateBlobSASQueryParametersUDK20181109(
   }
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
@@ -695,7 +626,7 @@ function generateBlobSASQueryParametersUDK20181109(
     userDelegationKeyCredential.userDelegationKey.signedVersion,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
-    version,
+    blobSASSignatureValues.version,
     resource,
     timestamp,
     blobSASSignatureValues.cacheControl,
@@ -706,9 +637,123 @@ function generateBlobSASQueryParametersUDK20181109(
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-
   return new SASQueryParameters(
-    version,
+    blobSASSignatureValues.version!,
+    signature,
+    verifiedPermissions,
+    undefined,
+    undefined,
+    blobSASSignatureValues.protocol,
+    blobSASSignatureValues.startsOn,
+    blobSASSignatureValues.expiresOn,
+    blobSASSignatureValues.ipRange,
+    blobSASSignatureValues.identifier,
+    resource,
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType,
+    userDelegationKeyCredential.userDelegationKey
+  );
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * IMPLEMENTATION FOR API VERSION FROM 2020-02-10.
+ *
+ * Creates an instance of SASQueryParameters.
+ *
+ * Only accepts required settings needed to create a SAS. For optional settings please
+ * set corresponding properties directly, such as permissions, startsOn.
+ *
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
+ *
+ * @param {BlobSASSignatureValues} blobSASSignatureValues
+ * @param {UserDelegationKeyCredential} userDelegationKeyCredential
+ * @returns {SASQueryParameters}
+ */
+function generateBlobSASQueryParametersUDK20200210(
+  blobSASSignatureValues: BlobSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential
+): SASQueryParameters {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
+  // Stored access policies are not supported for a user delegation SAS.
+  if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
+    );
+  }
+
+  let resource: string = "c";
+  let timestamp = blobSASSignatureValues.snapshotTime;
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+    if (blobSASSignatureValues.snapshotTime) {
+      resource = "bs";
+    } else if (blobSASSignatureValues.versionId) {
+      resource = "bv";
+      timestamp = blobSASSignatureValues.versionId;
+    }
+  }
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
+  if (blobSASSignatureValues.permissions) {
+    if (blobSASSignatureValues.blobName) {
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString()
+      ).toString();
+    } else {
+      verifiedPermissions = ContainerSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString()
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
+      : "",
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      blobSASSignatureValues.containerName,
+      blobSASSignatureValues.blobName
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    undefined, // preauthorizedAgentObjectId
+    undefined, // agentObjectId
+    undefined, // correlationId
+    blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
+    blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
+    blobSASSignatureValues.version,
+    resource,
+    timestamp,
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+  return new SASQueryParameters(
+    blobSASSignatureValues.version!,
     signature,
     verifiedPermissions,
     undefined,
@@ -736,4 +781,42 @@ function getCanonicalName(accountName: string, containerName: string, blobName?:
     elements.push(`/${blobName}`);
   }
   return elements.join("");
+}
+
+function SASSignatureValuesSanityCheckAndAutofill(
+  blobSASSignatureValues: BlobSASSignatureValues
+): BlobSASSignatureValues {
+  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
+  if (blobSASSignatureValues.snapshotTime && version < "2018-11-09") {
+    throw RangeError("'version' must be >= '2018-11-09' when providing 'snapshotTime'.");
+  }
+  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.snapshotTime) {
+    throw RangeError("Must provide 'blobName' when providing 'snapshotTime'.");
+  }
+
+  if (blobSASSignatureValues.versionId && version < "2019-10-10") {
+    throw RangeError("'version' must be >= '2019-10-10' when providing 'versionId'.");
+  }
+  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.versionId) {
+    throw RangeError("Must provide 'blobName' when providing 'versionId'.");
+  }
+
+  if (
+    blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.deleteVersion &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-10-10' when providing 'x' permission.");
+  }
+
+  if (
+    blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.tag &&
+    version < "2019-12-12"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when providing 't' permission.");
+  }
+
+  blobSASSignatureValues.version = version;
+  return blobSASSignatureValues;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 import { ConnectionContext } from "../../src/connectionContext";
 import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import chai from "chai";
@@ -38,7 +38,7 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
-      InternalReceiveMode.peekLock
+      "peekLock"
     );
 
     assert.equal(sbMessage.lockToken, expectedLockToken, "Unexpected lock token found");
@@ -51,7 +51,7 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
-      InternalReceiveMode.receiveAndDelete
+      "receiveAndDelete"
     );
 
     assert.equal(!!sbMessage.lockToken, false, "Unexpected lock token found");
@@ -101,7 +101,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     amqpMessage,
     fakeDelivery,
     false,
-    InternalReceiveMode.peekLock
+    "peekLock"
   );
 
   it("headers match", () => {
@@ -204,6 +204,6 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
       sbMessage._amqpAnnotatedMessage.properties?.replyToGroupId,
       sbMessage.replyToSessionId
     );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, sbMessage.label);
+    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, sbMessage.subject);
   });
 });

@@ -2,18 +2,16 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Base } from "../../src/Declarations/Contracts";
 import {
   AI_OPERATION_ID,
   AI_OPERATION_PARENT_ID
 } from "../../src/utils/constants/applicationinsights";
 import { Expectation } from "./scenario/types";
-import { RequestData, TelemetryItem as Envelope } from "../../src/generated";
+import { MonitorBase, RequestData, TelemetryItem as Envelope } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
-export const assertData = (actual: Base, expected: Base): void => {
+export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
-  assert.strictEqual(actual.properties, expected.properties);
 
   if (expected.baseData) {
     assert.ok(actual.baseData);
@@ -98,7 +96,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
           break;
         case "data":
           if (envelope[0].data) {
-            assertData(envelope[0].data as Base, value as Base);
+            assertData(envelope[0].data, value as MonitorBase);
           }
           break;
         default:

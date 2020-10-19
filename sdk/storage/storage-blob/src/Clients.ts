@@ -102,7 +102,8 @@ import {
   TagConditions,
   MatchConditions,
   ModificationConditions,
-  ModifiedAccessConditions
+  ModifiedAccessConditions,
+  BlobQueryArrowField
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
@@ -3308,6 +3309,30 @@ export interface BlobQueryCsvTextConfiguration {
 }
 
 /**
+ * Options to query blob with Apache Arrow format. Only valid for {@link BlockBlobQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface BlobQueryArrowConfiguration
+ */
+export interface BlobQueryArrowConfiguration {
+  /**
+   * Kind.
+   *
+   * @type {"arrow"}
+   * @memberof BlobQueryArrowConfiguration
+   */
+  kind: "arrow";
+
+  /**
+   * List of {@link BlobQueryArrowField} describing the schema of the data.
+   *
+   * @type {BlobQueryArrowField[]}
+   * @memberof BlobQueryArrowConfiguration
+   */
+  schema: BlobQueryArrowField[];
+}
+
+/**
  * Options to configure {@link BlockBlobClient.query} operation.
  *
  * @export
@@ -3332,10 +3357,13 @@ export interface BlockBlobQueryOptions extends CommonOptions {
   /**
    * Configurations for the query output.
    *
-   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration}
+   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration| BlobQueryArrowConfiguration}
    * @memberof BlockBlobQueryOptions
    */
-  outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  outputTextConfiguration?:
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    *

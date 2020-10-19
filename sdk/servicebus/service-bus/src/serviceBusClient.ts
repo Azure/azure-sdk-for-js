@@ -5,8 +5,7 @@ import { TokenCredential, isTokenCredential, ConnectionConfig } from "@azure/cor
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
-  createConnectionContextForTokenCredential,
-  convertToInternalReceiveMode
+  createConnectionContextForTokenCredential
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
 import { CreateReceiverOptions, AcceptSessionOptions, ReceiveMode } from "./models";
@@ -413,7 +412,7 @@ export class ServiceBusClient {
       sessionId,
       {
         maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
-        receiveMode: convertToInternalReceiveMode(receiveMode),
+        receiveMode,
         abortSignal: options?.abortSignal
       }
     );
@@ -538,7 +537,7 @@ export class ServiceBusClient {
       undefined,
       {
         maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
-        receiveMode: convertToInternalReceiveMode(receiveMode),
+        receiveMode,
         abortSignal: options?.abortSignal
       }
     );

@@ -61,7 +61,7 @@
   "dependencies": {
     "@azure/event-hubs": "^5.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.2.0",
+    "@azure/storage-blob": "^12.3.0-beta.1",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },

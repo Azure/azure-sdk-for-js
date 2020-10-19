@@ -31,7 +31,6 @@ import {
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
   toAmqpMessage,
-  InternalReceiveMode,
   fromAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
@@ -48,6 +47,7 @@ import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { ReceiveMode } from "../models";
 
 /**
  * @internal
@@ -107,9 +107,9 @@ export interface CorrelationRuleFilter {
    */
   replyTo?: string;
   /**
-   * Value to be matched with the `label` property of the incoming message.
+   * Value to be matched with the `subject` property of the incoming message.
    */
-  label?: string;
+  subject?: string;
   /**
    * Value to be matched with the `sessionId` property of the incoming message.
    */
@@ -125,7 +125,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  properties?: { [key: string]: string | number | boolean | Date };
+  applicationProperties?: { [key: string]: string | number | boolean | Date };
 }
 
 /**
@@ -137,11 +137,11 @@ const correlationProperties = [
   "messageId",
   "to",
   "replyTo",
-  "label",
+  "subject",
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "properties"
+  "applicationProperties"
 ];
 
 /**
@@ -721,7 +721,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
-    receiveMode: InternalReceiveMode,
+    receiveMode: ReceiveMode,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
@@ -750,8 +750,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x81,
         undefined
       );
-      const receiverSettleMode: number =
-        receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1;
+      const receiverSettleMode: number = receiveMode === "receiveAndDelete" ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_uint(receiverSettleMode);
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1141,11 +1140,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
               to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
               replyTo: this._safelyGetTypedValueFromArray(filtersRawData.value, 3),
-              label: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
+              subject: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1266,11 +1265,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             "message-id": filter.messageId,
             to: filter.to,
             "reply-to": filter.replyTo,
-            label: filter.label,
+            subject: filter.subject,
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.properties
+            applicationProperties: filter.applicationProperties
           };
           break;
       }
