@@ -459,7 +459,7 @@ const getKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue,
+      bodyMapper: Mappers.ConfigurationSetting,
       headersMapper: Mappers.GeneratedClientGetKeyValueHeaders
     },
     default: {
@@ -482,7 +482,7 @@ const putKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue,
+      bodyMapper: Mappers.ConfigurationSetting,
       headersMapper: Mappers.GeneratedClientPutKeyValueHeaders
     },
     default: {
@@ -507,7 +507,7 @@ const deleteKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue,
+      bodyMapper: Mappers.ConfigurationSetting,
       headersMapper: Mappers.GeneratedClientDeleteKeyValueHeaders
     },
     204: {
@@ -595,7 +595,7 @@ const putLockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue,
+      bodyMapper: Mappers.ConfigurationSetting,
       headersMapper: Mappers.GeneratedClientPutLockHeaders
     },
     default: {
@@ -617,7 +617,7 @@ const deleteLockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue,
+      bodyMapper: Mappers.ConfigurationSetting,
       headersMapper: Mappers.GeneratedClientDeleteLockHeaders
     },
     default: {
