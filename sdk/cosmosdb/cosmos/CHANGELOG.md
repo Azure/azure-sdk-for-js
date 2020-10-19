@@ -1,6 +1,6 @@
 # Release History
 
-## 3.9.3 (Unreleased)
+## 3.9.3 (2020-10-19)
 
 - BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
 
