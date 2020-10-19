@@ -180,10 +180,6 @@ function Deploy-TestResources {
 
   $entryDeployJobs = @()
 
-  # Remove any lingering jobs from this session so output is not polluted
-  Get-Job | Stop-Job
-  Get-Job | Remove-Job
-
   foreach ($entry in $deployManifest) {
     if (!(Get-ChildItem -Path "$repoRoot/sdk/$($entry.ResourcesDirectory)" -Filter test-resources.json -Recurse)) {
       Write-Verbose "Skipping $($entry.ResourcesDirectory): could not find test-resources.json"
@@ -205,8 +201,14 @@ function Deploy-TestResources {
     $runManifest += $entry
   }
 
-  Write-Verbose "Waiting for all deploy jobs to finish"
-  Get-Job | Wait-Job
+  Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
+  $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
+  if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
+    Write-Warning "Timed out waiting for deploy jobs to finish:"
+    Write-Verbose $entryDeployJobs
+    $entryDeployJobs | Remove-Job -Force
+    exit 1
+  }
 
   foreach ($job in $entryDeployJobs) {
     if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
@@ -225,7 +227,7 @@ function Deploy-TestResources {
   }
 
   # Cleanup job records
-  Get-Job | Remove-Job
+  $entryDeployJobs | Remove-Job
 
   @{ Dependencies = $dependencies; RunManifest = $runManifest }
 }
