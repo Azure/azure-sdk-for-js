@@ -53,6 +53,24 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
 /**
  * Enables authentication to Azure Active Directory using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
+ *
+ * As an example authenticating a specific Azure SDK client, here we can see how to
+ * authenticate the Key Vault Keys client to retrieve the properties of the existing keys:
+ * ```ts
+ * const identity = require("@azure/identity");
+ * const { KeyClient } = require("@azure/keyvault-keys");
+ *
+ * async function main() {
+ *   const credential = new identity.DeviceCodeCredential();
+ *   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+ *   const client = new KeyClient(keyVaultUrl, credential);
+ *
+ *   // Retrieving the properties of the existing keys in that specific Key Vault.
+ *   console.log(await client.listPropertiesOfKeys().next());
+ * }
+ *
+ * main().then(console.log).catch((e) => console.error(e));
+ * ```
  */
 export class DeviceCodeCredential implements TokenCredential {
   private pca: PublicClientApplication;
