@@ -266,11 +266,21 @@ export function onMessageReceived(
 ): void {
   const message = context.message;
   if (!message) {
+    logger.verbose(
+      `[${connectionId}] "message" property on the EventContext is "undefined" which is unexpected, ` +
+        `returning from the "onMessageReceived" handler without resolving or rejecting the promise ` +
+        `upon encountering the message event.`
+    );
     return;
   }
 
   const responseCorrelationId = message.correlation_id;
   if (!responsesMap.has(responseCorrelationId as string)) {
+    logger.verbose(
+      `[${connectionId}] correlationId "${responseCorrelationId}" property on the response does not match with ` +
+        `any of the "request-id"s in the map, returning from the "onMessageReceived" handler without resolving ` +
+        `or rejecting the promise upon encountering the message event.`
+    );
     return;
   }
 
@@ -279,21 +289,21 @@ export function onMessageReceived(
 
   const deleteResult = responsesMap.delete(responseCorrelationId as string);
   logger.verbose(
-    "%s Successfully deleted the response with id %s from the map.",
-    connectionId,
-    responseCorrelationId,
-    deleteResult
+    `[${connectionId}] Successfully deleted the response with id ${responseCorrelationId} from the map. ` +
+      `Delete result - ${deleteResult}`
   );
 
   const info = getCodeDescriptionAndError(message.application_properties);
   let error;
   if (!info.statusCode) {
     error = new Error(
-      `No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`
+      `[${connectionId}] No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`
     );
   }
   if (info.statusCode > 199 && info.statusCode < 300) {
-    logger.verbose(`Resolving the response with correlation-id: ${responseCorrelationId}`);
+    logger.verbose(
+      `[${connectionId}] Resolving the response with correlation-id: ${responseCorrelationId}`
+    );
     return promise.resolve(message);
   }
   if (!error) {
