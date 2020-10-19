@@ -420,7 +420,7 @@ describe("RequestResponseLink", function() {
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
-  it("should abort a request and response correctly when abort signal is fired after sometime", async function() {
+  it.only("should abort a request and response correctly when abort signal is fired after sometime", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -462,6 +462,16 @@ describe("RequestResponseLink", function() {
       });
     }, 2000);
     try {
+      // Order of events
+      // - sendRequest is called
+      // - request id is added to the map with a deferred promise
+      // - abort event is raised
+      // - request id deleted from the map
+      // - promise is rejected with the abort error
+      // Asserting before the abort event is raised
+      setTimeout(() => {
+        assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
+      }, 700);
       await link.sendRequest(request, {
         abortSignal: AbortController.timeout(1000),
         requestName: "foo"
@@ -479,6 +489,7 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
+    // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
@@ -664,7 +675,6 @@ describe("RequestResponseLink", function() {
   describe("close", () => {
     it("signals receiver and sender to now close the session", async () => {
       const connectionStub = stub(new Connection());
-
       connectionStub.createSession.resolves({
         connection: {
           id: "connection-1"
