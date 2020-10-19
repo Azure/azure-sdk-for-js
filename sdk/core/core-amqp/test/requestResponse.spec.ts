@@ -420,7 +420,7 @@ describe("RequestResponseLink", function() {
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
-  it.only("should abort a request and response correctly when abort signal is fired after sometime", async function() {
+  it("should abort a request and response correctly when abort signal is fired after sometime", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
