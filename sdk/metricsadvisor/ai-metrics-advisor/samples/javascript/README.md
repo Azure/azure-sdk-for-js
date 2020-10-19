@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+  - azure-cognitive-services
+urlFragment: ai-metrics-advisor-javascript
+---
+
 # Azure Metrics Advisor client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Metrics Advisor in some common scenarios.
