@@ -4684,6 +4684,169 @@ export interface RunCommandResult {
 }
 
 /**
+ * The instance view of a virtual machine run command.
+ */
+export interface VirtualMachineRunCommandInstanceView {
+  /**
+   * Script execution status. Possible values include: 'Unknown', 'Pending', 'Running', 'Failed',
+   * 'Succeeded', 'TimedOut', 'Canceled'
+   */
+  executionState?: ExecutionState;
+  /**
+   * Communicate script configuration errors or execution messages.
+   */
+  executionMessage?: string;
+  /**
+   * Exit code returned from script execution.
+   */
+  exitCode?: number;
+  /**
+   * Script output stream.
+   */
+  output?: string;
+  /**
+   * Script error stream.
+   */
+  error?: string;
+  /**
+   * Script start time.
+   */
+  startTime?: Date;
+  /**
+   * Script end time.
+   */
+  endTime?: Date;
+  /**
+   * The resource status information.
+   */
+  statuses?: InstanceViewStatus[];
+}
+
+/**
+ * Describes the script sources for run command.
+ */
+export interface VirtualMachineRunCommandScriptSource {
+  /**
+   * Specifies the script content to be executed on the VM.
+   */
+  script?: string;
+  /**
+   * Specifies the script download location.
+   */
+  scriptUri?: string;
+  /**
+   * Specifies a commandId of predefined built-in script.
+   */
+  commandId?: string;
+}
+
+/**
+ * Describes a Virtual Machine run command.
+ */
+export interface VirtualMachineRunCommand extends Resource {
+  /**
+   * The source of the run command script.
+   */
+  source?: VirtualMachineRunCommandScriptSource;
+  /**
+   * The parameters used by the script.
+   */
+  parameters?: RunCommandInputParameter[];
+  /**
+   * The parameters used by the script.
+   */
+  protectedParameters?: RunCommandInputParameter[];
+  /**
+   * Optional. If set to true, provisioning will complete as soon as the script starts and will not
+   * wait for script to complete. Default value: false.
+   */
+  asyncExecution?: boolean;
+  /**
+   * Specifies the user account on the VM when executing the run command.
+   */
+  runAsUser?: string;
+  /**
+   * Specifies the user account password on the VM when executing the run command.
+   */
+  runAsPassword?: string;
+  /**
+   * The timeout in seconds to execute the run command.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specifies the Azure storage blob where script output stream will be uploaded.
+   */
+  outputBlobUri?: string;
+  /**
+   * Specifies the Azure storage blob where script error stream will be uploaded.
+   */
+  errorBlobUri?: string;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The virtual machine run command instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: VirtualMachineRunCommandInstanceView;
+}
+
+/**
+ * Describes a Virtual Machine run command.
+ */
+export interface VirtualMachineRunCommandUpdate extends UpdateResource {
+  /**
+   * The source of the run command script.
+   */
+  source?: VirtualMachineRunCommandScriptSource;
+  /**
+   * The parameters used by the script.
+   */
+  parameters?: RunCommandInputParameter[];
+  /**
+   * The parameters used by the script.
+   */
+  protectedParameters?: RunCommandInputParameter[];
+  /**
+   * Optional. If set to true, provisioning will complete as soon as the script starts and will not
+   * wait for script to complete. Default value: false.
+   */
+  asyncExecution?: boolean;
+  /**
+   * Specifies the user account on the VM when executing the run command.
+   */
+  runAsUser?: string;
+  /**
+   * Specifies the user account password on the VM when executing the run command.
+   */
+  runAsPassword?: string;
+  /**
+   * The timeout in seconds to execute the run command.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specifies the Azure storage blob where script output stream will be uploaded.
+   */
+  outputBlobUri?: string;
+  /**
+   * Specifies the Azure storage blob where script error stream will be uploaded.
+   */
+  errorBlobUri?: string;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The virtual machine run command instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: VirtualMachineRunCommandInstanceView;
+}
+
+/**
  * Describes scaling information of a SKU.
  */
 export interface ResourceSkuCapacity {
@@ -5664,6 +5827,39 @@ export interface GalleryIdentifier {
 }
 
 /**
+ * Group of the gallery sharing profile
+ */
+export interface SharingProfileGroup {
+  /**
+   * This property allows you to specify the type of sharing group. <br><br> Possible values are:
+   * <br><br> **Subscriptions** <br><br> **AADTenants**. Possible values include: 'Subscriptions',
+   * 'AADTenants'
+   */
+  type?: SharingProfileGroupTypes;
+  /**
+   * A list of subscription/tenant ids the gallery is aimed to be shared to.
+   */
+  ids?: string[];
+}
+
+/**
+ * Profile for gallery sharing to subscription or tenant
+ */
+export interface SharingProfile {
+  /**
+   * This property allows you to specify the permission of sharing gallery. <br><br> Possible
+   * values are: <br><br> **Private** <br><br> **Groups**. Possible values include: 'Private',
+   * 'Groups'
+   */
+  permissions?: GallerySharingPermissionTypes;
+  /**
+   * A list of sharing profile groups.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groups?: SharingProfileGroup[];
+}
+
+/**
  * Specifies information about the Shared Image Gallery that you want to create or update.
  */
 export interface Gallery extends Resource {
@@ -5679,6 +5875,7 @@ export interface Gallery extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -5722,6 +5919,7 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -5825,12 +6023,12 @@ export interface GalleryArtifactPublishingProfileBase {
    */
   excludeFromLatest?: boolean;
   /**
-   * The timestamp for when the gallery Image Version is published.
+   * The timestamp for when the gallery image version is published.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly publishedDate?: Date;
   /**
-   * The end of life date of the gallery Image Version. This property can be used for
+   * The end of life date of the gallery image version. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -5842,7 +6040,7 @@ export interface GalleryArtifactPublishingProfileBase {
 }
 
 /**
- * The publishing profile of a gallery Image Version.
+ * The publishing profile of a gallery image version.
  */
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
   source: UserArtifactSource;
@@ -5862,7 +6060,7 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
  */
 export interface RegionalReplicationStatus {
   /**
-   * The region to which the gallery Image Version is being replicated to.
+   * The region to which the gallery image version is being replicated to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly region?: string;
@@ -5885,7 +6083,7 @@ export interface RegionalReplicationStatus {
 }
 
 /**
- * This is the replication status of the gallery Image Version.
+ * This is the replication status of the gallery image version.
  */
 export interface ReplicationStatus {
   /**
@@ -5938,19 +6136,33 @@ export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinitio
 }
 
 /**
- * This is the gallery Image Definition identifier.
+ * A feature for gallery image.
+ */
+export interface GalleryImageFeature {
+  /**
+   * The name of the gallery image feature.
+   */
+  name?: string;
+  /**
+   * The value of the gallery image feature.
+   */
+  value?: string;
+}
+
+/**
+ * This is the gallery image definition identifier.
  */
 export interface GalleryImageIdentifier {
   /**
-   * The name of the gallery Image Definition publisher.
+   * The name of the gallery image definition publisher.
    */
   publisher: string;
   /**
-   * The name of the gallery Image Definition offer.
+   * The name of the gallery image definition offer.
    */
   offer: string;
   /**
-   * The name of the gallery Image Definition SKU.
+   * The name of the gallery image definition SKU.
    */
   sku: string;
 }
@@ -5989,7 +6201,7 @@ export interface Disallowed {
 }
 
 /**
- * Describes the gallery Image Definition purchase plan. This is used by marketplace images.
+ * Describes the gallery image definition purchase plan. This is used by marketplace images.
  */
 export interface ImagePurchasePlan {
   /**
@@ -6007,15 +6219,15 @@ export interface ImagePurchasePlan {
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to create or update.
+ * Specifies information about the gallery image definition that you want to create or update.
  */
 export interface GalleryImage extends Resource {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6043,7 +6255,11 @@ export interface GalleryImage extends Resource {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6052,7 +6268,7 @@ export interface GalleryImage extends Resource {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6061,15 +6277,15 @@ export interface GalleryImage extends Resource {
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to update.
+ * Specifies information about the gallery image definition that you want to update.
  */
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6097,7 +6313,11 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6106,7 +6326,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6115,7 +6335,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
 }
 
 /**
- * The publishing profile of a gallery Image Version.
+ * The publishing profile of a gallery image Version.
  */
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
 }
@@ -6125,10 +6345,14 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
  */
 export interface GalleryArtifactVersionSource {
   /**
-   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
-   * image.
+   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user
+   * image or storage account resource.
    */
   id?: string;
+  /**
+   * The uri of the gallery artifact version source. Currently used to specify vhd/blob source.
+   */
+  uri?: string;
 }
 
 /**
@@ -6179,12 +6403,12 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to create or update.
+ * Specifies information about the gallery image version that you want to create or update.
  */
 export interface GalleryImageVersion extends Resource {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6198,12 +6422,12 @@ export interface GalleryImageVersion extends Resource {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to update.
+ * Specifies information about the gallery image version that you want to update.
  */
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6292,6 +6516,105 @@ export interface ManagedArtifact {
  */
 export interface GalleryArtifactSource {
   managedImage: ManagedArtifact;
+}
+
+/**
+ * Specifies information about the gallery sharing profile update.
+ */
+export interface SharingUpdate extends BaseResource {
+  /**
+   * This property allows you to specify the operation type of gallery sharing update. <br><br>
+   * Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**. Possible values
+   * include: 'Add', 'Remove', 'Reset'
+   */
+  operationType: SharingUpdateOperationTypes;
+  /**
+   * A list of sharing profile groups.
+   */
+  groups?: SharingProfileGroup[];
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface PirResource {
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource location
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+}
+
+/**
+ * Base information about the shared gallery resource in pir.
+ */
+export interface PirSharedGalleryResource extends PirResource {
+  /**
+   * The unique id of this shared gallery.
+   */
+  uniqueId?: string;
+}
+
+/**
+ * Specifies information about the Shared Gallery that you want to create or update.
+ */
+export interface SharedGallery extends PirSharedGalleryResource {
+}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
+ */
+export interface SharedGalleryImage extends PirSharedGalleryResource {
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk when
+   * creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows**
+   * <br><br> **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  identifier: GalleryImageIdentifier;
+  recommended?: RecommendedMachineConfiguration;
+  disallowed?: Disallowed;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  purchasePlan?: ImagePurchasePlan;
+}
+
+/**
+ * Specifies information about the gallery image version that you want to create or update.
+ */
+export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+  /**
+   * The published date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  publishedDate?: Date;
+  /**
+   * The end of life date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
 }
 
 /**
@@ -6593,6 +6916,16 @@ export interface VirtualMachineImagesListOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
+export interface VirtualMachinesDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to force delete virtual machines.
+   */
+  forceDeletion?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'instanceView'
@@ -6642,6 +6975,16 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extend
    * of 120 minutes.
    */
   sasUriExpirationTimeInMinutes?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to force delete virtual machines.
+   */
+  forceDeletion?: boolean;
 }
 
 /**
@@ -6967,11 +7310,61 @@ export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends ms
 /**
  * Optional Parameters.
  */
+export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ResourceSkusListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation. Only **location** filter is supported currently.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface GalleriesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The select expression to apply on the operation. Possible values include: 'Permissions'
+   */
+  select?: SelectPermissions;
 }
 
 /**
@@ -6992,6 +7385,39 @@ export interface GalleryApplicationVersionsGetOptionalParams extends msRest.Requ
    * The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
    */
   expand?: ReplicationStatusTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleriesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImagesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImageVersionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
 }
 
 /**
@@ -7213,6 +7639,18 @@ export interface RunCommandListResult extends Array<RunCommandDocumentBase> {
 
 /**
  * @interface
+ * The List run command operation response
+ * @extends Array<VirtualMachineRunCommand>
+ */
+export interface VirtualMachineRunCommandsListResult extends Array<VirtualMachineRunCommand> {
+  /**
+   * The uri to fetch the next page of run commands.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The List Resource Skus operation response.
  * @extends Array<ResourceSku>
  */
@@ -7310,7 +7748,7 @@ export interface GalleryList extends Array<Gallery> {
 export interface GalleryImageList extends Array<GalleryImage> {
   /**
    * The uri to fetch the next page of Image Definitions in the Shared Image Gallery. Call
-   * ListNext() with this to fetch the next page of gallery Image Definitions.
+   * ListNext() with this to fetch the next page of gallery image definitions.
    */
   nextLink?: string;
 }
@@ -7322,8 +7760,8 @@ export interface GalleryImageList extends Array<GalleryImage> {
  */
 export interface GalleryImageVersionList extends Array<GalleryImageVersion> {
   /**
-   * The uri to fetch the next page of gallery Image Versions. Call ListNext() with this to fetch
-   * the next page of gallery Image Versions.
+   * The uri to fetch the next page of gallery image versions. Call ListNext() with this to fetch
+   * the next page of gallery image versions.
    */
   nextLink?: string;
 }
@@ -7350,6 +7788,45 @@ export interface GalleryApplicationVersionList extends Array<GalleryApplicationV
   /**
    * The uri to fetch the next page of gallery Application Versions. Call ListNext() with this to
    * fetch the next page of gallery Application Versions.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Galleries operation response.
+ * @extends Array<SharedGallery>
+ */
+export interface SharedGalleryList extends Array<SharedGallery> {
+  /**
+   * The uri to fetch the next page of shared galleries. Call ListNext() with this to fetch the
+   * next page of shared galleries.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Images operation response.
+ * @extends Array<SharedGalleryImage>
+ */
+export interface SharedGalleryImageList extends Array<SharedGalleryImage> {
+  /**
+   * The uri to fetch the next page of shared gallery images. Call ListNext() with this to fetch
+   * the next page of shared gallery images.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Image versions operation response.
+ * @extends Array<SharedGalleryImageVersion>
+ */
+export interface SharedGalleryImageVersionList extends Array<SharedGalleryImageVersion> {
+  /**
+   * The uri to fetch the next page of shared gallery image versions. Call ListNext() with this to
+   * fetch the next page of shared gallery image versions.
    */
   nextLink?: string;
 }
@@ -7722,6 +8199,15 @@ export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMin
 export type OrchestrationServiceStateAction = 'Resume' | 'Suspend';
 
 /**
+ * Defines values for ExecutionState.
+ * Possible values include: 'Unknown', 'Pending', 'Running', 'Failed', 'Succeeded', 'TimedOut',
+ * 'Canceled'
+ * @readonly
+ * @enum {string}
+ */
+export type ExecutionState = 'Unknown' | 'Pending' | 'Running' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Canceled';
+
+/**
  * Defines values for ResourceSkuCapacityScaleType.
  * Possible values include: 'Automatic', 'Manual', 'None'
  * @readonly
@@ -7845,6 +8331,22 @@ export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'R
 export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
+ * Defines values for GallerySharingPermissionTypes.
+ * Possible values include: 'Private', 'Groups'
+ * @readonly
+ * @enum {string}
+ */
+export type GallerySharingPermissionTypes = 'Private' | 'Groups';
+
+/**
+ * Defines values for SharingProfileGroupTypes.
+ * Possible values include: 'Subscriptions', 'AADTenants'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingProfileGroupTypes = 'Subscriptions' | 'AADTenants';
+
+/**
  * Defines values for AggregatedReplicationState.
  * Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'
  * @readonly
@@ -7875,6 +8377,14 @@ export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS'
  * @enum {string}
  */
 export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
+
+/**
+ * Defines values for SharingUpdateOperationTypes.
+ * Possible values include: 'Add', 'Remove', 'Reset'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingUpdateOperationTypes = 'Add' | 'Remove' | 'Reset';
 
 /**
  * Defines values for ContainerServiceOrchestratorTypes.
@@ -7909,12 +8419,28 @@ export type ContainerServiceVMSizeTypes = 'Standard_A0' | 'Standard_A1' | 'Stand
 export type InstanceViewTypes = 'instanceView';
 
 /**
+ * Defines values for SelectPermissions.
+ * Possible values include: 'Permissions'
+ * @readonly
+ * @enum {string}
+ */
+export type SelectPermissions = 'Permissions';
+
+/**
  * Defines values for ReplicationStatusTypes.
  * Possible values include: 'ReplicationStatus'
  * @readonly
  * @enum {string}
  */
 export type ReplicationStatusTypes = 'ReplicationStatus';
+
+/**
+ * Defines values for SharedToValues.
+ * Possible values include: 'tenant'
+ * @readonly
+ * @enum {string}
+ */
+export type SharedToValues = 'tenant';
 
 /**
  * Defines values for ProvisioningState.
@@ -10509,6 +11035,126 @@ export type VirtualMachineRunCommandsGetResponse = RunCommandDocument & {
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type VirtualMachineRunCommandsUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the getByVirtualMachine operation.
+ */
+export type VirtualMachineRunCommandsGetByVirtualMachineResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the listByVirtualMachine operation.
+ */
+export type VirtualMachineRunCommandsListByVirtualMachineResponse = VirtualMachineRunCommandsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommandsListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualMachineRunCommandsBeginCreateOrUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VirtualMachineRunCommandsBeginUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult & {
@@ -10525,6 +11171,166 @@ export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RunCommandListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByVirtualMachineNext operation.
+ */
+export type VirtualMachineRunCommandsListByVirtualMachineNextResponse = VirtualMachineRunCommandsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommandsListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunCommandsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommandsListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsBeginCreateOrUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsBeginUpdateResponse = VirtualMachineRunCommand & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommand;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineRunCommandsListResult;
     };
 };
 
@@ -12165,6 +12971,226 @@ export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = Gal
        * The response body as parsed JSON or XML
        */
       parsedBody: GalleryApplicationVersionList;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GallerySharingProfileUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharingUpdate;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GallerySharingProfileBeginUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharingUpdate;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleriesListResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleriesGetResponse = SharedGallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGallery;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleriesListNextResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImagesListResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImagesGetResponse = SharedGalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImage;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImagesListNextResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersion;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersionList;
     };
 };
 
