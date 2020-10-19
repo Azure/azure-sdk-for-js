@@ -14,9 +14,9 @@ import { credentialLogger, formatSuccess, formatError } from "../../util/logging
 import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
-import { MSI } from './models';
-import { appServiceMsi2019 } from './appServiceMsi2019';
-import { appServiceMsi2017 } from './appServiceMsi2017';
+import { MSI } from "./models";
+import { appServiceMsi2019 } from "./appServiceMsi2019";
+import { appServiceMsi2017 } from "./appServiceMsi2017";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -68,21 +68,25 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private cachedMSI: MSI | undefined;
 
-  private async cachedAvailableMSI(resource: string, clientId?: string, getTokenOptions?: GetTokenOptions): Promise<MSI> {
+  private async cachedAvailableMSI(
+    resource: string,
+    clientId?: string,
+    getTokenOptions?: GetTokenOptions
+  ): Promise<MSI> {
     if (this.cachedMSI) {
       return this.cachedMSI;
     }
 
     const MSIs = [appServiceMsi2019, appServiceMsi2017, cloudShellMsi, imdsMsi];
 
-      for (const msi of MSIs) {
-        if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
-          this.cachedMSI = msi;
-          return msi;
-        }
+    for (const msi of MSIs) {
+      if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
+        this.cachedMSI = msi;
+        return msi;
       }
+    }
 
-      throw new CredentialUnavailable("ManagedIdentityCredential - No MSI credential available");
+    throw new CredentialUnavailable("ManagedIdentityCredential - No MSI credential available");
   }
 
   private async authenticateManagedIdentity(

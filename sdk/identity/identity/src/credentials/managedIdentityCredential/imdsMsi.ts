@@ -3,7 +3,7 @@
 
 import { GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
-import { IdentityClient } from '../../client/identityClient';
+import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger, formatError } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { ImdsApiVersion, ImdsEndpoint } from "./constants";
@@ -12,30 +12,35 @@ import { MSI, MSIExpiresInParser } from "./models";
 const logger = credentialLogger("ManagedIdentityCredential - IMDS");
 
 export const imdsMsi: MSI = {
-  async isAvailable(identityClient: IdentityClient, resource: string, clientId?: string, getTokenOptions?: GetTokenOptions): Promise<boolean> {
+  async isAvailable(
+    identityClient: IdentityClient,
+    resource: string,
+    clientId?: string,
+    getTokenOptions?: GetTokenOptions
+  ): Promise<boolean> {
     const { span, options } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
 
     const request = imdsMsi.prepareRequestOptions(resource, clientId);
-  
+
     // This will always be populated, but let's make TypeScript happy
     if (request.headers) {
       // Remove the Metadata header to invoke a request error from
       // IMDS endpoint
       delete request.headers.Metadata;
     }
-  
+
     request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
-  
+
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
       webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
-  
+
       try {
         logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
@@ -58,7 +63,7 @@ export const imdsMsi: MSI = {
           return false;
         }
       }
-  
+
       // If we received any response, the endpoint is available
       logger.info(`IMDS endpoint is available`);
 
