@@ -13,12 +13,12 @@
 
 - `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
-- Internal improvement - Previously, each `RequestResponseLink.sendRequest` call adds an "onMessage" listener to the `ReceiverEvents.message` event and keeps discarding the responses that did not match the request-id and returns the response if matched. This has been improved to reuse the listeners for all the requests by maintaining a map of deferred promises that would be resolved(or rejected) upon receiving a message event.
+- Internal improvement - Previously, each `RequestResponseLink.sendRequest` call adds an "onMessage" listener to the `ReceiverEvents.message` event and keeps discarding the responses that did not match the request-id and returns the response if matched. This has been improved to reuse the listener for all the requests by maintaining a map of deferred promises that would be resolved(or rejected) upon receiving a message event.
   [PR 11749](https://github.com/Azure/azure-sdk-for-js/pull/11749)
 
 ### Breaking changes
 
-- The `createBatch` method on the sender is renamed to `createMesageBatch`
+- The `createBatch` method on the sender is renamed to `createMessageBatch`
 - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
 - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
 - `ServiceBusMessage` interface updates:
