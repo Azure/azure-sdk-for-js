@@ -754,20 +754,15 @@ describe("RequestResponseLink", function() {
   });
 
   describe("onMessageReceived Handler", () => {
-    // Defaults
-    let context: Pick<EventContext, "message"> = {
-      message: {
-        correlation_id: "abc-id",
-        body: "random-body"
-      }
-    };
+    // Declarations/Defaults
+    let context: Pick<EventContext, "message">;
+    let responsesMap: Map<string, DeferredPromiseWithCallback>;
     const defaultConnectionId = "connection-id";
-    const defaultResponsesMap = new Map<string, DeferredPromiseWithCallback>();
 
     // Assertion Flags
-    let cleanupBeforeResolveOrRejectIsCalled = false;
-    let isResolved = false;
-    let isRejected = false;
+    let cleanupBeforeResolveOrRejectIsCalled: boolean;
+    let isResolved: boolean;
+    let isRejected: boolean;
 
     beforeEach(() => {
       context = {
@@ -777,7 +772,8 @@ describe("RequestResponseLink", function() {
           application_properties: { statusCode: 200 }
         }
       };
-      defaultResponsesMap.set("abc-id", {
+      responsesMap = new Map<string, DeferredPromiseWithCallback>();
+      responsesMap.set("abc-id", {
         resolve: () => {
           isResolved = true;
         },
@@ -795,8 +791,8 @@ describe("RequestResponseLink", function() {
 
     it("returns if the message property is undefined, map is un-edited", () => {
       context.message = undefined;
-      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         false,
@@ -808,8 +804,21 @@ describe("RequestResponseLink", function() {
 
     it("returns if the correlation-id does not match, map is un-edited", () => {
       context.message!.correlation_id = "def-id";
-      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        false,
+        "Unexpected - cleanupBeforeResolveOrReject is called"
+      );
+      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+    });
+
+    it("returns if the correlation-id is not a string, map is un-edited", () => {
+      context.message!.correlation_id = Buffer.from("123");
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         false,
@@ -820,9 +829,9 @@ describe("RequestResponseLink", function() {
     });
 
     it("calls the cleanup callback and deletes the id from the map for the success case - (status code > 199 and < 300)", () => {
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
-      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 0);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
@@ -834,9 +843,9 @@ describe("RequestResponseLink", function() {
 
     it("calls the cleanup callback and deletes the id from the map for the failure case - (status code is not > 199 and <300)", () => {
       context.message!.application_properties!.statusCode = 404;
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
-      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 0);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
@@ -848,9 +857,9 @@ describe("RequestResponseLink", function() {
 
     it("calls the cleanup callback and deletes the id from the map and rejects if there is no status code", () => {
       context.message!.application_properties!.statusCode = undefined;
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
-      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
-      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 0);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
