@@ -87,8 +87,8 @@
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
-/sdk/applicationinsights/applicationinsights-query/ @divya-jay @geneh @alongafni
-/sdk/operationalinsights/loganalytics/ @divya-jay @geneh @alongafni
+/sdk/applicationinsights/applicationinsights-query/ @divyajay @geneh @alongafni
+/sdk/operationalinsights/loganalytics/ @divyajay @geneh @alongafni
 
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
@@ -100,6 +100,7 @@
 /sdk/**/review/*api.md @bterlson @xirzec
 
 # Management Plane
+# PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor

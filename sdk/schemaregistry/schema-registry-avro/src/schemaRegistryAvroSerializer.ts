@@ -173,7 +173,7 @@ export class SchemaRegistryAvroSerializer {
       );
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schemaResponse.content));
+    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
     return this.cache(schemaId, schemaResponse.content, avroType);
   }
 
@@ -183,7 +183,7 @@ export class SchemaRegistryAvroSerializer {
       return cached;
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schema));
+    const avroType = this.getAvroTypeForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -207,5 +207,9 @@ export class SchemaRegistryAvroSerializer {
     this.cacheByContent.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
+  }
+
+  private getAvroTypeForSchema(schema: string) {
+    return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }

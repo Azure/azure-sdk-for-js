@@ -2,6 +2,8 @@
 
 ## 7.0.0-preview.8 (Unreleased)
 
+### New features:
+
 - Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and

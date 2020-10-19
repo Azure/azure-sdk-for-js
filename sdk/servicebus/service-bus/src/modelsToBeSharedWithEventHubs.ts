@@ -3,7 +3,7 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
 
@@ -56,4 +56,27 @@ export interface TryAddOptions {
    * The `Span` or `SpanContext` to use as the `parent` of any spans created while calling operations that make a request to the service.
    */
   parentSpan?: Span | SpanContext | null;
+}
+
+/**
+ * Runs the `fn` passed in and marks the span as completed with an error (and the
+ * corresponding message) or as OK.
+ *
+ * @ignore
+ * @internal
+ */
+export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {
+  try {
+    const ret = await fn();
+    span.setStatus({ code: CanonicalCode.OK });
+    return ret;
+  } catch (err) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: err.message
+    });
+    throw err;
+  } finally {
+    span.end();
+  }
 }

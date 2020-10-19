@@ -16,7 +16,7 @@ import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { receiverLogger as logger } from "../log";
-import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
   calculateRenewAfterDuration,
@@ -27,7 +27,8 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, SubscribeOptions } from "../models";
+import { AcceptSessionOptions, ReceiveMode, SubscribeOptions } from "../models";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -52,7 +53,7 @@ export type MessageSessionOptions = Pick<
   AcceptSessionOptions<"receiveAndDelete">,
   "maxAutoRenewLockDurationInMs" | "abortSignal"
 > & {
-  receiveMode?: InternalReceiveMode;
+  receiveMode?: ReceiveMode;
 };
 
 /**
@@ -86,7 +87,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -318,9 +319,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       name: this.name,
       autoaccept: false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
       source: {
         address: this.address,
         filter: {}
@@ -367,14 +368,13 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (!options) options = {};
     this.autoComplete = false;
     if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
-    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
       options.maxAutoRenewLockDurationInMs != null
         ? options.maxAutoRenewLockDurationInMs
         : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-    this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
+    this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";
 
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
@@ -574,7 +574,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    *
    * @returns void
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options?: SubscribeOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
@@ -595,10 +595,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
-        if (
-          this.receiveMode === InternalReceiveMode.peekLock &&
-          (!this.link || !this.link.isOpen())
-        ) {
+        if (this.receiveMode === "peekLock" && (!this.link || !this.link.isOpen())) {
           logger.verbose(
             "%s Not calling the user's message handler for the current message " +
               "as the receiver is closed",
@@ -635,7 +632,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
           if (
             !bMessage.delivery.remote_settled &&
-            this.receiveMode === InternalReceiveMode.peekLock &&
+            this.receiveMode === "peekLock" &&
             this.isOpen() // only try to abandon the messages if the connection is still open
           ) {
             try {
@@ -668,7 +665,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         // completing the message.
         if (
           this.autoComplete &&
-          this.receiveMode === InternalReceiveMode.peekLock &&
+          this.receiveMode === "peekLock" &&
           !bMessage.delivery.remote_settled
         ) {
           try {
@@ -717,14 +714,14 @@ export class MessageSession extends LinkEntity<Receiver> {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    userAbortSignal?: AbortSignalLike
+    options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     try {
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        userAbortSignal
+        ...options
       });
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);

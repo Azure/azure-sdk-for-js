@@ -117,5 +117,8 @@
     "sinon": "^9.0.2",
     "typescript": "~3.9.3",
     "util": "^0.12.1"
+  },
+  "//smokeTestConfiguration": {
+    "skipFolder": true
   }
 }

@@ -33,7 +33,7 @@ import { LinkEntity } from "./linkEntity";
 import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateBatchOptions } from "../models";
+import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -508,7 +508,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     });
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
