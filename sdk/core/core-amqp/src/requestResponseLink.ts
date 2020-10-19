@@ -118,6 +118,7 @@ export class RequestResponseLink implements ReqResLink {
 
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       const rejectOnAbort = (): void => {
+        this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";
         const requestName = options.requestName;
         const desc: string =

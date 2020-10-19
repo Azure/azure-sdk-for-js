@@ -474,7 +474,6 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
-    console.log(link["_responsesMap"].size);
     assertItemsLengthInResponsesMap(link, 0);
   });
 
