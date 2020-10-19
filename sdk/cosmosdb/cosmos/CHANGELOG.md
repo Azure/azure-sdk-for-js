@@ -2,6 +2,7 @@
 
 ## 3.9.3 (Unreleased)
 
+- BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
 
 ## 3.9.2 (2020-09-16)
 
