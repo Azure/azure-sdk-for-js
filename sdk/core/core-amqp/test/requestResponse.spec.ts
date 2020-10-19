@@ -29,6 +29,7 @@ function getGlobal() {
 
 describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
+    // TODO: Add responseMap check - that it is empty before making the request and after receiving the response
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -657,5 +658,15 @@ describe("RequestResponseLink", function() {
         assert.equal(info.errorCondition, testCase.errorCondition);
       })
     );
+  });
+
+  describe("onMessageReceived Handler", () => {
+    it("returns if the message property is undefined, map is un-edited", () => {});
+    it("returns if the correlation-id does not match, map is un-edited", () => {});
+    it("calls the cleanup callback and deletes the id from the map if the correlation-id matches in the success case", () => {});
+    it("calls the cleanup callback and deletes the id from the map if the correlation-id matches in the failure case", () => {});
+    it("message is rejected if there is no status code", () => {});
+    it("message is resolved if status code is (> 199 and < 300)", () => {});
+    it("message is rejected if status code is not (> 199 and <300)", () => {});
   });
 });
