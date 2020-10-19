@@ -78,9 +78,7 @@ export class SharedKeyCredential {
    * @param {string} connectionString - The EventHub/ServiceBus connection string
    */
   static fromConnectionString(connectionString: string): SharedKeyCredential {
-    const parsed = parseConnectionString<
-      ServiceBusConnectionStringModel
-    >(connectionString);
+    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
 
     if (parsed.SharedAccessSignature == null) {
       return new SharedKeyCredential(parsed.SharedAccessKeyName, parsed.SharedAccessKey);

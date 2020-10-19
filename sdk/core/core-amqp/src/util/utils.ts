@@ -64,7 +64,7 @@ export interface ServiceBusConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
   SharedAccessKey: string;
-  SharedAccessSignature?: string
+  SharedAccessSignature?: string;
   EntityPath?: string;
   [x: string]: any;
 }
@@ -76,7 +76,7 @@ export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
   SharedAccessKey: string;
-  SharedAccessSignature?: string
+  SharedAccessSignature?: string;
   EntityPath?: string;
   [x: string]: any;
 }
