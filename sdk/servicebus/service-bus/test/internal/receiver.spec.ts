@@ -4,7 +4,11 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "../../src";
+import {
+  MessagingError,
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock
+} from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -15,7 +19,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { InternalMessageHandlers } from "../../src/models";
+import { InternalMessageHandlers, ProcessErrorContext } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
@@ -224,6 +228,38 @@ describe("Receiver unit tests", () => {
       await subscription.close(); // and closing it "out of order" shouldn't be an issue either.
       await subscription2.close();
       await receiverImpl.close();
+    });
+
+    it("errors thrown when initializing a connection are reported as 'initialize' errors", async () => {
+      const receiverImpl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests({
+          onCreateReceiverCalled: () => {
+            throw new Error("Failed to initialize!");
+          }
+        }),
+        "fakeEntityPath",
+        "peekLock",
+        1
+      );
+
+      const processErrorParams = await new Promise<{
+        err: Error | MessagingError;
+        context: ProcessErrorContext;
+      }>((resolve) => {
+        return receiverImpl.subscribe({
+          processError: async (err, context) => {
+            resolve({ err, context });
+          },
+          processMessage: async (_msg) => {}
+        });
+      });
+
+      assert.equal(processErrorParams.err.message, "Failed to initialize!");
+      assert.deepEqual(processErrorParams.context, {
+        errorSource: "initialize",
+        entityPath: "fakeEntityPath",
+        fullyQualifiedNamespace: "fakeHost"
+      });
     });
 
     async function subscribeAndWaitForInitialize<

@@ -5,6 +5,59 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
 
 /**
+ * Context for the error given in processError.
+ */
+export interface ProcessErrorContext {
+  /**
+   * The operation where the error originated.
+   */
+  errorSource: /**
+   * Covers errors that occur when the user (or autoComplete) completes a message.
+   */
+  | "complete"
+    /**
+     * Covers errors that occur when the user (or autoComplete) abandons a message.
+     */
+    | "abandon"
+    /**
+     * Errors thrown from the user's `processMessage` callback passed to `subscribe`
+     */
+    | "userCallback"
+    /**
+     * Errors thrown when receiving messages.
+     */
+    | "receive"
+    /**
+     * Errors thrown when the user calls renewLock or when the internal lock renewer calls renewLock.
+     * Automatic lock renewal can be enabled via the `CreateReceiverOptions.maxAutoLockRenewalDurationInMs`
+     * property passed when calling `ServiceBusClient.createReceiver()`
+     */
+    | "renewLock"
+    /**
+     * Broadly covers a series of phases - the actual initialization that occurs when an operation
+     * is first started as well as errors that occur when reconnecting.
+     */
+    | "initialize"
+    /**
+     * Errors thrown when accepting a session.
+     */
+    | "acceptSession"
+    /**
+     * Errors thrown when closing a session.
+     */
+    | "closeSession";
+
+  /**
+   * The entity path for the current receiver.
+   */
+  entityPath: string;
+  /**
+   * The fully qualified namespace for the Service Bus.
+   */
+  fullyQualifiedNamespace: string;
+}
+
+/**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ReceivedMessageT> {
@@ -18,7 +71,7 @@ export interface MessageHandlers<ReceivedMessageT> {
    * Handler that processes errors that occur during receiving.
    * @param err An error from Service Bus.
    */
-  processError(err: Error): Promise<void>;
+  processError(err: Error, context: ProcessErrorContext): Promise<void>;
 }
 
 /**

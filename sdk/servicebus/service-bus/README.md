@@ -192,9 +192,13 @@ When you are done, call `receiver.close()` to stop receiving any more messages.
 ```javascript
 const myMessageHandler = async (message) => {
   // your code here
+  console.log(`message.body: ${message.body}`);
 };
-const myErrorHandler = async (error) => {
-  console.log(error);
+const myErrorHandler = async (error, context) => {
+  console.log(
+    `Error occurred with ${context.entityPath} within ${context.fullyQualifiedNamespace}: `,
+    error
+  );
 };
 receiver.subscribe({
   processMessage: myMessageHandler,

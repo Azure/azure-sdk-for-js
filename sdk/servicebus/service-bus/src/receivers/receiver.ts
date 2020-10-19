@@ -10,7 +10,7 @@ import {
   InternalMessageHandlers
 } from "../models";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusReceivedMessage } from "..";
+import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
@@ -262,7 +262,11 @@ export class ServiceBusReceiverImpl<
         try {
           await onInitialize();
         } catch (err) {
-          onError(err);
+          onError(err, {
+            errorSource: "userCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
         }
 
         if (!this.isClosed) {
@@ -275,7 +279,13 @@ export class ServiceBusReceiverImpl<
         return;
       })
       .catch((err) => {
-        onError(err);
+        // TODO: being a bit broad here but the only errors that should filter out this
+        // far are going to be bootstrapping the subscription.
+        onError(err, {
+          errorSource: "initialize",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       });
   }
 

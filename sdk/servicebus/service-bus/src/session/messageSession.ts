@@ -27,7 +27,12 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, ReceiveMode, SubscribeOptions } from "../models";
+import {
+  AcceptSessionOptions,
+  ProcessErrorContext,
+  ReceiveMode,
+  SubscribeOptions
+} from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
@@ -393,9 +398,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (error: MessagingError | Error) => {
+    this._notifyError = (error: MessagingError | Error, context: ProcessErrorContext) => {
       if (this._onError) {
-        this._onError(error);
+        this._onError(error, context);
         logger.verbose(
           "%s Notified the user's error handler about the error received by the Receiver",
           this.logPrefix
@@ -411,7 +416,11 @@ export class MessageSession extends LinkEntity<Receiver> {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
-        this._notifyError(sbError);
+        this._notifyError(sbError, {
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -427,7 +436,11 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.name,
           sbError
         );
-        this._notifyError(sbError);
+        this._notifyError(sbError, {
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -625,7 +638,11 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._onError!(err);
+            this._onError!(err, {
+              errorSource: "userCallback",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           }
 
           const error = translate(err);
@@ -653,7 +670,11 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError(translatedError);
+              this._notifyError(translatedError, {
+                errorSource: "abandon",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host
+              });
             }
           }
           return;
@@ -683,7 +704,11 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError(translatedError);
+            this._notifyError(translatedError, {
+              errorSource: "complete",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           }
         }
       };
@@ -697,7 +722,19 @@ export class MessageSession extends LinkEntity<Receiver> {
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
       logger.verbose("[%s] %s", this._context.connectionId, msg);
-      this._notifyError(new Error(msg));
+      this._notifyError(new Error(msg), {
+        // This is _probably_ the right error code since we require that
+        // the message session is created before we even give back the receiver. So it not
+        // being open at this point is either:
+        //
+        // 1. we didn't acquire the lock
+        // 2. the connection was broken (we don't reconnect)
+        //
+        // If any of these becomes untrue you'll probably want to re-evaluate this classification.
+        errorSource: "acceptSession",
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host
+      });
     }
   }
 

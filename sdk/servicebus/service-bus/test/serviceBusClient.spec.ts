@@ -30,7 +30,7 @@ dotenv.config();
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-describe("Create ServiceBusClient", function(): void {
+describe.only("Create ServiceBusClient", function(): void {
   let sbClient: ServiceBusClient;
 
   afterEach(async () => {
@@ -144,7 +144,12 @@ describe("Errors with non existing Namespace", function(): void {
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
+      async processError(err, context) {
+        context.should.deep.equal({
+          errorSource: "initialize",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        });
         testError(err);
       }
     });
@@ -217,7 +222,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
+      async processError(err, context) {
+        context.should.deep.equal({
+          errorSource: "initialize",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        });
+
         testError(err, "some-name");
       }
     });
@@ -238,7 +249,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
+      async processError(err, context) {
+        context.should.deep.equal({
+          errorSource: "initialize",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        });
+
         testError(err, "some-topic-name/Subscriptions/some-subscription-name");
       }
     });
