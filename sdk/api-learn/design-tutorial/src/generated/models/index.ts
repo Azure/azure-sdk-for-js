@@ -62,14 +62,14 @@ export interface KeyValueListResult {
   /**
    * The collection value.
    */
-  items?: KeyValue[];
+  items?: ConfigurationSetting[];
   /**
    * The URI that can be used to request the next set of paged results.
    */
   nextLink?: string;
 }
 
-export interface KeyValue {
+export interface ConfigurationSetting {
   /**
    * The unique name of the key-value.
    */
@@ -97,7 +97,7 @@ export interface KeyValue {
   /**
    * Indicates whether or not this key-value is readonly.
    */
-  locked?: boolean;
+  isReadOnly?: boolean;
   /**
    * The entity-tag of the key-value.
    */
@@ -567,7 +567,7 @@ export interface GeneratedClientGetKeyValueOptionalParams
  * Contains response data for the getKeyValue operation.
  */
 export type GeneratedClientGetKeyValueResponse = GeneratedClientGetKeyValueHeaders &
-  KeyValue & {
+  ConfigurationSetting & {
     /**
      * The underlying HTTP response.
      */
@@ -580,7 +580,7 @@ export type GeneratedClientGetKeyValueResponse = GeneratedClientGetKeyValueHeade
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyValue;
+      parsedBody: ConfigurationSetting;
       /**
        * The parsed HTTP response headers.
        */
@@ -608,14 +608,14 @@ export interface GeneratedClientPutKeyValueOptionalParams
   /**
    * The key-value to create.
    */
-  entity?: KeyValue;
+  entity?: ConfigurationSetting;
 }
 
 /**
  * Contains response data for the putKeyValue operation.
  */
 export type GeneratedClientPutKeyValueResponse = GeneratedClientPutKeyValueHeaders &
-  KeyValue & {
+  ConfigurationSetting & {
     /**
      * The underlying HTTP response.
      */
@@ -628,7 +628,7 @@ export type GeneratedClientPutKeyValueResponse = GeneratedClientPutKeyValueHeade
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyValue;
+      parsedBody: ConfigurationSetting;
       /**
        * The parsed HTTP response headers.
        */
@@ -655,7 +655,7 @@ export interface GeneratedClientDeleteKeyValueOptionalParams
  * Contains response data for the deleteKeyValue operation.
  */
 export type GeneratedClientDeleteKeyValueResponse = GeneratedClientDeleteKeyValueHeaders &
-  KeyValue & {
+  ConfigurationSetting & {
     /**
      * The underlying HTTP response.
      */
@@ -668,7 +668,7 @@ export type GeneratedClientDeleteKeyValueResponse = GeneratedClientDeleteKeyValu
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyValue;
+      parsedBody: ConfigurationSetting;
       /**
        * The parsed HTTP response headers.
        */
@@ -827,7 +827,7 @@ export interface GeneratedClientPutLockOptionalParams
  * Contains response data for the putLock operation.
  */
 export type GeneratedClientPutLockResponse = GeneratedClientPutLockHeaders &
-  KeyValue & {
+  ConfigurationSetting & {
     /**
      * The underlying HTTP response.
      */
@@ -840,7 +840,7 @@ export type GeneratedClientPutLockResponse = GeneratedClientPutLockHeaders &
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyValue;
+      parsedBody: ConfigurationSetting;
       /**
        * The parsed HTTP response headers.
        */
@@ -871,7 +871,7 @@ export interface GeneratedClientDeleteLockOptionalParams
  * Contains response data for the deleteLock operation.
  */
 export type GeneratedClientDeleteLockResponse = GeneratedClientDeleteLockHeaders &
-  KeyValue & {
+  ConfigurationSetting & {
     /**
      * The underlying HTTP response.
      */
@@ -884,7 +884,7 @@ export type GeneratedClientDeleteLockResponse = GeneratedClientDeleteLockHeaders
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyValue;
+      parsedBody: ConfigurationSetting;
       /**
        * The parsed HTTP response headers.
        */

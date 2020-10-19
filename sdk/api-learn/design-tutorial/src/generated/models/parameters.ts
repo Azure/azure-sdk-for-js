@@ -12,7 +12,7 @@ import {
   OperationQueryParameter,
   QueryCollectionFormat
 } from "@azure/core-http";
-import { KeyValue as KeyValueMapper } from "../models/mappers";
+import { ConfigurationSetting as ConfigurationSettingMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -208,7 +208,7 @@ export const contentType: OperationParameter = {
 
 export const entity: OperationParameter = {
   parameterPath: ["options", "entity"],
-  mapper: KeyValueMapper
+  mapper: ConfigurationSettingMapper
 };
 
 export const accept3: OperationParameter = {

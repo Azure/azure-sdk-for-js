@@ -94,7 +94,9 @@ export const KeyValueListResult: coreHttp.CompositeMapper = {
         serializedName: "items",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "KeyValue" } }
+          element: {
+            type: { name: "Composite", className: "ConfigurationSetting" }
+          }
         }
       },
       nextLink: {
@@ -107,10 +109,10 @@ export const KeyValueListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyValue: coreHttp.CompositeMapper = {
+export const ConfigurationSetting: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KeyValue",
+    className: "ConfigurationSetting",
     modelProperties: {
       key: {
         serializedName: "key",
@@ -150,7 +152,7 @@ export const KeyValue: coreHttp.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      locked: {
+      isReadOnly: {
         serializedName: "locked",
         type: {
           name: "Boolean"
