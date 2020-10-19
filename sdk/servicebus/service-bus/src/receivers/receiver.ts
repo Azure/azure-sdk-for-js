@@ -263,7 +263,7 @@ export class ServiceBusReceiverImpl<
           await onInitialize();
         } catch (err) {
           onError(err, {
-            errorSource: "userCallback",
+            errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
           });

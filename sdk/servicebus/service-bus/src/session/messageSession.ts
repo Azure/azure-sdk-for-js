@@ -639,7 +639,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               bMessage.messageId
             );
             this._onError!(err, {
-              errorSource: "userCallback",
+              errorSource: "processMessageCallback",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host
             });
@@ -731,7 +731,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         // 2. the connection was broken (we don't reconnect)
         //
         // If any of these becomes untrue you'll probably want to re-evaluate this classification.
-        errorSource: "acceptSession",
+        errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host
       });

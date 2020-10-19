@@ -234,7 +234,7 @@ export interface ProcessErrorContext {
     /**
      * Errors thrown from the user's `processMessage` callback passed to `subscribe`
      */
-     | "userCallback"
+     | "processMessageCallback"
     /**
      * Errors thrown when receiving messages.
      */
@@ -249,15 +249,7 @@ export interface ProcessErrorContext {
      * Broadly covers a series of phases - the actual initialization that occurs when an operation
      * is first started as well as errors that occur when reconnecting.
      */
-     | "initialize"
-    /**
-     * Errors thrown when accepting a session.
-     */
-     | "acceptSession"
-    /**
-     * Errors thrown when closing a session.
-     */
-     | "closeSession";
+     | "initialize";
     fullyQualifiedNamespace: string;
 }
 

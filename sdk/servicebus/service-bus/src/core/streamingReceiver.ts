@@ -292,7 +292,7 @@ export class StreamingReceiver extends MessageReceiver {
             this.name
           );
           this._onError!(err, {
-            errorSource: "userCallback",
+            errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
           });
