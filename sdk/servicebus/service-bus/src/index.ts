@@ -10,7 +10,7 @@ export {
   RetryOptions,
   TokenCredential,
   TokenType,
-  WebSocketOptions,
+  WebSocketOptions
 } from "@azure/core-amqp";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
@@ -27,7 +27,7 @@ export {
   ReceiveMessagesOptions,
   ReceiveMode,
   SubQueue,
-  SubscribeOptions,
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
@@ -37,18 +37,18 @@ export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   CreateQueueOptions,
   QueueProperties,
-  QueueRuntimeProperties,
+  QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
-  SubscriptionRuntimeProperties,
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
 export {
   CreateTopicOptions,
   TopicProperties,
-  TopicRuntimeProperties,
+  TopicRuntimeProperties
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
@@ -61,7 +61,7 @@ export {
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimePropertiesResponse,
+  TopicRuntimePropertiesResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
@@ -71,7 +71,7 @@ export {
   DeadLetterOptions,
   ServiceBusReceivedMessage,
   ServiceBusReceivedMessageWithLock,
-  ServiceBusMessage,
+  ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
