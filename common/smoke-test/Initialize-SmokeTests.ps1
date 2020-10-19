@@ -169,53 +169,52 @@ function Deploy-TestResources {
 
   $entryDeployJobs = @()
 
-  foreach ($entry in $deployManifest) {
-    if (!(Get-ChildItem -Path "$repoRoot/sdk/$($entry.ResourcesDirectory)" -Filter test-resources.json -Recurse)) {
-      Write-Verbose "Skipping $($entry.ResourcesDirectory): could not find test-resources.json"
-      continue
+  try {
+    foreach ($entry in $deployManifest) {
+      if (!(Get-ChildItem -Path "$repoRoot/sdk/$($entry.ResourcesDirectory)" -Filter test-resources.json -Recurse)) {
+        Write-Verbose "Skipping $($entry.ResourcesDirectory): could not find test-resources.json"
+        continue
+      }
+
+      if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
+        Write-Verbose "Starting deploy job for $($entry.ResourcesDirectory)"
+        $job = Start-NewTestResourcesJob $entry $baseName $resourceGroupName
+        $entryDeployJobs += $job
+        $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
+      }
+      else {
+        Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.ResourcesDirectory)"
+      }
+
+      Update-SamplesForService $entry
+      Update-SampleDependencies $entry $dependencies
+      $runManifest += $entry
     }
 
-    if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
-      Write-Verbose "Starting deploy job for $($entry.ResourcesDirectory)"
-      $job = Start-NewTestResourcesJob $entry $baseName $resourceGroupName
-      $entryDeployJobs += $job
-      $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
-    }
-    else {
-      Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.ResourcesDirectory)"
+    Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
+    $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
+    if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
+      $entryDeployJobs
+      throw "Timed out waiting for deploy jobs to finish:"
     }
 
-    Update-SamplesForService $entry
-    Update-SampleDependencies $entry $dependencies
-    $runManifest += $entry
+    foreach ($job in $entryDeployJobs) {
+      if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
+        $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
+        LogWarning "Failed to deploy $($job.Name): $($errorMsg)"
+        Write-Host $errorMsg
+        continue
+      }
+
+      Write-Verbose "setting env"
+      $deployOutput = Receive-Job -Id $job.Id
+      foreach ($key in $deployOutput.Keys) {
+        Set-EnvironmentVariable -Name $key -Value $deployOutput[$key]
+      }
+    }
+  } finally {
+    $entryDeployJobs | Remove-Job -Force
   }
-
-  Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
-  $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
-  if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
-    LogError "Timed out waiting for deploy jobs to finish:"
-    $entryDeployJobs
-    exit 1
-  }
-
-  foreach ($job in $entryDeployJobs) {
-    if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
-      $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
-      LogWarning "Failed to deploy $($job.Name): $($errorMsg)"
-      Write-Warning "Failed to deploy $($job.Name)"
-      Write-Host $errorMsg
-      continue
-    }
-
-    Write-Verbose "setting env"
-    $deployOutput = Receive-Job -Id $job.Id
-    foreach ($key in $deployOutput.Keys) {
-      Set-EnvironmentVariable -Name $key -Value $deployOutput[$key]
-    }
-  }
-
-  # Cleanup job records
-  $entryDeployJobs | Remove-Job
 
   @{ Dependencies = $dependencies; RunManifest = $runManifest }
 }
