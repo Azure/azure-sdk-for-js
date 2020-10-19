@@ -11,11 +11,15 @@ import {
   retry,
   Constants
 } from "../src";
-import { Connection, Message } from "rhea-promise";
+import { Connection, EventContext, Message } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { getCodeDescriptionAndError } from "../src/requestResponseLink";
+import {
+  DeferredPromiseWithCallback,
+  getCodeDescriptionAndError,
+  onMessageReceived
+} from "../src/requestResponseLink";
 interface Window {}
 declare let self: Window & typeof globalThis;
 
@@ -27,17 +31,18 @@ function getGlobal() {
   }
 }
 
+const assertItemsLengthInResponsesMap = (
+  _responsesMap: Map<string, DeferredPromiseWithCallback>,
+  expectedNumberOfItems: number
+) => {
+  assert.equal(
+    _responsesMap.size,
+    expectedNumberOfItems,
+    "Unexpected number of items in the _responsesMap"
+  );
+};
+
 describe("RequestResponseLink", function() {
-  const assertItemsLengthInResponsesMap = (
-    link: RequestResponseLink,
-    expectedNumberOfItems: number
-  ) => {
-    assert.equal(
-      link["_responsesMap"].size,
-      expectedNumberOfItems,
-      "Unexpected number of items in the _responsesMap"
-    );
-  };
   it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
@@ -64,7 +69,7 @@ describe("RequestResponseLink", function() {
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
@@ -80,7 +85,7 @@ describe("RequestResponseLink", function() {
       });
     }, 2000);
     const response = await link.sendRequest(request);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(response.correlation_id, req.message_id);
   });
 
@@ -107,7 +112,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: AmqpMessage = {
       body: "Hello World!!",
       message_id: 1
@@ -146,7 +151,7 @@ describe("RequestResponseLink", function() {
     }, 2100);
 
     const responses = await Promise.all([link.sendRequest(request1), link.sendRequest(request2)]);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(responses[0].correlation_id, reqs[0].message_id);
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
@@ -174,7 +179,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -191,7 +196,7 @@ describe("RequestResponseLink", function() {
       );
       errorWasThrown = true;
     }
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
@@ -218,7 +223,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: AmqpMessage = {
       body: "Hello World!!",
       message_id: 1
@@ -269,7 +274,7 @@ describe("RequestResponseLink", function() {
 
     // ensure the other request succeeds
     const response = await successfulRequest;
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(response.correlation_id, request1.message_id);
   });
 
@@ -298,7 +303,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -347,7 +352,7 @@ describe("RequestResponseLink", function() {
     };
 
     const message = await retry<Message>(config);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(count, 2, "It should retry twice");
     assert.exists(message, "It should return a valid message");
     assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
@@ -376,7 +381,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -412,7 +417,7 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
   it("should abort a request and response correctly when abort signal is fired after sometime", async function() {
@@ -438,7 +443,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -474,7 +479,7 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
   it("should abort a request and response correctly when abort signal is already fired", async function() {
@@ -500,7 +505,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -536,7 +541,7 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
-    assertItemsLengthInResponsesMap(link, 0);
+    assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
 
   describe("sendRequest clears timeout", () => {
@@ -579,7 +584,7 @@ describe("RequestResponseLink", function() {
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-      assertItemsLengthInResponsesMap(link, 0);
+      assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       const request: AmqpMessage = {
         body: "Hello World!!"
       };
@@ -604,7 +609,7 @@ describe("RequestResponseLink", function() {
       } catch (err) {
         assert.notEqual(err.message, testFailureMessage);
       }
-      assertItemsLengthInResponsesMap(link, 0);
+      assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
 
@@ -631,7 +636,7 @@ describe("RequestResponseLink", function() {
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-      assertItemsLengthInResponsesMap(link, 0);
+      assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       const request: AmqpMessage = {
         body: "Hello World!!"
       };
@@ -651,7 +656,7 @@ describe("RequestResponseLink", function() {
       }, 0);
 
       await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
-      assertItemsLengthInResponsesMap(link, 0);
+      assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
   });
@@ -749,12 +754,110 @@ describe("RequestResponseLink", function() {
   });
 
   describe("onMessageReceived Handler", () => {
-    it("returns if the message property is undefined, map is un-edited", () => {});
-    it("returns if the correlation-id does not match, map is un-edited", () => {});
-    it("calls the cleanup callback and deletes the id from the map if the correlation-id matches in the success case", () => {});
-    it("calls the cleanup callback and deletes the id from the map if the correlation-id matches in the failure case", () => {});
-    it("message is rejected if there is no status code", () => {});
-    it("message is resolved if status code is (> 199 and < 300)", () => {});
-    it("message is rejected if status code is not (> 199 and <300)", () => {});
+    // Defaults
+    let context: Pick<EventContext, "message"> = {
+      message: {
+        correlation_id: "abc-id",
+        body: "random-body"
+      }
+    };
+    const defaultConnectionId = "connection-id";
+    const defaultResponsesMap = new Map<string, DeferredPromiseWithCallback>();
+
+    // Assertion Flags
+    let cleanupBeforeResolveOrRejectIsCalled = false;
+    let isResolved = false;
+    let isRejected = false;
+
+    beforeEach(() => {
+      context = {
+        message: {
+          correlation_id: "abc-id",
+          body: "random-body",
+          application_properties: { statusCode: 200 }
+        }
+      };
+      defaultResponsesMap.set("abc-id", {
+        resolve: () => {
+          isResolved = true;
+        },
+        reject: () => {
+          isRejected = true;
+        },
+        cleanupBeforeResolveOrReject: () => {
+          cleanupBeforeResolveOrRejectIsCalled = true;
+        }
+      });
+      cleanupBeforeResolveOrRejectIsCalled = false;
+      isResolved = false;
+      isRejected = false;
+    });
+
+    it("returns if the message property is undefined, map is un-edited", () => {
+      context.message = undefined;
+      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        false,
+        "Unexpected - cleanupBeforeResolveOrReject is called"
+      );
+      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+    });
+
+    it("returns if the correlation-id does not match, map is un-edited", () => {
+      context.message!.correlation_id = "def-id";
+      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        false,
+        "Unexpected - cleanupBeforeResolveOrReject is called"
+      );
+      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+    });
+
+    it("calls the cleanup callback and deletes the id from the map for the success case - (status code > 199 and < 300)", () => {
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        true,
+        "Unexpected - cleanupBeforeResolveOrReject is not called"
+      );
+      assert.equal(isResolved, true, "Unexpected - promise is not resolved");
+      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+    });
+
+    it("calls the cleanup callback and deletes the id from the map for the failure case - (status code is not > 199 and <300)", () => {
+      context.message!.application_properties!.statusCode = 404;
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        true,
+        "Unexpected - cleanupBeforeResolveOrReject is not called"
+      );
+      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+      assert.equal(isRejected, true, "Unexpected - promise is not rejected");
+    });
+
+    it("calls the cleanup callback and deletes the id from the map and rejects if there is no status code", () => {
+      context.message!.application_properties!.statusCode = undefined;
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, defaultResponsesMap);
+      assertItemsLengthInResponsesMap(defaultResponsesMap, 0);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        true,
+        "Unexpected - cleanupBeforeResolveOrReject is not called"
+      );
+      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+      assert.equal(isRejected, true, "Unexpected - promise is not rejected");
+    });
   });
 });

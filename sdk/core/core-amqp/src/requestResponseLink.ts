@@ -42,7 +42,7 @@ export interface SendRequestOptions {
  * @internal
  * @ignore
  */
-interface DeferredPromiseWithCallback {
+export interface DeferredPromiseWithCallback {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
   /**
@@ -261,7 +261,7 @@ export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
  * @ignore
  */
 export function onMessageReceived(
-  context: EventContext,
+  context: Pick<EventContext, "message">,
   connectionId: string,
   responsesMap: Map<string, DeferredPromiseWithCallback>
 ): void {
