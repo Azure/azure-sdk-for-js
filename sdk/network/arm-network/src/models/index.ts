@@ -11618,12 +11618,12 @@ export interface HubRouteTable extends SubResource {
    * List of all connections associated with this route table.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly associatedConnections?: SubResource[];
+  readonly associatedConnections?: string[];
   /**
    * List of all connections that advertise to this route table.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly propagatingConnections?: SubResource[];
+  readonly propagatingConnections?: string[];
   /**
    * The provisioning state of the RouteTable resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
@@ -12169,7 +12169,7 @@ export interface VirtualHubEffectiveRoute {
 /**
  * EffectiveRoutes List.
  */
-export interface VirtualHubEffectiveRouteEffectiveRouteList {
+export interface VirtualHubEffectiveRouteList {
   /**
    * The list of effective routes configured on the virtual hub or the specified resource.
    */
@@ -12183,7 +12183,7 @@ export interface EffectiveRoutesParameters {
   /**
    * The resource whose effective routes are being requested.
    */
-  resourceId?: Resource;
+  resourceId?: string;
   /**
    * The type of the specified resource like RouteTable, ExpressRouteConnection,
    * HubVirtualNetworkConnection, VpnConnection and P2SConnection.

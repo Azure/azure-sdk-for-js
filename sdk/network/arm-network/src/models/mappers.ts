@@ -19656,8 +19656,7 @@ export const HubRouteTable: msRest.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "SubResource"
+              name: "String"
             }
           }
         }
@@ -19669,8 +19668,7 @@ export const HubRouteTable: msRest.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "SubResource"
+              name: "String"
             }
           }
         }
@@ -20615,11 +20613,11 @@ export const VirtualHubEffectiveRoute: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHubEffectiveRouteEffectiveRouteList: msRest.CompositeMapper = {
-  serializedName: "VirtualHubEffectiveRouteEffectiveRouteList",
+export const VirtualHubEffectiveRouteList: msRest.CompositeMapper = {
+  serializedName: "VirtualHubEffectiveRouteList",
   type: {
     name: "Composite",
-    className: "VirtualHubEffectiveRouteEffectiveRouteList",
+    className: "VirtualHubEffectiveRouteList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -20646,8 +20644,7 @@ export const EffectiveRoutesParameters: msRest.CompositeMapper = {
       resourceId: {
         serializedName: "resourceId",
         type: {
-          name: "Composite",
-          className: "Resource"
+          name: "String"
         }
       },
       virtualWanResourceType: {
