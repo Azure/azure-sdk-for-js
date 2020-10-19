@@ -20,18 +20,19 @@ class PolicyClient extends PolicyClientContext {
   policyAssignments: operations.PolicyAssignments;
   policyDefinitions: operations.PolicyDefinitions;
   policySetDefinitions: operations.PolicySetDefinitions;
+  policyExemptions: operations.PolicyExemptions;
 
   /**
    * Initializes a new instance of the PolicyClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
-    super(credentials, subscriptionId, options);
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.PolicyClientOptions) {
+    super(credentials, options);
     this.policyAssignments = new operations.PolicyAssignments(this);
     this.policyDefinitions = new operations.PolicyDefinitions(this);
     this.policySetDefinitions = new operations.PolicySetDefinitions(this);
+    this.policyExemptions = new operations.PolicyExemptions(this);
   }
 }
 
