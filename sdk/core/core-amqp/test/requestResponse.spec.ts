@@ -11,7 +11,7 @@ import {
   retry,
   Constants
 } from "../src";
-import { Connection, EventContext, Message } from "rhea-promise";
+import { Connection, EventContext, generate_uuid, Message } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -832,6 +832,26 @@ describe("RequestResponseLink", function() {
       assertItemsLengthInResponsesMap(responsesMap, 1);
       onMessageReceived(context, defaultConnectionId, responsesMap);
       assertItemsLengthInResponsesMap(responsesMap, 0);
+      assert.equal(
+        cleanupBeforeResolveOrRejectIsCalled,
+        true,
+        "Unexpected - cleanupBeforeResolveOrReject is not called"
+      );
+      assert.equal(isResolved, true, "Unexpected - promise is not resolved");
+      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+    });
+
+    it("deletes the only the single matched id from the map for the success case - (status code > 199 and < 300)", () => {
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      responsesMap.set(`${generate_uuid()}`, {
+        resolve: () => {},
+        reject: () => {},
+        cleanupBeforeResolveOrReject: () => {}
+      });
+      // Map has more elements
+      assertItemsLengthInResponsesMap(responsesMap, 2);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 1);
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
