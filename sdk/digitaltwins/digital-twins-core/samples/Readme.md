@@ -77,6 +77,8 @@ for await (const model of models) {
 }
 ```
 
+### Get model
+
 Use `getModel` with model's unique identifier to get a specific model.
 
 ```JavaScript Snippet:dt_models_lifecycle

@@ -1,4 +1,4 @@
-# Azure Azure Digital Twins client library for JavaScript
+# Azure Azure Digital Twins Core client library for JavaScript
 
 This package contains an isomorphic SDK for Azure Digital Twins API to provide access to the Azure Digital Twins service for managing twins, models, relationships, etc.
 
