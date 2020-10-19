@@ -103,7 +103,7 @@ async function receiveFromNextSession(serviceBusClient) {
           refreshTimer();
           await processMessage(msg);
         },
-        async processError(err) {
+        async processError(err, context) {
           rejectSessionWithError(err);
         }
       },

@@ -75,8 +75,8 @@ async function receiveMessages(sbClient) {
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
     await brokeredMessage.complete();
   };
-  const processError = async (err) => {
-    console.log("Error occurred: ", err);
+  const processError = async (err, context) => {
+    console.log(`Error from error source ${context.errorSource} occurred: `, err);
   };
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);

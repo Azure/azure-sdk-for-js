@@ -85,8 +85,8 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   const processMessage = async (message: ServiceBusMessage) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (err) => {
-    console.log(">>>>> Error occurred: ", err);
+  const processError = async (err, context) => {
+    console.log(`>>>>> Error from error source ${context.errorSource} occurred: `, err);
   };
   receiver.subscribe({
     processMessage,

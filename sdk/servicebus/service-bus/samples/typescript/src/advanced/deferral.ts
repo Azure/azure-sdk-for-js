@@ -105,8 +105,8 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const processError = async (err) => {
-      console.log(">>>>> Error occurred: ", err);
+    const processError = async (err, context) => {
+      console.log(`>>>>> Error from error source ${context.errorSource} occurred: `, err);
     };
 
     receiver.subscribe(

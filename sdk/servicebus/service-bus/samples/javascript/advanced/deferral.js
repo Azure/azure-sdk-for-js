@@ -104,7 +104,7 @@ async function receiveMessage() {
       }
     };
     const processError = async (err) => {
-      console.log(">>>>> Error occurred: ", err);
+      console.log(`>>>>> Error from error source ${context.errorSource} occurred: `, err);
     };
     receiver.subscribe(
       { processMessage, processError },
