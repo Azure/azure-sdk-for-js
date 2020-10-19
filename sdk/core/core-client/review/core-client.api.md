@@ -230,6 +230,7 @@ export interface OperationResponse {
 export interface OperationResponseMap {
     bodyMapper?: Mapper;
     headersMapper?: Mapper;
+    isError?: boolean;
 }
 
 // @public

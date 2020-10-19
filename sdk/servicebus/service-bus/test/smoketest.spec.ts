@@ -448,8 +448,8 @@ describe("Sample scenarios for track 2", () => {
         break;
       }
       case "batch": {
-        const batch = await sender.createBatch();
-        assert.isTrue(batch.tryAdd(message));
+        const batch = await sender.createMessageBatch();
+        assert.isTrue(batch.tryAddMessage(message));
         await sender.sendMessages(batch);
         break;
       }

@@ -5,8 +5,6 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   IngestionStatus,
-  Metric,
-  Dimension,
   SqlSourceParameter,
   SuppressCondition,
   SmartDetectionCondition,
@@ -29,8 +27,6 @@ import {
 } from "./generated/models";
 
 export {
-  Dimension,
-  Metric,
   SeverityCondition,
   AlertSnoozeCondition,
   SmartDetectionCondition,
@@ -60,15 +56,48 @@ export {
   GeneratedClientGetIngestionProgressResponse,
   IngestionStatusType,
   DataSourceType,
-  EntityStatus,
   SeverityFilterCondition,
   SnoozeScope,
-  Severity,
   AnomalyDetectorDirection,
-  TimeMode,
   FeedbackType,
   FeedbackQueryTimeMode
 } from "./generated/models";
+
+/**
+ * Represents a metric of an ingested data feed
+ */
+export interface DataFeedMetric {
+  /**
+   * metric id
+   */
+  readonly id?: string;
+  /**
+   * metric name
+   */
+  name: string;
+  /**
+   * metric display name
+   */
+  displayName?: string;
+  /**
+   * metric description
+   */
+  description?: string;
+}
+
+/**
+ * Represents a dimension of an ingested data feed
+ */
+export interface DataFeedDimension {
+  /**
+   * dimension name
+   */
+  name: string;
+  /**
+   * dimension display name
+   */
+  displayName?: string;
+}
 
 /**
  * Specifies metrics, dimensions, and timestamp columns of a data feed.
@@ -77,11 +106,11 @@ export interface DataFeedSchema {
   /**
    * measure list
    */
-  metrics: Metric[];
+  metrics: DataFeedMetric[];
   /**
    * dimension list
    */
-  dimensions?: Dimension[];
+  dimensions?: DataFeedDimension[];
   /**
    * user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value.
    */
@@ -194,14 +223,14 @@ export interface DataFeedOptions {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * data feed administrators
+   * email addresses of data feed administrators
    */
-  admins?: string[];
+  adminEmails?: string[];
 
   /**
-   * data feed viewers
+   * email addresses of data feed viewers
    */
-  viewers?: string[];
+  viewerEmails?: string[];
 
   /**
    * action link template for alert
@@ -228,6 +257,8 @@ export type DataFeedGranularity =
       customGranularityValue: number;
     };
 
+export type DataFeedStatus = "Paused" | "Active";
+
 /**
  * Represents a Metrics Advisor data feed.
  */
@@ -251,7 +282,7 @@ export interface DataFeed {
   /**
    * Status of the data feed.
    */
-  status: "Paused" | "Active";
+  status: DataFeedStatus;
   /**
    * Indicates whether the current user is an aministrator of the data feed.
    */
@@ -739,7 +770,7 @@ export type MetricPeriodFeedback = {
 /**
  * Represents properties common to hooks.
  */
-export interface HookCommon {
+export interface NotificationHook {
   /**
    * Hook unique id
    */
@@ -757,36 +788,36 @@ export interface HookCommon {
    */
   externalLink?: string;
   /**
-   * hook administrators
+   * email addresses of hook administrators
    */
-  readonly admins?: string[];
+  readonly adminEmails?: string[];
 }
 
 /**
  * Represents Email hook
  */
-export type EmailHook = {
+export type EmailNotificationHook = {
   hookType: "Email";
   hookParameter: EmailHookParameter;
-} & HookCommon;
+} & NotificationHook;
 
 /**
  * Represents Webhook hook
  */
-export type WebhookHook = {
+export type WebNotificationHook = {
   hookType: "Webhook";
   hookParameter: WebhookHookParameter;
-} & HookCommon;
+} & NotificationHook;
 
 /**
  * A union type of all supported hooks
  */
-export type HookUnion = EmailHook | WebhookHook;
+export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
 
 /**
  * Represents properties common to the patch input to the Update Hook operation.
  */
-export type HookPatchCommon = {
+export type NotificationHookPatch = {
   /**
    * new hook name
    */
@@ -804,23 +835,33 @@ export type HookPatchCommon = {
 /**
  * Represents Email hook specific patch input to the Update Hook operation.
  */
-export type EmailHookPatch = {
+export type EmailNotificationHookPatch = {
   hookType: "Email";
   hookParameter?: EmailHookParameter;
-} & HookPatchCommon;
+} & NotificationHookPatch;
 
 /**
  * Represents Webhook specific patch input to the Update Hook operation.
  */
-export type WebhookHookPatch = {
+export type WebNotificationHookPatch = {
   hookType: "Webhook";
   hookParameter?: WebhookHookParameter;
-} & HookPatchCommon;
+} & NotificationHookPatch;
+
+/**
+ * Severity of an anomaly or incident.
+ */
+export type AnomalySeverity = "Low" | "Medium" | "High";
+
+/**
+ * Status of an anomaly or incident.
+ */
+export type AnomalyStatus = "Active" | "Resolved";
 
 /**
  * Represents an incident reported by Metrics Advisor service.
  */
-export interface Incident {
+export interface AnomalyIncident {
   /**
    * incident id
    */
@@ -828,7 +869,7 @@ export interface Incident {
   /**
    * identifies the time series or time series group
    */
-  dimensionKey: DimensionKey;
+  rootDimensionKey: DimensionKey;
   /**
    * metric unique id
    *
@@ -851,18 +892,18 @@ export interface Incident {
   /**
    * incident status
    */
-  status?: "Active" | "Resolved";
+  status?: AnomalyStatus;
 
   /**
    * severity of the incident
    */
-  severity: "Low" | "Medium" | "High";
+  severity: AnomalySeverity;
 }
 
 /**
  * Represents an anomaly point detected by Metrics Advisor service.
  */
-export interface Anomaly {
+export interface DataPointAnomaly {
   /**
    * metric unique id
    *
@@ -892,23 +933,23 @@ export interface Anomaly {
   /**
    * dimension specified for series
    */
-  dimension: Record<string, string>;
+  seriesKey: DimensionKey;
   /**
    * anomaly severity
    */
-  severity: "Low" | "Medium" | "High";
+  severity: AnomalySeverity;
   /**
    * anomaly status
    *
    * only return for alerting anomaly result
    */
-  status?: "Active" | "Resolved";
+  status?: AnomalyStatus;
 }
 
 /**
  * Represents an alert reported by Metrics Advisor service.
  */
-export interface Alert {
+export interface AnomalyAlert {
   /**
    * alert id
    */
@@ -926,6 +967,11 @@ export interface Alert {
    */
   modifiedOn?: Date; // TODO: why optional?
 }
+
+/**
+ * Mode to use when querying alerts by time.
+ */
+export type AlertQueryTimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
 
 /**
  * Defines the anomaly alert scope.
@@ -1129,7 +1175,7 @@ export interface IncidentRootCause {
   /**
    * identifies the contributing time series.
    */
-  dimensionKey: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * drilling down path from query anomaly to root cause
    */
@@ -1169,11 +1215,11 @@ export interface MetricSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
 }
 
 /**
@@ -1187,31 +1233,31 @@ export interface MetricEnrichedSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
   /**
    * list of booleans incidating whether a data point is anomaly or not
    */
-  isAnomalyList?: boolean[];
+  isAnomaly?: boolean[];
   /**
    * list of expected values
    */
-  expectedValueList?: number[];
+  expectedValues?: number[];
   /**
    * list of lower bounds
    */
-  lowerBoundaryList?: number[];
+  lowerBounds?: number[];
   /**
    * list of upper bounds
    */
-  upperBoundaryList?: number[];
+  upperBounds?: number[];
   /**
    * list of period values
    */
-  periodList?: number[];
+  periods?: number[];
 }
 
 // Response types
@@ -1304,7 +1350,7 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
 /**
  * Contains response data for the getHook operation.
  */
-export type GetHookResponse = HookUnion & {
+export type GetHookResponse = NotificationHookUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1387,7 +1433,7 @@ export type GetFeedbackResponse = MetricFeedbackUnion & {
  * Contains response data for the listAlertsForAlertConfiguration operation.
  */
 export type ListAlertsForAlertConfigurationPageResponse = {
-  alerts?: Alert[];
+  alerts?: AnomalyAlert[];
   /**
    * The underlying HTTP response.
    */
@@ -1408,7 +1454,7 @@ export type ListAlertsForAlertConfigurationPageResponse = {
  * Contains response data for the listAnomaliesForAlert operation.
  */
 export type ListAnomaliesForAlertPageResponse = {
-  anomalies?: Anomaly[];
+  anomalies?: DataPointAnomaly[];
   /**
    * The underlying HTTP response.
    */
@@ -1429,7 +1475,7 @@ export type ListAnomaliesForAlertPageResponse = {
  * Contains response data for the listIncidentsForAlert operation.
  */
 export type ListIncidentsForAlertPageResponse = {
-  incidents?: Incident[];
+  incidents?: AnomalyIncident[];
   /**
    * The underlying HTTP response.
    */
@@ -1450,7 +1496,7 @@ export type ListIncidentsForAlertPageResponse = {
  * Contains response data for the listAnomaliesForDetectionConfiguration operation.
  */
 export type ListAnomaliesForDetectionConfigurationPageResponse = {
-  anomalies?: Anomaly[];
+  anomalies?: DataPointAnomaly[];
   /**
    * The underlying HTTP response.
    */
@@ -1492,7 +1538,7 @@ export type ListDimensionValuesForDetectionConfigurationPageResponse = {
  * Contains response data for the listIncidentsByDetectionConfiguration operation.
  */
 export type ListIncidentsByDetectionConfigurationPageResponse = {
-  incidents?: Incident[];
+  incidents?: AnomalyIncident[];
   /**
    * The underlying HTTP response.
    */
@@ -1701,7 +1747,7 @@ export type ListAnomalyDetectionConfigurationsPageResponse = {
  * Contains response data for the listHooks operation.
  */
 export type ListHooksPageResponse = {
-  hooks?: HookUnion[];
+  hooks?: NotificationHookUnion[];
   /**
    * The underlying HTTP response.
    */
