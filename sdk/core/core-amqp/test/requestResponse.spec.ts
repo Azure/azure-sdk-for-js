@@ -28,8 +28,17 @@ function getGlobal() {
 }
 
 describe("RequestResponseLink", function() {
+  const assertItemsLengthInResponsesMap = (
+    link: RequestResponseLink,
+    expectedNumberOfItems: number
+  ) => {
+    assert.equal(
+      link["_responsesMap"].size,
+      expectedNumberOfItems,
+      "Unexpected number of items in the _responsesMap"
+    );
+  };
   it("should send a request and receive a response correctly", async function() {
-    // TODO: Add responseMap check - that it is empty before making the request and after receiving the response
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -55,6 +64,7 @@ describe("RequestResponseLink", function() {
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
+    assertItemsLengthInResponsesMap(link, 0);
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
@@ -70,6 +80,7 @@ describe("RequestResponseLink", function() {
       });
     }, 2000);
     const response = await link.sendRequest(request);
+    assertItemsLengthInResponsesMap(link, 0);
     assert.equal(response.correlation_id, req.message_id);
   });
 
@@ -96,6 +107,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request1: AmqpMessage = {
       body: "Hello World!!",
       message_id: 1
@@ -134,7 +146,7 @@ describe("RequestResponseLink", function() {
     }, 2100);
 
     const responses = await Promise.all([link.sendRequest(request1), link.sendRequest(request2)]);
-
+    assertItemsLengthInResponsesMap(link, 0);
     assert.equal(responses[0].correlation_id, reqs[0].message_id);
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
@@ -162,6 +174,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request1: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -178,6 +191,7 @@ describe("RequestResponseLink", function() {
       );
       errorWasThrown = true;
     }
+    assertItemsLengthInResponsesMap(link, 0);
     assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
@@ -204,6 +218,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request1: AmqpMessage = {
       body: "Hello World!!",
       message_id: 1
@@ -254,6 +269,7 @@ describe("RequestResponseLink", function() {
 
     // ensure the other request succeeds
     const response = await successfulRequest;
+    assertItemsLengthInResponsesMap(link, 0);
     assert.equal(response.correlation_id, request1.message_id);
   });
 
@@ -282,6 +298,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -330,6 +347,7 @@ describe("RequestResponseLink", function() {
     };
 
     const message = await retry<Message>(config);
+    assertItemsLengthInResponsesMap(link, 0);
     assert.equal(count, 2, "It should retry twice");
     assert.exists(message, "It should return a valid message");
     assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
@@ -358,6 +376,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -393,6 +412,70 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
+    assertItemsLengthInResponsesMap(link, 0);
+  });
+
+  it("should abort a request and response correctly when abort signal is fired after sometime", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    let req: any = {};
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: any) => {
+            req = request;
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
+    const request: AmqpMessage = {
+      body: "Hello World!!"
+    };
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: req.message_id,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
+            "com.microsoft:tracking-id": null
+          },
+          body: "Hello World!!"
+        }
+      });
+    }, 2000);
+    try {
+      await link.sendRequest(request, {
+        abortSignal: AbortController.timeout(1000),
+        requestName: "foo"
+      });
+      throw new Error(`Test failure`);
+    } catch (err) {
+      const expectedErrorRegex = new RegExp(
+        /The foo operation has been cancelled by the user.$/,
+        "gi"
+      );
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
+      assert.equal(
+        expectedErrorRegex.test(err.message),
+        true,
+        `Incorrect error received "${err.message}"`
+      );
+    }
+    console.log(link["_responsesMap"].size);
+    assertItemsLengthInResponsesMap(link, 0);
   });
 
   it("should abort a request and response correctly when abort signal is already fired", async function() {
@@ -418,6 +501,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    assertItemsLengthInResponsesMap(link, 0);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -453,6 +537,7 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
+    assertItemsLengthInResponsesMap(link, 0);
   });
 
   describe("sendRequest clears timeout", () => {
@@ -495,6 +580,7 @@ describe("RequestResponseLink", function() {
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      assertItemsLengthInResponsesMap(link, 0);
       const request: AmqpMessage = {
         body: "Hello World!!"
       };
@@ -519,6 +605,7 @@ describe("RequestResponseLink", function() {
       } catch (err) {
         assert.notEqual(err.message, testFailureMessage);
       }
+      assertItemsLengthInResponsesMap(link, 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
 
@@ -545,6 +632,7 @@ describe("RequestResponseLink", function() {
       const senderStub = await sessionStub.createSender();
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      assertItemsLengthInResponsesMap(link, 0);
       const request: AmqpMessage = {
         body: "Hello World!!"
       };
@@ -564,6 +652,7 @@ describe("RequestResponseLink", function() {
       }, 0);
 
       await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
+      assertItemsLengthInResponsesMap(link, 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
   });
