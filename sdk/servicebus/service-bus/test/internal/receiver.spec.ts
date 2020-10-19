@@ -256,7 +256,7 @@ describe("Receiver unit tests", () => {
 
       assert.equal(processErrorParams.err.message, "Failed to initialize!");
       assert.deepEqual(processErrorParams.context, {
-        errorSource: "initialize",
+        errorSource: "receive",
         entityPath: "fakeEntityPath",
         fullyQualifiedNamespace: "fakeHost"
       });

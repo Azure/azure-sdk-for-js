@@ -538,7 +538,7 @@ export class StreamingReceiver extends MessageReceiver {
         logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
         try {
           this._onError(err, {
-            errorSource: "initialize",
+            errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
           });

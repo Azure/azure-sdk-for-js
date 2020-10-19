@@ -244,12 +244,7 @@ export interface ProcessErrorContext {
      * Automatic lock renewal can be enabled via the `CreateReceiverOptions.maxAutoLockRenewalDurationInMs`
      * property passed when calling `ServiceBusClient.createReceiver()`
      */
-     | "renewLock"
-    /**
-     * Broadly covers a series of phases - the actual initialization that occurs when an operation
-     * is first started as well as errors that occur when reconnecting.
-     */
-     | "initialize";
+     | "renewLock";
     fullyQualifiedNamespace: string;
 }
 

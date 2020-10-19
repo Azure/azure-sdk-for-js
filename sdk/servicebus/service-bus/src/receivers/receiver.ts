@@ -282,7 +282,7 @@ export class ServiceBusReceiverImpl<
         // TODO: being a bit broad here but the only errors that should filter out this
         // far are going to be bootstrapping the subscription.
         onError(err, {
-          errorSource: "initialize",
+          errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host
         });

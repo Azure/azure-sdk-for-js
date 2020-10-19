@@ -473,7 +473,7 @@ export class ServiceBusSessionReceiverImpl<
       this._messageSession.subscribe(onMessage, onError, options);
     } catch (err) {
       onError(err, {
-        errorSource: "initialize",
+        errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host
       });
