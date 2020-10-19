@@ -3,18 +3,16 @@
 
 import qs from "qs";
 import { RequestPrepareOptions } from "@azure/core-http";
-import { MSI, MSIExpiresInParser, MSIOptions } from "./models";
+import { MSI, MSIExpiresInParser } from "./models";
 import { credentialLogger } from "../../util/logging";
 
 const logger = credentialLogger("ManagedIdentityCredential - CloudShellMSI");
 
 export const cloudShellMsi: MSI = {
-  isAvailable(): boolean {
+  async isAvailable(): Promise<boolean> {
     return Boolean(process.env.MSI_ENDPOINT);
   },
-  prepareRequestOptions(options: MSIOptions): RequestPrepareOptions {
-    const { resource, clientId } = options;
-
+  prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
     logger.info(
       `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
@@ -38,7 +36,7 @@ export const cloudShellMsi: MSI = {
       }
     };
   },
-  getExpiresInParser(): MSIExpiresInParser {
+  getExpiresInParser(): MSIExpiresInParser | undefined {
     return;
   }
 };

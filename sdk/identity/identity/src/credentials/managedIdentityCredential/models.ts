@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestPrepareOptions } from "@azure/core-http";
+import { GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { IdentityClient } from '../../client/identityClient';
 
-export interface MSIOptions {
-  resource?: string;
-  clientId?: string;
-}
-
-export type MSIExpiresInParser = ((requestBody: any) => number) | undefined;
+export type MSIExpiresInParser = ((requestBody: any) => number);
 
 export interface MSI {
-  isAvailable(options?: MSIOptions): boolean;
-  prepareRequestOptions(options: MSIOptions): RequestPrepareOptions;
-  getExpiresInParser(): MSIExpiresInParser;
+  isAvailable(identityClient?: IdentityClient, resource?: string, clientId?: string, getTokenOptions?: GetTokenOptions): Promise<boolean>;
+  prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions;
+  getExpiresInParser(): MSIExpiresInParser | undefined;
 }

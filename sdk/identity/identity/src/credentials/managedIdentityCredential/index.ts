@@ -12,9 +12,11 @@ import {
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
-import { appServiceMsi } from "./appServiceMsi";
 import { cloudShellMsi } from "./cloudShellMsi";
-import { ImdsCachedPing, imdsCachedPing, imdsMsi } from "./imdsMsi";
+import { imdsMsi } from "./imdsMsi";
+import { MSI } from './models';
+import { appServiceMsi2019 } from './appServiceMsi2019';
+import { appServiceMsi2017 } from './appServiceMsi2017';
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -31,7 +33,6 @@ export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
-  private imdsCachedPing: ImdsCachedPing;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -63,7 +64,25 @@ export class ManagedIdentityCredential implements TokenCredential {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
-    this.imdsCachedPing = imdsCachedPing(this.identityClient);
+  }
+
+  private cachedMSI: MSI | undefined;
+
+  private async cachedAvailableMSI(resource: string, clientId?: string, getTokenOptions?: GetTokenOptions): Promise<MSI> {
+    if (this.cachedMSI) {
+      return this.cachedMSI;
+    }
+
+    const MSIs = [appServiceMsi2019, appServiceMsi2017, cloudShellMsi, imdsMsi];
+
+      for (const msi of MSIs) {
+        if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
+          this.cachedMSI = msi;
+          return msi;
+        }
+      }
+
+      throw new CredentialUnavailable("ManagedIdentityCredential - No MSI credential available");
   }
 
   private async authenticateManagedIdentity(
@@ -78,33 +97,15 @@ export class ManagedIdentityCredential implements TokenCredential {
     );
 
     try {
-      // The order of credentials we try is:
-      // - First, we check if App Service MSI is available (in all of its versions).
-      // - If it's not available, we go with Cloud Shell MSI.
-      // - Otherwise, we go with IMDS MSI.
-
-      const MSIs = [appServiceMsi, cloudShellMsi];
-      let availableMSI = MSIs.find((msi) => msi.isAvailable({ resource, clientId }));
-
-      if (!availableMSI) {
-        const ok = await this.imdsCachedPing.pingOnce(resource, clientId, options);
-
-        if (ok) {
-          // Running in an Azure VM
-          availableMSI = imdsMsi;
-        } else {
-          // Returning null tells the ManagedIdentityCredential that
-          // no MSI authentication endpoints are available
-          return null;
-        }
-      }
+      // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
+      const availableMSI = await this.cachedAvailableMSI(resource, clientId, options);
 
       const webResource = this.identityClient.createWebResource({
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
         abortSignal: options.abortSignal,
         spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
-        ...availableMSI.prepareRequestOptions({ resource, clientId })
+        ...availableMSI.prepareRequestOptions(resource, clientId)
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(
