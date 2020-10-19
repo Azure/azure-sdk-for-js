@@ -16,4 +16,9 @@ export interface OperationResponse {
    * The mapper that will be used to deserialize the response body.
    */
   bodyMapper?: Mapper;
+
+  /**
+   * Indicates if this is an error response
+   */
+  isError?: boolean;
 }
