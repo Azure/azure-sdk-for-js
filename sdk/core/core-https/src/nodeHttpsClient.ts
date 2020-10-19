@@ -93,20 +93,20 @@ export class NodeHttpsClient implements HttpsClient {
       }
     }
 
-    if (body && request.onUploadProgress) {
-      const onUploadProgress = request.onUploadProgress;
-      const uploadReportStream = new ReportTransform(onUploadProgress);
-      if (isReadableStream(body)) {
-        body.pipe(uploadReportStream);
-      } else {
-        uploadReportStream.end(body);
-      }
-
-      body = uploadReportStream;
-    }
-
     try {
       const result = await new Promise<PipelineResponse>((resolve, reject) => {
+        if (body && request.onUploadProgress) {
+          const onUploadProgress = request.onUploadProgress;
+          const uploadReportStream = new ReportTransform(onUploadProgress);
+          uploadReportStream.on("error", reject);
+          if (isReadableStream(body)) {
+            body.pipe(uploadReportStream);
+          } else {
+            uploadReportStream.end(body);
+          }
+
+          body = uploadReportStream;
+        }
         const options = this.getRequestOptions(request);
         const req = https.request(options, async (res) => {
           const headers = getResponseHeaders(res);
@@ -123,6 +123,7 @@ export class NodeHttpsClient implements HttpsClient {
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
             const downloadReportStream = new ReportTransform(onDownloadProgress);
+            downloadReportStream.on("error", reject);
             responseStream.pipe(downloadReportStream);
             responseStream = downloadReportStream;
           }
@@ -144,14 +145,14 @@ export class NodeHttpsClient implements HttpsClient {
             reject(new AbortError("The operation was aborted."));
           }
         });
-        if (body) {
-          if (isReadableStream(body)) {
-            body.pipe(req);
-          } else {
-            req.write(body);
-          }
+        if (body && isReadableStream(body)) {
+          body.pipe(req);
+        } else if (body) {
+          req.end(body);
+        } else {
+          // streams don't like "undefined" being passed as data
+          req.end();
         }
-        req.end();
       });
       return result;
     } finally {
