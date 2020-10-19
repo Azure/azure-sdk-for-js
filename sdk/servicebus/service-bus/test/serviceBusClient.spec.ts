@@ -30,7 +30,7 @@ dotenv.config();
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-describe.only("Create ServiceBusClient", function(): void {
+describe("Create ServiceBusClient", function(): void {
   let sbClient: ServiceBusClient;
 
   afterEach(async () => {
