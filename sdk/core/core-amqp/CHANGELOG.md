@@ -2,6 +2,9 @@
 
 ## 1.1.7 (Unreleased)
 
+- Internal improvement - Previously, each `RequestResponseLink.sendRequest` call adds an "onMessage" listener to the `ReceiverEvents.message` event and keeps discarding the responses that did not match the request-id and returns the response if matched. Adding many listeners would also result in a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 message listeners added to [Receiver]. Use emittr.setMaxListeners() to increase limit`.
+  This has been improved to reuse a single listener for all the requests by maintaining a map of deferred promises that would be resolved(or rejected) upon receiving a message event.
+  [PR 11749](https://github.com/Azure/azure-sdk-for-js/pull/11749)
 
 ## 1.1.6 (2020-09-08)
 
