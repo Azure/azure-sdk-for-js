@@ -41,9 +41,9 @@ If your contribution is significantly big it is better to first check with the p
 
 This project uses [Rush](https://rushjs.io) to manage our many Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
 
-While you
-can continue to contribute to the project using the standard `npm` workflow, adopting Rush will provide you many benefits:
+While you can using the standard `npm` workflow, adopting Rush will provide you many benefits:
 
+- Some of our devDependencies are not published to the public registery (.e.g. our own ESLint plugin), and Rush is configured to install them correctly.
 - Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
 - Rush will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
 - Rush uses [PNPM](https://pnpm.js.org) to install all dependencies across the SDK. Together they solve problems involving [phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/) and [NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/). The way PNPM lays out packages also ensures that you can never accidentally use a dependency you don't directly declare in your package.json.
@@ -53,9 +53,19 @@ can continue to contribute to the project using the standard `npm` workflow, ado
 
 ## Setting up your environment
 
-Want to get started hacking on the code? Super! Follow these instructions to get up and running.
+Want to get started hacking on the code? Super!
 
-First, make sure you have the prerequisites installed and available on your `$PATH`:
+### Using Visual Studio Code
+
+We love [Visual Studio Code](https://code.visualstudio.com/) for many reasons, mainly:
+
+- You can debug JavaScript/TypeScript code right away with [automatic debugging configuration](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
+- You can use it with Github's [Codespaces](https://visualstudio.microsoft.com/services/github-codespaces/) to develop inside a docker container that has all the prerequisites.
+- You get [excellent support for TypeScript](https://code.visualstudio.com/Docs/languages/typescript).
+
+### Prerequisites
+
+If you do not use github's Codespaces, make sure you have the prerequisites installed and available on your `$PATH`:
 
 - Git
 - Node 8.x or higher
@@ -64,45 +74,17 @@ First, make sure you have the prerequisites installed and available on your `$PA
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
   - If you're unable to install a global tool, you can instead call the wrapper script `node <repo root>/common/scripts/install-run-rush.js` any time the guide instructs you to run `rush`. The wrapper script will install a managed copy of Rush in a temporary directory for you.
 
-Next, get the code:
+### Building our repository
 
 1. Fork this repo
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 4. Install and link all dependencies (`rush update`)
+5. Build the code base (`rush build`)
 
-### Making the switch
-
-If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
-
-### Using Visual Studio Code
-
-#### Debugging
-
-Debugging Node.js code in VSCode is [well documented](https://code.visualstudio.com/docs/nodejs/nodejs-debugging). However, starting from version 1.45.1, VSCode can automatically debug Node.js code in most cases without having to write custom `launch.json` files for that purpose and this is true for our SDKs code as well. A demonstration of that feature can be found in the [release notes](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
-
-#### Warnings
-
-Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
-
-The current version of VSCode for Windows has a bug that may cause a "file locked" error when you run any Rush command that modifies your node_modules directory:
-
-```
-ERROR: Error: Error: EPERM: operation not permitted, mkdir 'C:\XXXXX\node_modules'
-Often this is caused by a file lock from a process such as your text editor, command prompt, or "gulp serve"
-```
-
-This bug is fixed in the Insiders build of VSCode (1.34), and will be included in the next release. Until then, you can resolve this by running the "Typescript: Restart TS server" command from the Command Palette to release the lock on the files.
-
-### Warnings for Windows users
-
-Git for Windows has a bug where repository files may be unintentionally removed by `git clean -df` when a directory is locally linked. Because Rush creates local links between packages, you may encounter this. It's highly recommended to use the `rush reset-workspace` command to get your working directory back to a clean state instead. If you prefer to run `git clean -df` manually, you must first run `rush unlink` so that the operation can be performed safely.
-
-## Inner loop developer workflow with Rush
+## Development Workflows
 
 ### Installing and managing dependencies
-
-Run `rush update` to install the current set of package dependencies in all projects inside the repo.
 
 To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename>" --caret [--dev]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `rush update` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `rush add -p "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
 
@@ -263,6 +245,6 @@ For information about packages are versioned and tagged see [Javascript Releases
 
 ### Dev Packages
 
-The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the dev tag. These are published daily whenever there is a change in the package. You can test them by downloading or taking a dependency the "dev" tagged version of the package, or pinning to particular dev version.
+The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
 
 The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.
