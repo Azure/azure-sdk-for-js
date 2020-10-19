@@ -100,7 +100,7 @@ export interface CorrelationRuleFilter {
 }
 
 // @public
-export interface CreateBatchOptions extends OperationOptionsBase {
+export interface CreateMessageBatchOptions extends OperationOptionsBase {
     maxSizeInBytes?: number;
 }
 
@@ -391,7 +391,7 @@ export interface ServiceBusMessageBatch {
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+    tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -443,7 +443,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
 export interface ServiceBusSender {
     cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
-    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+    createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
     open(options?: OperationOptionsBase): Promise<void>;

@@ -558,10 +558,10 @@ describe("Tracing for send", function(): void {
 
     const list = [{ name: "Albert" }, { name: "Marie" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
     }
     await sender.sendMessages(batch);
     rootSpan.end();
@@ -610,10 +610,10 @@ describe("Tracing for send", function(): void {
       }
     ];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd(
+      batch.tryAddMessage(
         { body: `${list[i].name}`, applicationProperties: list[i].applicationProperties },
         { parentSpan: rootSpan }
       );
@@ -651,9 +651,9 @@ describe("Tracing for send", function(): void {
 
     const list = [{ name: "Albert" }, { name: "Marie" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
     }
     await sender.sendMessages(batch, {
       tracingOptions: {
