@@ -13,6 +13,9 @@
 
 - `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
+- Internal improvement - For the operations depending on `$management` link such as peek or lock renewals, the listeners for the "sender_error" and "receiver_error" events were added to the link for each new request made before the link is initialized. This has been improved such that the listeners are reused.
+[PR 11738](https://github.com/Azure/azure-sdk-for-js/pull/11738)
+
 ### Breaking changes
 
 - The `createBatch` method on the sender is renamed to `createMessageBatch`
