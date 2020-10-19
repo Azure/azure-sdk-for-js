@@ -46,18 +46,7 @@ param (
 )
 
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
-
-function Write-CIWarning {
-  param([string] $Output)
-
-  if ($CI) {
-    Write-Host "##vso[task.logissue type=warning]$Output"
-  }
-  else {
-    Write-Warning $Output
-  }
-
-}
+. "$repoRoot/eng/common/scripts/logging.ps1"
 
 function Set-EnvironmentVariable {
   param([string] $Name, [string] $Value)
@@ -204,16 +193,15 @@ function Deploy-TestResources {
   Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
   $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
   if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
-    Write-Warning "Timed out waiting for deploy jobs to finish:"
-    Write-Verbose $entryDeployJobs
-    $entryDeployJobs | Remove-Job -Force
+    LogError "Timed out waiting for deploy jobs to finish:"
+    $entryDeployJobs
     exit 1
   }
 
   foreach ($job in $entryDeployJobs) {
     if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
       $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
-      Write-CIWarning "Failed to deploy $($job.Name): $($errorMsg)"
+      LogWarning "Failed to deploy $($job.Name): $($errorMsg)"
       Write-Warning "Failed to deploy $($job.Name)"
       Write-Host $errorMsg
       continue
