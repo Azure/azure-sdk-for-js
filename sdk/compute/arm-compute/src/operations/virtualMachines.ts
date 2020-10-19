@@ -103,7 +103,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,vmName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -564,7 +564,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1199,6 +1199,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.forceDeletion,
     Parameters.apiVersion0
   ],
   headerParameters: [
