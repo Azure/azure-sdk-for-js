@@ -112,7 +112,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 - Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
 - Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
-- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_createsessionreceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_acceptsession].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -382,7 +382,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [sbclient_tokencred_overload]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#servicebusclient-string--tokencredential--servicebusclientoptions-
 [sbclient_createsender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#createsender-string-
 [sbclient_createreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#createreceiver-string--createreceiveroptions--peeklock---
-[sbclient_createsessionreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#createsessionreceiver-string--createsessionreceiveroptions--peeklock---
+[sbclient_acceptsession]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient?view=azure-node-preview#acceptSession_string__string__AcceptSessionOptions__peekLock___
 [sender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview
 [sender_send]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview#sendmessages-servicebusmessage---servicebusmessage-----servicebusmessagebatch--operationoptionsbase-
 [receiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview
