@@ -194,10 +194,10 @@ const myMessageHandler = async (message) => {
   // your code here
   console.log(`message.body: ${message.body}`);
 };
-const myErrorHandler = async (error, context) => {
+const myErrorHandler = async (args) => {
   console.log(
-    `Error occurred with ${context.entityPath} within ${context.fullyQualifiedNamespace}: `,
-    error
+    `Error occurred with ${args.entityPath} within ${args.fullyQualifiedNamespace}: `,
+    args.error
   );
 };
 receiver.subscribe({

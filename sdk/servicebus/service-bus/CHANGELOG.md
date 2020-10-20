@@ -35,6 +35,7 @@
   - `acceptSession`, which opens a session by name
   - `acceptNextSession`, which opens the next available session, determined by Service Bus.
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
+- The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
 ## 7.0.0-preview.6 (2020-09-10)
 
