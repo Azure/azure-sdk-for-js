@@ -8,8 +8,8 @@
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-- The `processError` passed to `Receiver.subscribe` has an new additional parameter - `ProcessErrorContext`. This parameter provides additional context that can make it simpler to distinguish
-  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorContext`) as well as giving you some information about the entity that generated the error.
+- The `processError` passed to `Receiver.subscribe` now receives a `ProcessErrorArgs` instead of just an error. This parameter provides additional context that can make it simpler to distinguish
+  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorArgs`) as well as giving you some information about the entity that generated the error.
   [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
 
 ## 7.0.0-preview.7 (2020-10-07)
