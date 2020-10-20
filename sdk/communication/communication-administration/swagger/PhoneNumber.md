@@ -22,7 +22,7 @@ azure-arm: false
 
 ### Rename searchId to reservationId
 
-``` yaml
+```yaml
 directive:
   - from: swagger-document
     where: $.definitions.PhoneNumberSearch.properties.searchId
@@ -32,12 +32,12 @@ directive:
 
 ### Rename PhoneNumberSearch to PhoneNumberReservation
 
-``` yaml
+```yaml
 custom-types-subpackage: models
 custom-types: PhoneNumberReservation
 required-fields-as-ctor-args: true
 directive:
-    - rename-model:
-        from: PhoneNumberSearch
-        to: PhoneNumberReservation
+  - rename-model:
+      from: PhoneNumberSearch
+      to: PhoneNumberReservation
 ```
