@@ -59,7 +59,7 @@
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-batch.js.map'\" -o ./dist/arm-batch.min.js ./dist/arm-batch.js",
     "prepack": "npm install && npm run build",
-    "test": "ts-mocha -p tsconfig.test.json test/*.spec.ts --timeout 100000"
+    "test": "mocha -r esm --require ts-node/register test/*.spec.ts --timeout 1200000 --full-trace"
   },
   "sideEffects": false
 }
