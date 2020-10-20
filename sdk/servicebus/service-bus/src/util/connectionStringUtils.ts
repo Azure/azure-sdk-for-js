@@ -64,12 +64,6 @@ export function parseServiceBusConnectionString(
     throw new Error("Invalid Missing Endpoint in connection string.");
   }
 
-  if (parsedResult.SharedAccessSignature && parsedResult.SharedAccessKey) {
-    throw new Error(
-      "Connection String cannot have both SharedAccessSignature and SharedAccessKey."
-    );
-  }
-
   if (parsedResult.SharedAccessSignature) {
     if (parsedResult.SharedAccessKey || parsedResult.SharedAccessKeyName) {
       throw new Error(
