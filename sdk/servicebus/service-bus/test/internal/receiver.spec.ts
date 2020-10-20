@@ -230,7 +230,7 @@ describe("Receiver unit tests", () => {
       await receiverImpl.close();
     });
 
-    it("errors thrown when initializing a connection are reported as 'initialize' errors", async () => {
+    it("errors thrown when initializing a connection are reported as 'receive' errors", async () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: () => {
