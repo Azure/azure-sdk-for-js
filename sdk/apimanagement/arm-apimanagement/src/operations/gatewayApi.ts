@@ -235,6 +235,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.filter0,
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion
@@ -274,7 +275,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.GatewayApiGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.GatewayApiGetEntityTagHeaders
     }
   },
   serializer

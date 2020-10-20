@@ -189,9 +189,9 @@ export class Backend {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.BackendUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +202,7 @@ export class Backend {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<Models.BackendContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +214,8 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +226,7 @@ export class Backend {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.BackendUpdateResponse>;
   }
 
   /**
@@ -394,7 +394,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BackendGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.BackendGetEntityTagHeaders
     }
   },
   serializer
@@ -421,7 +422,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BackendGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.BackendGetHeaders
     }
   },
   serializer
@@ -460,7 +462,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BackendCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.BackendCreateOrUpdateHeaders
     }
   },
   serializer
@@ -490,9 +493,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.BackendContract,
+      headersMapper: Mappers.BackendUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.BackendUpdateHeaders
     }
   },
   serializer

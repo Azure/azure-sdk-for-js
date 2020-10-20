@@ -335,7 +335,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiSchemaGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiSchemaGetEntityTagHeaders
     }
   },
   serializer
@@ -363,7 +364,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiSchemaGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiSchemaGetHeaders
     }
   },
   serializer
@@ -434,7 +436,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
     }
   },
   serializer

@@ -208,9 +208,9 @@ export class ApiRelease {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ApiReleaseUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiReleaseUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -222,7 +222,7 @@ export class ApiRelease {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -235,8 +235,8 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseContract>, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +248,7 @@ export class ApiRelease {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.ApiReleaseUpdateResponse>;
   }
 
   /**
@@ -384,7 +384,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
     }
   },
   serializer
@@ -412,7 +413,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiReleaseGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiReleaseGetHeaders
     }
   },
   serializer
@@ -452,7 +454,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
     }
   },
   serializer
@@ -483,9 +486,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.ApiReleaseContract,
+      headersMapper: Mappers.ApiReleaseUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiReleaseUpdateHeaders
     }
   },
   serializer

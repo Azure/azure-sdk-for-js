@@ -13,5 +13,6 @@ export {
   ErrorResponse,
   TenantAccessGetEntityTagHeaders,
   TenantAccessGetHeaders,
-  TenantAccessListSecretsHeaders
+  TenantAccessListSecretsHeaders,
+  TenantAccessUpdateHeaders
 } from "../models/mappers";
