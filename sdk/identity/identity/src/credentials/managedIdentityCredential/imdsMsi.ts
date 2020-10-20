@@ -6,7 +6,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger, formatError } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
-import { ImdsApiVersion, ImdsEndpoint } from "./constants";
+import { imdsApiVersion, imdsEndpoint } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 
@@ -29,7 +29,7 @@ function expiresInParser(requestBody: any) {
 function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
   const queryParameters: any = {
     resource,
-    "api-version": ImdsApiVersion
+    "api-version": imdsApiVersion
   };
 
   if (clientId) {
@@ -37,7 +37,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: ImdsEndpoint,
+    url: imdsEndpoint,
     method: "GET",
     queryParameters,
     headers: {

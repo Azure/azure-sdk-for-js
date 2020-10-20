@@ -5,8 +5,8 @@ import qs from "qs";
 import assert from "assert";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
-  ImdsEndpoint,
-  ImdsApiVersion
+  imdsEndpoint,
+  imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
@@ -46,11 +46,11 @@ describe("ManagedIdentityCredential", function() {
       assert.equal(authRequest.query["client_id"], "client");
       assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
       assert.ok(
-        authRequest.url.startsWith(ImdsEndpoint),
+        authRequest.url.startsWith(imdsEndpoint),
         "URL does not start with expected host and path"
       );
       assert.ok(
-        authRequest.url.indexOf(`api-version=${ImdsApiVersion}`) > -1,
+        authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
         "URL does not have expected version"
       );
     }

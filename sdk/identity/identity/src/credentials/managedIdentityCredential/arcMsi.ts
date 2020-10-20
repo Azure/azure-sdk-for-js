@@ -6,7 +6,9 @@ import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { msiGenericGetToken } from "./utils";
-import { ImdsApiVersion, ImdsEndpoint } from "./constants";
+import { azureArcAPIVersion, imdsApiVersion, imdsEndpoint } from "./constants";
+import { AuthenticationError } from "../../client/errors";
+import { readFile } from "fs";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 
@@ -27,7 +29,7 @@ function expiresInParser(requestBody: any) {
 function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
   const queryParameters: any = {
     resource,
-    "api-version": ImdsApiVersion
+    "api-version": azureArcAPIVersion
   };
 
   if (clientId) {
@@ -35,7 +37,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: ImdsEndpoint,
+    url: imdsEndpoint,
     method: "GET",
     queryParameters,
     headers: {
@@ -43,6 +45,18 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
       Metadata: true
     }
   };
+}
+
+// Since "fs"'s readFileSync locks the thread, and to avoid extra dependencies.
+function readFileAsync(path: string, options: { encoding: string }): Promise<string> {
+  return new Promise((resolve, reject) =>
+    readFile(path, options, (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    })
+  );
 }
 
 export const arcMsi: MSI = {
@@ -56,19 +70,43 @@ export const arcMsi: MSI = {
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     logger.info(
-      `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+      `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.IMDS_ENDPOINT}, and using the Azure Arc MSI to authenticate.`
     );
 
-    // Get secret:
-    // https://github.com/Azure/azure-sdk-for-go/pull/12832/files#diff-ec817e0d52328190fda9625f65109e9a81c279c3e3ebcc503d153dbaeaa7dc4bR206
+    const endpoint = process.env.IMDS_ENDPOINT;
+    const requestOptions = prepareRequestOptions(resource, clientId);
 
-    // Send secret.
+    const webResource = identityClient.createWebResource({
+      url: endpoint,
+      disableJsonStringifyOnBody: true,
+      deserializationMapper: undefined,
+      abortSignal: getTokenOptions.abortSignal,
+      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
+      ...requestOptions
+    });
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(resource, clientId),
-      expiresInParser,
-      getTokenOptions
-    );
+    const response = await identityClient.sendRequest(webResource);
+
+    if (response.status !== 401) {
+      throw new AuthenticationError(
+        response.status,
+        "To authenticate with Azure Arc MSI, status code 401 is expected on the first request."
+      );
+    }
+
+    const authHeader = response.parsedHeaders!["WWW-Authenticate"];
+    const fileValue = authHeader.split("=").slice(1)[0];
+
+    if (!authHeader || !fileValue) {
+      throw new AuthenticationError(
+        response.status,
+        "To authenticate with Azure Arc MSI, the first request must return a valid WWW-Authenticate header."
+      );
+    }
+
+    const key = await readFileAsync(fileValue, { encoding: "utf-8" });
+    requestOptions.headers!["WWW-Authenticate"] = `Basic ${key}`;
+
+    return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
   }
 };
