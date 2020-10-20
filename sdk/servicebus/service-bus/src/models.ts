@@ -12,12 +12,12 @@ export interface ProcessErrorContext {
    * The operation where the error originated.
    */
   errorSource: /**
-   * Covers errors that occur when autoComplete completes a message.
+   * Errors that occur when autoComplete completes a message.
    */
   | "complete"
     /**
-     * Covers errors that occur when an error thrown from the user's processMessage callback
-     * causes a message to be abandoned.
+     * Errors that occur when automatic message `abandon` fails. Automatic
+     * message abandon'ing occurs when the `processMessage` handler throws an error.
      */
     | "abandon"
     /**
