@@ -35,13 +35,12 @@ type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends P
 
         const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
 
-        const fqdn = parseServiceBusConnectionString(serviceBusConnectionString)
-          .fullyQualifiedNamespace;
+        const endpoint = parseServiceBusConnectionString(serviceBusConnectionString).endpoint;
 
         sasConnectionString = getSasConnectionString(
           serviceBusConnectionString,
           entities.queue ?? `${entities.topic!}`,
-          fqdn.replace(/\/+$/, "")
+          endpoint.replace(/\/+$/, "")
         );
       });
 
