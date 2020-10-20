@@ -165,10 +165,6 @@
       "path": "sdk/test-utils/perfstress"
     },
     {
-      "name": "batch",
-      "path": "sdk/batch/batch"
-    },    
-    {
       "path": "sdk\\digitaltwins\\digital-twins"
     }
   ],
