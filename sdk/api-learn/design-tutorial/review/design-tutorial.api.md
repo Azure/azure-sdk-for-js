@@ -4,8 +4,42 @@
 
 ```ts
 
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
+
 // @public (undocumented)
-export function helloWorld(): string;
+export class ConfigurationClient {
+    constructor(_endpointUrl: string, _credential: TokenCredential, _options?: ConfigurationClientOptions);
+    // (undocumented)
+    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+    // (undocumented)
+    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+}
+
+// @public (undocumented)
+export interface ConfigurationClientOptions extends PipelineOptions {
+}
+
+// @public (undocumented)
+export interface ConfigurationSetting {
+    contentType?: string;
+    etag?: string;
+    isReadOnly?: boolean;
+    key: string;
+    label?: string;
+    lastModified?: Date;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    value?: string;
+}
+
+// @public (undocumented)
+export interface GetConfigurationSettingOptions extends OperationOptions {
+    // (undocumented)
+    onlyIfChanged?: boolean;
+}
 
 
 // (No @packageDocumentation comment for this package)

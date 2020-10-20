@@ -2,10 +2,15 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { helloWorld } from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
+import { ComputationClient } from "../src";
 
-describe("helloWorld", () => {
-  it("returns hello world", () => {
-    assert.strictEqual(helloWorld(), "Hello World!");
+describe("ComputationClient", () => {
+  it("can instantiate", () => {
+    const client = new ComputationClient(
+      "https://example.computation.azure.com",
+      new DefaultAzureCredential()
+    );
+    assert.exists(client);
   });
 });

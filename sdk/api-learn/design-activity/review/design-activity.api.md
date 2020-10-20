@@ -4,8 +4,77 @@
 
 ```ts
 
+import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
+
 // @public (undocumented)
-export function helloWorld(): string;
+export class ComputationClient {
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ComputationClientOptions);
+    // (undocumented)
+    createComputeNode(nodeName: string, options?: CreateComputeNodeOptions): Promise<ComputeNodeUnion>;
+    // (undocumented)
+    getComputeNode(nodeName: string, options?: GetComputeNodeOptions): Promise<ComputeNodeUnion>;
+    // (undocumented)
+    getComputeNodeClient(nodeName: string): ComputeNodeClient;
+    // (undocumented)
+    listComputeNodes(options?: ListComputeNodesOptions): Promise<PagedAsyncIterableIterator<ComputeNodeUnion>>;
+}
+
+// @public (undocumented)
+export interface ComputationClientOptions extends PipelineOptions {
+    // (undocumented)
+    nodeName?: string;
+}
+
+// @public (undocumented)
+export interface ComputeNode {
+    // (undocumented)
+    readonly eTag?: string;
+    kind: "LinuxComputeNode" | "WindowsComputeNode";
+    // (undocumented)
+    readonly name?: string;
+}
+
+// @public (undocumented)
+export class ComputeNodeClient {
+    constructor(nodeName: string, endpointUrl: string, credential: TokenCredential, options?: ComputeNodeClientOptions);
+    // (undocumented)
+    computePi(): Promise<ComputeOperation>;
+}
+
+// @public (undocumented)
+export interface ComputeNodeClientOptions extends PipelineOptions {
+}
+
+// @public (undocumented)
+export type ComputeNodeUnion = ComputeNode | LinuxComputeNode | WindowsComputeNode;
+
+// @public (undocumented)
+export interface ComputeOperation {
+    // (undocumented)
+    operationId: string;
+}
+
+// @public (undocumented)
+export type CreateComputeNodeOptions = OperationOptions;
+
+// @public (undocumented)
+export type GetComputeNodeOptions = OperationOptions;
+
+// @public (undocumented)
+export type LinuxComputeNode = ComputeNode & {
+    sshPublicKey: string;
+};
+
+// @public (undocumented)
+export type ListComputeNodesOptions = OperationOptions;
+
+// @public (undocumented)
+export type WindowsComputeNode = ComputeNode & {
+    userName: string;
+};
 
 
 // (No @packageDocumentation comment for this package)
