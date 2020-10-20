@@ -61,13 +61,14 @@ async function createAlertConfig(adminClient, detectionConfigId) {
       }
     }
   };
-  const result = await adminClient.createAnomalyAlertConfiguration({
+  const alertConfig = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [metricAlertingConfig1, metricAlertingConfig2],
     hookIds: [],
     description: "alerting config description"
-  });
+  };
+  const result = await adminClient.createAnomalyAlertConfiguration(alertConfig);
   console.log(result);
   return result;
 }

@@ -30,11 +30,12 @@ async function main() {
 async function listDataFeeds(client) {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
-  const iter = client.listDataFeeds({
+  const options = {
     filter: {
-      // dataFeedName: "js-blob-datafeed"
+      //dataFeedName: "js-blob-datafeed"
     }
-  });
+  }
+  const iter = client.listDataFeeds(options);
   let result = await iter.next();
   while (!result.done) {
     console.log(`id :${result.value.id}, name: ${result.value.name}`);
@@ -120,14 +121,16 @@ async function createDataFeed(client) {
   };
 
   console.log("Creating Datafeed...");
-  const result = await client.createDataFeed({
+  const feed = {
     name: "test-datafeed-" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,
     ingestionSettings: dataFeedIngestion,
     options
-  });
+  };
+
+  const result = await client.createDataFeed(feed);
   console.dir(result);
   return result;
 }

@@ -87,9 +87,10 @@ async function updateEmailHook(client, hookId) {
 async function listHooks(client) {
   console.log("Listing existing hooks");
   let i = 1;
-  for await (const hook of client.listHooks({
+  const hookOptions = {
     hookName: "js "
-  })) {
+  };
+  for await (const hook of client.listHooks(hookOptions)) {
     console.log(`hook ${i++} - type ${hook.hookType}`);
     console.log(`  description: ${hook.description}`);
     if (hook.hookType === "Email") {
