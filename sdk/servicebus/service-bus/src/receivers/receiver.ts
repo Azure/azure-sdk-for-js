@@ -270,9 +270,7 @@ export class ServiceBusReceiverImpl<
         }
 
         if (!this.isClosed) {
-          sReceiver.subscribe(async (message) => {
-            await onMessage(message);
-          }, onError);
+          sReceiver.subscribe(onMessage, onError);
         } else {
           await sReceiver.close();
         }

@@ -5,7 +5,6 @@ import { Constants, ErrorNameConditionMapper, MessagingError, translate } from "
 import {
   AmqpError,
   EventContext,
-  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
@@ -629,21 +628,18 @@ export class MessageSession extends LinkEntity<Receiver> {
         try {
           await this._onMessage(bMessage);
         } catch (err) {
-          // This ensures we call users' error handler when users' message handler throws.
-          if (!isAmqpError(err)) {
-            logger.logError(
-              err,
-              "%s An error occurred while running user's message handler for the message " +
-                "with id '%s' on the receiver",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            this._onError!(err, {
-              errorSource: "processMessageCallback",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
-          }
+          logger.logError(
+            err,
+            "%s An error occurred while running user's message handler for the message " +
+              "with id '%s' on the receiver",
+            this.logPrefix,
+            bMessage.messageId
+          );
+          this._onError!(err, {
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
 
           const error = translate(err);
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.

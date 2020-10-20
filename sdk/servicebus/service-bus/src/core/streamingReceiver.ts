@@ -25,7 +25,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
-import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
+import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -281,22 +281,19 @@ export class StreamingReceiver extends MessageReceiver {
       try {
         await this._onMessage(bMessage);
       } catch (err) {
-        // This ensures we call users' error handler when users' message handler throws.
-        if (!isAmqpError(err)) {
-          logger.logError(
-            err,
-            "%s An error occurred while running user's message handler for the message " +
-              "with id '%s' on the receiver '%s'",
-            this.logPrefix,
-            bMessage.messageId,
-            this.name
-          );
-          this._onError!(err, {
-            errorSource: "processMessageCallback",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
+        logger.logError(
+          err,
+          "%s An error occurred while running user's message handler for the message " +
+            "with id '%s' on the receiver '%s'",
+          this.logPrefix,
+          bMessage.messageId,
+          this.name
+        );
+        this._onError!(err, {
+          errorSource: "processMessageCallback",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
