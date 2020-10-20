@@ -16,7 +16,7 @@ export interface ProcessErrorContext {
    */
   | "complete"
     /**
-     * Covers errors that occur when autoComplete or (failure from the user's processMessage callback)
+     * Covers errors that occur when an error thrown from the user's processMessage callback
      * causes a message to be abandoned.
      */
     | "abandon"
