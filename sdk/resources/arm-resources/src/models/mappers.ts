@@ -177,6 +177,22 @@ export const OnErrorDeployment: msRest.CompositeMapper = {
   }
 };
 
+export const ExpressionEvaluationOptions: msRest.CompositeMapper = {
+  serializedName: "ExpressionEvaluationOptions",
+  type: {
+    name: "Composite",
+    className: "ExpressionEvaluationOptions",
+    modelProperties: {
+      scope: {
+        serializedName: "scope",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentProperties: msRest.CompositeMapper = {
   serializedName: "DeploymentProperties",
   type: {
@@ -232,6 +248,13 @@ export const DeploymentProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OnErrorDeployment"
+        }
+      },
+      expressionEvaluationOptions: {
+        serializedName: "expressionEvaluationOptions",
+        type: {
+          name: "Composite",
+          className: "ExpressionEvaluationOptions"
         }
       }
     }

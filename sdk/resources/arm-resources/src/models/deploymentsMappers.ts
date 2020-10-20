@@ -33,6 +33,7 @@ export {
   DeploymentWhatIfSettings,
   ErrorAdditionalInfo,
   ErrorResponse,
+  ExpressionEvaluationOptions,
   GenericResource,
   GenericResourceExpanded,
   Identity,
