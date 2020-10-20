@@ -27,7 +27,7 @@ export interface ComputeNode {
   readonly name?: string;
 }
 
-export interface Operation {
+export interface ComputeOperationState {
   readonly createdDateTime?: Date;
   readonly percentComplete?: number;
   readonly status?: OperationStatus;
@@ -165,7 +165,7 @@ export type ComputationsComputePiResponse = ComputationsComputePiHeaders & {
  * Contains response data for the computation operation.
  */
 export type GeneratedClientComputationResponse = GeneratedClientComputationHeaders &
-  Operation & {
+  ComputeOperationState & {
     /**
      * The underlying HTTP response.
      */
@@ -178,7 +178,7 @@ export type GeneratedClientComputationResponse = GeneratedClientComputationHeade
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Operation;
+      parsedBody: ComputeOperationState;
       /**
        * The parsed HTTP response headers.
        */

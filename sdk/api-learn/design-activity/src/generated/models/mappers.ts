@@ -66,10 +66,10 @@ export const ComputeNode: coreHttp.CompositeMapper = {
   }
 };
 
-export const Operation: coreHttp.CompositeMapper = {
+export const ComputeOperationState: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Operation",
+    className: "ComputeOperationState",
     modelProperties: {
       createdDateTime: {
         serializedName: "createdDateTime",

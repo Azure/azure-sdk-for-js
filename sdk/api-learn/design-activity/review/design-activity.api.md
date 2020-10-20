@@ -14,7 +14,13 @@ import { TokenCredential } from '@azure/core-http';
 // @public (undocumented)
 export interface BeginComputePiOptions extends OperationOptions {
     // (undocumented)
-    precision: number;
+    onProgress?: (state: ComputePiPollOperationState) => void;
+    // (undocumented)
+    pollInterval?: number;
+    // (undocumented)
+    precision?: number;
+    // (undocumented)
+    resumeFrom?: string;
 }
 
 // @public (undocumented)
@@ -60,18 +66,20 @@ export interface ComputeNodeClientOptions extends PipelineOptions {
 export type ComputeNodeUnion = ComputeNode | LinuxComputeNode | WindowsComputeNode;
 
 // @public (undocumented)
-export interface ComputeOperation {
+export interface ComputeOperationState {
     // (undocumented)
-    operationId: string;
+    readonly createdDateTime?: Date;
+    // (undocumented)
+    readonly percentComplete?: number;
+    // (undocumented)
+    readonly status?: OperationStatus;
 }
 
 // @public (undocumented)
 export type ComputePiPoller = PollerLike<ComputePiPollOperationState, Pi>;
 
 // @public (undocumented)
-export type ComputePiPollOperationState = PollOperationState<Pi> & {
-    status: OperationStatus;
-};
+export type ComputePiPollOperationState = PollOperationState<Pi> & ComputeOperationState;
 
 // @public (undocumented)
 export type CreateComputeNodeOptions = OperationOptions;

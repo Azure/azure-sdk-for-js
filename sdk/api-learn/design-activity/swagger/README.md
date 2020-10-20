@@ -18,3 +18,13 @@ package-version: 1.0.0-beta.1
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200826.1"
 ```
+
+### Rename
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Operation
+    transform: >
+      $["x-ms-client-name"] = "ComputeOperationState";
+```

@@ -57,7 +57,7 @@ const computationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Operation,
+      bodyMapper: Mappers.ComputeOperationState,
       headersMapper: Mappers.GeneratedClientComputationHeaders
     }
   },

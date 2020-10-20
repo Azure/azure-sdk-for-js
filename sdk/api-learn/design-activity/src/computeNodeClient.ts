@@ -3,13 +3,15 @@
 
 import { OperationOptions, PipelineOptions, TokenCredential } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { GeneratedClient, OperationStatus } from "./generated";
+import { ComputeOperationState, OperationStatus, GeneratedClient } from "./generated";
 
 export interface ComputeNodeClientOptions extends PipelineOptions {}
 
 export interface BeginComputePiOptions extends OperationOptions {
-  precision: number;
-  // todo: onProgress, resumeFrom...
+  precision?: number;
+  pollInterval?: number;
+  onProgress?: (state: ComputePiPollOperationState) => void;
+  resumeFrom?: string;
 }
 
 export interface Pi {
@@ -17,18 +19,11 @@ export interface Pi {
   precision: number;
 }
 
-export type ComputePiPollOperationState = PollOperationState<Pi> & {
-  status: OperationStatus;
-};
-
+export type ComputePiPollOperationState = PollOperationState<Pi> & ComputeOperationState;
 export type ComputePiPoller = PollerLike<ComputePiPollOperationState, Pi>;
 
-export { OperationStatus };
-
-// Todo LRO
-export interface ComputeOperation {
-  operationId: string;
-}
+// todo rename to ComputeOperationStatus
+export { ComputeOperationState, OperationStatus };
 
 export class ComputeNodeClient {
   private readonly _client: GeneratedClient;
