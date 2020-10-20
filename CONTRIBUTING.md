@@ -65,7 +65,9 @@ We love [Visual Studio Code](https://code.visualstudio.com/) for many reasons, m
 
 ### Prerequisites
 
-If you do not use github's Codespaces, make sure you have the prerequisites installed and available on your `$PATH`:
+With GitHub's Codespaces, the container already has all prerequisites installed. You can create a codespace in Visual Studio Code by following the instructions [here](https://docs.github.com/en/free-pro-team@latest/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code).
+
+If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
 - Node 8.x or higher
