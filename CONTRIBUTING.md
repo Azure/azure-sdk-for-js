@@ -41,7 +41,7 @@ If your contribution is significantly big it is better to first check with the p
 
 This project uses [Rush](https://rushjs.io) to manage our many Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
 
-While you can using the standard `npm` workflow, adopting Rush will provide you many benefits:
+While you can still use the standard `npm` workflow, adopting Rush will provide you many benefits:
 
 - Some of our devDependencies are not published to the public registery (.e.g. our own ESLint plugin), and Rush is configured to install them correctly.
 - Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
