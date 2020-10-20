@@ -19,7 +19,18 @@ describe("functionality tests", () => {
   const client = new ConfigurationClient(endpoint, new DefaultAzureCredential());
 
   it("can retrieve values", async () => {
-    const result = await client.getConfigurationSetting("bestColor");
+    const result = await client.getConfigurationSetting("bestColor", {});
     assert.equal(result.value, "<your favorite color>");
+  });
+
+  it("can conditionally retrieve values", async () => {
+    const result = await client.getConfigurationSetting("bestColor", {});
+    let valueHasNotChanged = false;
+    try {
+      await client.getConfigurationSetting(result, { onlyIfChanged: true });
+    } catch (e) {
+      valueHasNotChanged = true;
+    }
+    assert.isTrue(valueHasNotChanged, "Expected value to stay the same.");
   });
 });
