@@ -8,5 +8,5 @@
  * regenerated.
  */
 
-export * from "./appliances";
-export * from "./applianceDefinitions";
+export * from "./applications";
+export * from "./applicationDefinitions";
