@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusConnectionStringModel, SharedKeyCredential } from "@azure/core-amqp";
+import { SharedKeyCredential } from "@azure/core-amqp";
 import chai from "chai";
-import { parseConnectionString } from "rhea-promise";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
-import { ServiceBusClient } from "../src/serviceBusClient";
-import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+import {
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver,
+  parseServiceBusConnectionString
+} from "../src";
 import { getEnvVars } from "./utils/envVarUtils";
 import { TestClientType } from "./utils/testUtils";
 import {
@@ -33,9 +35,7 @@ type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends P
 
         const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
 
-        const { Endpoint: fqdn } = parseConnectionString<ServiceBusConnectionStringModel>(
-          serviceBusConnectionString
-        );
+        const fqdn = parseServiceBusConnectionString(serviceBusConnectionString).endpoint;
 
         sasConnectionString = getSasConnectionString(
           serviceBusConnectionString,
