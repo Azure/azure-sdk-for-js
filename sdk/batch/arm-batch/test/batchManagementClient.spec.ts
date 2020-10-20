@@ -5,9 +5,8 @@ import { assert } from "chai";
 import * as dotenv from "dotenv";
 import * as util from "util";
 import * as fs from "fs";
-import { ServiceClient, WebResource } from "@azure/core-http";
 import { AuthenticationContext } from "adal-node";
-import { TokenCredentials, RestError } from "@azure/ms-rest-js";
+import { TokenCredentials, RestError, ServiceClient, WebResource } from "@azure/ms-rest-js";
 import { CertificateCreateOrUpdateParameters } from "../src/models";
 
 dotenv.config();
