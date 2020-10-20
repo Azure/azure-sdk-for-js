@@ -2,11 +2,11 @@
   "name": "@azure/arm-batch",
   "author": "Microsoft Corporation",
   "description": "BatchManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "keywords": [
     "node",
@@ -20,11 +20,18 @@
   "module": "./esm/batchManagementClient.js",
   "types": "./esm/batchManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.5.3",
-    "rollup": "^1.18.0",
+    "@types/chai": "^4.1.6",
+    "@types/jssha": "^2.0.0",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^7.1.1",
+    "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.6.0"
+    "ts-mocha": "^7.0.0",
+    "typescript": "~3.9.3",
+    "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
@@ -51,7 +58,8 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-batch.js.map'\" -o ./dist/arm-batch.min.js ./dist/arm-batch.js",
-    "prepack": "npm install && npm run build"
+    "prepack": "npm install && npm run build",
+    "test": "ts-mocha -p tsconfig.test.json test/*.spec.ts --timeout 100000"
   },
   "sideEffects": false
 }

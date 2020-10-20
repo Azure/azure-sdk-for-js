@@ -581,6 +581,16 @@
       "packageName": "@azure/digital-twins",
       "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/batch",
+      "projectFolder": "sdk/batch/batch",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "client"
     }
   ]
 }
