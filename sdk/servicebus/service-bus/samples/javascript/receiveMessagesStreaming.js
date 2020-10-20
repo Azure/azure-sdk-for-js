@@ -30,8 +30,8 @@ async function main() {
     await brokeredMessage.complete();
   };
 
-  const processError = async (err, context) => {
-    console.log(`Error from error source ${context.errorSource} occurred: `, err);
+  const processError = async (args) => {
+    console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
   try {

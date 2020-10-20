@@ -78,8 +78,8 @@ async function receiveMessages(sbClient: ServiceBusClient) {
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
     await brokeredMessage.complete();
   };
-  const processError = async (err, context) => {
-    console.log(`Error from error source ${context.errorSource} occurred: `, err);
+  const processError = async (args) => {
+    console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);

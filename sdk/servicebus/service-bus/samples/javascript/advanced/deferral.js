@@ -103,8 +103,8 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const processError = async (err) => {
-      console.log(`>>>>> Error from error source ${context.errorSource} occurred: `, err);
+    const processError = async (args) => {
+      console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
     };
     receiver.subscribe(
       { processMessage, processError },
