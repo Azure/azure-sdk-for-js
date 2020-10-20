@@ -47,6 +47,7 @@ dependencies:
   '@rush-temp/storage-file-share': 'file:projects/storage-file-share.tgz'
   '@rush-temp/storage-internal-avro': 'file:projects/storage-internal-avro.tgz'
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
+  '@rush-temp/synapse-accesscontrol': 'file:projects/synapse-accesscontrol.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
@@ -1693,6 +1694,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-Jw8HbFpywC9bZaR9+Uxf46J4iS8=
+  /builtin-modules/2.0.0:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha512-3U5kUA5VPsRUA3nofm/BXX7GVHKfxz0hOBAPxXrIvHzlDRkQVqEn6yi8QJegxl4LzOHLdvb7XF5dVawa/VVYBg==
   /builtin-modules/3.1.0:
     dev: false
     engines:
@@ -6626,6 +6633,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-xRkB+W/m1KLIzPUmG0ofvR+CPNcvuCuNdjVBVS7ALKSxr3EDhnzNceGkGi1m8MToSli13AzKFYH4ie9w3I5L3g==
+  /rollup-plugin-node-resolve/3.4.0:
+    dependencies:
+      builtin-modules: 2.0.0
+      is-module: 1.0.0
+      resolve: 1.17.0
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
+    dev: false
+    resolution:
+      integrity: sha512-PJcd85dxfSBWih84ozRtBkB731OjXk0KnzN0oGp7WOWcarAFkVa71cV5hTJg2qpVsV2U8EUwrzHP3tvy9vS3qg==
   /rollup-plugin-shim/1.0.0:
     dev: false
     resolution:
@@ -10615,6 +10631,23 @@ packages:
       integrity: sha512-Jnnk4rFVdjrfhIAPoL5PL5EFVEMpApQwWUZjoNzpXWabQHRAHIbEGwhtShSoN85OM1ahwug83tG6iErH/0a5QA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
+  'file:projects/synapse-accesscontrol.tgz':
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.11.2
+    dev: false
+    name: '@rush-temp/synapse-accesscontrol'
+    resolution:
+      integrity: sha512-VvQJT1qZlCGzLu0T7F+kGLGyDMqoT5Ys5lFQVfM5BQTdeiPFBEnsxePF9Z8KnKRXnohE6+XSEVpcbswRQjY+RQ==
+      tarball: 'file:projects/synapse-accesscontrol.tgz'
+    version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
@@ -10757,6 +10790,7 @@ packages:
       integrity: sha512-uZaBXfZM1ISycMx+p8kUd/Yqui/KgjgUm/CyAzxK2wkOmqKF66JuLD5lbkH4tXBi+F5rL59UaMhjjxskb6qbzA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-anomaly-detector': 'file:./projects/ai-anomaly-detector.tgz'
@@ -10806,6 +10840,7 @@ specifiers:
   '@rush-temp/storage-file-share': 'file:./projects/storage-file-share.tgz'
   '@rush-temp/storage-internal-avro': 'file:./projects/storage-internal-avro.tgz'
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
+  '@rush-temp/synapse-accesscontrol': 'file:./projects/synapse-accesscontrol.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:./projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'

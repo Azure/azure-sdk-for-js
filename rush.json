@@ -581,6 +581,11 @@
       "packageName": "@azure/digital-twins",
       "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-accesscontrol",
+      "projectFolder": "sdk/synapse/synapse-accesscontrol",
+      "versionPolicyName": "client"
     }
   ]
 }
