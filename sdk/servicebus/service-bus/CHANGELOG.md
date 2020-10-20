@@ -8,6 +8,7 @@
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 
 ## 7.0.0-preview.7 (2020-10-07)
 
