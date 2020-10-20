@@ -201,6 +201,7 @@ export class CustomDomains {
    */
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: Models.CustomDomainsEnableCustomHttpsOptionalParams, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
+    // #region Added default values to add backwards compatibility
     let newOptions: Models.CustomDomainsEnableCustomHttpsOptionalParams = {};
 
     if (typeof options === "function") {
@@ -235,6 +236,7 @@ export class CustomDomains {
         enableCustomHttpsOperationSpec,
         callback) as Promise<Models.CustomDomainsEnableCustomHttpsResponse>
     );
+    // #endregion
   }
 
   /**
@@ -312,6 +314,7 @@ export class CustomDomains {
   }
 }
 
+// #region Added default values to add backwards compatibility
 class SkuNames {
   public static get standard_microsoft() { return "Standard_Microsoft"; }
   public static get standard_verizon() { return "Standard_Verizon"; }
@@ -348,6 +351,8 @@ function getDefaultCustomDomainHttpsParameters(profile: Models.Profile): Models.
       return undefined;
   }
 }
+
+// #endregion
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
