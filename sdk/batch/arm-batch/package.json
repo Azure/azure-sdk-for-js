@@ -29,7 +29,8 @@
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "ts-mocha": "^7.0.0",
+    "esm": "^3.2.25",
+    "ts-node": "^8.3.0",
     "typescript": "~3.9.3",
     "uglify-js": "^3.4.9"
   },
