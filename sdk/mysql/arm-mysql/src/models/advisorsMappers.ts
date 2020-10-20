@@ -9,6 +9,7 @@
 export {
   discriminators,
   Advisor,
+  AdvisorsResultList,
   AzureEntityResource,
   BaseResource,
   CloudError,
@@ -30,7 +31,6 @@ export {
   Server,
   ServerAdministratorResource,
   ServerKey,
-  ServerListResult,
   ServerPrivateEndpointConnection,
   ServerPrivateEndpointConnectionProperties,
   ServerPrivateLinkServiceConnectionStateProperty,
