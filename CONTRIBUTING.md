@@ -60,7 +60,7 @@ Want to get started hacking on the code? Great! Keep reading.
 We love [Visual Studio Code](https://code.visualstudio.com/) for many reasons, mainly:
 
 - You can debug JavaScript/TypeScript code right away with [automatic debugging configuration](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
-- You can use it with Github's [Codespaces](https://visualstudio.microsoft.com/services/github-codespaces/) to develop inside a docker container that has all the prerequisites.
+- You can use it with GitHub's [Codespaces](https://visualstudio.microsoft.com/services/github-codespaces/) to develop inside a docker container that has all the prerequisites.
 - You get [excellent support for TypeScript](https://code.visualstudio.com/Docs/languages/typescript).
 
 ### Prerequisites
