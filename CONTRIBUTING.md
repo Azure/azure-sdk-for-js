@@ -39,9 +39,9 @@ If your contribution is significantly big it is better to first check with the p
 
 ## Project orchestration
 
-This project uses [Rush](https://rushjs.io) to manage our many Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
+This project uses [Rush](https://rushjs.io) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
 
-While you can still use the standard `npm` workflow, adopting Rush will provide you many benefits:
+Rush provides many benefits:
 
 - Some of our devDependencies are not published to the public registery (.e.g. our own ESLint plugin), and Rush is configured to install them correctly.
 - Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
@@ -50,6 +50,8 @@ While you can still use the standard `npm` workflow, adopting Rush will provide 
 - Dependencies between different libraries within the Azure SDK will be locally linked by default. This means you can make a local change in a library your library depends on, and it will just work without needing to use awkward "file:" paths in your package.json.
 - When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
 - Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
+
+Not every library in the repository is managed by Rush yet. Those packages can still be managed using `npm`.
 
 ## Setting up your environment
 
