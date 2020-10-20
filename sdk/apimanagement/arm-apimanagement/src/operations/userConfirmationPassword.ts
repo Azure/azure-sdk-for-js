@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as Models from "../models";
 import * as Mappers from "../models/userConfirmationPasswordMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
@@ -33,7 +34,7 @@ export class UserConfirmationPassword {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  send(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserConfirmationPasswordSendOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -48,8 +49,8 @@ export class UserConfirmationPassword {
    * @param options The optional parameters
    * @param callback The callback
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  send(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserConfirmationPasswordSendOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  send(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserConfirmationPasswordSendOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +75,8 @@ const sendOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.acceptLanguage

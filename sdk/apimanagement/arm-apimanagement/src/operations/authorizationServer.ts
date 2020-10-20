@@ -179,9 +179,9 @@ export class AuthorizationServer {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.AuthorizationServerUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -191,7 +191,7 @@ export class AuthorizationServer {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,8 +202,8 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
+  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +214,7 @@ export class AuthorizationServer {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.AuthorizationServerUpdateResponse>;
   }
 
   /**
@@ -275,7 +275,7 @@ export class AuthorizationServer {
    * @param authsid Identifier of the authorization server.
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<Models.AuthorizationServerSecretsContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -283,8 +283,8 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>, callback?: msRest.ServiceCallback<Models.ClientSecretContract>): Promise<Models.AuthorizationServerListSecretsResponse> {
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerSecretsContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerSecretsContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerSecretsContract>): Promise<Models.AuthorizationServerListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -375,7 +375,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AuthorizationServerGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AuthorizationServerGetEntityTagHeaders
     }
   },
   serializer
@@ -402,7 +403,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AuthorizationServerGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AuthorizationServerGetHeaders
     }
   },
   serializer
@@ -441,7 +443,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
     }
   },
   serializer
@@ -471,9 +474,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.AuthorizationServerContract,
+      headersMapper: Mappers.AuthorizationServerUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AuthorizationServerUpdateHeaders
     }
   },
   serializer
@@ -522,10 +529,12 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ClientSecretContract
+      bodyMapper: Mappers.AuthorizationServerSecretsContract,
+      headersMapper: Mappers.AuthorizationServerListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AuthorizationServerListSecretsHeaders
     }
   },
   serializer

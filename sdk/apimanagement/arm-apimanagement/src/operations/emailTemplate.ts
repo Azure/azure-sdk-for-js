@@ -27,7 +27,7 @@ export class EmailTemplate {
   }
 
   /**
-   * Lists a collection of properties defined within a service instance.
+   * Gets all email templates
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -234,7 +234,7 @@ export class EmailTemplate {
   }
 
   /**
-   * Updates the specific Email Template.
+   * Updates API Management email template
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier. Possible values include:
@@ -245,13 +245,13 @@ export class EmailTemplate {
    * 'purchaseDeveloperNotificationMessage', 'passwordResetIdentityDefault',
    * 'passwordResetByAdminNotificationMessage', 'rejectDeveloperNotificationMessage',
    * 'requestDeveloperNotificationMessage'
-   * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.EmailTemplateUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, parameters: Models.EmailTemplateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EmailTemplateUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -263,12 +263,12 @@ export class EmailTemplate {
    * 'purchaseDeveloperNotificationMessage', 'passwordResetIdentityDefault',
    * 'passwordResetByAdminNotificationMessage', 'rejectDeveloperNotificationMessage',
    * 'requestDeveloperNotificationMessage'
-   * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, parameters: Models.EmailTemplateUpdateParameters, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -280,25 +280,25 @@ export class EmailTemplate {
    * 'purchaseDeveloperNotificationMessage', 'passwordResetIdentityDefault',
    * 'passwordResetByAdminNotificationMessage', 'rejectDeveloperNotificationMessage',
    * 'requestDeveloperNotificationMessage'
-   * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, parameters: Models.EmailTemplateUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
+  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, parameters: Models.EmailTemplateUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateContract>, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         templateName,
-        parameters,
         ifMatch,
+        parameters,
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.EmailTemplateUpdateResponse>;
   }
 
   /**
@@ -366,7 +366,7 @@ export class EmailTemplate {
   }
 
   /**
-   * Lists a collection of properties defined within a service instance.
+   * Gets all email templates
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateListByServiceNextResponse>
@@ -444,7 +444,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
     }
   },
   serializer
@@ -471,7 +472,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.EmailTemplateGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailTemplateGetHeaders
     }
   },
   serializer
@@ -538,9 +540,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.EmailTemplateContract,
+      headersMapper: Mappers.EmailTemplateUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailTemplateUpdateHeaders
     }
   },
   serializer
