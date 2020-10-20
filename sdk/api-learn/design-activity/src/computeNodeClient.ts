@@ -1,10 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, TokenCredential } from "@azure/core-http";
-import { GeneratedClient } from "./generated";
+import { OperationOptions, PipelineOptions, TokenCredential } from "@azure/core-http";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { GeneratedClient, OperationStatus } from "./generated";
 
 export interface ComputeNodeClientOptions extends PipelineOptions {}
+
+export interface BeginComputePiOptions extends OperationOptions {
+  precision: number;
+  // todo: onProgress, resumeFrom...
+}
+
+export interface Pi {
+  value: number;
+  precision: number;
+}
+
+export type ComputePiPollOperationState = PollOperationState<Pi> & {
+  status: OperationStatus;
+};
+
+export type ComputePiPoller = PollerLike<ComputePiPollOperationState, Pi>;
+
+export { OperationStatus };
 
 // Todo LRO
 export interface ComputeOperation {
@@ -25,11 +44,8 @@ export class ComputeNodeClient {
     this._client = new GeneratedClient(endpointUrl, nodeName, options);
   }
 
-  public async computePi(): Promise<ComputeOperation> {
-    const result = await this._client.computations.computePi();
-    if (result.operationLocation) {
-      return { operationId: result.operationLocation };
-    }
-    throw new Error("Couldn't create new compute operation.");
+  public async beginComputePi(options?: BeginComputePiOptions): Promise<ComputePiPoller> {
+    const result = await this._client.computations.computePi(options);
+    return result as any;
   }
 }

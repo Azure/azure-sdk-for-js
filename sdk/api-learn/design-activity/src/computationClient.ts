@@ -4,7 +4,7 @@
 
 import { PipelineOptions, TokenCredential, OperationOptions } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ComputeNodeClient, ComputeNodeClientOptions, ComputeOperation } from "./computeNodeClient";
+import { ComputeNodeClient } from "./computeNodeClient";
 import {
   GeneratedClient,
   ComputeNodeUnion,
@@ -13,15 +13,8 @@ import {
   WindowsComputeNode
 } from "./generated";
 
-export {
-  ComputeNodeUnion,
-  ComputeNode,
-  LinuxComputeNode,
-  WindowsComputeNode,
-  ComputeNodeClient,
-  ComputeNodeClientOptions,
-  ComputeOperation
-};
+export { ComputeNodeUnion, ComputeNode, LinuxComputeNode, WindowsComputeNode };
+export * from "./computeNodeClient";
 
 export interface ComputationClientOptions extends PipelineOptions {
   nodeName?: string;

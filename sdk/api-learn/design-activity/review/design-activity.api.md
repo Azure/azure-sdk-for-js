@@ -7,7 +7,15 @@
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
+
+// @public (undocumented)
+export interface BeginComputePiOptions extends OperationOptions {
+    // (undocumented)
+    precision: number;
+}
 
 // @public (undocumented)
 export class ComputationClient {
@@ -41,8 +49,8 @@ export interface ComputeNode {
 export class ComputeNodeClient {
     constructor(nodeName: string, endpointUrl: string, credential: TokenCredential, options?: ComputeNodeClientOptions);
     // (undocumented)
-    computePi(): Promise<ComputeOperation>;
-}
+    beginComputePi(options?: BeginComputePiOptions): Promise<ComputePiPoller>;
+    }
 
 // @public (undocumented)
 export interface ComputeNodeClientOptions extends PipelineOptions {
@@ -58,6 +66,14 @@ export interface ComputeOperation {
 }
 
 // @public (undocumented)
+export type ComputePiPoller = PollerLike<ComputePiPollOperationState, Pi>;
+
+// @public (undocumented)
+export type ComputePiPollOperationState = PollOperationState<Pi> & {
+    status: OperationStatus;
+};
+
+// @public (undocumented)
 export type CreateComputeNodeOptions = OperationOptions;
 
 // @public (undocumented)
@@ -70,6 +86,17 @@ export type LinuxComputeNode = ComputeNode & {
 
 // @public (undocumented)
 export type ListComputeNodesOptions = OperationOptions;
+
+// @public
+export type OperationStatus = "notstarted" | "running" | "succeeded" | "failed" | "cancelled" | string;
+
+// @public (undocumented)
+export interface Pi {
+    // (undocumented)
+    precision: number;
+    // (undocumented)
+    value: number;
+}
 
 // @public (undocumented)
 export type WindowsComputeNode = ComputeNode & {
