@@ -469,7 +469,6 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescription
     },
-    201: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -492,7 +491,9 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.DigitalTwinsDescription
+    },
     202: {
       bodyMapper: Mappers.DigitalTwinsDescription
     },
