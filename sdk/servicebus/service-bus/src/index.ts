@@ -22,7 +22,7 @@ export {
   AcceptSessionOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
-  ProcessErrorContext,
+  ProcessErrorArgs,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,

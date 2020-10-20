@@ -199,7 +199,8 @@ export class StreamingReceiver extends MessageReceiver {
                 "retryable, we let the user know about it by calling the user's error handler.",
               this.logPrefix
             );
-            this._onError!(sbError, {
+            this._onError!({
+              error: sbError,
               errorSource: "receive",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host
@@ -238,7 +239,8 @@ export class StreamingReceiver extends MessageReceiver {
               "retryable, we let the user know about it by calling the user's error handler.",
             this.logPrefix
           );
-          this._onError!(sbError, {
+          this._onError!({
+            error: sbError,
             errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
@@ -270,7 +272,8 @@ export class StreamingReceiver extends MessageReceiver {
 
       this._lockRenewer?.start(this, bMessage, (err) => {
         if (this._onError) {
-          this._onError(err, {
+          this._onError({
+            error: err,
             errorSource: "renewLock",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
@@ -289,7 +292,8 @@ export class StreamingReceiver extends MessageReceiver {
           bMessage.messageId,
           this.name
         );
-        this._onError!(err, {
+        this._onError!({
+          error: err,
           errorSource: "processMessageCallback",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host
@@ -327,7 +331,8 @@ export class StreamingReceiver extends MessageReceiver {
               bMessage.messageId,
               this.name
             );
-            this._onError!(translatedError, {
+            this._onError!({
+              error: translatedError,
               errorSource: "abandon",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host
@@ -363,7 +368,8 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId,
             this.name
           );
-          this._onError!(translatedError, {
+          this._onError!({
+            error: translatedError,
             errorSource: "complete",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
@@ -534,7 +540,8 @@ export class StreamingReceiver extends MessageReceiver {
       if (typeof this._onError === "function") {
         logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
         try {
-          this._onError(err, {
+          this._onError({
+            error: err,
             errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host

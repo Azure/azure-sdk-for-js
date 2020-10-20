@@ -5,7 +5,7 @@ import { getMessageIterator, wrapProcessErrorHandler } from "../../src/receivers
 import chai from "chai";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
 import { ServiceBusLogger } from "../../src/log";
-import { ProcessErrorContext } from "../../src/models";
+import { ProcessErrorArgs } from "../../src/models";
 const assert = chai.assert;
 
 describe("shared", () => {
@@ -14,14 +14,21 @@ describe("shared", () => {
 
     const wrappedProcessError = wrapProcessErrorHandler(
       {
-        processError: (err: Error, context: ProcessErrorContext) => {
-          assert.equal(err.message, "Actual error that was passed in from service bus to the user");
-
-          assert.deepEqual(context, {
-            fullyQualifiedNamespace: "fully qualified namespace",
-            entityPath: "entity path",
-            errorSource: "renewLock"
-          });
+        processError: (args: ProcessErrorArgs) => {
+          assert.deepEqual(
+            {
+              message: args.error.message,
+              fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+              entityPath: args.entityPath,
+              errorSource: args.errorSource
+            },
+            {
+              message: "Actual error that was passed in from service bus to the user",
+              fullyQualifiedNamespace: "fully qualified namespace",
+              entityPath: "entity path",
+              errorSource: "renewLock"
+            }
+          );
 
           throw new Error("Whoops!");
         }
@@ -37,7 +44,8 @@ describe("shared", () => {
       } as ServiceBusLogger
     );
 
-    wrappedProcessError(new Error("Actual error that was passed in from service bus to the user"), {
+    wrappedProcessError({
+      error: new Error("Actual error that was passed in from service bus to the user"),
       entityPath: "entity path",
       errorSource: "renewLock",
       fullyQualifiedNamespace: "fully qualified namespace"

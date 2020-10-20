@@ -20,7 +20,7 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { MessagingError, ProcessErrorContext, ReceiveMode } from "../../src";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
 import { Constants } from "@azure/core-amqp";
 
 chai.use(chaiAsPromised);
@@ -353,8 +353,7 @@ describe("Message session unit tests", () => {
       );
 
       try {
-        let err: Error | MessagingError | undefined;
-        let context: ProcessErrorContext | undefined;
+        let errorArgs: ProcessErrorArgs | undefined;
 
         let eventContext = {
           delivery: {},
@@ -370,9 +369,8 @@ describe("Message session unit tests", () => {
             async (_message) => {
               throw new Error("Error thrown from the user's processMessage callback");
             },
-            async (_err, _context) => {
-              err = _err;
-              context = _context;
+            async (args) => {
+              errorArgs = args;
               resolve();
             },
             {}
@@ -388,12 +386,22 @@ describe("Message session unit tests", () => {
         // generate an error)
         await subscribePromise;
 
-        assert.equal(err!.message, "Error thrown from the user's processMessage callback");
-        assert.deepEqual(context!, {
-          errorSource: "processMessageCallback",
-          entityPath: "entity path",
-          fullyQualifiedNamespace: "fakeHost"
-        });
+        assert.exists(errorArgs, "We should have triggered processError.");
+
+        assert.deepEqual(
+          {
+            message: errorArgs!.error.message,
+            errorSource: errorArgs!.errorSource,
+            entityPath: errorArgs!.entityPath,
+            fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+          },
+          {
+            message: "Error thrown from the user's processMessage callback",
+            errorSource: "processMessageCallback",
+            entityPath: "entity path",
+            fullyQualifiedNamespace: "fakeHost"
+          }
+        );
       } finally {
         await messageSession.close();
       }

@@ -14,7 +14,7 @@ import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { ProcessErrorContext, ReceiveMode, SubscribeOptions } from "../models";
+import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
@@ -84,7 +84,7 @@ export interface OnError {
    * NOTE: if this signature changes make sure you reflect those same changes in the
    * `OnErrorNoContext` definition below.
    */
-  (error: MessagingError | Error, context: ProcessErrorContext): void;
+  (args: ProcessErrorArgs): void;
 }
 
 /**

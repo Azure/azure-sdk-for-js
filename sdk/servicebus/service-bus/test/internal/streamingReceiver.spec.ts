@@ -7,7 +7,7 @@ import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ReceiveOptions } from "../../src/core/messageReceiver";
-import { MessagingError, OperationOptions, ProcessErrorContext, ReceiveMode } from "../../src";
+import { OperationOptions, ProcessErrorArgs, ReceiveMode } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import sinon from "sinon";
@@ -326,8 +326,8 @@ describe("StreamingReceiver unit tests", () => {
       receiverImpl.subscribe(
         {
           processMessage: async () => {},
-          processError: async (err) => {
-            errors.push(err.message);
+          processError: async (args) => {
+            errors.push(args.error.message);
           }
         },
         {
@@ -379,8 +379,7 @@ describe("StreamingReceiver unit tests", () => {
       );
 
       try {
-        let err: Error | MessagingError | undefined;
-        let context: ProcessErrorContext | undefined;
+        let args: ProcessErrorArgs | undefined;
 
         let eventContext = {
           delivery: {},
@@ -395,20 +394,27 @@ describe("StreamingReceiver unit tests", () => {
           async (_message) => {
             throw new Error("Error thrown from the user's processMessage callback");
           },
-          async (_err, _context) => {
-            err = _err;
-            context = _context;
+          async (_args) => {
+            args = _args;
           }
         );
 
         await streamingReceiver["_onAmqpMessage"]((eventContext as any) as EventContext);
 
-        assert.equal(err!.message, "Error thrown from the user's processMessage callback");
-        assert.deepEqual(context!, {
-          errorSource: "processMessageCallback",
-          entityPath: "entity path",
-          fullyQualifiedNamespace: "fakeHost"
-        });
+        assert.deepEqual(
+          {
+            message: args?.error.message,
+            errorSource: args?.errorSource,
+            entityPath: args?.entityPath,
+            fullyQualifiedNamespace: args?.fullyQualifiedNamespace
+          },
+          {
+            message: "Error thrown from the user's processMessage callback",
+            errorSource: "processMessageCallback",
+            entityPath: "entity path",
+            fullyQualifiedNamespace: "fakeHost"
+          }
+        );
       } finally {
         await streamingReceiver.close();
       }

@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
@@ -44,10 +44,8 @@ describe("Streaming with sessions", () => {
     await serviceBusClient.test.after();
   });
 
-  async function processError(err: Error): Promise<void> {
-    if (err) {
-      unexpectedError = err;
-    }
+  async function processError(args: ProcessErrorArgs): Promise<void> {
+    unexpectedError = args.error;
   }
 
   async function afterEachTest(): Promise<void> {

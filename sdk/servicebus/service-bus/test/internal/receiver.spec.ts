@@ -4,11 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import {
-  MessagingError,
-  ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock
-} from "../../src";
+import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -19,7 +15,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { InternalMessageHandlers, ProcessErrorContext } from "../../src/models";
+import { InternalMessageHandlers, ProcessErrorArgs } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
@@ -242,24 +238,29 @@ describe("Receiver unit tests", () => {
         1
       );
 
-      const processErrorParams = await new Promise<{
-        err: Error | MessagingError;
-        context: ProcessErrorContext;
-      }>((resolve) => {
+      const processErrorArgs = await new Promise<ProcessErrorArgs>((resolve) => {
         return receiverImpl.subscribe({
-          processError: async (err, context) => {
-            resolve({ err, context });
+          processError: async (args) => {
+            resolve(args);
           },
           processMessage: async (_msg) => {}
         });
       });
 
-      assert.equal(processErrorParams.err.message, "Failed to initialize!");
-      assert.deepEqual(processErrorParams.context, {
-        errorSource: "receive",
-        entityPath: "fakeEntityPath",
-        fullyQualifiedNamespace: "fakeHost"
-      });
+      assert.deepEqual(
+        {
+          message: processErrorArgs.error.message,
+          errorSource: processErrorArgs.errorSource,
+          entityPath: processErrorArgs.entityPath,
+          fullyQualifiedNamespace: processErrorArgs.fullyQualifiedNamespace
+        },
+        {
+          message: "Failed to initialize!",
+          errorSource: "receive",
+          entityPath: "fakeEntityPath",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
     });
 
     async function subscribeAndWaitForInitialize<

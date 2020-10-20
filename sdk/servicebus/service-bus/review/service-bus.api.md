@@ -193,7 +193,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 
 // @public
 export interface MessageHandlers<ReceivedMessageT> {
-    processError(err: Error, context: ProcessErrorContext): Promise<void>;
+    processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ReceivedMessageT): Promise<void>;
 }
 
@@ -224,27 +224,10 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface ProcessErrorContext {
+export interface ProcessErrorArgs {
     entityPath: string;
-    errorSource: "complete"
-    /**
-     * Covers errors that occur when the user (or autoComplete) abandons a message.
-     */
-     | "abandon"
-    /**
-     * Errors thrown from the user's `processMessage` callback passed to `subscribe`
-     */
-     | "processMessageCallback"
-    /**
-     * Errors thrown when receiving messages.
-     */
-     | "receive"
-    /**
-     * Errors thrown when the user calls renewLock or when the internal lock renewer calls renewLock.
-     * Automatic lock renewal can be enabled via the `CreateReceiverOptions.maxAutoLockRenewalDurationInMs`
-     * property passed when calling `ServiceBusClient.createReceiver()`
-     */
-     | "renewLock";
+    error: Error | MessagingError;
+    errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
 }
 

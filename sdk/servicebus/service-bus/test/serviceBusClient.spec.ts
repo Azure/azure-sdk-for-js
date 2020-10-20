@@ -144,13 +144,20 @@ describe("Errors with non existing Namespace", function(): void {
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err, context) {
-        context.should.deep.equal({
+      async processError(args) {
+        const actual = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
           errorSource: "initialize",
           entityPath: receiver.entityPath,
           fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
         });
-        testError(err);
+
+        testError(args.error);
       }
     });
 
@@ -222,14 +229,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err, context) {
-        context.should.deep.equal({
+      async processError(args) {
+        const actual = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
           errorSource: "initialize",
           entityPath: receiver.entityPath,
           fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
         });
 
-        testError(err, "some-name");
+        testError(args.error, "some-name");
       }
     });
 
@@ -249,14 +262,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err, context) {
-        context.should.deep.equal({
+      async processError(args) {
+        const expected = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        expected.should.deep.equal({
           errorSource: "initialize",
           entityPath: receiver.entityPath,
           fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
         });
 
-        testError(err, "some-topic-name/Subscriptions/some-subscription-name");
+        testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
       }
     });
 

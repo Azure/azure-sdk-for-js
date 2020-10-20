@@ -3,38 +3,26 @@
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
+import { MessagingError } from "@azure/core-amqp";
 
 /**
- * Context for the error given in processError.
+ * Arguments to the `processError` callback.
  */
-export interface ProcessErrorContext {
+export interface ProcessErrorArgs {
+  /**
+   * The error.
+   */
+  error: Error | MessagingError;
   /**
    * The operation where the error originated.
+   *
+   * 'abandon': Errors that occur when if `abandon` is triggered automatically.
+   * 'complete': Errors that occur when autoComplete completes a message.
+   * 'processMessageCallback': Errors thrown from the user's `processMessage` callback passed to `subscribe`.
+   * 'receive': Errors thrown when receiving messages.
+   * 'renewLock': Errors thrown when automatic lock renewal fails.
    */
-  errorSource: /**
-   * Errors that occur when autoComplete completes a message.
-   */
-  | "complete"
-    /**
-     * Errors that occur when automatic message `abandon` fails. Automatic
-     * message abandon'ing occurs when the `processMessage` handler throws an error.
-     */
-    | "abandon"
-    /**
-     * Errors thrown from the user's `processMessage` callback passed to `subscribe`
-     */
-    | "processMessageCallback"
-    /**
-     * Errors thrown when receiving messages.
-     */
-    | "receive"
-    /**
-     * Errors thrown when the user calls renewLock or when the internal lock renewer calls renewLock.
-     * Automatic lock renewal can be enabled via the `CreateReceiverOptions.maxAutoLockRenewalDurationInMs`
-     * property passed when calling `ServiceBusClient.createReceiver()`
-     */
-    | "renewLock";
-
+  errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
   /**
    * The entity path for the current receiver.
    */
@@ -57,9 +45,10 @@ export interface MessageHandlers<ReceivedMessageT> {
   processMessage(message: ReceivedMessageT): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
-   * @param err An error from Service Bus.
+   * @param args The error and additional context to indicate where
+   * the error originated.
    */
-  processError(err: Error, context: ProcessErrorContext): Promise<void>;
+  processError(args: ProcessErrorArgs): Promise<void>;
 }
 
 /**

@@ -262,7 +262,8 @@ export class ServiceBusReceiverImpl<
         try {
           await onInitialize();
         } catch (err) {
-          onError(err, {
+          onError({
+            error: err,
             errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
@@ -279,7 +280,8 @@ export class ServiceBusReceiverImpl<
       .catch((err) => {
         // TODO: being a bit broad here but the only errors that should filter out this
         // far are going to be bootstrapping the subscription.
-        onError(err, {
+        onError({
+          error: err,
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host

@@ -26,12 +26,7 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import {
-  AcceptSessionOptions,
-  ProcessErrorContext,
-  ReceiveMode,
-  SubscribeOptions
-} from "../models";
+import { AcceptSessionOptions, ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
@@ -397,9 +392,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (error: MessagingError | Error, context: ProcessErrorContext) => {
+    this._notifyError = (args: ProcessErrorArgs) => {
       if (this._onError) {
-        this._onError(error, context);
+        this._onError(args);
         logger.verbose(
           "%s Notified the user's error handler about the error received by the Receiver",
           this.logPrefix
@@ -415,7 +410,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
-        this._notifyError(sbError, {
+        this._notifyError({
+          error: sbError,
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host
@@ -435,7 +431,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.name,
           sbError
         );
-        this._notifyError(sbError, {
+        this._notifyError({
+          error: sbError,
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host
@@ -635,7 +632,8 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.logPrefix,
             bMessage.messageId
           );
-          this._onError!(err, {
+          this._onError!({
+            error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host
@@ -666,7 +664,8 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError(translatedError, {
+              this._notifyError({
+                error: translatedError,
                 errorSource: "abandon",
                 entityPath: this.entityPath,
                 fullyQualifiedNamespace: this._context.config.host
@@ -700,7 +699,8 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError(translatedError, {
+            this._notifyError({
+              error: translatedError,
               errorSource: "complete",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host
@@ -718,7 +718,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
       logger.verbose("[%s] %s", this._context.connectionId, msg);
-      this._notifyError(new Error(msg), {
+      this._notifyError({
+        error: new Error(msg),
         // This is _probably_ the right error code since we require that
         // the message session is created before we even give back the receiver. So it not
         // being open at this point is either:
