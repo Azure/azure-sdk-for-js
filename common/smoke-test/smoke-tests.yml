@@ -2,43 +2,37 @@ jobs:
   - job: SmokeTest
     strategy:
       matrix:
-        Linux (AzureCloud):
+        Linux Node14 (AzureCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "8.x"
-        Linux (AzureCloud Canary):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          Location: "eastus2euap"
           NodeTestVersion: "14.x"
-        Windows (AzureCloud):
+        Windows Node12 (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "12.x"
-        Mac (AzureCloud):
+        Mac Node10 (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "10.x"
-        Linux (AzureUSGovernment):
+        Linux Node10 (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
           NodeTestVersion: "10.x"
-        Windows (AzureUSGovernment):
+        Windows Node14 (AzureUSGovernment):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
           NodeTestVersion: "14.x"
-        Linux (AzureChinaCloud):
+        Linux Node12 (AzureChinaCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
           NodeTestVersion: "12.x"
-        Windows (AzureChinaCloud):
+        Windows Node10 (AzureChinaCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
