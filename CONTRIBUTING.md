@@ -43,7 +43,7 @@ This project uses [Rush](https://rushjs.io) to manage many of our Azure SDK libr
 
 Rush provides many benefits:
 
-- Some of our devDependencies are not published to the public registery (.e.g. our own ESLint plugin), and Rush is configured to install them correctly.
+- Some of our devDependencies are not published to the public registry (e.g. our ESLint plugin), and Rush is configured to install them correctly.
 - Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
 - Rush will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
 - Rush uses [PNPM](https://pnpm.js.org) to install all dependencies across the SDK. Together they solve problems involving [phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/) and [NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/). The way PNPM lays out packages also ensures that you can never accidentally use a dependency you don't directly declare in your package.json.
