@@ -951,11 +951,93 @@ export const PhoneNumberEntities: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoneNumberSearch: coreHttp.CompositeMapper = {
-  serializedName: "PhoneNumberSearch",
+export const CreateSearchOptions: coreHttp.CompositeMapper = {
+  serializedName: "CreateSearchOptions",
   type: {
     name: "Composite",
-    className: "PhoneNumberSearch",
+    className: "CreateSearchOptions",
+    modelProperties: {
+      displayName: {
+        required: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        required: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      phonePlanIds: {
+        required: true,
+        serializedName: "phonePlanIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      areaCode: {
+        required: true,
+        serializedName: "areaCode",
+        type: {
+          name: "String"
+        }
+      },
+      quantity: {
+        serializedName: "quantity",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      locationOptions: {
+        serializedName: "locationOptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocationOptionsDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CreateSearchResponse: coreHttp.CompositeMapper = {
+  serializedName: "CreateSearchResponse",
+  type: {
+    name: "Composite",
+    className: "CreateSearchResponse",
+    modelProperties: {
+      searchId: {
+        required: true,
+        serializedName: "searchId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberReservation: coreHttp.CompositeMapper = {
+  serializedName: "PhoneNumberReservation",
+  type: {
+    name: "Composite",
+    className: "PhoneNumberReservation",
     modelProperties: {
       searchId: {
         serializedName: "searchId",
@@ -1043,88 +1125,6 @@ export const PhoneNumberSearch: coreHttp.CompositeMapper = {
         serializedName: "errorCode",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const CreateSearchOptions: coreHttp.CompositeMapper = {
-  serializedName: "CreateSearchOptions",
-  type: {
-    name: "Composite",
-    className: "CreateSearchOptions",
-    modelProperties: {
-      displayName: {
-        required: true,
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        required: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      phonePlanIds: {
-        required: true,
-        serializedName: "phonePlanIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      areaCode: {
-        required: true,
-        serializedName: "areaCode",
-        type: {
-          name: "String"
-        }
-      },
-      quantity: {
-        serializedName: "quantity",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 1
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      locationOptions: {
-        serializedName: "locationOptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LocationOptionsDetails"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CreateSearchResponse: coreHttp.CompositeMapper = {
-  serializedName: "CreateSearchResponse",
-  type: {
-    name: "Composite",
-    className: "CreateSearchResponse",
-    modelProperties: {
-      searchId: {
-        required: true,
-        serializedName: "searchId",
-        type: {
-          name: "String"
         }
       }
     }

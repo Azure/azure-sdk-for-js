@@ -13,7 +13,7 @@ import {
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch,
+  PhoneNumberReservation,
   LocationOptionsQueries
 } from "./generated/src/models";
 
@@ -290,4 +290,4 @@ export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsRe
 /**
  * Represents the response from getting the search associated with a given id.
  */
-export type GetReservationResponse = WithResponse<PhoneNumberSearch>;
+export type GetReservationResponse = WithResponse<PhoneNumberReservation>;

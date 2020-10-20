@@ -36,7 +36,7 @@ import {
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch
+  PhoneNumberReservation
 } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import {
@@ -420,7 +420,7 @@ export class PhoneNumberAdministrationClient {
         reservationId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
+      return attachHttpResponse<PhoneNumberReservation>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1011,7 +1011,7 @@ export class PhoneNumberAdministrationClient {
   public async beginReservePhoneNumbers(
     reservationRequest: CreateReservationRequest,
     options: BeginReservePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>> {
+  ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
       client: this.pollerClient,
@@ -1216,7 +1216,7 @@ export {
   PhonePlan,
   PhoneNumberRelease,
   PhoneNumberEntities,
-  PhoneNumberSearch,
+  PhoneNumberReservation,
   AssignmentStatus,
   ActivationState,
   CapabilitiesUpdateStatus,

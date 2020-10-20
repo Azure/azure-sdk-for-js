@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
-import { PhoneNumberSearch } from "../../generated/src/models";
+import { PhoneNumberReservation } from "../../generated/src/models";
 import {
   ReservePhoneNumbersPollerOptions,
   ReservePhoneNumbersPollOperationState
@@ -12,7 +12,7 @@ import { makeReservePhoneNumbersPollOperation } from "./operation";
 
 export class ReservePhoneNumbersPoller extends Poller<
   ReservePhoneNumbersPollOperationState,
-  PhoneNumberSearch
+  PhoneNumberReservation
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

@@ -196,7 +196,7 @@ export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 export type GetReservationOptions = OperationOptions;
 
 // @public
-export type GetReservationResponse = WithResponse<PhoneNumberSearch>;
+export type GetReservationResponse = WithResponse<PhoneNumberReservation>;
 
 // @public
 export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
@@ -296,7 +296,7 @@ export class PhoneNumberAdministrationClient {
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
-    beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>>;
+    beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>>;
     cancelReservation(reservationId: string, options?: CancelReservationOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
@@ -367,10 +367,10 @@ export type PhoneNumberAdministrationGetReleaseByIdResponse = PhoneNumberRelease
 };
 
 // @public
-export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberSearch & {
+export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberReservation & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: PhoneNumberSearch;
+        parsedBody: PhoneNumberReservation;
     };
 };
 
@@ -443,7 +443,7 @@ export interface PhoneNumberReleaseDetails {
 export type PhoneNumberReleaseStatus = "Pending" | "Success" | "Error" | "InProgress";
 
 // @public
-export interface PhoneNumberSearch {
+export interface PhoneNumberReservation {
     areaCode?: string;
     createdAt?: Date;
     description?: string;

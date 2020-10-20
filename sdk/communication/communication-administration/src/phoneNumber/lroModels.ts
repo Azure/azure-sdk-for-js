@@ -4,7 +4,7 @@
 import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 import { PollOperation, PollOperationState } from "@azure/core-lro";
 import { VoidResponse } from "../common/models";
-import { PhoneNumberRelease, PhoneNumberSearch } from "./generated/src/models";
+import { PhoneNumberRelease, PhoneNumberReservation } from "./generated/src/models";
 import {
   CancelReservationOptions,
   CreateReservationOptions,
@@ -182,7 +182,7 @@ export interface ReleasePhoneNumbersPollOperationState
  * Represents the operation state of the reserve phone numbers poller
  */
 export interface ReservePhoneNumbersPollOperationState
-  extends PollOperationState<PhoneNumberSearch> {
+  extends PollOperationState<PhoneNumberReservation> {
   /**
    * Request to create reservation.
    */
@@ -237,7 +237,7 @@ export interface ReleasePhoneNumbersPollOperation
  * Represents the poll operation of the reserve phone numbers poller
  */
 export interface ReservePhoneNumbersPollOperation
-  extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberSearch> {}
+  extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberReservation> {}
 
 /**
  * @ignore

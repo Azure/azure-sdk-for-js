@@ -7,7 +7,7 @@ import {
   CreateReservationRequest,
   ListPhonePlansRequest,
   PhoneNumberAdministrationClient,
-  PhoneNumberSearch
+  PhoneNumberReservation
 } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
@@ -93,7 +93,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
     const reservePoller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(reservePoller.getOperationState().isStarted);
 
-    const phoneNumberSearch: PhoneNumberSearch = await reservePoller.pollUntilDone();
+    const phoneNumberSearch: PhoneNumberReservation = await reservePoller.pollUntilDone();
     reservationId = phoneNumberSearch.searchId || "";
 
     assert.ok(reservePoller.getOperationState().isCompleted);

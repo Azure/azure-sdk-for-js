@@ -8,7 +8,7 @@ import {
   CreateReservationRequest,
   ListPhonePlansRequest,
   PhoneNumberAdministrationClient,
-  PhoneNumberSearch
+  PhoneNumberReservation
 } from "../src";
 import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
@@ -18,7 +18,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
   let includePhoneNumberLiveTests: boolean;
   let reservationId: string;
   let areaCode: string;
-  let poller: PollerLike<PollOperationState<PhoneNumberSearch>, PhoneNumberSearch>;
+  let poller: PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>;
   let countryCode = "US";
   const phonePlanIds: string[] = [];
 
@@ -96,7 +96,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
     poller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(poller.getOperationState().isStarted);
 
-    const phoneNumberSearch: PhoneNumberSearch = await poller.pollUntilDone();
+    const phoneNumberSearch: PhoneNumberReservation = await poller.pollUntilDone();
     reservationId = phoneNumberSearch.searchId || "";
 
     assert.ok(poller.getOperationState().isCompleted);
