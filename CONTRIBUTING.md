@@ -53,7 +53,7 @@ While you can still use the standard `npm` workflow, adopting Rush will provide 
 
 ## Setting up your environment
 
-Want to get started hacking on the code? Super!
+Want to get started hacking on the code? Great! Keep reading.
 
 ### Using Visual Studio Code
 
