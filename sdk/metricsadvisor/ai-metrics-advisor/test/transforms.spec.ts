@@ -73,7 +73,7 @@ describe("Transforms", () => {
     createdTime: new Date("08/04/2020"),
     userPrincipal: "user1@example.com",
     metricId: "metricId",
-    dimensionFilter: { city: "Redmond" }
+    dimensionFilter: { dimension: { city: "Redmond" } }
   };
 
   it("fromServiceMetricFeedbackUnion() - AnomalyFeedback", () => {
@@ -90,7 +90,7 @@ describe("Transforms", () => {
     assert.equal(actual.id, feedbackCommon.feedbackId);
     assert.equal(actual.createdTime, feedbackCommon.createdTime);
     assert.equal(actual.userPrincipal, feedbackCommon.userPrincipal);
-    assert.equal(actual.dimensionFilter, feedbackCommon.dimensionFilter);
+    assert.equal(actual.dimensionKey, feedbackCommon.dimensionFilter.dimension);
     assert.equal(actual.feedbackType, "Anomaly");
     if (actual.feedbackType === "Anomaly") {
       assert.equal(actual.startTime, anomalyFeedback.startTime);
@@ -101,34 +101,12 @@ describe("Transforms", () => {
     }
   });
 
-  it("fromServiceMetricFeedbackUnion() - AnomalyFeedback", () => {
-    const feedback: ServiceAnomalyFeedback = {
-      ...feedbackCommon,
-      feedbackType: "Anomaly",
-      startTime: new Date("08/05/2020"),
-      endTime: new Date("08/06/2020"),
-      value: { anomalyValue: "NotAnomaly" }
-    };
-
-    const actual = fromServiceMetricFeedbackUnion(feedback);
-
-    assert.equal(actual.id, feedbackCommon.feedbackId);
-    assert.equal(actual.feedbackType, "Anomaly");
-    if (actual.feedbackType === "Anomaly") {
-      assert.equal(actual.startTime, feedback.startTime);
-      assert.equal(actual.endTime, feedback.endTime);
-      assert.equal(actual.value, feedback.value.anomalyValue);
-      assert.equal(actual.metricId, feedback.metricId);
-      assert.deepStrictEqual(actual.anomalyDetectionConfigurationSnapshot, undefined);
-    }
-  });
-
-  it("fromServiceMetricFeedbackUnion() - AnomalyFeedback", () => {
+  it("fromServiceMetricFeedbackUnion() - ChangePointFeedback", () => {
     const feedback: ServiceChangePointFeedback = {
       ...feedbackCommon,
       feedbackType: "ChangePoint",
       startTime: new Date("08/05/2020"),
-      value: { anomalyValue: "NotAnomaly" }
+      value: { changePointValue: "NotChangePoint" }
     };
 
     const actual = fromServiceMetricFeedbackUnion(feedback);

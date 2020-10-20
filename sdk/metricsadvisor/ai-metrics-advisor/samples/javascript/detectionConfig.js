@@ -78,7 +78,7 @@ async function createDetectionConfig(adminClient, metricId) {
   };
   const seriesGroupDetectionConditions = [
     {
-      group: { dimension: { Dim1: "Common Lime" } },
+      group: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -91,7 +91,7 @@ async function createDetectionConfig(adminClient, metricId) {
   ];
   const seriesDetectionConditions = [
     {
-      series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+      series: { city: "Manila", category: "Handmade" },
       conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
@@ -135,7 +135,7 @@ async function updateDetectionConfig(adminClient, configId) {
     },
     seriesGroupDetectionConditions: [
       {
-        group: { dimension: { Dim1: "Common Lime" } },
+        group: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -146,7 +146,7 @@ async function updateDetectionConfig(adminClient, configId) {
     ],
     seriesDetectionConditions: [
       {
-        series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+        series: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",

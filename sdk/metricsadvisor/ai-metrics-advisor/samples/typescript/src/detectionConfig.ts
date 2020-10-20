@@ -90,7 +90,7 @@ async function createDetectionConfig(
   };
   const seriesGroupDetectionConditions: MetricSeriesGroupDetectionCondition[] = [
     {
-      group: { dimension: { Dim1: "Common Lime" } },
+      group: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -103,7 +103,7 @@ async function createDetectionConfig(
   ];
   const seriesDetectionConditions: MetricSingleSeriesDetectionCondition[] = [
     {
-      series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+      series: { city: "Manila", category: "Handmade" },
       conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
@@ -150,7 +150,7 @@ async function updateDetectionConfig(
     },
     seriesGroupDetectionConditions: [
       {
-        group: { dimension: { Dim1: "Common Lime" } },
+        group: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -161,7 +161,7 @@ async function updateDetectionConfig(
     ],
     seriesDetectionConditions: [
       {
-        series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+        series: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",

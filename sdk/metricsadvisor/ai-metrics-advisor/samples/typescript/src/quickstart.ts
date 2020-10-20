@@ -36,8 +36,8 @@ export async function main() {
 
   const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
   console.log(`Data feed created: ${created.id}`);
-  console.log("  metric ids: ");
-  console.log(created.metricIds);
+  console.log("  metrics: ");
+  console.log(created.schema.metrics);
 
   console.log("Waiting for a minute before checking ingestion status...");
   await delay(60 * 1000);
@@ -50,7 +50,7 @@ export async function main() {
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    const metricId = created.metricIds[0];
+    const metricId = created.schema.metrics[0].id!;
     const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
     console.log(`Detection configuration created: ${detectionConfig.id!}`);
 
@@ -87,23 +87,6 @@ async function createDataFeed(
   sqlServerConnectionString: string,
   sqlServerQuery: string
 ): Promise<GetDataFeedResponse> {
-  const metrics: DataFeedMetric[] = [
-    {
-      name: "revenue",
-      displayName: "revenue",
-      description: "Metric1 description"
-    },
-    {
-      name: "cost",
-      displayName: "cost",
-      description: "Metric2 description"
-    }
-  ];
-  const dimensions: DataFeedDimension[] = [
-    { name: "city", displayName: "city display" },
-    { name: "category", displayName: "category display" }
-  ];
-
   console.log("Creating Datafeed...");
   const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
@@ -118,8 +101,22 @@ async function createDataFeed(
       granularityType: "Daily"
     },
     schema: {
-      metrics,
-      dimensions,
+      metrics: [
+        {
+          name: "revenue",
+          displayName: "revenue",
+          description: "Metric1 description"
+        },
+        {
+          name: "cost",
+          displayName: "cost",
+          description: "Metric2 description"
+        }
+      ],
+      dimensions: [
+        { name: "city", displayName: "city display" },
+        { name: "category", displayName: "category display" }
+      ],
       timestampColumn: undefined
     },
     ingestionSettings: {
@@ -214,23 +211,25 @@ async function configureAlertConfiguration(
   const anomalyAlert = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [{
-      detectionConfigurationId: detectionConfigId,
-      alertScope: {
-        scopeType: "All"
-      },
-      alertConditions: {
-        severityCondition: {
-          minAlertSeverity: "Medium",
-          maxAlertSeverity: "High"
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        },
+        alertConditions: {
+          severityCondition: {
+            minAlertSeverity: "Medium",
+            maxAlertSeverity: "High"
+          }
+        },
+        snoozeCondition: {
+          autoSnooze: 0,
+          snoozeScope: "Metric",
+          onlyForSuccessive: true
         }
-      },
-      snoozeCondition: {
-        autoSnooze: 0,
-        snoozeScope: "Metric",
-        onlyForSuccessive: true
       }
-    }],
+    ],
     hookIds,
     description: "Alerting config description"
   };

@@ -41,10 +41,10 @@ async function listIncidentsForDetectionConfig(
   console.log("  using for-await-of syntax");
   for await (const incident of client.listIncidentsForDetectionConfiguration(
     detectionConfigId,
-    new Date("09/06/2020"),
-    new Date("09/11/2020"),
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
     {
-      dimensionFilter: [{ dimension: { city: "Manila", category: "Shoes Handbags & Sunglasses" } }]
+      dimensionFilter: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
     }
   )) {
     console.log("    Incident");
@@ -53,7 +53,7 @@ async function listIncidentsForDetectionConfig(
     console.log(`      status: ${incident.status}`);
     console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccuredTime}`);
+    console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
@@ -61,8 +61,8 @@ async function listIncidentsForDetectionConfig(
   const iterator = client
     .listIncidentsForDetectionConfiguration(
       detectionConfigId,
-      new Date("09/06/2020"),
-      new Date("09/11/2020")
+      new Date("10/22/2020"),
+      new Date("10/24/2020")
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -75,7 +75,7 @@ async function listIncidentsForDetectionConfig(
       "status",
       "rootDimensionKey",
       "startTime",
-      "lastOccuredTime",
+      "lastOccurredTime",
       "detectionConfigurationId"
     ]);
     result = await iterator.next();
@@ -90,8 +90,8 @@ async function listAnomaliesForDetectionConfig(
   console.log("  using for-await-of syntax");
   for await (const anomaly of client.listAnomaliesForDetectionConfiguration(
     detectionConfigId,
-    new Date("09/06/2020"),
-    new Date("09/11/2020"),
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
     {
       severityFilter: { min: "Medium", max: "High" }
     }
@@ -110,8 +110,8 @@ async function listAnomaliesForDetectionConfig(
   const iterator = client
     .listAnomaliesForDetectionConfiguration(
       detectionConfigId,
-      new Date("09/06/2020"),
-      new Date("09/11/2020"),
+      new Date("10/22/2020"),
+      new Date("10/24/2020"),
       {
         severityFilter: { min: "Medium", max: "High" }
       }
@@ -147,8 +147,8 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   console.log("  using for-await-of syntax");
   for await (const alert of client.listAlertsForAlertConfiguration(
     alertConfigId,
-    new Date("01/01/2020"),
-    new Date("09/09/2020"),
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
     "AnomalyTime"
   )) {
     console.log("    Alert");
@@ -161,8 +161,8 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   const iterator = client
     .listAlertsForAlertConfiguration(
       alertConfigId,
-      new Date("01/01/2020"),
-      new Date("09/09/2020"),
+      new Date("10/22/2020"),
+      new Date("10/24/2020"),
       "AnomalyTime"
     )
     .byPage({ maxPageSize: 20 });
@@ -191,7 +191,7 @@ async function listIncidentsForAlert(
     console.log(`      status: ${incident.status}`);
     console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccuredTime}`);
+    console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
@@ -207,7 +207,7 @@ async function listIncidentsForAlert(
       "status",
       "rootDimensionKey",
       "startTime",
-      "lastOccuredTime",
+      "lastOccurredTime",
       "detectionConfigurationId"
     ]);
     result = await iterator.next();
