@@ -1,25 +1,18 @@
-# Overides the project file and CHANGELOG.md for the template project using the next publishable version
+# Overides the project file and CHANGELOG.md for the template project using a custom preview version
 # This is to help with testing the release pipeline.
 
+[CmdletBinding(SupportsShouldProcess = $true)]
+param(
+  [Parameter(Mandatory = $true)]
+  [string]$PreviewVersionNumber
+)
+
 . "${PSScriptRoot}\..\common\scripts\common.ps1"
-$latestTags = git tag -l "@azure/template_*"
-$semVars = @()
 
 $packageDirectory = "${PSScriptRoot}\..\..\sdk\template\template"
 $templatePackageFile = "${packageDirectory}\package.json"
 $changeLogFile = "${packageDirectory}\CHANGELOG.md"
-
-Foreach ($tags in $latestTags)
-{
-  $semVars += $tags.Replace("@azure/template_", "")
-}
-
-$semVarsSorted = [AzureEngSemanticVersion]::SortVersionStrings($semVars)
-LogDebug "Last Published Version $($semVarsSorted[0])"
-
-$newVersion = [AzureEngSemanticVersion]::ParseVersionString($semVarsSorted[0])
-$newVersion.IncrementAndSetToPrerelease()
-LogDebug "Version to publish [ $($newVersion.ToString()) ]"
+$newVersion = "1.0.9-beta.$PreviewVersionNumber"
 
 $packageFileContent = Get-Content -Path $templatePackageFile | ConvertFrom-Json
 LogDebug "Version in Source $($packageFileContent.version)"
@@ -27,8 +20,4 @@ $packageFileContent.version = $newVersion.ToString()
 LogDebug "Version to publish $($packageFileContent.version)"
 
 Set-Content -Path $templatePackageFile -Value ($packageFileContent | ConvertTo-Json)
-Set-Content -Path $changeLogFile -Value @"
-# Release History
-## $($newVersion.ToString()) ($(Get-Date -f "yyyy-MM-dd"))
-- Test Release Pipeline
-"@
+Set-TestChangeLog -TestVersion $newVersion -changeLogFile $changeLogFile -ReleaseEntry "Test Release Pipeline"

@@ -10,6 +10,8 @@ steps:
       pwsh: true
       workingDirectory: $(Build.SourcesDirectory)
       filePath: eng/scripts/SetTestPipelineVersion.ps1
+      arguments: >
+        -PreviewVersionNumber $(build.buildid)
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
