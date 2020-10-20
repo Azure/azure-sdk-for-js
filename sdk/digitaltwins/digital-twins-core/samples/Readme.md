@@ -129,7 +129,7 @@ console.log(`DigitalTwin: ${twin.body}`);
 
 ### Query digital twins
 
-Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins Query Store lanaguage](https://review.docs.microsoft.com/en-us/azure/digital-twins/concepts-query-language). Query calls support paging. Here's an example of how to query for digital twins and how to iterate over the results.
+Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins Query Store lanaguage](https://review.docs.microsoft.com/azure/digital-twins/concepts-query-language). Query calls support paging. Here's an example of how to query for digital twins and how to iterate over the results.
 
 ```JavaScript Snippet:dt_digitaltwins_query
 const query = "SELECT * FROM digitaltwins";
