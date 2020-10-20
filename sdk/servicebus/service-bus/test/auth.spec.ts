@@ -35,7 +35,8 @@ type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends P
 
         const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
 
-        const fqdn = parseServiceBusConnectionString(serviceBusConnectionString).fullyQualifiedNamespace;
+        const fqdn = parseServiceBusConnectionString(serviceBusConnectionString)
+          .fullyQualifiedNamespace;
 
         sasConnectionString = getSasConnectionString(
           serviceBusConnectionString,
