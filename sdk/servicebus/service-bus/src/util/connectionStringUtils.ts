@@ -61,18 +61,18 @@ export function parseServiceBusConnectionString(
     SharedAccessKeyName?: string;
   }>(connectionString);
   if (!parsedResult.Endpoint) {
-    throw new Error("Connection string should have the Endpoint.");
+    throw new Error("Connection string should have an Endpoint key.");
   }
 
   if (parsedResult.SharedAccessSignature) {
     if (parsedResult.SharedAccessKey || parsedResult.SharedAccessKeyName) {
       throw new Error(
-        "Connection string cannot have both SharedAccessSignature and SharedAccessKey details."
+        "Connection string cannot have both SharedAccessSignature and SharedAccessKey keys."
       );
     }
   } else if (parsedResult.SharedAccessKey && !parsedResult.SharedAccessKeyName) {
     throw new Error(
-      "Connection string with SharedAccessKey should have SharedAccessKeyName as well."
+      "Connection string with SharedAccessKey should have SharedAccessKeyName."
     );
   } else if (!parsedResult.SharedAccessKey && parsedResult.SharedAccessKeyName) {
     throw new Error(
