@@ -6,25 +6,16 @@ import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { msiGenericGetToken } from "./utils";
-import { azureArcAPIVersion, imdsApiVersion, imdsEndpoint } from "./constants";
+import { azureArcAPIVersion } from "./constants";
 import { AuthenticationError } from "../../client/errors";
 import { readFile } from "fs";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
+const defaultArcMsiEndpoint = "http://localhost:40342/metadata/identity/oauth2/token";
+const arcMsiEndpoint = process.env.IDENTITY_ENDPOINT || defaultArcMsiEndpoint;
 
-function expiresInParser(requestBody: any) {
-  if (requestBody.expires_on) {
-    // Use the expires_on timestamp if it's available
-    const expires = +requestBody.expires_on * 1000;
-    logger.info(`IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
-    return expires;
-  } else {
-    // If these aren't possible, use expires_in and calculate a timestamp
-    const expires = Date.now() + requestBody.expires_in * 1000;
-    logger.info(`IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
-    return expires;
-  }
-}
+// Azure Arc MSI doesn't have a special expiresIn parser.
+const expiresInParser = undefined;
 
 function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
   const queryParameters: any = {
@@ -37,7 +28,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: imdsEndpoint,
+    url: arcMsiEndpoint,
     method: "GET",
     queryParameters,
     headers: {
@@ -59,9 +50,43 @@ function readFileAsync(path: string, options: { encoding: string }): Promise<str
   );
 }
 
+async function filePathRequest(
+  identityClient: IdentityClient,
+  requestPrepareOptions: RequestPrepareOptions
+): Promise<string | undefined> {
+  const response = await identityClient.sendRequest(
+    identityClient.createWebResource(requestPrepareOptions)
+  );
+
+  if (response.status !== 401) {
+    throw new AuthenticationError(
+      response.status,
+      "To authenticate with Azure Arc MSI, status code 401 is expected on the first request."
+    );
+  }
+
+  const authHeader = response.headers.get("www-authenticate") || "";
+  return authHeader.split("=").slice(1)[0];
+}
+
 export const arcMsi: MSI = {
-  async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.IMDS_ENDPOINT);
+  async isAvailable(
+    identityClient: IdentityClient,
+    resource?: string,
+    clientId?: string,
+    getTokenOptions: GetTokenOptions = {}
+  ): Promise<boolean> {
+    // To check that the Arc MSI is available, we confirm that we're able to read the token if requested.
+
+    const requestOptions = {
+      disableJsonStringifyOnBody: true,
+      deserializationMapper: undefined,
+      abortSignal: getTokenOptions.abortSignal,
+      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
+      ...prepareRequestOptions(resource, clientId)
+    };
+
+    return Boolean(await filePathRequest(identityClient, requestOptions));
   },
   async getToken(
     identityClient: IdentityClient,
@@ -69,43 +94,24 @@ export const arcMsi: MSI = {
     clientId?: string,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    logger.info(
-      `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.IMDS_ENDPOINT}, and using the Azure Arc MSI to authenticate.`
-    );
+    logger.info(`Using the Azure Arc MSI to authenticate.`);
 
-    const endpoint = process.env.IMDS_ENDPOINT;
-    const requestOptions = prepareRequestOptions(resource, clientId);
-
-    const webResource = identityClient.createWebResource({
-      url: endpoint,
+    const requestOptions = {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-      ...requestOptions
-    });
+      ...prepareRequestOptions(resource, clientId)
+    };
 
-    const response = await identityClient.sendRequest(webResource);
+    const filePath = await filePathRequest(identityClient, requestOptions);
 
-    if (response.status !== 401) {
-      throw new AuthenticationError(
-        response.status,
-        "To authenticate with Azure Arc MSI, status code 401 is expected on the first request."
-      );
+    if (!filePath) {
+      throw new Error("Azure Arc MSI failed to find the token file.");
     }
 
-    const authHeader = response.parsedHeaders!["WWW-Authenticate"];
-    const fileValue = authHeader.split("=").slice(1)[0];
-
-    if (!authHeader || !fileValue) {
-      throw new AuthenticationError(
-        response.status,
-        "To authenticate with Azure Arc MSI, the first request must return a valid WWW-Authenticate header."
-      );
-    }
-
-    const key = await readFileAsync(fileValue, { encoding: "utf-8" });
-    requestOptions.headers!["WWW-Authenticate"] = `Basic ${key}`;
+    const key = await readFileAsync(filePath, { encoding: "utf-8" });
+    requestOptions.headers!["Authorization"] = `Basic ${key}`;
 
     return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
   }

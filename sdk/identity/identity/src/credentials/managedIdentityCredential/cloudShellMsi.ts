@@ -10,7 +10,7 @@ import { msiGenericGetToken } from "./utils";
 
 const logger = credentialLogger("ManagedIdentityCredential - CloudShellMSI");
 
-// Cloud Shell MSI doesn't have an expiresIn parser.
+// Cloud Shell MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
 function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
