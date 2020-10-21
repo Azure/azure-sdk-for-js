@@ -419,7 +419,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           logger.getToken.info(formatError(error));
           throw error;
         }
-        
+
         // Since `authenticateManagedIdentity` didn't throw, and the result was not null,
         // We will assume that this endpoint is reachable from this point forward,
         // and avoid pinging again to it.

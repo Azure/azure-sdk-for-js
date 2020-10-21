@@ -9,6 +9,7 @@ import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ProcessErrorArgs } from "../src/models";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -57,8 +58,8 @@ describe("Sample scenarios for track 2", () => {
           await message.complete();
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -129,8 +130,8 @@ describe("Sample scenarios for track 2", () => {
         async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -212,8 +213,8 @@ describe("Sample scenarios for track 2", () => {
           await message.complete();
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -236,8 +237,8 @@ describe("Sample scenarios for track 2", () => {
         async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -349,8 +350,8 @@ describe("Sample scenarios for track 2", () => {
         async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -385,8 +386,8 @@ describe("Sample scenarios for track 2", () => {
         async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
+        async processError(args: ProcessErrorArgs): Promise<void> {
+          errors.push(args.error.message);
         }
       });
 
@@ -448,8 +449,8 @@ describe("Sample scenarios for track 2", () => {
         break;
       }
       case "batch": {
-        const batch = await sender.createBatch();
-        assert.isTrue(batch.tryAdd(message));
+        const batch = await sender.createMessageBatch();
+        assert.isTrue(batch.tryAddMessage(message));
         await sender.sendMessages(batch);
         break;
       }

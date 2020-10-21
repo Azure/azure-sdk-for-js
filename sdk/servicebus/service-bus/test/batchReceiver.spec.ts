@@ -4,7 +4,7 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay } from "../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
@@ -595,8 +595,8 @@ describe("Batching Receiver", () => {
           async processMessage(): Promise<void> {
             // process message here - it's basically a ServiceBusMessage minus any settlement related methods
           },
-          async processError(err: Error): Promise<void> {
-            unexpectedError = err;
+          async processError(args: ProcessErrorArgs): Promise<void> {
+            unexpectedError = args.error;
           }
         });
       } catch (err) {
@@ -663,9 +663,9 @@ describe("Batching Receiver", () => {
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(): Promise<void> {
       const testMessages = entityNames.usesSessions ? messageWithSessions : messages;
-      const batchMessageToSend = await sender.createBatch();
+      const batchMessageToSend = await sender.createMessageBatch();
       for (const message of testMessages) {
-        batchMessageToSend.tryAdd(message);
+        batchMessageToSend.tryAddMessage(message);
       }
       await sender.sendMessages(batchMessageToSend);
       const msgs1 = await receiver.receiveMessages(1);

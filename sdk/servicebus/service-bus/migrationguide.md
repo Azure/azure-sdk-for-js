@@ -101,8 +101,9 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   queueOrSubscriptionReceiver.subscribe({
     processMessage: onMessageFn,
     // `processError` is now declared as async and should return a promise.
-    processError: async (err) => {
-      onErrorFn(err);
+    processError: async (args: ProcessErrorArgs) => {
+      // additional information is in 'args' to provide context for the error.
+      onErrorFn(args.error);
     }
   });
   ```

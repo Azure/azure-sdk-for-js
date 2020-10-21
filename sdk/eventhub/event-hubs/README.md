@@ -149,7 +149,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub](#consume-events-from-an-event-hub)
-- [Use EventHubConsumerClient to work with IotHub](#use-eventHubConsumerClient-to-work-with-IotHub)
+- [Use EventHubConsumerClient to work with IotHub](#use-eventhubconsumerclient-to-work-with-iothub)
 
 ### Inspect an Event Hub
 

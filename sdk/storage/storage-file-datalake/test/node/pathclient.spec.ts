@@ -311,6 +311,16 @@ describe("DataLakePathClient Node.js only", () => {
     await destFileClient.getProperties();
   });
 
+  it("move should encode source", async () => {
+    const destFileName = recorder.getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt");
+    const destFileClient = fileSystemClient.getFileClient(destFileName);
+    await fileClient.move(encodeURIComponent(destFileName));
+    await destFileClient.getProperties();
+
+    await destFileClient.move(fileName);
+    await fileClient.getProperties();
+  });
+
   it("move cross file system", async () => {
     const destFileSystemName = recorder.getUniqueName("destfilesystem");
     const destFileSystemClient = serviceClient.getFileSystemClient(destFileSystemName);

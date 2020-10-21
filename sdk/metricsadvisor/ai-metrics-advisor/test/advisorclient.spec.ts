@@ -43,9 +43,9 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 8, 5))
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting first anomaly");
+    assert.ok(result.value.seriesKey, "Expecting first anomaly");
     result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting second anomaly");
+    assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
   it("listAnomaliesForDetectionConfiguration() by page", async function() {
@@ -69,9 +69,9 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 8, 5))
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimensionKey, "Expecting first incident");
+    assert.ok(result.value.rootDimensionKey, "Expecting first incident");
     result = await iterator.next();
-    assert.ok(result.value.dimensionKey, "Expecting second incident");
+    assert.ok(result.value.rootDimensionKey, "Expecting second incident");
   });
 
   it("listIncidentsForDetectionConfiguration() by page", async function() {
@@ -158,9 +158,9 @@ describe("MetricsAdvisorClient", () => {
       testEnv.METRICS_ADVISOR_ALERT_ID
     );
     let result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting first anomaly");
+    assert.ok(result.value.seriesKey, "Expecting first anomaly");
     result = await iterator.next();
-    assert.ok(result.value.dimension, "Expecting second anomaly");
+    assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
   it("lists anomalies for alert by page", async function() {
@@ -259,8 +259,8 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
       ]
     );
     assert.ok(
@@ -277,10 +277,10 @@ describe("MetricsAdvisorClient", () => {
     });
 
     assert.ok(
-      data.metricSeriesDataList![0].timestampList &&
-        data.metricSeriesDataList![0].timestampList.length > 0 &&
-        data.metricSeriesDataList![0].valueList &&
-        data.metricSeriesDataList![0].valueList.length > 0,
+      data.metricSeriesDataList![0].timestamps &&
+        data.metricSeriesDataList![0].timestamps.length > 0 &&
+        data.metricSeriesDataList![0].values &&
+        data.metricSeriesDataList![0].values.length > 0,
       "Expecting data for the first time series"
     );
 
@@ -294,10 +294,10 @@ describe("MetricsAdvisorClient", () => {
     });
 
     assert.ok(
-      data.metricSeriesDataList![1].timestampList &&
-        data.metricSeriesDataList![1].timestampList.length > 0 &&
-        data.metricSeriesDataList![1].valueList &&
-        data.metricSeriesDataList![1].valueList.length > 0,
+      data.metricSeriesDataList![1].timestamps &&
+        data.metricSeriesDataList![1].timestamps.length > 0 &&
+        data.metricSeriesDataList![1].values &&
+        data.metricSeriesDataList![1].values.length > 0,
       "Expecting data for the second time series"
     );
   });
@@ -320,12 +320,12 @@ describe("MetricsAdvisorClient", () => {
     });
 
     assert.ok(
-      data.results![0].timestampList &&
-        data.results![0].timestampList.length > 0 &&
-        data.results![0].valueList &&
-        data.results![0].valueList.length > 0 &&
-        data.results![0].isAnomalyList &&
-        data.results![0].isAnomalyList.length > 0,
+      data.results![0].timestamps &&
+        data.results![0].timestamps.length > 0 &&
+        data.results![0].values &&
+        data.results![0].values.length > 0 &&
+        data.results![0].isAnomaly &&
+        data.results![0].isAnomaly.length > 0,
       "Expecting enriched data for the first time series"
     );
 
@@ -335,12 +335,12 @@ describe("MetricsAdvisorClient", () => {
     });
 
     assert.ok(
-      data.results![1].timestampList &&
-        data.results![1].timestampList.length > 0 &&
-        data.results![1].valueList &&
-        data.results![1].valueList.length > 0 &&
-        data.results![0].isAnomalyList &&
-        data.results![0].isAnomalyList.length > 0,
+      data.results![1].timestamps &&
+        data.results![1].timestamps.length > 0 &&
+        data.results![1].values &&
+        data.results![1].values.length > 0 &&
+        data.results![0].isAnomaly &&
+        data.results![0].isAnomaly.length > 0,
       "Expecting enriched data for the second time series"
     );
   });

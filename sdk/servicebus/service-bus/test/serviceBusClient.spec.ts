@@ -6,7 +6,12 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
-import { MessagingError, ServiceBusClient, ServiceBusSessionReceiver } from "../src";
+import {
+  MessagingError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusSessionReceiver
+} from "../src";
 import { ServiceBusSender } from "../src/sender";
 import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
@@ -144,8 +149,20 @@ describe("Errors with non existing Namespace", function(): void {
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err);
+      async processError(args) {
+        const actual: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error);
       }
     });
 
@@ -217,8 +234,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err, "some-name");
+      async processError(args) {
+        const actual: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error, "some-name");
       }
     });
 
@@ -238,8 +267,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err, "some-topic-name/Subscriptions/some-subscription-name");
+      async processError(args) {
+        const expected: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        expected.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
       }
     });
 
@@ -458,7 +499,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
 
     let errorCreateBatch: string = "";
-    await sender.createBatch().catch((err) => {
+    await sender.createMessageBatch().catch((err) => {
       errorCreateBatch = err.message;
     });
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");

@@ -165,7 +165,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       let listen: http.Server | undefined;
       let socketToDestroy: Socket | undefined;
 
-      function cleanup() {
+      function cleanup(): void {
         if (listen) {
           listen.close();
         }

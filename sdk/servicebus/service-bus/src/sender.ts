@@ -12,7 +12,7 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions } from "./models";
+import { CreateMessageBatchOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -62,12 +62,12 @@ export interface ServiceBusSender {
    * @param options  Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
-   * @param {CreateBatchOptions} [options]
+   * @param {CreateMessageBatchOptions} [options]
    * @returns {Promise<ServiceBusMessageBatch>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+  createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
 
   /**
    * Opens the AMQP link to Azure Service Bus from the sender.
@@ -195,12 +195,12 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     }
     let batch: ServiceBusMessageBatch;
     if (Array.isArray(messages)) {
-      batch = await this.createBatch(options);
+      batch = await this.createMessageBatch(options);
       for (const message of messages) {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
-        if (!batch.tryAdd(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
+        if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
           const error = new MessagingError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
@@ -238,7 +238,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     }
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
     return this._sender.createBatch(options);
   }
@@ -366,7 +366,7 @@ export function isServiceBusMessageBatch(
   const possibleBatch = messageBatchOrAnything as ServiceBusMessageBatch;
 
   return (
-    typeof possibleBatch.tryAdd === "function" &&
+    typeof possibleBatch.tryAddMessage === "function" &&
     typeof possibleBatch.maxSizeInBytes === "number" &&
     typeof possibleBatch.sizeInBytes === "number"
   );
