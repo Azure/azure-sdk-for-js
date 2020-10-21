@@ -3,7 +3,8 @@
 Before running the code,
 
 - Setup the `SERVICEBUS_CONNECTION_STRING` environment variable. (Queue resource will be created in the beginning for the test period and teared down at the end)
-- Run `npm` install` in this folder to install the Service Bus package that should be stress tested.
+- Run `rushx pack` at `sdk/servicebus/service-bus` folder to generate the current version of service-bus package. (Or skip this step and install the version that you prefer)
+- Run `npm install` in this folder to install the Service Bus package that should be stress tested.
 
 ### Scenarios
 
