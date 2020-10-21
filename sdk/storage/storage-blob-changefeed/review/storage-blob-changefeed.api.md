@@ -4,80 +4,70 @@
 
 ```ts
 
-import { BlobServiceClient } from '@azure/storage-blob';
+import { AbortSignalLike } from '@azure/core-http';
+import { AnonymousCredential } from '@azure/storage-blob';
+import { CommonOptions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline } from '@azure/storage-blob';
+import { StoragePipelineOptions } from '@azure/storage-blob';
+import { StorageSharedKeyCredential } from '@azure/storage-blob';
+import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
+// @public
 export class BlobChangeFeedClient {
-    constructor(blobServiceClient: BlobServiceClient);
-    // (undocumented)
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
 }
 
-// @public (undocumented)
+// @public
 export interface BlobChangeFeedEvent {
-    // (undocumented)
     data: BlobChangeFeedEventData;
-    // (undocumented)
     dataVersion?: string;
-    // (undocumented)
     eventTime: Date;
-    // (undocumented)
     eventType: BlobChangeFeedEventType;
-    // (undocumented)
     id: string;
-    // (undocumented)
     metadataVersion: string;
-    // (undocumented)
     subject: string;
-    // (undocumented)
     topic: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BlobChangeFeedEventData {
-    // (undocumented)
     api: string;
-    // (undocumented)
     blobType: BlobType;
-    // (undocumented)
     clientRequestId: string;
-    // (undocumented)
     contentLength: number;
-    // (undocumented)
     contentType: string;
-    // (undocumented)
     etag: string;
-    // (undocumented)
     requestId: string;
-    // (undocumented)
     sequencer: string;
-    // (undocumented)
     url: string;
 }
 
-// @public (undocumented)
+// @public
 export class BlobChangeFeedEventPage {
     constructor();
-    // (undocumented)
     continuationToken: string;
-    // (undocumented)
     events: BlobChangeFeedEvent[];
 }
 
-// @public (undocumented)
+// @public
 export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
 
-// @public (undocumented)
-export interface BlobChangeFeedListChangesOptions {
-    // (undocumented)
+// @public
+export interface BlobChangeFeedListChangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
     end?: Date;
-    // (undocumented)
     start?: Date;
 }
 
-// @public (undocumented)
+// @public
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
+
+// @public
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 
 // (No @packageDocumentation comment for this package)

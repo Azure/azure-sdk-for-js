@@ -6,13 +6,17 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ReceivedMessage, ReceivedMessageWithLock, ServiceBusReceiver } from "../src";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
+  ServiceBusReceiver
+} from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessage>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -41,12 +45,13 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.createDeadLetterReceiver(entityNames.queue, {
-        receiveMode: "receiveAndDelete"
+      serviceBusClient.createReceiver(entityNames.queue, {
+        receiveMode: "receiveAndDelete",
+        subQueue: "deadLetter"
       })
     );
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -155,7 +160,7 @@ describe("dead lettering", () => {
 
     const reason = deadLetterMessages[0].deadLetterReason;
     const description = deadLetterMessages[0].deadLetterErrorDescription;
-    const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
+    const customProperty = deadLetterMessages[0]!.applicationProperties!["customProperty"];
 
     should.equal(reason, expected.reason);
     should.equal(description, expected.description);
@@ -165,8 +170,8 @@ describe("dead lettering", () => {
 
 describe("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -193,7 +198,7 @@ describe("abandoning", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -275,12 +280,12 @@ describe("abandoning", () => {
   });
 
   async function checkAbandonedMessage(
-    abandonedMessage: ReceivedMessageWithLock,
+    abandonedMessage: ServiceBusReceivedMessageWithLock,
     expected: { customProperty?: string }
   ) {
     should.exist(abandonedMessage);
 
-    const customProperty = abandonedMessage.properties!["customProperty"];
+    const customProperty = abandonedMessage.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }
@@ -288,8 +293,8 @@ describe("abandoning", () => {
 
 describe("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -316,7 +321,7 @@ describe("deferring", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -396,7 +401,7 @@ describe("deferring", () => {
 
     should.exist(deferredMessage);
 
-    const customProperty = deferredMessage!.properties!["customProperty"];
+    const customProperty = deferredMessage!.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }

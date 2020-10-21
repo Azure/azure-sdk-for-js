@@ -25,4 +25,8 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: schemaregistry
-    Artifacts: []
+    Artifacts:
+      - name: azure-schema-registry
+        safeName: azureschemaregistry
+      - name: azure-schema-registry-avro
+        safeName: azureschemaregistryavro

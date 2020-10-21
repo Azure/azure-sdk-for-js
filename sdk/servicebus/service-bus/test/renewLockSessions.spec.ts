@@ -14,11 +14,11 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   let sessionId: string;
 
   let serviceBusClient: ServiceBusClientForTests;
@@ -42,8 +42,7 @@ describe("Session Lock Renewal", () => {
 
     sessionId = Date.now().toString();
 
-    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-      sessionId,
+    receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, sessionId, {
       maxAutoRenewLockDurationInMs
     });
 
@@ -134,7 +133,7 @@ describe("Session Lock Renewal", () => {
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
@@ -182,7 +181,7 @@ describe("Session Lock Renewal", () => {
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
@@ -209,7 +208,7 @@ describe("Session Lock Renewal", () => {
     await receiver.close();
 
     const entityNames = serviceBusClient.test.getTestEntities(entityType);
-    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
     const unprocessedMsgsBatch = await receiver.receiveMessages(1);
     should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
@@ -221,14 +220,14 @@ describe("Session Lock Renewal", () => {
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await sender.sendMessages(testMessage);
 
-    async function processMessage(brokeredMessage: ReceivedMessageWithLock) {
+    async function processMessage(brokeredMessage: ServiceBusReceivedMessageWithLock) {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -297,7 +296,7 @@ describe("Session Lock Renewal", () => {
 
   async function testAutoLockRenewalConfigBehavior(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>,
+    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
@@ -306,9 +305,11 @@ describe("Session Lock Renewal", () => {
     await sender.sendMessages(testMessage);
 
     let sessionLockLostErrorThrown = false;
-    const messagesReceived: ReceivedMessageWithLock[] = [];
+    const messagesReceived: ServiceBusReceivedMessageWithLock[] = [];
 
-    async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
+    async function processMessage(
+      brokeredMessage: ServiceBusReceivedMessageWithLock
+    ): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 

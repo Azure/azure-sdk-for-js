@@ -1,7 +1,7 @@
 # Azure Key Vault Key client library for JavaScript
 
 Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Key management allows you to create and control 
 encryption keys that encrypt your data.
@@ -25,12 +25,12 @@ Using the cryptography client available in this library you also have access to:
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples)
 
 ## Getting started
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
+[Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal) to use this package.
 
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
@@ -109,7 +109,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   query.
 - **Soft delete** allows Key Vaults to support deletion and purging as two
   separate steps, so deleted keys are not immediately lost. This only happens if the Key Vault
-  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+  has [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
   enabled.
 - A **Key backup** can be generated from any created key. These backups come as
   binary data, and can only be used to regenerate a previously deleted key.
@@ -338,7 +338,7 @@ async function main() {
 main();
 ```
 
-If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+If [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
 is enabled for the Key Vault, this operation will only label the key as a
 _deleted_ key. A deleted key can't be updated. They can only be either
 read, recovered or purged.
@@ -641,7 +641,7 @@ async function main() {
   let digest = hash.update(signatureValue).digest();
   console.log("digest: ", digest);
 
-  const signResult = await cryptographyClient.signData("RS256", digest);
+  const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
 }
 
@@ -807,9 +807,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Keys Samples (JavaScript)](./samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](./samples/typescript)
-- [KeyVault Keys Test Cases](./test/)
+- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript)
+- [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing
 

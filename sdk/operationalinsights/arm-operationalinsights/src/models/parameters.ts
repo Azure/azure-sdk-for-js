@@ -112,7 +112,9 @@ export const dataSourceType: msRest.OperationURLParameter = {
       name: "Enum",
       allowedValues: [
         "CustomLogs",
-        "AzureWatson"
+        "AzureWatson",
+        "Query",
+        "Alerts"
       ]
     }
   }

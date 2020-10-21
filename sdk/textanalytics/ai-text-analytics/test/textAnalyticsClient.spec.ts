@@ -13,9 +13,13 @@ import {
   DetectLanguageSuccessResult,
   ExtractKeyPhrasesSuccessResult,
   AnalyzeSentimentResultArray,
-  AnalyzeSentimentSuccessResult
+  AnalyzeSentimentSuccessResult,
+  SentenceSentiment,
+  MinedOpinion,
+  OpinionSentiment
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
+import { PiiEntityDomainType } from "../src/textAnalyticsClient";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -74,6 +78,48 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.fail("Expected an error from the service.");
       }
       assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
+    it("service has a bug when referencing opinions in doc #6 or greater", async () => {
+      const documents = [
+        "The food was unacceptable",
+        "The rooms were beautiful. The AC was good and quiet.",
+        "The breakfast was good, but the toilet was smelly.",
+        "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+        "I had a great unobstructed view of the Microsoft campus.",
+        "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+        "The toilet smelled."
+      ];
+      const results = await client.analyzeSentiment(documents, "en", {
+        includeOpinionMining: true
+      });
+      const result1 = results[0];
+      const result6 = results[5];
+      const result7 = results[6];
+      if (
+        result1.error === undefined &&
+        result6.error === undefined &&
+        result7.error === undefined
+      ) {
+        const opinion1 = result1.sentences[0].minedOpinions[0].opinions[0];
+        const opinion2 = result6.sentences[0].minedOpinions[0].opinions[0];
+        assert.notDeepEqual(opinion1, opinion2);
+
+        const listAllOpinions = (acc: string[], sentence: SentenceSentiment): string[] =>
+          acc.concat(
+            sentence.minedOpinions.reduce(
+              (acc: string[], aspect: MinedOpinion) =>
+                acc.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
+              []
+            )
+          );
+        const allOpinions1 = result1.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions1, ["unacceptable"]);
+        const allOpinions2 = result6.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions2, ["nice", "old", "dirty"]);
+        const allOpinions7 = result7.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions7, ["smelled"]);
+      }
     });
 
     it("service returns an error for an empty document", async () => {
@@ -138,6 +184,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("positive", aspect.sentiment);
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
+          assert.equal(aspect.offset, 32);
+          assert.equal(aspect.text.length, 6);
 
           const sleekOpinion = opinion.opinions[0];
           assert.equal("sleek", sleekOpinion.text);
@@ -145,6 +193,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
+          assert.equal(sleekOpinion.offset, 9);
+          assert.equal(sleekOpinion.text.length, 5);
 
           const premiumOpinion = opinion.opinions[1];
           assert.equal("premium", premiumOpinion.text);
@@ -152,6 +202,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
+          assert.equal(premiumOpinion.offset, 15);
+          assert.equal(premiumOpinion.text.length, 7);
         })
       );
     });
@@ -513,6 +565,28 @@ describe("[AAD] TextAnalyticsClient", function() {
       // TA NER public preview currently supports only english
       assert.ok(results.slice(0, sliceSize).every(isSuccess));
     });
+
+    it("accepts domain filter", async () => {
+      const [result] = await client.recognizePiiEntities(
+        [
+          {
+            id: "0",
+            text: "I work at Microsoft and my phone number is 333-333-3333",
+            language: "en"
+          }
+        ],
+        { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+      );
+      if (!result.error) {
+        assert.equal(result.entities.length, 1);
+        assert.equal(result.entities[0].text, "333-333-3333");
+        assert.equal(result.entities[0].category, "Phone Number");
+        assert.equal(
+          result.redactedText,
+          "I work at Microsoft and my phone number is ************"
+        );
+      }
+    });
   });
 
   describe("#recognizeLinkedEntities", () => {
@@ -594,6 +668,98 @@ describe("[AAD] TextAnalyticsClient", function() {
           e.message,
           "Batch request contains too many records. Max 5 records are permitted."
         );
+      }
+    });
+  });
+
+  describe("#String encoding", () => {
+    it("emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("emoji with skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("family emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 17);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("family emoji wit skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 25);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("diacritics nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 9);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("diacritics nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("korean nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("korean nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+
+    it("zalgo", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 121);
+        assert.equal(result.entities[0].text.length, 11);
       }
     });
   });

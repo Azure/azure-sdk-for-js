@@ -481,8 +481,9 @@ export function createConnectionContext(
       config = EventHubConnectionConfig.create(connectionString, eventHubName);
       options = credentialOrOptions;
     }
+
     // Since connectionstring was passed, create a SharedKeyCredential
-    credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+    credential = SharedKeyCredential.fromConnectionString(connectionString);
   } else {
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;

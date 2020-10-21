@@ -115,26 +115,47 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private createAppServiceMsiAuthRequest(
     resource: string,
-    clientId?: string
+    clientId?: string,
+    version?: "2019-08-01" | "2017-09-01"
   ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
       "api-version": AppServiceMsiApiVersion
     };
 
-    if (clientId) {
-      queryParameters.clientid = clientId;
-    }
-
-    return {
-      url: process.env.MSI_ENDPOINT,
-      method: "GET",
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        secret: process.env.MSI_SECRET
+    if (version === "2019-08-01") {
+      if (clientId) {
+        queryParameters.client_id = clientId;
       }
-    };
+
+      return {
+        url: process.env.IDENTITY_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          "X-IDENTITY-HEADER": process.env.IDENTITY_HEADER
+        }
+      };
+    } else if (version === "2017-09-01") {
+      if (clientId) {
+        queryParameters.clientid = clientId;
+      }
+
+      return {
+        url: process.env.MSI_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          secret: process.env.MSI_SECRET
+        }
+      };
+    } else {
+      throw new Error(
+        `Unsupported version ${version}. The supported versions are "2019-08-01" and "2017-09-01"`
+      );
+    }
   }
 
   private createCloudShellMsiAuthRequest(
@@ -194,9 +215,12 @@ export class ManagedIdentityCredential implements TokenCredential {
       } catch (err) {
         if (
           (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
-          err.name === "AbortError"
+          err.name === "AbortError" ||
+          err.code === "ECONNREFUSED" || // connection refused
+          err.code === "EHOSTDOWN" // host is down
         ) {
-          // Either request failed or IMDS endpoint isn't available
+          // If the request failed, or NodeJS was unable to establish a connection,
+          // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
             code: CanonicalCode.UNAVAILABLE,
@@ -210,7 +234,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       logger.info(`IMDS endpoint is available`);
       return true;
     } catch (err) {
-      logger.info(formatError(`Error when accessing IMDS endpoint: ${err.message}`));
+      // createWebResource failed.
+      // This error should bubble up to the user.
+      logger.info(
+        formatError(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`)
+      );
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -238,10 +266,24 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // Detect which type of environment we are running in
-      if (process.env.MSI_ENDPOINT) {
+      if (process.env.IDENTITY_ENDPOINT && process.env.IDENTITY_HEADER) {
+        // Running in App Service 2019-08-01
+        authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId, "2019-08-01");
+        expiresInParser = (requestBody: any) => {
+          // Parses a string representation of the seconds since epoch into a number value
+          return Number(requestBody.expires_on);
+        };
+        logger.info(
+          `Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
+        );
+      } else if (process.env.MSI_ENDPOINT) {
         if (process.env.MSI_SECRET) {
           // Running in App Service
-          authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
+          authRequestOptions = this.createAppServiceMsiAuthRequest(
+            resource,
+            clientId,
+            "2017-09-01"
+          );
           expiresInParser = (requestBody: any) => {
             // Parse a date format like "06/20/2019 02:57:58 +00:00" and
             // convert it into a JavaScript-formatted date
@@ -306,6 +348,19 @@ export class ManagedIdentityCredential implements TokenCredential {
       );
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
+      // Expected errors to reach this point:
+      // - When we try call createWebResource and it fails (at any point).
+      // - When identityClient.sendTokenRequest throws.
+      //   If the status code was 400, it means that the endpoint is working,
+      //   but no identity is available.
+      //
+      // Errors that might reach this point, but shouldn't:
+      // - When createAppServiceMsiAuthRequest is called with an unsupported version.
+      //   We shouldn't see this happening, because we specify the version in the parameters.
+      //
+      // Errors that shouldn't reach this point at all:
+      // - If we tried to reach to the IMDS endpoint and it ends up being unavailable, we simply don't call to createImdsAuthRequest, so we return null.
+
       const code =
         err.name === AuthenticationErrorName
           ? CanonicalCode.UNAUTHENTICATED
@@ -340,7 +395,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // isEndpointAvailable can be true, false, or null,
-      // the latter indicating that we don't yet know whether
+      // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
         result = await this.authenticateManagedIdentity(
@@ -350,20 +405,63 @@ export class ManagedIdentityCredential implements TokenCredential {
           newOptions
         );
 
-        // If authenticateManagedIdentity returns null, it means no MSI
-        // endpoints are available.  In this case, don't try them in future
-        // requests.
-        this.isEndpointUnavailable = result === null;
+        if (result === null) {
+          // If authenticateManagedIdentity returns null,
+          // it means no MSI endpoints are available.
+          // If so, we avoid trying to reach to them in future requests.
+          this.isEndpointUnavailable = true;
+
+          // It also means that the endpoint answered with either 200 or 201 (see the sendTokenRequest method),
+          // yet we had no access token. For this reason, we'll throw once with a specific message:
+          const error = new CredentialUnavailable(
+            "The managed identity endpoint was reached, yet no tokens were received."
+          );
+          logger.getToken.info(formatError(error));
+          throw error;
+        }
+
+        // Since `authenticateManagedIdentity` didn't throw, and the result was not null,
+        // We will assume that this endpoint is reachable from this point forward,
+        // and avoid pinging again to it.
+        // Details:
+        // - If `isEndpointUnavailable` is not true, `authenticateManagedIdentity` is called.
+        // - If `isEndpointUnavailable` is only set to false if `authenticateManagedIdentity` returns null.
+        // - If `isEndpointUnavailable` is null, `authenticateManagedIdentity` wil be called with "true" as the second parameter.
+        // - When `authenticateManagedIdentity` is called with `checkIfImdsEndpointAvailable` set to "true", `pingImdsEndpoint` is called.
+        // - If `pingImdsEndpoint` returns false, `authenticateManagedIdentity` returns null, which sets `isEndpointUnavailable` to false.
+        // - If `pingImdsEndpoint` returns true, `authenticateManagedIdentity` tries to authenticate with the IMDS endpoint.
+        // - If `authenticateManagedIdentity` tries to authenticate, and throws, we move to the catch section of this function.
+        // - If `authenticateManagedIdentity` manages to authenticate, `result` won't be null.
+        // - If `result` isn't null at this point, the endpoint was in fact available at first.
+        // - To avoid calling again to `pingImdsEndpoint`, we need to set `isEndpointUnavailable` to false,
+        //   so that `authenticateManagedIdentity` gets to be called with `checkIfImdsEndpointAvailable` set to "false",
+        //   thus skipping any further call to `pingImdsEndpoint`.
+        this.isEndpointUnavailable = false;
       } else {
+        // We've previously determined that the endpoint was unavailable,
+        // either because it was unreachable or permanently unable to authenticate.
         const error = new CredentialUnavailable(
           "The managed identity endpoint is not currently available"
         );
         logger.getToken.info(formatError(error));
         throw error;
       }
+
       logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
+      // CredentialUnavailable errors are expected to reach here.
+      // We intend them to bubble up, so that DefaultAzureCredential can catch them.
+      if (err instanceof CredentialUnavailable) {
+        throw err;
+      }
+
+      // Expected errors to reach this point:
+      // - Errors coming from a method unexpectedly breaking.
+      // - When identityClient.sendTokenRequest throws, in which case
+      //   if the status code was 400, it means that the endpoint is working,
+      //   but no identity is available.
+
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -377,19 +475,21 @@ export class ManagedIdentityCredential implements TokenCredential {
         logger.getToken.info(formatError(error));
         throw error;
       }
-      throw new AuthenticationError(400, {
+
+      // If err.statusCode has a value of 400, it comes from sendTokenRequest,
+      // and it means that the endpoint is working, but that no identity is available.
+      if (err.statusCode === 400) {
+        throw new CredentialUnavailable(
+          "The managed identity endpoint is indicating there's no available identity"
+        );
+      }
+
+      throw new AuthenticationError(err.statusCode, {
         error: "ManagedIdentityCredential authentication failed.",
         error_description: err.message
       });
     } finally {
-      if (this.isEndpointUnavailable) {
-        const error = new CredentialUnavailable(
-          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
-        );
-        logger.getToken.info(formatError(error));
-        // eslint-disable-next-line no-unsafe-finally
-        throw error;
-      }
+      // Finally is always called, both if we return and if we throw in the above try/catch.
       span.end();
     }
   }

@@ -171,6 +171,11 @@ export interface OperationResponseMap {
    * The mapper that will be used to deserialize the response body.
    */
   bodyMapper?: Mapper;
+
+  /**
+   * Indicates if this is an error response
+   */
+  isError?: boolean;
 }
 
 /**
@@ -375,17 +380,61 @@ export interface EnumMapperType {
 }
 
 export interface BaseMapper {
+  /**
+   * Name for the xml element
+   */
   xmlName?: string;
+  /**
+   * Xml element namespace
+   */
+  xmlNamespace?: string;
+  /**
+   * Xml element namespace prefix
+   */
+  xmlNamespacePrefix?: string;
+  /**
+   * Determines if the current property should be serialized as an attribute of the parent xml element
+   */
   xmlIsAttribute?: boolean;
+  /**
+   * Name for the xml elements when serializing an array
+   */
   xmlElementName?: string;
+  /**
+   * Whether or not the current propery should have a wrapping XML element
+   */
   xmlIsWrapped?: boolean;
+  /**
+   * Whether or not the current propery is readonly
+   */
   readOnly?: boolean;
+  /**
+   * Whether or not the current propery is a constant
+   */
   isConstant?: boolean;
+  /**
+   * Whether or not the current propery is required
+   */
   required?: boolean;
+  /**
+   * Whether or not the current propery allows mull as a value
+   */
   nullable?: boolean;
+  /**
+   * The name to use when serializing
+   */
   serializedName?: string;
+  /**
+   * Type of the mapper
+   */
   type: MapperType;
+  /**
+   * Default value when one is not explicitly provided
+   */
   defaultValue?: any;
+  /**
+   * Constraints to test the current value against
+   */
   constraints?: MapperConstraints;
 }
 

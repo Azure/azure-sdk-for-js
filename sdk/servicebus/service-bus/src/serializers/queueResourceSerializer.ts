@@ -19,7 +19,8 @@ import {
   getString,
   getStringOrUndefined,
   getDate,
-  EntityStatus
+  EntityStatus,
+  EntityAvailabilityStatus
 } from "../util/utils";
 
 /**
@@ -47,7 +48,9 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata)
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
+    EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
@@ -101,7 +104,11 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
 
-    status: rawQueue[Constants.STATUS]
+    status: rawQueue[Constants.STATUS],
+
+    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress"),
+
+    availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS]
   };
 }
 
@@ -248,6 +255,16 @@ export interface CreateQueueOptions extends OperationOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  enableExpress?: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -381,6 +398,16 @@ export interface QueueProperties {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  readonly enableExpress: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  readonly availabilityStatus: EntityAvailabilityStatus;
 }
 /**
  * @internal
@@ -508,6 +535,16 @@ export interface InternalQueueOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  EnableExpress?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  EntityAvailabilityStatus?: string;
 }
 
 /**

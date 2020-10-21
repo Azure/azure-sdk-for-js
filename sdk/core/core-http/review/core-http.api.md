@@ -54,30 +54,20 @@ export type Authenticator = (challenge: object) => Promise<string>;
 
 // @public (undocumented)
 export interface BaseMapper {
-    // (undocumented)
     constraints?: MapperConstraints;
-    // (undocumented)
     defaultValue?: any;
-    // (undocumented)
     isConstant?: boolean;
-    // (undocumented)
     nullable?: boolean;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     serializedName?: string;
-    // (undocumented)
     type: MapperType;
-    // (undocumented)
     xmlElementName?: string;
-    // (undocumented)
     xmlIsAttribute?: boolean;
-    // (undocumented)
     xmlIsWrapped?: boolean;
-    // (undocumented)
     xmlName?: string;
+    xmlNamespace?: string;
+    xmlNamespacePrefix?: string;
 }
 
 // @public (undocumented)
@@ -139,6 +129,8 @@ export const Constants: {
     HTTPS: string;
     HTTP_PROXY: string;
     HTTPS_PROXY: string;
+    NO_PROXY: string;
+    ALL_PROXY: string;
     HttpConstants: {
         HttpVerbs: {
             PUT: string;
@@ -351,6 +343,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
 }
 
 // @public
@@ -478,6 +471,7 @@ export interface OperationRequestOptions {
 export interface OperationResponse {
     bodyMapper?: Mapper;
     headersMapper?: Mapper;
+    isError?: boolean;
 }
 
 // @public

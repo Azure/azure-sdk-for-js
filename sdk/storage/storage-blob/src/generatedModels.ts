@@ -97,7 +97,7 @@ export {
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,
-  ModifiedAccessConditions,
+  ModifiedAccessConditions as ModifiedAccessConditionsModel,
   PublicAccessType,
   PageBlobCreateResponse,
   PageBlobUploadPagesResponse,
@@ -146,5 +146,7 @@ export {
   ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
   FilterBlobItem,
   BlobQueryHeaders,
-  BlobQueryResponse as BlobQueryResponseModel
+  BlobQueryResponse as BlobQueryResponseModel,
+  ContainerRestoreResponse as ContainerUndeleteResponse,
+  ContainerRestoreHeaders as ContainerUndeleteHeaders
 } from "./generated/src/models";

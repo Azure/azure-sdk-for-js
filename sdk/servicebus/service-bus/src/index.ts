@@ -17,20 +17,18 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  CreateBatchOptions,
+  CreateMessageBatchOptions,
   CreateReceiverOptions,
-  CreateSessionReceiverOptions,
+  AcceptSessionOptions,
   GetMessageIteratorOptions,
-  MessageHandlerOptions,
-  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SessionSubscribeOptions,
+  SubQueue,
   SubscribeOptions
 } from "./models";
-export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
 export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
 export { ServiceBusSender } from "./sender";
@@ -40,12 +38,7 @@ export {
   QueueProperties,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
-export {
-  RuleProperties,
-  SqlParameter,
-  SqlRuleAction,
-  SqlRuleFilter
-} from "./serializers/ruleResourceSerializer";
+export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
@@ -59,14 +52,17 @@ export {
 export {
   EntitiesResponse,
   WithResponse,
-  ServiceBusManagementClient
+  ServiceBusAdministrationClient
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
   DeadLetterOptions,
-  ReceivedMessage,
-  ReceivedMessageWithLock,
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus } from "./util/utils";
+export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";

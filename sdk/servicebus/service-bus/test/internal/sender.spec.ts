@@ -6,7 +6,7 @@ import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
-import { DefaultDataTransformer } from "@azure/core-amqp";
+import { createConnectionContextForTests } from "./unittestUtils";
 
 const assert = chai.assert;
 
@@ -50,13 +50,13 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined].forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
-      const batch = await sender.createBatch();
+      const batch = await sender.createMessageBatch();
       let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "message"`;
       }
       try {
-        batch.tryAdd(
+        batch.tryAddMessage(
           // @ts-expect-error
           invalidValue
         );
@@ -88,24 +88,3 @@ describe("sender unit tests", () => {
     });
   });
 });
-
-function createConnectionContextForTests(): ConnectionContext & { initWasCalled: boolean } {
-  let initWasCalled = false;
-
-  const fakeConnectionContext = {
-    config: { endpoint: "my.service.bus" },
-    connectionId: "connection-id",
-    dataTransformer: new DefaultDataTransformer(),
-    cbsSession: {
-      cbsLock: "cbs-lock",
-      async init() {
-        initWasCalled = true;
-      }
-    },
-    senders: {},
-    managementClients: {},
-    initWasCalled
-  };
-
-  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
-}

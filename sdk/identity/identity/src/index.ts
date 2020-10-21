@@ -9,6 +9,7 @@ export { TokenCredentialOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
+export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
   VisualStudioCodeCredential,
@@ -18,7 +19,8 @@ export { AzureCliCredential } from "./credentials/azureCliCredential";
 
 export {
   InteractiveBrowserCredentialOptions,
-  BrowserLoginStyle
+  BrowserLoginStyle,
+  AuthenticationRecord
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export {

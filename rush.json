@@ -348,8 +348,33 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-administration",
+      "projectFolder": "sdk/communication/communication-administration",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-chat",
+      "projectFolder": "sdk/communication/communication-chat",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-common",
+      "projectFolder": "sdk/communication/communication-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-sms",
+      "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
     },
     {
@@ -414,13 +439,18 @@
     },
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/event-hubs",
@@ -483,6 +513,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
@@ -541,6 +576,11 @@
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/digital-twins",
+      "projectFolder": "sdk/digitaltwins/digital-twins",
+      "versionPolicyName": "client"
     }
   ]
 }

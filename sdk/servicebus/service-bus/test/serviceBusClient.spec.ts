@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 import Long from "long";
 import { MessagingError, ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 import { ServiceBusSender } from "../src/sender";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
@@ -359,8 +359,8 @@ describe("Test ServiceBusClient with TokenCredentials", function(): void {
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
   let entityName: EntityName;
 
   afterEach(async () => {
@@ -375,7 +375,7 @@ describe("Errors after close()", function(): void {
     sender = sbClient.test.addToCleanup(
       sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
-    receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    receiver = await sbClient.test.createPeekLockReceiver(entityName);
 
     // Normal send/receive
     const testMessage = entityName.usesSessions
@@ -458,7 +458,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
 
     let errorCreateBatch: string = "";
-    await sender.createBatch().catch((err) => {
+    await sender.createMessageBatch().catch((err) => {
       errorCreateBatch = err.message;
     });
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
@@ -563,7 +563,7 @@ describe("Errors after close()", function(): void {
   async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
     let errorNewReceiver: string = "";
     try {
-      receiver = await sbClient.test.getPeekLockReceiver(entityName);
+      receiver = await sbClient.test.createPeekLockReceiver(entityName);
     } catch (err) {
       errorNewReceiver = err.message;
     }
@@ -579,7 +579,9 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+    const sessionReceiver = receiver as ServiceBusSessionReceiver<
+      ServiceBusReceivedMessageWithLock
+    >;
 
     let errorPeek: string = "";
     await sessionReceiver.peekMessages(1).catch((err) => {
@@ -719,7 +721,7 @@ describe("entityPath on sender and receiver", async () => {
 
   it("Entity Path on Queue deadletter Receiver", () => {
     const dummyQueueName = "dummy";
-    const receiver = sbClient.createDeadLetterReceiver(dummyQueueName);
+    const receiver = sbClient.createReceiver(dummyQueueName, { subQueue: "deadLetter" });
     should.equal(
       receiver.entityPath,
       `${dummyQueueName}/$DeadLetterQueue`,
@@ -741,7 +743,9 @@ describe("entityPath on sender and receiver", async () => {
   it("Entity Path on Subscription deadletter Receiver", () => {
     const dummyTopicName = "dummyTopicName";
     const dummySubscriptionName = "dummySubscriptionName";
-    const receiver = sbClient.createDeadLetterReceiver(dummyTopicName, dummySubscriptionName);
+    const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
+      subQueue: "deadLetter"
+    });
     should.equal(
       receiver.entityPath,
       `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,
@@ -752,7 +756,7 @@ describe("entityPath on sender and receiver", async () => {
   it(withSessionTestClientType + ": EntityPath on Session Receiver", async () => {
     const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
 
-    const receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    const receiver = await sbClient.test.createPeekLockReceiver(entityName);
     const expectedEntityPath = entityName.queue
       ? entityName.queue
       : `${entityName.topic}/Subscriptions/${entityName.subscription}`;

@@ -8,9 +8,17 @@ import {
   ReceiverEvents,
   ReceiverOptions
 } from "rhea-promise";
-import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
+import { DefaultDataTransformer, AccessToken, Constants } from "@azure/core-amqp";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
+import { Link } from "rhea-promise/typings/lib/link";
+
+export interface CreateConnectionContextForTestsOptions {
+  host?: string;
+  entityPath?: string;
+  onCreateAwaitableSenderCalled?: () => void;
+  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
+}
 
 /**
  * Creates a fake ConnectionContext for tests that can create semi-realistic
@@ -23,19 +31,28 @@ import { getUniqueName } from "../../src/util/utils";
  * is created (via onCreateAwaitableSenderCalled).
  *
  */
-export function createConnectionContextForTests(options?: {
-  onCreateAwaitableSenderCalled?: () => void;
-  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ConnectionContext & { initWasCalled: boolean } {
+export function createConnectionContextForTests(
+  options?: CreateConnectionContextForTestsOptions
+): ConnectionContext & {
+  initWasCalled: boolean;
+} {
   let initWasCalled = false;
 
   const fakeConnectionContext = {
     async readyToOpenLink(): Promise<void> {},
+    isConnectionClosing(): boolean {
+      return false;
+    },
     messageReceivers: {},
     senders: {},
     messageSessions: {},
     managementClients: {},
-    config: { endpoint: "my.service.bus" },
+    config: {
+      endpoint: "my.service.bus",
+      // used by tracing
+      entityPath: options?.entityPath ?? "fakeEntityPath",
+      host: options?.host ?? "fakeHost"
+    },
     connectionId: "connection-id",
     connection: {
       id: "connection-id",
@@ -49,9 +66,10 @@ export function createConnectionContextForTests(options?: {
         }
 
         const testAwaitableSender = ({
-          setMaxListeners: () => testAwaitableSender,
-          close: async () => {}
+          setMaxListeners: () => testAwaitableSender
         } as any) as AwaitableSender;
+
+        mockLinkProperties(testAwaitableSender);
 
         return testAwaitableSender;
       },
@@ -62,9 +80,12 @@ export function createConnectionContextForTests(options?: {
           options.onCreateReceiverCalled(receiver);
         }
 
+        mockLinkProperties(receiver);
+
         (receiver as any).connection = { id: "connection-id" };
         return receiver;
-      }
+      },
+      async close(): Promise<void> {}
     },
     dataTransformer: new DefaultDataTransformer(),
     tokenCredential: {
@@ -79,12 +100,47 @@ export function createConnectionContextForTests(options?: {
       async init() {
         initWasCalled = true;
       },
-      async negotiateClaim(): Promise<void> {}
+      async negotiateClaim(): Promise<void> {},
+      async close(): Promise<void> {}
     },
     initWasCalled
   };
 
   return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
+}
+
+/**
+ * Creates a test connection context that should work for testing ServiceBusSessionReceiverImpl
+ * and MessageSession. By default it matches with an session ID of 'hello'.
+ *
+ * @param sessionId A session ID to use or the default ("hello")
+ */
+export function createConnectionContextForTestsWithSessionId(
+  sessionId: string = "hello",
+  options?: CreateConnectionContextForTestsOptions
+): ConnectionContext & {
+  initWasCalled: boolean;
+} {
+  const connectionContext = createConnectionContextForTests({
+    ...options,
+    onCreateReceiverCalled: (receiver) => {
+      (receiver as any).source = {
+        filter: {
+          [Constants.sessionFilterName]: sessionId
+        }
+      };
+
+      (receiver as any).properties = {
+        ["com.microsoft:locked-until-utc"]: Date.now()
+      };
+
+      if (options?.onCreateReceiverCalled) {
+        options?.onCreateReceiverCalled(receiver);
+      }
+    }
+  });
+
+  return connectionContext;
 }
 
 /**
@@ -104,10 +160,8 @@ export function createRheaReceiverForTests(options?: ReceiverOptions) {
     id: "connection-id"
   };
 
-  let isOpen = true;
-
   (receiver as any).addCredit = (credit: number) => {
-    if (!isOpen) {
+    if (!receiver.isOpen()) {
       throw new Error("TEST INCONSISTENCY: trying to .addCredit() to a closed receiver");
     }
 
@@ -123,12 +177,20 @@ export function createRheaReceiverForTests(options?: ReceiverOptions) {
     }
   };
 
-  (receiver as any).close = async (): Promise<void> => {
+  mockLinkProperties(receiver);
+  return receiver;
+}
+
+export function mockLinkProperties(link: Link): void {
+  let isOpen = true;
+
+  link.close = async (): Promise<void> => {
     isOpen = false;
   };
 
-  (receiver as any).isOpen = () => isOpen;
-  return receiver;
+  link.isItselfClosed = () => !isOpen;
+  link.isOpen = () => isOpen;
+  link.isClosed = () => !isOpen;
 }
 
 export function getPromiseResolverForTest(): {
@@ -170,3 +232,9 @@ export function defer<T>(): {
     reject: actualReject!
   };
 }
+
+export const retryableErrorForTests = (() => {
+  const err = new Error("a retryable error");
+  (err as any).retryable = true;
+  return err;
+})();

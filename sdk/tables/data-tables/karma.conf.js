@@ -75,9 +75,11 @@ module.exports = function(config) {
     envPreprocessor: [
       "ACCOUNT_NAME",
       "ACCOUNT_KEY",
-      "ACCOUNT_SAS",
+      "TABLES_URL",
+      "SAS_TOKEN",
       "TEST_MODE",
-      "STORAGE_CONNECTION_STRING"
+      "SAS_CONNECTION_STRING",
+      "ACCOUNT_CONNECTION_STRING"
     ],
 
     // test results reporter to use

@@ -1584,6 +1584,16 @@ export interface ExposureControlRequest {
 }
 
 /**
+ * A list of exposure control features.
+ */
+export interface ExposureControlBatchRequest {
+  /**
+   * List of exposure control features.
+   */
+  exposureControlRequests: ExposureControlRequest[];
+}
+
+/**
  * The exposure control response.
  */
 export interface ExposureControlResponse {
@@ -1597,6 +1607,16 @@ export interface ExposureControlResponse {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: string;
+}
+
+/**
+ * A list of exposure control feature values.
+ */
+export interface ExposureControlBatchResponse {
+  /**
+   * List of exposure control feature values.
+   */
+  exposureControlResponses: ExposureControlResponse[];
 }
 
 /**
@@ -1930,6 +1950,103 @@ export interface DataFlowReference {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * The connection state of a managed private endpoint
+ */
+export interface ConnectionStateProperties {
+  /**
+   * The actions required on the managed private endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+  /**
+   * The managed private endpoint description
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The approval status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * Properties of a managed private endpoint
+ */
+export interface ManagedPrivateEndpoint {
+  /**
+   * The managed private endpoint connection state
+   */
+  connectionState?: ConnectionStateProperties;
+  /**
+   * Fully qualified domain names
+   */
+  fqdns?: string[];
+  /**
+   * The groupId to which the managed private endpoint is created
+   */
+  groupId?: string;
+  /**
+   * Denotes whether the managed private endpoint is reserved
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isReserved?: boolean;
+  /**
+   * The ARM resource ID of the resource to which the managed private endpoint is created
+   */
+  privateLinkResourceId?: string;
+  /**
+   * The managed private endpoint provisioning state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed private endpoint resource type.
+ */
+export interface ManagedPrivateEndpointResource extends SubResource {
+  /**
+   * Managed private endpoint properties.
+   */
+  properties: ManagedPrivateEndpoint;
+}
+
+/**
+ * A managed Virtual Network associated with the Azure Data Factory
+ */
+export interface ManagedVirtualNetwork {
+  /**
+   * Managed Virtual Network ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vNetId?: string;
+  /**
+   * Managed Virtual Network alias.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed Virtual Network resource type.
+ */
+export interface ManagedVirtualNetworkResource extends SubResource {
+  /**
+   * Managed Virtual Network properties.
+   */
+  properties: ManagedVirtualNetwork;
 }
 
 /**
@@ -14055,6 +14172,16 @@ export interface XmlReadSettings {
    */
   validationMode?: any;
   /**
+   * Indicates whether type detection is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  detectDataType?: any;
+  /**
+   * Indicates whether namespace is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  namespaces?: any;
+  /**
    * Namespace uri to prefix mappings to override the prefixes in column names when namespace is
    * enabled, if no prefix is defined for a namespace uri, the prefix of xml element/attribute name
    * in the xml data file will be used. Example: "{"http://www.example.com/xml":"prefix"}" Type:
@@ -14193,6 +14320,11 @@ export interface HdfsReadSettings {
    * Specifies Distcp-related settings.
    */
   distcpSettings?: DistcpSettings;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
 }
 
 /**
@@ -15934,6 +16066,11 @@ export interface CosmosDbSqlApiSource {
    * Preferred regions. Type: array of strings (or Expression with resultType array of strings).
    */
   preferredRegions?: any;
+  /**
+   * Whether detect primitive values as datetime values. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  detectDatetime?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -21056,7 +21193,7 @@ export interface BlobSink {
 /**
  * Contains the possible cases for StoreWriteSettings.
  */
-export type StoreWriteSettingsUnion = StoreWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
+export type StoreWriteSettingsUnion = StoreWriteSettings | AzureFileStorageWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
 
 /**
  * Connector write settings.
@@ -21079,6 +21216,25 @@ export interface StoreWriteSettings {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * Azure File Storage write settings.
+ */
+export interface AzureFileStorageWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureFileStorageWriteSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The type of copy behavior for copy sink.
+   */
+  copyBehavior?: any;
 }
 
 /**
@@ -23761,6 +23917,50 @@ export interface DataFlowsGetOptionalParams extends msRest.RequestOptionsBase {
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
  * An interface representing DataFactoryManagementClientOptions.
  */
 export interface DataFactoryManagementClientOptions extends AzureServiceClientOptions {
@@ -23889,6 +24089,30 @@ export interface DataFlowListResponse extends Array<DataFlowResource> {
  * @extends Array<DataFlowDebugSessionInfo>
  */
 export interface QueryDataFlowDebugSessionsResponse extends Array<DataFlowDebugSessionInfo> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed Virtual Network resources.
+ * @extends Array<ManagedVirtualNetworkResource>
+ */
+export interface ManagedVirtualNetworkListResponse extends Array<ManagedVirtualNetworkResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed private endpoint resources.
+ * @extends Array<ManagedPrivateEndpointResource>
+ */
+export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivateEndpointResource> {
   /**
    * The link to the next page of results, if any remaining results exist.
    */
@@ -24809,6 +25033,26 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
        * The response body as parsed JSON or XML
        */
       parsedBody: ExposureControlResponse;
+    };
+};
+
+/**
+ * Contains response data for the queryFeatureValuesByFactory operation.
+ */
+export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlBatchResponse;
     };
 };
 
@@ -25919,5 +26163,165 @@ export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugS
        * The response body as parsed JSON or XML
        */
       parsedBody: QueryDataFlowDebugSessionsResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedVirtualNetworksGetResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
     };
 };

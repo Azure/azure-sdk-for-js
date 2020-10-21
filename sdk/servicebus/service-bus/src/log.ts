@@ -1,106 +1,128 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import debugModule from "debug";
+import { AzureLogger, createClientLogger } from "@azure/logger";
+import { AmqpError } from "rhea-promise";
+
+/**
+ * The @azure/logger configuration for this package.
+ * This will output logs using the `azure:service-bus` namespace prefix.
+ * @internal
+ * @ignore
+ */
+export const logger = createServiceBusLogger("service-bus");
+
+/**
+ * Logging for ServiceBusReceivers of any type (session, non-session)
+ * @internal
+ * @ignore
+ */
+export const receiverLogger = createServiceBusLogger("service-bus:receiver");
+
+/**
+ * Logging for ServiceBusSenders
+ * @internal
+ * @ignore
+ */
+export const senderLogger = createServiceBusLogger("service-bus:sender");
+
+/**
+ * Logging for connection management
+ * @internal
+ * @ignore
+ */
+export const connectionLogger = createServiceBusLogger("service-bus:connection");
+
+/**
+ * Logging for the ServiceBusAdministrationClient
+ * @internal
+ * @ignore
+ */
+export const administrationLogger = createServiceBusLogger("service-bus:administration");
+
+/**
+ * Logging related to message encoding/decoding.
+ * @internal
+ * @ignore
+ */
+export const messageLogger = createServiceBusLogger("service-bus:messages");
+
+/**
+ * Logging related to message encoding/decoding.
+ * @internal
+ * @ignore
+ */
+export const managementClientLogger = createServiceBusLogger("service-bus:management");
+
+/**
+ * Logs the error's stack trace to "verbose" if a stack trace is available.
+ * @param error Error containing a stack trace.
+ * @internal
+ * @ignore
+ */
+export function logErrorStackTrace(_logger: AzureLogger, error: any) {
+  if (error && error.stack) {
+    _logger.verbose(error.stack);
+  }
+}
+
 /**
  * @internal
  * @ignore
- * log statements for linkEntity
  */
-export const link = debugModule("azure:service-bus:linkEntity");
+export interface ServiceBusLogger extends AzureLogger {
+  /**
+   * Logs an error with an associated message, formatted. If there is a stack
+   * trace in the error that will be logged to the verbose stream.
+   *
+   * Example:
+   *   receiverLogger.logError(new Error("hello, this is the error"), "this is my message");
+   * will output:
+   *   azure:service-bus:receiver:warning this is my message : Error: hello, this is the error
+   * @param err
+   * @param args
+   */
+  logError(err: Error | AmqpError | undefined, ...args: any[]): void;
+}
+
+/**
+ * Creates an AzureLogger with any additional methods for standardized logging (for example, with errors)
+ * @internal
+ * @ignore
+ */
+export function createServiceBusLogger(namespace: string) {
+  const _logger = createClientLogger(namespace) as ServiceBusLogger;
+
+  _logger["logError"] = (err: Error | AmqpError | undefined, ...args: any[]): void => {
+    let l: typeof logger.info;
+
+    // abort errors are user initiated so we don't have to treat them as warnings, like we
+    // would with other errors.
+    if (isError(err) && err.name === "AbortError") {
+      l = _logger.info;
+    } else {
+      l = _logger.warning;
+    }
+
+    // tack on the error object so it also gets logged.
+    args.push(":", err);
+
+    // let the normal formatting work and include the error at the end.
+    l(...args);
+
+    // optionally log the stack trace if it's available but this always goes to verbose
+    if (err && (err as any).stack) {
+      _logger.verbose((err as any).stack);
+    }
+  };
+
+  return _logger;
+}
+
 /**
  * @internal
  * @ignore
- * log statements for error
  */
-export const error = debugModule("azure:service-bus:error");
-/**
- * @internal
- * @ignore
- * log statements for warning
- */
-export const warning = debugModule("azure:service-bus:warning");
-/**
- * @internal
- * @ignore
- * log statements for management
- */
-export const mgmt = debugModule("azure:service-bus:management");
-/**
- * @internal
- * @ignore
- * log statements for sender
- */
-export const sender = debugModule("azure:service-bus:sender");
-/**
- * @internal
- * @ignore
- * log statements for receiver
- */
-export const receiver = debugModule("azure:service-bus:receiver");
-/**
- * @internal
- * @ignore
- * log statements for receiverbatching
- */
-export const batching = debugModule("azure:service-bus:receiverbatching");
-/**
- * @internal
- * @ignore
- * log statements for receiverstreaming
- */
-export const streaming = debugModule("azure:service-bus:receiverstreaming");
-/**
- * @internal
- * @ignore
- * log statements for connectionContext
- */
-export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
-/**
- * @internal
- * @ignore
- * log statements for namespace
- */
-export const ns = debugModule("azure:service-bus:namespace");
-/**
- * @internal
- * @ignore
- * log statements for servicebusMessage
- */
-export const message = debugModule("azure:service-bus:servicebusMessage");
-/**
- * @internal
- * @ignore
- * log statements for map
- */
-export const map = debugModule("azure:service-bus:concurrentMap");
-/**
- * @internal
- * @ignore
- * log statements for utils
- */
-export const utils = debugModule("azure:service-bus:utils");
-/**
- * @internal
- * @ignore
- * log statements for messageSession
- */
-export const messageSession = debugModule("azure:service-bus:messageSession");
-/**
- * @internal
- * @ignore
- * log statements for semaphore
- */
-export const semaphore = debugModule("azure:service-bus:semaphore");
-/**
- * @internal
- * @ignore
- * log statements for sessionManager
- */
-export const sessionManager = debugModule("azure:service-bus:sessionManager");
-/**
- * @internal
- * @ignore
- * log statements for Atom XML management API over HTTP
- */
-export const httpAtomXml = debugModule("azure:service-bus:atom-xml");
+function isError(err: Error | AmqpError | undefined): err is Error {
+  return err != null && (err as any).name != null;
+}

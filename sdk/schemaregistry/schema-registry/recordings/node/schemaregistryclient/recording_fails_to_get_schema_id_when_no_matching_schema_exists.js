@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "97bb3ef7d11ff026e400c3bb44bc641b";
+module.exports.hash = "622a3fd7cdca169239801a8ae7843dfd";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,31 +22,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'baddaa24-a171-4d4f-a9cf-f756d0692000',
+  '5181cea2-c7b2-49b4-b673-19acf5497100',
   'x-ms-ests-server',
-  '2.1.10963.12 - EUS ProdSlices',
+  '2.1.11086.7 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlIg_Q3r3IxLr1ycfAlPxVBJ4DFtAQAAAPA0z9YOAAAA; expires=Fri, 18-Sep-2020 14:57:52 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AszGFwoG8hZNm38rm6OF0klJ4DFtAQAAALyHDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 19 Aug 2020 14:57:51 GMT'
+  'Mon, 05 Oct 2020 21:31:41 GMT',
+  'Content-Length',
+  '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/$schemagroups/azsdk_js_test_group/schemas/never-registered', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
+  .post('/$schemagroups/azsdk_js_test_group/schemas/never-registered', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(404, "<Error><Code>404</Code><Detail>Schema azsdk_js_test_group/never-registered does not exist. TrackingId:082342de-dc68-4907-9835-dbaccbbbb232_G2, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-08-19T14:57:53</Detail></Error>", [
+  .reply(404, {"Code":404,"Detail":"Schema azsdk_js_test_group/never-registered does not exist. TrackingId:a14afd8a-8c44-47e5-b546-a1f4cb5c26ac_G4, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-10-05T21:31:42"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
-  'application/xml; charset=utf-8',
+  'application/json',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Wed, 19 Aug 2020 14:57:53 GMT'
+  'Mon, 05 Oct 2020 21:31:42 GMT'
 ]);

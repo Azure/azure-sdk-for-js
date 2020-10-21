@@ -22,6 +22,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
+    AZURE_CLIENT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
@@ -31,7 +34,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
     ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
-    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
   },
   customizationsOnRecordings: [
     // Used in record mode

@@ -11,7 +11,15 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { OperationOptions, HttpResponse } from "@azure/core-http";
+import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
+
+/**
+ * Client options used to configure Tables Api requests
+ */
+export type TableServiceClientOptions = PipelineOptions & {
+  endpoint?: string;
+  version?: string;
+};
 
 /**
  * Contains response data for the createTable operation.
@@ -100,7 +108,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * Contains the continuation token value for row key.
    */
-  nextextRowKey?: string;
+  nextRowKey?: string;
   /**
    * The underlying HTTP response.
    */
@@ -186,10 +194,6 @@ export type CreateTableOptions = OperationOptions & {
  */
 export interface TableQueryOptions {
   /**
-   * Maximum number of records to return.
-   */
-  top?: number;
-  /**
    * OData filter expression.
    */
   filter?: string;
@@ -199,10 +203,6 @@ export interface TableQueryOptions {
  * OData Query options to limit the set of entities returned.
  */
 export interface TableEntityQueryOptions {
-  /**
-   * Maximum number of records to return.
-   */
-  top?: number;
   /**
    * OData filter expression.
    */
@@ -216,7 +216,7 @@ export interface TableEntityQueryOptions {
 /**
  * List tables optional parameters.
  */
-export interface ListTablesOptions {
+export type ListTableItemsOptions = OperationOptions & {
   /**
    * Query options group
    */
@@ -229,12 +229,12 @@ export interface ListTablesOptions {
    * A table query continuation token from a previous call.
    */
   nextTableName?: string;
-}
+};
 
 /**
  * List entities optional parameters.
  */
-export interface ListTableEntitiesOptions {
+export type ListTableEntitiesOptions = OperationOptions & {
   /**
    * Query options group
    */
@@ -255,7 +255,7 @@ export interface ListTableEntitiesOptions {
    * An entity query continuation token from a previous call.
    */
   nextRowKey?: string;
-}
+};
 
 /**
  * GetEntity optional parameters.
@@ -344,11 +344,11 @@ export type TableEntity<T extends object> = T & {
   /**
    * The PartitionKey property of the entity.
    */
-  PartitionKey: string;
+  partitionKey: string;
   /**
    * The RowKey property of the entity.
    */
-  RowKey: string;
+  rowKey: string;
 };
 
 /**
@@ -394,3 +394,81 @@ export interface Edm<T extends EdmTypes> {
  * - Replace: Updates an existing entity by replacing the entire entity.
  */
 export type UpdateMode = "Merge" | "Replace";
+
+/**
+ * Defines the shape of a TableBatch
+ */
+export interface TableBatch {
+  /**
+   * Partition key tagetted by the batch
+   */
+  partitionKey: string;
+  /**
+   * Adds a createEntity operation to the batch per each entity in the entities array
+   * @param entitites Array of entities to create
+   */
+  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+  /**
+   * Adds a createEntity operation to the batch
+   * @param entity Entity to create
+   */
+  createEntity: <T extends object>(entity: TableEntity<T>) => void;
+  /**
+   * Adds a deleteEntity operation to the batch
+   * @param partitionKey partition key of the entity to delete
+   * @param rowKey row key of the entity to delete
+   * @param options options for the delete operation
+   */
+  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+  /**
+   * Adds an updateEntity operation to the batch
+   * @param entity entity to update
+   * @param mode update mode (Merge or Replace)
+   * @param options options for the update operation
+   */
+  updateEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpdateTableEntityOptions
+  ) => void;
+  /**
+   * Submits the operations in the batch
+   */
+  submitBatch: () => Promise<TableBatchResponse>;
+}
+
+/**
+ * Represents the response of a Batch operation
+ */
+export interface TableBatchResponse {
+  /**
+   * Collection of sub responses
+   */
+  subResponses: TableBatchEntityResponse[];
+  /**
+   * Main Batch request status code
+   */
+  status: number;
+  /**
+   * Gets a specific response given a row key
+   */
+  getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+}
+
+/**
+ * Represents a sub-response of a Batch operation
+ */
+export interface TableBatchEntityResponse {
+  /**
+   * Entity's etag
+   */
+  etag?: string;
+  /**
+   * Entity's rowKey
+   */
+  rowKey?: string;
+  /**
+   * Sub-response status
+   */
+  status: number;
+}

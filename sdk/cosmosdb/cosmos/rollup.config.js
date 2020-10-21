@@ -4,14 +4,16 @@ export default [
     input: "dist-esm/index.js",
     external: [
       "tslib",
-      "uuid/v4",
+      "universal-user-agent",
+      "uuid",
       "debug",
       "node-abort-controller",
       "node-fetch",
       "priorityqueuejs",
       "semaphore",
       "crypto",
-      "fast-json-stable-stringify"
+      "fast-json-stable-stringify",
+      "jsbi"
     ],
     output: {
       file: "dist/index.js",
@@ -19,15 +21,17 @@ export default [
       name: "Microsoft.Azure.Cosmos",
       sourcemap: true,
       globals: {
+        "universal-user-agent": "universalUserAgent",
         "fast-json-stable-stringify": "stableStringify",
-        "uuid/v4": "uuid",
+        uuid: "uuid",
         "node-abort-controller": "AbortController",
         "node-fetch": "fetch",
         crypto: "crypto",
         tslib: "tslib_1",
         debug: "debugLib",
         priorityqueuejs: "PriorityQueue",
-        semaphore: "semaphore"
+        semaphore: "semaphore",
+        jsbi: "jsbi"
       }
     },
     plugins: [resolve()],

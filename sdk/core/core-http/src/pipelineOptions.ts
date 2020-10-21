@@ -67,4 +67,9 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
    */
   decompressResponse?: boolean;
+
+  /**
+   * Send JSON Array payloads as NDJSON.
+   */
+  sendStreamingJson?: boolean;
 }

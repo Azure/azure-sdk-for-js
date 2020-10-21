@@ -15,7 +15,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -27,8 +27,8 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   let serviceBusClient: ServiceBusClientForTests;
 
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
   let entityNames: EntityName;
 
   before(() => {
@@ -41,7 +41,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -54,7 +54,9 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await serviceBusClient.test.afterEach();
   });
 
-  async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessageWithLock> {
+  async function sendReceiveMsg(
+    testMessages: ServiceBusMessage
+  ): Promise<ServiceBusReceivedMessageWithLock> {
     await sender.sendMessages(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
@@ -85,7 +87,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       errorWasThrown = true;
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (entityNames.usesSessions) {
       should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
       const msgBatch = await receiver.receiveMessages(1);
@@ -129,7 +131,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     } else {
       should.equal(errorWasThrown, false, "Error was thrown for messages without session-id");
     }
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     await testPeekMsgsLength(receiver, 1);
 
     const messageBatch = await receiver.receiveMessages(1);
@@ -183,7 +185,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     } else {
       should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
     }
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (!entityNames.usesSessions) {
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
@@ -237,7 +239,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     if (!entityNames.usesSessions) {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
@@ -311,7 +313,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       errorWasThrown = true;
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (entityNames.usesSessions) {
       should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
       const msgBatch = await receiver.receiveMessages(1);

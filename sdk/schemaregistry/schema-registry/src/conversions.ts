@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaResponse, SchemaIdResponse } from "./models";
+import { SchemaId, Schema } from "./models";
 
 import {
   SchemaGetByIdResponse,
@@ -29,11 +29,11 @@ type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
  *
  * @internal
  */
-export function convertSchemaResponse(response: GeneratedSchemaResponse): SchemaResponse {
-  return {
-    ...convertResponse(response),
-    content: response.body
-  };
+export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema {
+  // https://github.com/Azure/azure-sdk-for-js/issues/11649
+  // Although response.body is typed as string, it is a parsed JSON object,
+  // so we use _response.bodyAsText instead as a workaround.
+  return convertResponse(response, { content: response._response.bodyAsText });
 }
 
 /**
@@ -41,26 +41,24 @@ export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaIdResponse {
-  return {
-    ...convertResponse(response),
-    // `!` here because server is required to return this on success, but that
-    // is not modeled by the generated client.
-    id: response.id!
-  };
+export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId {
+  // `!` here because server is required to return this on success, but that
+  // is not modeled by the generated client.
+  return convertResponse(response, { id: response.id! });
 }
 
-/**
- * Converts common portion of all generated client responses.
- */
-function convertResponse(response: GeneratedResponse): SchemaIdResponse {
-  return {
-    _response: response._response,
+function convertResponse<T>(response: GeneratedResponse, additionalProperties: T): SchemaId & T {
+  const converted = {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
     location: response.location!,
-    locationById: response.xSchemaIdLocation!,
-    id: response.xSchemaId!,
-    version: response.xSchemaVersion!
+    locationById: response.schemaIdLocation!,
+    id: response.schemaId!,
+    version: response.schemaVersion!,
+    serializationType: response.serializationType!,
+    ...additionalProperties
   };
+
+  Object.defineProperty(converted, "_response", { value: response._response, enumerable: false });
+  return converted;
 }

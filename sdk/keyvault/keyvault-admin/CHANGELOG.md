@@ -1,5 +1,11 @@
 # Release History
 
-## 1.0.0-preview.1 (Unreleased)
+## 4.0.0-beta.2 (Unreleased)
 
-- Produced the generated code for the administrative Key Vault tasks. It includes the backup and restore operations for whole Key Vault instances, and the role-based access control (RBAC) operations.
+
+## 4.0.0-beta.1 (2020-09-11)
+
+The @azure/keyvault-admin package provides two clients, `KeyVaultAccessControlClient` and `KeyVaultBackupClient`.
+
+- The `KeyVaultAccessControlClient` allows working with role-based access control (RBAC) operations, meaning assigning, deleting and retrieving role assignments, and retrieving role definitions.
+- The `KeyVaultBackupClient` allows generating full backups and restores of Key Vault instances, and selective restores of keys.

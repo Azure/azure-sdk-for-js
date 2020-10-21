@@ -1,0 +1,9 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    // `package.json`'s sideEffects has to be true because this package loads a
+    // polyfill.
+    "@azure/azure-sdk/ts-package-json-sideeffects": "off"
+  }
+}

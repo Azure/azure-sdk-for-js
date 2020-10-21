@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   HttpOperationResponse,
@@ -10,15 +10,15 @@ import {
   stringifyXML,
   stripRequest,
   stripResponse,
-  RequestPrepareOptions
+  RequestPrepareOptions,
+  OperationOptions
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
-import * as log from "../log";
+import { administrationLogger as logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
-import { OperationOptions } from "@azure/core-http";
 
 /**
  * @internal
@@ -53,7 +53,7 @@ export async function executeAtomXmlOperation(
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
   }
 
-  log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
+  logger.verbose(`Executing ATOM based HTTP request: ${webResource.body}`);
 
   const reqPrepareOptions: RequestPrepareOptions = {
     ...webResource,
@@ -70,7 +70,7 @@ export async function executeAtomXmlOperation(
     webResource
   );
 
-  log.httpAtomXml(`Received ATOM based HTTP response: ${response.bodyAsText}`);
+  logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {
@@ -84,7 +84,7 @@ export async function executeAtomXmlOperation(
       stripRequest(response.request),
       stripResponse(response)
     );
-    log.warning("Error parsing response body from Service - %0", err);
+    logger.logError(err, "Error parsing response body from Service");
     throw error;
   }
 
@@ -188,7 +188,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
     return;
   }
 
-  log.error(
+  logger.warning(
     "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
     atomResponseInJson
   );

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractConnectionStringParts, ConnectionString } from "../../src/utils/connectionString";
+import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
+import { ConnectionString } from "../../src/utils/internalModels";
 
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
@@ -12,6 +13,7 @@ describe("Utility Helpers", () => {
       beforeEach(function() {
         if (!isNode) {
           // Account connection string is not supported for Browsers
+          // eslint-disable-next-line no-invalid-this
           this.skip();
         }
       });
@@ -61,8 +63,6 @@ describe("Utility Helpers", () => {
         kind: "SASConnString",
         url: "https://teststorageaccount.table.core.windows.net"
       };
-
-      beforeEach(() => {});
 
       it("should handle format 'protocol://accountName.table.endpointSuffix'", () => {
         const validSAS =

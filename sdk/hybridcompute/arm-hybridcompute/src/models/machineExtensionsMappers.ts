@@ -24,14 +24,8 @@ export {
   MachinePropertiesOsProfile,
   MachineUpdate,
   OSProfile,
-  Plan,
   ProxyResource,
   Resource,
-  ResourceModelWithAllowedPropertySet,
-  ResourceModelWithAllowedPropertySetIdentity,
-  ResourceModelWithAllowedPropertySetPlan,
-  ResourceModelWithAllowedPropertySetSku,
-  Sku,
   TrackedResource,
   UpdateResource
 } from "../models/mappers";

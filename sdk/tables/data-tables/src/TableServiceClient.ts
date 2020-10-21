@@ -5,25 +5,14 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
-  TableEntity,
-  ListTablesOptions,
-  ListTableEntitiesOptions,
-  GetTableEntityResponse,
-  ListEntitiesResponse,
-  CreateTableEntityOptions,
-  UpdateTableEntityOptions,
-  UpsertTableEntityOptions,
-  UpdateMode,
-  TableEntityQueryOptions,
-  DeleteTableEntityOptions,
+  ListTableItemsOptions,
   CreateTableOptions,
-  GetTableEntityOptions,
   ListTableItemsResponse,
-  CreateTableEntityResponse,
-  CreateTableItemResponse
+  CreateTableItemResponse,
+  TableServiceClientOptions,
+  TableQueryOptions
 } from "./models";
 import {
-  TableServiceClientOptions,
   GetStatisticsOptions,
   GetStatisticsResponse,
   GetPropertiesOptions,
@@ -33,21 +22,21 @@ import {
   SetPropertiesResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  DeleteTableEntityResponse,
-  UpdateEntityResponse,
-  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SetAccessPolicyResponse,
-  SetAccessPolicyOptions
+  SetAccessPolicyOptions,
+  TableResponseProperties
 } from "./generatedModels";
-import {
-  QueryOptions as GeneratedQueryOptions,
-  TableDeleteEntityOptionalParams
-} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
-import { serialize, deserialize, deserializeObjectsArray } from "./serialization";
+import "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { logger } from "./logger";
+import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./utils/tracing";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -78,11 +67,9 @@ export class TableServiceClient {
    * );
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(
     url: string,
     credential: TablesSharedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   );
   /**
@@ -103,12 +90,10 @@ export class TableServiceClient {
    * );
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
     credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ) {
     const credential =
@@ -118,18 +103,30 @@ export class TableServiceClient {
         ? credentialOrOptions
         : options) || {};
 
-    if (credential) {
-      clientOptions.requestPolicyFactories = (defaultFactories) => [
-        ...defaultFactories,
-        credential
-      ];
+    if (!clientOptions.userAgentOptions) {
+      clientOptions.userAgentOptions = {};
     }
 
-    const client = new GeneratedClient(url, clientOptions);
+    if (clientOptions.userAgentOptions.userAgentPrefix) {
+      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+    } else {
+      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
+    }
+
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...clientOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        }
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+    const client = new GeneratedClient(url, pipeline);
     this.table = client.table;
     this.service = client.service;
-
-    // TODO: Add the required policies and credential pipelines #9909
   }
 
   /**
@@ -137,8 +134,16 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options The options parameters.
    */
-  public getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse> {
-    return this.service.getStatistics(options);
+  public getStatistics(options: GetStatisticsOptions = {}): Promise<GetStatisticsResponse> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
+    try {
+      return this.service.getStatistics(updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -146,8 +151,16 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options The options parameters.
    */
-  public getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse> {
-    return this.service.getProperties(options);
+  public getProperties(options: GetPropertiesOptions = {}): Promise<GetPropertiesResponse> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
+    try {
+      return this.service.getProperties(updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -158,9 +171,17 @@ export class TableServiceClient {
    */
   public setProperties(
     properties: ServiceProperties,
-    options?: SetPropertiesOptions
+    options: SetPropertiesOptions = {}
   ): Promise<SetPropertiesResponse> {
-    return this.service.setProperties(properties, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-setProperties", options);
+    try {
+      return this.service.setProperties(properties, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -170,9 +191,20 @@ export class TableServiceClient {
    */
   public createTable(
     tableName: string,
-    options?: CreateTableOptions
+    options: CreateTableOptions = {}
   ): Promise<CreateTableItemResponse> {
-    return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
+    const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
+    try {
+      return this.table.create(
+        { tableName },
+        { ...updatedOptions, responsePreference: "return-content" }
+      );
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -182,16 +214,90 @@ export class TableServiceClient {
    */
   public deleteTable(
     tableName: string,
-    options?: DeleteTableOptions
+    options: DeleteTableOptions = {}
   ): Promise<DeleteTableResponse> {
-    return this.table.delete(tableName, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
+    try {
+      return this.table.delete(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Queries tables under the given account.
    * @param options The options parameters.
    */
-  public async listTables(options?: ListTablesOptions): Promise<ListTableItemsResponse> {
+  public listTables(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: ListTableItemsOptions
+  ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
+    const iter = this.listTablesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings) => {
+        const pageOptions = {
+          ...options,
+          queryOptions: { top: settings?.maxPageSize }
+        };
+        return this.listTablesPage(pageOptions);
+      }
+    };
+  }
+
+  private async *listTablesAll(
+    options?: ListTableItemsOptions
+  ): AsyncIterableIterator<TableResponseProperties> {
+    const firstPage = await this._listTables(options);
+    const { nextTableName } = firstPage;
+    yield* firstPage;
+    if (nextTableName) {
+      const optionsWithContinuation: ListTableItemsOptions = {
+        ...options,
+        nextTableName
+      };
+      for await (const page of this.listTablesPage(optionsWithContinuation)) {
+        yield* page;
+      }
+    }
+  }
+
+  private async *listTablesPage(
+    options: InternalListTablesOptions = {}
+  ): AsyncIterableIterator<ListTableItemsResponse> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
+
+    try {
+      let result = await this._listTables(updatedOptions);
+
+      yield result;
+
+      while (result.nextTableName) {
+        const optionsWithContinuation: ListTableItemsOptions = {
+          ...updatedOptions,
+          nextTableName: result.nextTableName
+        };
+        result = await this._listTables(optionsWithContinuation);
+        yield result;
+      }
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
     const {
       _response,
       xMsContinuationNextTableName: nextTableName,
@@ -202,174 +308,6 @@ export class TableServiceClient {
   }
 
   /**
-   * Returns a single entity in a table.
-   * @param tableName The name of the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
-   */
-  public async getEntity<T extends object>(
-    tableName: string,
-    partitionKey: string,
-    rowKey: string,
-    options?: GetTableEntityOptions
-  ): Promise<GetTableEntityResponse<T>> {
-    const { queryOptions, ...getEntityOptions } = options || {};
-    const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
-      tableName,
-      partitionKey,
-      rowKey,
-      { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
-    );
-    const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-    return { ...tableEntity, _response };
-  }
-
-  /**
-   * Queries entities in a table.
-   * @param tableName The name of the table.
-   * @param options The options parameters.
-   */
-  public async listEntities<T extends object>(
-    tableName: string,
-    options?: ListTableEntitiesOptions
-  ): Promise<ListEntitiesResponse<T>> {
-    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
-    const {
-      _response,
-      xMsContinuationNextPartitionKey: nextPartitionKey,
-      xMsContinuationNextRowKey: nextRowKey,
-      value
-    } = await this.table.queryEntities(tableName, {
-      ...options,
-      queryOptions
-    });
-    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
-    return Object.assign([...tableEntities], {
-      _response,
-      nextPartitionKey,
-      nextRowKey
-    });
-  }
-
-  /**
-   * Insert entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param options The options parameters.
-   */
-  public createEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    options?: CreateTableEntityOptions
-  ): Promise<CreateTableEntityResponse> {
-    const { queryOptions, ...createTableEntity } = options || {};
-    return this.table.insertEntity(tableName, {
-      ...createTableEntity,
-      queryOptions: this.convertQueryOptions(queryOptions || {}),
-      tableEntityProperties: serialize(entity),
-      responsePreference: "return-no-content"
-    });
-  }
-
-  /**
-   * Deletes the specified entity in a table.
-   * @param tableName The name of the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
-   */
-  public deleteEntity(
-    tableName: string,
-    partitionKey: string,
-    rowKey: string,
-    options?: DeleteTableEntityOptions
-  ): Promise<DeleteTableEntityResponse> {
-    const { etag = "*", queryOptions, ...rest } = options || {};
-    const deleteOptions: TableDeleteEntityOptionalParams = {
-      ...rest,
-      queryOptions: this.convertQueryOptions(queryOptions || {})
-    };
-    return this.table.deleteEntity(tableName, partitionKey, rowKey, etag, deleteOptions);
-  }
-
-  /**
-   * Update an entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties of the entity to be updated.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
-   */
-  public updateEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpdateTableEntityOptions
-  ): Promise<UpdateEntityResponse> {
-    if (!entity.PartitionKey || !entity.RowKey) {
-      throw new Error("PartitionKey and RowKey must be defined");
-    }
-
-    const { etag = "*", ...updateOptions } = options || {};
-    if (mode === "Merge") {
-      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        ifMatch: etag,
-        ...updateOptions
-      });
-    }
-    if (mode === "Replace") {
-      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        ifMatch: etag,
-        ...updateOptions
-      });
-    }
-
-    throw new Error(`Unexpected value for update mode: ${mode}`);
-  }
-
-  /**
-   * Upsert an entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
-   */
-  public upsertEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpsertTableEntityOptions
-  ): Promise<UpsertEntityResponse> {
-    if (!entity.PartitionKey || !entity.RowKey) {
-      throw new Error("PartitionKey and RowKey must be defined");
-    }
-
-    const { queryOptions, etag = "*", ...upsertOptions } = options || {};
-    if (mode === "Merge") {
-      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
-      });
-    }
-
-    if (mode === "Replace") {
-      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
-      });
-    }
-    throw new Error(`Unexpected value for update mode: ${mode}`);
-  }
-
-  /**
    * Retrieves details about any stored access policies specified on the table that may be used with
    * Shared Access Signatures.
    * @param tableName The name of the table.
@@ -377,9 +315,17 @@ export class TableServiceClient {
    */
   public getAccessPolicy(
     tableName: string,
-    options?: GetAccessPolicyOptions
+    options: GetAccessPolicyOptions = {}
   ): Promise<GetAccessPolicyResponse> {
-    return this.table.getAccessPolicy(tableName, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-getAccessPolicy", options);
+    try {
+      return this.table.getAccessPolicy(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -390,18 +336,17 @@ export class TableServiceClient {
    */
   public setAccessPolicy(
     tableName: string,
-    options?: SetAccessPolicyOptions
+    options: SetAccessPolicyOptions = {}
   ): Promise<SetAccessPolicyResponse> {
-    return this.table.setAccessPolicy(tableName, options);
-  }
-
-  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
-    const { select, ...queryOptions } = query;
-    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
-    if (select) {
-      mappedQuery.select = select.join(",");
+    const { span, updatedOptions } = createSpan("TableServiceClient-setAccessPolicy", options);
+    try {
+      return this.table.setAccessPolicy(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
     }
-    return mappedQuery;
   }
 
   /**
@@ -422,10 +367,19 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
       connectionString,
       options
     );
-    return new TableServiceClient(url, clientOptions);
+
+    if (credential) {
+      return new TableServiceClient(url, credential, clientOptions);
+    } else {
+      return new TableServiceClient(url, clientOptions);
+    }
   }
 }
+
+type InternalListTablesOptions = ListTableItemsOptions & {
+  queryOptions?: TableQueryOptions & { top?: number };
+};

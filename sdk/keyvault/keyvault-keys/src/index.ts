@@ -38,7 +38,7 @@ import {
   UpdateKeyResponse
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./generated/utils/constants";
+import { SDK_VERSION } from "./constants";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
@@ -76,15 +76,7 @@ import {
   CryptographyClientOptions
 } from "./keysModels";
 
-import {
-  CryptographyClient,
-  DecryptOptions,
-  EncryptOptions,
-  SignOptions,
-  UnwrapKeyOptions,
-  VerifyOptions,
-  WrapKeyOptions
-} from "./cryptographyClient";
+import { CryptographyClient } from "./cryptographyClient";
 
 import { LocalCryptographyClient } from "./localCryptographyClient";
 
@@ -98,18 +90,22 @@ import {
   UnwrapResult,
   VerifyResult,
   WrapResult,
-  EncryptResult
+  KeyOperationsOptions,
+  EncryptResult,
+  DecryptOptions,
+  EncryptOptions,
+  SignOptions,
+  UnwrapKeyOptions,
+  VerifyOptions,
+  WrapKeyOptions
 } from "./cryptographyClientModels";
-import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
-import {
-  parseKeyVaultKeysIdentifier,
-  ParsedKeyVaultKeysIdentifier,
-  KeyVaultKeysIdentifierCollectionName
-} from "./identifier";
+import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 
 export {
   CryptographyClientOptions,
+  KeyOperationsOptions,
   KeyClientOptions,
   BackupKeyOptions,
   CreateEcKeyOptions,
@@ -132,7 +128,7 @@ export {
   KeyOperation,
   KeyType,
   KeyPollerOptions,
-  parseKeyVaultKeysIdentifier,
+  parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -146,8 +142,7 @@ export {
   LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
-  ParsedKeyVaultKeysIdentifier,
-  KeyVaultKeysIdentifierCollectionName,
+  KeyVaultKeyId,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -1144,7 +1139,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = parseKeyVaultKeysIdentifier(keyBundle.key!.kid!);
+    const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1193,7 +1188,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyVaultKeysIdentifier(keyItem.kid!);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1236,7 +1231,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyVaultKeysIdentifier(keyItem.kid!);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 

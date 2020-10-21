@@ -3,10 +3,10 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
@@ -28,13 +28,13 @@ chai.use(chaiAsPromised);
 describe("Streaming with sessions", () => {
   let sender: ServiceBusSender;
   let receiver:
-    | ServiceBusSessionReceiver<ReceivedMessageWithLock>
-    | ServiceBusSessionReceiver<ReceivedMessage>;
-  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -77,30 +77,23 @@ describe("Streaming with sessions", () => {
     receiver = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
-              sessionId: TestMessage.sessionId,
+          ? await serviceBusClient.acceptSession(entityNames.queue, TestMessage.sessionId, {
               receiveMode: "receiveAndDelete"
             })
-          : await serviceBusClient.createSessionReceiver(
+          : await serviceBusClient.acceptSession(
               entityNames.topic!,
               entityNames.subscription!,
+              TestMessage.sessionId,
               {
-                // TODO: we should just be able to randomly generate this. Change _soon_.
-                sessionId: TestMessage.sessionId,
                 receiveMode: "receiveAndDelete"
               }
             )
         : entityNames.queue
-        ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
-            sessionId: TestMessage.sessionId
-          })
-        : await serviceBusClient.createSessionReceiver(
+        ? await serviceBusClient.acceptSession(entityNames.queue, TestMessage.sessionId)
+        : await serviceBusClient.acceptSession(
             entityNames.topic!,
             entityNames.subscription!,
-            {
-              // TODO: we should just be able to randomly generate this. Change _soon_.
-              sessionId: TestMessage.sessionId
-            }
+            TestMessage.sessionId
           )
     );
     return entityNames;
@@ -117,9 +110,10 @@ describe("Streaming with sessions", () => {
         sessionId: TestMessage.sessionId
       });
 
-      const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
-        sessionId: TestMessage.sessionId
-      });
+      const actualReceiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+        entities,
+        TestMessage.sessionId
+      );
       const { subscriber, messages } = await singleMessagePromise(actualReceiver);
 
       messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
@@ -144,7 +138,7 @@ describe("Streaming with sessions", () => {
 
       await actualReceiver.close(); // release the session lock
 
-      const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entities);
 
       // clean out the remaining message that never arrived.
       const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
@@ -167,9 +161,9 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ServiceBusReceivedMessage) {
           receivedMsgs.push(msg);
           should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
           should.equal(
@@ -204,10 +198,10 @@ describe("Streaming with sessions", () => {
     > {
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
-      const receivedMsgs: ReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -248,10 +242,10 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
 
-      const receivedMsgs: ReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -303,11 +297,11 @@ describe("Streaming with sessions", () => {
 
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
               if (
-                (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+                (receiver as ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>)[
                   "_isReceivingMessages"
                 ]()
               ) {
@@ -325,7 +319,7 @@ describe("Streaming with sessions", () => {
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
       if (
-        (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+        (receiver as ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>)[
           "_isReceivingMessages"
         ]()
       ) {
@@ -344,7 +338,7 @@ describe("Streaming with sessions", () => {
         "MessageId is different than expected"
       );
       should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      await (receivedMsgs[0] as ReceivedMessageWithLock).complete();
+      await (receivedMsgs[0] as ServiceBusReceivedMessageWithLock).complete();
       await testPeekMsgsLength(receiver, 0);
     }
     it("abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
@@ -376,7 +370,7 @@ describe("Streaming with sessions", () => {
       let sequenceNum: any = 0;
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
@@ -407,7 +401,7 @@ describe("Streaming with sessions", () => {
       );
       should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await (deferredMsg as ReceivedMessageWithLock).complete();
+      await (deferredMsg as ServiceBusReceivedMessageWithLock).complete();
       await testPeekMsgsLength(receiver, 0);
     }
     it("defer() moves message to deferred queue(with sessions)", async function(): Promise<void> {
@@ -437,7 +431,7 @@ describe("Streaming with sessions", () => {
       let msgCount = 0;
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             await msg.deadLetter();
             msgCount++;
           },
@@ -491,7 +485,7 @@ describe("Streaming with sessions", () => {
         TestMessage.sessionId
       );
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessageWithLock) {
+        async processMessage(msg: ServiceBusReceivedMessageWithLock) {
           return msg.complete();
         },
         processError
@@ -561,9 +555,9 @@ describe("Streaming with sessions", () => {
         const testMessage = TestMessage.getSessionSample();
         await sender.sendMessages(testMessage);
 
-        const receivedMsgs: ReceivedMessageWithLock[] = [];
+        const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
         receiver.subscribe({
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             receivedMsgs.push(msg);
             return Promise.resolve();
           },
@@ -639,9 +633,9 @@ describe("Streaming with sessions", () => {
       await sender.sendMessages(testMessage);
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessageWithLock) {
+        async processMessage(msg: ServiceBusReceivedMessageWithLock) {
           await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
@@ -691,18 +685,18 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      const batchMessageToSend = await sender.createBatch();
+      const batchMessageToSend = await sender.createMessageBatch();
       for (const message of testMessages) {
-        batchMessageToSend.tryAdd(message);
+        batchMessageToSend.tryAddMessage(message);
       }
       await sender.sendMessages(batchMessageToSend);
 
-      const settledMsgs: ReceivedMessageWithLock[] = [];
-      const receivedMsgs: ReceivedMessageWithLock[] = [];
+      const settledMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
 
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
@@ -760,7 +754,7 @@ describe("Streaming with sessions", () => {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
-      const batch = await sender.createBatch();
+      const batch = await sender.createMessageBatch();
       while (num <= totalNumOfMessages) {
         const message = {
           messageId: num,
@@ -771,15 +765,15 @@ describe("Streaming with sessions", () => {
         };
         num++;
         messages.push(message);
-        batch.tryAdd(message);
+        batch.tryAddMessage(message);
       }
       await sender.sendMessages(batch);
 
-      const receivedMsgs: ReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
 
       receiver.subscribe(
         {
-          async processMessage(brokeredMessage: ReceivedMessageWithLock) {
+          async processMessage(brokeredMessage: ServiceBusReceivedMessageWithLock) {
             receivedMsgs.push(brokeredMessage);
             await brokeredMessage.complete();
           },
@@ -797,7 +791,7 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
     }
 

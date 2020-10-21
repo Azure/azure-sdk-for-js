@@ -15,10 +15,23 @@ import {
   createAbortSignalForTest,
   createCountdownAbortSignal
 } from "../utils/abortSignalTestUtils";
-import { createConnectionContextForTests } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId
+} from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
+import { isLinkLocked } from "../utils/misc";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { MessageSession } from "../../src/session/messageSession";
+import { ReceiveMode } from "../../src";
 
 describe("AbortSignal", () => {
+  const defaultOptions = {
+    lockRenewer: undefined,
+    receiveMode: <ReceiveMode>"peekLock"
+  };
+
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
@@ -165,7 +178,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...afterLock", async () => {
@@ -182,7 +195,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...negotiateClaim", async () => {
@@ -210,7 +223,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...createAwaitableSender", async () => {
@@ -238,7 +251,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
   });
 
@@ -246,7 +259,8 @@ describe("AbortSignal", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -260,13 +274,14 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -285,7 +300,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver["_isConnecting"]);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after createReceiver", async () => {
@@ -297,7 +312,7 @@ describe("AbortSignal", () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
@@ -310,7 +325,83 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
+    });
+  });
+
+  describe("subscribe", () => {
+    /**
+     * SessionReceiver is a bit of an odd duck because it doesn't do initialization
+     * in its subscribe() call (like non-session receiver) so our normal abortSignal
+     * code isn't running there. So we have to check this separately from Receiver.
+     */
+    it("SessionReceiver.subscribe", async () => {
+      const connectionContext = createConnectionContextForTestsWithSessionId();
+
+      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+
+      const session = new ServiceBusSessionReceiverImpl(
+        messageSession,
+        connectionContext,
+        "entityPath",
+        "peekLock"
+      );
+
+      try {
+        const abortSignal = createAbortSignalForTest(true);
+        const receivedErrors: Error[] = [];
+
+        session.subscribe(
+          {
+            processMessage: async (_msg) => {},
+            processError: async (err) => {
+              receivedErrors.push(err);
+            }
+          },
+          {
+            abortSignal
+          }
+        );
+
+        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.equal(receivedErrors[0].name, "AbortError");
+      } finally {
+        await session.close();
+      }
+    });
+
+    it("Receiver.subscribe", async () => {
+      const receiver = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entityPath",
+        "peekLock",
+        1
+      );
+
+      try {
+        const abortSignal = createAbortSignalForTest(true);
+        const receivedErrors: Error[] = [];
+
+        await new Promise<void>((resolve) => {
+          receiver.subscribe(
+            {
+              processMessage: async (_msg: any) => {},
+              processError: async (err: Error) => {
+                resolve();
+                receivedErrors.push(err);
+              }
+            },
+            {
+              abortSignal
+            }
+          );
+        });
+
+        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.equal(receivedErrors[0].name, "AbortError");
+      } finally {
+        await receiver.close();
+      }
     });
   });
 });

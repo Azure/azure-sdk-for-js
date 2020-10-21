@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 const packageName = "@azure/schema-registry";
-const packageVersion = "1.0.0-preview.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -50,6 +50,6 @@ export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2018-01-01-preview";
+    this.apiVersion = options.apiVersion || "2020-09-01-preview";
   }
 }

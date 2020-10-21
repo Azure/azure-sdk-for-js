@@ -41,6 +41,13 @@ export interface InternalMessageHandlers<ReceivedMessageT>
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
+ * Represents the sub queue that is applicable for any queue or subscription.
+ * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+ * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+ */
+export type SubQueue = "deadLetter" | "transferDeadLetter";
+
+/**
  *
  *
  * @interface CreateReceiverOptions
@@ -67,6 +74,22 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    *
    */
   receiveMode?: ReceiveModeT;
+  /**
+   * Represents the sub queue that is applicable for any queue or subscription.
+   * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+   * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   */
+  subQueue?: SubQueue;
+
+  /**
+   * The maximum duration in milliseconds until which the lock on the message will be renewed
+   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
+   * provided onMessage handler completes ite execution.
+   *
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**
@@ -80,7 +103,7 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
  * }
  * ```
  */
-export interface CreateBatchOptions extends OperationOptionsBase {
+export interface CreateMessageBatchOptions extends OperationOptionsBase {
   /**
    * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
@@ -107,18 +130,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
  */
-export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {}
-
-/**
- * Options used when subscribing to a Service Bus queue or subscription.
- */
-export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHandlerOptionsBase {}
-
-/**
- * Describes the options passed to `registerMessageHandler` method when receiving messages from a
- * Queue/Subscription.
- */
-export interface MessageHandlerOptionsBase {
+export interface SubscribeOptions extends OperationOptionsBase {
   /**
    * @property Indicates whether the `complete()` method on the message should automatically be
    * called by the sdk after the user provided onMessage handler has been executed.
@@ -136,39 +148,36 @@ export interface MessageHandlerOptionsBase {
 }
 
 /**
- * Describes the options passed to `registerMessageHandler` method when receiving messages from a
- * Queue/Subscription which does not have sessions enabled.
- */
-export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-  /**
-   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
-   * provided onMessage handler completes ite execution.
-   *
-   * - **Default**: `300 * 1000` milliseconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxAutoRenewLockDurationInMs?: number;
-}
-
-/**
- * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
- * has sessions enabled.
+ * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
+ * when using a Queue/Subscription that has sessions enabled.
  *
  * @export
- * @interface CreateSessionReceiverOptions
- * @extends {CreateReceiverOptions<ReceiveModeT>}
+ * @interface AcceptSessionOptions
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
-  extends CreateReceiverOptions<ReceiveModeT>,
-    OperationOptionsBase {
+export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
+  extends OperationOptionsBase {
   /**
-   * @property The id of the session from which messages need to be received. If null or undefined is
-   * provided, Service Bus chooses a random session from available sessions.
+   * Represents the receive mode for the receiver.
+   *
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue/subscription.
+   *
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue/subscription, after which they get sent to a separate
+   * dead letter queue.
+   *
+   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
+   * the message.
+   *
+   * More information about how peekLock and message settlement works here:
+   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   *
    */
-  sessionId?: string;
+  receiveMode?: ReceiveModeT;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.

@@ -1,7 +1,100 @@
 # Release History
 
-## 7.0.0-preview.6 (Unreleased)
+## 7.0.0-preview.8 (Unreleased)
 
+### New features:
+
+- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
+  and
+  [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- Internal improvement - For the operations depending on `$management` link such as peek or lock renewals, the listeners for the "sender_error" and "receiver_error" events were added to the link for each new request made before the link is initialized which would have resulted in too many listeners and a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 sender_error listeners added to [Sender]. Use emittr.setMaxListeners() to increase limit`(same for `receiver_error`). This has been improved such that the listeners are reused.
+  [PR 11738](https://github.com/Azure/azure-sdk-for-js/pull/11738)
+
+### Breaking changes
+
+- The `createBatch` method on the sender is renamed to `createMessageBatch`
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- `ServiceBusMessage` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `CorrelationRuleFilter` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+
+## 7.0.0-preview.7 (2020-10-07)
+
+- [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
+  [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651/commits/f262e4562eb78828ee816a54f9a9778692e0eff9)
+
+### New features:
+
+- Message locks can be auto-renewed in all receive methods (receiver.receiveMessages, receiver.subcribe
+  and receiver.getMessageIterator). This can be configured in options when calling `ServiceBusClient.createReceiver()`.
+  [PR 11658](https://github.com/Azure/azure-sdk-for-js/pull/11658)
+- `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
+  [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
+- Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
+  [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
+- "properties" in the correlation rule filter now supports `Date`.
+  [PR 11117](https://github.com/Azure/azure-sdk-for-js/pull/11117)
+
+### Breaking changes
+
+- `ServiceBusClient.createSessionReceiver` has been split into two methods:
+  - `acceptSession`, which opens a session by name
+  - `acceptNextSession`, which opens the next available session, determined by Service Bus.
+  - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
+
+## 7.0.0-preview.6 (2020-09-10)
+
+### New features:
+
+- Support using the SharedAccessSignature from the connection string.
+  [PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)
+- Added a new field `amqpAnnotatedMessage` to the received message which will hold the received
+  message in its raw form, complete with all parts of the message as per the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf).
+- Added `ServiceBusAdministrationClient.ruleExists()`
+- Options to create a queue and topic now support `enableExpress` boolean property. `enableExpress` indicates whether Express Entities are enabled on a queue or topic. An express queue holds a message in memory temporarily before writing it to persistent storage.
+  [PR 10984](https://github.com/Azure/azure-sdk-for-js/pull/10984)
+
+### Breaking Changes
+
+#### API changes
+
+- `SessionReceiver.sessionLockedUntilUtc` is readonly and never undefined.
+  [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
+- `ServiceBusClient.createDeadLetterReceiver()` has been absorbed into `createReceiver()`.
+  To create a dead letter receiver:
+
+  ```typescript
+  // this same method will work with subscriptions as well.
+  serviceBusClient.createReceiver(<queue>, {
+    subQueue: "deadLetter"
+  });
+  ```
+
+#### Renames
+
+- The `ServiceBusManagementClient` has been renamed to `ServiceBusAdministrationClient`. See
+  [Issue 11012](https://github.com/Azure/azure-sdk-for-js/issues/11012) for more details.
+- Sender, Receivers and the ReceivedMessage interfaces are now prefixed with `ServiceBus`: `ServiceBusSender`, `ServiceBusReceiver`, `ServiceBusSessionReceiver`, `ServiceBusReceivedMessage` and `ServiceBusReceivedMessageWithLock`.
+- Lock duration fields for receivers have been renamed to apply to message locks and session locks:
+  - `maxMessageAutoRenewLockDurationInMs` to `maxAutoRenewLockDurationInMs`
+  - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+- `SessionReceiver.{get,set}State` has been renamed to `SessionReceiver.{get,set}SessionState`
+- Administration API:
+  - Property `defaultMessageTtl` renamed to `defaultMessageTimeToLive` (Wherever applicable)
+  - `updatedAt` renamed to `modifiedAt`
+  - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
+  - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
 
 ## 7.0.0-preview.5 (2020-08-10)
 

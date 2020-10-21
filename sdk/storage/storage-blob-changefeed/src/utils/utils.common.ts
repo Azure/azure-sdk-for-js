@@ -1,6 +1,11 @@
-import { URLBuilder } from "@azure/core-http";
-import { ContainerClient } from "@azure/storage-blob";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { URLBuilder, AbortSignalLike } from "@azure/core-http";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {
@@ -15,6 +20,18 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
     return undefined;
   }
   return new Date(Math.floor(date.getTime() / millisecondsInAnHour) * millisecondsInAnHour);
+}
+
+/**
+ * Get host from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getHost(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getHost();
 }
 
 /**
@@ -39,41 +56,108 @@ export function hashString(str: string): number {
   return hash;
 }
 
-export async function getYearsPaths(containerClient: ContainerClient): Promise<number[]> {
-  const years: number[] = [];
-  for await (const item of containerClient.listBlobsByHierarchy("/", {
-    prefix: CHANGE_FEED_SEGMENT_PREFIX
-  })) {
-    // TODO: add String.prototype.includes polyfill for IE11
-    if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
-      const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
-      years.push(parseInt(yearStr));
+/**
+ * Options to configure {@link getYearsPaths} operation.
+ *
+ * @export
+ * @interface GetYearsPathsOptions
+ */
+export interface GetYearsPathsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof GetYearsPathsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+export async function getYearsPaths(
+  containerClient: ContainerClient,
+  options: GetYearsPathsOptions = {}
+): Promise<number[]> {
+  const { span, spanOptions } = createSpan("getYearsPaths", options.tracingOptions);
+  try {
+    const years: number[] = [];
+    for await (const item of containerClient.listBlobsByHierarchy("/", {
+      abortSignal: options.abortSignal,
+      tracingOptions: { ...options.tracingOptions, spanOptions },
+      prefix: CHANGE_FEED_SEGMENT_PREFIX
+    })) {
+      // TODO: add String.prototype.includes polyfill for IE11
+      if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
+        const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
+        years.push(parseInt(yearStr));
+      }
     }
+    return years.sort((a, b) => a - b);
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
-  return years.sort((a, b) => a - b);
+}
+
+/**
+ * Options to configure {@link getSegmentsInYear} operation.
+ *
+ * @export
+ * @interface GetSegmentsInYearOptions
+ */
+export interface GetSegmentsInYearOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof GetSegmentsInYearOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 export async function getSegmentsInYear(
   containerClient: ContainerClient,
   year: number,
   startTime?: Date,
-  endTime?: Date
+  endTime?: Date,
+  options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
-  const segments: string[] = [];
-  const yearBeginTime = new Date(Date.UTC(year, 0));
-  if (endTime && yearBeginTime >= endTime) {
-    return segments;
-  }
+  const { span, spanOptions } = createSpan("getSegmentsInYear", options.tracingOptions);
 
-  const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
-  for await (const item of containerClient.listBlobsFlat({ prefix })) {
-    const segmentTime = parseDateFromSegmentPath(item.name);
-    if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
-      continue;
+  try {
+    const segments: string[] = [];
+    const yearBeginTime = new Date(Date.UTC(year, 0));
+    if (endTime && yearBeginTime >= endTime) {
+      return segments;
     }
-    segments.push(item.name);
+
+    const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
+    for await (const item of containerClient.listBlobsFlat({
+      prefix,
+      abortSignal: options.abortSignal,
+      tracingOptions: { ...options.tracingOptions, spanOptions }
+    })) {
+      const segmentTime = parseDateFromSegmentPath(item.name);
+      if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
+        continue;
+      }
+      segments.push(item.name);
+    }
+    return segments;
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
-  return segments;
 }
 
 export function parseDateFromSegmentPath(segmentPath: string): Date {

@@ -24,11 +24,27 @@ import {
   ConditionErrorNameMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import * as log from "../log";
+import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
-import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { calculateRenewAfterDuration } from "../util/utils";
+import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
+
+/**
+ * @internal
+ * @ignore
+ */
+export interface CreateStreamingReceiverOptions
+  extends ReceiveOptions,
+    Pick<OperationOptionsBase, "abortSignal"> {
+  /**
+   * Used for mocking/stubbing in tests.
+   */
+  _createStreamingReceiverStubForTests?: (
+    context: ConnectionContext,
+    options?: ReceiveOptions
+  ) => StreamingReceiver;
+  cachedStreamingReceiver?: StreamingReceiver;
+}
 
 /**
  * @internal
@@ -107,58 +123,38 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
-    super(context, entityPath, "sr", options);
+  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(context, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
 
     this._retryOptions = options?.retryOptions || {};
-    this._receiverHelper = new ReceiverHelper(() => this.link);
+    this._receiverHelper = new ReceiverHelper(() => ({
+      receiver: this.link,
+      logPrefix: this.logPrefix
+    }));
 
     this._onAmqpClose = async (context: EventContext) => {
-      const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
-      if (receiverError) {
-        log.error(
-          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          receiverError
-        );
-      }
-      this._clearAllMessageLockRenewTimers();
+
+      logger.logError(
+        receiverError,
+        `${this.logPrefix} 'receiver_close' event occurred. The associated error is`
+      );
+
+      this._lockRenewer?.stopAll(this);
+
       if (receiver && !receiver.isItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(receiverError);
-        } else {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
+        await this.onDetached(receiverError);
       } else {
-        log.error(
-          "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+        logger.verbose(
+          "%s 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
             "() handler.",
-          connectionId,
+          this.logPrefix,
           this.name,
           this.address
         );
@@ -166,47 +162,24 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onSessionClose = async (context: EventContext) => {
-      const connectionId = this._context.connectionId;
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
-      this._clearAllMessageLockRenewTimers();
+
+      logger.logError(
+        sessionError,
+        `${this.logPrefix} 'session_close' event occurred. The associated error is`
+      );
+
+      this._lockRenewer?.stopAll(this);
+
       if (receiver && !receiver.isSessionItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(sessionError);
-        } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
+        await this.onDetached(sessionError);
       } else {
-        log.error(
-          "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
+        logger.verbose(
+          "%s 'session_close' event occurred on the session of receiver '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
             "() handler.",
-          connectionId,
+          this.logPrefix,
           this.name,
           this.address
         );
@@ -214,59 +187,52 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const connectionId = this._context.connectionId;
       const receiver = this.link || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
-        log.error(
-          "[%s] An error occurred for Receiver '%s': %O.",
-          connectionId,
-          this.name,
-          sbError
-        );
+        logger.logError(sbError, `${this.logPrefix} An error occurred for Receiver`);
         if (!sbError.retryable) {
           if (receiver && !receiver.isItselfClosed()) {
-            log.error(
-              "[%s] Since the user did not close the receiver and the error is not " +
+            logger.verbose(
+              "%s Since the user did not close the receiver and the error is not " +
                 "retryable, we let the user know about it by calling the user's error handler.",
-              connectionId
+              this.logPrefix
             );
             this._onError!(sbError);
           } else {
-            log.error(
-              "[%s] The received error is not retryable. However, the receiver was " +
+            logger.verbose(
+              "%s The received error is not retryable. However, the receiver was " +
                 "closed by the user. Hence not notifying the user's error handler.",
-              connectionId
+              this.logPrefix
             );
           }
         } else {
-          log.error(
-            "[%s] Since received error is retryable, we will NOT notify the user's " +
+          logger.verbose(
+            "%s Since received error is retryable, we will NOT notify the user's " +
               "error handler.",
-            connectionId
+            this.logPrefix
           );
         }
       }
     };
 
     this._onSessionError = (context: EventContext) => {
-      const connectionId = this._context.connectionId;
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError) as MessagingError;
-        log.error(
-          "[%s] An error occurred on the session for Receiver '%s': %O.",
-          connectionId,
-          this.name,
-          sbError
+        logger.logError(
+          sbError,
+          "%s An error occurred on the session for Receiver '%s'",
+          this.logPrefix,
+          this.name
         );
         if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
-          log.error(
-            "[%s] Since the user did not close the receiver and the session error is not " +
+          logger.verbose(
+            "%s Since the user did not close the receiver and the session error is not " +
               "retryable, we let the user know about it by calling the user's error handler.",
-            connectionId
+            this.logPrefix
           );
           this._onError!(sbError);
         }
@@ -276,167 +242,63 @@ export class StreamingReceiver extends MessageReceiver {
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
-      if (
-        this.receiveMode === InternalReceiveMode.peekLock &&
-        (!this.link || !this.link.isOpen())
-      ) {
-        log.error(
-          "[%s] Not calling the user's message handler for the current message " +
-            "as the receiver '%s' is closed",
-          this._context.connectionId,
-          this.name
+      if (this.receiveMode === "peekLock" && (!this.link || !this.link.isOpen())) {
+        logger.verbose(
+          "%s Not calling the user's message handler for the current message " +
+            "as the receiver is closed",
+          this.logPrefix
         );
         return;
       }
 
-      const connectionId = this._context.connectionId;
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
-        this._entityPath,
+        this.entityPath,
         context.message!,
         context.delivery!,
         true,
         this.receiveMode
       );
 
-      if (this.autoRenewLock && bMessage.lockToken) {
-        const lockToken = bMessage.lockToken;
-        // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
-        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInMs
-        // - We should be able to clear the renewal timer when the user's message handler
-        // is done (whether it succeeds or fails).
-        // Setting the messageId with undefined value in the _messageRenewockTimers Map because we
-        // track state by checking the presence of messageId in the map. It is removed from the map
-        // when an attempt is made to settle the message (either by the user or by the sdk) OR
-        // when the execution of user's message handler completes.
-        this._messageRenewLockTimers.set(bMessage.messageId as string, undefined);
-        log.receiver(
-          "[%s] message with id '%s' is locked until %s.",
-          connectionId,
-          bMessage.messageId,
-          bMessage.lockedUntilUtc!.toString()
-        );
-        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        log.receiver(
-          "[%s] Total autolockrenew duration for message with id '%s' is: ",
-          connectionId,
-          bMessage.messageId,
-          new Date(totalAutoLockRenewDuration).toString()
-        );
-        const autoRenewLockTask = (): void => {
-          if (
-            new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc! &&
-            Date.now() < totalAutoLockRenewDuration
-          ) {
-            if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
-              // TODO: We can run into problems with clock skew between the client and the server.
-              // It would be better to calculate the duration based on the "lockDuration" property
-              // of the queue. However, we do not have the management plane of the client ready for
-              // now. Hence we rely on the lockedUntilUtc property on the message set by ServiceBus.
-              const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
-              log.receiver(
-                "[%s] Sleeping for %d milliseconds while renewing the lock for " +
-                  "message with id '%s' is: ",
-                connectionId,
-                amount,
-                bMessage.messageId
-              );
-              // Setting the value of the messageId to the actual timer. This will be cleared when
-              // an attempt is made to settle the message (either by the user or by the sdk) OR
-              // when the execution of user's message handler completes.
-              this._messageRenewLockTimers.set(
-                bMessage.messageId as string,
-                setTimeout(async () => {
-                  try {
-                    log.receiver(
-                      "[%s] Attempting to renew the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    bMessage.lockedUntilUtc = await this._context
-                      .getManagementClient(this._entityPath)
-                      .renewLock(lockToken, { associatedLinkName: this.name });
-                    log.receiver(
-                      "[%s] Successfully renewed the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    log.receiver(
-                      "[%s] Calling the autorenewlock task again for message with " + "id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    autoRenewLockTask();
-                  } catch (err) {
-                    log.error(
-                      "[%s] An error occured while auto renewing the message lock '%s' " +
-                        "for message with id '%s': %O.",
-                      connectionId,
-                      bMessage.lockToken,
-                      bMessage.messageId,
-                      err
-                    );
-                    // Let the user know that there was an error renewing the message lock.
-                    this._onError!(err);
-                  }
-                }, amount)
-              );
-            } else {
-              log.receiver(
-                "[%s] Looks like the message lock renew timer has already been " +
-                  "cleared for message with id '%s'.",
-                connectionId,
-                bMessage.messageId
-              );
-            }
-          } else {
-            log.receiver(
-              "[%s] Current time %s exceeds the total autolockrenew duration %s for " +
-                "message with messageId '%s'. Hence we will stop the autoLockRenewTask.",
-              connectionId,
-              new Date(Date.now()).toString(),
-              new Date(totalAutoLockRenewDuration).toString(),
-              bMessage.messageId
-            );
-            this._clearMessageLockRenewTimer(bMessage.messageId as string);
-          }
-        };
-        // start
-        autoRenewLockTask();
-      }
+      this._lockRenewer?.start(this, bMessage, (err) => {
+        if (this._onError) {
+          this._onError(err);
+        }
+      });
+
       try {
         await this._onMessage(bMessage);
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
-          log.error(
-            "[%s] An error occurred while running user's message handler for the message " +
-              "with id '%s' on the receiver '%s': %O",
-            connectionId,
+          logger.logError(
+            err,
+            "%s An error occurred while running user's message handler for the message " +
+              "with id '%s' on the receiver '%s'",
+            this.logPrefix,
             bMessage.messageId,
-            this.name,
-            err
+            this.name
           );
           this._onError!(err);
         }
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
+        this._lockRenewer?.stop(this, bMessage);
         const error = translate(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
           error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
-          this.receiveMode === InternalReceiveMode.peekLock &&
+          this.receiveMode === "peekLock" &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
           try {
-            log.error(
-              "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
+            logger.logError(
+              error,
+              "%s Abandoning the message with id '%s' on the receiver '%s' since " +
                 "an error occured: %O.",
-              connectionId,
+              this.logPrefix,
               bMessage.messageId,
               this.name,
               error
@@ -444,13 +306,13 @@ export class StreamingReceiver extends MessageReceiver {
             await bMessage.abandon();
           } catch (abandonError) {
             const translatedError = translate(abandonError);
-            log.error(
-              "[%s] An error occurred while abandoning the message with id '%s' on the " +
-                "receiver '%s': %O.",
-              connectionId,
+            logger.logError(
+              translatedError,
+              "%s An error occurred while abandoning the message with id '%s' on the " +
+                "receiver '%s'",
+              this.logPrefix,
               bMessage.messageId,
-              this.name,
-              translatedError
+              this.name
             );
             this._onError!(translatedError);
           }
@@ -464,26 +326,25 @@ export class StreamingReceiver extends MessageReceiver {
       // completing the message.
       if (
         this.autoComplete &&
-        this.receiveMode === InternalReceiveMode.peekLock &&
+        this.receiveMode === "peekLock" &&
         !bMessage.delivery.remote_settled
       ) {
         try {
-          log.streaming(
-            "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
-            connectionId,
-            bMessage.messageId,
-            this.name
+          logger.verbose(
+            "%s Auto completing the message with id '%s' on " + "the receiver.",
+            this.logPrefix,
+            bMessage.messageId
           );
           await bMessage.complete();
         } catch (completeError) {
           const translatedError = translate(completeError);
-          log.error(
-            "[%s] An error occurred while completing the message with id '%s' on the " +
-              "receiver '%s': %O.",
-            connectionId,
+          logger.logError(
+            translatedError,
+            "%s An error occurred while completing the message with id '%s' on the " +
+              "receiver '%s'",
+            this.logPrefix,
             bMessage.messageId,
-            this.name,
-            translatedError
+            this.name
           );
           this._onError!(translatedError);
         }
@@ -546,6 +407,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
+    logger.verbose(`${this.logPrefix} Detaching.`);
+
     const connectionId = this._context.connectionId;
 
     // User explicitly called `close` on the receiver, so link is already closed
@@ -563,8 +426,8 @@ export class StreamingReceiver extends MessageReceiver {
       // we'll continue to see connection `disconnect` errors.
       // These should be ignored until the already running `onDetached` completes
       // its retry attempts or errors.
-      log.error(
-        `[${connectionId}] Call to detached on streaming receiver '${this.name}' is already in progress.`
+      logger.verbose(
+        `${this.logPrefix} Call to detached on streaming receiver '${this.name}' is already in progress.`
       );
       return;
     }
@@ -595,12 +458,12 @@ export class StreamingReceiver extends MessageReceiver {
       // will have already been forwarded to the user's error handler.
       // Swallow the error and return quickly.
       if (!shouldReopen && !causedByDisconnect) {
-        log.error(
-          "[%s] Encountered a non retryable error on the receiver. Cannot recover receiver '%s' with address '%s' encountered error: %O",
-          connectionId,
+        logger.logError(
+          translatedError,
+          "%s Encountered a non retryable error on the receiver. Cannot recover receiver. encountered error",
+          this.logPrefix,
           this.name,
-          this.address,
-          translatedError
+          this.address
         );
         return;
       }
@@ -609,12 +472,12 @@ export class StreamingReceiver extends MessageReceiver {
       // haven't had a chance to show up in the user's error handler.
       // Rethrow the error so the surrounding try/catch forwards it appropriately.
       if (!shouldReopen && causedByDisconnect) {
-        log.error(
-          "[%s] Encountered a non retryable error on the connection. Cannot recover receiver '%s' with address '%s': %O",
-          connectionId,
+        logger.logError(
+          translatedError,
+          "%s Encountered a non retryable error on the connection. Cannot recover receiver.",
+          this.logPrefix,
           this.name,
-          this.address,
-          translatedError
+          this.address
         );
         throw translatedError;
       }
@@ -640,27 +503,21 @@ export class StreamingReceiver extends MessageReceiver {
       // retry will throw and the error will surface to the user's error handler.
       await retry<void>(config);
     } catch (err) {
-      log.error(
-        "[%s] An error occurred while processing detached() of Receiver '%s': %O ",
-        connectionId,
+      logger.logError(
+        err,
+        "%s An error occurred while processing detached()",
+        this.logPrefix,
         this.name,
-        this.address,
-        err
+        this.address
       );
       if (typeof this._onError === "function") {
-        log.error(
-          "[%s] Unable to automatically reconnect Receiver '%s' with address '%s'.",
-          connectionId,
-          this.name,
-          this.address
-        );
+        logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
         try {
           this._onError(err);
         } catch (err) {
-          log.error(
-            "[%s] User-code error in error handler called after disconnect: %O",
-            connectionId,
-            err
+          logger.logError(
+            err,
+            `${this.logPrefix} User-code error in error handler called after disconnect`
           );
         } finally {
           // Once the user's error handler has been called,
@@ -678,17 +535,9 @@ export class StreamingReceiver extends MessageReceiver {
   static async create(
     context: ConnectionContext,
     entityPath: string,
-    options?: ReceiveOptions &
-      Pick<OperationOptionsBase, "abortSignal"> & {
-        _createStreamingReceiverStubForTests?: (
-          context: ConnectionContext,
-          options?: ReceiveOptions
-        ) => StreamingReceiver;
-        cachedStreamingReceiver?: StreamingReceiver;
-      }
+    options: CreateStreamingReceiverOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context);
-    if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
 
     let sReceiver: StreamingReceiver;

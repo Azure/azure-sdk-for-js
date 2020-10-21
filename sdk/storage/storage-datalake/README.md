@@ -18,7 +18,7 @@ npm install @azure/storage-datalake
 #### nodejs - Authentication, client creation and list filesystem as an example written in TypeScript.
 
 ##### Sample code
-This sample lists the file systems in your storage account.  To know more, refer to the [Azure Documentation on Storage DataLake](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction)
+This sample lists the file systems in your storage account.  To know more, refer to the [Azure Documentation on Storage DataLake](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
 
 
 ```typescript

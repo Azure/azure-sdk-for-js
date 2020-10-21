@@ -102,6 +102,143 @@ export class Share {
   }
 
   /**
+   * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot
+   * for set and delete share operations.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareAcquireLeaseResponse>
+   */
+  acquireLease(options?: Models.ShareAcquireLeaseOptionalParams): Promise<Models.ShareAcquireLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
+  acquireLease(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  acquireLease(options: Models.ShareAcquireLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  acquireLease(options?: Models.ShareAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareAcquireLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      acquireLeaseOperationSpec,
+      callback) as Promise<Models.ShareAcquireLeaseResponse>;
+  }
+
+  /**
+   * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot
+   * for set and delete share operations.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareReleaseLeaseResponse>
+   */
+  releaseLease(leaseId: string, options?: Models.ShareReleaseLeaseOptionalParams): Promise<Models.ShareReleaseLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
+  releaseLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  releaseLease(leaseId: string, options: Models.ShareReleaseLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options?: Models.ShareReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareReleaseLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        leaseId,
+        options
+      },
+      releaseLeaseOperationSpec,
+      callback) as Promise<Models.ShareReleaseLeaseResponse>;
+  }
+
+  /**
+   * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot
+   * for set and delete share operations.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareChangeLeaseResponse>
+   */
+  changeLease(leaseId: string, options?: Models.ShareChangeLeaseOptionalParams): Promise<Models.ShareChangeLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
+  changeLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  changeLease(leaseId: string, options: Models.ShareChangeLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  changeLease(leaseId: string, options?: Models.ShareChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareChangeLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        leaseId,
+        options
+      },
+      changeLeaseOperationSpec,
+      callback) as Promise<Models.ShareChangeLeaseResponse>;
+  }
+
+  /**
+   * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot
+   * for set and delete share operations.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareRenewLeaseResponse>
+   */
+  renewLease(leaseId: string, options?: Models.ShareRenewLeaseOptionalParams): Promise<Models.ShareRenewLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
+  renewLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  renewLease(leaseId: string, options: Models.ShareRenewLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  renewLease(leaseId: string, options?: Models.ShareRenewLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareRenewLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        leaseId,
+        options
+      },
+      renewLeaseOperationSpec,
+      callback) as Promise<Models.ShareRenewLeaseResponse>;
+  }
+
+  /**
+   * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot
+   * for set and delete share operations.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareBreakLeaseResponse>
+   */
+  breakLease(options?: Models.ShareBreakLeaseOptionalParams): Promise<Models.ShareBreakLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
+  breakLease(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  breakLease(options: Models.ShareBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  breakLease(options?: Models.ShareBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareBreakLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      breakLeaseOperationSpec,
+      callback) as Promise<Models.ShareBreakLeaseResponse>;
+  }
+
+  /**
    * Creates a read-only snapshot of a share.
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareCreateSnapshotResponse>
@@ -182,27 +319,27 @@ export class Share {
   }
 
   /**
-   * Sets quota for the specified share.
+   * Sets properties for the specified share.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ShareSetQuotaResponse>
+   * @returns Promise<Models.ShareSetPropertiesResponse>
    */
-  setQuota(options?: Models.ShareSetQuotaOptionalParams): Promise<Models.ShareSetQuotaResponse>;
+  setProperties(options?: Models.ShareSetPropertiesOptionalParams): Promise<Models.ShareSetPropertiesResponse>;
   /**
    * @param callback The callback
    */
-  setQuota(callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setQuota(options: Models.ShareSetQuotaOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setQuota(options?: Models.ShareSetQuotaOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
+  setProperties(options: Models.ShareSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(options?: Models.ShareSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setQuotaOperationSpec,
-      callback) as Promise<Models.ShareSetQuotaResponse>;
+      setPropertiesOperationSpec,
+      callback) as Promise<Models.ShareSetPropertiesResponse>;
   }
 
   /**
@@ -341,6 +478,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.metadata,
     Parameters.quota,
+    Parameters.accessTier,
     Parameters.version
   ],
   responses: {
@@ -368,7 +506,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.restype1
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -396,7 +535,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.version,
-    Parameters.deleteSnapshots
+    Parameters.deleteSnapshots,
+    Parameters.leaseId0
   ],
   responses: {
     202: {
@@ -405,6 +545,164 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.ShareDeleteHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.comp2,
+    Parameters.restype1
+  ],
+  headerParameters: [
+    Parameters.duration,
+    Parameters.proposedLeaseId,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action0
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.ShareAcquireLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareAcquireLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.comp2,
+    Parameters.restype1
+  ],
+  headerParameters: [
+    Parameters.leaseId1,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action1
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.ShareReleaseLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareReleaseLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.comp2,
+    Parameters.restype1
+  ],
+  headerParameters: [
+    Parameters.leaseId1,
+    Parameters.proposedLeaseId,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action2
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.ShareChangeLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareChangeLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const renewLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.comp2,
+    Parameters.restype1
+  ],
+  headerParameters: [
+    Parameters.leaseId1,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action3
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.ShareRenewLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareRenewLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.comp2,
+    Parameters.restype1
+  ],
+  headerParameters: [
+    Parameters.breakPeriod,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action4,
+    Parameters.leaseId0
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.ShareBreakLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareBreakLeaseHeaders
     }
   },
   isXML: true,
@@ -420,7 +718,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp2
+    Parameters.comp3
   ],
   headerParameters: [
     Parameters.metadata,
@@ -448,7 +746,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.version
@@ -483,7 +781,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.filePermissionKey0,
@@ -503,7 +801,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const setQuotaOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
@@ -516,15 +814,17 @@ const setQuotaOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.version,
-    Parameters.quota
+    Parameters.quota,
+    Parameters.accessTier,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
-      headersMapper: Mappers.ShareSetQuotaHeaders
+      headersMapper: Mappers.ShareSetPropertiesHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareSetQuotaHeaders
+      headersMapper: Mappers.ShareSetPropertiesHeaders
     }
   },
   isXML: true,
@@ -540,11 +840,12 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -568,10 +869,11 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -608,10 +910,11 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   requestBody: {
     parameterPath: [
@@ -656,10 +959,11 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -684,7 +988,7 @@ const restoreOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.version,

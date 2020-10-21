@@ -93,6 +93,42 @@ export class ExposureControl {
       getFeatureValueByFactoryOperationSpec,
       callback) as Promise<Models.ExposureControlGetFeatureValueByFactoryResponse>;
   }
+
+  /**
+   * Get list of exposure control features for specific factory.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param exposureControlBatchRequest The exposure control request for list of features.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExposureControlQueryFeatureValuesByFactoryResponse>
+   */
+  queryFeatureValuesByFactory(resourceGroupName: string, factoryName: string, exposureControlBatchRequest: Models.ExposureControlBatchRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlQueryFeatureValuesByFactoryResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param exposureControlBatchRequest The exposure control request for list of features.
+   * @param callback The callback
+   */
+  queryFeatureValuesByFactory(resourceGroupName: string, factoryName: string, exposureControlBatchRequest: Models.ExposureControlBatchRequest, callback: msRest.ServiceCallback<Models.ExposureControlBatchResponse>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param exposureControlBatchRequest The exposure control request for list of features.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  queryFeatureValuesByFactory(resourceGroupName: string, factoryName: string, exposureControlBatchRequest: Models.ExposureControlBatchRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlBatchResponse>): void;
+  queryFeatureValuesByFactory(resourceGroupName: string, factoryName: string, exposureControlBatchRequest: Models.ExposureControlBatchRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlBatchResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlBatchResponse>): Promise<Models.ExposureControlQueryFeatureValuesByFactoryResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        exposureControlBatchRequest,
+        options
+      },
+      queryFeatureValuesByFactoryOperationSpec,
+      callback) as Promise<Models.ExposureControlQueryFeatureValuesByFactoryResponse>;
+  }
 }
 
 // Operation Specifications
@@ -152,6 +188,38 @@ const getFeatureValueByFactoryOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ExposureControlResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const queryFeatureValuesByFactoryOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryFeaturesValue",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "exposureControlBatchRequest",
+    mapper: {
+      ...Mappers.ExposureControlBatchRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExposureControlBatchResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

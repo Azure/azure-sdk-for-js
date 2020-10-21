@@ -4,14 +4,14 @@
 import { delay } from "../../src";
 import { CreateTopicOptions } from "../../src/serializers/topicResourceSerializer";
 import { CreateSubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
-import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
 import { CreateQueueOptions } from "../../src/serializers/queueResourceSerializer";
 const should = chai.should();
 
-let client: ServiceBusManagementClient;
+let client: ServiceBusAdministrationClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
@@ -20,7 +20,7 @@ let client: ServiceBusManagementClient;
 async function getManagementClient() {
   if (client == undefined) {
     const env = getEnvVars();
-    client = new ServiceBusManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }

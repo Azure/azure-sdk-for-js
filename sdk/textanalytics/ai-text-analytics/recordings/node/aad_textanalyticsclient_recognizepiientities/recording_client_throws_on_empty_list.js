@@ -8,9 +8,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
-  'no-cache, no-store',
+  'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -19,39 +21,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  '376002a6-f737-4b70-89e1-a592cc372900',
-  'x-ms-ests-server',
-  '2.1.10946.15 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '662ef0cf-fb51-408c-b878-80b19b63a700',
+  'x-ms-ests-server',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AoQdQ0EFIZJNgXSY2eweZNL0CyfMAQAAAJXFyNYOAAAA; expires=Sun, 13-Sep-2020 17:49:10 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ah08GNssQWhImSp5wzgPdV3IIHRUAQAAAIeX9dYOAAAA; expires=Sat, 17-Oct-2020 17:44:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 14 Aug 2020 17:49:09 GMT',
-  'Content-Length',
-  '1500'
+  'Thu, 17 Sep 2020 17:44:40 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/entities/recognition/pii', {"documents":[]})
+  .post('/text/analytics/v3.1-preview.2/entities/recognition/pii', {"documents":[]})
+  .query(true)
   .reply(400, {"error":{"code":"InvalidRequest","message":"Invalid Request.","innererror":{"code":"MissingInputRecords","message":"Missing input records."}}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '1929',
   'apim-request-id',
-  '7bb0b063-a8cf-4d66-8661-f951599db8fd',
+  '1234b09e-2491-4766-8c0d-d97751d4b288',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 14 Aug 2020 17:49:10 GMT'
+  'Thu, 17 Sep 2020 17:44:42 GMT'
 ]);

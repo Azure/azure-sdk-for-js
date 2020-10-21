@@ -328,7 +328,12 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
+export interface KeyVaultCertificateId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 // @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
@@ -368,16 +373,7 @@ export const logger: import("@azure/logger").AzureLogger;
 export type MergeCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export interface ParsedKeyVaultCertificatesIdentifier {
-    collection: KeyVaultCertificatesIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export function parseKeyVaultCertificatesIdentifier(id: string): ParsedKeyVaultCertificatesIdentifier;
+export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId;
 
 export { PipelineOptions }
 

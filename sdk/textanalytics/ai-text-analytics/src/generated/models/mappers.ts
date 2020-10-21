@@ -163,6 +163,13 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
       confidenceScore: {
         serializedName: "confidenceScore",
         required: true,
@@ -183,8 +190,7 @@ export const TextAnalyticsWarning: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["LongWordsInDocument", "DocumentTruncated"]
+          name: "String"
         }
       },
       message: {
@@ -253,13 +259,7 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "InvalidRequest",
-            "InvalidArgument",
-            "InternalServerError",
-            "ServiceUnavailable"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -275,7 +275,7 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innerError: {
+      innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -304,18 +304,7 @@ export const InnerError: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "InvalidParameterValue",
-            "InvalidRequestBodyFormat",
-            "EmptyRequest",
-            "MissingInputRecords",
-            "InvalidDocument",
-            "ModelVersionIncorrect",
-            "InvalidDocumentBatch",
-            "UnsupportedLanguageCode",
-            "InvalidCountryHint"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -338,7 +327,7 @@ export const InnerError: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innerError: {
+      innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -380,6 +369,111 @@ export const TextDocumentBatchStatistics: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "TextAnalyticsError"
+        }
+      }
+    }
+  }
+};
+
+export const PiiEntitiesResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiEntitiesResult",
+    modelProperties: {
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "PiiDocumentEntities" }
+          }
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "DocumentError" } }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentBatchStatistics"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PiiDocumentEntities: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiDocumentEntities",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "Entity" } }
+        }
+      },
+      warnings: {
+        serializedName: "warnings",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "TextAnalyticsWarning" }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentStatistics"
+        }
+      },
+      redactedText: {
+        serializedName: "redactedText",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -514,6 +608,12 @@ export const LinkedEntity: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      bingEntitySearchApiId: {
+        serializedName: "bingId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -536,6 +636,13 @@ export const Match: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -939,6 +1046,13 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           className: "SentimentConfidenceScores"
         }
       },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
       aspects: {
         serializedName: "aspects",
         type: {
@@ -966,7 +1080,8 @@ export const SentenceAspect: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["positive", "mixed", "negative"]
         }
       },
       confidenceScores: {
@@ -974,6 +1089,13 @@ export const SentenceAspect: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AspectConfidenceScoreLabel"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
         }
       },
       text: {
@@ -1027,7 +1149,8 @@ export const AspectRelation: coreHttp.CompositeMapper = {
         serializedName: "relationType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["opinion", "aspect"]
         }
       },
       ref: {
@@ -1050,7 +1173,8 @@ export const SentenceOpinion: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["positive", "mixed", "negative"]
         }
       },
       confidenceScores: {
@@ -1058,6 +1182,13 @@ export const SentenceOpinion: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AspectConfidenceScoreLabel"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
         }
       },
       text: {

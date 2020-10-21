@@ -1,8 +1,29 @@
 # Release History
 
-## 1.1.7 (Unreleased)
+## 1.2.0 (2020-10-19)
 
-- Fixed a bug in `BearerTokenAuthenticationPolicy` where a helper class was being instantiated on each request. [PR 10728](https://github.com/Azure/azure-sdk-for-js/pull/10728)
+- Explicitly set `manual` redirect handling for node fetch. And fixing redirectPipeline [PR 11863](https://github.com/Azure/azure-sdk-for-js/pull/11863)
+- Add support for multiple error response codes.[PR 11841](https://github.com/Azure/azure-sdk-for-js/)
+
+## 1.1.9 (2020-09-30)
+
+- Add support for XML namespaces in deserialization [PR 11201](https://github.com/Azure/azure-sdk-for-js/pull/11201)
+
+- Add support for NDJSON format [PR 11325](https://github.com/Azure/azure-sdk-for-js/pull/11325)
+
+- Add support for `NO_PROXY` and `ALL_PROXY` environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
+
+- Serializer now resolves `additionalProperties` correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
+
+- Empty wrapped XML element lists are no properly de-serialized. This fixes [issue 11071](https://github.com/Azure/azure-sdk-for-js/issues/11071)
+
+## 1.1.8 (2020-09-08)
+
+- `URLQuery` parsing now accepts `=` in query parameter values and no longer drops such query parameter name/value pairs. This fixes [issue 11014](https://github.com/Azure/azure-sdk-for-js/issues/11014)
+
+## 1.1.7 (2020-09-02)
+
+- `BearerTokenAuthenticationPolicy` now starts trying to refresh the token 30 seconds before the token expires. It will only try to refresh said token on each request when refreshing is not in progress. In the mean time, requests will use the existing token. This fixes [issue 10084](https://github.com/Azure/azure-sdk-for-js/issues/10084).
 - Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
 
 ## 1.1.6 (2020-08-04)

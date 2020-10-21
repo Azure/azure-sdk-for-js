@@ -5,7 +5,7 @@ uses package dependencies, loads all packages into a single process, and
 executes code samples to ensure basic end to end scenarios work as expected.
 
 Smoke Tests are meant to be run periodically in an Azure DevOps pipeline. See
-[`smoke-tests.yml`](./smoke-tests.yml) to configure Smoke Tests in an Azure
+[`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
 DevOps pipeline. When run in an Azure DevOps pipeline specify the `-CI` flag to
 ensure environment variables are properly set and error/warning messages are
 properly surfaced during the execution.
@@ -22,8 +22,9 @@ package.
 
 - AAD Application with `Owner` permissions to an Azure subscription
 - PowerShell 7
+- [Azure Powershell cmdlets](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
 - Node 12.x
-- Azure SDK for JS [`dev-tool`](../tools/dev-tool)
+- Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/dev-tool)
 
 ## Configuring Samples
 
@@ -63,9 +64,13 @@ not skipped will be included in smoke tests):
 ### Initialize Smoke Tests
 
 Run `Initialize-SmokeTests.ps1` to deploy resources and prepare samples. The
-deploy script will search for packages that have samples, deploy resources
-specified in `test-resources.json`, prep samples to execute in the JS Smoke Test
-harness, and build the Smoke Test run manifest.
+deploy script performs the following actions:
+
+1. Searches for packages that have samples.
+1. Deploys resource definitions specified in `test-resources.json` via Azure Resource Manager (via `/eng/common/TestResources/New-TestResources.ps1`).
+1. Preps samples to execute in the JS Smoke Test harness. This will take the form of `dist-samples` directories for included projects in `sdk/`.
+1. Updates the local directory package.json to include dependencies required by smoke tests.
+1. Generates the Smoke Test run manifest used by `run.js`, containing a list of smoke test directories to execute.
 
 Omit the `-CI` flag when running locally to have environment variables set in
 the context of your current PowerShell session.
@@ -87,12 +92,16 @@ In the folder `common/smoke-tests/`
 
 ### Run tests
 
-In the folder `common/smoke-tests/`
+In the folder `common/smoke-test/`
 
 ```powershell
-# Install collected dependencies
+# Install generated dependencies for smoke-tests in run-manifest.json
 npm i
 
-# Run smoke tests
+# Run smoke tests defined in run-manifest.json
 node run.js
 ```
+
+NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run, 
+since that script sets the NODE_PATH variable to the current directory (so that module imports from the samples will be redirected).
+To run `node run.js` from a separate session, set/export the NODE_PATH variable to the `<current directory>/node_modules`.

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Azure schema-registry client library samples for JavaScript",
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "latest",
-    "@azure/schema-registry":  "latest",
+    "@azure/schema-registry": "latest",
     "dotenv": "^8.2.0"
   }
 }

@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/template.d.ts"
+    "publicTrimmedFilePath": "./types/ai-anomaly-detector.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

@@ -9,6 +9,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { RestError } from '@azure/core-http';
 
 // @public
 export interface AnalyzedTokenInfo {
@@ -79,6 +80,18 @@ export interface AzureActiveDirectoryApplicationCredentials {
 }
 
 export { AzureKeyCredential }
+
+// @public
+export type BlobIndexerDataToExtract = 'storageMetadata' | 'allMetadata' | 'contentAndMetadata';
+
+// @public
+export type BlobIndexerImageAction = 'none' | 'generateNormalizedImages' | 'generateNormalizedImagePerPage';
+
+// @public
+export type BlobIndexerParsingMode = 'default' | 'text' | 'delimitedText' | 'json' | 'jsonArray' | 'jsonLines';
+
+// @public
+export type BlobIndexerPDFTextRotationAlgorithm = 'none' | 'detectAngles';
 
 // @public
 export interface BM25Similarity {
@@ -216,6 +229,15 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 
 // @public
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
+
+// @public
+export const DEFAULT_BATCH_SIZE: number;
+
+// @public
+export const DEFAULT_FLUSH_WINDOW: number;
+
+// @public
+export const DEFAULT_RETRY_COUNT: number;
 
 // @public
 export interface DefaultCognitiveServicesAccount {
@@ -452,6 +474,9 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export type IndexerExecutionEnvironment = 'standard' | 'private';
+
+// @public
 export interface IndexerExecutionResult {
     readonly endTime?: Date;
     readonly errorMessage?: string;
@@ -474,11 +499,31 @@ export type IndexerStatus = 'unknown' | 'error' | 'running';
 // @public
 export interface IndexingParameters {
     batchSize?: number;
-    configuration?: {
-        [propertyName: string]: any;
-    };
+    // (undocumented)
+    configuration?: IndexingParametersConfiguration;
     maxFailedItems?: number;
     maxFailedItemsPerBatch?: number;
+}
+
+// @public
+export interface IndexingParametersConfiguration {
+    [property: string]: any;
+    allowSkillsetToReadFileData?: boolean;
+    dataToExtract?: BlobIndexerDataToExtract;
+    delimitedTextDelimiter?: string;
+    delimitedTextHeaders?: string;
+    documentRoot?: string;
+    excludedFileNameExtensions?: string;
+    executionEnvironment?: IndexerExecutionEnvironment;
+    failOnUnprocessableDocument?: boolean;
+    failOnUnsupportedContentType?: boolean;
+    firstLineContainsHeaders?: boolean;
+    imageAction?: BlobIndexerImageAction;
+    indexedFileNameExtensions?: string;
+    indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+    parsingMode?: BlobIndexerParsingMode;
+    pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+    queryTimeout?: string;
 }
 
 // @public
@@ -981,6 +1026,9 @@ export interface ScoringProfile {
 }
 
 // @public
+export type ScoringStatistics = 'local' | 'global';
+
+// @public
 export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
@@ -990,6 +1038,7 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
+    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1185,6 +1234,50 @@ export interface SearchIndexerWarning {
 }
 
 // @public
+export interface SearchIndexingBufferedSender<T> {
+    deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
+    dispose(): Promise<void>;
+    flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
+    mergeDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
+    mergeOrUploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
+    off(event: "batchAdded", listener: (e: {
+        action: string;
+        documents: T[];
+    }) => void): void;
+    off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    off(event: "batchFailed", listener: (e: RestError) => void): void;
+    on(event: "batchAdded", listener: (e: {
+        action: string;
+        documents: T[];
+    }) => void): void;
+    on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    on(event: "batchFailed", listener: (e: RestError) => void): void;
+    uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
+}
+
+// @public
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+
+// @public
+export interface SearchIndexingBufferedSenderOptions {
+    autoFlush?: boolean;
+}
+
+// @public
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
+
+// @public
 export interface SearchIndexStatistics {
     readonly documentCount: number;
     readonly storageSize: number;
@@ -1212,10 +1305,12 @@ export interface SearchRequest {
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
     searchFields?: string;
     searchMode?: SearchMode;
     searchText?: string;
     select?: string;
+    sessionId?: string;
     skip?: number;
     top?: number;
 }
@@ -1233,9 +1328,11 @@ export interface SearchRequestOptions<Fields> {
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
     searchFields?: Fields[];
     searchMode?: SearchMode;
     select?: Fields[];
+    sessionId?: string;
     skip?: number;
     top?: number;
 }

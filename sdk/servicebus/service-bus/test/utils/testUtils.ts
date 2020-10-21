@@ -2,35 +2,40 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
+import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  static getSample(): ServiceBusMessage {
-    const randomNumber = Math.random();
+  static getSample(randomTag?: string): ServiceBusMessage {
+    if (randomTag == null) {
+      randomTag = Math.random().toString();
+    }
+
     return {
-      body: `message body ${randomNumber}`,
-      messageId: `message id ${randomNumber}`,
+      body: `message body ${randomTag}`,
+      messageId: `message id ${randomTag}`,
       partitionKey: `dummy partition key`,
-      contentType: `content type ${randomNumber}`,
-      correlationId: `correlation id ${randomNumber}`,
+      contentType: `content type ${randomTag}`,
+      correlationId: `correlation id ${randomTag}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
-      to: `to ${randomNumber}`,
-      replyTo: `reply to ${randomNumber}`,
+      subject: `label ${randomTag}`,
+      to: `to ${randomTag}`,
+      replyTo: `reply to ${randomTag}`,
       scheduledEnqueueTimeUtc: new Date(),
-      properties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
-      }
+        propThree: true,
+        propFour: Date()
+      },
+      userId: `${randomTag} userId`
     };
   }
 
-  static getSessionSample(): ServiceBusMessage {
+  static getSessionSample(): ServiceBusMessage & Required<Pick<ServiceBusMessage, "sessionId">> {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
@@ -39,17 +44,18 @@ export class TestMessage {
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
+      subject: `label ${randomNumber}`,
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      properties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id"
+      replyToSessionId: "some-other-session-id",
+      userId: `${randomNumber} userId`
     };
   }
 
@@ -59,17 +65,17 @@ export class TestMessage {
    */
   static checkMessageContents(
     sent: ServiceBusMessage,
-    received: ReceivedMessage,
+    received: ServiceBusReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
-    if (sent.properties) {
-      if (!received.properties) {
+    if (sent.applicationProperties) {
+      if (!received.applicationProperties) {
         chai.assert.fail("Received message doesnt have any user properties");
         return;
       }
-      const expectedUserProperties = sent.properties;
-      const receivedUserProperties = received.properties;
+      const expectedUserProperties = sent.applicationProperties;
+      const receivedUserProperties = received.applicationProperties;
       Object.keys(expectedUserProperties).forEach((key) => {
         chai.assert.equal(
           receivedUserProperties[key],
@@ -121,6 +127,8 @@ export class TestMessage {
         `Unexpected partitionKey in received msg`
       );
     }
+
+    chai.assert.equal(received.userId, sent.userId, "Unexpected userId in received msg");
   }
 }
 

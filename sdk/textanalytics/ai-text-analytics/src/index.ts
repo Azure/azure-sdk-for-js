@@ -12,7 +12,8 @@ export {
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  TextAnalyticsOperationOptions
+  TextAnalyticsOperationOptions,
+  PiiEntityDomainType
 } from "./textAnalyticsClient";
 export {
   DetectLanguageResult,
@@ -81,8 +82,7 @@ export {
   LinkedEntity,
   Match,
   TextAnalyticsWarning,
-  SentenceAspectSentiment,
-  SentenceOpinionSentiment,
+  TokenSentimentValue,
   AspectConfidenceScoreLabel,
   SentenceOpinion
 } from "./generated/models";

@@ -14,16 +14,11 @@ import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 
 import { logger } from "./log";
-import { SDK_VERSION } from "./generated/utils/constants";
+import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
-import {
-  LocalSupportedAlgorithmName,
-  localSupportedAlgorithms,
-  LocalCryptographyOperationFunction,
-  isLocallySupported
-} from "./localCryptography/algorithms";
+import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
 import { LocalCryptographyClient } from "./localCryptographyClient";
 
@@ -32,7 +27,6 @@ import {
   GetKeyOptions,
   KeyVaultKey,
   LATEST_API_VERSION,
-  CryptographyOptions,
   CryptographyClientOptions,
   KeyOperation
 } from "./keysModels";
@@ -46,16 +40,26 @@ import {
   SignatureAlgorithm,
   SignResult,
   VerifyResult,
-  EncryptResult
+  EncryptResult,
+  EncryptOptions,
+  DecryptOptions,
+  WrapKeyOptions,
+  UnwrapKeyOptions,
+  SignOptions,
+  VerifyOptions
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
-import { parseKeyVaultKeysIdentifier } from "./identifier";
+import { parseKeyVaultKeyId } from "./identifier";
+import {
+  LocalCryptographyOperationFunction,
+  LocalSupportedAlgorithmName
+} from "./localCryptography/models";
 
 /**
  * Checks whether a key can be used at that specific moment,
  * by comparing the current date with the bundle's notBefore and expires values.
  */
-export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle) {
+export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
   const attributes = keyBundle?.attributes || {};
   const { notBefore, expires } = attributes;
   const now = new Date();
@@ -177,7 +181,7 @@ export class CryptographyClient {
    * ```
    * @param {EncryptionAlgorithm} algorithm The algorithm to use.
    * @param {Uint8Array} ciphertext The text to decrypt.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {DecryptOptions} [options] Additional options.
    */
 
   public async decrypt(
@@ -221,7 +225,7 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
    * @param {Uint8Array} key The key to wrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {WrapKeyOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -276,7 +280,7 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
    * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {UnwrapKeyOptions} [options] Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -319,7 +323,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} digest The digest of the data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -361,7 +365,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
    * @param {Uint8Array} digest The digest to verify.
    * @param {Uint8Array} signature The signature to verify the digest against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -404,7 +408,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} data The data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -459,7 +463,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
    * @param {Uint8Array} data The signed block of data to verify.
    * @param {Uint8Array} signature The signature to verify the block against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
@@ -654,10 +658,10 @@ export class CryptographyClient {
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyVaultKeysIdentifier(this.key);
+      parsed = parseKeyVaultKeyId(this.key);
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyVaultKeysIdentifier(this.key.kid!);
+      parsed = parseKeyVaultKeyId(this.key.kid!);
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."
@@ -737,33 +741,3 @@ export class CryptographyClient {
     }
   }
 }
-
-/**
- * Options for {@link encrypt}.
- */
-export interface EncryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link decrypt}.
- */
-export interface DecryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link sign}.
- */
-export interface SignOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link verify}.
- */
-export interface VerifyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link wrapKey}.
- */
-export interface WrapKeyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link unwrapKey}.
- */
-export interface UnwrapKeyOptions extends CryptographyOptions {}

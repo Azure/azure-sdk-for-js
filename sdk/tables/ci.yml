@@ -28,5 +28,3 @@ extends:
     Artifacts:
       - name: azure-data-tables
         safeName: azuretables
-        options:
-          skipPublishDevFeed: true

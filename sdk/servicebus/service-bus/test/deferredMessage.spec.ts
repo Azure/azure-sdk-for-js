@@ -16,13 +16,13 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
   let entityNames: EntityName;
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -39,7 +39,7 @@ describe("Deferred Messages", () => {
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -61,7 +61,7 @@ describe("Deferred Messages", () => {
   async function deferMessage(
     testMessage: ServiceBusMessage,
     passSequenceNumberInArray: boolean
-  ): Promise<ReceivedMessageWithLock> {
+  ): Promise<ServiceBusReceivedMessageWithLock> {
     await sender.sendMessages(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1);
 

@@ -256,7 +256,9 @@ describe("bulk item operations", function() {
         class: "2010"
       });
     });
-    after(async () => { await container.database.delete() })
+    after(async () => {
+      await container.database.delete();
+    });
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
@@ -334,7 +336,9 @@ describe("bulk item operations", function() {
         class: "2012"
       });
     });
-    after(async () => { await v2Container.database.delete() })
+    after(async () => {
+      await v2Container.database.delete();
+    });
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
@@ -437,6 +441,45 @@ describe("bulk item operations", function() {
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[0].statusCode, 201);
     });
+    it("handles operations with null, undefined, and 0 partition keys", async function() {
+      const item1Id = addEntropy("item1");
+      const item2Id = addEntropy("item2");
+      const item3Id = addEntropy("item2");
+      await v2Container.items.create({
+        id: item1Id,
+        key: null,
+        class: "2010"
+      });
+      await v2Container.items.create({
+        id: item2Id,
+        key: 0
+      });
+      await v2Container.items.create({
+        id: item3Id,
+        key: undefined
+      });
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Read,
+          id: item1Id,
+          partitionKey: null
+        },
+        {
+          operationType: BulkOperationType.Read,
+          id: item2Id,
+          partitionKey: 0
+        },
+        {
+          operationType: BulkOperationType.Read,
+          id: item3Id,
+          partitionKey: undefined
+        }
+      ];
+      const response = await v2Container.items.bulk(operations);
+      assert.equal(response[0].statusCode, 200);
+      assert.equal(response[1].statusCode, 200);
+      assert.equal(response[2].statusCode, 200);
+    });
   });
   describe("v2 single partition container", async function() {
     let container: Container;
@@ -458,7 +501,7 @@ describe("bulk item operations", function() {
       };
 
       const deleteResponse = await container.items.bulk([operation]);
-      assert.equal(deleteResponse[0].statusCode, 204)
+      assert.equal(deleteResponse[0].statusCode, 204);
     });
   });
 });

@@ -29,6 +29,13 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
+                    - task: PowerShell@2
+                      displayName: Prep template pipeline for release
+                      condition: and(succeeded(),eq(variables['TestPipeline'],'true'))
+                      inputs:
+                        pwsh: true
+                        workingDirectory: $(Build.SourcesDirectory)
+                        filePath: eng/scripts/SetTestPipelineVersion.ps1
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -38,7 +45,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}-*.tgz
+                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -51,7 +58,7 @@ stages:
                         RepoId: Azure/azure-sdk-for-js
                         WorkingDirectory: $(System.DefaultWorkingDirectory)
 
-          - ${{if ne(artifact.options.skipPublishPackage, 'true')}}:
+          - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
               displayName: "Publish to npmjs"
               condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
@@ -67,7 +74,7 @@ stages:
                     steps:
                       - checkout: self
                       - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
+                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                         displayName: Detecting package archive
 
@@ -79,7 +86,7 @@ stages:
                           arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
                           pwsh: true
 
-          - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
+          - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
             - deployment: PublishDocs
               displayName: Docs.MS Release
               condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
@@ -100,7 +107,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -125,7 +132,7 @@ stages:
                           GHReviewersVariable: 'OwningGHUser'
                           CIConfigs: $(CIConfigs)
 
-          - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
+          - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
               condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
@@ -146,6 +153,11 @@ stages:
                         displayName: Set Documentation File Name
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
+                          SourceFolder: ${{parameters.ArtifactName}}
+                          TargetFolder: ${{artifact.safeName}}
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                      - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+                        parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
                           TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
                           PackageName: $(Documentation.Zip).zip
@@ -159,10 +171,11 @@ stages:
                           BlobSASKey: '$(azure-sdk-docs-prod-sas)'
                           BlobName: '$(azure-sdk-docs-prod-blob-name)'
                           TargetLanguage: 'javascript'
+                          ArtifactLocation: '$(Pipeline.Workspace)/${{artifact.safeName}}'
                           # we override the regular script path because we have cloned the build tools repo as a separate artifact.
                           ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
 
-          - ${{if ne(artifact.options.skipUpdatePackageVersion, 'true')}}:
+          - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
             - deployment: UpdatePackageVersion
               displayName: "Update Package Version"
               condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
@@ -197,7 +210,9 @@ stages:
     dependsOn: ${{parameters.DependsOn}}
     jobs:
     - job: PublishPackages
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
+      # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
         vmImage: ubuntu-18.04
@@ -207,9 +222,9 @@ stages:
           artifact: ${{parameters.ArtifactName}}
           timeoutInMinutes: 5
         - ${{ each artifact in parameters.Artifacts }}:
-          - ${{if ne(artifact.options.skipPublishDevFeed, 'true')}}:
+          - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
-                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz
+                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*-alpha*.tgz
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"

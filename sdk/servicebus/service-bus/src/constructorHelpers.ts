@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InternalReceiveMode } from "./serviceBusMessage";
 import {
   ConnectionConfig,
   RetryOptions,
@@ -11,7 +10,6 @@ import {
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
-import { ReceiveMode } from "./models";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -33,27 +31,6 @@ export interface ServiceBusClientOptions {
 }
 
 /**
- * @param connectionString
- * @param options
- * @internal
- * @ignore
- */
-export function createConnectionContextForConnectionString(
-  connectionString: string,
-  options: ServiceBusClientOptions = {}
-): ConnectionContext {
-  const config = ConnectionConfig.create(connectionString);
-
-  config.webSocket = options?.webSocketOptions?.webSocket;
-  config.webSocketEndpointPath = "$servicebus/websocket";
-  config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
-
-  const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-  validate(config);
-  return ConnectionContext.create(config, credential, options);
-}
-
-/**
  * @internal
  * @ignore
  *
@@ -66,6 +43,43 @@ function validate(config: ConnectionConfig) {
   config.entityPath = config.entityPath ?? "";
 
   ConnectionConfig.validate(config);
+}
+
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {string} connectionString
+ * @param {(SharedKeyCredential | TokenCredential)} credential
+ * @param {ServiceBusClientOptions} options
+ */
+export function createConnectionContext(
+  connectionString: string,
+  credential: SharedKeyCredential | TokenCredential,
+  options: ServiceBusClientOptions
+): ConnectionContext {
+  const config = ConnectionConfig.create(connectionString);
+
+  config.webSocket = options?.webSocketOptions?.webSocket;
+  config.webSocketEndpointPath = "$servicebus/websocket";
+  config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
+
+  validate(config);
+  return ConnectionContext.create(config, credential, options);
+}
+
+/**
+ * @param connectionString
+ * @param options
+ * @internal
+ * @ignore
+ */
+export function createConnectionContextForConnectionString(
+  connectionString: string,
+  options: ServiceBusClientOptions = {}
+): ConnectionContext {
+  const credential = SharedKeyCredential.fromConnectionString(connectionString);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**
@@ -90,8 +104,7 @@ export function createConnectionContextForTokenCredential(
     host += "/";
   }
   const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
-  const config = ConnectionConfig.create(connectionString);
-  return ConnectionContext.create(config, credential, options);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**
@@ -107,21 +120,5 @@ export function getEntityNameFromConnectionString(connectionString: string): str
     return entityPathMatch[1];
   } else {
     throw new Error("No entity name present in the connection string");
-  }
-}
-
-/**
- * Temporary bit of conversion code until we can eliminate external usage of this
- * enum.
- * @param receiveMode
- * @internal
- * @ignore
- */
-export function convertToInternalReceiveMode(receiveMode: ReceiveMode): InternalReceiveMode {
-  switch (receiveMode) {
-    case "peekLock":
-      return InternalReceiveMode.peekLock;
-    case "receiveAndDelete":
-      return InternalReceiveMode.receiveAndDelete;
   }
 }

@@ -52,7 +52,7 @@ describe("Long Running Operations - custom client", function() {
     const result = await poller.pollUntilDone();
 
     // Checking the serialized version of the operation
-    let serializedOperation: { state: TestOperationState } = JSON.parse(poller.toString());
+    const serializedOperation: { state: TestOperationState } = JSON.parse(poller.toString());
     assert.ok(serializedOperation.state.isStarted);
 
     assert.ok(poller.initialResponse!.parsedBody.started);

@@ -1,24 +1,41 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { createHmac } from "crypto";
-import { RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
+import { RequestPolicy, RequestPolicyOptionsLike, RequestPolicyFactory } from "@azure/core-http";
 
 import { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * TablesSharedKeyCredential for account key authorization of Azure  service.
+ * TablesSharedKeyCredentialLike shape for account key authorization of Azure Tables service.
+ */
+export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+  /**
+   * Azure  account name; readonly.
+   */
+  accountName: string;
+  /**
+   * Generates a hash signature for an HTTP request or for a SAS.
+   *
+   * @param {string} stringToSign
+   * @returns {string}
+   */
+  computeHMACSHA256: (stringToSign: string) => string;
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * TablesSharedKeyCredential for account key authorization of Azure Tables service.
  *
  * @export
  * @class TablesSharedKeyCredential
  */
-export class TablesSharedKeyCredential implements RequestPolicyFactory {
+export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
   /**
    * Azure  account name; readonly.
-   *
-   * @type {string}
    */
   public readonly accountName: string;
 
@@ -43,12 +60,12 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
    * Creates a {@link TablesSharedKeyCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param {RequestPolicyOptionsLike} options
    * @returns {TablesSharedKeyCredentialPolicy}
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptionsLike
   ): TablesSharedKeyCredentialPolicy {
     return new TablesSharedKeyCredentialPolicy(nextPolicy, options, this);
   }

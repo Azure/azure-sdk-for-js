@@ -12,7 +12,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -20,7 +20,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -229,6 +229,31 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
   });
+
+  it("create share specifying accessTier and listShare", async () => {
+    const newShareName = recorder.getUniqueName("newshare");
+    const newShareClient = serviceClient.getShareClient(newShareName);
+    await newShareClient.create({ accessTier: "Hot" });
+
+    for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
+      if (shareItem.name === newShareName) {
+        assert.deepStrictEqual(shareItem.properties.accessTier, "Hot");
+        assert.ok(shareItem.properties.accessTierChangeTime);
+        break;
+      }
+    }
+
+    await newShareClient.delete();
+  });
+
+  it("setAccessTier", async () => {
+    await shareClient.setAccessTier("Hot");
+    const getRes = await shareClient.getProperties();
+
+    assert.deepStrictEqual(getRes.accessTier, "Hot");
+    assert.ok(getRes.accessTierChangeTime);
+    assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
+  });
 });
 
 describe("ShareDirectoryClient - Verify Name Properties", () => {
@@ -264,9 +289,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   });
 
   it("verify custom endpoint without valid accountName", async () => {
-    const newClient = new ShareClient(
-      `https://customdomain.com/${shareName}`
-    );
+    const newClient = new ShareClient(`https://customdomain.com/${shareName}`);
 
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");

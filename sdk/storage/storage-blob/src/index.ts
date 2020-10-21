@@ -29,7 +29,9 @@ export {
   BlobDownloadResponseParsed,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
-  ObjectReplicationStatus
+  ObjectReplicationStatus,
+  BlobQueryArrowField,
+  BlobQueryArrowFieldType
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
@@ -43,7 +45,12 @@ export {
   AppendBlobRequestConditions,
   BlobRequestConditions,
   Metadata,
-  PageBlobRequestConditions
+  PageBlobRequestConditions,
+  TagConditions,
+  ContainerRequestConditions,
+  ModificationConditions,
+  MatchConditions,
+  ModifiedAccessConditions
 } from "./models";
 export { RestError };
 export {

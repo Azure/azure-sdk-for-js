@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import * as log from "../log";
+import { logger, receiverLogger, messageLogger } from "../log";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
@@ -91,15 +91,15 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const now = Date.now();
   const lockedUntil = lockedUntilUtc.getTime();
   const remainingTime = lockedUntil - now;
-  log.utils("Locked until utc  : %d", lockedUntil);
-  log.utils("Current time is   : %d", now);
-  log.utils("Remaining time is : %d", remainingTime);
+  receiverLogger.verbose("Locked until utc  : %d", lockedUntil);
+  receiverLogger.verbose("Current time is   : %d", now);
+  receiverLogger.verbose("Remaining time is : %d", remainingTime);
   if (remainingTime < 1000) {
     return 0;
   }
   const buffer = Math.min(remainingTime / 2, 10000); // 10 seconds
   const renewAfter = remainingTime - buffer;
-  log.utils("Renew after       : %d", renewAfter);
+  receiverLogger.verbose("Renew after       : %d", renewAfter);
   return renewAfter;
 }
 
@@ -126,7 +126,7 @@ export function convertTicksToDate(buf: number[]): Date {
     .div(10000)
     .toNumber();
   const result = new Date(timeInMS);
-  log.utils("The converted date is: %s", result.toString());
+  logger.verbose("The converted date is: %s", result.toString());
   return result;
 }
 
@@ -152,7 +152,7 @@ export function getProcessorCount(): number {
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
-  log.utils(
+  messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
     input
   );
@@ -171,11 +171,11 @@ export function toBuffer(input: any): Buffer {
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
         `${err instanceof Error ? err.stack : JSON.stringify(err)}`;
-      log.error("[utils.toBuffer] " + msg);
+      messageLogger.warning("[utils.toBuffer] " + msg);
       throw err instanceof Error ? err : new Error(msg);
     }
   }
-  log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
+  messageLogger.verbose("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
 
@@ -334,7 +334,7 @@ export type MessageCountDetails = {
 export type AuthorizationRule = {
   claimType: string;
   claimValue: string;
-  rights: { accessRights?: string[] };
+  accessRights?: ("Manage" | "Send" | "Listen")[];
   keyName: string;
   primaryKey?: string;
   secondaryKey?: string;
@@ -385,19 +385,14 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
-    rights: {
-      accessRights: accessRights
-    },
+    accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
 
-  if (
-    authorizationRule.rights.accessRights &&
-    !Array.isArray(authorizationRule.rights.accessRights)
-  ) {
-    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
+    authorizationRule.accessRights = [authorizationRule.accessRights];
   }
   return authorizationRule;
 }
@@ -452,7 +447,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     ClaimType: authorizationRule.claimType,
     ClaimValue: authorizationRule.claimValue,
     Rights: {
-      AccessRights: authorizationRule.rights.accessRights
+      AccessRights: authorizationRule.accessRights
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
@@ -486,6 +481,16 @@ export type EntityStatus =
   | "ReceiveDisabled"
   | "SendDisabled"
   | "Disabled"
+  | "Renaming"
+  | "Restoring"
+  | "Unknown";
+
+/**
+ * Possible values for `availabilityStatus` of the Service Bus messaging entities.
+ */
+export type EntityAvailabilityStatus =
+  | "Available"
+  | "Limited"
   | "Renaming"
   | "Restoring"
   | "Unknown";

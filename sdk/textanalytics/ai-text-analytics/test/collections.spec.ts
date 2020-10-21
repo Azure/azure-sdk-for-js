@@ -200,7 +200,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              confidenceScore: 0.9989
+              confidenceScore: 0.9989,
+              offset: 0
             }
           ],
           warnings: []
@@ -212,7 +213,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              confidenceScore: 0.8
+              confidenceScore: 0.8,
+              offset: 0
             }
           ],
           warnings: []
@@ -263,7 +265,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Seattle",
-                  confidenceScore: 0.15046201222847677
+                  confidenceScore: 0.15046201222847677,
+                  offset: 0
                 }
               ],
               language: "en",
@@ -282,7 +285,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  confidenceScore: 0.1869365971673207
+                  confidenceScore: 0.1869365971673207,
+                  offset: 0
                 }
               ],
               language: "en",
@@ -334,10 +338,12 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               {
                 text: "(555) 555-5555",
                 category: "US Phone Number",
-                confidenceScore: 0.9989
+                confidenceScore: 0.9989,
+                offset: 0
               }
             ],
-            warnings: []
+            warnings: [],
+            redactedText: ""
           },
           {
             id: "C",
@@ -346,10 +352,12 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 text: "1234 Default Ln.",
                 category: "US Address",
                 subCategory: "",
-                confidenceScore: 0.8
+                confidenceScore: 0.8,
+                offset: 0
               }
             ],
-            warnings: []
+            warnings: [],
+            redactedText: ""
           }
         ],
         errors: [

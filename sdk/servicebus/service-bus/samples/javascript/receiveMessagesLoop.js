@@ -28,7 +28,7 @@ async function main() {
   try {
     for (let i = 0; i < 10; i++) {
       const messages = await queueReceiver.receiveMessages(1, {
-        maxWaitTimeSeconds: 5
+        maxWaitTimeInMs: 5000
       });
       if (!messages.length) {
         console.log("No more messages to receive");
@@ -46,4 +46,5 @@ async function main() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

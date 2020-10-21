@@ -18,7 +18,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["mocha"],
+    frameworks: ["source-map-support", "mocha"],
 
     plugins: [
       "karma-mocha",
@@ -32,6 +32,7 @@ module.exports = function(config) {
       "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
+      "karma-source-map-support",
       "karma-json-preprocessor"
     ],
 

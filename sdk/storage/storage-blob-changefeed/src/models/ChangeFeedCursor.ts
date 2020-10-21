@@ -1,18 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export interface ChangeFeedCursor {
-  cursorVersion: number;
-  urlHash: number;
-  endTime?: string;
-  currentSegmentCursor: SegmentCursor;
+  CursorVersion: number;
+  // The host component of the container URL.
+  UrlHost: string;
+  EndTime?: string;
+  CurrentSegmentCursor: SegmentCursor;
 }
 
 export interface SegmentCursor {
-  shardCursors: ShardCursor[];
-  shardIndex: number;
-  segmentTime: string;
+  ShardCursors: ShardCursor[];
+  CurrentShardPath: string;
+  SegmentPath: string;
 }
 
 export interface ShardCursor {
-  chunkIndex: number;
-  blockOffset: number;
-  eventIndex: number;
+  CurrentChunkPath: string;
+  BlockOffset: number;
+  EventIndex: number;
 }

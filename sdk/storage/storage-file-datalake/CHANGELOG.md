@@ -1,7 +1,26 @@
 # Release History
 
-## 12.1.0 (Unreleased)
+## 12.2.0-beta.2 (Unreleased)
 
+- Bug fix - Fixes an issue where `DataLakePathClient.move()` will give an `InvalidSourceUri` error when the copy source name contains characters that need to be URL encoded. Fixed bug [11849](https://github.com/Azure/azure-sdk-for-js/issues/11849).
+
+## 12.2.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Directory SAS.
+- Added support for File Set Expiry.
+- Added support to set access control list recursively.
+
+## 12.1.1 (2020-09-17)
+
+- Bug fix - Fixes an issue where`DataLakeFileClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).
+
+## 12.1.0 (2020-09-08)
+
+- Fixed `DataLakeFileClient.uploadStream()` to support `chunkSize` larger than `buffer.constants.MAX_LENGTH`.
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Supported Quick Query. Added a new API `DataLakeFileClient.query()`.
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
 ## 12.1.0-preview.1 (2020.07)
 

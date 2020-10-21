@@ -1,22 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClientOptions } from "../generatedModels";
-import { fromAccountConnectionString } from "./fromAccountConnectionString";
+import { TableServiceClientOptions } from "../models";
+import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString";
+import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { URL } from "./url";
-
-export interface ConnectionString {
-  kind: "AccountConnString" | "SASConnString";
-  url: string;
-  accountName: string;
-  accountKey?: any;
-  accountSas?: string;
-}
-
-export interface ClientParamsFromConnectionString {
-  url: string;
-  options?: TableServiceClientOptions;
-}
 
 /**
  * This function parses a connection string into a set of
@@ -66,16 +54,22 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
     connectionString.search("AccountKey=") !== -1;
 
-  const getConnectionString = isAccountConnectionString
-    ? getAccountConnectionString
-    : getSASConnectionString;
-
-  return getConnectionString(connectionString, tableEndpoint);
+  if (isAccountConnectionString) {
+    return getAccountConnectionString(
+      getValueInConnString(connectionString, "AccountName"),
+      getValueInConnString(connectionString, "AccountKey"),
+      getValueInConnString(connectionString, "DefaultEndpointsProtocol"),
+      getValueInConnString(connectionString, "EndpointSuffix"),
+      tableEndpoint
+    );
+  } else {
+    return getSASConnectionString(connectionString, tableEndpoint);
+  }
 }
 
 function getSASConnectionString(connectionString: string, tableEndpoint: string): ConnectionString {
-  let accountName = getAccountNameFromUrl(tableEndpoint);
-  let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+  const accountName = getAccountNameFromUrl(tableEndpoint);
+  const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
   if (!tableEndpoint) {
     throw new Error("Invalid TableEndpoint in the provided SAS Connection String");
   } else if (!accountSas) {
@@ -87,52 +81,6 @@ function getSASConnectionString(connectionString: string, tableEndpoint: string)
   return { kind: "SASConnString", url: tableEndpoint, accountName, accountSas };
 }
 
-function getAccountConnectionString(
-  connectionString: string,
-  tableEndpoint?: string
-): ConnectionString {
-  let defaultEndpointsProtocol = "";
-  let accountName = "";
-  let accountKey = Buffer.from("accountKey", "base64");
-  let endpointSuffix = "";
-
-  // Get account name and key
-  accountName = getValueInConnString(connectionString, "AccountName");
-  accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
-
-  if (!tableEndpoint) {
-    // TableEndpoint is not present in the Account connection string
-    // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.table.${endpointSuffix}`
-
-    defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
-    const protocol = defaultEndpointsProtocol!.toLowerCase();
-    if (protocol !== "https" && protocol !== "http") {
-      throw new Error(
-        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
-      );
-    }
-
-    endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
-    if (!endpointSuffix) {
-      throw new Error("Invalid EndpointSuffix in the provided Connection String");
-    }
-    tableEndpoint = `${defaultEndpointsProtocol}://${accountName}.table.${endpointSuffix}`;
-  }
-
-  if (!accountName) {
-    throw new Error("Invalid AccountName in the provided Connection String");
-  } else if (accountKey.length === 0) {
-    throw new Error("Invalid AccountKey in the provided Connection String");
-  }
-
-  return {
-    kind: "AccountConnString",
-    url: tableEndpoint,
-    accountName,
-    accountKey
-  };
-}
-
 function getValueInConnString(
   connectionString: string,
   argument:
@@ -142,7 +90,7 @@ function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {

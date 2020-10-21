@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { AnomalyDetectorClient } from "../src/AnomalyDetectorClient";
@@ -17,6 +20,7 @@ describe("AnomalyDetectorClient", () => {
   const apiKey = new AzureKeyCredential(testEnv.ANOMALY_DETECTOR_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
   });
 

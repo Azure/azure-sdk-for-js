@@ -55,7 +55,12 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
+export interface KeyVaultSecretId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 // @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
@@ -77,16 +82,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyVaultSecretsIdentifier {
-    collection: KeyVaultSecretsIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier;
+export function parseKeyVaultSecretId(id: string): KeyVaultSecretId;
 
 export { PipelineOptions }
 

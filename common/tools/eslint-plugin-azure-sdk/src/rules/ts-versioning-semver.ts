@@ -64,8 +64,8 @@ export = {
             if (secondPart === undefined) {
               return;
             }
-            const devOrPreviewVer = secondPart.match(/^(dev|preview)(.*)/);
-            if (devOrPreviewVer === null) {
+            const ver = secondPart.match(/^(dev|preview|alpha|beta)(.*)/);
+            if (ver === null) {
               context.report({
                 node: nodeValue,
                 message: `unrecognized version syntax: ${secondPart}`
@@ -73,33 +73,35 @@ export = {
               return;
             }
 
-            const devOrPreviewVerKeyword = devOrPreviewVer[1];
-            const devOrPreviewVerNumber = devOrPreviewVer[2];
-            switch(devOrPreviewVerKeyword) {
-              case 'preview':
-                if (!/^\.(:?0|(?:[1-9]\d*))$/.test(devOrPreviewVerNumber)) {
+            const verKeyword = ver[1];
+            const verNumber = ver[2];
+            switch (verKeyword) {
+              case "preview":
+              case "beta":
+                if (!/^\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
                     node: nodeValue,
-                    message: "preview format is not x.y.z-preview.i"
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.i`
                   });
                   return;
                 }
                 break;
-              case 'dev':
-                if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(devOrPreviewVerNumber)) {
+              case "dev":
+              case "alpha":
+                if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
                     node: nodeValue,
-                    message: "dev format is not x.y.z-dev.<date>.i"
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.<date>.i`
                   });
                   return;
                 }
                 break;
-                default:
-                  context.report({
-                    node: nodeValue,
-                    message: "impossible"
-                  });
-                  return;
+              default:
+                context.report({
+                  node: nodeValue,
+                  message: "impossible"
+                });
+                return;
             }
           }
         } as Rule.RuleListener)

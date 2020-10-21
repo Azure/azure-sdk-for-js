@@ -58,9 +58,20 @@ export const modelVersion: OperationQueryParameter = {
 export const includeStatistics: OperationQueryParameter = {
   parameterPath: ["options", "includeStatistics"],
   mapper: {
-    serializedName: "showStats",
+    serializedName: "includeStatistics",
     type: {
       name: "Boolean"
+    }
+  }
+};
+
+export const stringIndexType: OperationQueryParameter = {
+  parameterPath: ["options", "stringIndexType"],
+  mapper: {
+    defaultValue: "TextElements_v8",
+    serializedName: "stringIndexType",
+    type: {
+      name: "String"
     }
   }
 };

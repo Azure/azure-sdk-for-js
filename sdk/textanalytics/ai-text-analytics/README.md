@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
-__Note:__ This SDK targets Azure Text Analytics service API version 3.0.
+__Note:__ This SDK targets Azure Text Analytics service API version 3.1.0-preview.2.
 
 - Language Detection
 - Sentiment Analysis
@@ -205,6 +205,8 @@ async function main() {
 main();
 ```
 
+To get more granular information about the opinions related to aspects of a product/service, also known as Aspect-based Sentiment Analysis in Natural Language Processing (NLP), see a sample on sentiment analysis with opinion mining [here][analyze_sentiment_opinion_mining_sample].
+
 ### Recognize Entities
 
 Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
@@ -260,7 +262,7 @@ async function main() {
     if (result.error === undefined) {
       console.log(" -- Recognized PII entities for input", result.id, "--");
       for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
+        console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
       }
     } else {
       console.error("Encountered an error:", result.error);
@@ -419,3 +421,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
+[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/analyzeSentimentWithOpinionMining.ts

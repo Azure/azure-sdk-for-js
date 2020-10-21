@@ -24,7 +24,7 @@ export interface NamespaceProperties {
    * The SKU/tier of the namespace.
    * "Basic", "Standard" and "Premium"
    */
-  messagingSku: string;
+  messagingSku: "Basic" | "Premium" | "Standard";
   /**
    * The last time at which the namespace was modified.
    */
@@ -53,7 +53,9 @@ export interface NamespaceProperties {
  * @param rawNamespace
  */
 export function buildNamespace(rawNamespace: any): NamespaceProperties {
-  const messagingSku = getString(rawNamespace["MessagingSKU"], "messagingSku");
+  const messagingSku = <"Basic" | "Premium" | "Standard">(
+    getString(rawNamespace["MessagingSKU"], "messagingSku")
+  );
   return {
     createdAt: getDate(rawNamespace["CreatedTime"], "createdAt"),
     messagingSku: messagingSku,

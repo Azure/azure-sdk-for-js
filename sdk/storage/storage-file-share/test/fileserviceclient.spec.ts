@@ -4,9 +4,10 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  getSoftDeleteBSU
+  getSoftDeleteBSU,
+  getGenericBSU
 } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, ShareItem } from "../src";
 dotenv.config();
@@ -14,11 +15,11 @@ dotenv.config();
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -328,7 +329,14 @@ describe("FileServiceClient", () => {
       serviceProperties.cors.push(newCORS);
     }
 
-    await serviceClient.setProperties(serviceProperties);
+    // SMB multi-channel is returned by getProperties() even when the feature is not supproted on the account.
+    const newServiceProperties = {
+      cors: serviceProperties.cors,
+      minuteMetrics: serviceProperties.minuteMetrics,
+      hourMetrics: serviceProperties.hourMetrics
+    };
+
+    await serviceClient.setProperties(newServiceProperties);
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
@@ -387,12 +395,11 @@ describe("FileServiceClient", () => {
   });
 });
 
-
 describe("FileServiceClient", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
 
     try {
@@ -402,11 +409,11 @@ describe("FileServiceClient", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
-  it("ListShares with deleted share", async function () {
+  it("ListShares with deleted share", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     await shareClient.create();
     await shareClient.delete();
@@ -422,7 +429,7 @@ describe("FileServiceClient", () => {
     assert.ok(found);
   });
 
-  it("Undelete share positive", async function () {
+  it("Undelete share positive", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     await shareClient.create();
     await shareClient.delete();
@@ -455,7 +462,7 @@ describe("FileServiceClient", () => {
     await restoredShareClient.delete();
   });
 
-  it("Undelete share negative", async function () {
+  it("Undelete share negative", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     const invalidVersion = "01D60F8BB59A4652";
 
@@ -465,5 +472,35 @@ describe("FileServiceClient", () => {
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
     }
+  });
+});
+
+describe("FileServiceClient Premium", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(function() {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      serviceClient = getGenericBSU("PREMIUM_FILE_");
+    } catch (error) {
+      this.skip();
+    }
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("SMB Multichannel", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it needs be enabled on the account.
+      this.skip();
+    }
+    await serviceClient.setProperties({
+      protocol: { smb: { multichannel: { enabled: true } } }
+    });
+    const propertiesSet = await serviceClient.getProperties();
+    assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 });

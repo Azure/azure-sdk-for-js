@@ -17,4 +17,4 @@ export {
   OperationDisplay,
   OperationListResult,
   OperationPropertiesFormatServiceSpecification
-} from "./mappers";
+} from "../models/mappers";

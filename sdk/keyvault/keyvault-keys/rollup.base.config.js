@@ -4,6 +4,7 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -50,6 +51,7 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs()
     ]
   };
@@ -123,7 +125,7 @@ export function browserConfig(test = false) {
     ]
   };
 
-  baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
+  baseConfig.external = ["fs-extra", "path"];
   if (test) {
     baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));

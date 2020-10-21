@@ -1,6 +1,6 @@
 # Azure Storage Blob Change Feed client library for JavaScript
 
-> Server Version: 2019-12-12
+> Server Version: 2019-12-12 or later.
 
 The change feed provides an ordered, guaranteed, durable, immutable, read-only transaction log of all the changes that occur to blobs and blob metadata in your storage account. Client applications can read these logs at any time. The change feed enables you to build efficient and scalable solutions that process change events that occur in your Blob Storage account at a low cost.
 
@@ -14,7 +14,7 @@ Use the client libraries in this package to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed) |
+[Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples) |
 
 ## Getting started
@@ -35,7 +35,7 @@ This library uses an authenticated `BlobServiceClient` to initialize. Refer to [
 
 ### Compatibility
 
-For this preview, this library is only compatible with Node.js.
+For now, this library is only compatible with Node.js.
 
 ## Key concepts
 
@@ -48,15 +48,15 @@ This library offers a client you can use to fetch the change events.
 
 - [Initialize the change feed client](#initialize-the-change-feed-client "Initialize the change feed client")
 - [Reading all events in the Change Feed](#reading-all-events-in-the-change-feed "Reading all events in the Change Feed")
-- [Resuming reading events with a cursor](#resuming-reading-events-with-a-cursor "Resuming reading events with a cursor")
+- [Resuming reading events with a continuationToken](#resuming-reading-events-with-a-continuationtoken "Resuming reading events with a continuationToken")
 - [Reading events within a time range](#reading-events-within-a-time-range "Reading events within a time range")
 
 ### Initialize the change feed client
 
-The `BlobChangeFeedClient` requires a `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#create-the-blob-service-client) for how to create the blob service client. Here is an example using `StorageSharedKeyCredential`.
+The `BlobChangeFeedClient` requires almost the same parameters as `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#create-the-blob-service-client) for how to create the blob service client. Here is an example using `StorageSharedKeyCredential`.
 
 ```javascript
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { StorageSharedKeyCredential } = require("@azure/storage-blob");
 const { BlobChangeFeedClient } = require("@azure/storage-blob-changefeed");
 
 // Enter your storage account name and shared key
@@ -65,12 +65,11 @@ const accountKey = "<accountkey>";
 // Use StorageSharedKeyCredential with storage account and account key
 // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
 const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-const blobServiceClient = new BlobServiceClient(
+const changeFeedClient = new BlobChangeFeedClient(
+  // When using AnonymousCredential, following url should include a valid SAS or support public access
   `https://${account}.blob.core.windows.net`,
   sharedKeyCredential
 );
-
-const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 ```
 
 ### Reading all events in the Change Feed
@@ -99,13 +98,16 @@ for await (const eventPage of changeFeedClient.listChanges().byPage()) {
 }
 ```
 
-### Resuming reading events with a cursor
+### Resuming reading events with a continuationToken
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents = [];
-const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+const firstPage = await changeFeedClient
+  .listChanges()
+  .byPage({ maxPageSize: 10 })
+  .next();
 for (const event of firstPage.value.events) {
   changeFeedEvents.push(event);
 }
@@ -124,7 +126,7 @@ for await (const eventPage of changeFeedClient
 
 Pass start time and end time to `BlobChangeFeedClient.listChanges()` to fetch events within a time range.
 
-Note that for this preview release, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
+Note that for now, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");

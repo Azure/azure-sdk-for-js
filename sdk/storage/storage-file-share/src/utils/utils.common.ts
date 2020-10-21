@@ -445,7 +445,7 @@ export function getAccountNameFromUrl(url: string): string {
       accountName = parsedUrl.getPath()!.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
-      accountName = '';
+      accountName = "";
     }
     return accountName;
   } catch (error) {
@@ -458,13 +458,16 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
     return false;
   }
 
-  const host = parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? '' : ':' + parsedUrl.getPort());
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(host);
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }
 
 export function getShareNameAndPathFromUrl(

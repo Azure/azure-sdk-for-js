@@ -73,7 +73,7 @@
     "debug": "^4.1.1",
     "path-browserify": "^1.0.0",
     "tslib": "^2.0.0",
-    "uuid": "^8.1.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -92,18 +92,12 @@
     "@types/node": "^8.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-no-null": "^1.0.2",
-    "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "mocha": "^7.1.1",
