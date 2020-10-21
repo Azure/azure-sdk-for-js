@@ -3,10 +3,8 @@ pr:
     include:
       - '*'
   paths:
-    include:
-      - eng/pipelines/mgmt-pr.yml
     exclude:
-      - eng/
+      - eng/common/
       - sdk/anomalydetector/ai-anomaly-detector/
       - sdk/appconfiguration/app-configuration/
       - sdk/communication/communication-administration/
