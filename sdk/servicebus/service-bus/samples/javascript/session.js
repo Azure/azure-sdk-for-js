@@ -81,8 +81,8 @@ async function receiveMessages(sbClient, sessionId) {
   const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (err) => {
-    console.log(">>>>> Error occurred: ", err);
+  const processError = async (args) => {
+    console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
   receiver.subscribe({

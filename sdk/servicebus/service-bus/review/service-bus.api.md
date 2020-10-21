@@ -193,7 +193,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 
 // @public
 export interface MessageHandlers<ReceivedMessageT> {
-    processError(err: Error): Promise<void>;
+    processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ReceivedMessageT): Promise<void>;
 }
 
@@ -221,6 +221,14 @@ export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "traci
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
+}
+
+// @public
+export interface ProcessErrorArgs {
+    entityPath: string;
+    error: Error | MessagingError;
+    errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
+    fullyQualifiedNamespace: string;
 }
 
 // @public

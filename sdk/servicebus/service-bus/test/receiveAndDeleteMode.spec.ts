@@ -6,7 +6,12 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, ServiceBusMessage, ServiceBusReceiver } from "../src";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusMessage,
+  ServiceBusReceiver,
+  ProcessErrorArgs
+} from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
@@ -130,8 +135,8 @@ describe("receive and delete", () => {
           async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
             receivedMsgs.push(message);
           },
-          async processError(err: Error): Promise<void> {
-            errors.push(err.message);
+          async processError(args: ProcessErrorArgs): Promise<void> {
+            errors.push(args.error.message);
           }
         },
         { autoComplete: autoCompleteFlag }
