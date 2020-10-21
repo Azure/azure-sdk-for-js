@@ -13,12 +13,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: ./v2.0.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.1/FormRecognizer.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200717.1"
-package-version: "3.0.0"
+  "@autorest/typescript": "6.0.0-dev.20201013.1"
+package-version: "3.1.0-preview.1"
 ```
 
 ## Customizations for Track 2 Generator
