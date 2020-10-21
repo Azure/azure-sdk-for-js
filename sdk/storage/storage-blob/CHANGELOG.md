@@ -1,5 +1,15 @@
 # Release History
 
+## 12.3.0-beta.2 (Unreleased)
+
+
+## 12.3.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Blob Last Access Time tracking.
+- Added support for Blob Query Arrow output format.
+- Added support for Container Soft Delete.
+
 ## 12.2.1 (2020-09-17)
 
 - Bug fix - Fixes an issue where`BlockBlobClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).

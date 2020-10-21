@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { Schema } from "./operations";
 import { GeneratedSchemaRegistryClientContext } from "./generatedSchemaRegistryClientContext";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
-class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClientContext {
+export class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClientContext {
   /**
    * Initializes a new instance of the GeneratedSchemaRegistryClient class.
    * @param endpoint The Schema Registry service endpoint, for example
@@ -24,18 +22,8 @@ class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClientContext
     options?: GeneratedSchemaRegistryClientOptionalParams
   ) {
     super(endpoint, options);
-    this.schema = new operations.Schema(this);
+    this.schema = new Schema(this);
   }
 
-  schema: operations.Schema;
+  schema: Schema;
 }
-
-// Operation Specifications
-
-export {
-  GeneratedSchemaRegistryClient,
-  GeneratedSchemaRegistryClientContext,
-  Models as GeneratedSchemaRegistryModels,
-  Mappers as GeneratedSchemaRegistryMappers
-};
-export * from "./operations";

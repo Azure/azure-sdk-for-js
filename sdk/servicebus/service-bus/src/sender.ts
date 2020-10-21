@@ -7,13 +7,12 @@ import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
-  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions } from "./models";
+import { CreateMessageBatchOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -21,7 +20,13 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import {
+  createSendSpan,
+  getParentSpan,
+  OperationOptionsBase
+} from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode, SpanContext } from "@opentelemetry/api";
+import { senderLogger as logger } from "./log";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -57,12 +62,12 @@ export interface ServiceBusSender {
    * @param options  Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
-   * @param {CreateBatchOptions} [options]
+   * @param {CreateMessageBatchOptions} [options]
    * @returns {Promise<ServiceBusMessageBatch>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+  createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
 
   /**
    * Opens the AMQP link to Azure Service Bus from the sender.
@@ -141,6 +146,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   private _sender: MessageSender;
   public entityPath: string;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|sender:${this.entityPath}]`;
+  }
+
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
@@ -161,7 +170,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(this._entityPath);
       const error = new Error(errorMessage);
-      logError(error, `[${this._context.connectionId}] %O`, error);
+      logger.logError(error, `[${this._context.connectionId}] is closed`);
       throw error;
     }
   }
@@ -179,14 +188,19 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
+    // link message span contexts
+    let spanContextsToLink: SpanContext[] = [];
+    if (isServiceBusMessage(messages)) {
+      messages = [messages];
+    }
+    let batch: ServiceBusMessageBatch;
     if (Array.isArray(messages)) {
-      const batch = await this.createBatch(options);
-
+      batch = await this.createMessageBatch(options);
       for (const message of messages) {
         if (!isServiceBusMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
-        if (!batch.tryAdd(message)) {
+        if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
           const error = new MessagingError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
@@ -195,17 +209,36 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           throw error;
         }
       }
-
-      return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messages)) {
-      return this._sender.sendBatch(messages, options);
-    } else if (isServiceBusMessage(messages)) {
-      return this._sender.send(messages, options);
+      spanContextsToLink = messages._messageSpanContexts;
+      batch = messages;
+    } else {
+      throw new TypeError(invalidTypeErrMsg);
     }
-    throw new TypeError(invalidTypeErrMsg);
+
+    const sendSpan = createSendSpan(
+      getParentSpan(options?.tracingOptions),
+      spanContextsToLink,
+      this.entityPath,
+      this._context.config.host
+    );
+
+    try {
+      const result = await this._sender.sendBatch(batch, options);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
+    } catch (error) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      sendSpan.end();
+    }
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
     return this._sender.createBatch(options);
   }
@@ -313,13 +346,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this._isClosed = true;
       await this._sender.close();
     } catch (err) {
-      logError(
-        err,
-        "[%s] An error occurred while closing the Sender for %s: %O",
-        this._context.connectionId,
-        this._entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Sender`);
       throw err;
     }
   }
@@ -339,7 +366,7 @@ export function isServiceBusMessageBatch(
   const possibleBatch = messageBatchOrAnything as ServiceBusMessageBatch;
 
   return (
-    typeof possibleBatch.tryAdd === "function" &&
+    typeof possibleBatch.tryAddMessage === "function" &&
     typeof possibleBatch.maxSizeInBytes === "number" &&
     typeof possibleBatch.sizeInBytes === "number"
   );

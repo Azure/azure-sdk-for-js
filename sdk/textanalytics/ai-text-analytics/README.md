@@ -262,7 +262,7 @@ async function main() {
     if (result.error === undefined) {
       console.log(" -- Recognized PII entities for input", result.id, "--");
       for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
+        console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
       }
     } else {
       console.error("Encountered an error:", result.error);

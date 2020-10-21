@@ -9,11 +9,11 @@ import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
-import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
+import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus } from "../src/util/utils";
+import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -55,6 +55,7 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
+const randomDate = new Date();
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
@@ -1264,7 +1265,8 @@ describe("Atom management - Authentication", function(): void {
       requiresDuplicateDetection: false,
       status: "Active",
       supportOrdering: true,
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   },
   {
@@ -1279,7 +1281,8 @@ describe("Atom management - Authentication", function(): void {
       enablePartitioning: true,
       enableExpress: false,
       supportOrdering: false,
-      userMetadata: "test metadata"
+      userMetadata: "test metadata",
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       defaultMessageTimeToLive: "P2D",
@@ -1294,7 +1297,8 @@ describe("Atom management - Authentication", function(): void {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1343,7 +1347,8 @@ describe("Atom management - Authentication", function(): void {
       requiresSession: false,
       status: "Active",
       subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      topicName: managementTopic1,
+      availabilityStatus: "Available"
     }
   },
   {
@@ -1358,7 +1363,8 @@ describe("Atom management - Authentication", function(): void {
       enableBatchedOperations: false,
       requiresSession: true,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT5M",
@@ -1376,7 +1382,8 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled",
 
       subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      topicName: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1446,9 +1453,8 @@ describe("Atom management - Authentication", function(): void {
 
       userMetadata: undefined,
       messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "Active",
-
+      availabilityStatus: "Available",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
     }
@@ -1526,7 +1532,8 @@ describe("Atom management - Authentication", function(): void {
       requiresSession: false,
       status: "Active",
       forwardTo: undefined,
-      userMetadata: undefined
+      userMetadata: undefined,
+      availabilityStatus: "Available"
     }
   },
   {
@@ -1562,7 +1569,8 @@ describe("Atom management - Authentication", function(): void {
       enablePartitioning: true,
       enableExpress: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -1599,7 +1607,8 @@ describe("Atom management - Authentication", function(): void {
       forwardTo: undefined,
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
-      name: managementQueue1
+      name: managementQueue1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1685,7 +1694,11 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Rule tests
-[
+const createRuleTests: {
+  testCaseTitle: string;
+  input: Omit<CreateRuleOptions, "name"> | undefined;
+  output: RuleProperties;
+}[] = [
   {
     testCaseTitle: "Undefined rule options",
     input: undefined,
@@ -1727,7 +1740,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1737,13 +1750,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1759,11 +1772,12 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
-          randomBool: true
+          randomBool: true,
+          randomDate: randomDate
         }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
@@ -1772,17 +1786,18 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
-          randomBool: true
+          randomBool: true,
+          randomDate: randomDate
         }
       },
       action: {
@@ -1792,7 +1807,8 @@ describe("Atom management - Authentication", function(): void {
       name: managementRule1
     }
   }
-].forEach((testCase) => {
+];
+createRuleTests.forEach((testCase) => {
   describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
@@ -1858,7 +1874,8 @@ describe("Atom management - Authentication", function(): void {
       enablePartitioning: true,
       enableExpress: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1895,7 +1912,8 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled",
       enablePartitioning: true,
       enableExpress: false,
-      name: managementQueue1
+      name: managementQueue1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -2012,7 +2030,7 @@ describe("Atom management - Authentication", function(): void {
       messageCountDetails: undefined,
 
       enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
+      availabilityStatus: "Available",
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       enablePartitioning: true,
@@ -2078,7 +2096,8 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
-      maxSizeInMegabytes: 3072
+      maxSizeInMegabytes: 3072,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       requiresDuplicateDetection: false,
@@ -2093,7 +2112,8 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -2144,7 +2164,8 @@ describe("Atom management - Authentication", function(): void {
       enableBatchedOperations: true,
       requiresSession: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT3M",
@@ -2160,7 +2181,8 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      topicName: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -2298,13 +2320,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "defg",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: undefined
+        applicationProperties: undefined
       },
       action: {
         sqlExpression: "SET sys.label='RED'",
@@ -2393,7 +2415,7 @@ async function createEntity(
   queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<CreateTopicOptions, "name">,
   subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleProperties, "name">
+  ruleOptions?: Omit<CreateRuleOptions, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {

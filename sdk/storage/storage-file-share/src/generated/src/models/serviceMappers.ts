@@ -17,5 +17,8 @@ export {
   ServiceSetPropertiesHeaders,
   ShareItem,
   ShareProperties,
+  ShareProtocolSettings,
+  ShareSmbSettings,
+  SmbMultichannel,
   StorageError
 } from "../models/mappers";

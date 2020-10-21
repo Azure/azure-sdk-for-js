@@ -107,7 +107,7 @@ Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZU
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
 const credentials = new DefaultAzureCredential();
 

@@ -1,0 +1,44 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/120161c7-942a-4eee-a9bc-2a76f034e656",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "9e056937-b81f-40a9-a206-42de7197962d",
+    "content-length": "0",
+    "date": "Mon, 21 Sep 2020 22:15:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "267",
+    "x-request-id": "9e056937-b81f-40a9-a206-42de7197962d"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/120161c7-942a-4eee-a9bc-2a76f034e656",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"code\":\"ERROR_INVALID_PARAMETER\",\"message\":\"datafeedId is invalid.\"}",
+   "responseHeaders": {
+    "apim-request-id": "7d6b0201-e4cb-4253-b645-7cf6c646227f",
+    "content-length": "69",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 21 Sep 2020 22:15:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "37",
+    "x-request-id": "7d6b0201-e4cb-4253-b645-7cf6c646227f"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "5dd3b20f46a7505ca7e2ade79033d056"
+}

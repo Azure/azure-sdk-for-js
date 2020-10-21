@@ -111,7 +111,6 @@ export const KeyVaultProperties: msRest.CompositeMapper = {
         }
       },
       keyVersion: {
-        required: true,
         serializedName: "keyVersion",
         type: {
           name: "String"
@@ -120,6 +119,12 @@ export const KeyVaultProperties: msRest.CompositeMapper = {
       keyVaultUri: {
         required: true,
         serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      userIdentity: {
+        serializedName: "userIdentity",
         type: {
           name: "String"
         }
@@ -402,11 +407,7 @@ export const Identity: msRest.CompositeMapper = {
         required: true,
         serializedName: "type",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "SystemAssigned"
-          ]
+          name: "String"
         }
       },
       userAssignedIdentities: {
@@ -620,6 +621,12 @@ export const Cluster: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      engineType: {
+        serializedName: "properties.engineType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -764,6 +771,12 @@ export const ClusterUpdate: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
+        }
+      },
+      engineType: {
+        serializedName: "properties.engineType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1347,6 +1360,13 @@ export const EventHubDataConnection: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1407,6 +1427,13 @@ export const IotHubDataConnection: msRest.CompositeMapper = {
       sharedAccessPolicyName: {
         required: true,
         serializedName: "properties.sharedAccessPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
@@ -1471,6 +1498,13 @@ export const EventGridDataConnection: msRest.CompositeMapper = {
       },
       blobStorageEventType: {
         serializedName: "properties.blobStorageEventType",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }

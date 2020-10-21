@@ -105,6 +105,8 @@ describe("IdentityClient", function() {
     assert(new IdentityClient({ authorityHost: "https://correct.url" }));
 
     delete process.env.AZURE_AUTHORITY_HOST;
+
+    return;
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {

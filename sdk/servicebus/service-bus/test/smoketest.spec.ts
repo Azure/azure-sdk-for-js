@@ -335,7 +335,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Queue, next unlocked session, sessions", sessionId);
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, { receiveMode: "receiveAndDelete" })
+        await serviceBusClient.acceptNextSession(queue, { receiveMode: "receiveAndDelete" })
       );
 
       // this queue was freshly created so we are the first session (and thus the first session to get picked
@@ -365,8 +365,7 @@ describe("Sample scenarios for track 2", () => {
     it("Queue, receive and delete, sessions", async () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, {
-          sessionId,
+        await serviceBusClient.acceptSession(queue, sessionId, {
           receiveMode: "receiveAndDelete"
         })
       );
@@ -403,7 +402,7 @@ describe("Sample scenarios for track 2", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, { sessionId })
+        await serviceBusClient.acceptSession(queue, sessionId)
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
@@ -449,8 +448,8 @@ describe("Sample scenarios for track 2", () => {
         break;
       }
       case "batch": {
-        const batch = await sender.createBatch();
-        assert.isTrue(batch.tryAdd(message));
+        const batch = await sender.createMessageBatch();
+        assert.isTrue(batch.tryAddMessage(message));
         await sender.sendMessages(batch);
         break;
       }

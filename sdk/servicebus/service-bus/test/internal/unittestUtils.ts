@@ -8,10 +8,17 @@ import {
   ReceiverEvents,
   ReceiverOptions
 } from "rhea-promise";
-import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
+import { DefaultDataTransformer, AccessToken, Constants } from "@azure/core-amqp";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
+
+export interface CreateConnectionContextForTestsOptions {
+  host?: string;
+  entityPath?: string;
+  onCreateAwaitableSenderCalled?: () => void;
+  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
+}
 
 /**
  * Creates a fake ConnectionContext for tests that can create semi-realistic
@@ -24,10 +31,9 @@ import { Link } from "rhea-promise/typings/lib/link";
  * is created (via onCreateAwaitableSenderCalled).
  *
  */
-export function createConnectionContextForTests(options?: {
-  onCreateAwaitableSenderCalled?: () => void;
-  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ConnectionContext & {
+export function createConnectionContextForTests(
+  options?: CreateConnectionContextForTestsOptions
+): ConnectionContext & {
   initWasCalled: boolean;
 } {
   let initWasCalled = false;
@@ -41,7 +47,12 @@ export function createConnectionContextForTests(options?: {
     senders: {},
     messageSessions: {},
     managementClients: {},
-    config: { endpoint: "my.service.bus" },
+    config: {
+      endpoint: "my.service.bus",
+      // used by tracing
+      entityPath: options?.entityPath ?? "fakeEntityPath",
+      host: options?.host ?? "fakeHost"
+    },
     connectionId: "connection-id",
     connection: {
       id: "connection-id",
@@ -73,7 +84,8 @@ export function createConnectionContextForTests(options?: {
 
         (receiver as any).connection = { id: "connection-id" };
         return receiver;
-      }
+      },
+      async close(): Promise<void> {}
     },
     dataTransformer: new DefaultDataTransformer(),
     tokenCredential: {
@@ -88,12 +100,47 @@ export function createConnectionContextForTests(options?: {
       async init() {
         initWasCalled = true;
       },
-      async negotiateClaim(): Promise<void> {}
+      async negotiateClaim(): Promise<void> {},
+      async close(): Promise<void> {}
     },
     initWasCalled
   };
 
   return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
+}
+
+/**
+ * Creates a test connection context that should work for testing ServiceBusSessionReceiverImpl
+ * and MessageSession. By default it matches with an session ID of 'hello'.
+ *
+ * @param sessionId A session ID to use or the default ("hello")
+ */
+export function createConnectionContextForTestsWithSessionId(
+  sessionId: string = "hello",
+  options?: CreateConnectionContextForTestsOptions
+): ConnectionContext & {
+  initWasCalled: boolean;
+} {
+  const connectionContext = createConnectionContextForTests({
+    ...options,
+    onCreateReceiverCalled: (receiver) => {
+      (receiver as any).source = {
+        filter: {
+          [Constants.sessionFilterName]: sessionId
+        }
+      };
+
+      (receiver as any).properties = {
+        ["com.microsoft:locked-until-utc"]: Date.now()
+      };
+
+      if (options?.onCreateReceiverCalled) {
+        options?.onCreateReceiverCalled(receiver);
+      }
+    }
+  });
+
+  return connectionContext;
 }
 
 /**

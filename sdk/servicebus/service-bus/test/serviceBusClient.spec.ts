@@ -375,7 +375,7 @@ describe("Errors after close()", function(): void {
     sender = sbClient.test.addToCleanup(
       sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
-    receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    receiver = await sbClient.test.createPeekLockReceiver(entityName);
 
     // Normal send/receive
     const testMessage = entityName.usesSessions
@@ -458,7 +458,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
 
     let errorCreateBatch: string = "";
-    await sender.createBatch().catch((err) => {
+    await sender.createMessageBatch().catch((err) => {
       errorCreateBatch = err.message;
     });
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
@@ -563,7 +563,7 @@ describe("Errors after close()", function(): void {
   async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
     let errorNewReceiver: string = "";
     try {
-      receiver = await sbClient.test.getPeekLockReceiver(entityName);
+      receiver = await sbClient.test.createPeekLockReceiver(entityName);
     } catch (err) {
       errorNewReceiver = err.message;
     }
@@ -756,7 +756,7 @@ describe("entityPath on sender and receiver", async () => {
   it(withSessionTestClientType + ": EntityPath on Session Receiver", async () => {
     const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
 
-    const receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    const receiver = await sbClient.test.createPeekLockReceiver(entityName);
     const expectedEntityPath = entityName.queue
       ? entityName.queue
       : `${entityName.topic}/Subscriptions/${entityName.subscription}`;

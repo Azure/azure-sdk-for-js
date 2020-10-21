@@ -15,14 +15,23 @@ import {
   createAbortSignalForTest,
   createCountdownAbortSignal
 } from "../utils/abortSignalTestUtils";
-import { createConnectionContextForTests } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId
+} from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { Constants } from "@azure/core-amqp";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { MessageSession } from "../../src/session/messageSession";
+import { ReceiveMode } from "../../src";
 
 describe("AbortSignal", () => {
+  const defaultOptions = {
+    lockRenewer: undefined,
+    receiveMode: <ReceiveMode>"peekLock"
+  };
+
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
@@ -250,7 +259,8 @@ describe("AbortSignal", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -270,7 +280,8 @@ describe("AbortSignal", () => {
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -301,7 +312,7 @@ describe("AbortSignal", () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
@@ -325,25 +336,15 @@ describe("AbortSignal", () => {
      * code isn't running there. So we have to check this separately from Receiver.
      */
     it("SessionReceiver.subscribe", async () => {
-      const session = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            (receiver as any).source = {
-              filter: {
-                [Constants.sessionFilterName]: "hello"
-              }
-            };
+      const connectionContext = createConnectionContextForTestsWithSessionId();
 
-            (receiver as any).properties = {
-              ["com.microsoft:locked-until-utc"]: Date.now()
-            };
-          }
-        }),
+      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+
+      const session = new ServiceBusSessionReceiverImpl(
+        messageSession,
+        connectionContext,
         "entityPath",
-        "peekLock",
-        {
-          sessionId: "hello"
-        }
+        "peekLock"
       );
 
       try {
@@ -373,7 +374,8 @@ describe("AbortSignal", () => {
       const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       try {

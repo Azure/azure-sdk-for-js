@@ -75,10 +75,8 @@ async function sendMessage(sbClient, scientist, sessionId) {
 }
 
 async function receiveMessages(sbClient, sessionId) {
-  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const receiver = await sbClient.createSessionReceiver(queueName, {
-    sessionId: sessionId
-  });
+  // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
+  const receiver = await sbClient.acceptSession(queueName, sessionId);
 
   const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
@@ -99,4 +97,5 @@ async function receiveMessages(sbClient, sessionId) {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

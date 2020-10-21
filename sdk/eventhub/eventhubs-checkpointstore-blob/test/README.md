@@ -6,7 +6,7 @@ The Azure Event Hubs Checkpoint Store client does not have any recorded tests an
 
 The Azure resources that are used by the tests in this project are:
 
-- An [Azure Event Hubs namespace](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#namespace). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication).
+- An [Azure Event Hubs namespace](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#namespace). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#aad-based-authentication).
 - Some very basic Network configurations for the Event Hubs namespace.
 - A [consumer group](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#consumer-groups) to publish and subscribe to the Event Hubs namespace created.
 - An [Azure Storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).

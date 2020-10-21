@@ -40,7 +40,12 @@ let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
+    // prior to a recent change the behavior was always to _not_ auto-renew locks.
+    // for compat with these tests I'm just disabling this. There are tests in renewLocks.spec.ts that
+    // ensure lock renewal does work with batching.
+    maxAutoLockRenewalDurationInMs: 0
+  });
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -658,9 +663,9 @@ describe("Batching Receiver", () => {
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(): Promise<void> {
       const testMessages = entityNames.usesSessions ? messageWithSessions : messages;
-      const batchMessageToSend = await sender.createBatch();
+      const batchMessageToSend = await sender.createMessageBatch();
       for (const message of testMessages) {
-        batchMessageToSend.tryAdd(message);
+        batchMessageToSend.tryAddMessage(message);
       }
       await sender.sendMessages(batchMessageToSend);
       const msgs1 = await receiver.receiveMessages(1);
@@ -729,10 +734,14 @@ describe("Batching Receiver", () => {
       // the message lands back in the queue/subscription to be picked up again.
       if (entityNames.usesSessions) {
         await receiver.close();
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          maxAutoRenewLockDurationInMs: 0
-        });
+
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       let batch = await receiver.receiveMessages(1);
@@ -751,10 +760,13 @@ describe("Batching Receiver", () => {
       // landed back in the queue/subscription.
       if (entityNames.usesSessions) {
         await delay(31000);
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessages.sessionId,
-          maxAutoRenewLockDurationInMs: 0
-        });
+        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+          entityNames,
+          testMessages.sessionId!,
+          {
+            maxAutoRenewLockDurationInMs: 0
+          }
+        );
       }
 
       batch = await receiver.receiveMessages(1);
@@ -879,9 +891,9 @@ describe("Batching Receiver", () => {
       serviceBusClient = createServiceBusClientForTests();
       const entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
       if (receiveMode == "receiveAndDelete") {
-        receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+        receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       } else {
-        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
       }
 
       sender = serviceBusClient.test.addToCleanup(

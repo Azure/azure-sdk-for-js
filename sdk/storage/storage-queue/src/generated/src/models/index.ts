@@ -638,6 +638,10 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
  */
 export interface MessageIdUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
+   * A Message object which can be stored in a Queue
+   */
+  queueMessage?: QueueMessage;
+  /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>

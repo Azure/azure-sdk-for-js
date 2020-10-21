@@ -7,7 +7,9 @@ import {
   createPipelineFromOptions,
   OperationOptions,
   generateUuid,
-  HttpResponse
+  HttpResponse,
+  RequestPolicyFactory,
+  RestResponse
 } from "@azure/core-http";
 
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
@@ -23,6 +25,9 @@ import {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel
 } from "./generated/models";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options for the Event Grid Client.
@@ -110,6 +115,10 @@ export class EventGridPublisherClient {
     const authPolicy = createEventGridCredentialPolicy(credential);
     const pipeline = createPipelineFromOptions(options, authPolicy);
 
+    (pipeline.requestPolicyFactories as RequestPolicyFactory[]).push(
+      cloudEventDistributedTracingEnricherPolicy()
+    );
+
     this.client = new GeneratedClient(pipeline);
     this.apiVersion = this.client.apiVersion;
   }
@@ -119,21 +128,28 @@ export class EventGridPublisherClient {
    *
    * @param message One or more events to publish
    */
-  sendEvents(
+  async sendEvents(
     events: SendEventGridEventInput<any>[],
     options?: SendEventsOptions
   ): Promise<SendEventsResponse> {
-    return this.client
-      .publishEvents(
+    const { span, updatedOptions } = createSpan(
+      "EventGridPublisherClient-sendEvents",
+      options || {}
+    );
+
+    try {
+      const r = await this.client.publishEvents(
         this.endpointUrl,
         (events || []).map(convertEventGridEventToModelType),
-        options
-      )
-      .then((r) => {
-        return {
-          _response: r._response
-        };
-      });
+        updatedOptions
+      );
+      return buildResponse(r);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -141,21 +157,28 @@ export class EventGridPublisherClient {
    *
    * @param message One or more events to publish
    */
-  sendCloudEvents(
+  async sendCloudEvents(
     events: SendCloudEventInput<any>[],
     options?: SendCloudEventsOptions
   ): Promise<SendEventsResponse> {
-    return this.client
-      .publishCloudEventEvents(
+    const { span, updatedOptions } = createSpan(
+      "EventGridPublisherClient-sendCloudEvents",
+      options || {}
+    );
+
+    try {
+      const r = await this.client.publishCloudEventEvents(
         this.endpointUrl,
         (events || []).map(convertCloudEventToModelType),
-        options
-      )
-      .then((r) => {
-        return {
-          _response: r._response
-        };
-      });
+        updatedOptions
+      );
+      return buildResponse(r);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -163,18 +186,39 @@ export class EventGridPublisherClient {
    *
    * @param message One or more events to publish
    */
-  sendCustomSchemaEvents(
+  async sendCustomSchemaEvents(
     events: Record<string, any>[],
     options?: SendCustomSchemaEventsOptions
   ): Promise<SendEventsResponse> {
-    return this.client
-      .publishCustomEventEvents(this.endpointUrl, events || [], options)
-      .then((r) => {
-        return {
-          _response: r._response
-        };
-      });
+    const { span, updatedOptions } = createSpan(
+      "EventGridPublisherClient-sendCustomSchemaEvents",
+      options || {}
+    );
+
+    try {
+      const r = await this.client.publishCustomEventEvents(
+        this.endpointUrl,
+        events || [],
+        updatedOptions
+      );
+      return buildResponse(r);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
+}
+
+function buildResponse(r: RestResponse): SendEventsResponse {
+  const ret = { _response: r._response };
+
+  Object.defineProperty(ret, "_response", {
+    enumerable: false
+  });
+
+  return ret;
 }
 
 /**

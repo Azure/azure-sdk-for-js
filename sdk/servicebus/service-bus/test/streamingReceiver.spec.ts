@@ -10,7 +10,6 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  InternalReceiveMode,
   ServiceBusReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
@@ -63,9 +62,9 @@ describe("Streaming Receiver Tests", () => {
     entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
     } else {
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     }
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -171,7 +170,8 @@ describe("Streaming Receiver Tests", () => {
           (receiver as any)._context,
           receiver.entityPath,
           {
-            receiveMode: InternalReceiveMode.peekLock
+            receiveMode: "peekLock",
+            lockRenewer: undefined
           }
         );
 
@@ -212,7 +212,7 @@ describe("Streaming Receiver Tests", () => {
       );
 
       const sender = await serviceBusClient.test.createSender(entities);
-      const receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entities);
 
       await sender.sendMessages({
         body: "can stop and start a subscription message 1"
@@ -761,9 +761,9 @@ describe("Streaming Receiver Tests", () => {
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
       const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-      const batchMessageToSend = await sender.createBatch();
+      const batchMessageToSend = await sender.createMessageBatch();
       testMessages.forEach((message) => {
-        batchMessageToSend.tryAdd(message);
+        batchMessageToSend.tryAddMessage(message);
       });
       await sender.sendMessages(batchMessageToSend);
 
@@ -820,7 +820,7 @@ describe("Streaming Receiver Tests", () => {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
-      const batch = await sender.createBatch();
+      const batch = await sender.createMessageBatch();
       while (num <= totalNumOfMessages) {
         const message = {
           messageId: num,
@@ -830,7 +830,7 @@ describe("Streaming Receiver Tests", () => {
         };
         num++;
         messages.push(message);
-        batch.tryAdd(message);
+        batch.tryAddMessage(message);
       }
       await sender.sendMessages(batch);
 
@@ -856,7 +856,7 @@ describe("Streaming Receiver Tests", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       await verifyMessageCount(
         totalNumOfMessages,
         entityNames.queue,
@@ -889,8 +889,8 @@ describe("Streaming Receiver Tests", () => {
     async () => {
       const entities = await serviceBusClient.test.createTestEntities(testClientType);
 
-      const actualReceiver = await serviceBusClient.test.getPeekLockReceiver(entities);
-      const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const actualReceiver = await serviceBusClient.test.createPeekLockReceiver(entities);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entities);
       const sender = await serviceBusClient.test.createSender(entities);
 
       await sender.sendMessages({ body: ".close() test - first message" });
@@ -944,9 +944,9 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
-      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
     } else {
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     }
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -1129,7 +1129,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
 
   async function beforeEachTest(): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );

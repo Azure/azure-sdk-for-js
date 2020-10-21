@@ -51,7 +51,7 @@ describe("dead lettering", () => {
       })
     );
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -160,7 +160,7 @@ describe("dead lettering", () => {
 
     const reason = deadLetterMessages[0].deadLetterReason;
     const description = deadLetterMessages[0].deadLetterErrorDescription;
-    const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
+    const customProperty = deadLetterMessages[0]!.applicationProperties!["customProperty"];
 
     should.equal(reason, expected.reason);
     should.equal(description, expected.description);
@@ -198,7 +198,7 @@ describe("abandoning", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -285,7 +285,7 @@ describe("abandoning", () => {
   ) {
     should.exist(abandonedMessage);
 
-    const customProperty = abandonedMessage.properties!["customProperty"];
+    const customProperty = abandonedMessage.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }
@@ -321,7 +321,7 @@ describe("deferring", () => {
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveMessages(1);
 
@@ -401,7 +401,7 @@ describe("deferring", () => {
 
     should.exist(deferredMessage);
 
-    const customProperty = deferredMessage!.properties!["customProperty"];
+    const customProperty = deferredMessage!.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }

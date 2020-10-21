@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../log";
+import { logger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
-import { AmqpError } from "rhea-promise";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -61,7 +60,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`
   );
 }
 
@@ -197,30 +196,4 @@ export function throwTypeErrorIfParameterIsEmptyString(
  */
 export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
   return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
-}
-
-/**
- * @internal
- * @ignore
- */
-export function logError(err: Error | AmqpError | undefined, ...args: any[]): void {
-  let l: typeof logger.info;
-
-  if (isError(err) && err.name === "AbortError") {
-    l = logger.info;
-  } else {
-    l = logger.warning;
-  }
-
-  l(...args);
-
-  logErrorStackTrace(err);
-}
-
-/**
- * @internal
- * @ignore
- */
-function isError(err: Error | AmqpError | undefined): err is Error {
-  return err != null && (err as any).name != null;
 }

@@ -11,19 +11,26 @@ const assert = chai.assert;
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { createConnectionContextForTests } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId
+} from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { Constants } from "@azure/core-amqp";
+import { MessageSession } from "../../src/session/messageSession";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
     it("close() called just after init() but before the next step", async () => {
       const batchingReceiver = new BatchingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: "peekLock"
+        }
       );
 
       let initWasCalled = false;
@@ -35,7 +42,7 @@ describe("Receiver unit tests", () => {
       };
 
       // make an init() happen internally.
-      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1);
+      const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1, {});
 
       assert.isEmpty(emptyArrayOfMessages);
       assert.isTrue(initWasCalled);
@@ -44,7 +51,11 @@ describe("Receiver unit tests", () => {
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        {
+          lockRenewer: undefined,
+          receiveMode: "peekLock"
+        }
       );
 
       await messageReceiver2.close();
@@ -88,7 +99,8 @@ describe("Receiver unit tests", () => {
           }
         }),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        0
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -116,7 +128,8 @@ describe("Receiver unit tests", () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -153,7 +166,8 @@ describe("Receiver unit tests", () => {
           }
         }),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -183,7 +197,8 @@ describe("Receiver unit tests", () => {
       const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const abortSignal = {
@@ -247,7 +262,8 @@ describe("Receiver unit tests", () => {
       const impl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entity path",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -267,23 +283,19 @@ describe("Receiver unit tests", () => {
     });
 
     it("abortSignal is passed through (session receiver)", async () => {
-      const impl = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            (receiver as any).source = {
-              filter: {
-                [Constants.sessionFilterName]: "hello"
-              }
-            };
+      const connectionContext = createConnectionContextForTestsWithSessionId();
+      const messageSession = await MessageSession.create(
+        connectionContext,
+        "entity path",
+        undefined
+      );
 
-            (receiver as any).properties = {
-              ["com.microsoft:locked-until-utc"]: Date.now()
-            };
-          }
-        }),
+      const impl = new ServiceBusSessionReceiverImpl(
+        messageSession,
+        connectionContext,
         "entity path",
         "peekLock",
-        {}
+        undefined
       );
 
       const abortSignal = createAbortSignalForTest(true);

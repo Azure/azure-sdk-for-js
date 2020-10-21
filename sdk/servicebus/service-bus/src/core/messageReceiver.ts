@@ -9,16 +9,16 @@ import {
   translate
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
-import { logger } from "../log";
+import { receiverLogger as logger } from "../log";
 import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
-import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { MessageHandlerOptions } from "../models";
+import { ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
-import { logError } from "../util/errors";
+import { LockRenewer } from "./autoLockRenewer";
 
 /**
  * @internal
@@ -41,16 +41,22 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
  * @internal
  * @ignore
  */
-export interface ReceiveOptions extends MessageHandlerOptions {
+export interface ReceiveOptions extends SubscribeOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
    */
-  receiveMode?: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
   retryOptions?: RetryOptions;
+
+  /**
+   * A LockAutoRenewer that will automatically renew locks based on user specified interval.
+   * This will be set if the user has chosen peekLock mode _and_ they've set a positive
+   * maxAutoRenewLockDurationInMs value when they created their receiver.
+   */
+  lockRenewer: LockRenewer | undefined;
 }
 
 /**
@@ -93,25 +99,13 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: InternalReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
-  /**
-   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
-   * lock will be renewed automatically. This value should be greater than the longest message
-   * lock duration; for example, the `lockDuration` property on the received message.
-   *
-   * Default: `300 * 1000` (5 minutes);
-   */
-  maxAutoRenewDurationInMs: number;
-  /**
-   * @property {boolean} autoRenewLock Should lock renewal happen automatically.
-   */
-  autoRenewLock: boolean;
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -131,68 +125,31 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
+
   /**
-   * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
-   * the lock is automatically renewed.
+   * A lock renewer that handles message lock auto-renewal. This is undefined unless the user
+   * has activated autolock renewal via ReceiveOptions. A single auto lock renewer is shared
+   * for all links for a `ServiceBusReceiver` instance.
    */
-  protected _messageRenewLockTimers: Map<string, NodeJS.Timer | undefined> = new Map<
-    string,
-    NodeJS.Timer | undefined
-  >();
-  /**
-   * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
-   * specific messageId.
-   */
-  protected _clearMessageLockRenewTimer: (messageId: string) => void;
-  /**
-   * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for all
-   * the active messages.
-   */
-  protected _clearAllMessageLockRenewTimers: () => void;
+  protected _lockRenewer: LockRenewer | undefined;
 
   constructor(
     context: ConnectionContext,
-    protected _entityPath: string,
+    entityPath: string,
     receiverType: ReceiverType,
-    options?: Omit<ReceiveOptions, "maxConcurrentCalls">
+    options: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(_entityPath, context, receiverType, {
-      address: _entityPath,
-      audience: `${context.config.endpoint}${_entityPath}`
+    super(entityPath, entityPath, context, receiverType, logger, {
+      address: entityPath,
+      audience: `${context.config.endpoint}${entityPath}`
     });
 
-    if (!options) options = {};
     this.receiverType = receiverType;
-    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
-        : 300 * 1000;
-    this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
-    this._clearMessageLockRenewTimer = (messageId: string) => {
-      if (this._messageRenewLockTimers.has(messageId)) {
-        clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
-        logger.verbose(
-          "[%s] Cleared the message renew lock timer for message with id '%s'.",
-          this._context.connectionId,
-          messageId
-        );
-        this._messageRenewLockTimers.delete(messageId);
-      }
-    };
-    this._clearAllMessageLockRenewTimers = () => {
-      logger.verbose(
-        "[%s] Clearing message renew lock timers for all the active messages.",
-        this._context.connectionId
-      );
-      for (const messageId of this._messageRenewLockTimers.keys()) {
-        this._clearMessageLockRenewTimer(messageId);
-      }
-    };
+    this._lockRenewer = options.lockRenewer;
   }
 
   /**
@@ -203,22 +160,18 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     handlers: ReceiverHandlers
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this._entityPath) : this.name,
-      autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
+      name: useNewName ? getUniqueName(this.baseName) : this.name,
+      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
       source: {
         address: this.address
       },
       credit_window: 0,
       onSettled: (context) => {
-        return onMessageSettled(
-          this._context.connection.id,
-          context.delivery,
-          this._deliveryDispositionMap
-        );
+        return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
       },
       ...handlers
     };
@@ -240,13 +193,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
       err = translate(err);
-      logError(
-        err,
-        "[%s] An error occured while creating the receiver '%s': %O",
-        this._context.connectionId,
-        this.name,
-        err
-      );
+      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((err as MessagingError).code === "OperationTimeoutError") {
@@ -279,7 +226,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this._clearAllMessageLockRenewTimers();
+    this._lockRenewer?.stopAll(this);
     await super.close();
   }
 
@@ -299,15 +246,15 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
-      this._clearMessageLockRenewTimer(message.messageId as string);
+      this._lockRenewer?.stop(this, message);
       const delivery = message.delivery;
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
 
         logger.verbose(
-          "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
+          "%s Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
-          this._context.connectionId,
+          this.logPrefix,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
         );

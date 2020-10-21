@@ -1,5 +1,16 @@
 # Release History
 
+## 12.2.0-beta.2 (Unreleased)
+
+- Bug fix - Fixes an issue where `DataLakePathClient.move()` will give an `InvalidSourceUri` error when the copy source name contains characters that need to be URL encoded. Fixed bug [11849](https://github.com/Azure/azure-sdk-for-js/issues/11849).
+
+## 12.2.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Directory SAS.
+- Added support for File Set Expiry.
+- Added support to set access control list recursively.
+
 ## 12.1.1 (2020-09-17)
 
 - Bug fix - Fixes an issue where`DataLakeFileClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).

@@ -3,6 +3,11 @@
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
+  DEFAULT_BATCH_SIZE,
+  DEFAULT_FLUSH_WINDOW,
+  DEFAULT_RETRY_COUNT
+} from "./searchIndexingBufferedSenderImpl";
+export {
   AutocompleteRequest,
   AutocompleteOptions,
   CountDocumentsOptions,
@@ -25,8 +30,15 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
-  UploadDocumentsOptions
+  UploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderDeleteDocumentsOptions,
+  SearchIndexingBufferedSenderFlushDocumentsOptions,
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
+export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
@@ -111,7 +123,8 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode
+  SearchMode,
+  ScoringStatistics
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -221,6 +234,12 @@ export {
   ResourceCounter,
   LexicalAnalyzerName,
   ClassicSimilarity,
-  BM25Similarity
+  BM25Similarity,
+  IndexingParametersConfiguration,
+  BlobIndexerDataToExtract,
+  IndexerExecutionEnvironment,
+  BlobIndexerImageAction,
+  BlobIndexerParsingMode,
+  BlobIndexerPDFTextRotationAlgorithm
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

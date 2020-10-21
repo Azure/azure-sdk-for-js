@@ -159,6 +159,22 @@ export const SearchRequest: coreHttp.CompositeMapper = {
           ]
         }
       },
+      scoringStatistics: {
+        serializedName: "scoringStatistics",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "local",
+            "global"
+          ]
+        }
+      },
+      sessionId: {
+        serializedName: "sessionId",
+        type: {
+          name: "String"
+        }
+      },
       scoringParameters: {
         serializedName: "scoringParameters",
         type: {
@@ -817,6 +833,20 @@ export const SearchOptions: coreHttp.CompositeMapper = {
             "any",
             "all"
           ]
+        }
+      },
+      scoringStatistics: {
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "local",
+            "global"
+          ]
+        }
+      },
+      sessionId: {
+        type: {
+          name: "String"
         }
       },
       select: {
