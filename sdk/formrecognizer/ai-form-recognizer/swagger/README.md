@@ -117,34 +117,37 @@ directive:
 ```
 
 ### Hide LROs
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["paths"]
-  transform: >
-    for (var path in $) {
-        for (var op of Object.values($[path])) {
-            if (op["x-ms-long-running-operation"]) {
-                delete op["x-ms-long-running-operation"];
-            }
-        }
-    }
+  - from: swagger-document
+    where: $["paths"]
+    transform: >
+      for (var path in $) {
+          for (var op of Object.values($[path])) {
+              if (op["x-ms-long-running-operation"]) {
+                  delete op["x-ms-long-running-operation"];
+              }
+          }
+      }
 ```
 
 ### `documentName` => `name`
+
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.TrainingDocumentInfo.properties.documentName
-  transform: >
-    $["x-ms-client-name"] = "name";
+  - from: swagger-document
+    where: $.definitions.TrainingDocumentInfo.properties.documentName
+    transform: >
+      $["x-ms-client-name"] = "name";
 ```
 
 ### `includeSubFolders` => `includeSubfolders`
+
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.TrainSourceFilter.properties.includeSubFolders
-  transform: >
-    $["x-ms-client-name"] = "includeSubfolders";
+  - from: swagger-document
+    where: $.definitions.TrainSourceFilter.properties.includeSubFolders
+    transform: >
+      $["x-ms-client-name"] = "includeSubfolders";
 ```
