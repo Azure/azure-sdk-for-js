@@ -15,24 +15,15 @@ const packageVersion = "1.0.0-beta.1";
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   $host: string;
   xMsClientRequestId?: string;
-  nodeName: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
    * @param $host server parameter
-   * @param nodeName
    * @param options The parameter options
    */
-  constructor(
-    $host: string,
-    nodeName: string,
-    options?: GeneratedClientOptionalParams
-  ) {
+  constructor($host: string, options?: GeneratedClientOptionalParams) {
     if ($host === undefined) {
       throw new Error("'$host' cannot be null");
-    }
-    if (nodeName === undefined) {
-      throw new Error("'nodeName' cannot be null");
     }
 
     // Initializing default values for options
@@ -53,6 +44,5 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     // Parameter assignments
     this.$host = $host;
-    this.nodeName = nodeName;
   }
 }

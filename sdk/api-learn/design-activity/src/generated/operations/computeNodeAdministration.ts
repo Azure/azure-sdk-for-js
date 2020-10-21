@@ -47,31 +47,35 @@ export class ComputeNodeAdministration {
   }
 
   /**
+   * @param nodeName
    * @param options The options parameters.
    */
   create(
+    nodeName: string,
     options?: ComputeNodeAdministrationCreateOptionalParams
   ): Promise<ComputeNodeAdministrationCreateResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      { nodeName, options: operationOptions },
       createOperationSpec
     ) as Promise<ComputeNodeAdministrationCreateResponse>;
   }
 
   /**
+   * @param nodeName
    * @param options The options parameters.
    */
   get(
+    nodeName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ComputeNodeAdministrationGetResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      { nodeName, options: operationOptions },
       getOperationSpec
     ) as Promise<ComputeNodeAdministrationGetResponse>;
   }

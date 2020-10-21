@@ -30,16 +30,18 @@ export class Computations {
   }
 
   /**
+   * @param nodeName
    * @param options The options parameters.
    */
   computePi(
+    nodeName: string,
     options?: ComputationsComputePiOptionalParams
   ): Promise<ComputationsComputePiResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      { nodeName, options: operationOptions },
       computePiOperationSpec
     ) as Promise<ComputationsComputePiResponse>;
   }
