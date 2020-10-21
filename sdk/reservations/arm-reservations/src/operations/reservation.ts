@@ -36,7 +36,7 @@ export class Reservation {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationAvailableScopesResponse>
    */
-  availableScopes(reservationOrderId: string, reservationId: string, body: string[], options?: msRest.RequestOptionsBase): Promise<Models.ReservationAvailableScopesResponse> {
+  availableScopes(reservationOrderId: string, reservationId: string, body: Models.AvailableScopeRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationAvailableScopesResponse> {
     return this.beginAvailableScopes(reservationOrderId,reservationId,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationAvailableScopesResponse>;
   }
@@ -186,7 +186,7 @@ export class Reservation {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginAvailableScopes(reservationOrderId: string, reservationId: string, body: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginAvailableScopes(reservationOrderId: string, reservationId: string, body: Models.AvailableScopeRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         reservationOrderId,
@@ -407,21 +407,13 @@ const beginAvailableScopesOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "body",
     mapper: {
-      required: true,
-      serializedName: "body",
-      type: {
-        name: "Sequence",
-        element: {
-          type: {
-            name: "String"
-          }
-        }
-      }
+      ...Mappers.AvailableScopeRequest,
+      required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.Properties
+      bodyMapper: Mappers.AvailableScopeProperties
     },
     default: {
       bodyMapper: Mappers.ErrorModel
