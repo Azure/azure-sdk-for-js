@@ -257,36 +257,6 @@ export interface QueueRuntimeProperties {
 }
 
 // @public
-export interface ReceivedMessage extends ServiceBusMessage {
-    readonly _amqpMessage: AmqpMessage;
-    readonly deadLetterErrorDescription?: string;
-    readonly deadLetterReason?: string;
-    readonly deadLetterSource?: string;
-    readonly deliveryCount?: number;
-    readonly enqueuedSequenceNumber?: number;
-    readonly enqueuedTimeUtc?: Date;
-    readonly expiresAtUtc?: Date;
-    lockedUntilUtc?: Date;
-    readonly lockToken?: string;
-    readonly sequenceNumber?: Long;
-}
-
-// @public
-export interface ReceivedMessageWithLock extends ReceivedMessage {
-    abandon(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    complete(): Promise<void>;
-    deadLetter(options?: DeadLetterOptions & {
-        [key: string]: any;
-    }): Promise<void>;
-    defer(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    renewLock(): Promise<Date>;
-}
-
-// @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
@@ -304,35 +274,7 @@ export interface RuleProperties {
 }
 
 // @public
-export class ServiceBusClient {
-    constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): ServiceBusSender;
-    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
-    fullyQualifiedNamespace: string;
-}
-
-// @public
-export interface ServiceBusClientOptions {
-    retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
-    webSocketOptions?: WebSocketOptions;
-}
-
-// @public
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusAdministrationClient extends ServiceClient {
     constructor(connectionString: string, options?: PipelineOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
@@ -588,6 +530,11 @@ export interface TopicRuntimeProperties {
     scheduledMessageCount: number;
     sizeInBytes?: number;
     subscriptionCount?: number;
+}
+
+// @public
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext | null;
 }
 
 export { WebSocketImpl }
