@@ -39,6 +39,8 @@ function sanitizeOptions(
 // TODO: stop sending messages after a 70% of test duration
 // TODO: Upon ending max lock renewal duration, pass an option to complete/ignore the message
 export async function main() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioRenewMessageLockOptions>(process.argv));
+
   const {
     testDurationInMs,
     receiveBatchMaxMessageCount,
@@ -48,7 +50,7 @@ export async function main() {
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     completeMessageAfterDuration
-  } = sanitizeOptions(parsedArgs<ScenarioRenewMessageLockOptions>(process.argv));
+  } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
   // TODO: Randomize the duration to renew locks
@@ -61,7 +63,7 @@ export async function main() {
   });
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   const receiver = sbClient.createReceiver(stressBase.queueName, { receiveMode: "peekLock" });
 

@@ -38,6 +38,8 @@ function sanitizeOptions(
 }
 
 export async function scenarioPeekMessages() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioPeekMessagesOptions>(process.argv));
+
   const {
     testDurationInMs,
     peekMaxMessageCount,
@@ -45,7 +47,7 @@ export async function scenarioPeekMessages() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = sanitizeOptions(parsedArgs<ScenarioPeekMessagesOptions>(process.argv));
+  } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -57,7 +59,7 @@ export async function scenarioPeekMessages() {
   });
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
 

@@ -42,6 +42,7 @@ function sanitizeOptions(
 }
 
 export async function scenarioReceiveBatch() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
   const {
     testDurationInMs,
     receiveMode,
@@ -51,7 +52,7 @@ export async function scenarioReceiveBatch() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
+  } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -63,7 +64,7 @@ export async function scenarioReceiveBatch() {
   });
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
 

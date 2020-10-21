@@ -46,6 +46,7 @@ function sanitizeOptions(
 }
 
 export async function scenarioStreamingReceive() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioStreamingReceiveOptions>(process.argv));
   const {
     testDurationInMs,
     receiveMode,
@@ -57,7 +58,7 @@ export async function scenarioStreamingReceive() {
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     completeMessageAfterDuration
-  } = sanitizeOptions(parsedArgs<ScenarioStreamingReceiveOptions>(process.argv));
+  } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
   const startedAt = new Date();
@@ -67,7 +68,7 @@ export async function scenarioStreamingReceive() {
   });
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
 

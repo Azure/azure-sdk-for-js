@@ -29,18 +29,19 @@ function sanitizeOptions(options: ScenarioSimpleSendOptions): Required<ScenarioS
 }
 
 async function main() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
+
   const {
     testDurationInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     useScheduleApi
-  } = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
-
+  } = testOptions;
   const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info"] });
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
 
   const startedAt = new Date();

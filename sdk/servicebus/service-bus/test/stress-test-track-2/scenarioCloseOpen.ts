@@ -31,6 +31,8 @@ function sanitizeOptions(options: ScenarioCloseOptions): Required<ScenarioCloseO
 }
 
 export async function scenarioClose() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioCloseOptions>(process.argv));
+
   const {
     testDurationInMs,
     receiveBatchMaxMessageCount,
@@ -38,7 +40,7 @@ export async function scenarioClose() {
     numberOfMessagesPerSend,
     delayBeforeCallingCloseInMs,
     shouldCreateNewClientEachTime
-  } = sanitizeOptions(parsedArgs<ScenarioCloseOptions>(process.argv));
+  } = testOptions;
 
   const startedAt = new Date();
 
@@ -47,7 +49,7 @@ export async function scenarioClose() {
   });
   let sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init();
+  await stressBase.init(undefined, undefined, testOptions);
 
   let elapsedTime = new Date().valueOf() - startedAt.valueOf();
   while (elapsedTime < testDurationInMs) {

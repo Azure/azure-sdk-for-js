@@ -49,6 +49,7 @@ function sanitizeOptions(
 // TODO: stop sending messages after a 70% of test duration
 // TODO: Upon ending max lock renewal duration, pass an option to complete/ignore the message
 export async function scenarioRenewSessionLock() {
+  const testOptions = sanitizeOptions(parsedArgs<ScenarioRenewSessionLockOptions>(process.argv));
   const {
     testDurationInMs,
     receiveBatchMaxMessageCount,
@@ -58,7 +59,7 @@ export async function scenarioRenewSessionLock() {
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     autoLockRenewal
-  } = sanitizeOptions(parsedArgs<ScenarioRenewSessionLockOptions>(process.argv));
+  } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
   // Since we are focusing on session locks in this test
@@ -72,7 +73,7 @@ export async function scenarioRenewSessionLock() {
 
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, { requiresSession: true });
+  await stressBase.init(undefined, { requiresSession: true }, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();

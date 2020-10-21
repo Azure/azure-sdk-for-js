@@ -81,13 +81,19 @@ export class SBStressTestsBase {
     );
   }
 
-  public async init(queueNamePrefix?: string, options?: CreateQueueOptions | undefined) {
+  public async init(
+    queueNamePrefix?: string,
+    options?: CreateQueueOptions | undefined,
+    testOptions?: Record<string, string | number | boolean>
+  ) {
     this.queueName =
       (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
     this.reportFileName = `temp/report-${this.queueName}.txt`;
     this.errorsFileName = `temp/errors-${this.queueName}.txt`;
     this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
+    await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
+    if (testOptions) console.log(testOptions);
   }
 
   public async sendMessages(
