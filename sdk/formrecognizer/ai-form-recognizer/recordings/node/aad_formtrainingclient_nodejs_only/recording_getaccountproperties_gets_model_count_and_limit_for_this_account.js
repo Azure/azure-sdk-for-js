@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "367196e19a167250ec5583deb79acee1";
+module.exports.hash = "578654b47e2ecc8299f355727e0dd350";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,37 +22,37 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c9d49107-881a-4cfa-b435-09f5cc363300',
+  '98af755b-0240-4168-9816-43c9ffe57900',
   'x-ms-ests-server',
-  '2.1.10946.17 - WUS2 ProdSlices',
+  '2.1.11154.9 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmfQC6qADBdKqx_1j1yNyUb0CyfMAQAAAHQZztYOAAAA; expires=Thu, 17-Sep-2020 18:48:21 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArKHj0lM-HdCpHgHfr5XPAX0CyfMAQAAAGtwItcOAAAA; expires=Fri, 20-Nov-2020 18:09:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 Aug 2020 18:48:20 GMT',
+  'Wed, 21 Oct 2020 18:09:47 GMT',
   'Content-Length',
-  '1417'
+  '1500'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models')
+  .get('/formrecognizer/v2.1-preview.1/custom/models')
   .query(true)
-  .reply(200, {"summary":{"count":69,"limit":5000,"lastUpdatedDateTime":"2020-08-18T18:48:21Z"}}, [
+  .reply(200, {"summary":{"count":85,"limit":5000,"lastUpdatedDateTime":"2020-10-21T18:09:48Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '17',
+  '38',
   'apim-request-id',
-  '6d03559a-0eb4-4dd2-9624-ae2eb58dd28e',
+  '4b5b88dc-1000-4007-bc4a-cc3ac0ccebee',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:48:21 GMT'
+  'Wed, 21 Oct 2020 18:09:47 GMT'
 ]);

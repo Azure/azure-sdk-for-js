@@ -307,7 +307,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
-    assert.equal(form.formType, "custom:form");
+    assert.isTrue(form.formType.startsWith("custom:"));
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
       lastPageNumber: 1
@@ -335,7 +335,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
-    assert.equal(form.formType, "custom:form");
+    assert.isTrue(form.formType.startsWith("custom:"));
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
       lastPageNumber: 1
