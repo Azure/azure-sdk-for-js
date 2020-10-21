@@ -219,6 +219,9 @@ export { OperationOptions }
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 
 // @public
+export function parseServiceBusConnectionString(connectionString: string): ServiceBusConnectionStringProperties;
+
+// @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
 }
@@ -367,6 +370,16 @@ export interface ServiceBusClientOptions {
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
     webSocketOptions?: WebSocketOptions;
+}
+
+// @public
+export interface ServiceBusConnectionStringProperties {
+    endpoint: string;
+    entityPath?: string;
+    fullyQualifiedNamespace: string;
+    sharedAccessKey?: string;
+    sharedAccessKeyName?: string;
+    sharedAccessSignature?: string;
 }
 
 // @public

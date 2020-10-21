@@ -707,15 +707,11 @@ describe("Streaming Receiver Tests", () => {
   //   await receiver.close();
 
   //   // Receive using service bus client created with faulty token provider
-  //   const connectionObject: {
-  //     Endpoint: string;
-  //     SharedAccessKeyName: string;
-  //     SharedAccessKey: string;
-  //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+  //   const connectionObject = parseServiceBusConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   //   const tokenProvider = new TestTokenCredential();
   //   receiver = new ServiceBusReceiverClient(
   //     {
-  //       host: connectionObject.Endpoint.substr(5),
+  //       host: connectionObject.endpoint.substr(5),
   //       tokenCredential: tokenProvider,
   //       queueName: EntityNames.QUEUE_NAME_NO_PARTITION
   //     },
