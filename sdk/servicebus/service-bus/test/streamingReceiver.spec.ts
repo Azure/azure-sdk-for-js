@@ -898,7 +898,7 @@ describe("Streaming Receiver Tests", () => {
       // and will still be settleable).
       await subscriber.close();
 
-      await receiver.completeMessage(messages[0]);
+      await actualReceiver.completeMessage(messages[0]);
       messages.pop();
 
       await sender.sendMessages({
