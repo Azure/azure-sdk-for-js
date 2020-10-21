@@ -40,7 +40,7 @@ describe("shared", () => {
       [
         {
           body: "hello",
-          _amqpAnnotatedMessage: {}
+          _amqpAnnotatedMessage: { body: "hello" }
         }
       ]
     ];
@@ -72,7 +72,7 @@ describe("shared", () => {
         [
           {
             body: "hello",
-            _amqpAnnotatedMessage: {}
+            _amqpAnnotatedMessage: { body: "hello" }
           }
         ],
         allReceivedMessages,

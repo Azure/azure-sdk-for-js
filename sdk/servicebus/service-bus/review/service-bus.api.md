@@ -34,7 +34,7 @@ export interface AmqpAnnotatedMessage {
     applicationProperties?: {
         [key: string]: any;
     };
-    body?: any;
+    body: any;
     deliveryAnnotations?: {
         [key: string]: any;
     };

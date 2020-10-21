@@ -249,7 +249,7 @@ export interface AmqpAnnotatedMessage {
   /**
    * The message body.
    */
-  body?: any;
+  body: any;
 }
 
 /**
