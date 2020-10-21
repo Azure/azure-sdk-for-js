@@ -38,10 +38,7 @@
           "$ref": "#/parameters/ClientRequestId"
         },
         {
-          "name": "nodeName",
-          "in": "path",
-          "type": "string",
-          "required": true
+          "$ref": "#/parameters/NodeName"
         }
       ],
       "put": {
@@ -101,10 +98,7 @@
           "$ref": "#/parameters/ClientRequestId"
         },
         {
-          "name": "nodeName",
-          "in": "path",
-          "type": "string",
-          "required": true
+          "$ref": "#/parameters/NodeName"
         }
       ],
       "post": {
@@ -165,6 +159,13 @@
     }
   },
   "parameters": {
+    "NodeName": {
+      "name": "nodeName",
+      "in": "path",
+      "type": "string",
+      "required": true,
+      "x-ms-parameter-location": "method"
+    },
     "ClientRequestId": {
       "in": "header",
       "type": "string",
