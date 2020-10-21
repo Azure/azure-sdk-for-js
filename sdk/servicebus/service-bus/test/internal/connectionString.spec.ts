@@ -13,7 +13,6 @@ describe("Connection String", () => {
   const expectedSharedAccessSignature = "my-shared-access-signature";
   const expectedSharedKey = "my-shared-key";
   const expectedSharedKeyName = "my-shared-key-name";
-  const dummyErrorMsg = "You should not be seeing me";
 
   it("Extracts Service Bus properties with only Endpoint", () => {
     const connectionString = `Endpoint=${expectedEndpoint};`;
@@ -47,63 +46,63 @@ describe("Connection String", () => {
     assert.equal(connectionStringProperties.sharedAccessKeyName, expectedSharedKeyName);
   });
 
+  it("Extracts Service Bus properties with Endpoint & SharedKey", () => {
+    const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKey=${expectedSharedKey};SharedAccessKeyName=${expectedSharedKeyName}`;
+    const connectionStringProperties = parseServiceBusConnectionString(connectionString);
+    assert.equal(connectionStringProperties.endpoint, expectedEndpoint);
+    assert.equal(connectionStringProperties.fullyQualifiedNamespace, expectedNamespace);
+    assert.equal(connectionStringProperties.sharedAccessKey, expectedSharedKey);
+    assert.equal(connectionStringProperties.sharedAccessKeyName, expectedSharedKeyName);
+  });
+
+  it("Extracts Service Bus properties when properties are out of order", () => {
+    const connectionString = `SharedAccessKey=${expectedSharedKey};Endpoint=${expectedEndpoint};SharedAccessKeyName=${expectedSharedKeyName}`;
+    const connectionStringProperties = parseServiceBusConnectionString(connectionString);
+    assert.equal(connectionStringProperties.endpoint, expectedEndpoint);
+    assert.equal(connectionStringProperties.fullyQualifiedNamespace, expectedNamespace);
+    assert.equal(connectionStringProperties.sharedAccessKey, expectedSharedKey);
+    assert.equal(connectionStringProperties.sharedAccessKeyName, expectedSharedKeyName);
+  });
+
   it("Throws when no Endpoint", () => {
     const connectionString = `EntityPath=${expectedEntityPath};SharedAccessSignature=${expectedSharedAccessSignature}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 
   it("Throws when SharedKey with no SharedKeyName", () => {
     const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKey=${expectedSharedKey}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 
   it("Throws when SharedKeyName with no SharedKey", () => {
     const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKeyName=${expectedSharedKeyName}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 
   it("Throws when both SharedKey and SharedAccessSignature", () => {
     const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKey=${expectedSharedKey};SharedAccessSignature=${expectedSharedAccessSignature}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 
   it("Throws when both SharedKeyName and SharedAccessSignature", () => {
     const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKeyName=${expectedSharedKeyName};SharedAccessSignature=${expectedSharedAccessSignature}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 
   it("Throws when both SharedKey, SharedKeyName and SharedAccessSignature", () => {
     const connectionString = `Endpoint=${expectedEndpoint};SharedAccessKey=${expectedSharedKey};SharedAccessKeyName=${expectedSharedKeyName};SharedAccessSignature=${expectedSharedAccessSignature}`;
-    try {
+    assert.throws(() => {
       parseServiceBusConnectionString(connectionString);
-      throw new Error(dummyErrorMsg);
-    } catch (error) {
-      assert.notEqual(error.message, dummyErrorMsg);
-    }
+    }, /Connection string/);
   });
 });
