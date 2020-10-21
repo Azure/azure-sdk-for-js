@@ -29,18 +29,18 @@ export class ComputeNodeClient {
   private readonly _client: GeneratedClient;
 
   constructor(
-    nodeName: string,
+    private readonly nodeName: string,
     endpointUrl: string,
     credential: TokenCredential,
     options: ComputeNodeClientOptions = {}
   ) {
     // silence warnings
     console.dir(credential);
-    this._client = new GeneratedClient(endpointUrl, nodeName, options);
+    this._client = new GeneratedClient(endpointUrl, options);
   }
 
   public async beginComputePi(options?: BeginComputePiOptions): Promise<ComputePiPoller> {
-    const result = await this._client.computations.computePi(options);
+    const result = await this._client.computations.computePi(this.nodeName, options);
     return result as any;
   }
 }

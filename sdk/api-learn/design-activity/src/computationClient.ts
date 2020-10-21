@@ -25,12 +25,14 @@ export type GetComputeNodeOptions = OperationOptions;
 export type ListComputeNodesOptions = OperationOptions;
 
 export class ComputationClient {
+  private readonly client: GeneratedClient;
+
   constructor(
     private readonly endpointUrl: string,
     private readonly credential: TokenCredential,
     options?: ComputationClientOptions
   ) {
-    console.dir(options);
+    this.client = new GeneratedClient(endpointUrl, options);
   }
 
   public getComputeNodeClient(nodeName: string): ComputeNodeClient {
@@ -41,22 +43,19 @@ export class ComputationClient {
     nodeName: string,
     options?: CreateComputeNodeOptions
   ): Promise<ComputeNodeUnion> {
-    const client = new GeneratedClient(this.endpointUrl, nodeName);
-    return client.computeNodeAdministration.create(options);
+    return this.client.computeNodeAdministration.create(nodeName, options);
   }
 
   public async getComputeNode(
     nodeName: string,
     options?: GetComputeNodeOptions
   ): Promise<ComputeNodeUnion> {
-    const client = new GeneratedClient(this.endpointUrl, nodeName);
-    return client.computeNodeAdministration.get(options);
+    return this.client.computeNodeAdministration.get(nodeName, options);
   }
 
   public async listComputeNodes(
     options?: ListComputeNodesOptions
   ): Promise<PagedAsyncIterableIterator<ComputeNodeUnion>> {
-    const client = new GeneratedClient(this.endpointUrl, "");
-    return client.computeNodeAdministration.list(options) as any;
+    return this.client.computeNodeAdministration.list(options) as any;
   }
 }
