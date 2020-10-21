@@ -3,13 +3,13 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { FormRecognizerClient, AzureKeyCredential } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential } from "../../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedRecognizerClient,
   testEnv,
   testPollingOptions
-} from "../util/recordedClients";
+} from "../../utils/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
