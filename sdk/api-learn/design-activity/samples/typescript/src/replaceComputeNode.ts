@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { ComputationClient } = require("@azure/design-activity");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ComputationClient } from "@azure/design-activity";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -10,13 +10,15 @@ const endpointUrl = process.env.COMPUTATION_ENDPOINT || "";
 const credential = new DefaultAzureCredential();
 
 export async function main() {
-  console.log("Running List ComputeNode Sample...");
+  console.log("Running Replace ComputeNode Sample...");
   const client = new ComputationClient(endpointUrl, credential);
 
-  console.log("Listing all ComputeNodes");
-  for await (const node of await client.listComputeNodes()) {
-    console.dir(node);
-  }
+  console.log("Replacing ComputeNode example-node");
+  await client.replaceComputeNode(
+    "example-node",
+    { kind: "WindowsComputeNode", sshPublicKey: "<key>", userName: "<userName>" },
+    { onlyIfUnchanged: true }
+  );
 }
 
 main().catch((err) => {

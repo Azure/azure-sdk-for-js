@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, PipelineOptions, TokenCredential } from "@azure/core-http";
+import { HttpResponse, OperationOptions, PipelineOptions, TokenCredential } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ComputeOperationState, OperationStatus, GeneratedClient } from "./generated";
 
@@ -17,6 +17,7 @@ export interface BeginComputePiOptions extends OperationOptions {
 export interface Pi {
   value: number;
   precision: number;
+  _response: HttpResponse;
 }
 
 export type ComputePiPollOperationState = PollOperationState<Pi> & ComputeOperationState;

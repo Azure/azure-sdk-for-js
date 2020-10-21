@@ -14,7 +14,7 @@ export async function main() {
   const client = new ComputationClient(endpointUrl, credential);
 
   console.log("Creating ComputeNode example-node");
-  await client.createComputeNode("example-node");
+  await client.createComputeNode("example-node", "Linux");
 }
 
 main().catch((err) => {

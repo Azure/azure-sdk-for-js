@@ -10,15 +10,15 @@ const endpointUrl = process.env.COMPUTATION_ENDPOINT || "";
 const credential = new DefaultAzureCredential();
 
 export async function main() {
-  console.log("Running Compute Pi Sample...");
+  console.log("Running Replace ComputeNode Sample...");
   const client = new ComputationClient(endpointUrl, credential);
 
-  const nodeClient = client.getComputeNodeClient("example-node");
-
-  console.log("Computing Pi on example-node");
-  const poller = await nodeClient.beginComputePi({ precision: 20 });
-  const { value, precision } = await poller.pollUntilDone();
-  console.log(`Pi is ${value} with precision ${precision}`);
+  console.log("Replacing ComputeNode example-node");
+  await client.replaceComputeNode(
+    "example-node",
+    { kind: "WindowsComputeNode", sshPublicKey: "<key>", userName: "<userName>" },
+    { onlyIfUnchanged: true }
+  );
 }
 
 main().catch((err) => {

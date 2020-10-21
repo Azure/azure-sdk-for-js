@@ -4,6 +4,7 @@
 
 ```ts
 
+import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -27,13 +28,15 @@ export interface BeginComputePiOptions extends OperationOptions {
 export class ComputationClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ComputationClientOptions);
     // (undocumented)
-    createComputeNode(nodeName: string, options?: CreateComputeNodeOptions): Promise<ComputeNodeUnion>;
+    createComputeNode(nodeName: string, kind: "Linux" | "Windows", options?: CreateComputeNodeOptions): Promise<CreateComputeNodeResponse>;
     // (undocumented)
-    getComputeNode(nodeName: string, options?: GetComputeNodeOptions): Promise<ComputeNodeUnion>;
+    getComputeNode(nodeName: string, options?: GetComputeNodeOptions): Promise<GetComputeNodeResponse>;
     // (undocumented)
     getComputeNodeClient(nodeName: string): ComputeNodeClient;
     // (undocumented)
-    listComputeNodes(options?: ListComputeNodesOptions): Promise<PagedAsyncIterableIterator<ComputeNodeUnion>>;
+    listComputeNodes(options?: ListComputeNodesOptions): Promise<PagedAsyncIterableIterator<ComputeNodeUnion, WithResponse<ComputeNodeUnion>>>;
+    // (undocumented)
+    replaceComputeNode(nodeName: string, computeNode: ComputeNodeUnion, options?: ReplaceComputeNodeOptions): Promise<ReplaceComputeNodeResponse>;
 }
 
 // @public (undocumented)
@@ -85,7 +88,13 @@ export type ComputePiPollOperationState = PollOperationState<Pi> & ComputeOperat
 export type CreateComputeNodeOptions = OperationOptions;
 
 // @public (undocumented)
+export type CreateComputeNodeResponse = WithResponse<ComputeNode>;
+
+// @public (undocumented)
 export type GetComputeNodeOptions = OperationOptions;
+
+// @public (undocumented)
+export type GetComputeNodeResponse = WithResponse<ComputeNode>;
 
 // @public (undocumented)
 export type LinuxComputeNode = ComputeNode & {
@@ -103,12 +112,27 @@ export interface Pi {
     // (undocumented)
     precision: number;
     // (undocumented)
+    _response: HttpResponse;
+    // (undocumented)
     value: number;
 }
 
 // @public (undocumented)
+export type ReplaceComputeNodeOptions = OperationOptions & {
+    onlyIfUnchanged?: boolean;
+};
+
+// @public (undocumented)
+export type ReplaceComputeNodeResponse = WithResponse<ComputeNode>;
+
+// @public (undocumented)
 export type WindowsComputeNode = ComputeNode & {
     userName: string;
+};
+
+// @public (undocumented)
+export type WithResponse<T> = T & {
+    _response: HttpResponse;
 };
 
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ComputationClient } from "@azure/design-activity";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputationClient } = require("@azure/design-activity");
+const { DefaultAzureCredential } = require("@azure/identity");
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -14,7 +14,7 @@ export async function main() {
   const client = new ComputationClient(endpointUrl, credential);
 
   console.log("Creating ComputeNode example-node");
-  await client.createComputeNode("example-node");
+  await client.createComputeNode("example-node", "Linux");
 }
 
 main().catch((err) => {
