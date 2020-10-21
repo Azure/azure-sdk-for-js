@@ -439,7 +439,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         options ?? {}
       );
 
-      return (receivedMessages as unknown) as ServiceBusReceivedMessage[];
+      return receivedMessages;
     };
     const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       connectionHost: this._context.config.host,
@@ -554,7 +554,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     const processError = wrapProcessErrorHandler(handlers);
 
-    const internalMessageHandlers = handlers as InternalMessageHandlers | undefined;
+    const internalMessageHandlers = handlers as InternalMessageHandlers;
 
     this._registerMessageHandler(
       async () => {
@@ -577,12 +577,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
   }
 
-  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
     return msgImpl.complete();
   }
 
-  async abandonMessage(
+  abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -590,7 +590,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return msgImpl.abandon(propertiesToModify);
   }
 
-  async deferMessage(
+  deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -598,7 +598,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return msgImpl.defer(propertiesToModify);
   }
 
-  async deadLetterMessage(
+  deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
@@ -606,7 +606,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return msgImpl.deadLetter(options);
   }
 
-  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
     const msgImpl = message as ServiceBusMessageImpl;
     return msgImpl.renewLock();
   }
