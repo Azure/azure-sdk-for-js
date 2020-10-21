@@ -6,6 +6,7 @@ Use the client library `@azure/service-bus` in your application to
 
 - Send messages to an Azure Service Bus Queue or Topic
 - Receive messages from an Azure Service Bus Queue or Subscription
+- Create/Get/Delete/Update/List Queues/Topics/Subscriptions/Rules in an Azure Service Bus namespace.
 
 Resources for the v7.0.0-preview.7 of `@azure/service-bus`:
 
@@ -82,9 +83,9 @@ available credential providers from the `@azure/identity` library.
 const { ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const endpoint = "<name-of-service-bus-instance>.servicebus.windows.net";
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
 const credential = new DefaultAzureCredential();
-const serviceBusClient = new ServiceBusClient(endpoint, credential);
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
 ```
 
 > NOTE: If you're using your own implementation of the `TokenCredential` interface
@@ -110,9 +111,9 @@ For more information about these resources, see [What is Azure Service Bus?][ser
 
 To interact with these resources, one should be familiar with the following SDK concepts:
 
-- Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
-- Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
-- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_acceptsession].
+- Send messages, to a queue or topic, using a [`ServiceBusSender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
+- Receive messages, from either a queue or a subscription, using a [`ServiceBusReceiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`ServiceBusSessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_acceptsession] or `ServiceBusClient.acceptNextSession()`.
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -130,10 +131,8 @@ The following sections provide code snippets that cover some of the common tasks
 
 ### Send messages
 
-Once you have created an instance of a `ServiceBusClient` class, you can get a `Sender`
-using the [createSender][sbclient_createsender] method.
-
-This gives you a sender which you can use to [send][sender_sendmessages] messages.
+Once you have created an instance of a `ServiceBusClient` class, you can get a `ServiceBusSender`
+using the [createSender][sbclient_createsender] method which you can use to [send][sender_sendmessages] messages.
 
 ```javascript
 const sender = serviceBusClient.createSender("my-queue");
@@ -156,7 +155,7 @@ await sender.sendMessages([
 
 ### Receive messages
 
-Once you have created an instance of a `ServiceBusClient` class, you can get a `Receiver`
+Once you have created an instance of a `ServiceBusClient` class, you can get a `ServiceBusReceiver`
 using the [createReceiver][sbclient_createreceiver] method.
 
 ```javascript
@@ -229,7 +228,7 @@ To learn more, please read [Settling Received Messages](https://docs.microsoft.c
 > read more about how to configure this feature in the portal [here][docsms_messagesessions_fifo].
 
 In order to send messages to a session, use the `ServiceBusClient` to create a sender using
-[createSender][sbclient_createsender]. This gives you a sender which you can use to [send][sender_sendmessages] messages.
+[createSender][sbclient_createsender].
 
 When sending the message, set the `sessionId` property in the message to ensure
 your message lands in the right session.
