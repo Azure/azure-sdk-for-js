@@ -33,7 +33,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * @internal
  * @ignore
  */
-export interface CreateStreamingReceiverOptions
+export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
     Pick<OperationOptionsBase, "abortSignal"> {
   /**
@@ -44,6 +44,7 @@ export interface CreateStreamingReceiverOptions
     options?: ReceiveOptions
   ) => StreamingReceiver;
   cachedStreamingReceiver?: StreamingReceiver;
+  onError?: OnError;
 }
 
 /**
@@ -402,9 +403,49 @@ export class StreamingReceiver extends MessageReceiver {
     await this._receiverHelper.suspend();
   }
 
-  async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
-    const options = this._createReceiverOptions(useNewName, this._getHandlers());
-    await this._init(options, abortSignal);
+  async init(
+    // TODO: make onError? required
+    args: { useNewName: boolean; connectionId: string; onError?: OnError } & Pick<
+      OperationOptionsBase,
+      "abortSignal"
+    >
+  ) {
+    const config: RetryConfig<void> = {
+      operation: async () => {
+        try {
+          return this._initOnce(args);
+        } catch (err) {
+          args.onError &&
+            args.onError({
+              error: err,
+              errorSource: "receive",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
+
+          // once we're at this point where we can spin up a connection we're past the point
+          // of fatal errors like the connection string just outright being malformed, for instance.
+          err.retryable = true;
+        }
+      },
+      connectionId: args.connectionId,
+      operationType: RetryOperationType.receiverLink,
+      retryOptions: {
+        ...this._retryOptions,
+        maxRetries: Number.MAX_SAFE_INTEGER
+      },
+      abortSignal: args.abortSignal
+    };
+
+    await retry<void>(config);
+  }
+
+  private async _initOnce(args: {
+    useNewName: boolean;
+    abortSignal?: AbortSignalLike;
+  }): Promise<void> {
+    const options = this._createReceiverOptions(args.useNewName, this._getHandlers());
+    await this._init(options, args.abortSignal);
 
     // this might seem odd but in reality this entire class is like one big function call that
     // results in a receive(). Once we're being initialized we should consider ourselves the
@@ -435,8 +476,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
     logger.verbose(`${this.logPrefix} Detaching.`);
-
-    const connectionId = this._context.connectionId;
 
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
@@ -511,24 +550,13 @@ export class StreamingReceiver extends MessageReceiver {
 
       // shall retry forever at an interval of 15 seconds if the error is a retryable error
       // else bail out when the error is not retryable or the operation succeeds.
-      const config: RetryConfig<void> = {
-        operation: () =>
-          this.init(
-            // provide a new name to the link while re-connecting it. This ensures that
-            // the service does not send an error stating that the link is still open.
-            true
-          ).then(() => {
-            this._receiverHelper.addCredit(this.maxConcurrentCalls);
-            return;
-          }),
-        connectionId: connectionId,
-        operationType: RetryOperationType.receiverLink,
-        retryOptions: this._retryOptions,
-        connectionHost: this._context.config.host
-      };
-      // Attempt to reconnect. If a non-retryable error is encountered,
-      // retry will throw and the error will surface to the user's error handler.
-      await retry<void>(config);
+      await this.init({
+        // provide a new name to the link while re-connecting it. This ensures that
+        // the service does not send an error stating that the link is still open.
+        useNewName: true,
+        connectionId: this._context.connectionId,
+        onError: (args) => this._onError && this._onError(args)
+      });
     } catch (err) {
       logger.logError(
         err,
@@ -567,7 +595,7 @@ export class StreamingReceiver extends MessageReceiver {
   static async create(
     context: ConnectionContext,
     entityPath: string,
-    options: CreateStreamingReceiverOptions
+    options: StreamingReceiverInitArgs
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context);
     if (options.autoComplete == null) options.autoComplete = true;
@@ -582,16 +610,11 @@ export class StreamingReceiver extends MessageReceiver {
       sReceiver = new StreamingReceiver(context, entityPath, options);
     }
 
-    const config: RetryConfig<void> = {
-      operation: () => {
-        return sReceiver.init(false, options?.abortSignal);
-      },
+    await sReceiver.init({
       connectionId: context.connectionId,
-      operationType: RetryOperationType.receiveMessage,
-      retryOptions: options.retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    await retry<void>(config);
+      useNewName: false,
+      ...options
+    });
     context.messageReceivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }
