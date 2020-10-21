@@ -8,7 +8,6 @@ import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -53,8 +52,8 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ServiceBusReceivedMessageWithLock): Promise<void> {
-          await message.complete();
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
+          await receiver.completeMessage(message);
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -103,11 +102,11 @@ describe("Sample scenarios for track 2", () => {
         }
 
         try {
-          await message.complete();
+          await receiver.completeMessage(message);
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await message.abandon();
+          await receiver.abandonMessage(message);
           throw err;
         }
       }
@@ -208,8 +207,8 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ServiceBusReceivedMessageWithLock): Promise<void> {
-          await message.complete();
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
+          await receiver.completeMessage(message);
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -265,11 +264,11 @@ describe("Sample scenarios for track 2", () => {
         }
 
         try {
-          await message.complete();
+          await receiver.completeMessage(message);
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await message.abandon();
+          await receiver.abandonMessage(message);
           throw err;
         }
       }
@@ -416,7 +415,7 @@ describe("Sample scenarios for track 2", () => {
 
       for await (const message of receiver.getMessageIterator()) {
         receivedBodies.push(message.body);
-        await message.complete();
+        await receiver.completeMessage(message);
         break;
       }
 
@@ -474,7 +473,7 @@ async function waitAndValidate(
   expectedMessage: string,
   receivedBodies: string[],
   errors: string[],
-  receiver: ServiceBusReceiver<ServiceBusReceivedMessage>
+  receiver: ServiceBusReceiver
 ): Promise<void> {
   const maxChecks = 20;
   let numChecks = 0;

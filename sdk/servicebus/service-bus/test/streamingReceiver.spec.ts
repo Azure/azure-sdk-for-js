@@ -8,11 +8,7 @@ import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
-import {
-  DispositionType,
-  ServiceBusReceivedMessageWithLock,
-  ServiceBusMessageImpl
-} from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusMessageImpl } from "../src/serviceBusMessage";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import {
@@ -44,10 +40,8 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming Receiver Tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-    | ServiceBusReceiver<ServiceBusReceivedMessage>;
-  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
+  let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
   before(() => {
@@ -130,10 +124,10 @@ describe("Streaming Receiver Tests", () => {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
-      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -154,7 +148,7 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(receiver, 1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      await receivedMsgs[0].complete();
+      await receiver.completeMessage(receivedMsgs[0]);
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiver, 0);
@@ -271,17 +265,17 @@ describe("Streaming Receiver Tests", () => {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
-      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await msg.complete();
+            await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError
@@ -322,13 +316,13 @@ describe("Streaming Receiver Tests", () => {
 
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
               "DeliveryCount is different than expected"
             );
-            await msg.abandon();
+            await receiver.abandonMessage(msg);
             checkDeliveryCount++;
           },
           processError
@@ -359,7 +353,7 @@ describe("Streaming Receiver Tests", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgs[0].complete();
+      await receiver.completeMessage(deadLetterMsgs[0]);
 
       await testPeekMsgsLength(deadLetterReceiver, 0);
     });
@@ -381,8 +375,8 @@ describe("Streaming Receiver Tests", () => {
 
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
-            await msg.defer();
+          async processMessage(msg: ServiceBusReceivedMessage) {
+            await receiver.deferMessage(msg);
             sequenceNum = msg.sequenceNumber;
           },
           processError
@@ -414,7 +408,7 @@ describe("Streaming Receiver Tests", () => {
       );
       should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await (deferredMsgs[0] as ServiceBusReceivedMessageWithLock).complete();
+      await receiver.completeMessage(deferredMsgs[0] as ServiceBusReceivedMessage);
       await testPeekMsgsLength(receiver, 0);
     }
 
@@ -446,8 +440,8 @@ describe("Streaming Receiver Tests", () => {
 
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
-            await msg.deadLetter();
+          async processMessage(msg: ServiceBusReceivedMessage) {
+            await receiver.deadLetterMessage(msg);
             receivedMsgs.push(msg);
           },
           processError
@@ -471,7 +465,7 @@ describe("Streaming Receiver Tests", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgs[0].complete();
+      await receiver.completeMessage(deadLetterMsgs[0]);
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
@@ -496,8 +490,8 @@ describe("Streaming Receiver Tests", () => {
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiver.entityPath);
 
       receiver.subscribe({
-        async processMessage(msg: ServiceBusReceivedMessageWithLock) {
-          await msg.complete();
+        async processMessage(msg: ServiceBusReceivedMessage) {
+          await receiver.completeMessage(msg);
         },
         processError
       });
@@ -561,9 +555,9 @@ describe("Streaming Receiver Tests", () => {
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
-      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+        async processMessage(msg: ServiceBusReceivedMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -599,13 +593,13 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(receiver, 0);
 
       if (operation === DispositionType.complete) {
-        await receivedMsgs[0].complete().catch((err) => testError(err, operation));
+        await receiver.completeMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
       } else if (operation === DispositionType.abandon) {
-        await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
+        await receiver.abandonMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
       } else if (operation === DispositionType.deadletter) {
-        await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
+        await receiver.deadLetterMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
       } else if (operation === DispositionType.defer) {
-        await receivedMsgs[0].defer().catch((err) => testError(err, operation));
+        await receiver.deferMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -637,11 +631,11 @@ describe("Streaming Receiver Tests", () => {
       await sender.sendMessages(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
       let streamingReceiverName: string | undefined;
-      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+        async processMessage(msg: ServiceBusReceivedMessage) {
           streamingReceiverName = (receiver as any)._streamingReceiver.name;
-          await msg.complete();
+          await receiver.completeMessage(msg);
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
         },
@@ -772,7 +766,7 @@ describe("Streaming Receiver Tests", () => {
 
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
@@ -789,7 +783,7 @@ describe("Streaming Receiver Tests", () => {
 
             receivedMsgs.push(msg);
             await delay(2000);
-            await msg.complete();
+            await receiver.completeMessage(msg);
             settledMsgs.push(msg);
           },
           processError
@@ -834,13 +828,13 @@ describe("Streaming Receiver Tests", () => {
       }
       await sender.sendMessages(batch);
 
-      const receivedMsgs: ServiceBusReceivedMessageWithLock[] = [];
+      const receivedMsgs: ServiceBusReceivedMessage[] = [];
 
       receiver.subscribe(
         {
-          async processMessage(brokeredMessage: ServiceBusReceivedMessageWithLock) {
+          async processMessage(brokeredMessage: ServiceBusReceivedMessage) {
             receivedMsgs.push(brokeredMessage);
-            await brokeredMessage.complete();
+            await receiver.completeMessage(brokeredMessage);
           },
           processError
         },
@@ -904,7 +898,7 @@ describe("Streaming Receiver Tests", () => {
       // and will still be settleable).
       await subscriber.close();
 
-      await messages[0].complete();
+      await receiver.completeMessage(messages[0]);
       messages.pop();
 
       await sender.sendMessages({
@@ -928,9 +922,7 @@ describe("Streaming Receiver Tests", () => {
 describe(testClientType + ": Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-    | ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver | ServiceBusReceiver;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1115,9 +1107,7 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
 describe(testClientType + ": Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-    | ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1164,10 +1154,10 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
 
     // Start the receiver.
     receiver.subscribe({
-      async processMessage(message: ServiceBusReceivedMessageWithLock) {
+      async processMessage(message: ServiceBusReceivedMessage) {
         messageHandlerCount++;
         try {
-          await message.complete();
+          await receiver.completeMessage(message);
           settledMessageCount++;
         } catch (err) {
           receivedErrors.push(err);
@@ -1214,16 +1204,16 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
 });
 
 export function singleMessagePromise(
-  receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
+  receiver: ServiceBusReceiver
 ): Promise<{
-  subscriber: ReturnType<ServiceBusReceiver<unknown>["subscribe"]>;
-  messages: ServiceBusReceivedMessageWithLock[];
+  subscriber: ReturnType<ServiceBusReceiver["subscribe"]>;
+  messages: ServiceBusReceivedMessage[];
 }> {
-  const messages: ServiceBusReceivedMessageWithLock[] = [];
+  const messages: ServiceBusReceivedMessage[] = [];
 
   return new Promise<{
-    subscriber: ReturnType<ServiceBusReceiver<unknown>["subscribe"]>;
-    messages: ServiceBusReceivedMessageWithLock[];
+    subscriber: ReturnType<ServiceBusReceiver["subscribe"]>;
+    messages: ServiceBusReceivedMessage[];
   }>((resolve, reject) => {
     const subscriber = receiver.subscribe(
       {

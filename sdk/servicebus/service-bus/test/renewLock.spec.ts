@@ -15,7 +15,7 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -164,7 +164,7 @@ describe("Message Lock Renewal", () => {
 
     await delay(5000);
     if (msgs[0].lockToken) {
-      await msgs[0].renewLock();
+      await receiver.renewMessageLock(msgs[0]);
     }
 
     // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -177,7 +177,7 @@ describe("Message Lock Renewal", () => {
       "After renewlock()"
     );
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
   }
 
   /**
@@ -205,7 +205,7 @@ describe("Message Lock Renewal", () => {
     await delay(lockDurationInMilliseconds + 1000);
 
     let errorWasThrown: boolean = false;
-    await msgs[0].complete().catch((err) => {
+    await receiver.completeMessage(msgs[0]).catch((err) => {
       should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });
@@ -214,7 +214,7 @@ describe("Message Lock Renewal", () => {
 
     // Clean up any left over messages
     const unprocessedMsgsBatch = await receiver.receiveMessages(1);
-    await unprocessedMsgsBatch[0].complete();
+    await receiver.completeMessage(unprocessedMsgsBatch[0]);
   }
 
   /**
@@ -231,9 +231,7 @@ describe("Message Lock Renewal", () => {
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ServiceBusReceivedMessageWithLock
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ServiceBusReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -262,7 +260,7 @@ describe("Message Lock Renewal", () => {
         );
 
         await delay(5000);
-        await brokeredMessage.renewLock();
+        await receiver.renewMessageLock(brokeredMessage);
 
         // Compute expected lock expiry time after renewing lock after 5 seconds
         expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -274,7 +272,7 @@ describe("Message Lock Renewal", () => {
           "After renewlock"
         );
 
-        await brokeredMessage.complete();
+        await receiver.completeMessage(brokeredMessage);
       }
     }
 
@@ -330,7 +328,7 @@ describe("Message Lock Renewal", () => {
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
 
       try {
-        await actualMessage.complete();
+        await receiver.completeMessage(actualMessage);
 
         if (options.willCompleteFail) {
           should.fail("complete() should throw an error");
@@ -355,9 +353,9 @@ describe("Message Lock Renewal", () => {
   }
 
   async function receiveSingleMessageUsingSpecificReceiveMethod(
-    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver,
     type: "subscribe" | "receive" | "iterator"
-  ): Promise<ServiceBusReceivedMessageWithLock> {
+  ): Promise<ServiceBusReceivedMessage> {
     switch (type) {
       case "subscribe": {
         return await new Promise((resolve, reject) => {

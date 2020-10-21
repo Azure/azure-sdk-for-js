@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceivedMessageWithLock, ServiceBusSender, ServiceBusReceiver } from "../src";
+import { ServiceBusSender, ServiceBusReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 chai.should();
@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 describe("ManagementClient - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
