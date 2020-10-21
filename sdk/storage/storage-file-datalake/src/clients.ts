@@ -1746,6 +1746,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    * This method will try to create a file, then starts uploading chunk by chunk.
    * Please make sure potential size of stream doesn't exceed FILE_MAX_SIZE_BYTES and
    * potential number of chunks doesn't exceed BLOCK_BLOB_MAX_BLOCKS.
+   * 
+   * When data source is an older stream with NodeJS.ReadableStream type, use Readable.wrap(stream) to create a Readable stream.
    *
    * PERFORMANCE IMPROVEMENT TIPS:
    * * Input stream highWaterMark is better to set a same value with options.chunkSize

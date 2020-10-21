@@ -5322,6 +5322,8 @@ export class ShareFileClient extends StorageClient {
    * This method will try to create an Azure, then starts uploading chunk by chunk.
    * Size of chunk is defined by `bufferSize` parameter.
    * Please make sure potential size of stream doesn't exceed file size.
+   * 
+   * When data source is an older stream with NodeJS.ReadableStream type, use Readable.wrap(stream) to create a Readable stream.
    *
    * PERFORMANCE IMPROVEMENT TIPS:
    * * Input stream highWaterMark is better to set a same value with bufferSize

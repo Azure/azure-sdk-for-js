@@ -4582,6 +4582,8 @@ export class BlockBlobClient extends BlobClient {
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Uploads a Node.js Readable stream into block blob.
+   * 
+   * When data source is an older stream with NodeJS.ReadableStream type, use Readable.wrap(stream) to create a Readable stream.
    *
    * PERFORMANCE IMPROVEMENT TIPS:
    * * Input stream highWaterMark is better to set a same value with bufferSize
