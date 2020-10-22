@@ -27,7 +27,7 @@ export class SecureScoreControlDefinitions {
   }
 
   /**
-   * Get definition information on all secure score controls
+   * List the available security controls, their assessments, and the max score
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListResponse>
    */
@@ -51,7 +51,8 @@ export class SecureScoreControlDefinitions {
   }
 
   /**
-   * Get definition information on all secure score controls in subscription level
+   * For a specified subscription, list the available security controls, their assessments, and the
+   * max score
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>
    */
@@ -75,7 +76,7 @@ export class SecureScoreControlDefinitions {
   }
 
   /**
-   * Get definition information on all secure score controls
+   * List the available security controls, their assessments, and the max score
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListNextResponse>
@@ -103,7 +104,8 @@ export class SecureScoreControlDefinitions {
   }
 
   /**
-   * Get definition information on all secure score controls in subscription level
+   * For a specified subscription, list the available security controls, their assessments, and the
+   * max score
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>
@@ -137,7 +139,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Security/secureScoreControlDefinitions",
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -160,7 +162,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage
