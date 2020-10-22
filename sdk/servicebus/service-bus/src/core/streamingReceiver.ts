@@ -454,7 +454,12 @@ export class StreamingReceiver extends MessageReceiver {
       try {
         await this._retry<void>(config);
         break;
-      } catch (_err) {
+      } catch (err) {
+        // if the user aborts the operation we're immediately done.
+        if (err.name === "AbortError") {
+          throw err;
+        }
+
         // this error will already have been logged by the handler we passed in 'operation' above.
         continue;
       }

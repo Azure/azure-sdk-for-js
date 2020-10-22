@@ -10,6 +10,7 @@ import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants, RetryConfig, RetryMode } from "@azure/core-amqp";
 import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
+import { AbortError } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -376,6 +377,56 @@ describe("StreamingReceiver unit tests", () => {
         2,
         "Should call it twice - the first call through the loop fails, so we enter another retry round."
       );
+
+      assert.notExists(
+        errorThatShouldNotHappen,
+        "onError should never have been called. Only the operation should do that and we've purposefully stubbed that out."
+      );
+    });
+
+    it("forever loop immediately propagates AbortError", async () => {
+      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+        receiveMode: "peekLock",
+        lockRenewer: undefined,
+        retryOptions: {
+          maxRetries: 1,
+          maxRetryDelayInMs: 101,
+          mode: RetryMode.Exponential,
+          retryDelayInMs: 201,
+          timeoutInMs: 301
+        }
+      });
+
+      streamingReceiver["_retry"] = async function retryStub<T>(
+        _retryConfig: RetryConfig<T>
+      ): Promise<T> {
+        throw new AbortError("Aborting immediately - user's abortSignal takes precedence.");
+      };
+
+      let errorThatShouldNotHappen: Error | ServiceBusMessagingError | undefined;
+
+      try {
+        await streamingReceiver.init({
+          useNewName: false,
+          connectionId: "connection-id",
+          onError: (args) => {
+            // all calls to onError only happen within the operation itself
+            errorThatShouldNotHappen = args.error;
+          }
+        });
+        assert.fail("Should have thrown because AbortError's are immediately propagated.");
+      } catch (err) {
+        assert.deepEqual(
+          {
+            name: err.name,
+            message: err.message
+          },
+          {
+            message: "Aborting immediately - user's abortSignal takes precedence.",
+            name: "AbortError"
+          }
+        );
+      }
 
       assert.notExists(
         errorThatShouldNotHappen,
