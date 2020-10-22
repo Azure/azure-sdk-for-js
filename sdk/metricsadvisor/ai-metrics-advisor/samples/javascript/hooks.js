@@ -31,7 +31,7 @@ async function createWebHook(client) {
   console.log("Creating a new web hook...");
   const hook = {
     hookType: "Webhook",
-    name: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -54,7 +54,7 @@ async function createEmailHook(client) {
   console.log("Creating a new email hook...");
   const hook = {
     hookType: "Email",
-    name: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };
@@ -66,9 +66,9 @@ async function createEmailHook(client) {
 async function getHook(client, hookId) {
   console.log(`Retrieving an existing hook for id ${hookId}...`);
   const result = await client.getHook(hookId);
-  console.log(result.hookName);
+  console.log(result.name);
   console.log(result.description);
-  console.log(result.admins);
+  console.log(result.adminEmails);
 }
 
 async function updateEmailHook(client, hookId) {

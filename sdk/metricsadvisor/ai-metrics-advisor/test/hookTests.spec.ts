@@ -9,10 +9,10 @@ dotenv.config();
 import {
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorKeyCredential,
-  WebhookHook,
-  EmailHook,
-  EmailHookPatch,
-  WebhookHookPatch
+  WebNotificationHook,
+  EmailNotificationHook,
+  EmailNotificationHookPatch,
+  WebNotificationHookPatch
 } from "../src";
 import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -47,7 +47,7 @@ describe("MetricsAdvisorClient hooks", () => {
   });
 
   it("creates email Hook", async () => {
-    const hook: EmailHook = {
+    const hook: EmailNotificationHook = {
       hookType: "Email",
       name: emailHookName,
       description: "description",
@@ -61,7 +61,7 @@ describe("MetricsAdvisorClient hooks", () => {
   });
 
   it("creates web Hook", async () => {
-    const hook: WebhookHook = {
+    const hook: WebNotificationHook = {
       hookType: "Webhook",
       name: webHookName,
       description: "description",
@@ -77,7 +77,7 @@ describe("MetricsAdvisorClient hooks", () => {
   });
 
   it("updates email Hook", async () => {
-    const emailPatch: EmailHookPatch = {
+    const emailPatch: EmailNotificationHookPatch = {
       hookType: "Email",
       hookParameter: {
         toList: ["test2@example.com", "test3@example.com"]
@@ -85,12 +85,12 @@ describe("MetricsAdvisorClient hooks", () => {
     };
     const updated = await client.updateHook(createdEmailHookId, emailPatch);
     assert.equal(updated.hookType, emailPatch.hookType);
-    const emailHook = updated as EmailHook;
+    const emailHook = updated as EmailNotificationHook;
     assert.deepEqual(emailHook.hookParameter.toList, ["test2@example.com", "test3@example.com"]);
   });
 
   it("updates Web Hook", async () => {
-    const webPatch: WebhookHookPatch = {
+    const webPatch: WebNotificationHookPatch = {
       hookType: "Webhook",
       hookParameter: {
         endpoint: "https://httpbin.org/post",
@@ -100,7 +100,7 @@ describe("MetricsAdvisorClient hooks", () => {
     };
     const updated = await client.updateHook(createdWebHookId, webPatch);
     assert.equal(updated.hookType, webPatch.hookType);
-    const webHook = updated as WebhookHook;
+    const webHook = updated as WebNotificationHook;
     assert.equal(webHook.hookParameter.username, "user1");
     assert.equal(webHook.hookParameter.endpoint, "https://httpbin.org/post");
     assert.equal(webHook.hookParameter.password, "pass123");

@@ -18,9 +18,9 @@ import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy
 import { CanonicalCode } from "@opentelemetry/api";
 import {
   MetricFeedbackUnion,
-  Incident,
-  Anomaly,
-  Alert,
+  AnomalyIncident,
+  DataPointAnomaly,
+  AnomalyAlert,
   GetMetricEnrichedSeriesDataResponse,
   GetIncidentRootCauseResponse,
   GetFeedbackResponse,
@@ -36,12 +36,12 @@ import {
   DimensionKey,
   GetMetricSeriesDataResponse,
   ListMetricDimensionValuesPageResponse,
-  ListMetricFeedbackPageResponse
+  ListMetricFeedbackPageResponse,
+  AlertQueryTimeMode
 } from "./models";
 import {
   SeverityFilterCondition,
   EnrichmentStatus,
-  TimeMode,
   FeedbackType,
   FeedbackQueryTimeMode
 } from "./generated/models";
@@ -240,7 +240,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     continuationToken?: string,
     options: ListAlertsOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<ListAlertsForAlertConfigurationPageResponse> {
@@ -306,9 +306,9 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions
-  ): AsyncIterableIterator<Alert> {
+  ): AsyncIterableIterator<AnomalyAlert> {
     for await (const segment of this.listSegmentOfAlertsForAlertingConfig(
       alertConfigId,
       startTime,
@@ -384,9 +384,9 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
-    timeMode: TimeMode,
+    timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions = {}
-  ): PagedAsyncIterableIterator<Alert, ListAlertsForAlertConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse> {
     const iter = this.listItemsOfAlertsForAlertingConfig(
       alertConfigId,
       startTime,
@@ -453,7 +453,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -485,7 +485,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -507,7 +507,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListAnomaliesForAlertConfigurationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<Anomaly> {
+  ): AsyncIterableIterator<DataPointAnomaly> {
     for await (const segment of this.listSegmentsOfAnomaliesForAlert(
       alertConfigId,
       alertId,
@@ -575,7 +575,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListAnomaliesForAlertConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForAlertPageResponse> {
+  ): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse> {
     const iter = this.listItemsOfAnomaliesForAlert(alertConfigId, alertId, options);
     return {
       /**
@@ -632,7 +632,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          dimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -663,7 +663,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          dimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -686,7 +686,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListIncidentsForAlertOptions = {}
-  ): AsyncIterableIterator<Incident> {
+  ): AsyncIterableIterator<AnomalyIncident> {
     for await (const segment of this.listSegmentsOfIncidentsForAlert(
       alertConfigId,
       alertId,
@@ -753,7 +753,7 @@ export class MetricsAdvisorClient {
     alertConfigId: string,
     alertId: string,
     options: ListIncidentsForAlertOptions = {}
-  ): PagedAsyncIterableIterator<Incident, ListIncidentsForAlertPageResponse> {
+  ): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse> {
     const iter = this.listItemsOfIncidentsForAlert(alertConfigId, alertId, options);
     return {
       /**
@@ -812,7 +812,18 @@ export class MetricsAdvisorClient {
       options
     );
     return {
-      results: result.value,
+      results: result.value.map((d) => {
+        return {
+          series: d.series,
+          timestamps: d.timestampList,
+          values: d.valueList,
+          expectedValues: d.expectedValueList,
+          lowerBounds: d.lowerBoundaryList,
+          upperBounds: d.upperBoundaryList,
+          isAnomaly: d.isAnomalyList,
+          periods: d.periodList
+        };
+      }),
       _response: result._response
     };
   }
@@ -857,7 +868,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -885,7 +896,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          dimension: a.dimension,
+          seriesKey: { dimension: a.dimension },
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -907,7 +918,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListAnomaliesForDetectionConfigurationOptions
-  ): AsyncIterableIterator<Anomaly> {
+  ): AsyncIterableIterator<DataPointAnomaly> {
     for await (const segment of this.listSegmentsOfAnomaliesForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -978,7 +989,10 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListAnomaliesForDetectionConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Anomaly, ListAnomaliesForDetectionConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<
+    DataPointAnomaly,
+    ListAnomaliesForDetectionConfigurationPageResponse
+  > {
     const iter = this.listItemsOfAnomaliesForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -1219,7 +1233,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          dimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1248,7 +1262,7 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          dimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
@@ -1269,7 +1283,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListIncidentsForDetectionConfigurationOptions
-  ): AsyncIterableIterator<Incident> {
+  ): AsyncIterableIterator<AnomalyIncident> {
     for await (const segment of this.listSegmentsOfIncidentsForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -1340,7 +1354,10 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     options: ListIncidentsForDetectionConfigurationOptions = {}
-  ): PagedAsyncIterableIterator<Incident, ListIncidentsByDetectionConfigurationPageResponse> {
+  ): PagedAsyncIterableIterator<
+    AnomalyIncident,
+    ListIncidentsByDetectionConfigurationPageResponse
+  > {
     const iter = this.listItemsOfIncidentsForDetectionConfig(
       detectionConfigId,
       startTime,
@@ -1404,7 +1421,7 @@ export class MetricsAdvisorClient {
       );
       const transformed = result.value?.map((r) => {
         return {
-          dimensionKey: r.rootCause,
+          seriesKey: r.rootCause,
           path: r.path,
           score: r.score,
           description: r.description
@@ -1640,13 +1657,13 @@ export class MetricsAdvisorClient {
     metricId: string,
     startTime: Date,
     endTime: Date,
-    seriesToFilter: Record<string, string>[],
+    seriesToFilter: DimensionKey[],
     options: GetMetricSeriesDataOptions = {}
   ): Promise<GetMetricSeriesDataResponse> {
     const optionsBody = {
       startTime: startTime,
       endTime: endTime,
-      series: seriesToFilter
+      series: seriesToFilter.map((f) => f.dimension)
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
 
@@ -1654,8 +1671,8 @@ export class MetricsAdvisorClient {
       metricSeriesDataList: result.value?.map((s) => {
         return {
           definition: { metricId: s.id!.metricId!, dimension: s.id!.dimension! },
-          timestampList: s.timestampList,
-          valueList: s.valueList
+          timestamps: s.timestampList,
+          values: s.valueList
         };
       }),
       _response: result._response

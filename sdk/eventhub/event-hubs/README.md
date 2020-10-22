@@ -258,17 +258,17 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
   const subscription = client.subscribe(
     {
-      processEvents: async (events, context) => {
+      processEvents: async(events, context) => {
         // event processing code goes here
       },
-      processError: async (err, context) => {
+      processError: async(err, context) => {
         // error reporting/handling code here
-      },
+      }
     },
     subscriptionOptions
   );
@@ -347,7 +347,7 @@ async function main() {
       // handle any errors that occur during the course of
       // this subscription
       console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
-    },
+    }
   });
 
   // Wait for a few seconds to receive events before closing
@@ -388,18 +388,18 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
   const subscription = client.subscribe(
     partitionIds[0],
     {
-      processEvents: async (events, context) => {
+      processEvents: async(events, context) => {
         // event processing code goes here
       },
-      processError: async (err, context) => {
+      processError: async(err, context) => {
         // error reporting/handling code here
-      },
+      }
     },
     subscriptionOptions
   );

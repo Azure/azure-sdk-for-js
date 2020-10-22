@@ -158,7 +158,7 @@ async function main() {
 }
 
 async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery) {
-  const metric = [
+  const metrics = [
     {
       name: "revenue",
       displayName: "revenue",
@@ -170,13 +170,13 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       description: "Metric2 description"
     }
   ];
-  const dimension = [
+  const dimensions = [
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
   ];
   const dataFeedSchema = {
-    metrics: metric,
-    dimensions: dimension,
+    metrics,
+    dimensions,
     timestampColumn: null
   };
   const dataFeedIngestion = {
@@ -206,12 +206,12 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    admins: ["xyz@example.com"]
+    adminEmails: ["xyz@example.com"]
   };
 
   console.log("Creating Datafeed...");
   const result = await adminClient.createDataFeed({
-    name: "test_datafeed_" + new Date().getTime().toFixed(),
+    name: "test_datafeed_" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,
@@ -334,7 +334,7 @@ async function createWebhookHook(adminClient) {
   console.log("Creating a webhook hook");
   const hook = {
     hookType: "Webhook",
-    name: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://example.com/handleAlerts",
@@ -451,7 +451,7 @@ async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
   );
   for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );
   }
 }

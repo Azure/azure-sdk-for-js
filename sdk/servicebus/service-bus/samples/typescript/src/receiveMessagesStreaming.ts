@@ -34,8 +34,8 @@ export async function main() {
     console.log(`Received message: ${brokeredMessage.body}`);
     await brokeredMessage.complete();
   };
-  const processError = async (err) => {
-    console.log("Error occurred: ", err);
+  const processError = async (args) => {
+    console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
   try {

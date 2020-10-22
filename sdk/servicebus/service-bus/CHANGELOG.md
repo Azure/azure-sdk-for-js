@@ -8,15 +8,36 @@
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- The `processError` passed to `Receiver.subscribe` now receives a `ProcessErrorArgs` instead of just an error. This parameter provides additional context that can make it simpler to distinguish
+  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorArgs`) as well as giving you some information about the entity that generated the error.
+  [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
+- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- `NamespaceProperties` interface property "namespaceType" has been removed. [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
+
+- Internal improvement - For the operations depending on `$management` link such as peek or lock renewals, the listeners for the "sender_error" and "receiver_error" events were added to the link for each new request made before the link is initialized which would have resulted in too many listeners and a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 sender_error listeners added to [Sender]. Use emittr.setMaxListeners() to increase limit`(same for `receiver_error`). This has been improved such that the listeners are reused.
+  [PR 11738](https://github.com/Azure/azure-sdk-for-js/pull/11738)
+
+### Breaking changes
+
+- The `createBatch` method on the sender is renamed to `createMessageBatch`
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- `ServiceBusMessage` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `CorrelationRuleFilter` interface updates:
+  - "properties" renamed to "applicationProperties"
+  - "label" renamed to "subject"
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
 
 ## 7.0.0-preview.7 (2020-10-07)
 
 - [Bug Fix] `sendMessages` method on the sender would have previously thrown an error for sending a batch or an array of messages upon a network disconnect, the issue has been fixed now.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651/commits/f262e4562eb78828ee816a54f9a9778692e0eff9)
-
-- Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-
-- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 ### New features:
 
@@ -36,13 +57,7 @@
   - `acceptSession`, which opens a session by name
   - `acceptNextSession`, which opens the next available session, determined by Service Bus.
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
-- `ServiceBusMessage` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `CorrelationRuleFilter` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
 ## 7.0.0-preview.6 (2020-09-10)
 

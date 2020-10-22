@@ -471,6 +471,7 @@ export interface OperationRequestOptions {
 export interface OperationResponse {
     bodyMapper?: Mapper;
     headersMapper?: Mapper;
+    isError?: boolean;
 }
 
 // @public

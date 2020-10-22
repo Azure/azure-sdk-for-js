@@ -50,13 +50,13 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined].forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
-      const batch = await sender.createBatch();
+      const batch = await sender.createMessageBatch();
       let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "message"`;
       }
       try {
-        batch.tryAdd(
+        batch.tryAddMessage(
           // @ts-expect-error
           invalidValue
         );
@@ -77,9 +77,9 @@ describe("sender unit tests", () => {
 
       try {
         await sender.scheduleMessages(
-          new Date(),
           // @ts-expect-error
-          invalidValue
+          invalidValue,
+          new Date()
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");
