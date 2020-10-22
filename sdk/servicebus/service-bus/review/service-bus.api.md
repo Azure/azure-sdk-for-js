@@ -178,7 +178,7 @@ export { delay }
 export { Delivery }
 
 // @public
-export type EntitiesResponse<T> = WithResponse<Array<T>> & Pick<PageSettings, "continuationToken">;
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> & Pick<PageSettings, "continuationToken">;
 
 // @public
 export type EntityAvailabilityStatus = "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
@@ -559,7 +559,7 @@ export { WebSocketImpl }
 export { WebSocketOptions }
 
 // @public
-export type WithResponse<T> = T & {
+export type WithResponse<T extends object> = T & {
     _response: HttpOperationResponse;
 };
 
