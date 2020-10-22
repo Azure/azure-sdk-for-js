@@ -847,9 +847,9 @@ export class Tag {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.TagUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.TagUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -859,7 +859,7 @@ export class Tag {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -870,8 +870,8 @@ export class Tag {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -882,7 +882,7 @@ export class Tag {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.TagUpdateResponse>;
   }
 
   /**
@@ -1095,7 +1095,8 @@ const getEntityStateByOperationOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetEntityStateByOperationHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetEntityStateByOperationHeaders
     }
   },
   serializer
@@ -1124,7 +1125,8 @@ const getByOperationOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetByOperationHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetByOperationHeaders
     }
   },
   serializer
@@ -1238,7 +1240,8 @@ const getEntityStateByApiOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetEntityStateByApiHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetEntityStateByApiHeaders
     }
   },
   serializer
@@ -1266,7 +1269,8 @@ const getByApiOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetByApiHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetByApiHeaders
     }
   },
   serializer
@@ -1298,7 +1302,8 @@ const assignToApiOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagAssignToApiHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagAssignToApiHeaders
     }
   },
   serializer
@@ -1380,7 +1385,8 @@ const getEntityStateByProductOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetEntityStateByProductHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetEntityStateByProductHeaders
     }
   },
   serializer
@@ -1408,7 +1414,8 @@ const getByProductOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetByProductHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetByProductHeaders
     }
   },
   serializer
@@ -1519,7 +1526,8 @@ const getEntityStateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetEntityStateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetEntityStateHeaders
     }
   },
   serializer
@@ -1546,7 +1554,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagGetHeaders
     }
   },
   serializer
@@ -1585,7 +1594,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TagCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagCreateOrUpdateHeaders
     }
   },
   serializer
@@ -1615,9 +1625,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TagUpdateHeaders
     }
   },
   serializer

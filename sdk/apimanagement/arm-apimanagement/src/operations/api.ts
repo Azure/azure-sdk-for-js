@@ -162,9 +162,9 @@ export class Api {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ApiUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -175,7 +175,7 @@ export class Api {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<Models.ApiContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -187,8 +187,8 @@ export class Api {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiContract>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiContract>, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.ApiUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class Api {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.ApiUpdateResponse>;
   }
 
   /**
@@ -412,7 +412,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiGetEntityTagHeaders
     }
   },
   serializer
@@ -439,7 +440,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiGetHeaders
     }
   },
   serializer
@@ -469,9 +471,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.ApiContract,
+      headersMapper: Mappers.ApiUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiUpdateHeaders
     }
   },
   serializer
@@ -569,7 +575,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApiCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ApiCreateOrUpdateHeaders
     }
   },
   serializer

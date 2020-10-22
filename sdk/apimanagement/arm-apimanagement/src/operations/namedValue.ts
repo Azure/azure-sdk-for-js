@@ -28,7 +28,7 @@ export class NamedValue {
   }
 
   /**
-   * Lists a collection of NamedValues defined within a service instance.
+   * Lists a collection of named values defined within a service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -60,7 +60,7 @@ export class NamedValue {
   }
 
   /**
-   * Gets the entity state (Etag) version of the NamedValue specified by its identifier.
+   * Gets the entity state (Etag) version of the named value specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -96,7 +96,7 @@ export class NamedValue {
   }
 
   /**
-   * Gets the details of the NamedValue specified by its identifier.
+   * Gets the details of the named value specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -132,7 +132,7 @@ export class NamedValue {
   }
 
   /**
-   * Creates or updates a NamedValue.
+   * Creates or updates named value.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -146,7 +146,7 @@ export class NamedValue {
   }
 
   /**
-   * Updates the specific NamedValue.
+   * Updates the specific named value.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -162,7 +162,7 @@ export class NamedValue {
   }
 
   /**
-   * Deletes specific NamedValue from the API Management service instance.
+   * Deletes specific named value from the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -205,7 +205,7 @@ export class NamedValue {
   }
 
   /**
-   * Gets the secret value of the NamedValue.
+   * Gets the secret of the named value specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -219,7 +219,7 @@ export class NamedValue {
    * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<Models.PropertyValueContract>): void;
+  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<Models.NamedValueSecretContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -227,8 +227,8 @@ export class NamedValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyValueContract>): void;
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyValueContract>, callback?: msRest.ServiceCallback<Models.PropertyValueContract>): Promise<Models.NamedValueListValueResponse> {
+  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NamedValueSecretContract>): void;
+  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueSecretContract>, callback?: msRest.ServiceCallback<Models.NamedValueSecretContract>): Promise<Models.NamedValueListValueResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -241,7 +241,7 @@ export class NamedValue {
   }
 
   /**
-   * Creates or updates a NamedValue.
+   * Creates or updates named value.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -263,7 +263,7 @@ export class NamedValue {
   }
 
   /**
-   * Updates the specific NamedValue.
+   * Updates the specific named value.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
@@ -288,7 +288,7 @@ export class NamedValue {
   }
 
   /**
-   * Lists a collection of NamedValues defined within a service instance.
+   * Lists a collection of named values defined within a service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueListByServiceNextResponse>
@@ -366,7 +366,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.NamedValueGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.NamedValueGetEntityTagHeaders
     }
   },
   serializer
@@ -393,7 +394,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.NamedValueGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.NamedValueGetHeaders
     }
   },
   serializer
@@ -442,10 +444,12 @@ const listValueOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PropertyValueContract
+      bodyMapper: Mappers.NamedValueSecretContract,
+      headersMapper: Mappers.NamedValueListValueHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.NamedValueListValueHeaders
     }
   },
   serializer
@@ -487,7 +491,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
     }
   },
   serializer
@@ -524,11 +529,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     202: {
       headersMapper: Mappers.NamedValueUpdateHeaders
     },
-    204: {
-      headersMapper: Mappers.NamedValueUpdateHeaders
-    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.NamedValueUpdateHeaders
     }
   },
   serializer

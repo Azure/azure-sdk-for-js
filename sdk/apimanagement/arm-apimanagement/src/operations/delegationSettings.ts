@@ -223,7 +223,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DelegationSettingsGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DelegationSettingsGetEntityTagHeaders
     }
   },
   serializer
@@ -249,7 +250,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DelegationSettingsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DelegationSettingsGetHeaders
     }
   },
   serializer

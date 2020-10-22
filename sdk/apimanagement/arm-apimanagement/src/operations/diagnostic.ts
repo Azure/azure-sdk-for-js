@@ -189,9 +189,9 @@ export class Diagnostic {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.DiagnosticUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +202,7 @@ export class Diagnostic {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +214,8 @@ export class Diagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
+  update(resourceGroupName: string, serviceName: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.DiagnosticUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +226,7 @@ export class Diagnostic {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.DiagnosticUpdateResponse>;
   }
 
   /**
@@ -354,7 +354,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DiagnosticGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DiagnosticGetEntityTagHeaders
     }
   },
   serializer
@@ -381,7 +382,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DiagnosticGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DiagnosticGetHeaders
     }
   },
   serializer
@@ -420,7 +422,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DiagnosticCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DiagnosticCreateOrUpdateHeaders
     }
   },
   serializer
@@ -450,9 +453,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.DiagnosticContract,
+      headersMapper: Mappers.DiagnosticUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DiagnosticUpdateHeaders
     }
   },
   serializer

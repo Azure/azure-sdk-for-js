@@ -190,9 +190,9 @@ export class IdentityProvider {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.IdentityProviderUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -203,7 +203,7 @@ export class IdentityProvider {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -215,8 +215,8 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
+  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderContract>, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +227,7 @@ export class IdentityProvider {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.IdentityProviderUpdateResponse>;
   }
 
   /**
@@ -391,7 +391,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.IdentityProviderGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityProviderGetEntityTagHeaders
     }
   },
   serializer
@@ -418,7 +419,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.IdentityProviderGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityProviderGetHeaders
     }
   },
   serializer
@@ -457,7 +459,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
     }
   },
   serializer
@@ -487,9 +490,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.IdentityProviderContract,
+      headersMapper: Mappers.IdentityProviderUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityProviderUpdateHeaders
     }
   },
   serializer
@@ -538,10 +545,12 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ClientSecretContract
+      bodyMapper: Mappers.ClientSecretContract,
+      headersMapper: Mappers.IdentityProviderListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityProviderListSecretsHeaders
     }
   },
   serializer
