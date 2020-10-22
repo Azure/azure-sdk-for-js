@@ -227,12 +227,6 @@ export const PrivateLinkServiceConnectionStateProperty: msRest.CompositeMapper =
         type: {
           name: "String"
         }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -300,18 +294,6 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
           name: "Composite",
           className: "PrivateLinkServiceConnectionStateProperty"
         }
-      },
-      groupId: {
-        serializedName: "properties.groupId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -325,6 +307,28 @@ export const ApiProperties: msRest.CompositeMapper = {
     modelProperties: {
       serverVersion: {
         serializedName: "serverVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupPolicy: msRest.CompositeMapper = {
+  serializedName: "BackupPolicy",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "BackupPolicy",
+    className: "BackupPolicy",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -638,6 +642,13 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      backupPolicy: {
+        serializedName: "properties.backupPolicy",
+        type: {
+          name: "Composite",
+          className: "BackupPolicy"
+        }
+      },
       cors: {
         serializedName: "properties.cors",
         type: {
@@ -678,7 +689,7 @@ export const SqlDatabaseGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1136,7 +1147,7 @@ export const SqlContainerGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1216,7 +1227,7 @@ export const SqlStoredProcedureGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1278,7 +1289,7 @@ export const SqlUserDefinedFunctionGetPropertiesResource: msRest.CompositeMapper
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1352,7 +1363,7 @@ export const SqlTriggerGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1408,7 +1419,7 @@ export const MongoDBDatabaseGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1578,7 +1589,7 @@ export const MongoDBCollectionGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1652,7 +1663,7 @@ export const TableGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1726,7 +1737,7 @@ export const CassandraKeyspaceGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1925,7 +1936,7 @@ export const CassandraTableGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -1999,7 +2010,7 @@ export const GremlinDatabaseGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -2107,7 +2118,7 @@ export const GremlinGraphGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -2173,6 +2184,23 @@ export const ErrorResponse: msRest.CompositeMapper = {
         serializedName: "message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponseUpdatedFormat: msRest.CompositeMapper = {
+  serializedName: "ErrorResponseUpdatedFormat",
+  type: {
+    name: "Composite",
+    className: "ErrorResponseUpdatedFormat",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
         }
       }
     }
@@ -2267,7 +2295,7 @@ export const ExtendedResourceProperties: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -2395,7 +2423,7 @@ export const ThroughputSettingsGetPropertiesResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "_ts",
         type: {
-          name: "Object"
+          name: "Number"
         }
       },
       _etag: {
@@ -2573,6 +2601,13 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      backupPolicy: {
+        serializedName: "properties.backupPolicy",
+        type: {
+          name: "Composite",
+          className: "BackupPolicy"
+        }
+      },
       cors: {
         serializedName: "properties.cors",
         type: {
@@ -2732,6 +2767,13 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      backupPolicy: {
+        serializedName: "properties.backupPolicy",
+        type: {
+          name: "Composite",
+          className: "BackupPolicy"
         }
       },
       cors: {
@@ -2990,7 +3032,6 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3074,7 +3115,6 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3124,7 +3164,6 @@ export const SqlStoredProcedureCreateUpdateParameters: msRest.CompositeMapper = 
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3174,7 +3213,6 @@ export const SqlUserDefinedFunctionCreateUpdateParameters: msRest.CompositeMappe
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3236,7 +3274,6 @@ export const SqlTriggerCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3280,7 +3317,6 @@ export const MongoDBDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3353,7 +3389,6 @@ export const MongoDBCollectionCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3397,7 +3432,6 @@ export const TableCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3441,7 +3475,6 @@ export const CassandraKeyspaceCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3504,7 +3537,6 @@ export const CassandraTableCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3548,7 +3580,6 @@ export const GremlinDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -3626,7 +3657,6 @@ export const GremlinGraphCreateUpdateParameters: msRest.CompositeMapper = {
         }
       },
       options: {
-        required: true,
         serializedName: "properties.options",
         type: {
           name: "Composite",
@@ -4116,6 +4146,67 @@ export const PartitionMetric: msRest.CompositeMapper = {
   }
 };
 
+export const PeriodicModeProperties: msRest.CompositeMapper = {
+  serializedName: "PeriodicModeProperties",
+  type: {
+    name: "Composite",
+    className: "PeriodicModeProperties",
+    modelProperties: {
+      backupIntervalInMinutes: {
+        serializedName: "backupIntervalInMinutes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      backupRetentionIntervalInHours: {
+        serializedName: "backupRetentionIntervalInHours",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PeriodicModeBackupPolicy: msRest.CompositeMapper = {
+  serializedName: "Periodic",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: BackupPolicy.type.polymorphicDiscriminator,
+    uberParent: "BackupPolicy",
+    className: "PeriodicModeBackupPolicy",
+    modelProperties: {
+      ...BackupPolicy.type.modelProperties,
+      periodicModeProperties: {
+        serializedName: "periodicModeProperties",
+        type: {
+          name: "Composite",
+          className: "PeriodicModeProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ContinuousModeBackupPolicy: msRest.CompositeMapper = {
+  serializedName: "Continuous",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: BackupPolicy.type.polymorphicDiscriminator,
+    uberParent: "BackupPolicy",
+    className: "ContinuousModeBackupPolicy",
+    modelProperties: {
+      ...BackupPolicy.type.modelProperties
+    }
+  }
+};
+
 export const TrackedResource: msRest.CompositeMapper = {
   serializedName: "TrackedResource",
   type: {
@@ -4217,48 +4308,6 @@ export const NotebookWorkspaceConnectionInfoResult: msRest.CompositeMapper = {
         serializedName: "notebookServerEndpoint",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResource: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResource",
-    modelProperties: {
-      ...ARMProxyResource.type.modelProperties,
-      groupId: {
-        readOnly: true,
-        serializedName: "properties.groupId",
-        type: {
-          name: "String"
-        }
-      },
-      requiredMembers: {
-        readOnly: true,
-        serializedName: "properties.requiredMembers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      requiredZoneNames: {
-        readOnly: true,
-        serializedName: "properties.requiredZoneNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -4752,46 +4801,9 @@ export const NotebookWorkspaceListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResourceListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+export const discriminators = {
+  'BackupPolicy' : BackupPolicy,
+  'BackupPolicy.Periodic' : PeriodicModeBackupPolicy,
+  'BackupPolicy.Continuous' : ContinuousModeBackupPolicy
 
-export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointConnectionListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
-      }
-    }
-  }
 };

@@ -89,7 +89,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.targetRegion
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter0
   ],
   headerParameters: [

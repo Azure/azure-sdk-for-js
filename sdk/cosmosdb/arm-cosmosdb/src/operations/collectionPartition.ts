@@ -131,7 +131,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.collectionRid
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter0
   ],
   headerParameters: [
@@ -159,7 +159,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.collectionRid
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter1
   ],
   headerParameters: [

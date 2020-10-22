@@ -36,8 +36,6 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   cassandraResources: operations.CassandraResources;
   gremlinResources: operations.GremlinResources;
   notebookWorkspaces: operations.NotebookWorkspaces;
-  privateLinkResources: operations.PrivateLinkResources;
-  privateEndpointConnections: operations.PrivateEndpointConnections;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -66,8 +64,6 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.cassandraResources = new operations.CassandraResources(this);
     this.gremlinResources = new operations.GremlinResources(this);
     this.notebookWorkspaces = new operations.NotebookWorkspaces(this);
-    this.privateLinkResources = new operations.PrivateLinkResources(this);
-    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
   }
 }
 

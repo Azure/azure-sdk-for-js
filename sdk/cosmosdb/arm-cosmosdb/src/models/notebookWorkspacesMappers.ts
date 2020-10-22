@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
@@ -14,6 +15,7 @@ export {
   AutoscaleSettingsResource,
   AutoUpgradePolicyResource,
   AzureEntityResource,
+  BackupPolicy,
   BaseResource,
   Capability,
   CassandraKeyspaceCreateUpdateParameters,
@@ -34,6 +36,7 @@ export {
   ConflictResolutionPolicy,
   ConsistencyPolicy,
   ContainerPartitionKey,
+  ContinuousModeBackupPolicy,
   CorsPolicy,
   CreateUpdateOptions,
   DatabaseAccountCreateUpdateParameters,
@@ -74,9 +77,10 @@ export {
   NotebookWorkspaceCreateUpdateParameters,
   NotebookWorkspaceListResult,
   OptionsResource,
+  PeriodicModeBackupPolicy,
+  PeriodicModeProperties,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
-  PrivateLinkResource,
   PrivateLinkServiceConnectionStateProperty,
   ProxyResource,
   Resource,

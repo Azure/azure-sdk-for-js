@@ -17,6 +17,7 @@ const packageVersion = "9.1.0";
 
 export class CosmosDBManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
+  apiVersion?: string;
   subscriptionId: string;
 
   /**
@@ -43,6 +44,7 @@ export class CosmosDBManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
+    this.apiVersion = '2020-09-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

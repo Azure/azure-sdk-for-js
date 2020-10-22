@@ -317,7 +317,7 @@ const listTablesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -343,7 +343,7 @@ const getTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -369,7 +369,7 @@ const getTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -395,7 +395,7 @@ const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -429,7 +429,7 @@ const beginDeleteTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -454,7 +454,7 @@ const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -488,7 +488,7 @@ const beginMigrateTableToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -499,7 +499,7 @@ const beginMigrateTableToAutoscaleOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
     }
   },
   serializer
@@ -515,7 +515,7 @@ const beginMigrateTableToManualThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -526,7 +526,7 @@ const beginMigrateTableToManualThroughputOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
     }
   },
   serializer

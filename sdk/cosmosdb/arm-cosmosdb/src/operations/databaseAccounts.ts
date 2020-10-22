@@ -622,7 +622,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -645,7 +645,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -669,7 +669,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -694,7 +694,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -719,7 +719,7 @@ const listConnectionStringsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -744,7 +744,7 @@ const getReadOnlyKeysOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -769,7 +769,7 @@ const listReadOnlyKeysOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -792,7 +792,7 @@ const checkNameExistsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -816,7 +816,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter0
   ],
   headerParameters: [
@@ -842,7 +842,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter1
   ],
   headerParameters: [
@@ -868,7 +868,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -893,7 +893,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -925,7 +925,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -957,7 +957,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -981,7 +981,7 @@ const beginFailoverPriorityChangeOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1012,7 +1012,7 @@ const beginOfflineRegionOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1043,7 +1043,7 @@ const beginOnlineRegionOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1074,7 +1074,7 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

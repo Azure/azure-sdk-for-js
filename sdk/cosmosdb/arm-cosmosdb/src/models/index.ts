@@ -151,10 +151,6 @@ export interface PrivateLinkServiceConnectionStateProperty {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly actionsRequired?: string;
-  /**
-   * The private link service connection description.
-   */
-  description?: string;
 }
 
 /**
@@ -199,14 +195,6 @@ export interface PrivateEndpointConnection extends ProxyResource {
    * Connection State of the Private Endpoint Connection.
    */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * Group id of the private endpoint.
-   */
-  groupId?: string;
-  /**
-   * Provisioning state of the private endpoint.
-   */
-  provisioningState?: string;
 }
 
 /**
@@ -217,6 +205,21 @@ export interface ApiProperties {
    * Describes the ServerVersion of an a MongoDB account. Possible values include: '3.2', '3.6'
    */
   serverVersion?: ServerVersion;
+}
+
+/**
+ * Contains the possible cases for BackupPolicy.
+ */
+export type BackupPolicyUnion = BackupPolicy | PeriodicModeBackupPolicy | ContinuousModeBackupPolicy;
+
+/**
+ * The object representing the policy for taking backups on an account.
+ */
+export interface BackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "BackupPolicy";
 }
 
 /**
@@ -385,6 +388,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   enableAnalyticalStorage?: boolean;
   /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+  /**
    * The CORS policy for the Cosmos DB database account.
    */
   cors?: CorsPolicy[];
@@ -407,7 +414,7 @@ export interface SqlDatabaseGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -665,7 +672,7 @@ export interface SqlContainerGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -709,7 +716,7 @@ export interface SqlStoredProcedureGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -746,7 +753,7 @@ export interface SqlUserDefinedFunctionGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -792,7 +799,7 @@ export interface SqlTriggerGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -825,7 +832,7 @@ export interface MongoDBDatabaseGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -915,7 +922,7 @@ export interface MongoDBCollectionGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -955,7 +962,7 @@ export interface TableGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -995,7 +1002,7 @@ export interface CassandraKeyspaceGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1103,7 +1110,7 @@ export interface CassandraTableGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1143,7 +1150,7 @@ export interface GremlinDatabaseGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1206,7 +1213,7 @@ export interface GremlinGraphGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1241,6 +1248,13 @@ export interface ErrorResponse {
    * Error message indicating why the operation failed.
    */
   message?: string;
+}
+
+/**
+ * An error response from the service.
+ */
+export interface ErrorResponseUpdatedFormat {
+  error?: ErrorResponse;
 }
 
 /**
@@ -1299,7 +1313,7 @@ export interface ExtendedResourceProperties {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1386,7 +1400,7 @@ export interface ThroughputSettingsGetPropertiesResource {
    * A system generated property that denotes the last updated timestamp of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly _ts?: any;
+  readonly _ts?: number;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
@@ -1482,6 +1496,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    */
   enableAnalyticalStorage?: boolean;
   /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+  /**
    * The CORS policy for the Cosmos DB database account.
    */
   cors?: CorsPolicy[];
@@ -1565,6 +1583,10 @@ export interface DatabaseAccountUpdateParameters {
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
   /**
    * The CORS policy for the Cosmos DB database account.
    */
@@ -1724,7 +1746,7 @@ export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1776,7 +1798,7 @@ export interface SqlContainerCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1805,7 +1827,7 @@ export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourcePro
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1834,7 +1856,7 @@ export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourc
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1872,7 +1894,7 @@ export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties 
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1897,7 +1919,7 @@ export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1934,7 +1956,7 @@ export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1959,7 +1981,7 @@ export interface TableCreateUpdateParameters extends ARMResourceProperties {
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -1984,7 +2006,7 @@ export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -2021,7 +2043,7 @@ export interface CassandraTableCreateUpdateParameters extends ARMResourcePropert
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -2046,7 +2068,7 @@ export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -2094,7 +2116,7 @@ export interface GremlinGraphCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options?: CreateUpdateOptions;
 }
 
 /**
@@ -2410,6 +2432,44 @@ export interface PartitionMetric extends Metric {
 }
 
 /**
+ * Configuration values for periodic mode backup
+ */
+export interface PeriodicModeProperties {
+  /**
+   * An integer representing the interval in minutes between two backups
+   */
+  backupIntervalInMinutes?: number;
+  /**
+   * An integer representing the time (in hours) that each backup is retained
+   */
+  backupRetentionIntervalInHours?: number;
+}
+
+/**
+ * The object representing periodic mode backup policy.
+ */
+export interface PeriodicModeBackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Periodic";
+  /**
+   * Configuration values for periodic mode backup
+   */
+  periodicModeProperties?: PeriodicModeProperties;
+}
+
+/**
+ * The object representing continuous mode backup policy.
+ */
+export interface ContinuousModeBackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Continuous";
+}
+
+/**
  * The resource model definition for a ARM tracked top level resource
  */
 export interface TrackedResource extends Resource {
@@ -2471,27 +2531,6 @@ export interface NotebookWorkspaceConnectionInfoResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly notebookServerEndpoint?: string;
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends ARMProxyResource {
-  /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource required zone names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredZoneNames?: string[];
 }
 
 /**
@@ -2719,22 +2758,6 @@ export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {
 }
 
 /**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
- */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
-}
-
-/**
- * @interface
- * A list of private endpoint connections
- * @extends Array<PrivateEndpointConnection>
- */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
-}
-
-/**
  * Defines values for DatabaseAccountKind.
  * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'
  * @readonly
@@ -2878,6 +2901,14 @@ export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSeco
  * @enum {string}
  */
 export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimum' | 'Maximum' | 'Last';
+
+/**
+ * Defines values for BackupPolicyType.
+ * Possible values include: 'Periodic', 'Continuous'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupPolicyType = 'Periodic' | 'Continuous';
 
 /**
  * Contains response data for the get operation.
@@ -5861,125 +5892,5 @@ export type NotebookWorkspacesBeginCreateOrUpdateResponse = NotebookWorkspace & 
        * The response body as parsed JSON or XML
        */
       parsedBody: NotebookWorkspace;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseAccount operation.
- */
-export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseAccount operation.
- */
-export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
     };
 };

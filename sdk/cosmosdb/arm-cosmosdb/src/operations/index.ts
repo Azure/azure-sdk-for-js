@@ -27,5 +27,3 @@ export * from "./tableResources";
 export * from "./cassandraResources";
 export * from "./gremlinResources";
 export * from "./notebookWorkspaces";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
