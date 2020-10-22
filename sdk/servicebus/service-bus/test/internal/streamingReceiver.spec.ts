@@ -3,16 +3,14 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessagingError, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
-import { ConnectionContext } from "../../src/connectionContext";
-import { ReceiveOptions } from "../../src/core/messageReceiver";
-import { OperationOptions, ProcessErrorArgs, ReceiveMode } from "../../src";
+import { ServiceBusMessagingError } from "../../src/receivers/receiver";
+import { createConnectionContextForTests } from "./unittestUtils";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
-import { AbortController } from "@azure/abort-controller";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
+import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -261,185 +259,9 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  it("create() with an existing receiver and that receiver is open()", async () => {
-    const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-    closeables.push(existingStreamingReceiver);
-
-    await existingStreamingReceiver.init({
-      useNewName: false,
-      ...defaultInitArgs
-    });
-
-    defaultInitArgs.assert();
-
-    const originalReceiver = existingStreamingReceiver["link"]!;
-    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
-    const spy = sinon.spy(existingStreamingReceiver, "init");
-
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver,
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-
-    assert.isTrue(spy.called, "We do still call init() on the receiver");
-    assert.strictEqual(
-      newStreamingReceiver,
-      existingStreamingReceiver,
-      "Should re-use the existing streamingReceiver instance, and not create a new one"
-    );
-
-    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver will also remain open()");
-
-    assert.strictEqual(
-      originalReceiver,
-      newStreamingReceiver["link"]!,
-      "The existing internal rhea receiver was open so we kept it, even after init()"
-    );
-  });
-
-  it("create() with an existing receiver and that receiver is NOT open()", async () => {
-    const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-    closeables.push(existingStreamingReceiver);
-
-    await existingStreamingReceiver.init({
-      useNewName: false,
-      ...defaultInitArgs
-    });
-
-    defaultInitArgs.assert();
-
-    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
-    const spy = sinon.spy(existingStreamingReceiver, "init");
-
-    // we'll close the inner receiver - this will simulate the receiver being closed out from underneath us in some
-    // way. This will cause the normal MessageReceiver._init() behavior to run.
-    const originalReceiver = existingStreamingReceiver["link"]!;
-    await originalReceiver.close();
-    assert.isFalse(
-      existingStreamingReceiver.isOpen(),
-      "The internal receiver has been closed. This instance can be reopened"
-    );
-
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver,
-      receiveMode: "peekLock",
-      lockRenewer: undefined
-    });
-
-    assert.isTrue(spy.called, "We do still call init() on the receiver");
-    assert.strictEqual(
-      newStreamingReceiver,
-      existingStreamingReceiver,
-      "Should re-use the existing streamingReceiver instance, and not create a new one"
-    );
-
-    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver has been reopened");
-    assert.notStrictEqual(
-      originalReceiver,
-      newStreamingReceiver["link"]!,
-      "The existing internal rhea receiver was closed so a new one had to be created."
-    );
-  });
-
-  describe("AbortSignal", () => {
-    it("sanity check - abortSignal is propagated", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests(),
-        "fakeEntityPath",
-        "peekLock",
-        1
-      );
-      closeables.push(receiverImpl);
-
-      const abortController = new AbortController();
-      const abortSignal = abortController.signal;
-
-      const { resolve, promise } = getPromiseResolverForTest();
-
-      receiverImpl["_createStreamingReceiver"] = async (
-        _context: ConnectionContext,
-        _entityPath: string,
-        options?: ReceiveOptions &
-          Pick<OperationOptions, "abortSignal"> & {
-            createStreamingReceiver?: (
-              context: ConnectionContext,
-              entityPath: string,
-              options?: ReceiveOptions
-            ) => StreamingReceiver;
-          }
-      ) => {
-        assert.equal(abortSignal, options?.abortSignal, "abortSignal is properly passed through");
-        resolve();
-        return { close: () => {} } as StreamingReceiver;
-      };
-
-      const errors: string[] = [];
-
-      receiverImpl.subscribe(
-        {
-          processMessage: async () => {},
-          processError: async (args) => {
-            errors.push(args.error.message);
-          }
-        },
-        {
-          abortSignal
-        }
-      );
-
-      await promise;
-      assert.isEmpty(errors);
-    }).timeout(2000); // just for safety
-
-    it("sanity check - abortSignal is propagated to _init()", async () => {
-      let wasCalled = false;
-      const abortController = new AbortController();
-      let err: Error | ServiceBusMessagingError | undefined;
-
-      await StreamingReceiver.create(createConnectionContextForTests(), "fakeEntityPath", {
-        _createStreamingReceiverStubForTests: (_context, _options) => {
-          wasCalled = true;
-          return ({
-            init: (args) => {
-              wasCalled = true;
-
-              assert.equal(
-                args.abortSignal,
-                abortController.signal,
-                "abortSignal passed in when created should propagate to _init()"
-              );
-              return;
-            }
-          } as Pick<StreamingReceiver, "init">) as StreamingReceiver;
-        },
-        abortSignal: abortController.signal,
-        lockRenewer: undefined,
-        receiveMode: "receiveAndDelete",
-        onError: (args) => {
-          err = args.error;
-        }
-      });
-
-      assert.notExists(
-        err,
-        "No errors should occur in this tests since we're just checking that the abortSignal made it down."
-      );
-      assert.isTrue(wasCalled);
-    });
-  });
-
   describe("errorSource", () => {
     it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
-      const streamingReceiver = await StreamingReceiver.create(
+      const streamingReceiver = await createAndInitStreamingReceiverForTest(
         createConnectionContextForTests(),
         "entity path",
         {

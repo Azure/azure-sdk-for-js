@@ -351,4 +351,73 @@ describe("Receiver unit tests", () => {
       await impl.close();
     });
   });
+
+  describe("createStreamingReceiver", () => {
+    let closeables: Pick<StreamingReceiver, "close">[];
+
+    beforeEach(() => {
+      closeables = [];
+    });
+
+    afterEach(async () => {
+      await Promise.all(closeables.map((sr) => sr.close()));
+    });
+
+    it("create() with an existing _streamingReceiver", async () => {
+      const impl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entity path",
+        "peekLock",
+        1
+      );
+      closeables.push(impl);
+
+      let initWasCalled = false;
+      const expectedAbortSignal = createAbortSignalForTest();
+
+      const existingReceiver = {
+        init: async (_args) => {
+          assert.equal(
+            _args.abortSignal,
+            expectedAbortSignal,
+            "abortSignal should be properly passed through."
+          );
+          initWasCalled = true;
+          return;
+        },
+        close: async () => {}
+      } as Pick<StreamingReceiver, "init" | "close">;
+      impl["_streamingReceiver"] = (existingReceiver as any) as StreamingReceiver;
+
+      await impl["_createStreamingReceiver"]({
+        lockRenewer: undefined,
+        receiveMode: "peekLock",
+        abortSignal: expectedAbortSignal
+      });
+
+      assert.isTrue(initWasCalled, "initialize should be called on the original receiver");
+      assert.equal(
+        impl["_streamingReceiver"],
+        existingReceiver,
+        "original receiver should be intact - we should not create a new one.."
+      );
+    });
+
+    it("create() with an existing receiver and that receiver is NOT open()", async () => {
+      const impl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entity path",
+        "peekLock",
+        1
+      );
+      closeables.push(impl);
+
+      await impl["_createStreamingReceiver"]({
+        lockRenewer: undefined,
+        receiveMode: "peekLock"
+      });
+
+      assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");
+    });
+  });
 });

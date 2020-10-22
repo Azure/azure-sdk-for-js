@@ -378,11 +378,10 @@ export class ServiceBusReceiverImpl<
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createStreamingReceiver(this._context, this.entityPath, {
+    this._createStreamingReceiver({
       ...options,
       receiveMode: this.receiveMode,
       retryOptions: this._retryOptions,
-      cachedStreamingReceiver: this._streamingReceiver,
       lockRenewer: this._lockRenewer,
       onError
     })
@@ -422,12 +421,23 @@ export class ServiceBusReceiverImpl<
       });
   }
 
-  private _createStreamingReceiver(
-    context: ConnectionContext,
-    entityPath: string,
+  private async _createStreamingReceiver(
     options: StreamingReceiverInitArgs
   ): Promise<StreamingReceiver> {
-    return StreamingReceiver.create(context, entityPath, options);
+    throwErrorIfConnectionClosed(this._context);
+    if (options.autoComplete == null) options.autoComplete = true;
+
+    let sReceiver =
+      this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
+
+    await sReceiver.init({
+      connectionId: this._context.connectionId,
+      useNewName: false,
+      ...options
+    });
+
+    this._context.messageReceivers[sReceiver.name] = sReceiver;
+    return sReceiver;
   }
 
   async receiveMessages(

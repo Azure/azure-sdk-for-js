@@ -36,14 +36,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
     Pick<OperationOptionsBase, "abortSignal"> {
-  /**
-   * Used for mocking/stubbing in tests.
-   */
-  _createStreamingReceiverStubForTests?: (
-    context: ConnectionContext,
-    options?: ReceiveOptions
-  ) => StreamingReceiver;
-  cachedStreamingReceiver?: StreamingReceiver;
   onError?: OnError;
 }
 
@@ -77,6 +69,11 @@ export class StreamingReceiver extends MessageReceiver {
   private _retryOptions: RetryOptions;
 
   private _receiverHelper: ReceiverHelper;
+
+  /**
+   * Used so we can stub out retry in tests.
+   */
+  private _retry: typeof retry;
 
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
@@ -132,6 +129,8 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._retryOptions = options?.retryOptions || {};
+    this._retry = retry;
+
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
       logPrefix: this.logPrefix
@@ -426,6 +425,7 @@ export class StreamingReceiver extends MessageReceiver {
           // once we're at this point where we can spin up a connection we're past the point
           // of fatal errors like the connection string just outright being malformed, for instance.
           err.retryable = true;
+          throw err;
         }
       },
       connectionId: args.connectionId,
@@ -437,7 +437,7 @@ export class StreamingReceiver extends MessageReceiver {
       abortSignal: args.abortSignal
     };
 
-    await retry<void>(config);
+    await this._retry<void>(config);
   }
 
   private async _initOnce(args: {
@@ -590,32 +590,5 @@ export class StreamingReceiver extends MessageReceiver {
     } finally {
       this._isDetaching = false;
     }
-  }
-
-  static async create(
-    context: ConnectionContext,
-    entityPath: string,
-    options: StreamingReceiverInitArgs
-  ): Promise<StreamingReceiver> {
-    throwErrorIfConnectionClosed(context);
-    if (options.autoComplete == null) options.autoComplete = true;
-
-    let sReceiver: StreamingReceiver;
-
-    if (options.cachedStreamingReceiver) {
-      sReceiver = options.cachedStreamingReceiver;
-    } else if (options?._createStreamingReceiverStubForTests) {
-      sReceiver = options._createStreamingReceiverStubForTests(context, options);
-    } else {
-      sReceiver = new StreamingReceiver(context, entityPath, options);
-    }
-
-    await sReceiver.init({
-      connectionId: context.connectionId,
-      useNewName: false,
-      ...options
-    });
-    context.messageReceivers[sReceiver.name] = sReceiver;
-    return sReceiver;
   }
 }

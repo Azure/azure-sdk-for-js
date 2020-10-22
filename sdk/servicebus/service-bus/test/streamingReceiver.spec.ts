@@ -5,7 +5,12 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
+import {
+  TestMessage,
+  checkWithTimeout,
+  TestClientType,
+  createAndInitStreamingReceiverForTest
+} from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
@@ -13,7 +18,7 @@ import {
   ServiceBusReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
@@ -161,28 +166,25 @@ describe("Streaming Receiver Tests", () => {
     it("onDetached should forward error messages if it fails to retry", async function(): Promise<
       void
     > {
+      let actualError: Error | undefined;
       let streamingReceiver: StreamingReceiver | undefined;
+
       try {
-        let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create(
-          (receiver as any)._context,
-          receiver.entityPath,
-          {
-            receiveMode: "peekLock",
-            lockRenewer: undefined
-          }
+        let streamingReceiver = await createAndInitStreamingReceiverForTest(
+          (receiver as ServiceBusReceiverImpl<any>)["_context"],
+          receiver.entityPath
         );
 
         streamingReceiver.subscribe(
           async () => {},
-          (args) => {
+          async (args) => {
             actualError = args.error;
           }
         );
 
         // overwrite _init to throw a non-retryable error.
         // this will be called by onDetached
-        (streamingReceiver as any).init = async () => {
+        streamingReceiver["init"] = async () => {
           const error = new Error("Expected test error!");
           // prevent retry from translating error.
           (error as any).translated = true;
@@ -198,9 +200,7 @@ describe("Streaming Receiver Tests", () => {
           "Did not see the expected error in user-provided error handler."
         );
       } finally {
-        if (streamingReceiver) {
-          await streamingReceiver.close();
-        }
+        await streamingReceiver?.close();
       }
     });
 
