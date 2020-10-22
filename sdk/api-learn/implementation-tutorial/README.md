@@ -57,7 +57,7 @@ export DEBUG=azure*
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/tutorial/starter/sdk/api-learn/implementation-tutorial/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/api-learn/implementation-tutorial/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
