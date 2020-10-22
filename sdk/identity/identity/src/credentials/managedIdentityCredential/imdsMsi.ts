@@ -12,7 +12,7 @@ import { msiGenericGetToken } from "./utils";
 
 const logger = credentialLogger("ManagedIdentityCredential - IMDS");
 
-function expiresInParser(requestBody: any) {
+function expiresInParser(requestBody: any): number {
   if (requestBody.expires_on) {
     // Use the expires_on timestamp if it's available
     const expires = +requestBody.expires_on * 1000;
