@@ -24,6 +24,8 @@ interface ScenarioReceiveBatchOptions {
   numberOfMessagesPerSend?: number;
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
+  maxAutoLockRenewalDurationInMs?: number;
+  settleMessageOnReceive: boolean;
 }
 
 function sanitizeOptions(
@@ -37,7 +39,9 @@ function sanitizeOptions(
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
+    settleMessageOnReceive: options.settleMessageOnReceive || false
   };
 }
 
@@ -51,7 +55,9 @@ export async function scenarioReceiveBatch() {
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
+    maxAutoLockRenewalDurationInMs,
+    settleMessageOnReceive
   } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
@@ -70,10 +76,11 @@ export async function scenarioReceiveBatch() {
 
   if (receiveMode === "receiveAndDelete") {
     receiver = sbClient.createReceiver(stressBase.queueName, {
-      receiveMode: "receiveAndDelete"
+      receiveMode: "receiveAndDelete",
+      maxAutoLockRenewalDurationInMs
     });
   } else {
-    receiver = sbClient.createReceiver(stressBase.queueName);
+    receiver = sbClient.createReceiver(stressBase.queueName, { maxAutoLockRenewalDurationInMs });
   }
 
   async function sendMessages() {
@@ -94,7 +101,8 @@ export async function scenarioReceiveBatch() {
       await stressBase.receiveMessages(
         receiver,
         receiveBatchMaxMessageCount,
-        receiveBatchMaxWaitTimeInMs
+        receiveBatchMaxWaitTimeInMs,
+        settleMessageOnReceive
       );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
       await delay(delayBetweenReceivesInMs);

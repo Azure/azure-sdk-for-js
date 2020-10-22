@@ -129,7 +129,8 @@ export class SBStressTestsBase {
   public async receiveMessages<ReceivedMessageT extends ServiceBusReceivedMessage>(
     receiver: ServiceBusReceiver<ReceivedMessageT>,
     maxMsgCount = 10,
-    maxWaitTimeInMs = 10000
+    maxWaitTimeInMs = 10000,
+    settleMessageOnReceive = false
   ): Promise<ReceivedMessageT[]> {
     try {
       const messages = await receiver.receiveMessages(maxMsgCount, {
@@ -138,6 +139,11 @@ export class SBStressTestsBase {
       this.trackMessageIds(messages, "received");
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccesses++;
+      if (settleMessageOnReceive) {
+        await Promise.all(
+          messages.map((msg) => this.completeMessage(msg as unknown as ServiceBusReceivedMessageWithLock))
+        );
+      }
       return messages;
     } catch (error) {
       this.receiveInfo.numberOfFailures++;
