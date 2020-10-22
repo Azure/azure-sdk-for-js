@@ -112,8 +112,8 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
           refreshTimer();
           await processMessage(msg);
         },
-        async processError(err) {
-          rejectSessionWithError(err);
+        async processError(args) {
+          rejectSessionWithError(args.error);
         }
       },
       {

@@ -20,6 +20,8 @@ class AzureMediaServices extends AzureMediaServicesContext {
   accountFilters: operations.AccountFilters;
   operations: operations.Operations;
   mediaservices: operations.Mediaservices;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
   locations: operations.Locations;
   assets: operations.Assets;
   assetFilters: operations.AssetFilters;
@@ -43,6 +45,8 @@ class AzureMediaServices extends AzureMediaServicesContext {
     this.accountFilters = new operations.AccountFilters(this);
     this.operations = new operations.Operations(this);
     this.mediaservices = new operations.Mediaservices(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.locations = new operations.Locations(this);
     this.assets = new operations.Assets(this);
     this.assetFilters = new operations.AssetFilters(this);
