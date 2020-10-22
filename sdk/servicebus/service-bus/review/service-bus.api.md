@@ -192,7 +192,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface MessageHandlers<ReceivedMessageT> {
+export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ServiceBusReceivedMessage): Promise<void>;
 }
