@@ -179,7 +179,7 @@ console.log(`Updated component: ${component}`);
 
 ### Create digital twin relationships
 
-`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
+`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
 
 ```JavaScript Snippet:dt_scenario
 const hospitalRelationships = [

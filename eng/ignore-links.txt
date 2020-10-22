@@ -7,4 +7,4 @@ https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/
-https://github.com/Azure/azure-digital-twins-core/blob/private-preview/Documentation/how-to-manage-routes.md
+https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/how-to-manage-routes.md
