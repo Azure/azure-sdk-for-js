@@ -9,38 +9,92 @@
         "description": "The base resource name."
       }
     },
-    "sku": {
-      "defaultValue": "Standard",
-      "type": "string"
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
-    "configurationApiVersion": "2019-10-01",
-    "accountName": "[parameters('baseName')]",
-    "endpoint": "[concat('https://', parameters('baseName'), '.azconfig.io')]"
+    "azConfigPrefix": "azconfig-net",
+    "colorKey": "FontColor",
+    "colorValue": "Green",
+    "greetingKey": "GreetingText",
+    "greetingValue": "Hello World!",
+    "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b', subscription().subscriptionId)]",
+    "uniqueAzConfigName": "[format('{0}-{1}', parameters('baseName'), variables('azConfigPrefix'))]",
+    "endpointValue": "[format('https://{0}-{1}.azconfig.io', parameters('baseName'), variables('azConfigPrefix'))]"
   },
   "resources": [
     {
       "type": "Microsoft.AppConfiguration/configurationStores",
-      "apiVersion": "[variables('configurationApiVersion')]",
-      "name": "[variables('accountName')]",
+      "apiVersion": "2019-10-01",
+      "name": "[variables('uniqueAzConfigName')]",
       "location": "[resourceGroup().location]",
       "sku": {
-        "name": "[parameters('sku')]"
+        "name": "Standard"
       },
       "properties": {
-        "endpoint": "[variables('endpoint')]"
+        "endpoint": "[variables('endpointValue')]"
+      },
+      "resources": [
+        {
+          "name": "[variables('colorKey')]",
+          "type": "keyValues",
+          "apiVersion": "2020-07-01-preview",
+          "dependsOn": [
+            "[variables('uniqueAzConfigName')]"
+          ],
+          "properties": {
+            "value": "[variables('colorValue')]",
+            "contentType": "text/plain"
+          }
+        },
+        {
+          "name": "[variables('greetingKey')]",
+          "type": "keyValues",
+          "apiVersion": "2020-07-01-preview",
+          "dependsOn": [
+            "[variables('uniqueAzConfigName')]"
+          ],
+          "properties": {
+            "value": "[variables('greetingValue')]",
+            "contentType": "text/plain"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(resourceGroup().id)]",
+      "properties": {
+        "roleDefinitionId": "[variables('roleDefinitionId')]",
+        "principalId": "[parameters('testApplicationOid')]"
       }
     }
   ],
   "outputs": {
-    "APPCONFIG_CONNECTION_STRING": {
+    "API-LEARN_ENDPOINT": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores', variables('accountName')), variables('configurationApiVersion')).value[0].connectionString]"
+      "value": "[variables('endpointValue')]"
     },
-    "AZ_CONFIG_ENDPOINT": {
+    "API-LEARN_SETTING_COLOR_KEY": {
       "type": "string",
-      "value": "[variables('endpoint')]"
+      "value": "[variables('colorKey')]"
+    },
+    "API-LEARN_SETTING_COLOR_VALUE": {
+      "type": "string",
+      "value": "[variables('colorValue')]"
+    },
+    "API-LEARN_SETTING_GREETING_KEY": {
+      "type": "string",
+      "value": "[variables('greetingKey')]"
+    },
+    "API-LEARN_SETTING_GREETING_VALUE": {
+      "type": "string",
+      "value": "[variables('greetingValue')]"
     }
   }
 }
