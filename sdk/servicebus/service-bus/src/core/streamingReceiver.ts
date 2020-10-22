@@ -25,7 +25,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
-import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
+import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -199,7 +199,12 @@ export class StreamingReceiver extends MessageReceiver {
                 "retryable, we let the user know about it by calling the user's error handler.",
               this.logPrefix
             );
-            this._onError!(sbError);
+            this._onError!({
+              error: sbError,
+              errorSource: "receive",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           } else {
             logger.verbose(
               "%s The received error is not retryable. However, the receiver was " +
@@ -234,7 +239,12 @@ export class StreamingReceiver extends MessageReceiver {
               "retryable, we let the user know about it by calling the user's error handler.",
             this.logPrefix
           );
-          this._onError!(sbError);
+          this._onError!({
+            error: sbError,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
         }
       }
     };
@@ -262,25 +272,32 @@ export class StreamingReceiver extends MessageReceiver {
 
       this._lockRenewer?.start(this, bMessage, (err) => {
         if (this._onError) {
-          this._onError(err);
+          this._onError({
+            error: err,
+            errorSource: "renewLock",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
         }
       });
 
       try {
         await this._onMessage(bMessage);
       } catch (err) {
-        // This ensures we call users' error handler when users' message handler throws.
-        if (!isAmqpError(err)) {
-          logger.logError(
-            err,
-            "%s An error occurred while running user's message handler for the message " +
-              "with id '%s' on the receiver '%s'",
-            this.logPrefix,
-            bMessage.messageId,
-            this.name
-          );
-          this._onError!(err);
-        }
+        logger.logError(
+          err,
+          "%s An error occurred while running user's message handler for the message " +
+            "with id '%s' on the receiver '%s'",
+          this.logPrefix,
+          bMessage.messageId,
+          this.name
+        );
+        this._onError!({
+          error: err,
+          errorSource: "processMessageCallback",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
@@ -314,7 +331,12 @@ export class StreamingReceiver extends MessageReceiver {
               bMessage.messageId,
               this.name
             );
-            this._onError!(translatedError);
+            this._onError!({
+              error: translatedError,
+              errorSource: "abandon",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           }
         }
         return;
@@ -346,7 +368,12 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId,
             this.name
           );
-          this._onError!(translatedError);
+          this._onError!({
+            error: translatedError,
+            errorSource: "complete",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
         }
       }
     };
@@ -513,7 +540,12 @@ export class StreamingReceiver extends MessageReceiver {
       if (typeof this._onError === "function") {
         logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
         try {
-          this._onError(err);
+          this._onError({
+            error: err,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
         } catch (err) {
           logger.logError(
             err,

@@ -283,7 +283,7 @@ export function convertSimilarityToPublic(
     return similarity;
   }
 
-  if (similarity.odatatype == "#Microsoft.Azure.Search.ClassicSimilarity") {
+  if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
     return similarity as ClassicSimilarity;
   } else {
     return similarity as BM25Similarity;
@@ -370,7 +370,9 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedSearchResult[]) {
+export function generatedSearchResultToPublicSearchResult<T>(
+  results: GeneratedSearchResult[]
+): SearchResult<T>[] {
   const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
     const { _score, _highlights, ...restProps } = result;
     const doc: { [key: string]: any } = {

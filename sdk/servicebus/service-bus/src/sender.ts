@@ -89,8 +89,8 @@ export interface ServiceBusSender {
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
-   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - Message or an array of messages that need to be scheduled.
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
@@ -100,8 +100,8 @@ export interface ServiceBusSender {
    * @throws MessagingError if the service returns an error while scheduling messages.
    */
   scheduleMessages(
-    scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
+    scheduledEnqueueTimeUtc: Date,
     options?: OperationOptionsBase
   ): Promise<Long[]>;
 
@@ -244,8 +244,8 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   }
 
   async scheduleMessages(
-    scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
+    scheduledEnqueueTimeUtc: Date,
     options: OperationOptionsBase = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();

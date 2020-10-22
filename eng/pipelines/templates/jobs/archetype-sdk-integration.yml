@@ -53,19 +53,23 @@ parameters:
 - name: Matrix
   type: object
   default:
-    Linux Node 8:
-      OSVmImage: "ubuntu-18.04"
+    Windows Node 8:
+      OSVmImage: "windows-2019"
       TestType: "node"
       NodeTestVersion: "8.x"
       PublishCodeCoverage: true
-    Windows Node 10:
-      OSVmImage: "windows-2019"
+    Linux Node 10:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "10.x"
-    MacOS Node 12:
-      OSVmImage: "macOS-10.15"
+    Linux Node 12:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "12.x"
+    MacOS Node 14:
+      OSVmImage: "macOS-10.15"
+      TestType: "node"
+      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -101,7 +105,7 @@ jobs:
           Windows Browser:
             OSVmImage: "windows-2019"
             TestType: "browser"
-            NodeTestVersion: "12.x"            
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.browser.xml"
 
         # Add matrix entry for sample testing
@@ -117,13 +121,13 @@ jobs:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: max
-            NodeTestVersion: "12.x"
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.xml"            
           MinVersion_Node:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: min
-            NodeTestVersion: "12.x"
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.xml"                  
 
         # Add matrix entry for same dep testing
@@ -132,7 +136,7 @@ jobs:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: same
-            NodeTestVersion: "12.x"
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.xml"   
 
         # Add matrix entry for canary testing
@@ -140,7 +144,7 @@ jobs:
           CanaryTest_Node:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
-            NodeTestVersion: "12.x"
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.xml"
             SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
             ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
