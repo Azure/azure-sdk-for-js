@@ -76,5 +76,6 @@
     "prepack": "npm install && npm run build",
     "test": "mocha -r esm --require ts-node/register test/*.spec.ts --timeout 1200000 --full-trace"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "autoPublish": true
 }
