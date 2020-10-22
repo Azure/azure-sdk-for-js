@@ -1,4 +1,4 @@
-import { RollupOptions, RollupWarning, WarningHandler } from "rollup";
+import { RollupWarning, WarningHandler } from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
