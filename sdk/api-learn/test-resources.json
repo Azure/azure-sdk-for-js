@@ -9,6 +9,9 @@
         "description": "The base resource name."
       }
     },
+
+
+    
     "sku": {
       "defaultValue": "Standard",
       "type": "string"
