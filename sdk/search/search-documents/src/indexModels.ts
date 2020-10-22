@@ -11,7 +11,6 @@ import {
   ScoringStatistics
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SearchIndexClientOptions } from "./searchIndexClient";
 
 /**
  * Options for performing the count operation on the index.
