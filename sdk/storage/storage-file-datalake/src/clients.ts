@@ -922,8 +922,10 @@ export class DataLakePathClient extends StorageClient {
 
     const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
 
-    const renameSource = `/${this.fileSystemName}/${this.name}`; // TODO: Confirm number of /
-    const renameDestination = `/${destinationFileSystem}/${destinationPath}`; // TODO: Confirm encoding
+    // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
+    // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
+    const renameSource = `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
+    const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
 
     const destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);

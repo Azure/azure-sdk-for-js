@@ -77,7 +77,7 @@ export interface ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+  tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -243,7 +243,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+  public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
@@ -251,7 +251,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
-      message.properties && message.properties[TRACEPARENT_PROPERTY]
+      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {

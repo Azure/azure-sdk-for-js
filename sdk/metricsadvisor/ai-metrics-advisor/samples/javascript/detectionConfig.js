@@ -53,11 +53,32 @@ async function getDetectionConfig(adminClient, detectionConfigId) {
 
 // create a new detection configuration
 async function createDetectionConfig(adminClient, metricId) {
-  const config = {
-    name: "fresh detection" + new Date().getTime().toString(),
-    description: "fresh detection",
-    metricId,
-    wholeSeriesDetectionCondition: {
+  const wholeSeriesDetectionCondition = {
+    conditionOperator: "AND",
+    smartDetectionCondition: {
+      sensitivity: 50,
+      anomalyDetectorDirection: "Both",
+      suppressCondition: {
+        minNumber: 50,
+        minRatio: 50
+      }
+    },
+    changeThresholdCondition: {
+      anomalyDetectorDirection: "Both",
+      shiftPoint: 1,
+      changePercentage: 33,
+      withinRange: true,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    },
+    hardThresholdCondition: {
+      anomalyDetectorDirection: "Up",
+      upperBound: 400,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    }
+  };
+  const seriesGroupDetectionConditions = [
+    {
+      group: { dimension: { Dim1: "Common Lime" } },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -65,13 +86,28 @@ async function createDetectionConfig(adminClient, metricId) {
         changePercentage: 33,
         withinRange: true,
         suppressCondition: { minNumber: 2, minRatio: 2 }
-      },
+      }
+    }
+  ];
+  const seriesDetectionConditions = [
+    {
+      series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+      conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 400,
         suppressCondition: { minNumber: 2, minRatio: 2 }
       }
     }
+  ];
+
+  const config = {
+    name: "fresh detection" + new Date().getTime().toString(),
+    description: "fresh detection",
+    metricId,
+    wholeSeriesDetectionCondition,
+    seriesGroupDetectionConditions,
+    seriesDetectionConditions
   };
   console.log("Creating a new anomaly detection configuration...");
   return await adminClient.createMetricAnomalyDetectionConfiguration(config);

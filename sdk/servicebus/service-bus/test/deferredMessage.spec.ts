@@ -16,13 +16,13 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
+  let deadLetterReceiver: ServiceBusReceiver;
 
   let entityNames: EntityName;
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -61,7 +61,7 @@ describe("Deferred Messages", () => {
   async function deferMessage(
     testMessage: ServiceBusMessage,
     passSequenceNumberInArray: boolean
-  ): Promise<ServiceBusReceivedMessageWithLock> {
+  ): Promise<ServiceBusReceivedMessage> {
     await sender.sendMessages(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1);
 
@@ -78,7 +78,7 @@ describe("Deferred Messages", () => {
       throw "Sequence Number can not be null";
     }
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
-    await receivedMsgs[0].defer();
+    await receiver.deferMessage(receivedMsgs[0]);
 
     const [deferredMsg] = await receiver.receiveDeferredMessages(
       passSequenceNumberInArray ? [sequenceNumber] : sequenceNumber
@@ -121,7 +121,7 @@ describe("Deferred Messages", () => {
       "MessageId is different than expected"
     );
 
-    await deferredMsg.complete();
+    await receiver.completeMessage(deferredMsg);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -135,7 +135,7 @@ describe("Deferred Messages", () => {
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
-    await deferredMsg.abandon();
+    await receiver.abandonMessage(deferredMsg);
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   }
 
@@ -165,7 +165,7 @@ describe("Deferred Messages", () => {
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
-    await deferredMsg.defer();
+    await receiver.deferMessage(deferredMsg);
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   }
   it(
@@ -191,7 +191,7 @@ describe("Deferred Messages", () => {
       : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages, true);
 
-    await deferredMsg.deadLetter();
+    await receiver.deadLetterMessage(deferredMsg);
 
     await testPeekMsgsLength(receiver, 0);
 
@@ -210,7 +210,7 @@ describe("Deferred Messages", () => {
       "MessageId is different than expected"
     );
 
-    await deadLetterMsgs[0].complete();
+    await receiver.completeMessage(deadLetterMsgs[0]);
 
     await testPeekMsgsLength(deadLetterReceiver, 0);
   }
@@ -242,13 +242,13 @@ describe("Deferred Messages", () => {
       throw "Sequence Number can not be null";
     }
     const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
-    const lockedUntilAfterRenewlock = await deferredMsg.renewLock();
+    const lockedUntilAfterRenewlock = await receiver.renewMessageLock(deferredMsg);
     should.equal(
       lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
       true,
       "MessageLock did not get renewed!"
     );
-    await deferredMsg.defer();
+    await receiver.deferMessage(deferredMsg);
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   });
 });

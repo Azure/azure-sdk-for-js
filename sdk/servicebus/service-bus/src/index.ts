@@ -17,11 +17,12 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  CreateBatchOptions,
+  CreateMessageBatchOptions,
   CreateReceiverOptions,
   AcceptSessionOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
+  ProcessErrorArgs,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
@@ -69,8 +70,11 @@ export {
   AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
+export {
+  parseServiceBusConnectionString,
+  ServiceBusConnectionStringProperties
+} from "./util/connectionStringUtils";

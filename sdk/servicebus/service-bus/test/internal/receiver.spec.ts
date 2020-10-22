@@ -4,7 +4,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -15,7 +14,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { InternalMessageHandlers } from "../../src/models";
+import { InternalMessageHandlers, ProcessErrorArgs } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
@@ -89,7 +88,7 @@ describe("Receiver unit tests", () => {
 
       let createdRheaReceiver: Receiver | undefined;
 
-      const receiverImpl = new ServiceBusReceiverImpl<any>(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             createdRheaReceiver = receiver;
@@ -226,9 +225,46 @@ describe("Receiver unit tests", () => {
       await receiverImpl.close();
     });
 
-    async function subscribeAndWaitForInitialize<
-      T extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
-    >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
+    it("errors thrown when initializing a connection are reported as 'receive' errors", async () => {
+      const receiverImpl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests({
+          onCreateReceiverCalled: () => {
+            throw new Error("Failed to initialize!");
+          }
+        }),
+        "fakeEntityPath",
+        "peekLock",
+        1
+      );
+
+      const processErrorArgs = await new Promise<ProcessErrorArgs>((resolve) => {
+        return receiverImpl.subscribe({
+          processError: async (args) => {
+            resolve(args);
+          },
+          processMessage: async (_msg) => {}
+        });
+      });
+
+      assert.deepEqual(
+        {
+          message: processErrorArgs.error.message,
+          errorSource: processErrorArgs.errorSource,
+          entityPath: processErrorArgs.entityPath,
+          fullyQualifiedNamespace: processErrorArgs.fullyQualifiedNamespace
+        },
+        {
+          message: "Failed to initialize!",
+          errorSource: "receive",
+          entityPath: "fakeEntityPath",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
+    });
+
+    async function subscribeAndWaitForInitialize(
+      receiver: ServiceBusReceiverImpl
+    ): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
       }>((resolve, reject) => {
@@ -240,7 +276,7 @@ describe("Receiver unit tests", () => {
             reject(err);
           },
           processMessage: async (_msg) => {}
-        } as InternalMessageHandlers<any>);
+        } as InternalMessageHandlers);
       });
 
       assert.exists(
