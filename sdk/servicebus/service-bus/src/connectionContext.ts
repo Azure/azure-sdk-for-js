@@ -322,9 +322,8 @@ export namespace ConnectionContext {
         //   because any new send calls that potentially initialize links would also get affected if called later.
         // TODO: do the same for batching receiver
         logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "senders. We should not reconnect.",
-          connectionContext.connection.id
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
+            `senders. We should not reconnect.`
         );
         const detachCalls: Promise<void>[] = [];
         for (const senderName of Object.keys(connectionContext.senders)) {
@@ -354,13 +353,12 @@ export namespace ConnectionContext {
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was atleast one sender/receiver link on the connection before it went down.
+      // and there was at least one receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
       if (!state.wasConnectionCloseCalled && state.numReceivers) {
         logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "receivers. We should reconnect.",
-          connectionContext.connection.id
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
+            `receivers. We should reconnect.`
         );
         await delay(Constants.connectionReconnectDelay);
 
