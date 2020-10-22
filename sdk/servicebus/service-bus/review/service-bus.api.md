@@ -206,7 +206,6 @@ export interface NamespaceProperties {
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
-    namespaceType: string;
 }
 
 // @public
