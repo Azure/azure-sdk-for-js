@@ -12,8 +12,8 @@ import {
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { ConfigurationSetting } from "./generated/models";
-import { GeneratedClient } from './generated';
-import { quoteETag } from './util';
+import { GeneratedClient } from "./generated";
+import { quoteETag } from "./util";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 

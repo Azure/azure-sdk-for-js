@@ -43,9 +43,7 @@
           "name": "[variables('colorKey')]",
           "type": "keyValues",
           "apiVersion": "2020-07-01-preview",
-          "dependsOn": [
-            "[variables('uniqueAzConfigName')]"
-          ],
+          "dependsOn": ["[variables('uniqueAzConfigName')]"],
           "properties": {
             "value": "[variables('colorValue')]",
             "contentType": "text/plain"
@@ -55,9 +53,7 @@
           "name": "[variables('greetingKey')]",
           "type": "keyValues",
           "apiVersion": "2020-07-01-preview",
-          "dependsOn": [
-            "[variables('uniqueAzConfigName')]"
-          ],
+          "dependsOn": ["[variables('uniqueAzConfigName')]"],
           "properties": {
             "value": "[variables('greetingValue')]",
             "contentType": "text/plain"
