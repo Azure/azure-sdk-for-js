@@ -58,6 +58,7 @@ export {
   OrchestratorProfile,
   OrchestratorVersionProfile,
   OrchestratorVersionProfileListResult,
+  PowerState,
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateLinkServiceConnectionState,
