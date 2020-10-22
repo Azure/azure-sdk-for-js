@@ -178,8 +178,7 @@ export { delay }
 export { Delivery }
 
 // @public
-export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
-}
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> & Pick<PageSettings, "continuationToken">;
 
 // @public
 export type EntityAvailabilityStatus = "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
@@ -206,10 +205,6 @@ export interface NamespaceProperties {
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
-}
-
-// @public
-export interface NamespacePropertiesResponse extends NamespaceProperties, Response {
 }
 
 export { OperationOptions }
@@ -257,10 +252,6 @@ export interface QueueProperties {
 }
 
 // @public
-export interface QueueResponse extends QueueProperties, Response {
-}
-
-// @public
 export interface QueueRuntimeProperties {
     accessedAt: Date;
     activeMessageCount: number;
@@ -276,21 +267,12 @@ export interface QueueRuntimeProperties {
 }
 
 // @public
-export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {
-}
-
-// @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
 
 // @public
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
-
-// @public
-export interface Response {
-    _response: HttpOperationResponse;
-}
 
 export { RetryOptions }
 
@@ -302,30 +284,26 @@ export interface RuleProperties {
 }
 
 // @public
-export interface RuleResponse extends RuleProperties, Response {
-}
-
-// @public
 export class ServiceBusAdministrationClient extends ServiceClient {
     constructor(connectionString: string, options?: PipelineOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
-    createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;
-    createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse>;
-    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
-    getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
-    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimePropertiesResponse>;
-    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
+    createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<WithResponse<SubscriptionProperties>>;
+    createTopic(topicName: string, options?: CreateTopicOptions): Promise<WithResponse<TopicProperties>>;
+    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    getNamespaceProperties(operationOptions?: OperationOptions): Promise<WithResponse<NamespaceProperties>>;
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<QueueRuntimeProperties>>;
+    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionRuntimeProperties>>;
+    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<TopicRuntimeProperties>>;
     listQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
     listQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
     listRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>;
@@ -337,10 +315,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
 
 // @public
@@ -524,10 +502,6 @@ export interface SubscriptionProperties {
 }
 
 // @public
-export interface SubscriptionResponse extends SubscriptionProperties, Response {
-}
-
-// @public
 export interface SubscriptionRuntimeProperties {
     accessedAt: Date;
     activeMessageCount: number;
@@ -539,10 +513,6 @@ export interface SubscriptionRuntimeProperties {
     totalMessageCount: number;
     transferDeadLetterMessageCount: number;
     transferMessageCount: number;
-}
-
-// @public
-export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {
 }
 
 export { TokenCredential }
@@ -568,10 +538,6 @@ export interface TopicProperties {
 }
 
 // @public
-export interface TopicResponse extends TopicProperties, Response {
-}
-
-// @public
 export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
@@ -583,10 +549,6 @@ export interface TopicRuntimeProperties {
 }
 
 // @public
-export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
-}
-
-// @public
 export interface TryAddOptions {
     parentSpan?: Span | SpanContext | null;
 }
@@ -594,6 +556,11 @@ export interface TryAddOptions {
 export { WebSocketImpl }
 
 export { WebSocketOptions }
+
+// @public
+export type WithResponse<T extends object> = T & {
+    _response: HttpOperationResponse;
+};
 
 
 // (No @packageDocumentation comment for this package)
