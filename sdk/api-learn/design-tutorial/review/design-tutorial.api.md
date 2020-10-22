@@ -4,8 +4,37 @@
 
 ```ts
 
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
+
 // @public (undocumented)
-export function helloWorld(): string;
+export class ConfigurationClient {
+    constructor(_endpointUrl: string, _credential: TokenCredential, _options?: ConfigurationClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "ConfigurationSetting" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getConfigurationSetting(_key: string, _options: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+    // (undocumented)
+    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+}
+
+// @public (undocumented)
+export interface ConfigurationClientOptions extends PipelineOptions {
+}
+
+// @public (undocumented)
+export interface GetConfigurationSettingOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetConfigurationSettingOptions extends OperationOptions {
+    // (undocumented)
+    onlyIfChanged?: boolean;
+}
+
+// @public (undocumented)
+export function quoteETag(etag: string | undefined): string | undefined;
 
 
 // (No @packageDocumentation comment for this package)

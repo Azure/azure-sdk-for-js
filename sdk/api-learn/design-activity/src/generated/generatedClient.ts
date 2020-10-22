@@ -20,15 +20,10 @@ export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param $host server parameter
-   * @param nodeName
    * @param options The parameter options
    */
-  constructor(
-    $host: string,
-    nodeName: string,
-    options?: GeneratedClientOptionalParams
-  ) {
-    super($host, nodeName, options);
+  constructor($host: string, options?: GeneratedClientOptionalParams) {
+    super($host, options);
     this.computeNodeAdministration = new ComputeNodeAdministration(this);
     this.computations = new Computations(this);
   }

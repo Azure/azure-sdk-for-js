@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  OperationOptions
-} from "@azure/core-http";
+import { PipelineOptions, TokenCredential, OperationOptions } from "@azure/core-http";
 import { ConfigurationSetting } from "./generated/models";
 
 export interface ConfigurationClientOptions extends PipelineOptions {
@@ -13,11 +9,12 @@ export interface ConfigurationClientOptions extends PipelineOptions {
 }
 
 export interface GetConfigurationSettingOptions extends OperationOptions {
-  // any custom options go here.
+  onlyIfChanged?: boolean;
 }
 
-export interface GetConfigurationSettingOptions extends OperationOptions {
-  onlyIfChanged?: boolean;
+export function quoteETag(etag: string | undefined): string | undefined {
+  console.log(etag);
+  throw new Error("Not yet implemented.");
 }
 
 export class ConfigurationClient {

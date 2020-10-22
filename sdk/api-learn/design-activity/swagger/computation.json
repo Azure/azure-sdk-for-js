@@ -4,8 +4,12 @@
     "title": "Example service",
     "version": "1.1"
   },
-  "produces": ["application/json"],
-  "consumes": ["application/json"],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
   "paths": {
     "/ComputeNodes": {
       "parameters": [
@@ -15,7 +19,9 @@
       ],
       "get": {
         "operationId": "ComputeNodeAdministration_List",
-        "tags": ["Administration"],
+        "tags": [
+          "Administration"
+        ],
         "responses": {
           "200": {
             "description": "Successfully listed (one page of) ComputeNodes",
@@ -43,7 +49,9 @@
       ],
       "put": {
         "operationId": "ComputeNodeAdministration_Create",
-        "tags": ["Administration"],
+        "tags": [
+          "Administration"
+        ],
         "parameters": [
           {
             "name": "computeNode",
@@ -81,7 +89,9 @@
       },
       "get": {
         "operationId": "ComputeNodeAdministration_Get",
-        "tags": ["Administration"],
+        "tags": [
+          "Administration"
+        ],
         "responses": {
           "200": {
             "description": "Successfully got the computeNode",
@@ -103,7 +113,9 @@
       ],
       "post": {
         "operationId": "Computations_ComputePi",
-        "tags": ["Computation"],
+        "tags": [
+          "Computation"
+        ],
         "parameters": [
           {
             "name": "precision",
@@ -140,7 +152,9 @@
         }
       ],
       "get": {
-        "tags": ["Computation"],
+        "tags": [
+          "Computation"
+        ],
         "responses": {
           "200": {
             "description": "Successfully got the operation status",
@@ -163,7 +177,8 @@
       "name": "nodeName",
       "in": "path",
       "type": "string",
-      "required": true
+      "required": true,
+      "x-ms-parameter-location": "method"
     },
     "ClientRequestId": {
       "in": "header",
@@ -179,7 +194,9 @@
     },
     "PageOfComputeNodes": {
       "type": "object",
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "properties": {
         "value": {
           "type": "array",
@@ -194,7 +211,9 @@
     },
     "ComputeNode": {
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "discriminator": "kind",
       "properties": {
         "eTag": {
@@ -217,7 +236,9 @@
           "$ref": "#/definitions/ComputeNode"
         }
       ],
-      "required": ["sshPublicKey"],
+      "required": [
+        "sshPublicKey"
+      ],
       "properties": {
         "sshPublicKey": {
           "type": "string"
@@ -231,7 +252,9 @@
           "$ref": "#/definitions/ComputeNode"
         }
       ],
-      "required": ["userName"],
+      "required": [
+        "userName"
+      ],
       "properties": {
         "userName": {
           "type": "string"
@@ -255,7 +278,13 @@
         "status": {
           "type": "string",
           "readOnly": true,
-          "enum": ["notstarted", "running", "succeeded", "failed", "cancelled"]
+          "enum": [
+            "notstarted",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ]
         }
       }
     }
