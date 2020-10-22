@@ -41,7 +41,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-04-01',
+    defaultValue: '2020-06-01-preview',
     constraints: {
       MinLength: 1
     },
@@ -157,11 +157,31 @@ export const groupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const instanceId: msRest.OperationURLParameter = {
+  parameterPath: "instanceId",
+  mapper: {
+    required: true,
+    serializedName: "instanceId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const keyspaceName: msRest.OperationURLParameter = {
   parameterPath: "keyspaceName",
   mapper: {
     required: true,
     serializedName: "keyspaceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
     type: {
       name: "String"
     }
@@ -230,6 +250,26 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleAssignmentId: msRest.OperationURLParameter = {
+  parameterPath: "roleAssignmentId",
+  mapper: {
+    required: true,
+    serializedName: "roleAssignmentId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleDefinitionId: msRest.OperationURLParameter = {
+  parameterPath: "roleDefinitionId",
+  mapper: {
+    required: true,
+    serializedName: "roleDefinitionId",
     type: {
       name: "String"
     }
