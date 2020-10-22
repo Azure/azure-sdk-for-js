@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.0-preview.1 (Unreleased)
+## 3.1.0-beta.1 (Unreleased)
 
 - Migrated to the 2.1-preview.1 Form Recognizer service endpoint for all REST API calls.
 
