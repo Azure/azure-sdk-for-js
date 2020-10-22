@@ -86,14 +86,14 @@ export class SBStressTestsBase {
     options?: CreateQueueOptions | undefined,
     testOptions?: Record<string, string | number | boolean>
   ) {
+    this.reportFileName = `temp/report-${this.queueName}.txt`;
+    this.errorsFileName = `temp/errors-${this.queueName}.txt`;
+    this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
     if (testOptions) console.log(testOptions);
     await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
     this.queueName =
       (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
-    this.reportFileName = `temp/report-${this.queueName}.txt`;
-    this.errorsFileName = `temp/errors-${this.queueName}.txt`;
-    this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
   }
 
   public async sendMessages(
@@ -175,6 +175,7 @@ export class SBStressTestsBase {
       manualLockRenewal: boolean;
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
+      settleMessageOnReceive: boolean;
     }
   ) {
     const startTime = new Date();
@@ -184,13 +185,14 @@ export class SBStressTestsBase {
       // TODO: message to keep renewing locks - pass args
       // TODO: message to complete after certain number of renewals
       if (receiver.receiveMode === "peekLock") {
-        const elapsedTime = new Date().valueOf() - startTime.valueOf();
-        // TODO: complete the message too
-        if (
+        if (options.settleMessageOnReceive) {
+          await this.completeMessage(message as ServiceBusReceivedMessageWithLock);
+        } else if (
           !options.autoComplete &&
           options.maxAutoRenewLockDurationInMs === 0 &&
           options.manualLockRenewal
         ) {
+          const elapsedTime = new Date().valueOf() - startTime.valueOf();
           this.renewMessageLockUntil(
             message as ServiceBusReceivedMessageWithLock,
             duration - elapsedTime,

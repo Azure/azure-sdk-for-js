@@ -26,6 +26,7 @@ interface ScenarioStreamingReceiveOptions {
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
   completeMessageAfterDuration?: boolean;
+  settleMessageOnReceive?: boolean;
 }
 
 function sanitizeOptions(
@@ -41,7 +42,8 @@ function sanitizeOptions(
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    completeMessageAfterDuration: options.completeMessageAfterDuration || true
+    completeMessageAfterDuration: options.completeMessageAfterDuration || true,
+    settleMessageOnReceive: options.settleMessageOnReceive || false
   };
 }
 
@@ -57,7 +59,8 @@ export async function scenarioStreamingReceive() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
-    completeMessageAfterDuration
+    completeMessageAfterDuration,
+    settleMessageOnReceive
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -102,7 +105,8 @@ export async function scenarioStreamingReceive() {
       maxConcurrentCalls,
       maxAutoRenewLockDurationInMs,
       manualLockRenewal,
-      completeMessageAfterDuration
+      completeMessageAfterDuration,
+      settleMessageOnReceive
     })
   ]);
   await sbClient.close();
