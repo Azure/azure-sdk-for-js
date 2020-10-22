@@ -468,7 +468,7 @@ export interface ServiceBusSender {
     entityPath: string;
     isClosed: boolean;
     open(options?: OperationOptionsBase): Promise<void>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }
 

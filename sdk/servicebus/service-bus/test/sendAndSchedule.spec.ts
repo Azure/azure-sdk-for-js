@@ -155,7 +155,7 @@ describe("Sender Tests", () => {
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
 
-    await sender.scheduleMessages(scheduleTime, testMessage);
+    await sender.scheduleMessages(testMessage, scheduleTime);
 
     const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -180,7 +180,7 @@ describe("Sender Tests", () => {
       ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
       : [TestMessage.getSample(), TestMessage.getSample()];
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await sender.scheduleMessages(scheduleTime, testMessages);
+    await sender.scheduleMessages(testMessages, scheduleTime);
 
     const msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -232,7 +232,7 @@ describe("Sender Tests", () => {
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
+    const [sequenceNumber] = await sender.scheduleMessages(testMessage, scheduleTime);
 
     await delay(2000);
 
@@ -249,10 +249,10 @@ describe("Sender Tests", () => {
       : TestMessage.getSample;
 
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
-      getTestMessage(),
-      getTestMessage()
-    ]);
+    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(
+      [getTestMessage(), getTestMessage()],
+      scheduleTime
+    );
 
     await delay(2000);
 
@@ -293,9 +293,9 @@ describe("Sender Tests", () => {
     ];
     const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
-      sender.scheduleMessages(date, messages[0]),
-      sender.scheduleMessages(date, messages[1]),
-      sender.scheduleMessages(date, messages[2])
+      sender.scheduleMessages(messages[0], date),
+      sender.scheduleMessages(messages[1], date),
+      sender.scheduleMessages(messages[2], date)
     ]);
     const sequenceNumbers = [result1[0], result2[0], result3[0]];
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
@@ -354,7 +354,7 @@ describe("Sender Tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await sender.scheduleMessages(new Date(), [TestMessage.getSample()], {
+        await sender.scheduleMessages([TestMessage.getSample()], new Date(), {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -521,7 +521,7 @@ describe("ServiceBusMessage validations", function(): void {
     it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
       let actualErrorMsg = "";
       let actualErr;
-      await sender.scheduleMessages(new Date(), testInput.message).catch((err) => {
+      await sender.scheduleMessages(testInput.message, new Date()).catch((err) => {
         actualErr = err;
         actualErrorMsg = err.message;
       });
