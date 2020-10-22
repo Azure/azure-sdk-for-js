@@ -27,9 +27,7 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions:
-    | AcceptSessionOptions<"peekLock">
-    | AcceptSessionOptions<"receiveAndDelete"> = {};
+  const sessionReceiverOptions: AcceptSessionOptions = {};
 
   const testEntities = [
     { queue: "thequeue", entityPath: "thequeue" },

@@ -49,7 +49,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  AcceptSessionOptions<"receiveAndDelete">,
+  AcceptSessionOptions,
   "maxAutoRenewLockDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
