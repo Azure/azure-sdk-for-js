@@ -195,35 +195,39 @@ describe("StreamingReceiver unit tests", () => {
       assert.isFalse(streamingReceiver.isReceivingMessages);
     });
 
-    it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
-      const streamingReceiver = new StreamingReceiver(
-        createConnectionContextForTests(),
-        "fakeEntityPath",
-        defaultConstructorOptions
-      );
-      closeables.push(streamingReceiver);
+    // TODO: tempted to eliminate this test. We could leave it in if we want to make the flag reflect that
+    // we're in the process of initializing but I think the general sentiment of it is "I'm not _going_ receive any
+    // messages" which is not the case here. We will always attempt to bring it back.
 
-      await streamingReceiver.init({
-        useNewName: true,
-        ...defaultInitArgs
-      });
+    // it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
+    //   const streamingReceiver = new StreamingReceiver(
+    //     createConnectionContextForTests(),
+    //     "fakeEntityPath",
+    //     defaultConstructorOptions
+    //   );
+    //   closeables.push(streamingReceiver);
 
-      defaultInitArgs.assert();
+    //   await streamingReceiver.init({
+    //     useNewName: true,
+    //     ...defaultInitArgs
+    //   });
 
-      streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
-      );
+    //   defaultInitArgs.assert();
 
-      assert.isTrue(streamingReceiver.isReceivingMessages);
+    //   streamingReceiver.subscribe(
+    //     async (_msg) => {},
+    //     async (_err) => {}
+    //   );
 
-      streamingReceiver["_init"] = () => {
-        throw new Error("Will never succeed");
-      };
+    //   assert.isTrue(streamingReceiver.isReceivingMessages);
 
-      await streamingReceiver.onDetached(new Error("let's detach"));
-      assert.isFalse(streamingReceiver.isReceivingMessages);
-    });
+    //   streamingReceiver["_init"] = () => {
+    //     throw new Error("Will never succeed");
+    //   };
+
+    //   await streamingReceiver.onDetached(new Error("let's detach"));
+    //   assert.isFalse(streamingReceiver.isReceivingMessages);
+    // });
 
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(
@@ -313,7 +317,7 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  describe("forever loop", () => {
+  describe.only("forever loop", () => {
     let streamingReceiver: StreamingReceiver | undefined;
 
     beforeEach(() => {});
@@ -416,16 +420,11 @@ describe("StreamingReceiver unit tests", () => {
         });
         assert.fail("Should have thrown because AbortError's are immediately propagated.");
       } catch (err) {
-        assert.deepEqual(
-          {
-            name: err.name,
-            message: err.message
-          },
-          {
-            message: "Aborting immediately - user's abortSignal takes precedence.",
-            name: "AbortError"
-          }
-        );
+        assertError(err, {
+          name: "AbortError",
+          message: "Aborting immediately - user's abortSignal takes precedence.",
+          retryable: undefined
+        });
       }
 
       assert.notExists(
@@ -434,24 +433,95 @@ describe("StreamingReceiver unit tests", () => {
       );
     });
 
-    it("forever aborts if abortSignal is signalled.", async () => {
-      assert.fail("Not yet implemented");
-    });
+    describe("wrapped operation", () => {
+      it("wrapped operation reports via onError for exceptions.", async () => {
+        let onError = sinon.fake();
 
-    it("forever if detaching", async () => {
-      streamingReceiver = await createAndInitStreamingReceiverForTest(
-        createConnectionContextForTests(),
-        "entity path"
-      );
-      assert.notExists(streamingReceiver);
-    });
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](
+          "entity path",
+          "fully qualified namespace",
+          async () => {
+            throw new Error("Normal errors are logged and rethrown.");
+          },
+          onError
+        );
 
-    it("NOT forever if the user closes the streaming receiver", async () => {
-      streamingReceiver = await createAndInitStreamingReceiverForTest(
-        createConnectionContextForTests(),
-        "entity path"
-      );
-      assert.notExists(streamingReceiver);
+        try {
+          await wrappedOperation();
+          assert.fail("Should have thrown");
+        } catch (err) {
+          assertError(err, {
+            name: "Error",
+            message: "Normal errors are logged and rethrown.",
+            // they're also marked as retryable.
+            retryable: true
+          });
+        }
+
+        assert.deepEqual(
+          getErrorMessageFromMock(onError),
+          "Normal errors are logged and rethrown."
+        );
+      });
+
+      it("wrapped operation does throw if it gets an abortError.", async () => {
+        let onError = sinon.fake();
+
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](
+          "entity path",
+          "fully qualified namespace",
+          async () => {
+            //. the user is obviously welcome to pass in and abort their passed in abortSignal.
+            // Another way this can happen is that LinkEntity.initLink will also throw an AbortError if the link has
+            // been closed by the user.
+            throw new AbortError(
+              "AbortError's should propagate or the link has had .close() called on it"
+            );
+          },
+          onError
+        );
+
+        try {
+          await wrappedOperation();
+          assert.fail("AbortError should have been thrown");
+        } catch (err) {
+          assertError(err, {
+            name: "AbortError",
+            message: "AbortError's should propagate or the link has had .close() called on it",
+            retryable: undefined
+          });
+        }
+
+        assert.deepEqual(
+          getErrorMessageFromMock(onError),
+          "AbortError's should propagate or the link has had .close() called on it"
+        );
+      });
     });
   });
 });
+
+function getErrorMessageFromMock(onError: sinon.SinonSpy<any[], any>) {
+  const errorMessages = onError.args.map((onErrorCallArgs) => {
+    const processErrorArgs: ProcessErrorArgs = onErrorCallArgs[0];
+    return processErrorArgs.error.message;
+  });
+
+  assert.equal(errorMessages.length, 1, "Should have exactly one error message");
+  return errorMessages[0]!;
+}
+
+function assertError(
+  err: any,
+  expected: { name: string; message: string; retryable: boolean | undefined }
+) {
+  assert.deepEqual(
+    {
+      name: err.name,
+      message: err.message,
+      retryable: err.retryable
+    },
+    expected,
+    "Exception didn't match what we expected to be thrown."
+  );
+}

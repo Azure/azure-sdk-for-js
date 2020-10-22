@@ -420,17 +420,19 @@ export class StreamingReceiver extends MessageReceiver {
             fullyQualifiedNamespace
           });
 
+        if (err.name !== "AbortError") {
+          err.retryable = true;
+        }
+
         // once we're at this point where we can spin up a connection we're past the point
         // of fatal errors like the connection string just outright being malformed, for instance.
-        err.retryable = true;
         throw err;
       }
     };
   }
 
   async init(
-    // TODO: make onError? required
-    args: { useNewName: boolean; connectionId: string; onError?: OnError } & Pick<
+    args: { useNewName: boolean; connectionId: string; onError: OnError } & Pick<
       OperationOptionsBase,
       "abortSignal"
     >
@@ -589,6 +591,7 @@ export class StreamingReceiver extends MessageReceiver {
         "%s An error occurred while processing detached()",
         this.logPrefix,
         this.name,
+
         this.address
       );
       if (typeof this._onError === "function") {
