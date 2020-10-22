@@ -2694,6 +2694,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tIltSmz4LdWzP0m3E0CMY4D2zZc=
+  /escape-regexp/0.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-9EvaEtRbvfnLf4Yu5+SCez3TIlQ=
   /escape-string-regexp/1.0.5:
     dev: false
     engines:
@@ -3327,6 +3331,14 @@ packages:
       node: '>=6 <7 || >=8'
     resolution:
       integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+  /fs-mock/1.2.1:
+    dependencies:
+      escape-regexp: 0.0.1
+    dev: false
+    engines:
+      node: '>=0.10'
+    resolution:
+      integrity: sha1-LuZLgLgUEA5LpLY1eMvr4w0N7Xs=
   /fs.realpath/1.0.0:
     dev: false
     resolution:
@@ -9688,6 +9700,7 @@ packages:
       eslint: 6.8.0
       events: 3.2.0
       express: 4.17.1
+      fs-mock: 1.2.1
       inherits: 2.0.4
       jws: 4.0.0
       karma: 5.2.3
@@ -9720,7 +9733,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-CxSrmVx5ZSjEa4fq36jF/GrD9ncQqaK+3qGuB2ecoDK6zLCPAExU2rqiK+q/7FudiSyjyHlJYxgyh4CU+KW7xQ==
+      integrity: sha512-gQxGpab4Y56s/8mjRmBW6O9mCqywGpZqCvP4/LG3bISEkOXiL+ZqxbL9lUEdq1IuhZWleZ/txYKcDk8egY3EuA==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -10757,6 +10770,7 @@ packages:
       integrity: sha512-uZaBXfZM1ISycMx+p8kUd/Yqui/KgjgUm/CyAzxK2wkOmqKF66JuLD5lbkH4tXBi+F5rL59UaMhjjxskb6qbzA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-anomaly-detector': 'file:./projects/ai-anomaly-detector.tgz'

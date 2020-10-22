@@ -86,7 +86,14 @@ export const arcMsi: MSI = {
       ...prepareRequestOptions(resource, clientId)
     };
 
-    return Boolean(await filePathRequest(identityClient, requestOptions));
+    try {
+      const filePath = await filePathRequest(identityClient, requestOptions);
+      return Boolean(filePath);
+    } catch (e) {
+      // Ignoring errors in the availability function.
+    }
+
+    return false;
   },
   async getToken(
     identityClient: IdentityClient,

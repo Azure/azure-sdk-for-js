@@ -135,6 +135,7 @@
     "typescript": "~3.9.3",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
-    "@types/sinon": "^9.0.4"
+    "@types/sinon": "^9.0.4",
+    "fs-mock": "~1.2.1"
   }
 }

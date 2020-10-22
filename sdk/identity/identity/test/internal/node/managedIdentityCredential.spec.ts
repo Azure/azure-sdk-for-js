@@ -9,7 +9,7 @@ import {
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
-import { WebResource, AccessToken } from "@azure/core-http";
+import { WebResource, AccessToken, HttpHeaders } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 
 interface AuthRequestDetails {
@@ -28,7 +28,8 @@ describe("ManagedIdentityCredential", function() {
   it("sends an authorization request with a modified resource name", async function() {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
-        { status: 200 }, // Respond to IMDS ping
+        { status: 404 }, // Respond to Arc isAvailable
+        { status: 200 }, // Respond to IMDS isAvailable
         {
           status: 200,
           parsedBody: {
@@ -39,7 +40,9 @@ describe("ManagedIdentityCredential", function() {
       ]
     });
 
-    const authRequest = authDetails.requests[0];
+    // The first request will be the Arc MSI ping request, thus we'll be using the second one for this test.
+    const authRequest = authDetails.requests[1];
+
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.method, "GET");
@@ -59,7 +62,8 @@ describe("ManagedIdentityCredential", function() {
   it("sends an authorization request with an unmodified resource name", async () => {
     const authDetails = await getMsiTokenAuthRequest("someResource", undefined, {
       authResponse: [
-        { status: 200 }, // Respond to IMDS ping
+        { status: 404 }, // Respond to Arc isAvailable
+        { status: 200 }, // Respond to IMDS isAvailable
         {
           status: 200,
           parsedBody: {
@@ -70,7 +74,11 @@ describe("ManagedIdentityCredential", function() {
       ]
     });
 
-    const authRequest = authDetails.requests[1];
+    // The first request will be the Arc MSI ping request.
+    // The second one is the IMDS ping.
+    // The third one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[2];
+
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.query["client_id"], undefined);
@@ -149,6 +157,7 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const authRequest = authDetails.requests[0];
+
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.method, "GET");
@@ -198,7 +207,7 @@ describe("ManagedIdentityCredential", function() {
       );
       assert.equal(authRequest.headers.get("secret"), process.env.MSI_SECRET);
       assert.ok(
-        authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
+        authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
         "URL does not have expected version"
       );
       if (authDetails.token) {
@@ -227,6 +236,83 @@ describe("ManagedIdentityCredential", function() {
         "URL does not start with expected host and path"
       );
       assert.equal(authRequest.headers.get("secret"), undefined);
+    }
+  });
+
+  it("sends an authorization request correctly in an Azure Arc environment", async () => {
+    // Trigger App Service behavior by setting environment variables
+
+    // Leaving IDENTITY_ENDPOINT out of the picture since it wasn't available during my tests.
+    // process.env.IDENTITY_ENDPOINT = "https://endpoint";
+
+    const defaultArcMsiEndpoint = "http://localhost:40342/metadata/identity/oauth2/token";
+
+    const mockFs = require("mock-fs");
+    const filePath = "path/to/file";
+    const key = "challenge key";
+
+    mockFs({
+      [`${filePath}`]: key
+    });
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: [
+        // While we define how to validate this MSI, I do this request twice if it's valid.
+        {
+          status: 401,
+          headers: new HttpHeaders({
+            "www-authenticate": `we don't pay much attention about this format=${filePath}`
+          })
+        },
+        {
+          status: 401,
+          headers: new HttpHeaders({
+            "www-authenticate": `we don't pay much attention about this format=${filePath}`
+          })
+        },
+        {
+          status: 200,
+          parsedBody: {
+            token: "token",
+            expires_in: 1
+          }
+        }
+      ]
+    });
+
+    // Validation request
+    const validationRequest = authDetails.requests[0];
+    assert.ok(validationRequest.query, "No query string parameters on request");
+
+    assert.equal(validationRequest.method, "GET");
+    assert.equal(validationRequest.query!["client_id"], "client");
+    assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
+    assert.ok(
+      validationRequest.url.startsWith(defaultArcMsiEndpoint),
+      "URL does not start with expected host and path"
+    );
+
+    // Authorization request, which comes after validating again, for now at least.
+    const authRequest = authDetails.requests[2];
+    assert.ok(authRequest.query, "No query string parameters on request");
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(authRequest.query!["client_id"], "client");
+    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(defaultArcMsiEndpoint),
+      "URL does not start with expected host and path"
+    );
+
+    assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
+    if (authDetails.token) {
+      // We use Date.now underneath.
+      assert.equal(
+        Math.floor(authDetails.token.expiresOnTimestamp / 10000),
+        Math.floor(Date.now() / 10000)
+      );
+    } else {
+      assert.fail("No token was returned!");
     }
   });
 

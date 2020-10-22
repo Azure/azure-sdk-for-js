@@ -78,7 +78,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    const MSIs = [appServiceMsi2019, appServiceMsi2017, arcMsi, cloudShellMsi, imdsMsi];
+    const MSIs = [appServiceMsi2019, appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
 
     for (const msi of MSIs) {
       if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
