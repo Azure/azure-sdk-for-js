@@ -55,7 +55,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
  */
 export type MessageSessionOptions = Pick<
   ServiceBusSessionReceiverOptions<"receiveAndDelete">,
-  "maxAutoRenewLockDurationInMs" | "abortSignal"
+  "maxAutoLockRenewalDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
 };
@@ -374,8 +374,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
+      options.maxAutoLockRenewalDurationInMs != null
+        ? options.maxAutoLockRenewalDurationInMs
         : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";

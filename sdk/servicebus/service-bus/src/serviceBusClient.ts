@@ -413,7 +413,7 @@ export class ServiceBusClient {
       entityPath,
       sessionId,
       {
-        maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal
       }
@@ -540,7 +540,7 @@ export class ServiceBusClient {
       entityPath,
       undefined,
       {
-        maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal
       }

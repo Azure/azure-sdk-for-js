@@ -739,7 +739,7 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoRenewLockDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0
           }
         );
       }
@@ -764,7 +764,7 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoRenewLockDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0
           }
         );
       }

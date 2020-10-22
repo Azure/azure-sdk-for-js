@@ -480,7 +480,7 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
 
 // @public
 export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
-    maxAutoRenewLockDurationInMs?: number;
+    maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveModeT;
 }
 

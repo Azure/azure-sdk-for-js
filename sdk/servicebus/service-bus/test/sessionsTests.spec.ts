@@ -341,7 +341,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
       entityName.queue!,
       testMessage.sessionId,
       {
-        maxAutoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
       }
     );
     const sender = serviceBusClient.createSender(entityName.queue!);

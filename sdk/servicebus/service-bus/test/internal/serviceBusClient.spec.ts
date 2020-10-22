@@ -61,7 +61,7 @@ describe("serviceBusClient unit tests", () => {
         if (testEntity.queue) {
           sessionReceiver = await client.acceptSession(testEntity.queue, "a session id", {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -72,7 +72,7 @@ describe("serviceBusClient unit tests", () => {
             "a session id",
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }
@@ -114,7 +114,7 @@ describe("serviceBusClient unit tests", () => {
         if (testEntity.queue) {
           sessionReceiver = await client.acceptNextSession(testEntity.queue, {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -124,7 +124,7 @@ describe("serviceBusClient unit tests", () => {
             testEntity.subscription!,
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }
