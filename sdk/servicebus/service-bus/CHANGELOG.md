@@ -28,6 +28,8 @@
   - "properties" renamed to "applicationProperties"
   - "label" renamed to "subject"
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favour of using generic type `WithResponse<T>`.
+  [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
 
 ## 7.0.0-preview.7 (2020-10-07)
 
