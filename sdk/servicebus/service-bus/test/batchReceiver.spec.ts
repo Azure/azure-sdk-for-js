@@ -4,7 +4,7 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay } from "../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
@@ -592,8 +592,8 @@ describe("Batching Receiver", () => {
           async processMessage(): Promise<void> {
             // process message here - it's basically a ServiceBusMessage minus any settlement related methods
           },
-          async processError(err: Error): Promise<void> {
-            unexpectedError = err;
+          async processError(args: ProcessErrorArgs): Promise<void> {
+            unexpectedError = args.error;
           }
         });
       } catch (err) {

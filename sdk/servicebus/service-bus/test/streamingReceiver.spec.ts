@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
@@ -31,10 +31,8 @@ let unexpectedError: Error | undefined;
 const maxDeliveryCount = 10;
 const testClientType = getRandomTestClientTypeWithNoSessions();
 
-async function processError(err: Error): Promise<void> {
-  if (err) {
-    unexpectedError = err;
-  }
+async function processError(args: ProcessErrorArgs): Promise<void> {
+  unexpectedError = args.error;
 }
 
 describe("Streaming Receiver Tests", () => {
@@ -171,8 +169,8 @@ describe("Streaming Receiver Tests", () => {
 
         streamingReceiver.subscribe(
           async () => {},
-          (err) => {
-            actualError = err;
+          (args) => {
+            actualError = args.error;
           }
         );
 
@@ -703,15 +701,11 @@ describe("Streaming Receiver Tests", () => {
   //   await receiver.close();
 
   //   // Receive using service bus client created with faulty token provider
-  //   const connectionObject: {
-  //     Endpoint: string;
-  //     SharedAccessKeyName: string;
-  //     SharedAccessKey: string;
-  //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+  //   const connectionObject = parseServiceBusConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   //   const tokenProvider = new TestTokenCredential();
   //   receiver = new ServiceBusReceiverClient(
   //     {
-  //       host: connectionObject.Endpoint.substr(5),
+  //       host: connectionObject.endpoint.substr(5),
   //       tokenCredential: tokenProvider,
   //       queueName: EntityNames.QUEUE_NAME_NO_PARTITION
   //     },

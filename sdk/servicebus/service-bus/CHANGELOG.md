@@ -8,7 +8,10 @@
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-
+- The `processError` passed to `Receiver.subscribe` now receives a `ProcessErrorArgs` instead of just an error. This parameter provides additional context that can make it simpler to distinguish
+  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorArgs`) as well as giving you some information about the entity that generated the error.
+  [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 - Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 - `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
@@ -52,6 +55,7 @@
   - `acceptSession`, which opens a session by name
   - `acceptNextSession`, which opens the next available session, determined by Service Bus.
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
+- The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
 ## 7.0.0-preview.6 (2020-09-10)
 

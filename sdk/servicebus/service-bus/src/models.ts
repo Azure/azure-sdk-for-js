@@ -4,6 +4,35 @@
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "./serviceBusMessage";
+import { MessagingError } from "@azure/core-amqp";
+
+/**
+ * Arguments to the `processError` callback.
+ */
+export interface ProcessErrorArgs {
+  /**
+   * The error.
+   */
+  error: Error | MessagingError;
+  /**
+   * The operation where the error originated.
+   *
+   * 'abandon': Errors that occur when if `abandon` is triggered automatically.
+   * 'complete': Errors that occur when autoComplete completes a message.
+   * 'processMessageCallback': Errors thrown from the user's `processMessage` callback passed to `subscribe`.
+   * 'receive': Errors thrown when receiving messages.
+   * 'renewLock': Errors thrown when automatic lock renewal fails.
+   */
+  errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
+  /**
+   * The entity path for the current receiver.
+   */
+  entityPath: string;
+  /**
+   * The fully qualified namespace for the Service Bus.
+   */
+  fullyQualifiedNamespace: string;
+}
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -17,9 +46,10 @@ export interface MessageHandlers {
   processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
-   * @param err An error from Service Bus.
+   * @param args The error and additional context to indicate where
+   * the error originated.
    */
-  processError(err: Error): Promise<void>;
+  processError(args: ProcessErrorArgs): Promise<void>;
 }
 
 /**

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MessageHandlers } from "../models";
+import { MessageHandlers, ProcessErrorArgs } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger, ServiceBusLogger } from "../log";
@@ -50,9 +50,9 @@ export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
   logger: ServiceBusLogger = receiverLogger
 ): MessageHandlers["processError"] {
-  return async (err: Error) => {
+  return async (args: ProcessErrorArgs) => {
     try {
-      await handlers.processError(err);
+      await handlers.processError(args);
     } catch (err) {
       logger.logError(err, `An error was thrown from the user's processError handler`);
     }

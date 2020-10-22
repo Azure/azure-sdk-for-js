@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { isNode } from "@azure/core-amqp";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
+import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
@@ -31,9 +32,9 @@ const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new Servi
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
-const endpointWithProtocol = (parseConnectionString(
+const endpointWithProtocol = parseServiceBusConnectionString(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-) as any).Endpoint;
+).endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -268,10 +269,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
-        .Endpoint;
-      const host = endpoint.match(".*://([^/]*)")[1];
-
+      const connectionStringProperties = parseServiceBusConnectionString(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+      );
+      const host = connectionStringProperties.fullyQualifiedNamespace;
+      const endpoint = connectionStringProperties.endpoint;
       const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
@@ -316,7 +318,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        host.match("(.*).servicebus.windows.net")[1],
+        (host.match("(.*).servicebus.windows.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);

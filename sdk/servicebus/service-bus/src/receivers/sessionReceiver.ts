@@ -468,7 +468,12 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     try {
       this._messageSession.subscribe(onMessage, onError, options);
     } catch (err) {
-      onError(err);
+      onError({
+        error: err,
+        errorSource: "receive",
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host
+      });
     }
   }
 

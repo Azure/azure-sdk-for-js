@@ -16,6 +16,7 @@ import {
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+import { ProcessErrorArgs } from "../src/models";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -125,8 +126,8 @@ describe("Message Lock Renewal", () => {
 
   let uncaughtErrorFromHandlers: Error | undefined;
 
-  async function processError(err: Error): Promise<void> {
-    uncaughtErrorFromHandlers = err;
+  async function processError(args: ProcessErrorArgs): Promise<void> {
+    uncaughtErrorFromHandlers = args.error;
   }
 
   /**

@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { MessagingError, ServiceBusMessage, delay } from "../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
@@ -124,8 +124,8 @@ describe("Session Lock Renewal", () => {
   // const maxAutoRenewLockDurationInMs = 300*1000;
   let uncaughtErrorFromHandlers: Error | undefined;
 
-  async function processError(err: MessagingError | Error) {
-    uncaughtErrorFromHandlers = err;
+  async function processError(args: ProcessErrorArgs) {
+    uncaughtErrorFromHandlers = args.error;
   }
 
   /**
@@ -332,11 +332,11 @@ describe("Session Lock Renewal", () => {
     receiver.subscribe(
       {
         processMessage,
-        async processError(err: MessagingError | Error) {
-          if (isMessagingError(err) && err.code === "SessionLockLostError") {
+        async processError(args: ProcessErrorArgs) {
+          if (isMessagingError(args.error) && args.error.code === "SessionLockLostError") {
             sessionLockLostErrorThrown = true;
           } else {
-            uncaughtErrorFromHandlers = err;
+            uncaughtErrorFromHandlers = args.error;
           }
         }
       },

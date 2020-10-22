@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
 import { ServiceBusSender } from "../src/sender";
@@ -22,10 +22,8 @@ import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
 
-async function processError(err: Error): Promise<void> {
-  if (err) {
-    unexpectedError = err;
-  }
+async function processError(args: ProcessErrorArgs): Promise<void> {
+  unexpectedError = args.error;
 }
 
 describe("session tests", () => {
