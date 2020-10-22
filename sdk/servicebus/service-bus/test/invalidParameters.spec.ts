@@ -9,7 +9,6 @@ chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
 describe("invalid parameters", () => {
@@ -25,7 +24,7 @@ describe("invalid parameters", () => {
 
   describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: ServiceBusSender;
-    let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+    let receiver: ServiceBusSessionReceiver;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.

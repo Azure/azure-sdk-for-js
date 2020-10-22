@@ -13,7 +13,7 @@ import {
   ServiceBusSessionReceiver
 } from "../src";
 import { ServiceBusSender } from "../src/sender";
-import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
@@ -85,7 +85,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
 
@@ -400,8 +400,8 @@ describe("Test ServiceBusClient with TokenCredentials", function(): void {
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver;
+  let receivedMessage: ServiceBusReceivedMessage;
   let entityName: EntityName;
 
   afterEach(async () => {
@@ -460,16 +460,16 @@ describe("Errors after close()", function(): void {
     try {
       switch (operation) {
         case DispositionType.complete:
-          await receivedMessage.complete();
+          await receiver.completeMessage(receivedMessage);
           break;
         case DispositionType.abandon:
-          await receivedMessage.abandon();
+          await receiver.abandonMessage(receivedMessage);
           break;
         case DispositionType.defer:
-          await receivedMessage.defer();
+          await receiver.deferMessage(receivedMessage);
           break;
         case DispositionType.deadletter:
-          await receivedMessage.deadLetter();
+          await receiver.deadLetterMessage(receivedMessage);
           break;
 
         default:
@@ -620,9 +620,7 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as ServiceBusSessionReceiver<
-      ServiceBusReceivedMessageWithLock
-    >;
+    const sessionReceiver = receiver as ServiceBusSessionReceiver;
 
     let errorPeek: string = "";
     await sessionReceiver.peekMessages(1).catch((err) => {

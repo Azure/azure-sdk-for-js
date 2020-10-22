@@ -3,6 +3,7 @@
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
+import { ServiceBusReceivedMessage } from "./serviceBusMessage";
 import { MessagingError } from "@azure/core-amqp";
 
 /**
@@ -36,13 +37,13 @@ export interface ProcessErrorArgs {
 /**
  * The general message handler interface (used for streamMessages).
  */
-export interface MessageHandlers<ReceivedMessageT> {
+export interface MessageHandlers {
   /**
    * Handler that processes messages from service bus.
    *
    * @param message A message received from Service Bus.
    */
-  processMessage(message: ReceivedMessageT): Promise<void>;
+  processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
    * @param args The error and additional context to indicate where
@@ -55,8 +56,7 @@ export interface MessageHandlers<ReceivedMessageT> {
  * @internal
  * @ignore
  */
-export interface InternalMessageHandlers<ReceivedMessageT>
-  extends MessageHandlers<ReceivedMessageT> {
+export interface InternalMessageHandlers extends MessageHandlers {
   /**
    * Called when the connection is initialized but before we subscribe to messages or add credits.
    *

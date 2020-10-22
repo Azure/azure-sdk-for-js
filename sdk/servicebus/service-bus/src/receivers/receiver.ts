@@ -24,7 +24,7 @@ import { CreateStreamingReceiverOptions, StreamingReceiver } from "../core/strea
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import Long from "long";
-import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
@@ -34,7 +34,7 @@ import { receiverLogger as logger } from "../log";
 /**
  * A receiver that does not handle sessions.
  */
-export interface ServiceBusReceiver<ReceivedMessageT> {
+export interface ServiceBusReceiver {
   /**
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
@@ -43,7 +43,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * stopping new messages from arriving.
    */
   subscribe(
-    handlers: MessageHandlers<ReceivedMessageT>,
+    handlers: MessageHandlers,
     options?: SubscribeOptions
   ): {
     /**
@@ -64,7 +64,9 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
+  getMessageIterator(
+    options?: GetMessageIteratorOptions
+  ): AsyncIterableIterator<ServiceBusReceivedMessage>;
 
   /**
    * Returns a promise that resolves to an array of messages received from Service Bus.
@@ -81,7 +83,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
   receiveMessages(
     maxMessageCount: number,
     options?: ReceiveMessagesOptions
-  ): Promise<ReceivedMessageT[]>;
+  ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -96,7 +98,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
     options?: OperationOptionsBase
-  ): Promise<ReceivedMessageT[]>;
+  ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
    * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
@@ -132,15 +134,133 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * Use the `createReceiver()` method on the ServiceBusClient to create a new Receiver.
    */
   close(): Promise<void>;
+  /**
+   * Removes the message from Service Bus.
+   *
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link is closed by the library due to network loss or service error.
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
+   *
+   * @returns Promise<void>.
+   */
+  completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
+  /**
+   * The lock held on the message by the receiver is let go, making the message available again in
+   * Service Bus for another receive operation.
+   *
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link is closed by the library due to network loss or service error.
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
+   *
+   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   *
+   * @return Promise<void>.
+   */
+  abandonMessage(
+    message: ServiceBusReceivedMessage,
+    propertiesToModify?: { [key: string]: any }
+  ): Promise<void>;
+  /**
+   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
+   * receive it message again in the future using the `receiveDeferredMessage` method.
+   *
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link is closed by the library due to network loss or service error.
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
+   *
+   * @param propertiesToModify The properties of the message to modify while deferring the message
+   *
+   * @returns Promise<void>
+   */
+  deferMessage(
+    message: ServiceBusReceivedMessage,
+    propertiesToModify?: { [key: string]: any }
+  ): Promise<void>;
+  /**
+   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
+   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   *
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link is closed by the library due to network loss or service error.
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
+   *
+   * @param options The DeadLetter options that can be provided while
+   * rejecting the message.
+   *
+   * @returns Promise<void>
+   */
+  deadLetterMessage(
+    message: ServiceBusReceivedMessage,
+    options?: DeadLetterOptions & { [key: string]: any }
+  ): Promise<void>;
+  /**
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation.
+   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
+   *
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing message lock.
+   */
+  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
 }
 
 /**
  * @internal
  * @ignore
  */
-export class ServiceBusReceiverImpl<
-  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
-> implements ServiceBusReceiver<ReceivedMessageT> {
+export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -300,7 +420,7 @@ export class ServiceBusReceiverImpl<
   async receiveMessages(
     maxMessageCount: number,
     options?: ReceiveMessagesOptions
-  ): Promise<ReceivedMessageT[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
@@ -329,9 +449,9 @@ export class ServiceBusReceiverImpl<
         options ?? {}
       );
 
-      return (receivedMessages as unknown) as ReceivedMessageT[];
+      return receivedMessages;
     };
-    const config: RetryConfig<ReceivedMessageT[]> = {
+    const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
       operation: receiveMessages,
@@ -339,17 +459,19 @@ export class ServiceBusReceiverImpl<
       abortSignal: options?.abortSignal,
       retryOptions: this._retryOptions
     };
-    return retry<ReceivedMessageT[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
+  getMessageIterator(
+    options?: GetMessageIteratorOptions
+  ): AsyncIterableIterator<ServiceBusReceivedMessage> {
     return getMessageIterator(this, options);
   }
 
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
     options: OperationOptionsBase = {}
-  ): Promise<ReceivedMessageT[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
@@ -374,16 +496,16 @@ export class ServiceBusReceiverImpl<
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs
         });
-      return (deferredMessages as any) as ReceivedMessageT[];
+      return deferredMessages;
     };
-    const config: RetryConfig<ReceivedMessageT[]> = {
+    const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ReceivedMessageT[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config);
   }
 
   // ManagementClient methods # Begin
@@ -432,7 +554,7 @@ export class ServiceBusReceiverImpl<
   }
 
   subscribe(
-    handlers: MessageHandlers<ReceivedMessageT>,
+    handlers: MessageHandlers,
     options?: SubscribeOptions
   ): {
     close(): Promise<void>;
@@ -442,9 +564,7 @@ export class ServiceBusReceiverImpl<
 
     const processError = wrapProcessErrorHandler(handlers);
 
-    const internalMessageHandlers = handlers as
-      | InternalMessageHandlers<ReceivedMessageT>
-      | undefined;
+    const internalMessageHandlers = handlers as InternalMessageHandlers;
 
     this._registerMessageHandler(
       async () => {
@@ -454,7 +574,7 @@ export class ServiceBusReceiverImpl<
       },
       async (message: ServiceBusMessageImpl) => {
         const span = this._createProcessingSpan(message, this, this._context.config, options);
-        return trace(() => handlers.processMessage((message as any) as ReceivedMessageT), span);
+        return trace(() => handlers.processMessage(message), span);
       },
       processError,
       options
@@ -465,6 +585,40 @@ export class ServiceBusReceiverImpl<
         return this._streamingReceiver?.stopReceivingMessages();
       }
     };
+  }
+
+  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+    const msgImpl = message as ServiceBusMessageImpl;
+    return msgImpl.complete();
+  }
+
+  abandonMessage(
+    message: ServiceBusReceivedMessage,
+    propertiesToModify?: { [key: string]: any }
+  ): Promise<void> {
+    const msgImpl = message as ServiceBusMessageImpl;
+    return msgImpl.abandon(propertiesToModify);
+  }
+
+  deferMessage(
+    message: ServiceBusReceivedMessage,
+    propertiesToModify?: { [key: string]: any }
+  ): Promise<void> {
+    const msgImpl = message as ServiceBusMessageImpl;
+    return msgImpl.defer(propertiesToModify);
+  }
+
+  deadLetterMessage(
+    message: ServiceBusReceivedMessage,
+    options?: DeadLetterOptions & { [key: string]: any }
+  ): Promise<void> {
+    const msgImpl = message as ServiceBusMessageImpl;
+    return msgImpl.deadLetter(options);
+  }
+
+  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+    const msgImpl = message as ServiceBusMessageImpl;
+    return msgImpl.renewLock();
   }
 
   async close(): Promise<void> {

@@ -71,9 +71,7 @@ export function parseServiceBusConnectionString(
       );
     }
   } else if (parsedResult.SharedAccessKey && !parsedResult.SharedAccessKeyName) {
-    throw new Error(
-      "Connection string with SharedAccessKey should have SharedAccessKeyName."
-    );
+    throw new Error("Connection string with SharedAccessKey should have SharedAccessKeyName.");
   } else if (!parsedResult.SharedAccessKey && parsedResult.SharedAccessKeyName) {
     throw new Error(
       "Connection string with SharedAccessKeyName should have SharedAccessKey as well."

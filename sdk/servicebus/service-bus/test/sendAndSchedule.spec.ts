@@ -19,7 +19,6 @@ import {
   getRandomTestClientType
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { setTracerForTest } from "./utils/misc";
@@ -31,7 +30,7 @@ const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -75,7 +74,7 @@ describe("Sender Tests", () => {
       entityName.isPartitioned
     );
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -133,8 +132,8 @@ describe("Sender Tests", () => {
       );
     }
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -170,7 +169,7 @@ describe("Sender Tests", () => {
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -211,8 +210,8 @@ describe("Sender Tests", () => {
       "MessageId of second message is different than expected"
     );
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -326,14 +325,14 @@ describe("Sender Tests", () => {
         messages[sequenceNumbers.indexOf(seqNum)].body,
         "Message body did not match though the sequence numbers matched!"
       );
-      await msgWithSeqNum?.complete();
+      await receiver.completeMessage(msgWithSeqNum!);
     }
 
     await testPeekMsgsLength(receiver, 0);
   });
 
   async function testReceivedMsgsLength(
-    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
