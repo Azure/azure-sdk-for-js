@@ -94,7 +94,7 @@ export interface ListRequestOptions {
 /**
  * Represents the returned response of the operation along with the raw response.
  */
-export type WithResponse<T> = T & {
+export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
@@ -104,7 +104,8 @@ export type WithResponse<T> = T & {
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
-export type EntitiesResponse<T> = WithResponse<Array<T>> & Pick<PageSettings, "continuationToken">;
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
+  Pick<PageSettings, "continuationToken">;
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
