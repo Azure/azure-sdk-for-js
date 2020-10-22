@@ -26,7 +26,12 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
+import {
+  ServiceBusSessionReceiverOptions,
+  ProcessErrorArgs,
+  ReceiveMode,
+  SubscribeOptions
+} from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
@@ -49,7 +54,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  AcceptSessionOptions<"receiveAndDelete">,
+  ServiceBusSessionReceiverOptions<"receiveAndDelete">,
   "maxAutoRenewLockDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;

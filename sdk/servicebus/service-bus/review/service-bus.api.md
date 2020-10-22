@@ -24,12 +24,6 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
-    maxAutoRenewLockDurationInMs?: number;
-    receiveMode?: ReceiveModeT;
-}
-
-// @public
 export interface AmqpAnnotatedMessage {
     applicationProperties?: {
         [key: string]: any;
@@ -124,13 +118,6 @@ export interface CreateQueueOptions extends OperationOptions {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
-}
-
-// @public
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
-    maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveModeT;
-    subQueue?: SubQueue;
 }
 
 // @public
@@ -348,19 +335,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    acceptNextSession(queueName: string, options?: AcceptSessionOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptNextSession(queueName: string, options: AcceptSessionOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptNextSession(topicName: string, subscriptionName: string, options?: AcceptSessionOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptNextSession(topicName: string, subscriptionName: string, options: AcceptSessionOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptSession(queueName: string, sessionId: string, options?: AcceptSessionOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptSession(queueName: string, sessionId: string, options: AcceptSessionOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: AcceptSessionOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options: AcceptSessionOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+    acceptNextSession(queueName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+    acceptNextSession(topicName: string, subscriptionName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+    acceptSession(queueName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
     close(): Promise<void>;
-    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
+    createReceiver(queueName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+    createReceiver(queueName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
 }
@@ -461,6 +448,13 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
 }
 
 // @public
+export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
+    maxAutoLockRenewalDurationInMs?: number;
+    receiveMode?: ReceiveModeT;
+    subQueue?: SubQueue;
+}
+
+// @public
 export interface ServiceBusSender {
     cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
@@ -482,6 +476,12 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
+}
+
+// @public
+export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
+    maxAutoRenewLockDurationInMs?: number;
+    receiveMode?: ReceiveModeT;
 }
 
 // @public

@@ -83,7 +83,7 @@ export type SubQueue = "deadLetter" | "transferDeadLetter";
  * @interface CreateReceiverOptions
  * @template ReceiveModeT
  */
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -186,7 +186,7 @@ export interface SubscribeOptions extends OperationOptionsBase {
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
+export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
   extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.

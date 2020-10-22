@@ -31,6 +31,8 @@
   - "properties" renamed to "applicationProperties"
   - "label" renamed to "subject"
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`
+- The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`
 
 ## 7.0.0-preview.7 (2020-10-07)
 
