@@ -7,11 +7,20 @@
  */
 
 export {
-  CheckNameAvailabilityParameters,
+  BaseResource,
+  ConfigurationStore,
+  EncryptionProperties,
   ErrorDetails,
   ErrorResponse,
-  NameAvailabilityStatus,
-  OperationDefinition,
-  OperationDefinitionDisplay,
-  OperationDefinitionListResult
+  KeyValue,
+  KeyValueListResult,
+  KeyVaultProperties,
+  PrivateEndpoint,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionReference,
+  PrivateLinkServiceConnectionState,
+  Resource,
+  ResourceIdentity,
+  Sku,
+  UserIdentity
 } from "../models/mappers";

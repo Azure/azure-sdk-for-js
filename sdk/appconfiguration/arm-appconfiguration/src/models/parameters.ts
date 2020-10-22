@@ -55,6 +55,16 @@ export const groupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const keyValueName: msRest.OperationURLParameter = {
+  parameterPath: "keyValueName",
+  mapper: {
+    required: true,
+    serializedName: "keyValueName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {

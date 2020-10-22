@@ -367,12 +367,6 @@ export const ConfigurationStoreUpdateParameters: msRest.CompositeMapper = {
           className: "EncryptionProperties"
         }
       },
-      publicNetworkAccess: {
-        serializedName: "properties.publicNetworkAccess",
-        type: {
-          name: "String"
-        }
-      },
       identity: {
         serializedName: "identity",
         type: {
@@ -527,87 +521,82 @@ export const RegenerateKeyParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ListKeyValueParameters: msRest.CompositeMapper = {
-  serializedName: "ListKeyValueParameters",
-  type: {
-    name: "Composite",
-    className: "ListKeyValueParameters",
-    modelProperties: {
-      key: {
-        required: true,
-        serializedName: "key",
-        type: {
-          name: "String"
-        }
-      },
-      label: {
-        serializedName: "label",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const KeyValue: msRest.CompositeMapper = {
   serializedName: "KeyValue",
   type: {
     name: "Composite",
     className: "KeyValue",
     modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       key: {
         readOnly: true,
-        serializedName: "key",
+        serializedName: "properties.key",
         type: {
           name: "String"
         }
       },
       label: {
         readOnly: true,
-        serializedName: "label",
+        serializedName: "properties.label",
         type: {
           name: "String"
         }
       },
       value: {
-        readOnly: true,
-        serializedName: "value",
+        serializedName: "properties.value",
         type: {
           name: "String"
         }
       },
       contentType: {
-        readOnly: true,
-        serializedName: "contentType",
+        serializedName: "properties.contentType",
         type: {
           name: "String"
         }
       },
       eTag: {
         readOnly: true,
-        serializedName: "eTag",
+        serializedName: "properties.eTag",
         type: {
           name: "String"
         }
       },
       lastModified: {
         readOnly: true,
-        serializedName: "lastModified",
+        serializedName: "properties.lastModified",
         type: {
           name: "DateTime"
         }
       },
       locked: {
         readOnly: true,
-        serializedName: "locked",
+        serializedName: "properties.locked",
         type: {
           name: "Boolean"
         }
       },
       tags: {
-        readOnly: true,
-        serializedName: "tags",
+        serializedName: "properties.tags",
         type: {
           name: "Dictionary",
           value: {
@@ -679,22 +668,41 @@ export const OperationDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorModel: msRest.CompositeMapper = {
-  serializedName: "Error",
+export const ErrorDetails: msRest.CompositeMapper = {
+  serializedName: "ErrorDetails",
   type: {
     name: "Composite",
-    className: "ErrorModel",
+    className: "ErrorDetails",
     modelProperties: {
       code: {
+        readOnly: true,
         serializedName: "code",
         type: {
           name: "String"
         }
       },
       message: {
+        readOnly: true,
         serializedName: "message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetails"
         }
       }
     }
@@ -942,6 +950,34 @@ export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateLinkResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyValueListResult: msRest.CompositeMapper = {
+  serializedName: "KeyValueListResult",
+  type: {
+    name: "Composite",
+    className: "KeyValueListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyValue"
             }
           }
         }
