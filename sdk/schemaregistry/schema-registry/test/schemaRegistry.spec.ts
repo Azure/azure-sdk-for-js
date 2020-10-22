@@ -38,13 +38,13 @@ const schema: SchemaDescription = {
   })
 };
 
-function assertIsNotNullUndefinedOrEmpty(x: string | null | undefined) {
+function assertIsNotNullUndefinedOrEmpty(x: string | null | undefined): void {
   assert.isTrue(x !== undefined, "should not be undefined");
   assert.isNotNull(x);
   assert.isNotEmpty(x);
 }
 
-function assertIsValidSchemaId(schemaId: SchemaId, expectedSerializationType = "avro") {
+function assertIsValidSchemaId(schemaId: SchemaId, expectedSerializationType = "avro"): void {
   assertIsNotNullUndefinedOrEmpty(schemaId.id);
   assertIsNotNullUndefinedOrEmpty(schemaId.location);
   assertIsNotNullUndefinedOrEmpty(schemaId.locationById);
@@ -54,7 +54,7 @@ function assertIsValidSchemaId(schemaId: SchemaId, expectedSerializationType = "
 }
 
 // `any` because _response is deliberately withheld from the typing
-function assertStatus(response: any, status: number) {
+function assertStatus(response: any, status: number): void {
   assert.equal(response._response.status, status);
 }
 
@@ -63,7 +63,7 @@ describe("SchemaRegistryClient", function() {
   let client: SchemaRegistryClient;
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this));
+    ({ client, recorder } = createRecordedClient(new Mocha.Context()));
   });
 
   afterEach(async function() {
