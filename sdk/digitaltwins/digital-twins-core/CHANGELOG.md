@@ -3,9 +3,9 @@
 ## 1.0.0-preview.2 (2020-10-22)
 
 - This release is an update of the preview with the following changes
-  - Package name `@azure/digital-twins-core`.
-  - Add span
-- Pull request contining the changes: https://github.com/Azure/azure-sdk-for-js/pull/11872
+  - Package name changed to: `@azure/digital-twins-core`.
+  - Add span to all APIs
+- Pull request containing the changes: https://github.com/Azure/azure-sdk-for-js/pull/11872
 
 ## 1.0.0-preview.1 (2020-09-03)
 
