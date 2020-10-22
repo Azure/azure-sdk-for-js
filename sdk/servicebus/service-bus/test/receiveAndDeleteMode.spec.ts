@@ -241,9 +241,7 @@ describe("receive and delete", () => {
       const testMessages = entityName.usesSessions
         ? TestMessage.getSessionSample()
         : TestMessage.getSample();
-      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
-      // as your lock mode.
-      const msg = (await sendReceiveMsg(testMessages)) as ServiceBusReceivedMessage;
+      const msg = await sendReceiveMsg(testMessages);
 
       try {
         if (operation === DispositionType.complete) {
@@ -308,7 +306,6 @@ describe("receive and delete", () => {
     async function testRenewLock(): Promise<void> {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
-      // have to cast it - the type system doesn't allow us to call into this method otherwise.
       await receiver.renewMessageLock(msg).catch((err) => {
         should.equal(
           err.message,
@@ -456,19 +453,16 @@ describe("receive and delete", () => {
       operation: DispositionType
     ): Promise<void> {
       const deferredMsg = await testDeferredMessage(testClienttype);
-      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
-      // as your lock mode.
-      const msg = deferredMsg as ServiceBusReceivedMessage;
 
       try {
         if (operation === DispositionType.complete) {
-          await receiver.completeMessage(msg);
+          await receiver.completeMessage(deferredMsg);
         } else if (operation === DispositionType.abandon) {
-          await receiver.abandonMessage(msg);
+          await receiver.abandonMessage(deferredMsg);
         } else if (operation === DispositionType.deadletter) {
-          await receiver.deadLetterMessage(msg);
+          await receiver.deadLetterMessage(deferredMsg);
         } else if (operation === DispositionType.defer) {
-          await receiver.deferMessage(msg);
+          await receiver.deferMessage(deferredMsg);
         }
       } catch (err) {
         errorWasThrown = true;
@@ -512,10 +506,7 @@ describe("receive and delete", () => {
 
     async function testRenewLock(testClienttype: TestClientType): Promise<void> {
       const deferredMsg = await testDeferredMessage(testClienttype);
-      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
-      // as your lock mode.
 
-      // have to cast it - the type system doesn't allow us to call into this method otherwise.
       await receiver.renewMessageLock(deferredMsg).catch((err) => {
         should.equal(
           err.message,
