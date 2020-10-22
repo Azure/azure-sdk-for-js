@@ -144,6 +144,9 @@ export type ServiceBusMessagingErrorCodes =
   // {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
   | "SystemError";
 
+/**
+ * Represents an error from Service Bus.
+ */
 export interface ServiceBusMessagingError extends MessagingError {
   /**
    * A string label that identifies the error.

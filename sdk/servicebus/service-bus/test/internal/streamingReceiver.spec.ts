@@ -3,13 +3,13 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusMessagingError, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ReceiveOptions } from "../../src/core/messageReceiver";
 import { OperationOptions, ProcessErrorArgs, ReceiveMode } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
@@ -18,15 +18,31 @@ chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
-  const defaultOptions = {
+  const defaultConstructorOptions = {
     lockRenewer: undefined,
     receiveMode: <ReceiveMode>"peekLock"
   };
 
   let closeables: { close(): Promise<void> }[];
 
+  const defaultInitArgs = {
+    connectionId: "connection-id",
+    onError: sinon.fake(),
+    reset: () => {
+      defaultInitArgs.onError.resetHistory();
+    },
+    assert: () => {
+      assert.isFalse(
+        defaultInitArgs.onError.called,
+        `Expected not to have errors, but got ${defaultInitArgs.onError.args}`
+      );
+      defaultInitArgs.reset();
+    }
+  };
+
   beforeEach(() => {
     closeables = [];
+    defaultInitArgs.reset();
   });
 
   afterEach(async () => {
@@ -40,15 +56,19 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
       assert.isFalse(streamingReceiver.isReceivingMessages);
 
       // init() is considered the start of the receive operation (from StreamingReceiver's point of
       // view)
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
       assert.isTrue(streamingReceiver.isReceivingMessages);
+      defaultInitArgs.assert();
     });
 
     it("isReceivingMessages set to true if subscribe() is called", async () => {
@@ -57,12 +77,17 @@ describe("StreamingReceiver unit tests", () => {
         "fakeEntityPath",
         {
           maxConcurrentCalls: 101,
-          ...defaultOptions
+          ...defaultConstructorOptions
         }
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       // 'init' is always the predecessor to calling receive so we consider that to be the
       // start of the receive call.
@@ -96,7 +121,13 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.equal(streamingReceiver["link"]?.credit, 0, "All receiver credits have been drained"); // ie, receiver drained
 
-      await streamingReceiver.init(false);
+      await streamingReceiver.init({
+        useNewName: false,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
+
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
         "we've initialized the streaming receiver again so we're ready to receive again"
@@ -118,11 +149,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -139,11 +175,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -160,11 +201,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -185,11 +231,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -218,7 +269,12 @@ describe("StreamingReceiver unit tests", () => {
     });
     closeables.push(existingStreamingReceiver);
 
-    await existingStreamingReceiver.init(false);
+    await existingStreamingReceiver.init({
+      useNewName: false,
+      ...defaultInitArgs
+    });
+
+    defaultInitArgs.assert();
 
     const originalReceiver = existingStreamingReceiver["link"]!;
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
@@ -254,7 +310,12 @@ describe("StreamingReceiver unit tests", () => {
     });
     closeables.push(existingStreamingReceiver);
 
-    await existingStreamingReceiver.init(false);
+    await existingStreamingReceiver.init({
+      useNewName: false,
+      ...defaultInitArgs
+    });
+
+    defaultInitArgs.assert();
 
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
     const spy = sinon.spy(existingStreamingReceiver, "init");
@@ -342,27 +403,36 @@ describe("StreamingReceiver unit tests", () => {
     it("sanity check - abortSignal is propagated to _init()", async () => {
       let wasCalled = false;
       const abortController = new AbortController();
+      let err: Error | ServiceBusMessagingError | undefined;
 
       await StreamingReceiver.create(createConnectionContextForTests(), "fakeEntityPath", {
         _createStreamingReceiverStubForTests: (_context, _options) => {
           wasCalled = true;
           return ({
-            init: (_useNewName: boolean, abortSignal?: AbortSignalLike) => {
+            init: (args) => {
               wasCalled = true;
+
               assert.equal(
-                abortSignal,
+                args.abortSignal,
                 abortController.signal,
                 "abortSignal passed in when created should propagate to _init()"
               );
               return;
             }
-          } as any) as StreamingReceiver;
+          } as Pick<StreamingReceiver, "init">) as StreamingReceiver;
         },
         abortSignal: abortController.signal,
         lockRenewer: undefined,
-        receiveMode: "receiveAndDelete"
+        receiveMode: "receiveAndDelete",
+        onError: (args) => {
+          err = args.error;
+        }
       });
 
+      assert.notExists(
+        err,
+        "No errors should occur in this tests since we're just checking that the abortSignal made it down."
+      );
       assert.isTrue(wasCalled);
     });
   });
@@ -420,4 +490,5 @@ describe("StreamingReceiver unit tests", () => {
       }
     });
   });
+
 });

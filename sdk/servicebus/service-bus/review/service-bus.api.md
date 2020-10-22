@@ -192,6 +192,9 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
+export function isMessagingError(error: Error | ServiceBusMessagingError): error is ServiceBusMessagingError;
+
+// @public
 export interface MessageHandlers<ReceivedMessageT> {
     processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ReceivedMessageT): Promise<void>;
@@ -229,7 +232,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 // @public
 export interface ProcessErrorArgs {
     entityPath: string;
-    error: Error | MessagingError;
+    error: Error | ServiceBusMessagingError;
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
 }
@@ -414,6 +417,14 @@ export interface ServiceBusMessageBatch {
     readonly sizeInBytes: number;
     tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 }
+
+// @public
+export interface ServiceBusMessagingError extends MessagingError {
+    code?: ServiceBusMessagingErrorCodes;
+}
+
+// @public
+export type ServiceBusMessagingErrorCodes = "AddressAlreadyInUseError" | "StoreLockLostError" | "NoMatchingSubscriptionError" | "PartitionNotOwnedError" | "PublisherRevokedError" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessageLockLostError" | "SessionLockLostError" | "SessionCannotBeLockedError" | "InternalServerError" | "ServiceCommunicationError" | "MessageNotFoundError" | "RelayNotFoundError" | "NotImplementedError" | "InvalidOperationError" | "QuotaExceededError" | "UnauthorizedError" | "ServiceUnavailableError" | "MessageWaitTimeout" | "ArgumentOutOfRangeError" | "PreconditionFailedError" | "DecodeError" | "InvalidFieldError" | "ResourceLockedError" | "ResourceDeletedError" | "IllegalStateError" | "FrameSizeTooSmallError" | "DetachForcedError" | "TransferLimitExceededError" | "MessageTooLargeError" | "LinkRedirectError" | "ReceiverDisconnectedError" | "SessionWindowViolationError" | "ErrantLinkError" | "HandleInUseError" | "UnattachedHandleError" | "ConnectionForcedError" | "FramingError" | "ConnectionRedirectError" | "ServerBusyError" | "ArgumentError" | "OperationCancelledError" | "SenderBusyError" | "SystemError";
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {

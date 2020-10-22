@@ -31,6 +31,8 @@
   - "properties" renamed to "applicationProperties"
   - "label" renamed to "subject"
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- `MessagingError` has been superceded by `ServiceBusMessagingError` which contains some additional type hinting
+  for codes returned from the service.
 
 ## 7.0.0-preview.7 (2020-10-07)
 
