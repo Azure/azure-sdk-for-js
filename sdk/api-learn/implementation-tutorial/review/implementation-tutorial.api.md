@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public (undocumented)
 export class ConfigurationClient {
-    constructor(_endpointUrl: string, _credential: TokenCredential, _options?: ConfigurationClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
     // (undocumented)
     getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
     // (undocumented)
