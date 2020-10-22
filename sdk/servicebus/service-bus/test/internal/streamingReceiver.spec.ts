@@ -3,13 +3,12 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessagingError } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { ProcessErrorArgs, ReceiveMode, ServiceBusMessagingError } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
-import { Constants } from "@azure/core-amqp";
+import { Constants, RetryConfig, RetryMode } from "@azure/core-amqp";
 import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
 
 chai.use(chaiAsPromised);
@@ -313,4 +312,95 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
+  describe("forever loop", () => {
+    let streamingReceiver: StreamingReceiver | undefined;
+
+    beforeEach(() => {});
+
+    afterEach(() => {
+      return streamingReceiver?.close();
+    });
+
+    it("forever if initial connection fails to establish", async () => {
+      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+        receiveMode: "peekLock",
+        lockRenewer: undefined,
+        retryOptions: {
+          maxRetries: 1, // this will get overridden when calling retry<>
+          maxRetryDelayInMs: 101, // this is used
+          mode: RetryMode.Exponential,
+          retryDelayInMs: 201,
+          timeoutInMs: 301 // AFAICT this is not hooked up.
+        }
+      });
+
+      let numTimesRetryFnCalled = 0;
+
+      streamingReceiver["_retry"] = async function retryStub<T>(
+        retryConfig: RetryConfig<T>
+      ): Promise<T> {
+        assert.deepEqual(
+          retryConfig.retryOptions,
+          {
+            maxRetries: 1, // this will get overridden when calling retry<>
+            maxRetryDelayInMs: 101, // this is used
+            mode: RetryMode.Exponential,
+            retryDelayInMs: 201,
+            timeoutInMs: 301 // AFAICT this is not hooked up.)
+          },
+          "Should inherit the retry options set at the receiver level"
+        );
+
+        ++numTimesRetryFnCalled;
+        if (numTimesRetryFnCalled === 1) {
+          throw new Error("Purposeful failure, will cause another iteration of the loop.");
+        } else {
+          // go ahead and let the retry loop succeed (and it should properly terminate!)
+          return {} as T;
+        }
+      };
+
+      let errorThatShouldNotHappen: Error | ServiceBusMessagingError | undefined;
+
+      await streamingReceiver.init({
+        useNewName: false,
+        connectionId: "connection-id",
+        onError: (args) => {
+          // all calls to onError only happen within the operation itself
+          errorThatShouldNotHappen = args.error;
+        }
+      });
+
+      assert.equal(
+        numTimesRetryFnCalled,
+        2,
+        "Should call it twice - the first call through the loop fails, so we enter another retry round."
+      );
+
+      assert.notExists(
+        errorThatShouldNotHappen,
+        "onError should never have been called. Only the operation should do that and we've purposefully stubbed that out."
+      );
+    });
+
+    it("forever aborts if abortSignal is signalled.", async () => {
+      assert.fail("Not yet implemented");
+    });
+
+    it("forever if detaching", async () => {
+      streamingReceiver = await createAndInitStreamingReceiverForTest(
+        createConnectionContextForTests(),
+        "entity path"
+      );
+      assert.notExists(streamingReceiver);
+    });
+
+    it("NOT forever if the user closes the streaming receiver", async () => {
+      streamingReceiver = await createAndInitStreamingReceiverForTest(
+        createConnectionContextForTests(),
+        "entity path"
+      );
+      assert.notExists(streamingReceiver);
+    });
+  });
 });

@@ -402,6 +402,32 @@ export class StreamingReceiver extends MessageReceiver {
     await this._receiverHelper.suspend();
   }
 
+  private static wrapRetryOperation(
+    entityPath: string,
+    fullyQualifiedNamespace: string,
+    fn: () => Promise<void>,
+    onError?: OnError
+  ) {
+    return async () => {
+      try {
+        await fn();
+      } catch (err) {
+        onError &&
+          onError({
+            error: err,
+            errorSource: "receive",
+            entityPath,
+            fullyQualifiedNamespace
+          });
+
+        // once we're at this point where we can spin up a connection we're past the point
+        // of fatal errors like the connection string just outright being malformed, for instance.
+        err.retryable = true;
+        throw err;
+      }
+    };
+  }
+
   async init(
     // TODO: make onError? required
     args: { useNewName: boolean; connectionId: string; onError?: OnError } & Pick<
@@ -409,35 +435,30 @@ export class StreamingReceiver extends MessageReceiver {
       "abortSignal"
     >
   ) {
-    const config: RetryConfig<void> = {
-      operation: async () => {
-        try {
-          return this._initOnce(args);
-        } catch (err) {
-          args.onError &&
-            args.onError({
-              error: err,
-              errorSource: "receive",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
+    while (true) {
+      const config: RetryConfig<void> = {
+        operation: StreamingReceiver.wrapRetryOperation(
+          this.entityPath,
+          this._context.config.host,
+          () => this._initOnce(args),
+          args.onError
+        ),
+        connectionId: args.connectionId,
+        operationType: RetryOperationType.receiverLink,
+        // even though we're going to loop infinitely we allow them to control the pattern we use on each
+        // retry run. This lets them toggle things like exponential retries, etc..
+        retryOptions: this._retryOptions,
+        abortSignal: args.abortSignal
+      };
 
-          // once we're at this point where we can spin up a connection we're past the point
-          // of fatal errors like the connection string just outright being malformed, for instance.
-          err.retryable = true;
-          throw err;
-        }
-      },
-      connectionId: args.connectionId,
-      operationType: RetryOperationType.receiverLink,
-      retryOptions: {
-        ...this._retryOptions,
-        maxRetries: Number.MAX_SAFE_INTEGER
-      },
-      abortSignal: args.abortSignal
-    };
-
-    await this._retry<void>(config);
+      try {
+        await this._retry<void>(config);
+        break;
+      } catch (_err) {
+        // this error will already have been logged by the handler we passed in 'operation' above.
+        continue;
+      }
+    }
   }
 
   private async _initOnce(args: {
