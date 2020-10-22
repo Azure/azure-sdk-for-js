@@ -13,7 +13,6 @@ export {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
-  getSearchClientOptions,
   IndexDocumentsAction,
   ListSearchResultsPageSettings,
   IndexDocumentsOptions,

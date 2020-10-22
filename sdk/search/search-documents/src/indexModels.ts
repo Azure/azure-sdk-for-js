@@ -62,10 +62,6 @@ export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOption
 export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
 
 /**
- * Alias of Search Index Client Options parameter to satisfy linting constraints
- */
-export type getSearchClientOptions = SearchIndexClientOptions;
-/**
  * Options for retrieving a single document.
  */
 export interface GetDocumentOptions<Fields> extends OperationOptions {

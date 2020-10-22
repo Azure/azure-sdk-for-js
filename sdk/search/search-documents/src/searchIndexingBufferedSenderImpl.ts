@@ -81,8 +81,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
-      const unblock = interval?.unref;
-      unblock();
+      interval?.unref();
       this.cleanupTimer = () => {
         clearInterval(interval);
       };
