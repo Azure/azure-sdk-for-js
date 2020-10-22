@@ -141,7 +141,9 @@ export class SBStressTestsBase {
       this.receiveInfo.numberOfSuccesses++;
       if (settleMessageOnReceive) {
         await Promise.all(
-          messages.map((msg) => this.completeMessage(msg as unknown as ServiceBusReceivedMessageWithLock))
+          messages.map((msg) =>
+            this.completeMessage((msg as unknown) as ServiceBusReceivedMessageWithLock)
+          )
         );
       }
       return messages;
