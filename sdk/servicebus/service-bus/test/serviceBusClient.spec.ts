@@ -511,7 +511,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
 
     let errorScheduleMsgs: string = "";
-    await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
+    await sender.scheduleMessages([testMessage], new Date(Date.now() + 30000)).catch((err) => {
       errorScheduleMsgs = err.message;
     });
     should.equal(

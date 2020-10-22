@@ -78,8 +78,8 @@ describe("ManagementClient - disconnects", function(): void {
     // Send a message so we have something to peek.
 
     const deliveryIds = await sender.scheduleMessages(
-      new Date("2020-04-25T12:00:00Z"),
-      TestMessage.getSample()
+      TestMessage.getSample(),
+      new Date("2020-04-25T12:00:00Z")
     );
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
@@ -97,8 +97,8 @@ describe("ManagementClient - disconnects", function(): void {
 
     // peek additional messages
     const [deliveryId] = await sender.scheduleMessages(
-      new Date("2020-04-25T12:00:00Z"),
-      TestMessage.getSample()
+      TestMessage.getSample(),
+      new Date("2020-04-25T12:00:00Z")
     );
     deliveryIds.push(deliveryId);
     deliveryIds.length.should.equal(2, "Unexpected number of scheduled messages.");

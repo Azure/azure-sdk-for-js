@@ -102,7 +102,7 @@ describe("Retries - ManagementClient", () => {
     it("Unpartitioned Queue: scheduleMessages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await mockManagementClientAndVerifyRetries(async () => {
-        await sender.scheduleMessages(new Date(), [TestMessage.getSample()]);
+        await sender.scheduleMessages([TestMessage.getSample()], new Date());
       });
     });
 

@@ -399,7 +399,7 @@ describe("invalid parameters", () => {
     it("ScheduledMessages: Missing messages in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.scheduleMessages(new Date(), undefined as any);
+        await sender.scheduleMessages(undefined as any, new Date());
       } catch (error) {
         caughtError = error;
       }

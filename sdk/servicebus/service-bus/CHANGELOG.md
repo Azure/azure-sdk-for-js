@@ -31,6 +31,7 @@
   - "properties" renamed to "applicationProperties"
   - "label" renamed to "subject"
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+- `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
 
 ## 7.0.0-preview.7 (2020-10-07)
 
