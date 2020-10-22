@@ -427,17 +427,17 @@ export class ServiceBusReceiverImpl<
     throwErrorIfConnectionClosed(this._context);
     if (options.autoComplete == null) options.autoComplete = true;
 
-    let sReceiver =
+    this._streamingReceiver =
       this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
 
-    await sReceiver.init({
+    await this._streamingReceiver.init({
       connectionId: this._context.connectionId,
       useNewName: false,
       ...options
     });
 
-    this._context.messageReceivers[sReceiver.name] = sReceiver;
-    return sReceiver;
+    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
+    return this._streamingReceiver;
   }
 
   async receiveMessages(

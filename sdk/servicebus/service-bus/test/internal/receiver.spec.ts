@@ -404,12 +404,9 @@ describe("Receiver unit tests", () => {
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
-      const impl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests(),
-        "entity path",
-        "peekLock",
-        1
-      );
+      const context = createConnectionContextForTests();
+
+      const impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
       closeables.push(impl);
 
       await impl["_createStreamingReceiver"]({
@@ -418,6 +415,7 @@ describe("Receiver unit tests", () => {
       });
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");
+      assert.exists(context.messageReceivers[impl["_streamingReceiver"]!.name]);
     });
   });
 });
