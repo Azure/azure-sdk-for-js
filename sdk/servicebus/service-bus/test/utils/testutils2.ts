@@ -8,8 +8,8 @@ import {
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
   ServiceBusClientOptions,
-  AcceptSessionOptions,
-  CreateReceiverOptions
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -325,7 +325,7 @@ export class ServiceBusTestHelpers {
    */
   async createPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    options?: CreateReceiverOptions<"peekLock">
+    options?: ServiceBusReceiverOptions<"peekLock">
   ): Promise<ServiceBusReceiver> {
     if (entityNames.usesSessions) {
       // if you're creating a receiver this way then you'll just use the default
@@ -348,7 +348,7 @@ export class ServiceBusTestHelpers {
 
   async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    options?: AcceptSessionOptions<"peekLock">
+    options?: ServiceBusSessionReceiverOptions<"peekLock">
   ) {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -370,7 +370,7 @@ export class ServiceBusTestHelpers {
   async acceptSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     sessionId: string,
-    options?: AcceptSessionOptions<"peekLock">
+    options?: ServiceBusSessionReceiverOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver> {
     if (!entityNames.usesSessions) {
       throw new TypeError(

@@ -78,12 +78,9 @@ export type ReceiveMode = "peekLock" | "receiveAndDelete";
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 /**
- *
- *
- * @interface CreateReceiverOptions
  * @template ReceiveModeT
  */
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -182,11 +179,10 @@ export interface SubscribeOptions extends OperationOptionsBase {
  * when using a Queue/Subscription that has sessions enabled.
  *
  * @export
- * @interface AcceptSessionOptions
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
+export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
   extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
@@ -214,7 +210,7 @@ export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxAutoRenewLockDurationInMs?: number;
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**

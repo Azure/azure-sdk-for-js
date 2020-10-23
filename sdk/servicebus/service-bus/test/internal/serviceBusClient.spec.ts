@@ -3,7 +3,7 @@
 
 import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
-import { AcceptSessionOptions } from "../../src/models";
+import { ServiceBusSessionReceiverOptions } from "../../src/models";
 import { entityPathMisMatchError } from "../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
@@ -28,8 +28,8 @@ describe("serviceBusClient unit tests", () => {
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
   const sessionReceiverOptions:
-    | AcceptSessionOptions<"peekLock">
-    | AcceptSessionOptions<"receiveAndDelete"> = {};
+    | ServiceBusSessionReceiverOptions<"peekLock">
+    | ServiceBusSessionReceiverOptions<"receiveAndDelete"> = {};
 
   const testEntities = [
     { queue: "thequeue", entityPath: "thequeue" },
@@ -61,7 +61,7 @@ describe("serviceBusClient unit tests", () => {
         if (testEntity.queue) {
           sessionReceiver = await client.acceptSession(testEntity.queue, "a session id", {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -72,7 +72,7 @@ describe("serviceBusClient unit tests", () => {
             "a session id",
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }
@@ -114,7 +114,7 @@ describe("serviceBusClient unit tests", () => {
         if (testEntity.queue) {
           sessionReceiver = await client.acceptNextSession(testEntity.queue, {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -124,7 +124,7 @@ describe("serviceBusClient unit tests", () => {
             testEntity.subscription!,
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }

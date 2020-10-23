@@ -26,7 +26,12 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
+import {
+  ServiceBusSessionReceiverOptions,
+  ProcessErrorArgs,
+  ReceiveMode,
+  SubscribeOptions
+} from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
@@ -49,8 +54,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  AcceptSessionOptions<"receiveAndDelete">,
-  "maxAutoRenewLockDurationInMs" | "abortSignal"
+  ServiceBusSessionReceiverOptions<"receiveAndDelete">,
+  "maxAutoLockRenewalDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
 };
@@ -369,8 +374,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
+      options.maxAutoLockRenewalDurationInMs != null
+        ? options.maxAutoLockRenewalDurationInMs
         : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";
