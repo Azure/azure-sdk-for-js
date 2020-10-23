@@ -195,40 +195,6 @@ describe("StreamingReceiver unit tests", () => {
       assert.isFalse(streamingReceiver.isReceivingMessages);
     });
 
-    // TODO: tempted to eliminate this test. We could leave it in if we want to make the flag reflect that
-    // we're in the process of initializing but I think the general sentiment of it is "I'm not _going_ receive any
-    // messages" which is not the case here. We will always attempt to bring it back.
-
-    // it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
-    //   const streamingReceiver = new StreamingReceiver(
-    //     createConnectionContextForTests(),
-    //     "fakeEntityPath",
-    //     defaultConstructorOptions
-    //   );
-    //   closeables.push(streamingReceiver);
-
-    //   await streamingReceiver.init({
-    //     useNewName: true,
-    //     ...defaultInitArgs
-    //   });
-
-    //   defaultInitArgs.assert();
-
-    //   streamingReceiver.subscribe(
-    //     async (_msg) => {},
-    //     async (_err) => {}
-    //   );
-
-    //   assert.isTrue(streamingReceiver.isReceivingMessages);
-
-    //   streamingReceiver["_init"] = () => {
-    //     throw new Error("Will never succeed");
-    //   };
-
-    //   await streamingReceiver.onDetached(new Error("let's detach"));
-    //   assert.isFalse(streamingReceiver.isReceivingMessages);
-    // });
-
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
@@ -496,6 +462,34 @@ describe("StreamingReceiver unit tests", () => {
         );
       });
     });
+  });
+
+  it("onDetach calls through to init", async () => {
+    const streamingReceiver = new StreamingReceiver(
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      defaultConstructorOptions
+    );
+    closeables.push(streamingReceiver);
+
+    const initMock = sinon.mock();
+    const onErrorMock = sinon.mock();
+    streamingReceiver["init"] = initMock;
+    streamingReceiver["_onError"] = onErrorMock;
+
+    await streamingReceiver.onDetached(new Error("let's detach"));
+
+    assert.isTrue(initMock.calledOnce);
+    const processErrorArgs: ProcessErrorArgs = onErrorMock.args[0][0];
+    assert.equal(processErrorArgs.error.message, "let's detach");
+
+    // simulate simultaneous detaches
+    streamingReceiver["_isDetaching"] = true;
+    initMock.resetHistory();
+
+    await streamingReceiver.onDetached(new Error("let's detach"));
+    assert.isFalse(initMock.called); // we don't do parallel detaches - subsequent ones are just stopped
+    streamingReceiver["_isDetaching"] = false;
   });
 });
 

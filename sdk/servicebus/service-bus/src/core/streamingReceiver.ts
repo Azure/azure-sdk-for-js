@@ -502,7 +502,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param connectionDidDisconnect Whether this method is called as a result of a connection disconnect.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     logger.verbose(`${this.logPrefix} Detaching.`);
 
     // User explicitly called `close` on the receiver, so link is already closed
@@ -535,45 +535,18 @@ export class StreamingReceiver extends MessageReceiver {
 
       const translatedError = receiverError ? translate(receiverError) : receiverError;
 
-      // Track-1
-      //   - We should only attempt to reopen if either no error was present,
-      //     or the error is considered retryable.
-      // Track-2
-      //  Reopen
-      //   - If no error was present
-      //   - If the error is a MessagingError and is considered retryable
-      //   - Any non MessagingError because such errors do not get
-      //     translated by `@azure/core-amqp` to a MessagingError
-      //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      const shouldReopen =
-        translatedError instanceof MessagingError ? translatedError.retryable : true;
+      logger.logError(
+        translatedError,
+        `${this.logPrefix} Encountered an error on the connection. Reinitializing receiver.`
+      );
 
-      // Non-retryable errors that aren't caused by disconnect
-      // will have already been forwarded to the user's error handler.
-      // Swallow the error and return quickly.
-      if (!shouldReopen && !causedByDisconnect) {
-        logger.logError(
-          translatedError,
-          "%s Encountered a non retryable error on the receiver. Cannot recover receiver. encountered error",
-          this.logPrefix,
-          this.name,
-          this.address
-        );
-        return;
-      }
-
-      // Non-retryable errors that are caused by disconnect
-      // haven't had a chance to show up in the user's error handler.
-      // Rethrow the error so the surrounding try/catch forwards it appropriately.
-      if (!shouldReopen && causedByDisconnect) {
-        logger.logError(
-          translatedError,
-          "%s Encountered a non retryable error on the connection. Cannot recover receiver.",
-          this.logPrefix,
-          this.name,
-          this.address
-        );
-        throw translatedError;
+      if (translatedError && this._onError) {
+        this._onError({
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          error: translatedError,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
 
       // shall retry forever at an interval of 15 seconds if the error is a retryable error
