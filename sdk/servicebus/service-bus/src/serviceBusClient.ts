@@ -103,7 +103,7 @@ export class ServiceBusClient {
    * `subQueue` in the options. To learn more about dead letter queues, see
    * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
@@ -131,7 +131,7 @@ export class ServiceBusClient {
    * `subQueue` in the options. To learn more about dead letter queues, see
    * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
@@ -203,7 +203,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for a session enabled Azure Service Bus queue.
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
@@ -227,7 +227,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription.
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
@@ -320,7 +320,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus queue.
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
@@ -342,7 +342,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription.
    *
-   * You can choose between "peekLock" (default) and "receiveAndDelete" modes.
+   * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
