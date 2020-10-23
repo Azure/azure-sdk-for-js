@@ -4,11 +4,11 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { ProcessErrorArgs, ReceiveMode, ServiceBusMessagingError } from "../../src";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
-import { Constants, RetryConfig, RetryMode } from "@azure/core-amqp";
+import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
 import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
 import { AbortError } from "@azure/abort-controller";
 
@@ -21,7 +21,7 @@ describe("StreamingReceiver unit tests", () => {
     receiveMode: <ReceiveMode>"peekLock"
   };
 
-  let closeables: { close(): Promise<void> }[]; 
+  let closeables: { close(): Promise<void> }[];
 
   const defaultInitArgs = {
     connectionId: "connection-id",
@@ -363,7 +363,7 @@ describe("StreamingReceiver unit tests", () => {
         }
       };
 
-      let errorThatShouldNotHappen: Error | ServiceBusMessagingError | undefined;
+      let errorThatShouldNotHappen: Error | MessagingError | undefined;
 
       await streamingReceiver.init({
         useNewName: false,
@@ -405,7 +405,7 @@ describe("StreamingReceiver unit tests", () => {
         throw new AbortError("Aborting immediately - user's abortSignal takes precedence.");
       };
 
-      let errorThatShouldNotHappen: Error | ServiceBusMessagingError | undefined;
+      let errorThatShouldNotHappen: Error | MessagingError | undefined;
 
       try {
         await streamingReceiver.init({

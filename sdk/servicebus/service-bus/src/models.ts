@@ -3,7 +3,7 @@
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
-import { ServiceBusMessagingError } from "./receivers/receiver";
+import { MessagingError } from "@azure/core-amqp";
 
 /**
  * Arguments to the `processError` callback.
@@ -12,7 +12,7 @@ export interface ProcessErrorArgs {
   /**
    * The error.
    */
-  error: Error | ServiceBusMessagingError;
+  error: Error | MessagingError;
   /**
    * The operation where the error originated.
    *

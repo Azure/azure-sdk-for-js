@@ -491,6 +491,9 @@ export { isAmqpError }
 export function isIotHubConnectionString(connectionString: string): boolean;
 
 // @public
+export function isMessagingError(error: Error | MessagingError): error is MessagingError;
+
+// @public
 export const isNode: boolean;
 
 // @public
@@ -500,6 +503,9 @@ export { isTokenCredential }
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
+
+// @public
+export type MessageErrorCodes = "AddressAlreadyInUseError" | "StoreLockLostError" | "NoMatchingSubscriptionError" | "PartitionNotOwnedError" | "PublisherRevokedError" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessageLockLostError" | "SessionLockLostError" | "SessionCannotBeLockedError" | "InternalServerError" | "ServiceCommunicationError" | "MessageNotFoundError" | "RelayNotFoundError" | "NotImplementedError" | "InvalidOperationError" | "QuotaExceededError" | "UnauthorizedError" | "ServiceUnavailableError" | "MessageWaitTimeout" | "ArgumentOutOfRangeError" | "PreconditionFailedError" | "DecodeError" | "InvalidFieldError" | "ResourceLockedError" | "ResourceDeletedError" | "IllegalStateError" | "FrameSizeTooSmallError" | "DetachForcedError" | "TransferLimitExceededError" | "MessageTooLargeError" | "LinkRedirectError" | "ReceiverDisconnectedError" | "SessionWindowViolationError" | "ErrantLinkError" | "HandleInUseError" | "UnattachedHandleError" | "ConnectionForcedError" | "FramingError" | "ConnectionRedirectError" | "ServerBusyError" | "ArgumentError" | "OperationCancelledError" | "SenderBusyError" | "SystemError";
 
 // @public
 export interface MessageHeader {
@@ -543,7 +549,7 @@ export const MessageProperties: {
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: string;
+    code?: MessageErrorCodes | string;
     errno?: number | string;
     info?: any;
     name: string;

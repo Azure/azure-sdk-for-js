@@ -25,143 +25,11 @@ import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import Long from "long";
 import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
-import {
-  Constants,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  MessagingError
-} from "@azure/core-amqp";
+import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
-
-/**
- * Service Bus messaging codes.
- */
-export type ServiceBusMessagingErrorCodes =
-  // Error is thrown when the address is already in use.
-  | "AddressAlreadyInUseError"
-  // Error is thrown when the store lock is lost.
-  | "StoreLockLostError"
-  // Error is thrown when a matching subscription is not found.
-  | "NoMatchingSubscriptionError"
-  // Error is thrown when an attempt is made to access a partition that is not owned by the
-  // requesting entity.
-  | "PartitionNotOwnedError"
-  // Error is thrown when access to publisher has been revoked.
-  | "PublisherRevokedError"
-  // Error is thrown when an attempt is made to create an entity that already exists.
-  | "MessagingEntityAlreadyExistsError"
-  // Error is thrown when trying to access/connect to a disabled messaging entity.
-  | "MessagingEntityDisabledError"
-  // Error is thrown when the lock on the message is lost.
-  | "MessageLockLostError"
-  // Error is thrown when the lock on the Azure ServiceBus session is lost.
-  | "SessionLockLostError"
-  // Error is thrown when the Azure ServiceBus session cannot be locked.
-  | "SessionCannotBeLockedError"
-  // Error is thrown when an internal server error occurred. You may have found a bug?
-  | "InternalServerError"
-  // Error for signaling general communication errors related to messaging operations.
-  | "ServiceCommunicationError"
-  // Error is thrown when message is not found.
-  | "MessageNotFoundError"
-  // Error is thrown when relay is not found.
-  | "RelayNotFoundError"
-  // Error is thrown when a feature is not implemented yet but the placeholder is present.
-  | "NotImplementedError"
-  // Error is thrown when an operation is attempted but is not allowed.
-  | "InvalidOperationError"
-  // Error is thrown the the Azure EventHub/ServiceBus quota has been exceeded.
-  // Quotas are reset periodically, this operation will have to wait until then.
-  // The messaging entity has reached its maximum allowable size.
-  // This can happen if the maximum number of receivers (which is 5) has already
-  // been opened on a per-consumer group level.
-  | "QuotaExceededError"
-  // Error is thrown when the connection parameters are wrong and the server refused the connection.
-  | "UnauthorizedError"
-  // Error is thrown when the service is unavailable. The operation should be retried.
-  | "ServiceUnavailableError"
-  // Error is thrown when no new messages are received for the specified time.
-  | "MessageWaitTimeout"
-  // Error is thrown when an argument has a value that is out of the admissible range.
-  | "ArgumentOutOfRangeError"
-  // Error is thrown when a condition that should have been met in order to execute an operation was not.
-  | "PreconditionFailedError"
-  // Error is thrown when data could not be decoded.
-  | "DecodeError"
-  // Error is thrown when an invalid field was passed in a frame body, and the operation could not proceed.
-  | "InvalidFieldError"
-  // Error is thrown when the client attempted to work with a server entity to which it
-  // has no access because another client is working with it.
-  | "ResourceLockedError"
-  // Error is thrown when a server entity the client is working with has been deleted.
-  | "ResourceDeletedError"
-  // Error is thrown when the peer sent a frame that is not permitted in the current state.
-  | "IllegalStateError"
-  // Error is thrown when the peer cannot send a frame because the smallest encoding of
-  // the performative with the currently valid values would be too large to fit within
-  // a frame of the agreed maximum frame size.
-  | "FrameSizeTooSmallError"
-  // Error is thrown when an operator intervened to detach for some reason.
-  | "DetachForcedError"
-  // Error is thrown when the peer sent more message transfers than currently allowed on the link.
-  | "TransferLimitExceededError"
-  // Error is thrown when the message sent is too large: the maximum size is 256Kb.
-  | "MessageTooLargeError"
-  // Error is thrown when the address provided cannot be resolved to a terminus at the current container.
-  | "LinkRedirectError"
-  // Error is thrown when two or more instances connect to the same partition
-  // with different epoch values.
-  | "ReceiverDisconnectedError"
-  // Error is thrown when the peer violated incoming window for the session.
-  | "SessionWindowViolationError"
-  // Error is thrown when input was received for a link that was detached with an error.
-  | "ErrantLinkError"
-  // Error is thrown when an attach was received using a handle that is already in use for an attached link.
-  | "HandleInUseError"
-  // Error is thrown when a frame (other than attach) was received referencing a handle which is not
-  // currently in use of an attached link.
-  | "UnattachedHandleError"
-  // Error is thrown when an operator intervened to close the connection for some reason.
-  | "ConnectionForcedError"
-  // Error is thrown when a valid frame header cannot be formed from the incoming byte stream.
-  | "FramingError"
-  // Error is thrown when the container is no longer available on the current connection.
-  | "ConnectionRedirectError"
-  // Error is thrown when the server is busy. Callers should wait a while and retry the operation.
-  | "ServerBusyError"
-  // Error is thrown when an incorrect argument was received.
-  | "ArgumentError"
-  // Error is thrown when server cancels the operation due to an internal issue.
-  | "OperationCancelledError"
-  // Error is thrown when the client sender does not have enough link credits to send the message.
-  | "SenderBusyError"
-  // Error is thrown when a low level system error is thrown by node.js.
-  // {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
-  | "SystemError";
-
-/**
- * Represents an error from Service Bus.
- */
-export interface ServiceBusMessagingError extends MessagingError {
-  /**
-   * A string label that identifies the error.
-   */
-  code?: ServiceBusMessagingErrorCodes;
-}
-
-/**
- * Determines if an error is a MessagingError
- */
-export function isMessagingError(
-  error: Error | ServiceBusMessagingError
-): error is ServiceBusMessagingError {
-  return error.name === "MessagingError";
-}
 
 /**
  * A receiver that does not handle sessions.
@@ -194,7 +62,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    *
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws ServiceBusMessagingError if the service returns an error while receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
 
@@ -208,7 +76,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws ServiceBusMessagingError if the service returns an error while receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   receiveMessages(
     maxMessageCount: number,
@@ -223,7 +91,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws ServiceBusMessagingError if the service returns an error while receiving deferred messages.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
@@ -358,7 +226,7 @@ export class ServiceBusReceiverImpl<
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws ServiceBusMessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onInitialize: () => Promise<void>,

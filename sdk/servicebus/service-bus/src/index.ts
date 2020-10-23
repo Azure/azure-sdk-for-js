@@ -30,12 +30,7 @@ export {
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
-export {
-  ServiceBusReceiver,
-  ServiceBusMessagingError,
-  ServiceBusMessagingErrorCodes,
-  isMessagingError
-} from "./receivers/receiver";
+export { ServiceBusReceiver } from "./receivers/receiver";
 export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
 export { ServiceBusSender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
