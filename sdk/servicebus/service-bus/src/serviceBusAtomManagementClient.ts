@@ -75,7 +75,12 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
-import { formatUserAgentPrefix, getHttpResponseOnly, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import {
+  formatUserAgentPrefix,
+  getHttpResponseOnly,
+  isAbsoluteUrl,
+  isJSONLikeObject
+} from "./util/utils";
 
 /**
  * Request options for list<entity-type>() operations
