@@ -43,7 +43,7 @@ async function main() {
   console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
   const namespaceInfo = await serviceBusAdministrationClient.getNamespaceProperties();
-  console.log("Type of the namespace - ", namespaceInfo.namespaceType);
+  console.log("Name of the namespace - ", namespaceInfo.name);
 
   await serviceBusAdministrationClient.deleteQueue(queueName);
   const queueExists = await serviceBusAdministrationClient.queueExists(queueName);

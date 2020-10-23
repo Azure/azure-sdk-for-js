@@ -15,22 +15,30 @@
 - Added new "userId" property to `ServiceBusMessage` interface. [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
 
 - `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- `NamespaceProperties` interface property "namespaceType" has been removed. [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
 
 - Internal improvement - For the operations depending on `$management` link such as peek or lock renewals, the listeners for the "sender_error" and "receiver_error" events were added to the link for each new request made before the link is initialized which would have resulted in too many listeners and a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 sender_error listeners added to [Sender]. Use emittr.setMaxListeners() to increase limit`(same for `receiver_error`). This has been improved such that the listeners are reused.
   [PR 11738](https://github.com/Azure/azure-sdk-for-js/pull/11738)
 
 ### Breaking changes
 
-- The `createBatch` method on the sender is renamed to `createMessageBatch`
-- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
-- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver.
+- The `createBatch` method on the sender is renamed to `createMessageBatch`.
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
 - `ServiceBusMessage` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
+  - "properties" renamed to "applicationProperties".
+  - "label" renamed to "subject".
 - `CorrelationRuleFilter` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+  - "properties" renamed to "applicationProperties".
+  - "label" renamed to "subject".
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required.
+- The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`.
+- The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
+- The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs`.
+- `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
+- Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
+  [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
 
 ## 7.0.0-preview.7 (2020-10-07)
 

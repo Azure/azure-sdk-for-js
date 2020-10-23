@@ -92,64 +92,20 @@ export interface ListRequestOptions {
 }
 
 /**
- * The underlying HTTP response.
+ * Represents the returned response of the operation along with the raw response.
  */
-export interface Response {
+export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-}
+};
 
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
-export interface EntitiesResponse<T>
-  extends Array<T>,
-    Pick<PageSettings, "continuationToken">,
-    Response {}
-
-/**
- * Represents properties of the namespace.
- */
-export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
-
-/**
- * Represents result of create, get, and update operations on queue.
- */
-export interface QueueResponse extends QueueProperties, Response {}
-
-/**
- * Represents runtime info of a queue.
- */
-export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {}
-
-/**
- * Represents result of create, get, and update operations on topic.
- */
-export interface TopicResponse extends TopicProperties, Response {}
-
-/**
- * Represents runtime info of a topic.
- */
-export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {}
-
-/**
- * Represents result of create, get, and update operations on subscription.
- */
-export interface SubscriptionResponse extends SubscriptionProperties, Response {}
-
-/**
- * Represents runtime info of a subscription.
- */
-export interface SubscriptionRuntimePropertiesResponse
-  extends SubscriptionRuntimeProperties,
-    Response {}
-
-/**
- * Represents result of create, get, and update operations on rule.
- */
-export interface RuleResponse extends RuleProperties, Response {}
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
+  Pick<PageSettings, "continuationToken">;
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -265,7 +221,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getNamespaceProperties(
     operationOptions?: OperationOptions
-  ): Promise<NamespacePropertiesResponse> {
+  ): Promise<WithResponse<NamespaceProperties>> {
     logger.verbose(`Performing management operation - getNamespaceProperties()`);
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getNamespaceProperties",
@@ -306,7 +262,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse> {
+  async createQueue(
+    queueName: string,
+    options?: CreateQueueOptions
+  ): Promise<WithResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-createQueue",
       options
@@ -350,7 +309,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
+  async getQueue(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueue",
       operationOptions
@@ -392,7 +354,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getQueueRuntimeProperties(
     queueName: string,
     operationOptions?: OperationOptions
-  ): Promise<QueueRuntimePropertiesResponse> {
+  ): Promise<WithResponse<QueueRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueueRuntimeProperties",
       operationOptions
@@ -662,7 +624,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateQueue(
     queue: QueueProperties,
     operationOptions?: OperationOptions
-  ): Promise<QueueResponse> {
+  ): Promise<WithResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateQueue",
       operationOptions
@@ -716,7 +678,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
+  async deleteQueue(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
       operationOptions
@@ -789,7 +754,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse> {
+  async createTopic(
+    topicName: string,
+    options?: CreateTopicOptions
+  ): Promise<WithResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-createTopic",
       options
@@ -833,7 +801,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
+  async getTopic(
+    topicName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopic",
       operationOptions
@@ -875,7 +846,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getTopicRuntimeProperties(
     topicName: string,
     operationOptions?: OperationOptions
-  ): Promise<TopicRuntimePropertiesResponse> {
+  ): Promise<WithResponse<TopicRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopicRuntimeProperties",
       operationOptions
@@ -1147,7 +1118,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateTopic(
     topic: TopicProperties,
     operationOptions?: OperationOptions
-  ): Promise<TopicResponse> {
+  ): Promise<WithResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateTopic",
       operationOptions
@@ -1201,7 +1172,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
+  async deleteTopic(
+    topicName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
       operationOptions
@@ -1279,7 +1253,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     options?: CreateSubscriptionOptions
-  ): Promise<SubscriptionResponse> {
+  ): Promise<WithResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-createSubscription",
       options
@@ -1329,7 +1303,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
-  ): Promise<SubscriptionResponse> {
+  ): Promise<WithResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscription",
       operationOptions
@@ -1376,7 +1350,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
-  ): Promise<SubscriptionRuntimePropertiesResponse> {
+  ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
       operationOptions
@@ -1673,7 +1647,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateSubscription(
     subscription: SubscriptionProperties,
     operationOptions?: OperationOptions
-  ): Promise<SubscriptionResponse> {
+  ): Promise<WithResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
@@ -1739,7 +1713,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
-  ): Promise<Response> {
+  ): Promise<WithResponse<{}>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
       operationOptions
@@ -1830,7 +1804,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     operationOptions?: OperationOptions
-  ): Promise<RuleResponse>;
+  ): Promise<WithResponse<RuleProperties>>;
   /**
    * Creates a rule with given name, configured using the given options.
    * @param topicName
@@ -1857,7 +1831,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction: SqlRuleAction,
     operationOptions?: OperationOptions
-  ): Promise<RuleResponse>;
+  ): Promise<WithResponse<RuleProperties>>;
   async createRule(
     topicName: string,
     subscriptionName: string,
@@ -1865,7 +1839,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
     operationOptions?: OperationOptions
-  ): Promise<RuleResponse> {
+  ): Promise<WithResponse<RuleProperties>> {
     let ruleAction: SqlRuleAction | undefined = undefined;
     let operOptions: OperationOptions | undefined;
     if (ruleActionOrOperationOptions) {
@@ -1928,7 +1902,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     operationOptions?: OperationOptions
-  ): Promise<RuleResponse> {
+  ): Promise<WithResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getRule",
       operationOptions
@@ -2098,7 +2072,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     rule: RuleProperties,
     operationOptions?: OperationOptions
-  ): Promise<RuleResponse> {
+  ): Promise<WithResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateRule",
       operationOptions
@@ -2160,7 +2134,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     operationOptions?: OperationOptions
-  ): Promise<Response> {
+  ): Promise<WithResponse<{}>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
       operationOptions
@@ -2454,10 +2428,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private buildNamespacePropertiesResponse(
     response: HttpOperationResponse
-  ): NamespacePropertiesResponse {
+  ): WithResponse<NamespaceProperties> {
     try {
       const namespace = buildNamespace(response.parsedBody);
-      const namespaceResponse: NamespacePropertiesResponse = Object.assign(namespace || {}, {
+      const namespaceResponse: WithResponse<NamespaceProperties> = Object.assign(namespace || {}, {
         _response: response
       });
       return namespaceResponse;
@@ -2539,10 +2513,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
+  private buildQueueResponse(response: HttpOperationResponse): WithResponse<QueueProperties> {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: QueueResponse = Object.assign(queue || {}, {
+      const queueResponse: WithResponse<QueueProperties> = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;
@@ -2560,10 +2534,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private buildQueueRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): QueueRuntimePropertiesResponse {
+  ): WithResponse<QueueRuntimeProperties> {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
-      const queueResponse: QueueRuntimePropertiesResponse = Object.assign(queue || {}, {
+      const queueResponse: WithResponse<QueueRuntimeProperties> = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;
@@ -2644,10 +2618,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
     }
   }
-  private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
+  private buildTopicResponse(response: HttpOperationResponse): WithResponse<TopicProperties> {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: TopicResponse = Object.assign(topic || {}, {
+      const topicResponse: WithResponse<TopicProperties> = Object.assign(topic || {}, {
         _response: response
       });
       return topicResponse;
@@ -2665,10 +2639,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private buildTopicRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): TopicRuntimePropertiesResponse {
+  ): WithResponse<TopicRuntimeProperties> {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
-      const topicResponse: TopicRuntimePropertiesResponse = Object.assign(topic || {}, {
+      const topicResponse: WithResponse<TopicRuntimeProperties> = Object.assign(topic || {}, {
         _response: response
       });
       return topicResponse;
@@ -2756,12 +2730,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
+  private buildSubscriptionResponse(
+    response: HttpOperationResponse
+  ): WithResponse<SubscriptionProperties> {
     try {
       const subscription = buildSubscription(response.parsedBody);
-      const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
-        _response: response
-      });
+      const subscriptionResponse: WithResponse<SubscriptionProperties> = Object.assign(
+        subscription || {},
+        {
+          _response: response
+        }
+      );
       return subscriptionResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2777,10 +2756,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private buildSubscriptionRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): SubscriptionRuntimePropertiesResponse {
+  ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
-      const subscriptionResponse: SubscriptionRuntimePropertiesResponse = Object.assign(
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.assign(
         subscription || {},
         {
           _response: response
@@ -2832,10 +2811,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
+  private buildRuleResponse(response: HttpOperationResponse): WithResponse<RuleProperties> {
     try {
       const rule = buildRule(response.parsedBody);
-      const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
+      const ruleResponse: WithResponse<RuleProperties> = Object.assign(rule || {}, {
+        _response: response
+      });
       return ruleResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
