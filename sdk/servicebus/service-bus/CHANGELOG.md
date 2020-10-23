@@ -22,6 +22,7 @@
 
 ### Breaking changes
 
+- The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver.
 - The `createBatch` method on the sender is renamed to `createMessageBatch`
 - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
 - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
