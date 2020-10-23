@@ -33,7 +33,7 @@ async function main() {
   do {
     const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-    const receiverPromise = new Promise((resolve, _reject) => {
+    const receiverPromise = new Promise((resolve, reject) => {
       const onMessageHandler = async (brokeredMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
         await brokeredMessage.complete();
