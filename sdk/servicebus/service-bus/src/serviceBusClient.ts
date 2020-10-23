@@ -137,7 +137,7 @@ export class ServiceBusClient {
    * - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * Messages that are not settled within the lock duration will be redelivered as many times as
-   * the max delivery count set on the queue, after which they get sent to a separate dead letter
+   * the max delivery count set on the subscription, after which they get sent to a separate dead letter
    * queue.
    *
    * You can settle a message by calling completeMessage(), abandonMessage(), deferMessage() or
