@@ -4,7 +4,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -84,7 +83,7 @@ describe("Receiver unit tests", () => {
   });
 
   describe("subscribe()", () => {
-    let receiverImpl: ServiceBusReceiverImpl<any>;
+    let receiverImpl: ServiceBusReceiverImpl;
 
     afterEach(async () => {
       await receiverImpl.close();
@@ -95,7 +94,7 @@ describe("Receiver unit tests", () => {
 
       let createdRheaReceiver: Receiver | undefined;
 
-      receiverImpl = new ServiceBusReceiverImpl<any>(
+      receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             createdRheaReceiver = receiver;
@@ -269,9 +268,9 @@ describe("Receiver unit tests", () => {
       );
     });
 
-    async function subscribeAndWaitForInitialize<
-      T extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
-    >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
+    async function subscribeAndWaitForInitialize(
+      receiver: ServiceBusReceiverImpl
+    ): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
       }>((resolve, reject) => {
@@ -283,7 +282,7 @@ describe("Receiver unit tests", () => {
             reject(err);
           },
           processMessage: async (_msg) => {}
-        } as InternalMessageHandlers<any>);
+        } as InternalMessageHandlers);
       });
 
       assert.exists(

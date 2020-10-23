@@ -59,12 +59,13 @@ describe("shared", () => {
       [],
       [
         {
-          id: "hello"
+          body: "hello",
+          _amqpAnnotatedMessage: { body: "hello" }
         }
       ]
     ];
 
-    const receiver: Pick<ServiceBusReceiver<any>, "receiveMessages"> = {
+    const receiver: Pick<ServiceBusReceiver, "receiveMessages"> = {
       receiveMessages: async (maxMessageCount, _options) => {
         assert.equal(maxMessageCount, 1);
 
@@ -88,7 +89,12 @@ describe("shared", () => {
     } catch (err) {
       assert.equal("We're okay to end it now", err.message);
       assert.deepEqual(
-        [{ id: "hello" }],
+        [
+          {
+            body: "hello",
+            _amqpAnnotatedMessage: { body: "hello" }
+          }
+        ],
         allReceivedMessages,
         "We should only get one message. We don't return anything when the receive returns nothing."
       );

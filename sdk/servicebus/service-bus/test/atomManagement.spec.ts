@@ -63,7 +63,7 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
