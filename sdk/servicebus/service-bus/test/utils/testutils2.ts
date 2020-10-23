@@ -325,7 +325,7 @@ export class ServiceBusTestHelpers {
    */
   async createPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    options?: ServiceBusReceiverOptions<"peekLock">
+    options?: ServiceBusReceiverOptions
   ): Promise<ServiceBusReceiver> {
     if (entityNames.usesSessions) {
       // if you're creating a receiver this way then you'll just use the default
@@ -348,7 +348,7 @@ export class ServiceBusTestHelpers {
 
   async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    options?: ServiceBusSessionReceiverOptions<"peekLock">
+    options?: ServiceBusSessionReceiverOptions
   ) {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -370,7 +370,7 @@ export class ServiceBusTestHelpers {
   async acceptSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     sessionId: string,
-    options?: ServiceBusSessionReceiverOptions<"peekLock">
+    options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver> {
     if (!entityNames.usesSessions) {
       throw new TypeError(

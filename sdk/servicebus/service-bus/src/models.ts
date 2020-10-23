@@ -78,9 +78,9 @@ export type ReceiveMode = "peekLock" | "receiveAndDelete";
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 /**
- * @template ReceiveModeT
+ * Options to use when creating a receiver.
  */
-export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -100,7 +100,7 @@ export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
@@ -177,13 +177,8 @@ export interface SubscribeOptions extends OperationOptionsBase {
 /**
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
  * when using a Queue/Subscription that has sessions enabled.
- *
- * @export
- * @extends {OperationOptionsBase}
- * @template ReceiveModeT
  */
-export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
-  extends OperationOptionsBase {
+export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -203,7 +198,7 @@ export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMo
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.

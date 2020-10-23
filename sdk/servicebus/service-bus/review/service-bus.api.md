@@ -312,19 +312,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
-    acceptNextSession(queueName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
-    acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
-    acceptNextSession(topicName: string, subscriptionName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
-    acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
-    acceptSession(queueName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
+    acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
+    acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
+    acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
+    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
     close(): Promise<void>;
-    createReceiver(queueName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver;
-    createReceiver(queueName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver;
-    createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver;
-    createReceiver(topicName: string, subscriptionName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver;
+    createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
+    createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
 }
@@ -421,9 +415,9 @@ export interface ServiceBusReceiver {
 }
 
 // @public
-export interface ServiceBusReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveModeT;
+    receiveMode?: ReceiveMode;
     subQueue?: SubQueue;
 }
 
@@ -452,9 +446,9 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 }
 
 // @public
-export interface ServiceBusSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
+export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveModeT;
+    receiveMode?: ReceiveMode;
 }
 
 // @public
