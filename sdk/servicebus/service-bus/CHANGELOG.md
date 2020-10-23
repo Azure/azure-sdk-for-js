@@ -23,17 +23,22 @@
 ### Breaking changes
 
 - The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver.
-- The `createBatch` method on the sender is renamed to `createMessageBatch`
-- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`
-- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`
+- The `createBatch` method on the sender is renamed to `createMessageBatch`.
+- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
+- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
 - `ServiceBusMessage` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
+  - "properties" renamed to "applicationProperties".
+  - "label" renamed to "subject".
 - `CorrelationRuleFilter` interface updates:
-  - "properties" renamed to "applicationProperties"
-  - "label" renamed to "subject"
-- `SqlRuleFilter` interface "sqlExpression" changed from optional to required
+  - "properties" renamed to "applicationProperties".
+  - "label" renamed to "subject".
+- `SqlRuleFilter` interface "sqlExpression" changed from optional to required.
+- The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`.
+- The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
+- The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs`.
 - `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
+- Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
+  [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
 
 ## 7.0.0-preview.7 (2020-10-07)
 

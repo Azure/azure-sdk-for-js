@@ -8,7 +8,7 @@ import {
   createConnectionContextForTokenCredential
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { CreateReceiverOptions, AcceptSessionOptions, ReceiveMode } from "./models";
+import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
@@ -122,7 +122,7 @@ export class ServiceBusClient {
    * @param options Options to pass the receiveMode, defaulted to peekLock.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
-  createReceiver(queueName: string, options?: CreateReceiverOptions): ServiceBusReceiver;
+  createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
   /**
    * Creates a receiver for an Azure Service Bus subscription. No connection is made
    * to the service until one of the methods on the receiver is called.
@@ -153,12 +153,12 @@ export class ServiceBusClient {
   createReceiver(
     topicName: string,
     subscriptionName: string,
-    options?: CreateReceiverOptions
+    options?: ServiceBusReceiverOptions
   ): ServiceBusReceiver;
   createReceiver(
     queueOrTopicName1: string,
-    optionsOrSubscriptionName2?: CreateReceiverOptions | string,
-    options3?: CreateReceiverOptions
+    optionsOrSubscriptionName2?: ServiceBusReceiverOptions | string,
+    options3?: ServiceBusReceiverOptions
   ): ServiceBusReceiver {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -222,7 +222,7 @@ export class ServiceBusClient {
   acceptSession(
     queueName: string,
     sessionId: string,
-    options?: AcceptSessionOptions
+    options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription.
@@ -248,20 +248,20 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     sessionId: string,
-    options?: AcceptSessionOptions
+    options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   async acceptSession(
     queueOrTopicName1: string,
-    optionsOrSubscriptionNameOrSessionId2?: AcceptSessionOptions | string,
-    optionsOrSessionId3?: AcceptSessionOptions | string,
-    options4?: AcceptSessionOptions
+    optionsOrSubscriptionNameOrSessionId2?: ServiceBusSessionReceiverOptions | string,
+    optionsOrSessionId3?: ServiceBusSessionReceiverOptions | string,
+    options4?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
     let sessionId: string;
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
-    let options: AcceptSessionOptions | undefined;
+    let options: ServiceBusSessionReceiverOptions | undefined;
 
     if (
       typeof queueOrTopicName1 === "string" &&
@@ -300,7 +300,7 @@ export class ServiceBusClient {
       entityPath,
       sessionId,
       {
-        maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal
       }
@@ -337,7 +337,7 @@ export class ServiceBusClient {
    */
   acceptNextSession(
     queueName: string,
-    options?: AcceptSessionOptions
+    options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription.
@@ -361,12 +361,12 @@ export class ServiceBusClient {
   acceptNextSession(
     topicName: string,
     subscriptionName: string,
-    options?: AcceptSessionOptions
+    options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   async acceptNextSession(
     queueOrTopicName1: string,
-    optionsOrSubscriptionName2?: AcceptSessionOptions | string,
-    options3?: AcceptSessionOptions
+    optionsOrSubscriptionName2?: ServiceBusSessionReceiverOptions | string,
+    options3?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -381,7 +381,7 @@ export class ServiceBusClient {
       entityPath,
       undefined,
       {
-        maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal
       }

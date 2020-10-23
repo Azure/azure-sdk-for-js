@@ -80,7 +80,7 @@ export type SubQueue = "deadLetter" | "transferDeadLetter";
 /**
  * Options to use when creating a receiver.
  */
-export interface CreateReceiverOptions {
+export interface ServiceBusReceiverOptions {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -178,7 +178,7 @@ export interface SubscribeOptions extends OperationOptionsBase {
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
  * when using a Queue/Subscription that has sessions enabled.
  */
-export interface AcceptSessionOptions extends OperationOptionsBase {
+export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -205,7 +205,7 @@ export interface AcceptSessionOptions extends OperationOptionsBase {
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxAutoRenewLockDurationInMs?: number;
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**
