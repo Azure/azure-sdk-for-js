@@ -558,6 +558,8 @@ export class StreamingReceiver extends MessageReceiver {
         connectionId: this._context.connectionId,
         onError: (args) => this._onError && this._onError(args)
       });
+
+      this._receiverHelper.addCredit(this.maxConcurrentCalls);
     } catch (err) {
       logger.logError(
         err,

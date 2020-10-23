@@ -17,7 +17,6 @@ import {
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { InternalMessageHandlers } from "../src/models";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;

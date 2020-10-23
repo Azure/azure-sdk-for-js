@@ -29,7 +29,7 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { MessagingError, translate } from "@azure/core-amqp";
+import { isNode, MessagingError, translate } from "@azure/core-amqp";
 import { verifyMessageCount } from "./utils/managementUtils";
 
 const should = chai.should();
@@ -1143,7 +1143,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     await beforeEachTest();
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
+    const receivedErrors: string[] = [];
     let settledMessageCount = 0;
 
     let messageHandlerCount = 0;
@@ -1174,8 +1174,8 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
           receiverSecondMessageResolver();
         }
       },
-      async processError(err) {
-        receivedErrors.push(err);
+      async processError(args) {
+        receivedErrors.push(args.error.toString());
       }
     });
 
@@ -1183,7 +1183,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+    receivedErrors.should.deep.equal([], "Encountered an unexpected number of errors.");
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
@@ -1202,7 +1202,19 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     // wait for the 2nd message to be received.
     await receiverSecondMessage;
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
-    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+
+    // in the browser we get a CloseEvent delivered as part of our "idle" call above. The net effect is
+    // the same (we restart the connection) so this difference is primarly cosmetic.
+    if (isNode) {
+      receivedErrors.should.deep.equal([], "Should not have any errors in node");
+    } else {
+      // CloseEvent{isTrusted: true}
+      receivedErrors.length.should.be.lessThan(
+        2,
+        "Should only have a single error (if any) that come from the websockets stack in the browser"
+      );
+    }
+
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 });

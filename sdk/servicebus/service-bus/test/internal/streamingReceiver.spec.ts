@@ -18,7 +18,8 @@ const assert = chai.assert;
 describe("StreamingReceiver unit tests", () => {
   const defaultConstructorOptions = {
     lockRenewer: undefined,
-    receiveMode: <ReceiveMode>"peekLock"
+    receiveMode: <ReceiveMode>"peekLock",
+    maxConcurrentCalls: 101
   };
 
   let closeables: { close(): Promise<void> }[];
@@ -74,7 +75,6 @@ describe("StreamingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
-          maxConcurrentCalls: 101,
           ...defaultConstructorOptions
         }
       );
@@ -474,10 +474,17 @@ describe("StreamingReceiver unit tests", () => {
 
     const initMock = sinon.mock();
     const onErrorMock = sinon.mock();
+    const addCreditMock = sinon.mock();
+
     streamingReceiver["init"] = initMock;
     streamingReceiver["_onError"] = onErrorMock;
+    streamingReceiver["_receiverHelper"]["addCredit"] = addCreditMock;
 
     await streamingReceiver.onDetached(new Error("let's detach"));
+    assert.isTrue(
+      addCreditMock.calledWith(101),
+      "Credits need to be re-added to the link since it's been recreated."
+    );
 
     assert.isTrue(initMock.calledOnce);
     const processErrorArgs: ProcessErrorArgs = onErrorMock.args[0][0];
