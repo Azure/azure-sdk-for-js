@@ -79,7 +79,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
   }
 }
 
-async function listAnomaliesForDetectionConfig(client, detectionConfigId) {  
+async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
   for await (const anomaly of client.listAnomaliesForDetectionConfiguration(
@@ -133,7 +133,6 @@ async function getRootCauses(client, detectionConfigId, incidentId) {
 }
 
 async function listAlerts(client, alertConfigId) {
-
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
   for await (const alert of client.listAlertsForAlertConfiguration(
