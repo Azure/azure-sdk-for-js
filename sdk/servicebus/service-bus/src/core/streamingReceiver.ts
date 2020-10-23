@@ -36,7 +36,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
     Pick<OperationOptionsBase, "abortSignal"> {
-  onError?: OnError;
+  onError: OnError;
 }
 
 /**

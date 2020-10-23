@@ -84,12 +84,18 @@ describe("Receiver unit tests", () => {
   });
 
   describe("subscribe()", () => {
+    let receiverImpl: ServiceBusReceiverImpl<any>;
+
+    afterEach(async () => {
+      await receiverImpl.close();
+    });
+
     it("subscribe and subscription.close()", async () => {
       let receiverWasDrained = false;
 
       let createdRheaReceiver: Receiver | undefined;
 
-      const receiverImpl = new ServiceBusReceiverImpl<any>(
+      receiverImpl = new ServiceBusReceiverImpl<any>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             createdRheaReceiver = receiver;
@@ -125,7 +131,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can't subscribe while another subscribe is active", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
+      receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
@@ -157,7 +163,7 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is closed", async () => {
       let closeWasCalled = false;
 
-      const receiverImpl = new ServiceBusReceiverImpl(
+      receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
@@ -194,7 +200,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can re-subscribe after previous subscription is aborted", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
+      receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
@@ -227,7 +233,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("errors thrown when initializing a connection are reported as 'receive' errors", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
+      receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: () => {
             throw new Error("Failed to initialize!");
@@ -353,24 +359,19 @@ describe("Receiver unit tests", () => {
   });
 
   describe("createStreamingReceiver", () => {
-    let closeables: Pick<StreamingReceiver, "close">[];
-
-    beforeEach(() => {
-      closeables = [];
-    });
+    let impl: ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock> | undefined;
 
     afterEach(async () => {
-      await Promise.all(closeables.map((sr) => sr.close()));
+      await impl?.close();
     });
 
     it("create() with an existing _streamingReceiver", async () => {
-      const impl = new ServiceBusReceiverImpl(
+      impl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entity path",
         "peekLock",
         1
       );
-      closeables.push(impl);
 
       let initWasCalled = false;
       const expectedAbortSignal = createAbortSignalForTest();
@@ -392,7 +393,8 @@ describe("Receiver unit tests", () => {
       await impl["_createStreamingReceiver"]({
         lockRenewer: undefined,
         receiveMode: "peekLock",
-        abortSignal: expectedAbortSignal
+        abortSignal: expectedAbortSignal,
+        onError: (_args) => {}
       });
 
       assert.isTrue(initWasCalled, "initialize should be called on the original receiver");
@@ -406,12 +408,12 @@ describe("Receiver unit tests", () => {
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
       const context = createConnectionContextForTests();
 
-      const impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
-      closeables.push(impl);
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
       await impl["_createStreamingReceiver"]({
         lockRenewer: undefined,
-        receiveMode: "peekLock"
+        receiveMode: "peekLock",
+        onError: (_args) => {}
       });
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");

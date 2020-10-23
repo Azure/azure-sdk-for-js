@@ -21,7 +21,7 @@ describe("StreamingReceiver unit tests", () => {
     receiveMode: <ReceiveMode>"peekLock"
   };
 
-  let closeables: { close(): Promise<void> }[];
+  let closeables: { close(): Promise<void> }[]; 
 
   const defaultInitArgs = {
     connectionId: "connection-id",
@@ -317,10 +317,8 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  describe.only("forever loop", () => {
+  describe("forever loop", () => {
     let streamingReceiver: StreamingReceiver | undefined;
-
-    beforeEach(() => {});
 
     afterEach(() => {
       return streamingReceiver?.close();
