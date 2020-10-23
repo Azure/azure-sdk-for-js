@@ -358,7 +358,7 @@ describe("Receiver unit tests", () => {
   });
 
   describe("createStreamingReceiver", () => {
-    let impl: ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock> | undefined;
+    let impl: ServiceBusReceiverImpl | undefined;
 
     afterEach(async () => {
       await impl?.close();

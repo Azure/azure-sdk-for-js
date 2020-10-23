@@ -164,7 +164,7 @@ describe("Streaming Receiver Tests", () => {
 
       try {
         let streamingReceiver = await createAndInitStreamingReceiverForTest(
-          (receiver as ServiceBusReceiverImpl<any>)["_context"],
+          (receiver as ServiceBusReceiverImpl)["_context"],
           receiver.entityPath
         );
 
