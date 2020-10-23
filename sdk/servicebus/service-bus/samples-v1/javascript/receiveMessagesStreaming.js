@@ -46,7 +46,7 @@ async function main() {
           resolve();
         } else {
           // Set `enableReceiverRecovery` to false to break out of the loop for a non-retryable error
-          // since the error might be hinting at a deeper issue such as faulty configuration 
+          // since the error might be hinting at a deeper issue such as faulty configuration
           // or a non-existent queue which requires attention from the user.
           enableReceiverRecovery = false;
           console.log("Error occurred: ", err);
