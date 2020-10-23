@@ -58,13 +58,14 @@ async function listIncidentsForDetectionConfig(
   }
 
   console.log(`  by pages`);
+  const pageSettings = { maxPageSize: 20 };
   const iterator = client
     .listIncidentsForDetectionConfiguration(
       detectionConfigId,
       new Date("09/06/2020"),
       new Date("09/11/2020")
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
   let result = await iterator.next();
 
   while (!result.done) {
@@ -107,6 +108,7 @@ async function listAnomaliesForDetectionConfig(
   }
 
   console.log(`  by pages`);
+  const pageSettings = { maxPageSize: 20 };
   const iterator = client
     .listAnomaliesForDetectionConfiguration(
       detectionConfigId,
@@ -116,7 +118,7 @@ async function listAnomaliesForDetectionConfig(
         severityFilter: { min: "Medium", max: "High" }
       }
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
   let result = await iterator.next();
 
   while (!result.done) {
@@ -158,6 +160,7 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   }
 
   console.log(`  by pages`);
+  const pageSettings = { maxPageSize: 20 };
   const iterator = client
     .listAlertsForAlertConfiguration(
       alertConfigId,
@@ -165,7 +168,7 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
       new Date("09/09/2020"),
       "AnomalyTime"
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {
@@ -196,7 +199,8 @@ async function listIncidentsForAlert(
   }
 
   console.log(`  by pages`);
-  const iterator = client.listIncidentsForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const pageSettings = { maxPageSize: 20 };
+  const iterator = client.listIncidentsForAlert(alertConfigId, alertId).byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {
@@ -231,7 +235,8 @@ async function listAnomaliesForAlert(
   }
 
   console.log(`  by pages`);
-  const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const pageSettings = { maxPageSize: 20 };
+  const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {

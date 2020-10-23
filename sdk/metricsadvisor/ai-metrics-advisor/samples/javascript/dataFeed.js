@@ -34,7 +34,7 @@ async function listDataFeeds(client) {
     filter: {
       //dataFeedName: "js-blob-datafeed"
     }
-  }
+  };
   const iter = client.listDataFeeds(options);
   let result = await iter.next();
   while (!result.done) {

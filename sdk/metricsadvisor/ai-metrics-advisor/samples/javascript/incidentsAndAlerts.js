@@ -53,6 +53,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
+  const pageSettings = { maxPageSize: 20 };
   console.log(`  by pages`);
   const iterator = client
     .listIncidentsForDetectionConfiguration(
@@ -60,7 +61,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
       new Date("09/06/2020"),
       new Date("09/11/2020")
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
   let result = await iterator.next();
 
   while (!result.done) {
@@ -78,7 +79,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
   }
 }
 
-async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
+async function listAnomaliesForDetectionConfig(client, detectionConfigId) {  
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
   for await (const anomaly of client.listAnomaliesForDetectionConfiguration(
@@ -98,7 +99,7 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
     console.log(`      status: ${anomaly.status}`);
     console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
+  const pageSettings = { maxPageSize: 20 };
   console.log(`  by pages`);
   const iterator = client
     .listAnomaliesForDetectionConfiguration(
@@ -109,7 +110,7 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
         severityFilter: { min: "Medium", max: "High" }
       }
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
   let result = await iterator.next();
 
   while (!result.done) {
@@ -132,6 +133,7 @@ async function getRootCauses(client, detectionConfigId, incidentId) {
 }
 
 async function listAlerts(client, alertConfigId) {
+
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
   for await (const alert of client.listAlertsForAlertConfiguration(
@@ -147,6 +149,7 @@ async function listAlerts(client, alertConfigId) {
   }
 
   console.log(`  by pages`);
+  const pageSettings = { maxPageSize: 20 };
   const iterator = client
     .listAlertsForAlertConfiguration(
       alertConfigId,
@@ -154,7 +157,7 @@ async function listAlerts(client, alertConfigId) {
       new Date("09/09/2020"),
       "AnomalyTime"
     )
-    .byPage({ maxPageSize: 20 });
+    .byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {
@@ -181,7 +184,8 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
   }
 
   console.log(`  by pages`);
-  const iterator = client.listIncidentsForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const pageSettings = { maxPageSize: 20 };
+  const iterator = client.listIncidentsForAlert(alertConfigId, alertId).byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {
@@ -214,9 +218,9 @@ async function listAnomaliesForAlert(client, alertConfigId, alertId) {
     console.log(`      status: ${anomaly.status}`);
     console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
+  const pageSettings = { maxPageSize: 20 };
   console.log(`  by pages`);
-  const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {

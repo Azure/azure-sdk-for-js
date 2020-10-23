@@ -44,9 +44,10 @@ async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) 
     console.log(`  ${ingestion.timestamp} ${ingestion.status}  ${ingestion.message}`);
   }
   // listing by pages
+  const pageSettings = { maxPageSize: 2 };
   const iterator = adminClient
     .listDataFeedIngestionStatus(dataFeedId, startTime, endTime)
-    .byPage({ maxPageSize: 2 });
+    .byPage(pageSettings);
   const result = await iterator.next();
 
   if (!result.done) {

@@ -35,11 +35,11 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
   )) {
     console.log(definition);
   }
-
+  const pageSettings = { maxPageSize: 2 };
   console.log("  first two pages using byPage()");
   const iterator = client
     .listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))
-    .byPage({ maxPageSize: 2 });
+    .byPage(pageSettings);
 
   let result = await iterator.next();
   if (!result.done) {

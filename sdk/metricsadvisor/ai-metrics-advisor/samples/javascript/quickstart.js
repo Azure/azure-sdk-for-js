@@ -129,14 +129,15 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
   };
 
   console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed({
+  const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,
     ingestionSettings: dataFeedIngestion,
     options
-  });
+  };
+  const result = await adminClient.createDataFeed(dataFeed);
 
   return result;
 }
@@ -155,7 +156,7 @@ async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime)
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration({
+  const dataFeed = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
     wholeSeriesDetectionCondition: {
@@ -169,7 +170,8 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
       }
     },
     description: "Detection configuration description"
-  });
+  };
+  return await adminClient.createMetricAnomalyDetectionConfiguration(dataFeed);
 }
 
 async function createWebhookHook(adminClient) {
@@ -209,13 +211,14 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
       onlyForSuccessive: true
     }
   };
-  return await adminClient.createAnomalyAlertConfiguration({
+  const anomalyAlert = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [metricAlertingConfig],
     hookIds,
     description: "Alerting config description"
-  });
+  };
+  return await adminClient.createAnomalyAlertConfiguration(anomalyAlert);
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
@@ -237,9 +240,10 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   }
   // alternatively we could list results by pages
   console.log(`  by pages`);
+  const pageSettings = { maxPageSize: 2 };
   const iterator = client
     .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
-    .byPage({ maxPageSize: 2 });
+    .byPage(pageSettings);
 
   let result = await iterator.next();
   while (!result.done) {
