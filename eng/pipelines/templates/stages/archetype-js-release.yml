@@ -1,5 +1,6 @@
 parameters:
   Artifacts: []
+  TestPipeline: false
   ArtifactName: 'not-specified'
   DependsOn: Build
   Registry: 'https://registry.npmjs.org/'
