@@ -42,8 +42,9 @@ jobs:
 
       - template: ../steps/build.yml
         parameters:
-          Artifacts: ${{parameters.Artifacts}}
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
 
   - job: "Analyze"
     dependsOn: "Build"
@@ -58,8 +59,8 @@ jobs:
 
       - template: ../steps/analyze.yml
         parameters:
-          Artifacts: ${{parameters.Artifacts}}
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:
