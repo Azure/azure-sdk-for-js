@@ -20,7 +20,8 @@ import {
   stripResponse,
   URLBuilder,
   WebResource,
-  PipelineOptions
+  PipelineOptions,
+  HttpResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
@@ -74,7 +75,7 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
-import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import { formatUserAgentPrefix, getHttpResponseOnly, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Request options for list<entity-type>() operations
@@ -98,7 +99,7 @@ export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpOperationResponse;
+  _response: HttpResponse;
 };
 
 /**
@@ -694,7 +695,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1188,7 +1189,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1729,7 +1730,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2148,7 +2149,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2432,7 +2433,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const namespace = buildNamespace(response.parsedBody);
       const namespaceResponse: WithResponse<NamespaceProperties> = Object.assign(namespace || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return namespaceResponse;
     } catch (err) {
@@ -2464,7 +2465,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
       const listQueuesResponse: EntitiesResponse<QueueProperties> = Object.assign(queues, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
@@ -2497,7 +2498,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
       const listQueuesResponse: EntitiesResponse<QueueRuntimeProperties> = Object.assign(queues, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
@@ -2517,7 +2518,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: WithResponse<QueueProperties> = Object.assign(queue || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return queueResponse;
     } catch (err) {
@@ -2538,7 +2539,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
       const queueResponse: WithResponse<QueueRuntimeProperties> = Object.assign(queue || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return queueResponse;
     } catch (err) {
@@ -2570,7 +2571,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
       const listTopicsResponse: EntitiesResponse<TopicProperties> = Object.assign(topics, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
@@ -2603,7 +2604,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
       const listTopicsResponse: EntitiesResponse<TopicRuntimeProperties> = Object.assign(topics, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
@@ -2622,7 +2623,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const topic = buildTopic(response.parsedBody);
       const topicResponse: WithResponse<TopicProperties> = Object.assign(topic || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return topicResponse;
     } catch (err) {
@@ -2643,7 +2644,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
       const topicResponse: WithResponse<TopicRuntimeProperties> = Object.assign(topic || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return topicResponse;
     } catch (err) {
@@ -2677,7 +2678,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.assign(
         subscriptions,
         {
-          _response: response
+          _response: getHttpResponseOnly(response)
         }
       );
       listSubscriptionsResponse.continuationToken = nextMarker;
@@ -2713,7 +2714,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.assign(
         subscriptions,
         {
-          _response: response
+          _response: getHttpResponseOnly(response)
         }
       );
       listSubscriptionsResponse.continuationToken = nextMarker;
@@ -2738,7 +2739,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const subscriptionResponse: WithResponse<SubscriptionProperties> = Object.assign(
         subscription || {},
         {
-          _response: response
+          _response: getHttpResponseOnly(response)
         }
       );
       return subscriptionResponse;
@@ -2762,7 +2763,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.assign(
         subscription || {},
         {
-          _response: response
+          _response: getHttpResponseOnly(response)
         }
       );
       return subscriptionResponse;
@@ -2795,7 +2796,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
       const listRulesResponse: EntitiesResponse<RuleProperties> = Object.assign(rules, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
@@ -2815,7 +2816,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const rule = buildRule(response.parsedBody);
       const ruleResponse: WithResponse<RuleProperties> = Object.assign(rule || {}, {
-        _response: response
+        _response: getHttpResponseOnly(response)
       });
       return ruleResponse;
     } catch (err) {
