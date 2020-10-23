@@ -590,6 +590,22 @@ export interface ApplicationHealthPolicies {
 }
 
 /**
+ * Represents the map of application health policies for a ServiceFabric cluster upgrade
+ */
+export interface ApplicationHealthPolicyMapObject {
+  /**
+   * Defines a map that contains specific application health policies for different applications.
+   * Each entry specifies as key the application name and as value an ApplicationHealthPolicy used
+   * to evaluate the application health.
+   * If an application is not specified in the map, the application health evaluation uses the
+   * ApplicationHealthPolicy found in its application manifest or the default application health
+   * policy (if no health policy is defined in the manifest).
+   * The map is empty by default.
+   */
+  applicationHealthPolicyMap?: ApplicationHealthPolicyMapItem[];
+}
+
+/**
  * Represents the health state of an application, which contains the application identifier and the
  * aggregated health state.
  */
@@ -1219,45 +1235,30 @@ export interface ApplicationInfo {
 }
 
 /**
- * Describes capacity information for a custom resource balancing metric. This can be used to limit
- * the total consumption of this metric by the services of this application.
+ * Describes load information for a custom resource balancing metric. This can be used to limit the
+ * total consumption of this metric by the services of this application.
  */
-export interface ApplicationMetricDescription {
+export interface ApplicationLoadMetricInformation {
   /**
    * The name of the metric.
    */
   name?: string;
   /**
-   * The maximum node capacity for Service Fabric application.
-   * This is the maximum Load for an instance of this application on a single node. Even if the
-   * capacity of node is greater than this value, Service Fabric will limit the total load of
-   * services within the application on each node to this value.
-   * If set to zero, capacity for this metric is unlimited on each node.
-   * When creating a new application with application capacity defined, the product of MaximumNodes
-   * and this value must always be smaller than or equal to TotalApplicationCapacity.
-   * When updating existing application with application capacity, the product of MaximumNodes and
-   * this value must always be smaller than or equal to TotalApplicationCapacity.
-   */
-  maximumCapacity?: number;
-  /**
-   * The node reservation capacity for Service Fabric application.
-   * This is the amount of load which is reserved on nodes which have instances of this
-   * application.
-   * If MinimumNodes is specified, then the product of these values will be the capacity reserved
-   * in the cluster for the application.
+   * This is the capacity reserved in the cluster for the application.
+   * It's the product of NodeReservationCapacity and MinimumNodes.
    * If set to zero, no capacity is reserved for this metric.
-   * When setting application capacity or when updating application capacity; this value must be
+   * When setting application capacity or when updating application capacity this value must be
    * smaller than or equal to MaximumCapacity for each metric.
    */
   reservationCapacity?: number;
   /**
-   * The total metric capacity for Service Fabric application.
-   * This is the total metric capacity for this application in the cluster. Service Fabric will try
-   * to limit the sum of loads of services within the application to this value.
-   * When creating a new application with application capacity defined, the product of MaximumNodes
-   * and MaximumCapacity must always be smaller than or equal to this value.
+   * Total capacity for this metric in this application instance.
    */
-  totalApplicationCapacity?: number;
+  applicationCapacity?: number;
+  /**
+   * Current load for this metric in this application instance.
+   */
+  applicationLoad?: number;
 }
 
 /**
@@ -1291,9 +1292,9 @@ export interface ApplicationLoadInfo {
    */
   nodeCount?: number;
   /**
-   * List of application capacity metric description.
+   * List of application load metric information.
    */
-  applicationLoadMetricInformation?: ApplicationMetricDescription[];
+  applicationLoadMetricInformation?: ApplicationLoadMetricInformation[];
 }
 
 /**
@@ -5778,15 +5779,9 @@ export interface ClusterUpgradeDescriptionObject {
    */
   clusterUpgradeHealthPolicy?: ClusterUpgradeHealthPolicyObject;
   /**
-   * Defines a map that contains specific application health policies for different applications.
-   * Each entry specifies as key the application name and as value an ApplicationHealthPolicy used
-   * to evaluate the application health.
-   * If an application is not specified in the map, the application health evaluation uses the
-   * ApplicationHealthPolicy found in its application manifest or the default application health
-   * policy (if no health policy is defined in the manifest).
-   * The map is empty by default.
+   * Represents the map of application health policies for a ServiceFabric cluster upgrade
    */
-  applicationHealthPolicyMap?: ApplicationHealthPolicyMapItem[];
+  applicationHealthPolicyMap?: ApplicationHealthPolicyMapObject;
 }
 
 /**
@@ -6598,6 +6593,48 @@ export interface WaitingChaosEvent {
 }
 
 /**
+ * Describes capacity information for a custom resource balancing metric. This can be used to limit
+ * the total consumption of this metric by the services of this application.
+ */
+export interface ApplicationMetricDescription {
+  /**
+   * The name of the metric.
+   */
+  name?: string;
+  /**
+   * The maximum node capacity for Service Fabric application.
+   * This is the maximum Load for an instance of this application on a single node. Even if the
+   * capacity of node is greater than this value, Service Fabric will limit the total load of
+   * services within the application on each node to this value.
+   * If set to zero, capacity for this metric is unlimited on each node.
+   * When creating a new application with application capacity defined, the product of MaximumNodes
+   * and this value must always be smaller than or equal to TotalApplicationCapacity.
+   * When updating existing application with application capacity, the product of MaximumNodes and
+   * this value must always be smaller than or equal to TotalApplicationCapacity.
+   */
+  maximumCapacity?: number;
+  /**
+   * The node reservation capacity for Service Fabric application.
+   * This is the amount of load which is reserved on nodes which have instances of this
+   * application.
+   * If MinimumNodes is specified, then the product of these values will be the capacity reserved
+   * in the cluster for the application.
+   * If set to zero, no capacity is reserved for this metric.
+   * When setting application capacity or when updating application capacity; this value must be
+   * smaller than or equal to MaximumCapacity for each metric.
+   */
+  reservationCapacity?: number;
+  /**
+   * The total metric capacity for Service Fabric application.
+   * This is the total metric capacity for this application in the cluster. Service Fabric will try
+   * to limit the sum of loads of services within the application to this value.
+   * When creating a new application with application capacity defined, the product of MaximumNodes
+   * and MaximumCapacity must always be smaller than or equal to this value.
+   */
+  totalApplicationCapacity?: number;
+}
+
+/**
  * Describes capacity information for services of this application. This description can be used
  * for describing the following.
  * - Reserving the capacity for the services on the nodes
@@ -7258,6 +7295,8 @@ export interface StatefulServiceDescription {
    * value is 4.
    * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The
    * value is 8.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value
+   * is 16.
    */
   flags?: number;
   /**
@@ -7277,6 +7316,12 @@ export interface StatefulServiceDescription {
    * The duration for which replicas can stay InBuild before reporting that build is stuck.
    */
   servicePlacementTimeLimitSeconds?: number;
+  /**
+   * Indicates whether to drop source Secondary replica even if the target replica has not finished
+   * build. If desired behavior is to drop it as soon as possible the value of this property is
+   * true, if not it is false.
+   */
+  dropSourceReplicaOnMove?: boolean;
 }
 
 /**
@@ -7393,7 +7438,7 @@ export interface StatelessServiceDescription {
    * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
    * new connections to this instance.
    * In addition, clients that have subscribed to service endpoint change
-   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
    * can do
    * the following upon receiving the endpoint removal notification:
    * - Stop sending new requests to this instance.
@@ -7970,6 +8015,8 @@ export interface ServiceUpdateDescription {
    * 8192.
    * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
    * value is 16384.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value
+   * is 32768.
    */
   flags?: string;
   /**
@@ -8043,6 +8090,8 @@ export interface StatefulServiceUpdateDescription {
    * 8192.
    * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
    * value is 16384.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value
+   * is 32768.
    */
   flags?: string;
   /**
@@ -8098,6 +8147,12 @@ export interface StatefulServiceUpdateDescription {
    * The duration for which replicas can stay InBuild before reporting that build is stuck.
    */
   servicePlacementTimeLimitSeconds?: string;
+  /**
+   * Indicates whether to drop source Secondary replica even if the target replica has not finished
+   * build. If desired behavior is to drop it as soon as possible the value of this property is
+   * true, if not it is false.
+   */
+  dropSourceReplicaOnMove?: boolean;
 }
 
 /**
@@ -8141,6 +8196,8 @@ export interface StatelessServiceUpdateDescription {
    * 8192.
    * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
    * value is 16384.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value
+   * is 32768.
    */
   flags?: string;
   /**
@@ -8202,7 +8259,7 @@ export interface StatelessServiceUpdateDescription {
    * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
    * new connections to this instance.
    * In addition, clients that have subscribed to service endpoint change
-   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
    * can do
    * the following upon receiving the endpoint removal notification:
    * - Stop sending new requests to this instance.
@@ -8372,15 +8429,15 @@ export interface ImageStoreInfo {
   /**
    * the ImageStore's file system usage for copied application and cluster packages. [Removing
    * application and cluster
-   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-deleteimagestorecontent)
+   * packages](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-deleteimagestorecontent)
    * will free up this space.
    */
   usedByCopy?: UsageInfo;
   /**
    * the ImageStore's file system usage for registered and cluster packages. [Unregistering
-   * application](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * application](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
    * and [cluster
-   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * packages](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
    * will free up this space.
    */
   usedByRegister?: UsageInfo;
@@ -9194,7 +9251,7 @@ export interface BackupScheduleDescription {
 /**
  * Contains the possible cases for BackupStorageDescription.
  */
-export type BackupStorageDescriptionUnion = BackupStorageDescription | AzureBlobBackupStorageDescription | FileShareBackupStorageDescription;
+export type BackupStorageDescriptionUnion = BackupStorageDescription | AzureBlobBackupStorageDescription | FileShareBackupStorageDescription | DsmsAzureBlobBackupStorageDescription;
 
 /**
  * Describes the parameters for the backup storage.
@@ -9618,6 +9675,28 @@ export interface FileShareBackupStorageDescription {
    * Secondary password to access the share location
    */
   secondaryPassword?: string;
+}
+
+/**
+ * Describes the parameters for Dsms Azure blob store used for storing and enumerating backups.
+ */
+export interface DsmsAzureBlobBackupStorageDescription {
+  /**
+   * Polymorphic Discriminator
+   */
+  storageKind: "DsmsAzureBlobStore";
+  /**
+   * Friendly name for this backup storage.
+   */
+  friendlyName?: string;
+  /**
+   * The source location of the storage credentials to connect to the Dsms Azure blob store.
+   */
+  storageCredentialsSourceLocation: string;
+  /**
+   * The name of the container in the blob store to store and enumerate backups from.
+   */
+  containerName: string;
 }
 
 /**
@@ -13575,6 +13654,99 @@ export interface ChaosNodeRestartScheduledEvent {
 }
 
 /**
+ * Specifies metric load information.
+ */
+export interface MetricLoadDescription {
+  /**
+   * The name of the reported metric.
+   */
+  metricName?: string;
+  /**
+   * The current value of the metric load.
+   */
+  currentLoad?: number;
+  /**
+   * The predicted value of the metric load.
+   */
+  predictedLoad?: number;
+}
+
+/**
+ * Specifies result of updating load for specified partitions. The output will be ordered based on
+ * the partition ID.
+ */
+export interface UpdatePartitionLoadResult {
+  /**
+   * Id of the partition.
+   */
+  partitionId?: string;
+  /**
+   * If OperationState is Completed - this is 0.  If OperationState is Faulted - this is an error
+   * code indicating the reason.
+   */
+  partitionErrorCode?: number;
+}
+
+/**
+ * The list of results of the call UpdatePartitionLoad. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by executing the same
+ * query with the continuation token provided in this list.
+ */
+export interface PagedUpdatePartitionLoadResultList {
+  /**
+   * The continuation token parameter is used to obtain next set of results. The continuation token
+   * is included in the response of the API when the results from the system do not fit in a single
+   * response. When this value is passed to the next API call, the API returns next set of results.
+   * If there are no further results, then the continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * List of partition load update information.
+   */
+  items?: UpdatePartitionLoadResult[];
+}
+
+/**
+ * Specifies metric loads of a partition's specific secondary replica or instance.
+ */
+export interface ReplicaMetricLoadDescription {
+  /**
+   * Node name of a specific secondary replica or instance.
+   */
+  nodeName?: string;
+  /**
+   * Loads of a different metrics for a partition's secondary replica or instance.
+   */
+  replicaOrInstanceLoadEntries?: MetricLoadDescription[];
+}
+
+/**
+ * Represents load information for a partition, which contains the metrics load information about
+ * primary, all secondary replicas/instances or a specific secondary replica/instance located on a
+ * specific node.
+ */
+export interface PartitionMetricLoadDescription {
+  /**
+   * Id of the partition.
+   */
+  partitionId?: string;
+  /**
+   * Partition's load information for primary replica, in case partition is from a stateful
+   * service.
+   */
+  primaryReplicaLoadEntries?: MetricLoadDescription[];
+  /**
+   * Partition's load information for all secondary replicas or instances.
+   */
+  secondaryReplicasOrInstancesLoadEntries?: MetricLoadDescription[];
+  /**
+   * Partition's load information for a specific secondary replica or instance located on a
+   * specific node.
+   */
+  secondaryReplicaOrInstanceLoadEntriesPerNode?: ReplicaMetricLoadDescription[];
+}
+
+/**
  * Contains the possible cases for SecretResourcePropertiesBase.
  */
 export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
@@ -14519,23 +14691,26 @@ export interface ProbeTcpSocket {
  */
 export interface Probe {
   /**
-   * The initial delay in seconds to start executing probe once code package has started.
+   * The initial delay in seconds to start executing probe once codepackage has started. Default
+   * value: 0.
    */
   initialDelaySeconds?: number;
   /**
-   * Periodic seconds to execute probe.
+   * Periodic seconds to execute probe. Default value: 10.
    */
   periodSeconds?: number;
   /**
-   * Period after which probe is considered as failed if it hasn't completed successfully.
+   * Period after which probe is considered as failed if it hasn't completed successfully. Default
+   * value: 1.
    */
   timeoutSeconds?: number;
   /**
-   * The count of successful probe executions after which probe is considered success.
+   * The count of successful probe executions after which probe is considered success. Default
+   * value: 1.
    */
   successThreshold?: number;
   /**
-   * The count of failures after which probe is considered failed.
+   * The count of failures after which probe is considered failed. Default value: 3.
    */
   failureThreshold?: number;
   /**
@@ -14571,7 +14746,7 @@ export interface ContainerCodePackageProperties {
   /**
    * Override for the default entry point in the container.
    */
-  entrypoint?: string;
+  entryPoint?: string;
   /**
    * Command array to execute within the container in exec form.
    */
@@ -14635,7 +14810,7 @@ export interface ContainerCodePackageProperties {
 /**
  * Contains the possible cases for ExecutionPolicy.
  */
-export type ExecutionPolicyUnion = ExecutionPolicy | RunToCompletionExecutionPolicy;
+export type ExecutionPolicyUnion = ExecutionPolicy | DefaultExecutionPolicy | RunToCompletionExecutionPolicy;
 
 /**
  * The execution policy of the service
@@ -15040,16 +15215,29 @@ export interface AutoScalingResourceMetric {
 }
 
 /**
- * The run to completion execution policy
+ * The default execution policy. Always restart the service if an exit occurs.
+ */
+export interface DefaultExecutionPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Default";
+}
+
+/**
+ * The run to completion execution policy, the service will perform its desired operation and
+ * complete successfully. If the service encounters failure, it will restarted based on restart
+ * policy specified. If the service completes its operation successfully, it will not be restarted
+ * again.
  */
 export interface RunToCompletionExecutionPolicy {
   /**
    * Polymorphic Discriminator
    */
-  type: "runToCompletion";
+  type: "RunToCompletion";
   /**
    * Enumerates the restart policy for RunToCompletionExecutionPolicy. Possible values include:
-   * 'onFailure', 'never'
+   * 'OnFailure', 'Never'
    */
   restart: RestartPolicy;
 }
@@ -17501,6 +17689,35 @@ export interface ServiceFabricClientMoveSecondaryReplicaOptionalParams extends m
 /**
  * Optional Parameters.
  */
+export interface ServiceFabricClientUpdatePartitionLoadOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The continuation token parameter is used to obtain next set of results. A continuation token
+   * with a non-empty value is included in the response of the API when the results from the system
+   * do not fit in a single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the continuation token does
+   * not contain a value. The value of this parameter should not be URL encoded.
+   */
+  continuationToken?: string;
+  /**
+   * The maximum number of results to be returned as part of the paged queries. This parameter
+   * defines the upper bound on the number of results returned. The results returned can be less
+   * than the specified maximum results if they do not fit in the message as per the max message
+   * size restrictions defined in the configuration. If this parameter is zero or not specified,
+   * the paged query includes as many results as possible that fit in the return message. Default
+   * value: 0.
+   */
+  maxResults?: number;
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ServiceFabricClientGetRepairTaskListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The repair task ID prefix to be matched.
@@ -19863,11 +20080,11 @@ export type ServicePartitionKind = 'Invalid' | 'Singleton' | 'Int64Range' | 'Nam
 /**
  * Defines values for ServicePlacementPolicyType.
  * Possible values include: 'Invalid', 'InvalidDomain', 'RequireDomain', 'PreferPrimaryDomain',
- * 'RequireDomainDistribution', 'NonPartiallyPlaceService'
+ * 'RequireDomainDistribution', 'NonPartiallyPlaceService', 'AllowMultipleStatelessInstancesOnNode'
  * @readonly
  * @enum {string}
  */
-export type ServicePlacementPolicyType = 'Invalid' | 'InvalidDomain' | 'RequireDomain' | 'PreferPrimaryDomain' | 'RequireDomainDistribution' | 'NonPartiallyPlaceService';
+export type ServicePlacementPolicyType = 'Invalid' | 'InvalidDomain' | 'RequireDomain' | 'PreferPrimaryDomain' | 'RequireDomainDistribution' | 'NonPartiallyPlaceService' | 'AllowMultipleStatelessInstancesOnNode';
 
 /**
  * Defines values for ServiceLoadMetricWeight.
@@ -20097,11 +20314,11 @@ export type RetentionPolicyType = 'Basic' | 'Invalid';
 
 /**
  * Defines values for BackupStorageKind.
- * Possible values include: 'Invalid', 'FileShare', 'AzureBlobStore'
+ * Possible values include: 'Invalid', 'FileShare', 'AzureBlobStore', 'DsmsAzureBlobStore'
  * @readonly
  * @enum {string}
  */
-export type BackupStorageKind = 'Invalid' | 'FileShare' | 'AzureBlobStore';
+export type BackupStorageKind = 'Invalid' | 'FileShare' | 'AzureBlobStore' | 'DsmsAzureBlobStore';
 
 /**
  * Defines values for BackupScheduleKind.
@@ -20400,19 +20617,19 @@ export type AutoScalingTriggerKind = 'AverageLoad';
 
 /**
  * Defines values for ExecutionPolicyType.
- * Possible values include: 'runToCompletion'
+ * Possible values include: 'Default', 'RunToCompletion'
  * @readonly
  * @enum {string}
  */
-export type ExecutionPolicyType = 'runToCompletion';
+export type ExecutionPolicyType = 'Default' | 'RunToCompletion';
 
 /**
  * Defines values for RestartPolicy.
- * Possible values include: 'onFailure', 'never'
+ * Possible values include: 'OnFailure', 'Never'
  * @readonly
  * @enum {string}
  */
-export type RestartPolicy = 'onFailure' | 'never';
+export type RestartPolicy = 'OnFailure' | 'Never';
 
 /**
  * Defines values for NodeStatusFilter.
@@ -21520,6 +21737,26 @@ export type GetPartitionLoadInformationResponse = PartitionLoadInformation & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PartitionLoadInformation;
+    };
+};
+
+/**
+ * Contains response data for the updatePartitionLoad operation.
+ */
+export type UpdatePartitionLoadResponse = PagedUpdatePartitionLoadResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedUpdatePartitionLoadResultList;
     };
 };
 

@@ -597,6 +597,28 @@ export const ApplicationHealthPolicies: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationHealthPolicyMapObject: msRest.CompositeMapper = {
+  serializedName: "ApplicationHealthPolicyMapObject",
+  type: {
+    name: "Composite",
+    className: "ApplicationHealthPolicyMapObject",
+    modelProperties: {
+      applicationHealthPolicyMap: {
+        serializedName: "ApplicationHealthPolicyMap",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationHealthPolicyMapItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationHealthState: msRest.CompositeMapper = {
   serializedName: "ApplicationHealthState",
   type: {
@@ -1226,22 +1248,16 @@ export const ApplicationInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationMetricDescription: msRest.CompositeMapper = {
-  serializedName: "ApplicationMetricDescription",
+export const ApplicationLoadMetricInformation: msRest.CompositeMapper = {
+  serializedName: "ApplicationLoadMetricInformation",
   type: {
     name: "Composite",
-    className: "ApplicationMetricDescription",
+    className: "ApplicationLoadMetricInformation",
     modelProperties: {
       name: {
         serializedName: "Name",
         type: {
           name: "String"
-        }
-      },
-      maximumCapacity: {
-        serializedName: "MaximumCapacity",
-        type: {
-          name: "Number"
         }
       },
       reservationCapacity: {
@@ -1250,8 +1266,14 @@ export const ApplicationMetricDescription: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      totalApplicationCapacity: {
-        serializedName: "TotalApplicationCapacity",
+      applicationCapacity: {
+        serializedName: "ApplicationCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      applicationLoad: {
+        serializedName: "ApplicationLoad",
         type: {
           name: "Number"
         }
@@ -1297,7 +1319,7 @@ export const ApplicationLoadInfo: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationMetricDescription"
+              className: "ApplicationLoadMetricInformation"
             }
           }
         }
@@ -4333,7 +4355,7 @@ export const ReplicaHealthState: msRest.CompositeMapper = {
       serializedName: "ServiceKind",
       clientName: "serviceKind"
     },
-    uberParent: "EntityHealthState",
+    uberParent: "ReplicaHealthState",
     className: "ReplicaHealthState",
     modelProperties: {
       ...EntityHealthState.type.modelProperties,
@@ -4959,7 +4981,7 @@ export const ReplicaHealth: msRest.CompositeMapper = {
       serializedName: "ServiceKind",
       clientName: "serviceKind"
     },
-    uberParent: "EntityHealth",
+    uberParent: "ReplicaHealth",
     className: "ReplicaHealth",
     modelProperties: {
       ...EntityHealth.type.modelProperties,
@@ -5653,6 +5675,8 @@ export const StatefulServiceReplicaHealth: msRest.CompositeMapper = {
   serializedName: "Stateful",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: ReplicaHealth.type.polymorphicDiscriminator,
+    uberParent: "ReplicaHealth",
     className: "StatefulServiceReplicaHealth",
     modelProperties: {
       ...ReplicaHealth.type.modelProperties,
@@ -5670,6 +5694,8 @@ export const StatefulServiceReplicaHealthState: msRest.CompositeMapper = {
   serializedName: "Stateful",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: ReplicaHealthState.type.polymorphicDiscriminator,
+    uberParent: "ReplicaHealthState",
     className: "StatefulServiceReplicaHealthState",
     modelProperties: {
       ...ReplicaHealthState.type.modelProperties,
@@ -5719,6 +5745,8 @@ export const StatelessServiceInstanceHealth: msRest.CompositeMapper = {
   serializedName: "Stateless",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: ReplicaHealth.type.polymorphicDiscriminator,
+    uberParent: "ReplicaHealth",
     className: "StatelessServiceInstanceHealth",
     modelProperties: {
       ...ReplicaHealth.type.modelProperties,
@@ -5736,6 +5764,8 @@ export const StatelessServiceInstanceHealthState: msRest.CompositeMapper = {
   serializedName: "Stateless",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: ReplicaHealthState.type.polymorphicDiscriminator,
+    uberParent: "ReplicaHealthState",
     className: "StatelessServiceInstanceHealthState",
     modelProperties: {
       ...ReplicaHealthState.type.modelProperties,
@@ -6173,13 +6203,8 @@ export const ClusterUpgradeDescriptionObject: msRest.CompositeMapper = {
       applicationHealthPolicyMap: {
         serializedName: "ApplicationHealthPolicyMap",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApplicationHealthPolicyMapItem"
-            }
-          }
+          name: "Composite",
+          className: "ApplicationHealthPolicyMapObject"
         }
       }
     }
@@ -7326,6 +7351,40 @@ export const WaitingChaosEvent: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationMetricDescription: msRest.CompositeMapper = {
+  serializedName: "ApplicationMetricDescription",
+  type: {
+    name: "Composite",
+    className: "ApplicationMetricDescription",
+    modelProperties: {
+      name: {
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      maximumCapacity: {
+        serializedName: "MaximumCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      reservationCapacity: {
+        serializedName: "ReservationCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalApplicationCapacity: {
+        serializedName: "TotalApplicationCapacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationCapacityDescription: msRest.CompositeMapper = {
   serializedName: "ApplicationCapacityDescription",
   type: {
@@ -8259,6 +8318,12 @@ export const StatefulServiceDescription: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      dropSourceReplicaOnMove: {
+        serializedName: "DropSourceReplicaOnMove",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -8987,6 +9052,12 @@ export const StatefulServiceUpdateDescription: msRest.CompositeMapper = {
         serializedName: "ServicePlacementTimeLimitSeconds",
         type: {
           name: "String"
+        }
+      },
+      dropSourceReplicaOnMove: {
+        serializedName: "DropSourceReplicaOnMove",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -10995,6 +11066,33 @@ export const FileShareBackupStorageDescription: msRest.CompositeMapper = {
       },
       secondaryPassword: {
         serializedName: "SecondaryPassword",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DsmsAzureBlobBackupStorageDescription: msRest.CompositeMapper = {
+  serializedName: "DsmsAzureBlobStore",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: BackupStorageDescription.type.polymorphicDiscriminator,
+    uberParent: "BackupStorageDescription",
+    className: "DsmsAzureBlobBackupStorageDescription",
+    modelProperties: {
+      ...BackupStorageDescription.type.modelProperties,
+      storageCredentialsSourceLocation: {
+        required: true,
+        serializedName: "StorageCredentialsSourceLocation",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        required: true,
+        serializedName: "ContainerName",
         type: {
           name: "String"
         }
@@ -15259,6 +15357,164 @@ export const ChaosNodeRestartScheduledEvent: msRest.CompositeMapper = {
   }
 };
 
+export const MetricLoadDescription: msRest.CompositeMapper = {
+  serializedName: "MetricLoadDescription",
+  type: {
+    name: "Composite",
+    className: "MetricLoadDescription",
+    modelProperties: {
+      metricName: {
+        serializedName: "MetricName",
+        type: {
+          name: "String"
+        }
+      },
+      currentLoad: {
+        serializedName: "CurrentLoad",
+        type: {
+          name: "Number"
+        }
+      },
+      predictedLoad: {
+        serializedName: "PredictedLoad",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const UpdatePartitionLoadResult: msRest.CompositeMapper = {
+  serializedName: "UpdatePartitionLoadResult",
+  type: {
+    name: "Composite",
+    className: "UpdatePartitionLoadResult",
+    modelProperties: {
+      partitionId: {
+        serializedName: "PartitionId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      partitionErrorCode: {
+        serializedName: "PartitionErrorCode",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PagedUpdatePartitionLoadResultList: msRest.CompositeMapper = {
+  serializedName: "PagedUpdatePartitionLoadResultList",
+  type: {
+    name: "Composite",
+    className: "PagedUpdatePartitionLoadResultList",
+    modelProperties: {
+      continuationToken: {
+        serializedName: "ContinuationToken",
+        type: {
+          name: "String"
+        }
+      },
+      items: {
+        serializedName: "Items",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UpdatePartitionLoadResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ReplicaMetricLoadDescription: msRest.CompositeMapper = {
+  serializedName: "ReplicaMetricLoadDescription",
+  type: {
+    name: "Composite",
+    className: "ReplicaMetricLoadDescription",
+    modelProperties: {
+      nodeName: {
+        serializedName: "NodeName",
+        type: {
+          name: "String"
+        }
+      },
+      replicaOrInstanceLoadEntries: {
+        serializedName: "ReplicaOrInstanceLoadEntries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricLoadDescription"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PartitionMetricLoadDescription: msRest.CompositeMapper = {
+  serializedName: "PartitionMetricLoadDescription",
+  type: {
+    name: "Composite",
+    className: "PartitionMetricLoadDescription",
+    modelProperties: {
+      partitionId: {
+        serializedName: "PartitionId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      primaryReplicaLoadEntries: {
+        serializedName: "PrimaryReplicaLoadEntries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricLoadDescription"
+            }
+          }
+        }
+      },
+      secondaryReplicasOrInstancesLoadEntries: {
+        serializedName: "SecondaryReplicasOrInstancesLoadEntries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricLoadDescription"
+            }
+          }
+        }
+      },
+      secondaryReplicaOrInstanceLoadEntriesPerNode: {
+        serializedName: "SecondaryReplicaOrInstanceLoadEntriesPerNode",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReplicaMetricLoadDescription"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SecretResourcePropertiesBase: msRest.CompositeMapper = {
   serializedName: "SecretResourcePropertiesBase",
   type: {
@@ -16720,30 +16976,35 @@ export const Probe: msRest.CompositeMapper = {
     modelProperties: {
       initialDelaySeconds: {
         serializedName: "initialDelaySeconds",
+        defaultValue: 0,
         type: {
           name: "Number"
         }
       },
       periodSeconds: {
         serializedName: "periodSeconds",
+        defaultValue: 10,
         type: {
           name: "Number"
         }
       },
       timeoutSeconds: {
         serializedName: "timeoutSeconds",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       successThreshold: {
         serializedName: "successThreshold",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       failureThreshold: {
         serializedName: "failureThreshold",
+        defaultValue: 3,
         type: {
           name: "Number"
         }
@@ -16800,8 +17061,8 @@ export const ContainerCodePackageProperties: msRest.CompositeMapper = {
           className: "ImageRegistryCredential"
         }
       },
-      entrypoint: {
-        serializedName: "entrypoint",
+      entryPoint: {
+        serializedName: "entryPoint",
         type: {
           name: "String"
         }
@@ -17580,8 +17841,21 @@ export const AutoScalingResourceMetric: msRest.CompositeMapper = {
   }
 };
 
+export const DefaultExecutionPolicy: msRest.CompositeMapper = {
+  serializedName: "Default",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ExecutionPolicy.type.polymorphicDiscriminator,
+    uberParent: "ExecutionPolicy",
+    className: "DefaultExecutionPolicy",
+    modelProperties: {
+      ...ExecutionPolicy.type.modelProperties
+    }
+  }
+};
+
 export const RunToCompletionExecutionPolicy: msRest.CompositeMapper = {
-  serializedName: "runToCompletion",
+  serializedName: "RunToCompletion",
   type: {
     name: "Composite",
     polymorphicDiscriminator: ExecutionPolicy.type.polymorphicDiscriminator,
@@ -18008,7 +18282,7 @@ export const discriminators = {
   'ServiceInfo' : ServiceInfo,
   'FabricEvent.PartitionAnalysisEvent' : PartitionAnalysisEvent,
   'FabricEvent.PartitionEvent' : PartitionEvent,
-  'EntityHealthState.ReplicaHealthState' : ReplicaHealthState,
+  'ReplicaHealthState' : ReplicaHealthState,
   'HealthEvaluation.Partition' : PartitionHealthEvaluation,
   'ProvisionApplicationTypeDescriptionBase' : ProvisionApplicationTypeDescriptionBase,
   'ProvisionApplicationTypeDescriptionBase.ImageStorePath' : ProvisionApplicationTypeDescription,
@@ -18019,7 +18293,7 @@ export const discriminators = {
   'SafetyCheck.EnsureSeedNodeQuorum' : SeedNodeSafetyCheck,
   'HealthEvaluation.Partitions' : PartitionsHealthEvaluation,
   'FabricEvent.ReplicaEvent' : ReplicaEvent,
-  'EntityHealth.ReplicaHealth' : ReplicaHealth,
+  'ReplicaHealth' : ReplicaHealth,
   'HealthEvaluation.Replica' : ReplicaHealthEvaluation,
   'HealthEvaluation.Replicas' : ReplicasHealthEvaluation,
   'FabricEvent.ServiceEvent' : ServiceEvent,
@@ -18035,12 +18309,12 @@ export const discriminators = {
   'PartitionInformation.Singleton' : SingletonPartitionInformation,
   'ServiceInfo.Stateful' : StatefulServiceInfo,
   'ServicePartitionInfo.Stateful' : StatefulServicePartitionInfo,
-  'EntityHealth.Stateful' : StatefulServiceReplicaHealth,
-  'EntityHealthState.Stateful' : StatefulServiceReplicaHealthState,
+  'ReplicaHealth.Stateful' : StatefulServiceReplicaHealth,
+  'ReplicaHealthState.Stateful' : StatefulServiceReplicaHealthState,
   'ServiceTypeDescription.Stateful' : StatefulServiceTypeDescription,
   'ServiceInfo.Stateless' : StatelessServiceInfo,
-  'EntityHealth.Stateless' : StatelessServiceInstanceHealth,
-  'EntityHealthState.Stateless' : StatelessServiceInstanceHealthState,
+  'ReplicaHealth.Stateless' : StatelessServiceInstanceHealth,
+  'ReplicaHealthState.Stateless' : StatelessServiceInstanceHealthState,
   'ServicePartitionInfo.Stateless' : StatelessServicePartitionInfo,
   'ServiceTypeDescription.Stateless' : StatelessServiceTypeDescription,
   'HealthEvaluation.SystemApplication' : SystemApplicationHealthEvaluation,
@@ -18106,6 +18380,7 @@ export const discriminators = {
   'BackupConfigurationInfo' : BackupConfigurationInfo,
   'BackupStorageDescription.AzureBlobStore' : AzureBlobBackupStorageDescription,
   'BackupStorageDescription.FileShare' : FileShareBackupStorageDescription,
+  'BackupStorageDescription.DsmsAzureBlobStore' : DsmsAzureBlobBackupStorageDescription,
   'BackupScheduleDescription.FrequencyBased' : FrequencyBasedBackupScheduleDescription,
   'BackupScheduleDescription.TimeBased' : TimeBasedBackupScheduleDescription,
   'BackupConfigurationInfo.Partition' : PartitionBackupConfigurationInfo,
@@ -18191,7 +18466,8 @@ export const discriminators = {
   'AutoScalingMechanism.AddRemoveReplica' : AddRemoveReplicaScalingMechanism,
   'AutoScalingMetric' : AutoScalingMetric,
   'AutoScalingMetric.Resource' : AutoScalingResourceMetric,
-  'ExecutionPolicy.runToCompletion' : RunToCompletionExecutionPolicy,
+  'ExecutionPolicy.Default' : DefaultExecutionPolicy,
+  'ExecutionPolicy.RunToCompletion' : RunToCompletionExecutionPolicy,
   'AutoScalingTrigger.AverageLoad' : AverageLoadScalingTrigger
 
 };

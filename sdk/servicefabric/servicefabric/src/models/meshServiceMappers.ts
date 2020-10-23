@@ -23,6 +23,7 @@ export {
   ContainerInstanceView,
   ContainerLabel,
   ContainerState,
+  DefaultExecutionPolicy,
   DiagnosticsRef,
   EndpointProperties,
   EndpointRef,

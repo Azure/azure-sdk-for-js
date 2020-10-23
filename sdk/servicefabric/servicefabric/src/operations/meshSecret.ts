@@ -156,7 +156,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.secretResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   requestBody: {
     parameterPath: "secretResourceDescription",
@@ -187,7 +187,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.secretResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   responses: {
     200: {
@@ -207,7 +207,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.secretResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   responses: {
     200: {},
@@ -224,7 +224,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Secrets",
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   responses: {
     200: {

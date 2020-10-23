@@ -1024,7 +1024,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * number of Down seed nodes. If necessary, add more nodes to the primary node type to achieve
    * this. For standalone cluster, if the Down seed node is not expected to come back up with its
    * state intact, please remove the node from the cluster, see
-   * https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-windows-server-add-remove-nodes
+   * https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-windows-server-add-remove-nodes
    * @summary Notifies Service Fabric that the persisted state on a node has been permanently removed
    * or lost.
    * @param nodeName The name of the node.
@@ -1892,6 +1892,12 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * Validates the supplied application upgrade parameters and starts upgrading the application if
    * the parameters are valid.
+   * Note,
+   * [ApplicationParameter](https://docs.microsoft.com/dotnet/api/system.fabric.description.applicationdescription.applicationparameters)s
+   * are not preserved across an application upgrade.
+   * In order to preserve current application parameters, the user should get the parameters using
+   * [GetApplicationInfo](./GetApplicationInfo.md) operation first and pass them into the upgrade API
+   * call as shown in the example.
    * @summary Starts upgrading an application in the Service Fabric cluster.
    * @param applicationId The identity of the application. This is typically the full name of the
    * application without the 'fabric:' URI scheme.
@@ -3510,6 +3516,36 @@ class ServiceFabricClient extends ServiceFabricClientContext {
       },
       moveSecondaryReplicaOperationSpec,
       callback);
+  }
+
+  /**
+   * Updates the load value and predicted load value for all the partitions provided for specified
+   * metrics.
+   * @summary Update the loads of provided partitions for specific metrics.
+   * @param partitionMetricLoadDescriptionList Description of updating load for list of partitions.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UpdatePartitionLoadResponse>
+   */
+  updatePartitionLoad(partitionMetricLoadDescriptionList: Models.PartitionMetricLoadDescription[], options?: Models.ServiceFabricClientUpdatePartitionLoadOptionalParams): Promise<Models.UpdatePartitionLoadResponse>;
+  /**
+   * @param partitionMetricLoadDescriptionList Description of updating load for list of partitions.
+   * @param callback The callback
+   */
+  updatePartitionLoad(partitionMetricLoadDescriptionList: Models.PartitionMetricLoadDescription[], callback: msRest.ServiceCallback<Models.PagedUpdatePartitionLoadResultList>): void;
+  /**
+   * @param partitionMetricLoadDescriptionList Description of updating load for list of partitions.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updatePartitionLoad(partitionMetricLoadDescriptionList: Models.PartitionMetricLoadDescription[], options: Models.ServiceFabricClientUpdatePartitionLoadOptionalParams, callback: msRest.ServiceCallback<Models.PagedUpdatePartitionLoadResultList>): void;
+  updatePartitionLoad(partitionMetricLoadDescriptionList: Models.PartitionMetricLoadDescription[], options?: Models.ServiceFabricClientUpdatePartitionLoadOptionalParams | msRest.ServiceCallback<Models.PagedUpdatePartitionLoadResultList>, callback?: msRest.ServiceCallback<Models.PagedUpdatePartitionLoadResultList>): Promise<Models.UpdatePartitionLoadResponse> {
+    return this.sendOperationRequest(
+      {
+        partitionMetricLoadDescriptionList,
+        options
+      },
+      updatePartitionLoadOperationSpec,
+      callback) as Promise<Models.UpdatePartitionLoadResponse>;
   }
 
   /**
@@ -10182,6 +10218,42 @@ const moveSecondaryReplicaOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const updatePartitionLoadOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "$/UpdatePartitionLoad",
+  queryParameters: [
+    Parameters.apiVersion7,
+    Parameters.continuationToken,
+    Parameters.maxResults,
+    Parameters.timeout
+  ],
+  requestBody: {
+    parameterPath: "partitionMetricLoadDescriptionList",
+    mapper: {
+      required: true,
+      serializedName: "PartitionMetricLoadDescriptionList",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Composite",
+            className: "PartitionMetricLoadDescription"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.PagedUpdatePartitionLoadResultList
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const createRepairTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "$/CreateRepairTask",
@@ -10908,7 +10980,7 @@ const createComposeDeploymentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "ComposeDeployments/$/Create",
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   requestBody: {
@@ -10934,7 +11006,7 @@ const getComposeDeploymentStatusOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   responses: {
@@ -10952,7 +11024,7 @@ const getComposeDeploymentStatusListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ComposeDeployments",
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -10975,7 +11047,7 @@ const getComposeDeploymentUpgradeProgressOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   responses: {
@@ -10996,7 +11068,7 @@ const removeComposeDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   responses: {
@@ -11015,7 +11087,7 @@ const startComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   requestBody: {
@@ -11041,7 +11113,7 @@ const startRollbackComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec =
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion8,
+    Parameters.apiVersion9,
     Parameters.timeout
   ],
   responses: {
@@ -12619,7 +12691,7 @@ const getContainersEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Containers/Events",
   queryParameters: [
-    Parameters.apiVersion9,
+    Parameters.apiVersion10,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,

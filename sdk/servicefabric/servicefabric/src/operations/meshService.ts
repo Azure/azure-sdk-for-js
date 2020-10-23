@@ -101,7 +101,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serviceResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   responses: {
     200: {
@@ -121,7 +121,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion8
+    Parameters.apiVersion9
   ],
   responses: {
     200: {
