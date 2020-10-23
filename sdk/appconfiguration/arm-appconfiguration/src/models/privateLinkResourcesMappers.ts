@@ -7,7 +7,8 @@
  */
 
 export {
-  ErrorModel,
+  ErrorDetails,
+  ErrorResponse,
   PrivateLinkResource,
   PrivateLinkResourceListResult
 } from "../models/mappers";

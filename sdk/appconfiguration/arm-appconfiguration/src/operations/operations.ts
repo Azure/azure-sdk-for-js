@@ -136,7 +136,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NameAvailabilityStatus
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -157,7 +157,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -178,7 +178,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

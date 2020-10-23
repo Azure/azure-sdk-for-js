@@ -21,6 +21,7 @@ class AppConfigurationManagementClient extends AppConfigurationManagementClientC
   operations: operations.Operations;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
+  keyValues: operations.KeyValues;
 
   /**
    * Initializes a new instance of the AppConfigurationManagementClient class.
@@ -34,6 +35,7 @@ class AppConfigurationManagementClient extends AppConfigurationManagementClientC
     this.operations = new operations.Operations(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.keyValues = new operations.KeyValues(this);
   }
 }
 

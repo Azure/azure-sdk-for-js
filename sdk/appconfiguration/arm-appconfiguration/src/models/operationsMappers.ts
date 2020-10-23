@@ -8,9 +8,15 @@
 
 export {
   CheckNameAvailabilityParameters,
-  ErrorModel,
+  ErrorDetails,
+  ErrorResponse,
+  LogSpecification,
+  MetricDimension,
+  MetricSpecification,
   NameAvailabilityStatus,
   OperationDefinition,
   OperationDefinitionDisplay,
-  OperationDefinitionListResult
+  OperationDefinitionListResult,
+  OperationProperties,
+  ServiceSpecification
 } from "../models/mappers";

@@ -218,42 +218,6 @@ export class ConfigurationStores {
   }
 
   /**
-   * Lists a configuration store key-value.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param configStoreName The name of the configuration store.
-   * @param listKeyValueParameters The parameters for retrieving a key-value.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ConfigurationStoresListKeyValueResponse>
-   */
-  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresListKeyValueResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param configStoreName The name of the configuration store.
-   * @param listKeyValueParameters The parameters for retrieving a key-value.
-   * @param callback The callback
-   */
-  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, callback: msRest.ServiceCallback<Models.KeyValue>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param configStoreName The name of the configuration store.
-   * @param listKeyValueParameters The parameters for retrieving a key-value.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyValue>): void;
-  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyValue>, callback?: msRest.ServiceCallback<Models.KeyValue>): Promise<Models.ConfigurationStoresListKeyValueResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        configStoreName,
-        listKeyValueParameters,
-        options
-      },
-      listKeyValueOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListKeyValueResponse>;
-  }
-
-  /**
    * Creates a configuration store with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
@@ -416,7 +380,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -441,7 +405,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -466,7 +430,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -474,7 +438,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/ListKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -492,7 +456,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApiKeyListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -500,7 +464,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/RegenerateKey",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/regenerateKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -524,39 +488,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApiKey
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  serializer
-};
-
-const listKeyValueOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeyValue",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.configStoreName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "listKeyValueParameters",
-    mapper: {
-      ...Mappers.ListKeyValueParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyValue
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -591,7 +523,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -616,7 +548,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -651,7 +583,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -672,7 +604,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -693,7 +625,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -714,7 +646,7 @@ const listKeysNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApiKeyListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

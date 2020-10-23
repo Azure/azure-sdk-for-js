@@ -216,7 +216,7 @@ const listByConfigurationStoreOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -242,7 +242,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -278,7 +278,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -304,7 +304,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -325,7 +325,7 @@ const listByConfigurationStoreNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
