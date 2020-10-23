@@ -9,4 +9,5 @@
  */
 
 export * from "./workspaces";
+export * from "./vNetPeering";
 export * from "./operations";
