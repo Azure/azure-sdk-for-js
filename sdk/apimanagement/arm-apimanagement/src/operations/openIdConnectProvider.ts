@@ -95,7 +95,7 @@ export class OpenIdConnectProvider {
   }
 
   /**
-   * Gets specific OpenID Connect Provider.
+   * Gets specific OpenID Connect Provider without secrets.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
@@ -179,9 +179,9 @@ export class OpenIdConnectProvider {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.OpenIdConnectProviderUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenIdConnectProviderUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -191,7 +191,7 @@ export class OpenIdConnectProvider {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,8 +202,8 @@ export class OpenIdConnectProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): void;
+  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenidConnectProviderContract>, callback?: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): Promise<Models.OpenIdConnectProviderUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +214,7 @@ export class OpenIdConnectProvider {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.OpenIdConnectProviderUpdateResponse>;
   }
 
   /**
@@ -375,7 +375,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
     }
   },
   serializer
@@ -402,7 +403,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderGetHeaders
     }
   },
   serializer
@@ -441,7 +443,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
     }
   },
   serializer
@@ -471,9 +474,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.OpenidConnectProviderContract,
+      headersMapper: Mappers.OpenIdConnectProviderUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderUpdateHeaders
     }
   },
   serializer
@@ -522,10 +529,12 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ClientSecretContract
+      bodyMapper: Mappers.ClientSecretContract,
+      headersMapper: Mappers.OpenIdConnectProviderListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderListSecretsHeaders
     }
   },
   serializer

@@ -189,9 +189,9 @@ export class Product {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ProductUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +202,7 @@ export class Product {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<Models.ProductContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +214,8 @@ export class Product {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductContract>): void;
+  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductContract>, callback?: msRest.ServiceCallback<Models.ProductContract>): Promise<Models.ProductUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +226,7 @@ export class Product {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.ProductUpdateResponse>;
   }
 
   /**
@@ -416,7 +416,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ProductGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ProductGetEntityTagHeaders
     }
   },
   serializer
@@ -443,7 +444,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ProductGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ProductGetHeaders
     }
   },
   serializer
@@ -482,7 +484,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ProductCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ProductCreateOrUpdateHeaders
     }
   },
   serializer
@@ -512,9 +515,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.ProductContract,
+      headersMapper: Mappers.ProductUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ProductUpdateHeaders
     }
   },
   serializer

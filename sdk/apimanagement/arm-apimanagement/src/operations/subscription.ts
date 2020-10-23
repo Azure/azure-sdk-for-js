@@ -190,9 +190,9 @@ export class Subscription {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.SubscriptionUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams): Promise<Models.SubscriptionUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -203,7 +203,7 @@ export class Subscription {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -215,8 +215,8 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options: Models.SubscriptionUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options: Models.SubscriptionUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
+  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams | msRest.ServiceCallback<Models.SubscriptionContract>, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +227,7 @@ export class Subscription {
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.SubscriptionUpdateResponse>;
   }
 
   /**
@@ -355,7 +355,7 @@ export class Subscription {
   }
 
   /**
-   * Gets the subscription keys.
+   * Gets the specified Subscription keys.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user
@@ -472,7 +472,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionGetEntityTagHeaders
     }
   },
   serializer
@@ -499,7 +500,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionGetHeaders
     }
   },
   serializer
@@ -516,7 +518,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.notify,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.ifMatch0,
@@ -539,7 +542,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     }
   },
   serializer
@@ -556,7 +560,8 @@ const updateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.notify,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.ifMatch1,
@@ -570,9 +575,13 @@ const updateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionUpdateHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionUpdateHeaders
     }
   },
   serializer
@@ -669,10 +678,12 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionKeysContract
+      bodyMapper: Mappers.SubscriptionKeysContract,
+      headersMapper: Mappers.SubscriptionListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionListSecretsHeaders
     }
   },
   serializer

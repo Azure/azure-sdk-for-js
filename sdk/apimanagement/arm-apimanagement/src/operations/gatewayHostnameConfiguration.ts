@@ -113,7 +113,7 @@ export class GatewayHostnameConfiguration {
   }
 
   /**
-   * Gets the details of the Gateway hostname configuration specified by its identifier.
+   * Get details of a hostname configuration
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
@@ -170,7 +170,7 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: msRest.RequestOptionsBase): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: Models.GatewayHostnameConfigurationCreateOrUpdateOptionalParams): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -193,8 +193,8 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options: Models.GatewayHostnameConfigurationCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: Models.GatewayHostnameConfigurationCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,10 +216,12 @@ export class GatewayHostnameConfiguration {
    * instance. Must not have value 'managed'
    * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent
    * Gateway entity.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -227,9 +229,11 @@ export class GatewayHostnameConfiguration {
    * instance. Must not have value 'managed'
    * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent
    * Gateway entity.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -237,17 +241,20 @@ export class GatewayHostnameConfiguration {
    * instance. Must not have value 'managed'
    * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent
    * Gateway entity.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         gatewayId,
         hcId,
+        ifMatch,
         options
       },
       deleteMethodOperationSpec,
@@ -295,6 +302,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.filter0,
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion
@@ -334,7 +342,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders
     }
   },
   serializer
@@ -362,7 +371,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.GatewayHostnameConfigurationGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.GatewayHostnameConfigurationGetHeaders
     }
   },
   serializer
@@ -382,6 +392,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -401,7 +412,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
     }
   },
   serializer
@@ -421,6 +433,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
