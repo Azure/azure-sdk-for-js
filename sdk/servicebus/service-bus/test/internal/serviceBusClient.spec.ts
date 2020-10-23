@@ -56,7 +56,7 @@ describe("serviceBusClient unit tests", () => {
           origConnectionContext.config
         );
 
-        let sessionReceiver: ServiceBusSessionReceiver<any>;
+        let sessionReceiver: ServiceBusSessionReceiver;
 
         if (testEntity.queue) {
           sessionReceiver = await client.acceptSession(testEntity.queue, "a session id", {
@@ -83,7 +83,7 @@ describe("serviceBusClient unit tests", () => {
         assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
         assert.equal(sessionReceiver.sessionId, "a session id");
 
-        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl;
         assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
 
         assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);
@@ -109,7 +109,7 @@ describe("serviceBusClient unit tests", () => {
           origConnectionContext.config
         );
 
-        let sessionReceiver: ServiceBusSessionReceiver<any>;
+        let sessionReceiver: ServiceBusSessionReceiver;
 
         if (testEntity.queue) {
           sessionReceiver = await client.acceptNextSession(testEntity.queue, {
@@ -135,7 +135,7 @@ describe("serviceBusClient unit tests", () => {
         assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
         assert.equal(sessionReceiver.sessionId, "session id");
 
-        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl;
         assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
 
         assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);

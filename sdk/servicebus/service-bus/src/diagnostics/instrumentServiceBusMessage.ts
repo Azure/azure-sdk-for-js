@@ -99,7 +99,7 @@ export function createProcessingSpan(
   // NOTE: the connectionConfig also has an entityPath property but that only
   // represents the optional entityPath in their connection string which is NOT
   // what we want for tracing.
-  receiver: Pick<ServiceBusReceiver<any>, "entityPath">,
+  receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
   options?: OperationOptionsBase
 ): Span {
@@ -145,7 +145,7 @@ export function createProcessingSpan(
  */
 export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
-  receiver: Pick<ServiceBusReceiver<any>, "entityPath">,
+  receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
   options?: OperationOptionsBase
 ): void {

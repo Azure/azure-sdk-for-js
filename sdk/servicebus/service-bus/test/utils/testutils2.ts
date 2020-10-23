@@ -22,11 +22,7 @@ import {
   verifyMessageCount
 } from "./managementUtils";
 import chai from "chai";
-import {
-  ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
-  ServiceBusMessage
-} from "../../src/serviceBusMessage";
+import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../src/serviceBusMessage";
 
 dotenv.config();
 const env = getEnvVars();
@@ -128,7 +124,7 @@ async function createTestEntities(
   return relatedEntities;
 }
 
-export async function drainAllMessages(receiver: ServiceBusReceiver<{}>): Promise<void> {
+export async function drainAllMessages(receiver: ServiceBusReceiver) {
   while (true) {
     const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
@@ -220,9 +216,7 @@ export class ServiceBusTestHelpers {
     entityNames: EntityName,
     sentMessages: ServiceBusMessage[]
   ): Promise<void> {
-    let receiver:
-      | ServiceBusReceiver<ServiceBusReceivedMessage>
-      | ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
+    let receiver: ServiceBusReceiver | ServiceBusSessionReceiver;
     let receivedMsgs: ServiceBusReceivedMessage[];
     if (!entityNames.usesSessions) {
       receiver = await this.createReceiveAndDeleteReceiver(entityNames);
@@ -332,7 +326,7 @@ export class ServiceBusTestHelpers {
   async createPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     options?: ServiceBusReceiverOptions<"peekLock">
-  ): Promise<ServiceBusReceiver<ServiceBusReceivedMessageWithLock>> {
+  ): Promise<ServiceBusReceiver> {
     if (entityNames.usesSessions) {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
@@ -377,7 +371,7 @@ export class ServiceBusTestHelpers {
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     sessionId: string,
     options?: ServiceBusSessionReceiverOptions<"peekLock">
-  ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>> {
+  ): Promise<ServiceBusSessionReceiver> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -407,7 +401,7 @@ export class ServiceBusTestHelpers {
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned"> & {
       sessionId?: string;
     }
-  ): Promise<ServiceBusReceiver<ServiceBusReceivedMessage>> {
+  ): Promise<ServiceBusReceiver> {
     // TODO: we should generate a random ID here - there's no harm in
     // creating as many sessions as we wish. Some tests will need to change.
     const sessionId = entityNames.sessionId ?? TestMessage.sessionId;
@@ -440,9 +434,7 @@ export class ServiceBusTestHelpers {
     }
   }
 
-  createDeadLetterReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
-  ): ServiceBusReceiver<ServiceBusReceivedMessageWithLock> {
+  createDeadLetterReceiver(entityNames: ReturnType<typeof getEntityNames>): ServiceBusReceiver {
     return this.addToCleanup(
       entityNames.queue
         ? this._serviceBusClient.createReceiver(entityNames.queue, {
@@ -470,12 +462,9 @@ async function purgeForTestClientType(
   serviceBusClient: ServiceBusClient,
   testClientType: TestClientType
 ): Promise<void> {
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessage>
-    | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
-    | undefined;
+  let receiver: ServiceBusReceiver | ServiceBusSessionReceiver | undefined;
   const entityPaths = getEntityNames(testClientType);
-  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let deadLetterReceiver: ServiceBusReceiver;
 
   if (entityPaths.queue) {
     receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
@@ -514,9 +503,7 @@ export function createServiceBusClientForTests(
   return serviceBusClient;
 }
 
-export async function drainReceiveAndDeleteReceiver(
-  receiver: ServiceBusReceiver<{}>
-): Promise<void> {
+export async function drainReceiveAndDeleteReceiver(receiver: ServiceBusReceiver): Promise<void> {
   try {
     while (true) {
       const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
@@ -541,7 +528,7 @@ function connectionString() {
 }
 
 export async function testPeekMsgsLength(
-  peekableReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>,
+  peekableReceiver: ServiceBusReceiver,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 1);

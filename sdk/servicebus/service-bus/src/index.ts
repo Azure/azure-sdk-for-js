@@ -52,16 +52,8 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  NamespacePropertiesResponse,
-  QueueResponse,
-  QueueRuntimePropertiesResponse,
-  Response,
-  RuleResponse,
-  ServiceBusAdministrationClient,
-  SubscriptionResponse,
-  SubscriptionRuntimePropertiesResponse,
-  TopicResponse,
-  TopicRuntimePropertiesResponse
+  WithResponse,
+  ServiceBusAdministrationClient
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
@@ -70,7 +62,6 @@ export {
   AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";

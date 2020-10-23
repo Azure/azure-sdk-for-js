@@ -165,8 +165,7 @@ export { delay }
 export { Delivery }
 
 // @public
-export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
-}
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> & Pick<PageSettings, "continuationToken">;
 
 // @public
 export type EntityAvailabilityStatus = "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
@@ -179,9 +178,9 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface MessageHandlers<ReceivedMessageT> {
+export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
-    processMessage(message: ReceivedMessageT): Promise<void>;
+    processMessage(message: ServiceBusReceivedMessage): Promise<void>;
 }
 
 export { MessagingError }
@@ -193,11 +192,6 @@ export interface NamespaceProperties {
     messagingUnits: number | undefined;
     modifiedAt: Date;
     name: string;
-    namespaceType: string;
-}
-
-// @public
-export interface NamespacePropertiesResponse extends NamespaceProperties, Response {
 }
 
 export { OperationOptions }
@@ -245,10 +239,6 @@ export interface QueueProperties {
 }
 
 // @public
-export interface QueueResponse extends QueueProperties, Response {
-}
-
-// @public
 export interface QueueRuntimeProperties {
     accessedAt: Date;
     activeMessageCount: number;
@@ -264,21 +254,12 @@ export interface QueueRuntimeProperties {
 }
 
 // @public
-export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {
-}
-
-// @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
 
 // @public
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
-
-// @public
-export interface Response {
-    _response: HttpOperationResponse;
-}
 
 export { RetryOptions }
 
@@ -290,30 +271,26 @@ export interface RuleProperties {
 }
 
 // @public
-export interface RuleResponse extends RuleProperties, Response {
-}
-
-// @public
 export class ServiceBusAdministrationClient extends ServiceClient {
     constructor(connectionString: string, options?: PipelineOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
-    createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;
-    createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse>;
-    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
-    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
-    getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
-    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimePropertiesResponse>;
-    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
+    createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<WithResponse<SubscriptionProperties>>;
+    createTopic(topicName: string, options?: CreateTopicOptions): Promise<WithResponse<TopicProperties>>;
+    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<{}>>;
+    getNamespaceProperties(operationOptions?: OperationOptions): Promise<WithResponse<NamespaceProperties>>;
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<WithResponse<QueueRuntimeProperties>>;
+    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionRuntimeProperties>>;
+    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<WithResponse<TopicRuntimeProperties>>;
     listQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
     listQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
     listRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>;
@@ -325,29 +302,29 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
 
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptNextSession(queueName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptNextSession(topicName: string, subscriptionName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptSession(queueName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
+    acceptNextSession(queueName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
+    acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
+    acceptNextSession(topicName: string, subscriptionName: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
+    acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
+    acceptSession(queueName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
+    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver>;
+    acceptSession(topicName: string, subscriptionName: string, sessionId: string, options: ServiceBusSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver>;
     close(): Promise<void>;
-    createReceiver(queueName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
+    createReceiver(queueName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver;
+    createReceiver(queueName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver;
+    createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions<"peekLock">): ServiceBusReceiver;
+    createReceiver(topicName: string, subscriptionName: string, options: ServiceBusReceiverOptions<"receiveAndDelete">): ServiceBusReceiver;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
 }
@@ -418,31 +395,27 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 }
 
 // @public
-export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMessage {
-    abandon(propertiesToModify?: {
+export interface ServiceBusReceiver {
+    abandonMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
-    complete(): Promise<void>;
-    deadLetter(options?: DeadLetterOptions & {
-        [key: string]: any;
-    }): Promise<void>;
-    defer(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    renewLock(): Promise<Date>;
-}
-
-// @public
-export interface ServiceBusReceiver<ReceivedMessageT> {
     close(): Promise<void>;
+    completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
+    deadLetterMessage(message: ServiceBusReceivedMessage, options?: DeadLetterOptions & {
+        [key: string]: any;
+    }): Promise<void>;
+    deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
     entityPath: string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
+    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
+    renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
+    subscribe(handlers: MessageHandlers, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
 }
@@ -462,18 +435,18 @@ export interface ServiceBusSender {
     entityPath: string;
     isClosed: boolean;
     open(options?: OperationOptionsBase): Promise<void>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
-export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock> extends ServiceBusReceiver<ReceivedMessageT> {
+export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
     getSessionState(options?: OperationOptionsBase): Promise<any>;
     renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string;
     readonly sessionLockedUntilUtc: Date;
     setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
+    subscribe(handlers: MessageHandlers, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
 }
@@ -529,10 +502,6 @@ export interface SubscriptionProperties {
 }
 
 // @public
-export interface SubscriptionResponse extends SubscriptionProperties, Response {
-}
-
-// @public
 export interface SubscriptionRuntimeProperties {
     accessedAt: Date;
     activeMessageCount: number;
@@ -544,10 +513,6 @@ export interface SubscriptionRuntimeProperties {
     totalMessageCount: number;
     transferDeadLetterMessageCount: number;
     transferMessageCount: number;
-}
-
-// @public
-export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {
 }
 
 export { TokenCredential }
@@ -573,10 +538,6 @@ export interface TopicProperties {
 }
 
 // @public
-export interface TopicResponse extends TopicProperties, Response {
-}
-
-// @public
 export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
@@ -588,10 +549,6 @@ export interface TopicRuntimeProperties {
 }
 
 // @public
-export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
-}
-
-// @public
 export interface TryAddOptions {
     parentSpan?: Span | SpanContext | null;
 }
@@ -599,6 +556,11 @@ export interface TryAddOptions {
 export { WebSocketImpl }
 
 export { WebSocketOptions }
+
+// @public
+export type WithResponse<T extends object> = T & {
+    _response: HttpOperationResponse;
+};
 
 
 // (No @packageDocumentation comment for this package)
