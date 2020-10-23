@@ -454,7 +454,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         logger.logError(
           sbError,
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
-          "The associated error is: %O",
+            "The associated error is: %O",
           connectionId,
           this.name,
           this.sessionId,
@@ -466,7 +466,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       if (receiver && !receiver.isItselfClosed()) {
         logger.verbose(
           "%s 'receiver_close' event occurred on the receiver for sessionId '%s' " +
-          "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
+            "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
           this.logPrefix,
           this.sessionId
         );
@@ -483,7 +483,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       } else {
         logger.verbose(
           "%s 'receiver_close' event occurred on the receiver for sessionId '%s' " +
-          "because the sdk initiated it. Hence no need to gracefully close the receiver",
+            "because the sdk initiated it. Hence no need to gracefully close the receiver",
           this.logPrefix,
           this.sessionId
         );
@@ -498,7 +498,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         logger.logError(
           sbError,
           "%s 'session_close' event occurred for receiver for sessionId '%s'. " +
-          "The associated error is",
+            "The associated error is",
           this.logPrefix,
           this.sessionId
         );
@@ -509,7 +509,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       if (receiver && !receiver.isSessionItselfClosed()) {
         logger.verbose(
           "%s 'session_close' event occurred on the receiver for sessionId '%s' " +
-          "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
+            "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
           this.logPrefix,
           this.sessionId
         );
@@ -526,7 +526,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       } else {
         logger.verbose(
           "%s 'session_close' event occurred on the receiver for sessionId'%s' " +
-          "because the sdk initiated it. Hence no need to gracefully close the receiver",
+            "because the sdk initiated it. Hence no need to gracefully close the receiver",
           this.logPrefix,
           this.sessionId
         );
@@ -543,7 +543,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       logger.verbose(
         "%s Cleared the timers for 'no new message received' task and " +
-        "'session lock renewal' task.",
+          "'session lock renewal' task.",
         this.logPrefix
       );
 
@@ -612,7 +612,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         if (this.receiveMode === "peekLock" && (!this.link || !this.link.isOpen())) {
           logger.verbose(
             "%s Not calling the user's message handler for the current message " +
-            "as the receiver is closed",
+              "as the receiver is closed",
             this.logPrefix
           );
           return;
@@ -633,7 +633,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           logger.logError(
             err,
             "%s An error occurred while running user's message handler for the message " +
-            "with id '%s' on the receiver",
+              "with id '%s' on the receiver",
             this.logPrefix,
             bMessage.messageId
           );
@@ -664,7 +664,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               logger.logError(
                 translatedError,
                 "%s An error occurred while abandoning the message with id '%s' on the " +
-                "receiver",
+                  "receiver",
                 this.logPrefix,
                 bMessage.messageId,
                 translatedError
@@ -789,7 +789,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         this._deliveryDispositionMap.delete(delivery.id);
         logger.verbose(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-          "Hence rejecting the promise with timeout error",
+            "Hence rejecting the promise with timeout error",
           this._context.connectionId,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
