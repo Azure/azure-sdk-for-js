@@ -447,12 +447,6 @@ describe("ServiceBusMessage validations", function(): void {
       title: "partitionKey is longer than 128 characters"
     },
     {
-      message: { body: "", viaPartitionKey: longString },
-      expectedErrorMessage:
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
-      title: "viaPartitionKey is longer than 128 characters"
-    },
-    {
       message: { body: "", sessionId: longString },
       expectedErrorMessage:
         "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
