@@ -604,11 +604,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the queue based on the queue properties provided.
    * All queue properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties,
-   * update as needed and then pass it to `updateQueue()`.
+   * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties(accompanied by the _response),
+   * update the properties as needed and then pass the modified object to `updateQueue()`.
    * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
    *
-   * @param queue Object representing the properties of the queue.
+   * @param queuePropertiesWithResponse Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -622,9 +622,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateQueue(
-    queue: QueueProperties,
+    queuePropertiesWithResponse: WithResponse<QueueProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
+    const queue = queuePropertiesWithResponse;
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateQueue",
       operationOptions
@@ -1098,11 +1099,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the topic based on the topic properties provided.
    * All topic properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties,
-   * update as needed and then pass it to `updateTopic()`.
+   * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties(accompanied by the _response),
+   * update the properties as needed and then pass the modified object to `updateTopic()`.
    * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
    *
-   * @param topic Object representing the properties of the topic.
+   * @param topicPropertiesWithResponse Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1116,9 +1117,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateTopic(
-    topic: TopicProperties,
+    topicPropertiesWithResponse: WithResponse<TopicProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
+    const topic = topicPropertiesWithResponse;
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateTopic",
       operationOptions
@@ -1628,10 +1630,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the subscription based on the subscription properties provided.
    * All subscription properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties,
-   * update as needed and then pass it to `updateSubscription()`.
+   * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties(accompanied by the _response),
+   * update the properties as needed and then pass the modified object to `updateSubscription()`.
    *
-   * @param subscription Object representing the properties of the subscription.
+   * @param subscriptionPropertiesWithResponse Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1645,9 +1647,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateSubscription(
-    subscription: SubscriptionProperties,
+    subscriptionPropertiesWithResponse: WithResponse<SubscriptionProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
+    const subscription = subscriptionPropertiesWithResponse;
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
@@ -1788,7 +1791,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param ruleFilter Defines the filter expression that the rule evaluates.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
-   * Following are errors that can be expected from this operation
+   * Following are error that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -2049,12 +2052,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates properties on the Rule by the given name based on the given options.
    * All rule properties must be set even if one of them is being updated.
-   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties,
-   * update as needed and then pass it to `updateRule()`.
+   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties(accompanied by the _response),
+   * update the properties as needed and then pass the modified object to `updateRule()`.
    *
    * @param topicName
    * @param subscriptionName
-   * @param rule Options to configure the Rule being updated.
+   * @param rulePropertiesWithResponse Options to configure the Rule being updated and the raw response.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -2070,9 +2073,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleProperties,
+    rulePropertiesWithResponse: WithResponse<RuleProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
+    const rule = rulePropertiesWithResponse;
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-updateRule",
       operationOptions
