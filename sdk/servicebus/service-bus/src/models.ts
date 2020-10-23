@@ -177,11 +177,6 @@ export interface SubscribeOptions extends OperationOptionsBase {
 /**
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
  * when using a Queue/Subscription that has sessions enabled.
- *
- * @export
- * @interface AcceptSessionOptions
- * @extends {OperationOptionsBase}
- * @template ReceiveModeT
  */
 export interface AcceptSessionOptions extends OperationOptionsBase {
   /**
