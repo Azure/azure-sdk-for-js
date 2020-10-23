@@ -149,11 +149,12 @@ export abstract class FetchHttpClient implements HttpClient {
       ...platformSpecificRequestInit
     };
 
+    let operationResponse: HttpOperationResponse | undefined;
     try {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
-      const operationResponse: HttpOperationResponse = {
+      operationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
@@ -198,9 +199,33 @@ export abstract class FetchHttpClient implements HttpClient {
 
       throw fetchError;
     } finally {
-      // clean up event listener
-      if (httpRequest.abortSignal && abortListener) {
-        httpRequest.abortSignal.removeEventListener("abort", abortListener);
+      // clean up event listener. for streaming operations clean up on close/end/error event.
+      const cleanUpStreamListener = (stream: NodeJS.ReadableStream) => {
+        const cleanupCallback = () => {
+          stream.removeListener("close", cleanupCallback);
+          stream.removeListener("end", cleanupCallback);
+          stream.removeListener("error", cleanupCallback);
+          if (abortListener) {
+            httpRequest.abortSignal?.removeEventListener("abort", abortListener);
+          }
+        };
+        stream.once("close", cleanupCallback);
+        stream.once("end", cleanupCallback);
+        stream.once("error", cleanupCallback);
+      };
+
+      // it's super rare if not impossible that both download streaming and upload streaming happen
+      // at the same time so don't care about that case.
+      if (operationResponse?.readableStreamBody) {
+        // download stream
+        cleanUpStreamListener(operationResponse!.readableStreamBody);
+      } else if (isReadableStream(body)) {
+        // upload stream
+        cleanUpStreamListener(body);
+      } else {
+        if (abortListener) {
+          httpRequest.abortSignal?.removeEventListener("abort", abortListener);
+        }
       }
     }
   }
