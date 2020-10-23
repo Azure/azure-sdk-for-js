@@ -41,10 +41,16 @@ async function main() {
 
       const onErrorHandler = (err) => {
         if (err.retryable === true) {
+          enableReceiverRecovery = true;
           console.log("Receiver will be recreated. A recoverable error occurred:", err);
           resolve();
         } else {
+          // Set `enableReceiverRecovery` to false to break out of the loop for a non-retryable error
+          // since the error might be hinting at a deeper issue such as faulty configuration 
+          // or a non-existent queue which requires attention from the user.
+          enableReceiverRecovery = false;
           console.log("Error occurred: ", err);
+          reject(err);
         }
       };
 

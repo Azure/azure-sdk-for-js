@@ -39,7 +39,7 @@ export async function main() {
   do {
     const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-    const receiverPromise = new Promise((resolve, _reject) => {
+    const receiverPromise = new Promise<void>((resolve, reject) => {
       const onMessageHandler: OnMessage = async (brokeredMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
         await brokeredMessage.complete();
@@ -47,10 +47,16 @@ export async function main() {
 
       const onErrorHandler: OnError = (err) => {
         if ((err as MessagingError).retryable === true) {
+          enableReceiverRecovery = true;
           console.log("Receiver will be recreated. A recoverable error occurred:", err);
           resolve();
         } else {
+          // Set `enableReceiverRecovery` to false to break out of the loop for a non-retryable error
+          // since the error might be hinting at a deeper issue such as faulty configuration 
+          // or a non-existent queue which requires attention from the user.
+          enableReceiverRecovery = false;
           console.log("Error occurred: ", err);
+          reject(err);
         }
       };
 
