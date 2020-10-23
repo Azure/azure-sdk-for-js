@@ -146,7 +146,8 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param queueName The name of the queue to receive from.
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param options Options to pass the receiveMode, defaulted to peekLock.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
