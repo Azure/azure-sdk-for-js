@@ -39,7 +39,7 @@
 - `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
 - Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
   [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
-- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed.
+- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-transactions).
 
 ## 7.0.0-preview.7 (2020-10-07)
 
