@@ -215,7 +215,7 @@ export abstract class FetchHttpClient implements HttpClient {
       };
 
       // it's super rare if not impossible that both download streaming and upload streaming happen
-      // at the same time so don't care about that case.
+      // at the same time so assume download stream (if any) will ends after upload stream (if any).
       if (operationResponse?.readableStreamBody) {
         // download stream
         cleanUpStreamListener(operationResponse!.readableStreamBody);
