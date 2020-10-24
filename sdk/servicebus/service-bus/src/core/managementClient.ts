@@ -600,6 +600,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           entry["partition-key"] = item.partitionKey;
         }
 
+        // Will be required later for implementing [Transactions feature of Service Bus](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
+        // if (item.viaPartitionKey) {
+        //   entry["via-partition-key"] = item.viaPartitionKey;
+        // }
+
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
