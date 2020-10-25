@@ -4,8 +4,47 @@
 
 ```ts
 
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-http';
+
 // @public (undocumented)
-export function helloWorld(): string;
+export class ComputationClient {
+    constructor(endpointUrl: string, credential: TokenCredential, options: ComputationClientOptions);
+    // (undocumented)
+    beginComputePi(node: ComputeNode, precision: number): PollerLike<PollOperationState<PiResult>, PiResult>;
+    // (undocumented)
+    beginComputePiAsync(node: ComputeNode, precision: number): Promise<PollerLike<PollOperationState<PiResult>, PiResult>>;
+    // (undocumented)
+    createComputeNode(node: ComputeNode): ComputeNode;
+    // (undocumented)
+    createComputeNodeAsync(node: ComputeNode): Promise<ComputeNode>;
+    // (undocumented)
+    getComputeNode(nodeName: string): ComputeNode;
+    // (undocumented)
+    getComputeNodeAsync(nodeName: string): Promise<ComputeNode>;
+    // (undocumented)
+    listComputeNodeAsync(): Promise<PagedAsyncIterableIterator<ComputeNode, PageOfComputeNodes>>;
+    // Warning: (ae-forgotten-export) The symbol "PageOfComputeNodes" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    listComputeNodes(): PagedAsyncIterableIterator<ComputeNode, PageOfComputeNodes>;
+}
+
+// @public (undocumented)
+export interface ComputationClientOptions extends PipelineOptions {
+}
+
+// Warning: (ae-forgotten-export) The symbol "LinuxComputeNode" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WindowsComputeNode" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type ComputeNode = LinuxComputeNode | WindowsComputeNode;
+
+// @public (undocumented)
+export type PiResult = number;
 
 
 // (No @packageDocumentation comment for this package)
