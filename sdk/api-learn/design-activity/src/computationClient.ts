@@ -90,7 +90,7 @@ export class ComputationClient {
   public async listComputeNodeAsync(): Promise<
     PagedAsyncIterableIterator<ComputeNode, PageOfComputeNodes>
   > {
-    throw new Error('Underlying api only returns a page, how to access the other pages?');
+    throw new Error("Underlying api only returns a page, how to access the other pages?");
   }
 
   public getComputeNode(nodeName: string): ComputeNode {
@@ -110,11 +110,14 @@ export class ComputationClient {
   }
 
   public async createComputeNodeAsync(node: ComputeNode): Promise<ComputeNode> {
-    if (!node.name) { throw new Error('Node name cannot be undefined'); }
-    const response = await this.generatedClient.computeNodeAdministration.create(node.name, { computeNode: node });
+    if (!node.name) {
+      throw new Error("Node name cannot be undefined");
+    }
+    const response = await this.generatedClient.computeNodeAdministration.create(node.name, {
+      computeNode: node
+    });
     const rawComputeNode = response._response.parsedBody;
     return this.rawComputeNodeToComputeNodeImpl(rawComputeNode);
-
   }
 
   public beginComputePi(
@@ -130,89 +133,112 @@ export class ComputationClient {
     node: ComputeNode,
     precision: number
   ): Promise<PollerLike<PollOperationState<PiResult>, PiResult>> {
-    if (!node.name) { throw new Error('Undefined node name') };
-    const response = await this.generatedClient.computations.computePi(node.name, { precision: precision });
+    if (!node.name) {
+      throw new Error("Undefined node name");
+    }
+    const response = await this.generatedClient.computations.computePi(node.name, {
+      precision: precision
+    });
     // This will point to an operation(/operations/{ operationId }) that can be used to monitor the progress
     const operationLocation = response.operationLocation;
-    if (!operationLocation) { throw new Error('Operation location is undefined') };
+    if (!operationLocation) {
+      throw new Error("Operation location is undefined");
+    }
     let pollInterval: NodeJS.Timer;
     const thisScope = this;
     let operationStatus: OperationStatus | undefined;
     const poller = {
       poll(): Promise<void> {
-        pollInterval = setInterval(async function () {
+        pollInterval = setInterval(async function() {
           const response = await thisScope.generatedClient.computation(operationLocation);
           operationStatus = response.status;
-          if (operationStatus === 'succeeded' || operationStatus === 'cancelled' || operationStatus === 'failed') {
+          if (
+            operationStatus === "succeeded" ||
+            operationStatus === "cancelled" ||
+            operationStatus === "failed"
+          ) {
             clearInterval(pollInterval);
           }
         }, 5000);
-        throw new Error('Not implemented yet');
+        throw new Error("Not implemented yet");
       },
       pollUntilDone(): Promise<PiResult> {
-        throw new Error('Not implemented yet');
+        throw new Error("Not implemented yet");
       },
       onProgress(callBack: (state: PollOperationState<PiResult>) => void): CancelOnProgress {
-        throw new Error('Not implemented yet');
+        throw new Error("Not implemented yet");
       },
       isDone(): boolean {
-        return (operationStatus === 'succeeded' || operationStatus === 'cancelled' || operationStatus === 'failed');
+        return (
+          operationStatus === "succeeded" ||
+          operationStatus === "cancelled" ||
+          operationStatus === "failed"
+        );
       },
       stopPolling(): void {
         clearInterval(pollInterval);
-        operationStatus = 'cancelled';
+        operationStatus = "cancelled";
       },
       isStopped(): boolean {
-        return operationStatus === 'cancelled';
+        return operationStatus === "cancelled";
       },
       cancelOperation(): Promise<void> {
-        throw new Error('Not implemented yet');
+        throw new Error("Not implemented yet");
       },
       getOperationState(): PollOperationState<number> {
-        if (!operationStatus) { throw new Error(); }
+        if (!operationStatus) {
+          throw new Error();
+        }
         const status = parseFloat(operationStatus);
-        if (typeof status === 'number') {
+        if (typeof status === "number") {
           return { result: status };
         } else {
           return {
-            isStarted: operationStatus === 'running' ? true : false,
-            isCompleted: (operationStatus === 'succeeded' || operationStatus === 'cancelled' || operationStatus === 'failed') ? true : false,
-            isCancelled: operationStatus === 'cancelled' ? true : false,
-            error: operationStatus === 'failed' ? new Error() : undefined,
-            result: typeof status === 'number' ? status : undefined // Not sure if this is the right way to get the actual pi result. I dont really see a way of getting it other than this?
-          }
+            isStarted: operationStatus === "running" ? true : false,
+            isCompleted:
+              operationStatus === "succeeded" ||
+              operationStatus === "cancelled" ||
+              operationStatus === "failed"
+                ? true
+                : false,
+            isCancelled: operationStatus === "cancelled" ? true : false,
+            error: operationStatus === "failed" ? new Error() : undefined,
+            result: typeof status === "number" ? status : undefined // Not sure if this is the right way to get the actual pi result. I dont really see a way of getting it other than this?
+          };
         }
       },
       getResult(): PiResult {
-        if (!operationStatus) { throw new Error(); }
+        if (!operationStatus) {
+          throw new Error();
+        }
         const status = parseFloat(operationStatus);
-        if (typeof status === 'number') {
+        if (typeof status === "number") {
           return status; // Not sure if this is the right way to get the actual pi result. I dont really see a way of getting it other than this?
         } else {
-          throw new Error('Result not ready yet');
+          throw new Error("Result not ready yet");
         }
       }
-    }
+    };
     return poller;
   }
 
   private rawComputeNodeToComputeNodeImpl(rawComputeNode: ComputeNodeUnion) {
-    if (rawComputeNode.kind === 'WindowsComputeNode') {
+    if (rawComputeNode.kind === "WindowsComputeNode") {
       return {
         kind: rawComputeNode.kind,
         eTag: rawComputeNode.eTag,
         name: rawComputeNode.name,
         userName: (rawComputeNode as WindowsComputeNode).userName
-      }
-    } else if (rawComputeNode.kind === 'LinuxComputeNode') {
+      };
+    } else if (rawComputeNode.kind === "LinuxComputeNode") {
       return {
         kind: rawComputeNode.kind,
         eTag: rawComputeNode.eTag,
         name: rawComputeNode.name,
         userName: (rawComputeNode as LinuxComputeNode).sshPublicKey
-      }
+      };
     } else {
-      throw new Error('Unknown compute node');
+      throw new Error("Unknown compute node");
     }
   }
 }

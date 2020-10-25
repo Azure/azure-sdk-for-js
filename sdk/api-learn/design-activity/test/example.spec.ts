@@ -10,7 +10,11 @@ describe("ComputeClient", () => {
     // normally this would come from an environment variable
     const endpoint = "http://example.azconfig.io";
     const client = new ComputationClient(endpoint, new DefaultAzureCredential(), {});
-    const computeNode = await client.createComputeNodeAsync({ userName: 'Chris', name: 'node1', kind: 'WindowsComputeNode' });
+    const computeNode = await client.createComputeNodeAsync({
+      userName: "Chris",
+      name: "node1",
+      kind: "WindowsComputeNode"
+    });
     console.log(computeNode);
     assert.exists(client);
   });
