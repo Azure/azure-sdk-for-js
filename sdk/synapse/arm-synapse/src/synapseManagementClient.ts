@@ -40,6 +40,10 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   sqlPoolVulnerabilityAssessmentScans: operations.SqlPoolVulnerabilityAssessmentScans;
   sqlPoolSecurityAlertPolicies: operations.SqlPoolSecurityAlertPolicies;
   sqlPoolVulnerabilityAssessmentRuleBaselines: operations.SqlPoolVulnerabilityAssessmentRuleBaselines;
+  extendedSqlPoolBlobAuditingPolicies: operations.ExtendedSqlPoolBlobAuditingPolicies;
+  dataMaskingPolicies: operations.DataMaskingPolicies;
+  dataMaskingRules: operations.DataMaskingRules;
+  sqlPoolColumns: operations.SqlPoolColumns;
   workspaces: operations.Workspaces;
   workspaceAadAdmins: operations.WorkspaceAadAdmins;
   workspaceManagedIdentitySqlControlSettings: operations.WorkspaceManagedIdentitySqlControlSettings;
@@ -87,6 +91,10 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.sqlPoolVulnerabilityAssessmentScans = new operations.SqlPoolVulnerabilityAssessmentScans(this);
     this.sqlPoolSecurityAlertPolicies = new operations.SqlPoolSecurityAlertPolicies(this);
     this.sqlPoolVulnerabilityAssessmentRuleBaselines = new operations.SqlPoolVulnerabilityAssessmentRuleBaselines(this);
+    this.extendedSqlPoolBlobAuditingPolicies = new operations.ExtendedSqlPoolBlobAuditingPolicies(this);
+    this.dataMaskingPolicies = new operations.DataMaskingPolicies(this);
+    this.dataMaskingRules = new operations.DataMaskingRules(this);
+    this.sqlPoolColumns = new operations.SqlPoolColumns(this);
     this.workspaces = new operations.Workspaces(this);
     this.workspaceAadAdmins = new operations.WorkspaceAadAdmins(this);
     this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(this);

@@ -24,6 +24,7 @@ export {
   EntityReference,
   EnvironmentVariableSetup,
   ExtendedSqlPoolBlobAuditingPolicy,
+  ExtendedSqlPoolBlobAuditingPolicyListResult,
   GeoBackupPolicy,
   IntegrationRuntime,
   IntegrationRuntimeComputeProperties,
