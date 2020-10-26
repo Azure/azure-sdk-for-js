@@ -421,7 +421,7 @@ export class StreamingReceiver extends MessageReceiver {
           });
 
         if (err.name !== "AbortError") {
-          err.retryable = true;
+          throw new StreamingReceiverError(err);
         }
 
         // once we're at this point where we can spin up a connection we're past the point
@@ -431,6 +431,18 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
+  /**
+   * Initializes the link. This method will retry infinitely until a connection is established.
+   *
+   * The retries are broken up into cycles. For each cycle we do a set of retries, using the user's
+   * configured retryOptions. If that retry call fails we will report the error and then go into a
+   * new cycle, repeating the retries the same as before.
+   *
+   * It is completely up to the user to break out of this retry cycle by either:
+   * 1. closing the receiver
+   * 2. Calling `close` on the subscription instance they received when they initially called subscribe().
+   * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
+   */
   async init(
     args: { useNewName: boolean; connectionId: string; onError: OnError } & Pick<
       OperationOptionsBase,
@@ -462,7 +474,20 @@ export class StreamingReceiver extends MessageReceiver {
           throw err;
         }
 
-        // this error will already have been logged by the handler we passed in 'operation' above.
+        if (StreamingReceiverError.isStreamingReceiverError(err)) {
+          // report the original error to the user
+          err = err.originalError;
+        }
+
+        // we only report the error here - this avoids spamming the user with too many
+        // redundant reports of errors while still providing them incremental status on failures.
+        args.onError({
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+          error: err
+        });
+
         continue;
       }
     }
@@ -503,11 +528,14 @@ export class StreamingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
-    logger.verbose(`${this.logPrefix} Detaching.`);
+    logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
 
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
     if (this.wasClosedPermanently) {
+      logger.verbose(
+        `${this.logPrefix} onDetached: link has been closed permanently, not reinitializing. `
+      );
       return;
     }
 
@@ -521,36 +549,31 @@ export class StreamingReceiver extends MessageReceiver {
       // These should be ignored until the already running `onDetached` completes
       // its retry attempts or errors.
       logger.verbose(
-        `${this.logPrefix} Call to detached on streaming receiver '${this.name}' is already in progress.`
+        `${this.logPrefix} onDetached: Call to detached on streaming receiver '${this.name}' is already in progress.`
       );
       return;
     }
 
     this._isDetaching = true;
 
+    const translatedError = receiverError ? translate(receiverError) : receiverError;
+    logger.logError(
+      translatedError,
+      `${this.logPrefix} onDetached: Reinitializing receiver because of error`
+    );
+
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();
-
-      const translatedError = receiverError ? translate(receiverError) : receiverError;
-
-      logger.logError(
-        translatedError,
-        `${this.logPrefix} Encountered an error on the connection. Reinitializing receiver.`
+    } catch (err) {
+      logger.verbose(
+        `${this.logPrefix} onDetached: Encountered an error when closing the previous link: `,
+        err
       );
+    }
 
-      if (translatedError && this._onError) {
-        this._onError({
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          error: translatedError,
-          fullyQualifiedNamespace: this._context.config.host
-        });
-      }
-
-      // shall retry forever at an interval of 15 seconds if the error is a retryable error
-      // else bail out when the error is not retryable or the operation succeeds.
+    try {
       await this.init({
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
@@ -560,39 +583,54 @@ export class StreamingReceiver extends MessageReceiver {
       });
 
       this._receiverHelper.addCredit(this.maxConcurrentCalls);
+      logger.verbose(
+        `${this.logPrefix} onDetached: link has been reestablished, added ${this.maxConcurrentCalls} credits.`
+      );
     } catch (err) {
+      // the behavior of init() is such that it should _never_ throw an error. If it does then the library is doing
+      // something completely incorrect and we need to report it because it's unlikely that we'll properly
+      // recover from it.
       logger.logError(
         err,
-        "%s An error occurred while processing detached()",
-        this.logPrefix,
-        this.name,
-
-        this.address
+        `${this.logPrefix} onDetached: A fatal internal error has occurred. Connection will not be reestablished`
       );
-      if (typeof this._onError === "function") {
-        logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
-        try {
-          this._onError({
-            error: err,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        } catch (err) {
-          logger.logError(
-            err,
-            `${this.logPrefix} User-code error in error handler called after disconnect`
-          );
-        } finally {
-          // Once the user's error handler has been called,
-          // close the receiver to prevent future messages/errors from being received.
-          // Swallow errors from the close rather than forwarding to user's error handler
-          // to prevent a never ending loop.
-          await this.close().catch(() => {});
-        }
-      }
+
+      this._onError &&
+        this._onError({
+          errorSource: "internal",
+          entityPath: this.entityPath,
+          error: err,
+          fullyQualifiedNamespace: this._context.config.host
+        });
+
+      throw err;
     } finally {
       this._isDetaching = false;
     }
+  }
+}
+
+/**
+ * Wraps an error thrown from the operation for retry<>.
+ *
+ * Used so we don't have to worry about modifying the errors that
+ * also might have originated from the user's processMessage handler,
+ * which they rightfully own.
+ *
+ * @internal
+ * @ignore
+ */
+class StreamingReceiverError extends Error {
+  constructor(public originalError: Error | MessagingError) {
+    super(originalError.message);
+    this.name = "StreamingReceiverError";
+  }
+
+  retryable: boolean = true;
+
+  static isStreamingReceiverError(
+    err: Error | StreamingReceiverError
+  ): err is StreamingReceiverError {
+    return err.name === "StreamingReceiverError";
   }
 }
