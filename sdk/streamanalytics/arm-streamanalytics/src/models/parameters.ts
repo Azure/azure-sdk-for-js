@@ -20,11 +20,41 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2017-04-01-preview',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-03-01-preview',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const clusterName: msRest.OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    required: true,
+    serializedName: "clusterName",
     type: {
       name: "String"
     }
@@ -127,11 +157,26 @@ export const outputName: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
@@ -154,6 +199,9 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }

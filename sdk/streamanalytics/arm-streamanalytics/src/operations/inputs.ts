@@ -31,8 +31,7 @@ export class Inputs {
    * Creates an input or replaces an already existing input under an existing streaming job.
    * @param input The definition of the input that will be used to create a new input or replace the
    * existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -42,8 +41,7 @@ export class Inputs {
   /**
    * @param input The definition of the input that will be used to create a new input or replace the
    * existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param callback The callback
@@ -52,8 +50,7 @@ export class Inputs {
   /**
    * @param input The definition of the input that will be used to create a new input or replace the
    * existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param options The optional parameters
@@ -81,8 +78,7 @@ export class Inputs {
    * properties in the existing input (ie. Those properties will be updated). Any properties that are
    * set to null here will mean that the corresponding property in the existing input will remain the
    * same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -94,8 +90,7 @@ export class Inputs {
    * properties in the existing input (ie. Those properties will be updated). Any properties that are
    * set to null here will mean that the corresponding property in the existing input will remain the
    * same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param callback The callback
@@ -106,8 +101,7 @@ export class Inputs {
    * properties in the existing input (ie. Those properties will be updated). Any properties that are
    * set to null here will mean that the corresponding property in the existing input will remain the
    * same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param options The optional parameters
@@ -129,8 +123,7 @@ export class Inputs {
 
   /**
    * Deletes an input from the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -138,16 +131,14 @@ export class Inputs {
    */
   deleteMethod(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param options The optional parameters
@@ -168,8 +159,7 @@ export class Inputs {
 
   /**
    * Gets details about the specified input.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -177,16 +167,14 @@ export class Inputs {
    */
   get(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase): Promise<Models.InputsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<Models.Input>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param options The optional parameters
@@ -207,23 +195,20 @@ export class Inputs {
 
   /**
    * Lists all of the inputs under the specified streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsListByStreamingJobResponse>
    */
   listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.InputsListByStreamingJobOptionalParams): Promise<Models.InputsListByStreamingJobResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
   listByStreamingJob(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.InputListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param options The optional parameters
    * @param callback The callback
@@ -243,8 +228,7 @@ export class Inputs {
   /**
    * Tests whether an input’s datasource is reachable and usable by the Azure Stream Analytics
    * service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -258,8 +242,7 @@ export class Inputs {
   /**
    * Tests whether an input’s datasource is reachable and usable by the Azure Stream Analytics
    * service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param inputName The name of the input.
    * @param [options] The optional parameters
@@ -318,7 +301,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.inputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -342,7 +325,8 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.InputsCreateOrReplaceHeaders
     }
   },
   serializer
@@ -358,7 +342,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.inputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -377,7 +361,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.InputsUpdateHeaders
     }
   },
   serializer
@@ -393,7 +378,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.inputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -418,7 +403,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.inputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -429,7 +414,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.InputsGetHeaders
     }
   },
   serializer
@@ -445,7 +431,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.select,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -471,7 +457,7 @@ const beginTestOperationSpec: msRest.OperationSpec = {
     Parameters.inputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

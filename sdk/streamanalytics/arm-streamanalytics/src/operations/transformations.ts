@@ -31,8 +31,7 @@ export class Transformations {
    * streaming job.
    * @param transformation The definition of the transformation that will be used to create a new
    * transformation or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param [options] The optional parameters
@@ -42,8 +41,7 @@ export class Transformations {
   /**
    * @param transformation The definition of the transformation that will be used to create a new
    * transformation or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param callback The callback
@@ -52,8 +50,7 @@ export class Transformations {
   /**
    * @param transformation The definition of the transformation that will be used to create a new
    * transformation or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param options The optional parameters
@@ -81,8 +78,7 @@ export class Transformations {
    * corresponding properties in the existing transformation (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing transformation will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param [options] The optional parameters
@@ -94,8 +90,7 @@ export class Transformations {
    * corresponding properties in the existing transformation (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing transformation will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param callback The callback
@@ -106,8 +101,7 @@ export class Transformations {
    * corresponding properties in the existing transformation (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing transformation will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param options The optional parameters
@@ -129,8 +123,7 @@ export class Transformations {
 
   /**
    * Gets details about the specified transformation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param [options] The optional parameters
@@ -138,16 +131,14 @@ export class Transformations {
    */
   get(resourceGroupName: string, jobName: string, transformationName: string, options?: msRest.RequestOptionsBase): Promise<Models.TransformationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, transformationName: string, callback: msRest.ServiceCallback<Models.Transformation>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param transformationName The name of the transformation.
    * @param options The optional parameters
@@ -179,7 +170,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -203,7 +194,8 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
     }
   },
   serializer
@@ -219,7 +211,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -238,7 +230,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.TransformationsUpdateHeaders
     }
   },
   serializer
@@ -254,7 +247,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -265,7 +258,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.TransformationsGetHeaders
     }
   },
   serializer

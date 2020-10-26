@@ -31,8 +31,7 @@ export class Functions {
    * Creates a function or replaces an already existing function under an existing streaming job.
    * @param functionParameter The definition of the function that will be used to create a new
    * function or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -42,8 +41,7 @@ export class Functions {
   /**
    * @param functionParameter The definition of the function that will be used to create a new
    * function or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param callback The callback
@@ -52,8 +50,7 @@ export class Functions {
   /**
    * @param functionParameter The definition of the function that will be used to create a new
    * function or replace the existing one under the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param options The optional parameters
@@ -81,8 +78,7 @@ export class Functions {
    * corresponding properties in the existing function (ie. Those properties will be updated). Any
    * properties that are set to null here will mean that the corresponding property in the existing
    * function will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -94,8 +90,7 @@ export class Functions {
    * corresponding properties in the existing function (ie. Those properties will be updated). Any
    * properties that are set to null here will mean that the corresponding property in the existing
    * function will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param callback The callback
@@ -106,8 +101,7 @@ export class Functions {
    * corresponding properties in the existing function (ie. Those properties will be updated). Any
    * properties that are set to null here will mean that the corresponding property in the existing
    * function will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param options The optional parameters
@@ -129,8 +123,7 @@ export class Functions {
 
   /**
    * Deletes a function from the streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -138,16 +131,14 @@ export class Functions {
    */
   deleteMethod(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param options The optional parameters
@@ -168,8 +159,7 @@ export class Functions {
 
   /**
    * Gets details about the specified function.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -177,16 +167,14 @@ export class Functions {
    */
   get(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase): Promise<Models.FunctionsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param options The optional parameters
@@ -207,23 +195,20 @@ export class Functions {
 
   /**
    * Lists all of the functions under the specified streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsListByStreamingJobResponse>
    */
   listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.FunctionsListByStreamingJobOptionalParams): Promise<Models.FunctionsListByStreamingJobResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
   listByStreamingJob(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.FunctionListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param options The optional parameters
    * @param callback The callback
@@ -244,8 +229,7 @@ export class Functions {
    * Tests if the information provided for a function is valid. This can range from testing the
    * connection to the underlying web service behind the function or making sure the function code
    * provided is syntactically correct.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -258,8 +242,7 @@ export class Functions {
 
   /**
    * Retrieves the default definition of a function based on the parameters specified.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -267,16 +250,14 @@ export class Functions {
    */
   retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsRetrieveDefaultDefinitionOptionalParams): Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param callback The callback
    */
   retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param options The optional parameters
@@ -299,8 +280,7 @@ export class Functions {
    * Tests if the information provided for a function is valid. This can range from testing the
    * connection to the underlying web service behind the function or making sure the function code
    * provided is syntactically correct.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param functionName The name of the function.
    * @param [options] The optional parameters
@@ -359,7 +339,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -383,7 +363,8 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.FunctionsCreateOrReplaceHeaders
     }
   },
   serializer
@@ -399,7 +380,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -418,7 +399,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.FunctionsUpdateHeaders
     }
   },
   serializer
@@ -434,7 +416,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -459,7 +441,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -470,7 +452,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.FunctionsGetHeaders
     }
   },
   serializer
@@ -486,7 +469,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.select,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -512,7 +495,7 @@ const retrieveDefaultDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -545,7 +528,7 @@ const beginTestOperationSpec: msRest.OperationSpec = {
     Parameters.functionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
