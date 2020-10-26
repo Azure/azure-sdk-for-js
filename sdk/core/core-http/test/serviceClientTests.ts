@@ -1259,6 +1259,50 @@ describe("ServiceClient", function() {
       assert.strictEqual(httpRequest.body, "body value");
     });
 
+    it("should serialize an XML request body with custom xml char key", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          requestBody: {
+            "#": "pound value"
+          },
+          options: {
+            xmlCharKey: "#"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "requestBody",
+            mapper: {
+              serializedName: "Body",
+              xmlName: "entry",
+              type: {
+                name: "Composite",
+                className: "Body",
+                modelProperties: {
+                  "#": {
+                    serializedName: "#",
+                    xmlName: "#",
+                    type: { name: "String" }
+                  }
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true /** isXML */),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`
+      );
+    });
+
     it("should serialize a string send to a text/plain endpoint as just a string", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(

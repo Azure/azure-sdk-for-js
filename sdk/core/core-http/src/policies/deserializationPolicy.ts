@@ -14,6 +14,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { XML_CHARKEY } from "../util/xml.common";
 
 /**
  * Options to configure API response deserialization.
@@ -49,11 +50,17 @@ export interface DeserializationContentTypes {
  * pass through the HTTP pipeline.
  */
 export function deserializationPolicy(
-  deserializationContentTypes?: DeserializationContentTypes
+  deserializationContentTypes?: DeserializationContentTypes,
+  parsingOptions?: { xmlCharKey?: string }
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new DeserializationPolicy(nextPolicy, deserializationContentTypes, options);
+      return new DeserializationPolicy(
+        nextPolicy,
+        deserializationContentTypes,
+        parsingOptions,
+        options
+      );
     }
   };
 }
@@ -75,10 +82,12 @@ export const DefaultDeserializationOptions: DeserializationOptions = {
 export class DeserializationPolicy extends BaseRequestPolicy {
   public readonly jsonContentTypes: string[];
   public readonly xmlContentTypes: string[];
+  public readonly xmlCharKey: string;
 
   constructor(
     nextPolicy: RequestPolicy,
     deserializationContentTypes: DeserializationContentTypes | undefined,
+    parsingOptions: { xmlCharKey?: string } | undefined,
     options: RequestPolicyOptions
   ) {
     super(nextPolicy, options);
@@ -87,14 +96,15 @@ export class DeserializationPolicy extends BaseRequestPolicy {
       (deserializationContentTypes && deserializationContentTypes.json) || defaultJsonContentTypes;
     this.xmlContentTypes =
       (deserializationContentTypes && deserializationContentTypes.xml) || defaultXmlContentTypes;
+    this.xmlCharKey = parsingOptions?.xmlCharKey || XML_CHARKEY;
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    return this._nextPolicy
-      .sendRequest(request)
-      .then((response: HttpOperationResponse) =>
-        deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response)
-      );
+    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) =>
+      deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response, {
+        xmlCharKey: this.xmlCharKey
+      })
+    );
   }
 }
 
@@ -137,9 +147,10 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
 export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
-  response: HttpOperationResponse
+  response: HttpOperationResponse,
+  options?: { xmlCharKey?: string }
 ): Promise<HttpOperationResponse> {
-  return parse(jsonContentTypes, xmlContentTypes, response).then((parsedResponse) => {
+  return parse(jsonContentTypes, xmlContentTypes, response, options).then((parsedResponse) => {
     if (!shouldDeserializeResponse(parsedResponse)) {
       return parsedResponse;
     }
@@ -177,7 +188,8 @@ export function deserializeResponseBody(
           parsedResponse.parsedBody = operationSpec.serializer.deserialize(
             responseSpec.bodyMapper,
             valueToDeserialize,
-            "operationRes.parsedBody"
+            "operationRes.parsedBody",
+            options
           );
         } catch (error) {
           const restError = new RestError(
@@ -198,7 +210,8 @@ export function deserializeResponseBody(
         parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
           responseSpec.headersMapper,
           parsedResponse.headers.rawHeaders(),
-          "operationRes.parsedHeaders"
+          "operationRes.parsedHeaders",
+          options
         );
       }
     }
@@ -300,7 +313,8 @@ function handleErrorResponse(
 function parse(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
-  operationResponse: HttpOperationResponse
+  operationResponse: HttpOperationResponse,
+  opts?: { includeRoot?: boolean; xmlCharKey?: string }
 ): Promise<HttpOperationResponse> {
   const errorHandler = (err: Error & { code: string }): Promise<never> => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
@@ -330,7 +344,7 @@ function parse(
         resolve(operationResponse);
       }).catch(errorHandler);
     } else if (contentComponents.some((component) => xmlContentTypes.indexOf(component) !== -1)) {
-      return parseXML(text)
+      return parseXML(text, opts)
         .then((body) => {
           operationResponse.parsedBody = body;
           return operationResponse;

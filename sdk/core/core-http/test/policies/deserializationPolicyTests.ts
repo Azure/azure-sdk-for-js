@@ -30,6 +30,7 @@ describe("deserializationPolicy", function() {
     const deserializationPolicy = new DeserializationPolicy(
       mockPolicy,
       {},
+      undefined,
       new RequestPolicyOptions()
     );
 
@@ -38,6 +39,31 @@ describe("deserializationPolicy", function() {
 
     await deserializationPolicy.sendRequest(request);
     assert.strictEqual(request.body, "hello there!");
+  });
+
+  it(`should deserialize underscore xml element with custom xml char key`, async function() {
+    const request = createRequest();
+    const mockClient: HttpClient = {
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "application/xml" }),
+          bodyAsText: "<Metadata><h>v</h><_>underscore</_></Metadata>"
+        })
+    };
+    const deserializationPolicy = new DeserializationPolicy(
+      mockClient,
+      {},
+      { xmlCharKey: "#" },
+      new RequestPolicyOptions()
+    );
+
+    const response = await deserializationPolicy.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, {
+      h: "v",
+      _: "underscore"
+    });
   });
 
   it("should parse a JSON response body", async function() {
@@ -410,6 +436,66 @@ describe("deserializationPolicy", function() {
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with custom xml char key`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        apples: {
+          $: {
+            taste: "good"
+          },
+          "#": "3"
+        }
+      });
+    });
+
+    it(`with custom xml char key for underscore xml element`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        h: "v",
+        _: "underscore"
+      });
     });
 
     it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {

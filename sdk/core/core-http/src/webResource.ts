@@ -667,4 +667,14 @@ export interface RequestOptionsBase {
   spanOptions?: SpanOptions;
 
   [key: string]: any;
+
+  /**
+   * Options to override parsing behavior.
+   */
+  parsingOptions?: {
+    /**
+     * Options to override the default xml parser CHARKEY.
+     */
+    xmlCharKey?: string;
+  };
 }

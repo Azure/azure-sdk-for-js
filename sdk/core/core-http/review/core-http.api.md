@@ -187,10 +187,14 @@ export interface DeserializationOptions {
 }
 
 // @public
-export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory;
+export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes, parsingOptions?: {
+    xmlCharKey?: string;
+}): RequestPolicyFactory;
 
 // @public (undocumented)
-export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse): Promise<HttpOperationResponse>;
+export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: {
+    xmlCharKey?: string;
+}): Promise<HttpOperationResponse>;
 
 // @public (undocumented)
 export interface DictionaryMapper extends BaseMapper {
@@ -516,6 +520,7 @@ export interface ParameterValue {
 // @public
 export function parseXML(str: string, opts?: {
     includeRoot?: boolean;
+    xmlCharKey?: string;
 }): Promise<any>;
 
 // @public
@@ -599,6 +604,9 @@ export interface RequestOptionsBase {
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    parsingOptions?: {
+        xmlCharKey?: string;
+    };
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
     timeout?: number;
@@ -728,14 +736,18 @@ export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
     }, isXML?: boolean | undefined);
-    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: {
+        xmlCharKey?: string;
+    }): any;
     // (undocumented)
     readonly isXML?: boolean | undefined;
     // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    serialize(mapper: Mapper, object: any, objectName?: string, options?: {
+        xmlCharKey?: string;
+    }): any;
     // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
@@ -787,6 +799,7 @@ export interface SimpleMapperType {
 // @public
 export function stringifyXML(obj: any, opts?: {
     rootName?: string;
+    xmlCharKey?: string;
 }): string;
 
 // @public
@@ -953,6 +966,12 @@ export interface WebResourceLike {
     validateRequestProperties(): void;
     withCredentials: boolean;
 }
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
 
 
 // (No @packageDocumentation comment for this package)
