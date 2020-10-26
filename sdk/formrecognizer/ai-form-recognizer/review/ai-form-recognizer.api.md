@@ -314,6 +314,7 @@ export interface KeyValueElementModel {
     boundingBox?: number[];
     elements?: string[];
     text: string;
+    type?: KeyValueType;
 }
 
 // @public
@@ -325,7 +326,10 @@ export interface KeyValuePairModel {
 }
 
 // @public
-export type Language = "en" | "es";
+export type KeyValueType = "string" | "selectionMark" | string;
+
+// @public
+export type Language = "en" | "es" | string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";

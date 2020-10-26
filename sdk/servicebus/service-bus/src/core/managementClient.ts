@@ -599,9 +599,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         if (item.partitionKey) {
           entry["partition-key"] = item.partitionKey;
         }
-        if (item.viaPartitionKey) {
-          entry["via-partition-key"] = item.viaPartitionKey;
-        }
+
+        // Will be required later for implementing Transactions
+        // if (item.viaPartitionKey) {
+        //   entry["via-partition-key"] = item.viaPartitionKey;
+        // }
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);

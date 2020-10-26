@@ -4,9 +4,9 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { HttpHeaders, WebResource } from "@azure/core-http";
-import { GeneratedClient } from "../src/generated/generatedClient";
-import { FormTrainingClient, AzureKeyCredential, CustomFormModelInfo } from "../src";
-import { GeneratedClientListCustomModelsResponse } from "../src/generated/models";
+import { GeneratedClient } from "../../src/generated/generatedClient";
+import { FormTrainingClient, AzureKeyCredential, CustomFormModelInfo } from "../../src";
+import { GeneratedClientListCustomModelsResponse } from "../../src/generated/models";
 
 function getGeneratedClientMock(): GeneratedClient {
   const client = new GeneratedClient("endpointUrl", undefined);

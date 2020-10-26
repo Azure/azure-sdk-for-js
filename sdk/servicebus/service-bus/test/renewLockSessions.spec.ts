@@ -33,7 +33,7 @@ describe("Session Lock Renewal", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(maxAutoRenewLockDurationInMs: number): Promise<void> {
+  async function beforeEachTest(maxAutoLockRenewalDurationInMs: number): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
@@ -43,7 +43,7 @@ describe("Session Lock Renewal", () => {
     sessionId = Date.now().toString();
 
     receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, sessionId, {
-      maxAutoRenewLockDurationInMs
+      maxAutoLockRenewalDurationInMs
     });
 
     // Observation -

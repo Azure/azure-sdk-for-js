@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getContentType, toRequestBody } from "../src/common";
+import { getContentType, toRequestBody } from "../../src/common";
 
 describe("getContentType()", () => {
   it("identifies ArrayBuffer of application/pdf", async () => {

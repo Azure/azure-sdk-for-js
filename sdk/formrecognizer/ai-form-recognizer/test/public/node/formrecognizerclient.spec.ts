@@ -5,12 +5,12 @@ import { assert } from "chai";
 import fs from "fs";
 import path from "path";
 
-import { FormRecognizerClient, AzureKeyCredential } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential } from "../../../src";
 import {
   createRecordedRecognizerClient,
   testEnv,
   testPollingOptions
-} from "../util/recordedClients";
+} from "../../utils/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {

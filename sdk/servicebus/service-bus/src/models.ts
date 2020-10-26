@@ -78,12 +78,9 @@ export type ReceiveMode = "peekLock" | "receiveAndDelete";
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 /**
- *
- *
- * @interface CreateReceiverOptions
- * @template ReceiveModeT
+ * Options to use when creating a receiver.
  */
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -103,7 +100,7 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
@@ -180,14 +177,8 @@ export interface SubscribeOptions extends OperationOptionsBase {
 /**
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
  * when using a Queue/Subscription that has sessions enabled.
- *
- * @export
- * @interface AcceptSessionOptions
- * @extends {OperationOptionsBase}
- * @template ReceiveModeT
  */
-export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
-  extends OperationOptionsBase {
+export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -207,14 +198,14 @@ export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxAutoRenewLockDurationInMs?: number;
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**
