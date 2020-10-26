@@ -5,15 +5,9 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import {
-  TestMessage,
-  checkWithTimeout,
-  TestClientType,
-  createAndInitStreamingReceiverForTest
-} from "./utils/testUtils";
-import { StreamingReceiver } from "../src/core/streamingReceiver";
+import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
 import { DispositionType, ServiceBusMessageImpl } from "../src/serviceBusMessage";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
@@ -155,47 +149,6 @@ describe("Streaming Receiver Tests", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiver, 0);
-    });
-
-    it("onDetached should forward error messages if it fails to retry", async function(): Promise<
-      void
-    > {
-      let actualError: Error | undefined;
-      let streamingReceiver: StreamingReceiver | undefined;
-
-      try {
-        let streamingReceiver = await createAndInitStreamingReceiverForTest(
-          (receiver as ServiceBusReceiverImpl)["_context"],
-          receiver.entityPath
-        );
-
-        streamingReceiver.subscribe(
-          async () => {},
-          async (args) => {
-            actualError = args.error;
-          }
-        );
-
-        // overwrite _init to throw a non-retryable error.
-        // this will be called by onDetached
-        streamingReceiver["init"] = async () => {
-          const error = new Error("Expected test error!");
-          // prevent retry from translating error.
-          (error as any).translated = true;
-          throw error;
-        };
-
-        // call detached directly
-        await streamingReceiver.onDetached();
-
-        should.equal(
-          actualError!.message,
-          "Expected test error!",
-          "Did not see the expected error in user-provided error handler."
-        );
-      } finally {
-        await streamingReceiver?.close();
-      }
     });
 
     it("can stop and start a subscription", async () => {
