@@ -37,6 +37,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSetVMs: operations.VirtualMachineScaleSetVMs;
   logAnalytics: operations.LogAnalytics;
   virtualMachineRunCommands: operations.VirtualMachineRunCommands;
+  virtualMachineScaleSetVMRunCommands: operations.VirtualMachineScaleSetVMRunCommands;
   resourceSkus: operations.ResourceSkus;
   disks: operations.Disks;
   snapshots: operations.Snapshots;
@@ -47,6 +48,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   galleryImageVersions: operations.GalleryImageVersions;
   galleryApplications: operations.GalleryApplications;
   galleryApplicationVersions: operations.GalleryApplicationVersions;
+  gallerySharingProfile: operations.GallerySharingProfile;
+  sharedGalleries: operations.SharedGalleries;
+  sharedGalleryImages: operations.SharedGalleryImages;
+  sharedGalleryImageVersions: operations.SharedGalleryImageVersions;
   containerServices: operations.ContainerServices;
 
   /**
@@ -78,6 +83,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);
+    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(this);
     this.resourceSkus = new operations.ResourceSkus(this);
     this.disks = new operations.Disks(this);
     this.snapshots = new operations.Snapshots(this);
@@ -88,6 +94,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.galleryImageVersions = new operations.GalleryImageVersions(this);
     this.galleryApplications = new operations.GalleryApplications(this);
     this.galleryApplicationVersions = new operations.GalleryApplicationVersions(this);
+    this.gallerySharingProfile = new operations.GallerySharingProfile(this);
+    this.sharedGalleries = new operations.SharedGalleries(this);
+    this.sharedGalleryImages = new operations.SharedGalleryImages(this);
+    this.sharedGalleryImageVersions = new operations.SharedGalleryImageVersions(this);
     this.containerServices = new operations.ContainerServices(this);
   }
 }
