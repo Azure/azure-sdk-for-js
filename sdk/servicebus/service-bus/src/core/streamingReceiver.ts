@@ -429,7 +429,7 @@ export class StreamingReceiver extends MessageReceiver {
    * configured retryOptions. If that retry call fails we will report the error and then go into a
    * new cycle, repeating the retries the same as before.
    *
-   * It is completely up to the user to break out of this retry cycle by either:
+   * It is completely up to the user to break out of this retry cycle in their error handler by either:
    * 1. closing the receiver
    * 2. Calling `close` on the subscription instance they received when they initially called subscribe().
    * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
