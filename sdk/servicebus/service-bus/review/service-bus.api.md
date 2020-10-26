@@ -211,7 +211,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 export interface ProcessErrorArgs {
     entityPath: string;
     error: Error | MessagingError;
-    errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
+    errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock" | "internal";
     fullyQualifiedNamespace: string;
 }
 

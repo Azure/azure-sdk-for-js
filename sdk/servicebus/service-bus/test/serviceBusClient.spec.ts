@@ -16,7 +16,7 @@ import { ServiceBusSender } from "../src/sender";
 import { DispositionType, ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
-import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
   EntityName,
@@ -26,6 +26,7 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { isMessagingError } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

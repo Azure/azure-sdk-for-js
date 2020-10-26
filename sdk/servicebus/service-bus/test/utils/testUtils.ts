@@ -207,14 +207,6 @@ export enum EntityNames {
 }
 
 /**
- * Utility to check if given error is instance of `MessagingError`
- * @param err
- */
-export function isMessagingError(err: any): err is MessagingError {
-  return err.name === "MessagingError";
-}
-
-/**
  * Create and initialize a streaming receiver using a given context and entityPath.
  *
  * Defaults to peekLock, with no auto lock renewal.
