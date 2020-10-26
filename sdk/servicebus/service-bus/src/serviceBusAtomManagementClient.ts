@@ -604,8 +604,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the queue based on the queue properties provided.
    * All queue properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties(accompanied by the _response),
-   * update the properties as needed and then pass the modified object to `updateQueue()`.
+   * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
+   *
    * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
    *
    * @param queue Object representing the properties of the queue and the raw response.
@@ -1098,8 +1098,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the topic based on the topic properties provided.
    * All topic properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties(accompanied by the _response),
-   * update the properties as needed and then pass the modified object to `updateTopic()`.
+   * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
+   *
    * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
    *
    * @param topic Object representing the properties of the topic and the raw response.
@@ -1628,8 +1628,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the subscription based on the subscription properties provided.
    * All subscription properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties(accompanied by the _response),
-   * update the properties as needed and then pass the modified object to `updateSubscription()`.
+   * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
    * @param subscription Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
@@ -2049,8 +2048,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates properties on the Rule by the given name based on the given options.
    * All rule properties must be set even if one of them is being updated.
-   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties(accompanied by the _response),
-   * update the properties as needed and then pass the modified object to `updateRule()`.
+   * Therefore, the suggested flow is to use the output from `getRule()`, update the desired properties in it, and then pass the modified object to `updateRule()`.
    *
    * @param topicName
    * @param subscriptionName
