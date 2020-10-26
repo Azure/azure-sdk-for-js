@@ -327,8 +327,8 @@ describe("My test", () => {
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function () {
+    await recorder.stop();
   });
 });
 ```
@@ -367,8 +367,8 @@ recordings.
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function () {
+    await recorder.stop();
   });
 
   it("my first test", async function() {

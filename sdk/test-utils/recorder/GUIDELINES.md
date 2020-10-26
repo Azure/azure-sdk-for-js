@@ -29,7 +29,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 ### Recording the tests
 
-- `recorder = record(this, recorderEnvSetup);` initiates recording the HTTP requests and when `recorder.stop();` is called, the recording stops
+- `recorder = record(this, recorderEnvSetup);` initiates recording the HTTP requests and when `await recorder.stop();` is called, the recording stops
   and all the HTTP requests recorded in between the two calls are saved as part of the recording in the `"record"` mode.
   In the same way, existing recordings are leveraged and played back in the `"playback"` mode when `recorder = record(this, recorderEnvSetup);` is invoked.
   [Has no effect if the `TEST_MODE` is `"live"`, tests hit the live-service, we don't record the requests/responses]
@@ -47,7 +47,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
     afterEach(async () => {
       /*Place your code here*/
-      recorder.stop();
+      await recorder.stop();
     });
 
     it("<test-title>", async () => {
@@ -58,7 +58,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - Consider the `beforeEach`, `afterEach` and `it` blocks in the above test-suite.
 
-  - `recorder = record(this, recorderEnvSetup);` is invoked in the `beforeEach` section and `recorder.stop();` in the `afterEach` section.
+  - `recorder = record(this, recorderEnvSetup);` is invoked in the `beforeEach` section and `await recorder.stop();` in the `afterEach` section.
   - All the HTTP requests recorded in between the two calls are saved as part of the test(`it` block) recording in the `"record"` mode.
   - Existing test recording is played back when invoked `recorder = record(this, recorderEnvSetup);` in the `"playback"` mode.=
   - Any function call that affects http requests and is not in the `it`-block and belongs to a `describe`-block must go in one of the `beforeEach` or `afterEach` sections.
@@ -122,7 +122,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   const tmr = recorder.newDate("tmr");
   ```
 
-- When `recorder.stop()` is called for a test, we save that unique information corresponding to the test run along with the test recording in the `record` mode.
+- When `await recorder.stop()` is called for a test, we save that unique information corresponding to the test run along with the test recording in the `record` mode.
 
 - In `playback` mode, the saved unique information is pulled out from the existing recording in order to replay the http requests.
 
@@ -197,7 +197,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
     afterEach(async () => {
       /*Place your code here*/
-      recorder.stop();
+      await recorder.stop();
     });
 
     it("should abort when abort() is called", async () => {
