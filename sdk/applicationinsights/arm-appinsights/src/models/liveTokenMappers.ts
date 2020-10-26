@@ -7,8 +7,6 @@
  */
 
 export {
-  ApplicationInsightsComponentAvailableFeatures,
-  ApplicationInsightsComponentFeature,
-  ApplicationInsightsComponentFeatureCapability,
-  CloudError
+  ErrorResponse,
+  LiveTokenResponse
 } from "../models/mappers";
