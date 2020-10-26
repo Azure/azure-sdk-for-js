@@ -33,7 +33,7 @@
 - `NamespaceProperties` interface property "namespaceType" has been removed. [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
 - Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
   [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
-- Updated the `update{Entity}` signatures under `ServiceBusAdministrationClient` with relevant param names and types, more docs.
+- Updated the `update{Entity}` methods under `ServiceBusAdministrationClient` with relevant param names and types, more docs.
   [PR 12013](https://github.com/Azure/azure-sdk-for-js/pull/12013)
 
 ## 7.0.0-preview.7 (2020-10-07)
