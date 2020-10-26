@@ -284,6 +284,8 @@ export class ServiceClient {
         );
       }
     }
+    console.log("PUTTING OUT");
+    console.log(httpRequest);
     return httpPipeline.sendRequest(httpRequest);
   }
 

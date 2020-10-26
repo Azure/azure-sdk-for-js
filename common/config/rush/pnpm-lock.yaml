@@ -219,18 +219,40 @@ packages:
     dev: false
     engines:
       node: '>=0.8.0'
+    optional: true
     resolution:
       integrity: sha512-zzsESUi1KBVd0Fm/f3d6QKjVein7I+hwHrQNsiAqASg1rTtgGrsBCSTaA4sidO7lBYICW8i6cg8s/5FEA5enpw==
-  /@azure/msal-node/1.0.0-alpha.11:
+  /@azure/msal-common/1.6.3:
+    dependencies:
+      debug: 4.2.0
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-sZQ8gXavWEX7q0aHS8wNdcDWpbVnfLU4mMcX2E9JRHjn7nKACSEmiYNog2y/8vu7cMMV5RWWttF/oFQmeiIgyg==
+  /@azure/msal-node-extensions/1.0.0-alpha.4:
     dependencies:
       '@azure/msal-common': 1.6.1
+      bindings: 1.5.0
+      keytar: 6.0.1
+      nan: 2.14.1
+    dev: false
+    engines:
+      node: '>=10'
+    optional: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-DY2bhba7wAZiN/J+iruYScAu4sllIoWaWH0r9P55ir4hVCPX5aI6y+rN8gM4AuuirrZpkTtbMZOHuNLhxIXnwA==
+  /@azure/msal-node/1.0.0-alpha.13:
+    dependencies:
+      '@azure/msal-common': 1.6.3
       axios: 0.19.2
       debug: 4.2.0
       jsonwebtoken: 8.5.1
       uuid: 8.3.1
     dev: false
     resolution:
-      integrity: sha512-/VIx7HV2WTM13q47/oaBts+KVzIn4CTGnIxhdHcghAJV8pIDCqMPttDrksPM0TMaC7++p0JdxPARXj9VRSHIog==
+      integrity: sha512-YAt7mduHLWCpHg4bAvGugmN1xXwRBDHzLM+TVwvZG6lSJ9a3IQSB/t3uB3DMr5JU8gNsGz5eKgxEFlzuF0sycg==
   /@babel/code-frame/7.10.4:
     dependencies:
       '@babel/highlight': 7.10.4
@@ -1442,6 +1464,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
+  /axios/0.20.0:
+    dependencies:
+      follow-redirects: 1.13.0
+    dev: false
+    resolution:
+      integrity: sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
   /azure-storage/2.10.3:
     dependencies:
       browserify-mime: 1.2.9
@@ -1531,6 +1559,13 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-1Yj8h9Q+QDF5FzhMs/c9+6UntbD5MkRfRwac8DoEm9ZfUBZ7tZ55YcGVAzEe4bXsdQHEk+s9S5wsOKVdZrw0tQ==
+  /bindings/1.5.0:
+    dependencies:
+      file-uri-to-path: 1.0.0
+    dev: false
+    optional: true
+    resolution:
+      integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   /bl/0.8.2:
     dependencies:
       readable-stream: 1.0.34
@@ -4716,6 +4751,15 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-ueulhshHSGoryfRXaIvTj0BV1yB0KddBGhGoqCxSN9LR1Ks1GKuuCdVhF+2/YOs5fMl6MlTI9On1a4DHDXoTow==
+  /keytar/6.0.1:
+    dependencies:
+      node-addon-api: 3.0.2
+      prebuild-install: 5.3.4
+    dev: false
+    optional: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-1Ihpf2tdM3sLwGMkYHXYhVC/hx5BDR7CWFL4IrBA3IDZo0xHhS2nM+tU9Y+u/U7okNfbVkwmKsieLkcWRMh93g==
   /lazy-ass/1.6.0:
     dev: false
     engines:
@@ -5436,6 +5480,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dEYmUqjtbivotqjraOe8UvhT/poFfog1BQRNsZm/MSEDDESk2cQ1tvD8kGyuN07TM/zoW+n42odL8zTeJupYdQ==
+  /node-addon-api/3.0.2:
+    dev: false
+    optional: true
+    resolution:
+      integrity: sha512-+D4s2HCnxPd5PjjI0STKwncjXTUKKqm74MDMz9OPXavjsGmjkvwgLtA5yoxJUdmpj52+2u+RrXgPipahKczMKg==
   /node-environment-flags/1.0.6:
     dependencies:
       object.getownpropertydescriptors: 2.1.0
@@ -6021,6 +6070,30 @@ packages:
     optional: true
     resolution:
       integrity: sha512-GV+nsUXuPW2p8Zy7SarF/2W/oiK8bFQgJcncoJ0d7kRpekEA0ftChjfEaF9/Y+QJEc/wFR7RAEa8lYByuUIe2g==
+  /prebuild-install/5.3.4:
+    dependencies:
+      detect-libc: 1.0.3
+      expand-template: 2.0.3
+      github-from-package: 0.0.0
+      minimist: 1.2.5
+      mkdirp: 0.5.5
+      napi-build-utils: 1.0.2
+      node-abi: 2.19.1
+      noop-logger: 0.1.1
+      npmlog: 4.1.2
+      pump: 3.0.0
+      rc: 1.2.8
+      simple-get: 3.1.0
+      tar-fs: 2.1.0
+      tunnel-agent: 0.6.0
+      which-pm-runs: 1.0.0
+    dev: false
+    engines:
+      node: '>=6'
+    hasBin: true
+    optional: true
+    resolution:
+      integrity: sha512-AkKN+pf4fSEihjapLEEj8n85YIw/tN6BQqkhzbDc0RvEZGdkpJBGMUYx66AAMcPG2KzmPQS7Cm16an4HVBRRMA==
   /prelude-ls/1.1.2:
     dev: false
     engines:
@@ -9670,7 +9743,7 @@ packages:
   'file:projects/identity.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
-      '@azure/msal-node': 1.0.0-alpha.11
+      '@azure/msal-node': 1.0.0-alpha.13
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9686,6 +9759,7 @@ packages:
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
       assert: 1.5.0
+      axios: 0.20.0
       cross-env: 7.0.2
       eslint: 6.8.0
       events: 3.2.0
@@ -9720,9 +9794,10 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     optionalDependencies:
+      '@azure/msal-node-extensions': 1.0.0-alpha.4
       keytar: 5.6.0
     resolution:
-      integrity: sha512-aR0uCq0fiOVVhQqA7UmBUy6sun2bmmdtFvddmo4IiH6mrZQyz6Z6CUSEPqlkbrVM7m0bcys008lSRVLmGRiwZw==
+      integrity: sha512-RvRmiEFJ5HT2FiuzaWlqVDrQHlOK/uIIPWiEplU0bgR/SoMv3fK+u37anJg5Tk1PVEedXLZT0HIVAAOBczX7kw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -10759,6 +10834,7 @@ packages:
       integrity: sha512-uZaBXfZM1ISycMx+p8kUd/Yqui/KgjgUm/CyAzxK2wkOmqKF66JuLD5lbkH4tXBi+F5rL59UaMhjjxskb6qbzA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-anomaly-detector': 'file:./projects/ai-anomaly-detector.tgz'

@@ -82,8 +82,9 @@
     "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^1.0.0-alpha.11",
+    "@azure/msal-node": "^1.0.0-alpha.13",
     "@opentelemetry/api": "^0.10.2",
+    "axios": "^0.20.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "msal": "^1.0.2",
@@ -93,8 +94,7 @@
     "uuid": "^8.3.0"
   },
   "optionalDependencies": {
-    "keytar": "^5.4.0",
-    "@azure/msal-node-extensions": "1.0.0-alpha.4"
+    "keytar": "^5.4.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

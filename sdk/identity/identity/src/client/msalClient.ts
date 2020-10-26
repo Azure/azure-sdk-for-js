@@ -10,8 +10,13 @@ import {
   DeviceCodeRequest,
   ConfidentialClientApplication,
   ClientCredentialRequest,
-  TokenCacheContext
+  TokenCacheContext,
+  NetworkRequestOptions,
+  NetworkResponse,
+  INetworkModule
 } from "@azure/msal-node";
+import axios, { AxiosRequestConfig } from "axios";
+
 import { IdentityClient, TokenCredentialOptions } from "./identityClient";
 import { AccessToken } from "@azure/core-http";
 import { credentialLogger } from "../util/logging";
@@ -125,13 +130,13 @@ export class MsalClient {
   private identityClient: IdentityClient;
   private pca: PublicClientApplication | undefined;
   private cca: ConfidentialClientApplication | undefined;
-  private tenantId: string;
+  //private tenantId: string;
   private cachePath?: string;
   private msalConfig: NodeAuthOptions;
 
   constructor(
     msalConfig: NodeAuthOptions,
-    tenantId: string,
+    _tenantId: string,
     persistenceEnabled: boolean,
     authenticationRecord?: AuthenticationRecord,
     cachePath?: string,
@@ -139,7 +144,7 @@ export class MsalClient {
   ) {
     this.identityClient = new IdentityClient(options);
     this.msalConfig = msalConfig;
-    this.tenantId = tenantId;
+    //this.tenantId = tenantId;
     this.cachePath = cachePath ? cachePath : "cache.bin";
     this.persistenceEnabled = persistenceEnabled;
     this.authenticationRecord = authenticationRecord;
@@ -158,9 +163,6 @@ export class MsalClient {
     }
 
     // Construct the public client application, since it hasn't been initialized, yet
-    const knownAuthorities = this.tenantId === "adfs" ? [this.msalConfig.authority!] : [];
-    this.msalConfig.knownAuthorities = knownAuthorities;
-
     const clientConfig: Configuration = {
       auth: this.msalConfig,
       cache: plugin,
@@ -168,9 +170,9 @@ export class MsalClient {
     };
 
     this.pca = new PublicClientApplication(clientConfig);
-    if (clientConfig.auth.clientSecret || clientConfig.auth.clientCertificate) {
-      this.cca = new ConfidentialClientApplication(clientConfig);
-    }
+    // if (clientConfig.auth.clientSecret || clientConfig.auth.clientCertificate) {
+    //   this.cca = new ConfidentialClientApplication(clientConfig);
+    // }
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {
@@ -221,5 +223,76 @@ export class MsalClient {
     await this.prepareClientApplications();
 
     return this.cca!.acquireTokenByClientCredential(request);
+  }
+}
+
+export enum HttpMethod {
+  GET = "get",
+  POST = "post"
+}
+/**
+ * This class implements the API for network requests.
+ */
+export class HttpClient implements INetworkModule {
+  constructor() {
+    axios.defaults.validateStatus = () => true;
+  }
+
+  /**
+   * Http Get request
+   * @param url
+   * @param options
+   */
+  async sendGetRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const request: AxiosRequestConfig = {
+      method: HttpMethod.GET,
+      url: url,
+      headers: options && options.headers
+    };
+    console.log("REQUEST:");
+    console.log(request);
+
+    const response = await axios(request);
+    const out = {
+      headers: response.headers,
+      body: response.data as T,
+      status: response.status
+    };
+    console.log("RESPONSE:");
+    console.log(out);
+    return out;
+  }
+
+  /**
+   * Http Post request
+   * @param url
+   * @param options
+   */
+  async sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const request: AxiosRequestConfig = {
+      method: HttpMethod.POST,
+      url: url,
+      data: (options && options.body) || "",
+      headers: options && options.headers
+    };
+    console.log("POST REQUEST:");
+    console.log(request);
+
+    const response = await axios(request);
+    const out = {
+      headers: response.headers,
+      body: response.data as T,
+      status: response.status
+    };
+    console.log("POST RESPONSE:");
+    console.log(out);
+
+    return out;
   }
 }

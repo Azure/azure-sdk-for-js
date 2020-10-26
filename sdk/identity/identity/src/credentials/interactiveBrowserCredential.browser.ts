@@ -52,10 +52,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       throw error;
     }
 
+    const knownAuthorities = options.tenantId === "adfs" ? (options.authorityHost ? [options.authorityHost] : []) : [];
+
     this.msalConfig = {
       auth: {
         clientId: options.clientId!, // we just initialized it above
         authority: `${options.authorityHost}/${options.tenantId}`,
+        knownAuthorities,
         ...(options.redirectUri && { redirectUri: options.redirectUri }),
         ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
       },
