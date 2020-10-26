@@ -14,7 +14,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { InternalMessageHandlers, ProcessErrorArgs } from "../../src/models";
+import { InternalMessageHandlers } from "../../src/models";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
@@ -229,43 +229,6 @@ describe("Receiver unit tests", () => {
       await subscription.close(); // and closing it "out of order" shouldn't be an issue either.
       await subscription2.close();
       await receiverImpl.close();
-    });
-
-    it("errors thrown when initializing a connection are reported as 'receive' errors", async () => {
-      receiverImpl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: () => {
-            throw new Error("Failed to initialize!");
-          }
-        }),
-        "fakeEntityPath",
-        "peekLock",
-        1
-      );
-
-      const processErrorArgs = await new Promise<ProcessErrorArgs>((resolve) => {
-        return receiverImpl.subscribe({
-          processError: async (args) => {
-            resolve(args);
-          },
-          processMessage: async (_msg) => {}
-        });
-      });
-
-      assert.deepEqual(
-        {
-          message: processErrorArgs.error.message,
-          errorSource: processErrorArgs.errorSource,
-          entityPath: processErrorArgs.entityPath,
-          fullyQualifiedNamespace: processErrorArgs.fullyQualifiedNamespace
-        },
-        {
-          message: "Failed to initialize!",
-          errorSource: "receive",
-          entityPath: "fakeEntityPath",
-          fullyQualifiedNamespace: "fakeHost"
-        }
-      );
     });
 
     async function subscribeAndWaitForInitialize(

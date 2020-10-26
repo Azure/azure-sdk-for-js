@@ -423,16 +423,9 @@ describe("StreamingReceiver unit tests", () => {
 
     describe("wrapped operation", () => {
       it("wrapped operation reports via onError for exceptions.", async () => {
-        let onError = sinon.fake();
-
-        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](
-          "entity path",
-          "fully qualified namespace",
-          async () => {
-            throw new Error("Normal errors are logged and rethrown.");
-          },
-          onError
-        );
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
+          throw new Error("Normal errors are logged and rethrown.");
+        });
 
         try {
           await wrappedOperation();
@@ -445,29 +438,17 @@ describe("StreamingReceiver unit tests", () => {
             retryable: true
           });
         }
-
-        assert.deepEqual(
-          getErrorMessageFromMock(onError),
-          "Normal errors are logged and rethrown."
-        );
       });
 
       it("wrapped operation does throw if it gets an abortError.", async () => {
-        let onError = sinon.fake();
-
-        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](
-          "entity path",
-          "fully qualified namespace",
-          async () => {
-            //. the user is obviously welcome to pass in and abort their passed in abortSignal.
-            // Another way this can happen is that LinkEntity.initLink will also throw an AbortError if the link has
-            // been closed by the user.
-            throw new AbortError(
-              "AbortError's should propagate or the link has had .close() called on it"
-            );
-          },
-          onError
-        );
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
+          //. the user is obviously welcome to pass in and abort their passed in abortSignal.
+          // Another way this can happen is that LinkEntity.initLink will also throw an AbortError if the link has
+          // been closed by the user.
+          throw new AbortError(
+            "AbortError's should propagate or the link has had .close() called on it"
+          );
+        });
 
         try {
           await wrappedOperation();
@@ -479,11 +460,6 @@ describe("StreamingReceiver unit tests", () => {
             retryable: undefined
           });
         }
-
-        assert.deepEqual(
-          getErrorMessageFromMock(onError),
-          "AbortError's should propagate or the link has had .close() called on it"
-        );
       });
     });
   });
@@ -530,16 +506,6 @@ describe("StreamingReceiver unit tests", () => {
     streamingReceiver["_isDetaching"] = false;
   });
 });
-
-function getErrorMessageFromMock(onError: sinon.SinonSpy<any[], any>) {
-  const errorMessages = onError.args.map((onErrorCallArgs) => {
-    const processErrorArgs: ProcessErrorArgs = onErrorCallArgs[0];
-    return processErrorArgs.error.message;
-  });
-
-  assert.equal(errorMessages.length, 1, "Should have exactly one error message");
-  return errorMessages[0]!;
-}
 
 function assertError(
   err: any,

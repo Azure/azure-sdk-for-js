@@ -402,31 +402,22 @@ export class StreamingReceiver extends MessageReceiver {
     await this._receiverHelper.suspend();
   }
 
-  private static wrapRetryOperation(
-    entityPath: string,
-    fullyQualifiedNamespace: string,
-    fn: () => Promise<void>,
-    onError?: OnError
-  ) {
+  /**
+   * Returns a wrapped function that makes any thrown errors retryable by wrapping them
+   * in a StreamingReceiverError  _except_  for AbortError.
+   */
+  private static wrapRetryOperation(fn: () => Promise<void>) {
     return async () => {
       try {
         await fn();
       } catch (err) {
-        onError &&
-          onError({
-            error: err,
-            errorSource: "receive",
-            entityPath,
-            fullyQualifiedNamespace
-          });
-
-        if (err.name !== "AbortError") {
-          throw new StreamingReceiverError(err);
+        if (err.name === "AbortError") {
+          throw err;
         }
 
         // once we're at this point where we can spin up a connection we're past the point
         // of fatal errors like the connection string just outright being malformed, for instance.
-        throw err;
+        throw new StreamingReceiverError(err);
       }
     };
   }
@@ -451,12 +442,7 @@ export class StreamingReceiver extends MessageReceiver {
   ) {
     while (true) {
       const config: RetryConfig<void> = {
-        operation: StreamingReceiver.wrapRetryOperation(
-          this.entityPath,
-          this._context.config.host,
-          () => this._initOnce(args),
-          args.onError
-        ),
+        operation: StreamingReceiver.wrapRetryOperation(() => this._initOnce(args)),
         connectionId: args.connectionId,
         operationType: RetryOperationType.receiverLink,
         // even though we're going to loop infinitely we allow them to control the pattern we use on each
