@@ -28,20 +28,20 @@ export class ProactiveDetectionConfigurations {
 
   /**
    * Gets a list of ProactiveDetection configurations of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ProactiveDetectionConfigurationsListResponse>
    */
   list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProactiveDetectionConfigurationsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class ProactiveDetectionConfigurations {
 
   /**
    * Get the ProactiveDetection configuration for this configuration id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -69,7 +69,7 @@ export class ProactiveDetectionConfigurations {
    */
   get(resourceGroupName: string, resourceName: string, configurationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProactiveDetectionConfigurationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -77,7 +77,7 @@ export class ProactiveDetectionConfigurations {
    */
   get(resourceGroupName: string, resourceName: string, configurationId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -99,7 +99,7 @@ export class ProactiveDetectionConfigurations {
 
   /**
    * Update the ProactiveDetection configuration for this configuration id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -110,7 +110,7 @@ export class ProactiveDetectionConfigurations {
    */
   update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: Models.ApplicationInsightsComponentProactiveDetectionConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.ProactiveDetectionConfigurationsUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -120,7 +120,7 @@ export class ProactiveDetectionConfigurations {
    */
   update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: Models.ApplicationInsightsComponentProactiveDetectionConfiguration, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param configurationId The ProactiveDetection configuration ID. This is unique within a
    * Application Insights component.
@@ -155,7 +155,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -192,7 +192,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.configurationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -218,7 +218,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.configurationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

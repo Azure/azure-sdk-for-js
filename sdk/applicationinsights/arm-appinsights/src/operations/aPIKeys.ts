@@ -28,20 +28,20 @@ export class APIKeys {
 
   /**
    * Gets a list of API keys of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.APIKeysListResponse>
    */
   list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class APIKeys {
 
   /**
    * Create an API Key of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param aPIKeyProperties Properties that need to be specified to create an API key of a
    * Application Insights component.
@@ -69,7 +69,7 @@ export class APIKeys {
    */
   create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysCreateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param aPIKeyProperties Properties that need to be specified to create an API key of a
    * Application Insights component.
@@ -77,7 +77,7 @@ export class APIKeys {
    */
   create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param aPIKeyProperties Properties that need to be specified to create an API key of a
    * Application Insights component.
@@ -99,7 +99,7 @@ export class APIKeys {
 
   /**
    * Delete an API Key of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param [options] The optional parameters
@@ -107,14 +107,14 @@ export class APIKeys {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysDeleteMethodResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param options The optional parameters
@@ -135,7 +135,7 @@ export class APIKeys {
 
   /**
    * Get the API Key for this key id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param [options] The optional parameters
@@ -143,14 +143,14 @@ export class APIKeys {
    */
   get(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, keyId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param options The optional parameters
@@ -181,7 +181,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -206,7 +206,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -239,7 +239,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.keyId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -265,7 +265,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.keyId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
