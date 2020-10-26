@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { ProcessErrorArgs, ReceiveMode } from "../../src";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
+import { StreamingReceiver, StreamingReceiverError } from "../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
@@ -295,7 +295,7 @@ describe("StreamingReceiver unit tests", () => {
         receiveMode: "peekLock",
         lockRenewer: undefined,
         retryOptions: {
-          maxRetries: 1, // this will get overridden when calling retry<>
+          maxRetries: 5,
           maxRetryDelayInMs: 101, // this is used
           mode: RetryMode.Exponential,
           retryDelayInMs: 201,
@@ -311,7 +311,7 @@ describe("StreamingReceiver unit tests", () => {
         assert.deepEqual(
           retryConfig.retryOptions,
           {
-            maxRetries: 1, // this will get overridden when calling retry<>
+            maxRetries: 5,
             maxRetryDelayInMs: 101, // this is used
             mode: RetryMode.Exponential,
             retryDelayInMs: 201,
@@ -321,34 +321,58 @@ describe("StreamingReceiver unit tests", () => {
         );
 
         ++numTimesRetryFnCalled;
-        if (numTimesRetryFnCalled === 1) {
-          throw new Error("Purposeful failure, will cause another iteration of the loop.");
+        if (numTimesRetryFnCalled === 0) {
+          // add in a little variety - throwing this wrapper error should also
+          // work just fine and it'll be properly extracted when it's reported to the user's onError handler.
+          throw new StreamingReceiverError(
+            new Error(`Error in retry cycle ${numTimesRetryFnCalled}`)
+          );
+        } else if (numTimesRetryFnCalled < 4) {
+          throw new Error(`Error in retry cycle ${numTimesRetryFnCalled}`);
         } else {
           // go ahead and let the retry loop succeed (and it should properly terminate!)
           return {} as T;
         }
       };
 
-      let errorThatShouldNotHappen: Error | MessagingError | undefined;
+      let errorsAfterRetryCycle: (Error | MessagingError | undefined)[] = [];
 
       await streamingReceiver.init({
         useNewName: false,
         connectionId: "connection-id",
         onError: (args) => {
           // all calls to onError only happen within the operation itself
-          errorThatShouldNotHappen = args.error;
+          errorsAfterRetryCycle.push(args.error);
         }
       });
 
       assert.equal(
         numTimesRetryFnCalled,
-        2,
-        "Should call it twice - the first call through the loop fails, so we enter another retry round."
+        3 + 1,
+        "Should call it four times - the first three calls through the loop fail, so we enter another retry round."
       );
 
-      assert.notExists(
-        errorThatShouldNotHappen,
-        "onError should never have been called. Only the operation should do that and we've purposefully stubbed that out."
+      assertErrors(
+        errorsAfterRetryCycle,
+        [
+          {
+            name: "Error",
+            message: "Error in retry cycle 1",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          },
+          {
+            name: "Error",
+            message: "Error in retry cycle 2",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          },
+          {
+            name: "Error",
+            message: "Error in retry cycle 3",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          }
+          // after all of these failures we let a retry<> call succeed.
+        ],
+        "onError should be called after each failed cycle (ie, retry<> call)"
       );
     });
 
@@ -415,7 +439,7 @@ describe("StreamingReceiver unit tests", () => {
           assert.fail("Should have thrown");
         } catch (err) {
           assertError(err, {
-            name: "Error",
+            name: "StreamingReceiverError",
             message: "Normal errors are logged and rethrown.",
             // they're also marked as retryable.
             retryable: true
@@ -487,14 +511,21 @@ describe("StreamingReceiver unit tests", () => {
     );
 
     assert.isTrue(initMock.calledOnce);
-    const processErrorArgs: ProcessErrorArgs = onErrorMock.args[0][0];
-    assert.equal(processErrorArgs.error.message, "let's detach");
+
+    // we log the error but we don't report it to the user. We save calling 'onError' for when
+    // we fail to do something (in this case, only when the re-initialization is failing for some reason)
+    assert.isFalse(
+      onErrorMock.calledOnce,
+      "The user's processError method should not be invoked unless we fail in init() (which isn't be called for this test)"
+    );
 
     // simulate simultaneous detaches
     streamingReceiver["_isDetaching"] = true;
     initMock.resetHistory();
 
-    await streamingReceiver.onDetached(new Error("let's detach"));
+    await streamingReceiver.onDetached(
+      new Error("let's detach but it won't because there's already a onDetached running.")
+    );
     assert.isFalse(initMock.called); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
   });
@@ -512,7 +543,8 @@ function getErrorMessageFromMock(onError: sinon.SinonSpy<any[], any>) {
 
 function assertError(
   err: any,
-  expected: { name: string; message: string; retryable: boolean | undefined }
+  expected: { name: string; message: string; retryable: boolean | undefined },
+  assertMessage?: string
 ) {
   assert.deepEqual(
     {
@@ -521,6 +553,24 @@ function assertError(
       retryable: err.retryable
     },
     expected,
-    "Exception didn't match what we expected to be thrown."
+    assertMessage ?? "Exception didn't match what we expected to be thrown."
+  );
+}
+
+function assertErrors(
+  actualErrors: any[],
+  expectedErrors: { name: string; message: string; retryable: boolean | undefined }[],
+  assertMessage?: string
+) {
+  const simpleActualErrors = actualErrors.map((err) => ({
+    name: err.name,
+    message: err.message,
+    retryable: err.retryable
+  }));
+
+  assert.deepEqual(
+    simpleActualErrors,
+    expectedErrors,
+    assertMessage ?? "Exception didn't match what we expected."
   );
 }

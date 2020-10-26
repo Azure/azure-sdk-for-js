@@ -619,7 +619,7 @@ export class StreamingReceiver extends MessageReceiver {
  * @internal
  * @ignore
  */
-class StreamingReceiverError extends Error {
+export class StreamingReceiverError extends Error {
   constructor(public originalError: Error | MessagingError) {
     super(originalError.message);
     this.name = "StreamingReceiverError";
