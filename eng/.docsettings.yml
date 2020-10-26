@@ -14,11 +14,11 @@ omitted_paths:
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
   - sdk/schemaregistry/README.md
-  - sdk/servicebus/service-bus/samples-v1/*
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
+  - sdk/**/samples-*/*
   - sdk/**/swagger/*
   - common/*
   - samples/*
