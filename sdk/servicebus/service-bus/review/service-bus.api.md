@@ -7,7 +7,9 @@
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
+import { isMessagingError } from '@azure/core-amqp';
 import Long from 'long';
+import { MessageErrorCodes } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -176,6 +178,10 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
+
+export { isMessagingError }
+
+export { MessageErrorCodes }
 
 // @public
 export interface MessageHandlers {
