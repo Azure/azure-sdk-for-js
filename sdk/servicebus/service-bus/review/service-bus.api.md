@@ -358,7 +358,6 @@ export interface ServiceBusMessage {
     timeToLive?: number;
     to?: string;
     userId?: string;
-    viaPartitionKey?: string;
 }
 
 // @public
