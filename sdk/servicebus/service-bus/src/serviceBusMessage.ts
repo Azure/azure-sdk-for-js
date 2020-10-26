@@ -141,6 +141,18 @@ export interface ServiceBusMessage {
    */
   partitionKey?: string;
   /**
+   * @property The partition key for sending a message into an entity
+   * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
+   * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
+   * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
+   * together and in order as they are transferred.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
+   */
+
+  // Will be required later for implementing Transactions
+  // viaPartitionKey?: string;
+
+  /**
    * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
@@ -458,6 +470,16 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
   }
 
+  // Will be required later for implementing Transactions
+  // if (msg.viaPartitionKey != null) {
+  //   if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
+  //     throw new Error(
+  //       "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
+  //     );
+  //   }
+  //   amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+  // }
+
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
@@ -611,6 +633,11 @@ export function fromAmqpMessage(
       sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
 
+    // Will be required later for implementing Transactions
+    // if (msg.message_annotations[Constants.viaPartitionKey] != null) {
+    //   sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
+    // }
+
     if (msg.message_annotations[Constants.scheduledEnqueueTime] != null) {
       sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
@@ -752,6 +779,16 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * the `sessionId` property overrides this value.
    */
   partitionKey?: string;
+  /**
+   * @property The partition key for sending a message into an entity
+   * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
+   * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
+   * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
+   * together and in order as they are transferred.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
+   */
+  // Will be required later for implementing Transactions
+  // viaPartitionKey?: string;
   /**
    * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
@@ -1052,6 +1089,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       timeToLive: this.timeToLive,
       to: this.to,
       applicationProperties: this.applicationProperties
+      // Will be required later for implementing Transactions
+      // viaPartitionKey: this.viaPartitionKey
     };
 
     return clone;
