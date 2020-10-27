@@ -51,7 +51,7 @@ Rush provides many benefits:
 - When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
 - Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
 
-Not every library in the repository is managed by Rush yet. Those packages can still be managed using `npm`.
+Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](../rush.json). Packages not managed by Rush can still be managed using `npm`.
 
 ## Setting up your environment
 
@@ -83,8 +83,17 @@ If you prefer to setup your own environment instead, make sure you have these pr
 1. Fork this repo
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
+
+To build packages managed by Rush:
+
 4. Install and link all dependencies (`rush update`)
 5. Build the code base (`rush rebuild`)
+
+To build packages not managed by Rush:
+
+4. Navigate to the package directory as described in our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md)
+5. Install the package dependencies (`npm install`)
+6. Build the package (`npm run build`)
 
 ## Development Workflows
 
@@ -112,7 +121,7 @@ If you know your library requires functionality introduced in a newer version of
 
 On the other hand, if you know your library does not work with the existing version of the dependency and you explicitly need an older version, you have a few options. The preferred option would be to update your library so that it works with the existing version of the dependency. If this is not feasible, Rush can be instructed to permit an exception to the "consistent versions" policy. Reach out to a member of the [engineering system team](mailto:azuresdkengsysteam@microsoft.com) to describe your situation and they will be able to help you add the exception.
 
-### Building
+### Building using Rush
 
 Run `rush build` from anywhere in the repo to build any projects that have been modified since the last build.
 Run `rush rebuild` from anywhere in the repo to rebuild all projects from scratch.
