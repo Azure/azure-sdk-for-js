@@ -34,7 +34,7 @@ export interface AmqpMessageHeader {
     durable?: boolean;
     firstAcquirer?: boolean;
     priority?: number;
-    ttl?: number;
+    timeToLive?: number;
 }
 
 // @public
