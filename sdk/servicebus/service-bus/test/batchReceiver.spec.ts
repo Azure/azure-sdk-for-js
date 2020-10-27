@@ -875,7 +875,7 @@ describe("Batching Receiver", () => {
     );
   });
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1000; i++) {
     noSessionTestClientType = TestClientType.PartitionedQueue;
     describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
       let serviceBusClient: ServiceBusClientForTests;
@@ -917,7 +917,7 @@ describe("Batching Receiver", () => {
         let settledMessageCount = 0;
 
         const messages1 = await receiver.receiveMessages(1, {
-          maxWaitTimeInMs: 20000
+          maxWaitTimeInMs: 60000
         });
         should.equal(
           messages1.length,
@@ -947,7 +947,7 @@ describe("Batching Receiver", () => {
 
         // wait for the 2nd message to be received.
         const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1, {
-          maxWaitTimeInMs: 5000
+          maxWaitTimeInMs: 60000
         });
         should.equal(
           messages1.length,
