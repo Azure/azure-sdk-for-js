@@ -121,6 +121,18 @@ export interface OnErrorDeployment {
 }
 
 /**
+ * Specifies whether template expressions are evaluated within the scope of the parent template or
+ * nested template.
+ */
+export interface ExpressionEvaluationOptions {
+  /**
+   * The scope to be used for evaluation of parameters, variables and functions in a nested
+   * template. Possible values include: 'NotSpecified', 'Outer', 'Inner'
+   */
+  scope?: ExpressionEvaluationOptionsScopeType;
+}
+
+/**
  * Deployment properties.
  */
 export interface DeploymentProperties {
@@ -164,6 +176,12 @@ export interface DeploymentProperties {
    * The deployment on error behavior.
    */
   onErrorDeployment?: OnErrorDeployment;
+  /**
+   * Specifies whether template expressions are evaluated within the scope of the parent template
+   * or nested template. Only applicable to nested templates. If not specified, default value is
+   * outer.
+   */
+  expressionEvaluationOptions?: ExpressionEvaluationOptions;
 }
 
 /**
@@ -1810,6 +1828,14 @@ export type DeploymentMode = 'Incremental' | 'Complete';
  * @enum {string}
  */
 export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
+
+/**
+ * Defines values for ExpressionEvaluationOptionsScopeType.
+ * Possible values include: 'NotSpecified', 'Outer', 'Inner'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpressionEvaluationOptionsScopeType = 'NotSpecified' | 'Outer' | 'Inner';
 
 /**
  * Defines values for WhatIfResultFormat.
