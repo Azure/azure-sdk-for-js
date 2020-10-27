@@ -361,8 +361,8 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   /**
-   * Returns a wrapped function that makes any thrown errors retryable by wrapping them
-   * in a StreamingReceiverError  _except_  for AbortError.
+   * Returns a wrapped function that makes any thrown errors retryable (_except_  for AbortError) by
+   * wrapping them in a StreamingReceiverError .
    */
   private static wrapRetryOperation(fn: () => Promise<void>) {
     return async () => {
