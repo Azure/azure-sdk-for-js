@@ -1787,7 +1787,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param ruleFilter Defines the filter expression that the rule evaluates.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
-   * Following are error that can be expected from this operation
+   * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
