@@ -417,21 +417,10 @@ export class StreamingReceiver extends MessageReceiver {
         await this._retry<void>(config);
         break;
       } catch (err) {
-        // if the user aborts the operation we're immediately done.
-        if (err.name === "AbortError") {
-          throw err;
-        }
-
         if (StreamingReceiverError.isStreamingReceiverError(err)) {
           // report the original error to the user
           err = err.originalError;
         }
-
-        logger.logError(
-          err,
-          `${this.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
-          this._retryOptions
-        );
 
         // we only report the error here - this avoids spamming the user with too many
         // redundant reports of errors while still providing them incremental status on failures.
@@ -441,6 +430,17 @@ export class StreamingReceiver extends MessageReceiver {
           fullyQualifiedNamespace: this._context.config.host,
           error: err
         });
+
+        // if the user aborts the operation we're immediately done.
+        if (err.name === "AbortError") {
+          throw err;
+        }
+
+        logger.logError(
+          err,
+          `${this.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
+          this._retryOptions
+        );
 
         continue;
       }

@@ -395,7 +395,7 @@ describe("StreamingReceiver unit tests", () => {
         throw new AbortError("Aborting immediately - user's abortSignal takes precedence.");
       };
 
-      let errorThatShouldNotHappen: Error | MessagingError | undefined;
+      let errorPassedToProcessError: Error | MessagingError | undefined;
 
       try {
         await streamingReceiver.init({
@@ -403,7 +403,7 @@ describe("StreamingReceiver unit tests", () => {
           connectionId: "connection-id",
           onError: (args) => {
             // all calls to onError only happen within the operation itself
-            errorThatShouldNotHappen = args.error;
+            errorPassedToProcessError = args.error;
           }
         });
         assert.fail("Should have thrown because AbortError's are immediately propagated.");
@@ -415,10 +415,11 @@ describe("StreamingReceiver unit tests", () => {
         });
       }
 
-      assert.notExists(
-        errorThatShouldNotHappen,
-        "onError should never have been called. Only the operation should do that and we've purposefully stubbed that out."
-      );
+      assertError(errorPassedToProcessError, {
+        name: "AbortError",
+        message: "Aborting immediately - user's abortSignal takes precedence.",
+        retryable: undefined
+      });
     });
 
     describe("wrapped operation", () => {
