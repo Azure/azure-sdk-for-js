@@ -1356,8 +1356,9 @@ export class ShareClient extends StorageClient {
     get name(): string;
     get rootDirectoryClient(): ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
-    setAccessTier(accessTier: ShareAccessTier, options?: ShareSetAccessTierOptions): Promise<ShareSetPropertiesResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
+    setProperties(options?: ShareSetPropertiesOptions): Promise<ShareSetPropertiesResponse>;
+    // @deprecated
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
     withSnapshot(snapshot: string): ShareClient;
 }
@@ -1807,12 +1808,6 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
 };
 
 // @public
-export interface ShareSetAccessTierOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    leaseAccessConditions?: LeaseAccessConditions;
-}
-
-// @public
 export interface ShareSetMetadataHeaders {
     date?: Date;
     // (undocumented)
@@ -1845,6 +1840,14 @@ export interface ShareSetPropertiesHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface ShareSetPropertiesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    accessTier?: ShareAccessTier;
+    leaseAccessConditions?: LeaseAccessConditions;
+    quotaInGB?: number;
 }
 
 // @public
