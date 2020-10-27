@@ -328,12 +328,8 @@ describe("Receiver unit tests", () => {
     });
 
     it("create() with an existing _streamingReceiver", async () => {
-      impl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests(),
-        "entity path",
-        "peekLock",
-        1
-      );
+      const context = createConnectionContextForTests();
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
       let initWasCalled = false;
       const expectedAbortSignal = createAbortSignalForTest();
@@ -345,12 +341,27 @@ describe("Receiver unit tests", () => {
             expectedAbortSignal,
             "abortSignal should be properly passed through."
           );
+
+          assert.equal(
+            "my pre-existing receiver",
+            context.messageReceivers["my pre-existing receiver"].name,
+            "Before init() is called we should have registered our receiver in the context's map so it can get cleaned up later."
+          );
+
           initWasCalled = true;
           return;
         },
-        close: async () => {}
-      } as Pick<StreamingReceiver, "init" | "close">;
+        close: async () => {},
+        name: "my pre-existing receiver"
+      } as Pick<StreamingReceiver, "init" | "close" | "name">;
+
       impl["_streamingReceiver"] = (existingReceiver as any) as StreamingReceiver;
+
+      // we're going to stub this out and make sure that prior to calling init() on our
+      // internal receiver we have registered it into the connection context so (if the user
+      // closes the ServiceBusClient) it will be able to find and close this instance (thus
+      // terminating it's streaming forever loop for initialization).
+      context.messageReceivers["my pre-existing receiver"] = {} as StreamingReceiver;
 
       await impl["_createStreamingReceiver"]({
         lockRenewer: undefined,

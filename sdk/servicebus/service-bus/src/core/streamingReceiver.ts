@@ -398,7 +398,11 @@ export class StreamingReceiver extends MessageReceiver {
       "abortSignal"
     >
   ) {
+    let numRetryCycles = 0;
+
     while (true) {
+      ++numRetryCycles;
+
       const config: RetryConfig<void> = {
         operation: StreamingReceiver.wrapRetryOperation(() => this._initOnce(args)),
         connectionId: args.connectionId,
@@ -422,6 +426,12 @@ export class StreamingReceiver extends MessageReceiver {
           // report the original error to the user
           err = err.originalError;
         }
+
+        logger.logError(
+          err,
+          `${this.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
+          this._retryOptions
+        );
 
         // we only report the error here - this avoids spamming the user with too many
         // redundant reports of errors while still providing them incremental status on failures.
@@ -529,24 +539,6 @@ export class StreamingReceiver extends MessageReceiver {
       logger.verbose(
         `${this.logPrefix} onDetached: link has been reestablished, added ${this.maxConcurrentCalls} credits.`
       );
-    } catch (err) {
-      // the behavior of init() is such that it should _never_ throw an error. If it does then the library is doing
-      // something completely incorrect and we need to report it because it's unlikely that we'll properly
-      // recover from it.
-      logger.logError(
-        err,
-        `${this.logPrefix} onDetached: A fatal internal error has occurred. Connection will not be reestablished`
-      );
-
-      this._onError &&
-        this._onError({
-          errorSource: "internal",
-          entityPath: this.entityPath,
-          error: err,
-          fullyQualifiedNamespace: this._context.config.host
-        });
-
-      throw err;
     } finally {
       this._isDetaching = false;
     }

@@ -427,13 +427,17 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._streamingReceiver =
       this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
 
+    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
+    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
+    // open but we do need to close the receiver to exit the init() loop.
+    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
+
     await this._streamingReceiver.init({
       connectionId: this._context.connectionId,
       useNewName: false,
       ...options
     });
 
-    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
     return this._streamingReceiver;
   }
 

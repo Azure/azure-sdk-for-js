@@ -480,42 +480,53 @@ export namespace ConnectionContext {
    * @returns {Promise<any>}
    */
   export async function close(context: ConnectionContext): Promise<void> {
+    const logPrefix = `[${context.connectionId}]`;
+
     try {
-      if (context.connection.isOpen()) {
-        logger.verbose("Closing the amqp connection '%s' on the client.", context.connectionId);
+      logger.verbose(`${logPrefix} Permanently closing the amqp connection on the client.`);
 
-        // Close all the senders.
-        for (const senderName of Object.keys(context.senders)) {
-          await context.senders[senderName].close();
-        }
-
-        // Close all MessageReceiver instances
-        for (const receiverName of Object.keys(context.messageReceivers)) {
-          await context.messageReceivers[receiverName].close();
-        }
-
-        // Close all MessageSession instances
-        for (const messageSessionName of Object.keys(context.messageSessions)) {
-          await context.messageSessions[messageSessionName].close();
-        }
-
-        // Close all the ManagementClients.
-        for (const entityPath of Object.keys(context.managementClients)) {
-          await context.managementClients[entityPath].close();
-        }
-
-        await context.cbsSession.close();
-
-        await context.connection.close();
-        context.wasConnectionCloseCalled = true;
-        logger.verbose("Closed the amqp connection '%s' on the client.", context.connectionId);
+      // Close all the senders.
+      const senderNames = Object.keys(context.senders);
+      logger.verbose(`${logPrefix} Permanently closing ${senderNames.length} senders.`);
+      for (const senderName of senderNames) {
+        await context.senders[senderName].close();
       }
+
+      // Close all MessageReceiver instances
+      const messageReceiverNames = Object.keys(context.messageReceivers);
+      logger.verbose(`${logPrefix} Permanently closing ${messageReceiverNames.length} receivers.`);
+      for (const receiverName of messageReceiverNames) {
+        await context.messageReceivers[receiverName].close();
+      }
+
+      // Close all MessageSession instances
+      const messageSessionNames = Object.keys(context.messageSessions);
+      logger.verbose(
+        `${logPrefix} Permanently closing ${messageSessionNames.length} session receivers.`
+      );
+      for (const messageSessionName of messageSessionNames) {
+        await context.messageSessions[messageSessionName].close();
+      }
+
+      // Close all the ManagementClients.
+      const managementClientsEntityPaths = Object.keys(context.managementClients);
+      logger.verbose(
+        `${logPrefix} Permanently closing ${managementClientsEntityPaths.length} session receivers.`
+      );
+      for (const entityPath of managementClientsEntityPaths) {
+        await context.managementClients[entityPath].close();
+      }
+
+      logger.verbose(`${logPrefix} Permanently closing cbsSession`);
+      await context.cbsSession.close();
+
+      logger.verbose(`${logPrefix} Permanently closing internal connection`);
+      await context.connection.close();
+      context.wasConnectionCloseCalled = true;
+      logger.verbose(`[${logPrefix} Permanently closed the amqp connection on the client.`);
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-      logger.logError(
-        err,
-        `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
-      );
+      logger.logError(err, `${logPrefix} An error occurred while closing the connection`);
       throw errObj;
     }
   }
