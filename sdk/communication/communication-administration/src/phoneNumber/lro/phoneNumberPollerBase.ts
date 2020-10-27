@@ -18,13 +18,13 @@ export abstract class PhoneNumberPollerBase<TState, TResult> extends Poller<TSta
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
-  public intervalInMs: number = 2000;
+  public pollInterval: number = 2000;
 
   /**
    * The method used by the poller to wait before attempting to update its operation
    */
   async delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.pollInterval);
   }
 }
 

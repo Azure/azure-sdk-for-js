@@ -26,7 +26,7 @@ export class ReservePhoneNumbersPoller extends PhoneNumberPollerBase<
       client,
       reservationRequest,
       requestOptions = {},
-      intervalInMs = 2000,
+      pollInterval = 2000,
       resumeFrom
     } = options;
     let state: ReservePhoneNumbersPollOperationState | undefined;
@@ -46,6 +46,6 @@ export class ReservePhoneNumbersPoller extends PhoneNumberPollerBase<
 
     super(operation);
 
-    this.intervalInMs = intervalInMs;
+    this.pollInterval = pollInterval;
   }
 }

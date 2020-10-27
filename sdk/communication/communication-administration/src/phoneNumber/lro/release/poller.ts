@@ -22,7 +22,7 @@ export class ReleasePhoneNumbersPoller extends PhoneNumberPollerBase<
    * @param {ReleasePhoneNumbersPollerOptions} options Options for initializing the poller.
    */
   constructor(options: ReleasePhoneNumbersPollerOptions) {
-    const { client, phoneNumbers, requestOptions = {}, intervalInMs = 2000, resumeFrom } = options;
+    const { client, phoneNumbers, requestOptions = {}, pollInterval = 2000, resumeFrom } = options;
     let state: ReleasePhoneNumbersPollOperationState | undefined;
 
     if (resumeFrom) {
@@ -40,6 +40,6 @@ export class ReleasePhoneNumbersPoller extends PhoneNumberPollerBase<
 
     super(operation);
 
-    this.intervalInMs = intervalInMs;
+    this.pollInterval = pollInterval;
   }
 }

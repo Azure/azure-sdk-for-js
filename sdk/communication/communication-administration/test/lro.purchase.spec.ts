@@ -93,12 +93,12 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
     const reservePoller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(reservePoller.getOperationState().isStarted);
 
-    const phoneNumberSearch: PhoneNumberReservation = await reservePoller.pollUntilDone();
-    reservationId = phoneNumberSearch.reservationId || "";
+    const reservation: PhoneNumberReservation = await reservePoller.pollUntilDone();
+    reservationId = reservation.reservationId || "";
 
     assert.ok(reservePoller.getOperationState().isCompleted);
-    assert.equal(phoneNumberSearch.status, "Reserved");
-    assert.equal(phoneNumberSearch.phoneNumbers?.length, 1);
+    assert.equal(reservation.status, "Reserved");
+    assert.equal(reservation.phoneNumbers?.length, 1);
 
     const purchasePoller = await client.beginPurchaseReservation(reservationId);
     assert.ok(purchasePoller.getOperationState().isStarted);

@@ -22,7 +22,7 @@ export interface PhoneNumberPollerOptionsBase {
   /**
    * Time between each polling in milliseconds.
    */
-  intervalInMs?: number;
+  pollInterval?: number;
 
   /**
    * A serialized poller, used to resume an existing operation

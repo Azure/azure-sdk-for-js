@@ -422,7 +422,7 @@ export interface PhoneNumberEntity {
 
 // @public
 export interface PhoneNumberPollerOptionsBase {
-    intervalInMs?: number;
+    pollInterval?: number;
     resumeFrom?: string;
 }
 

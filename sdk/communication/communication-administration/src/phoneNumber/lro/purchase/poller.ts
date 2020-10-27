@@ -21,7 +21,7 @@ export class PurchaseReservationPoller extends PhoneNumberPollerBase<
    * @param {PurchaseReservationPollerOptions} options Options for initializing the poller.
    */
   constructor(options: PurchaseReservationPollerOptions) {
-    const { client, reservationId, requestOptions = {}, intervalInMs = 2000, resumeFrom } = options;
+    const { client, reservationId, requestOptions = {}, pollInterval = 2000, resumeFrom } = options;
     let state: PurchaseReservationPollOperationState | undefined;
 
     if (resumeFrom) {
@@ -39,6 +39,6 @@ export class PurchaseReservationPoller extends PhoneNumberPollerBase<
 
     super(operation);
 
-    this.intervalInMs = intervalInMs;
+    this.pollInterval = pollInterval;
   }
 }

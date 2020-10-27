@@ -96,12 +96,12 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
     poller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(poller.getOperationState().isStarted);
 
-    const phoneNumberSearch: PhoneNumberReservation = await poller.pollUntilDone();
-    reservationId = phoneNumberSearch.reservationId || "";
+    const reservation: PhoneNumberReservation = await poller.pollUntilDone();
+    reservationId = reservation.reservationId || "";
 
     assert.ok(poller.getOperationState().isCompleted);
-    assert.equal(phoneNumberSearch.status, "Reserved");
-    assert.equal(phoneNumberSearch.phoneNumbers?.length, 1);
+    assert.equal(reservation.status, "Reserved");
+    assert.equal(reservation.phoneNumbers?.length, 1);
   }).timeout(30000);
 
   it("can cancel a phone number reservation", async function() {
