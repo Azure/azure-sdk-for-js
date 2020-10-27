@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 import { PollOperationState } from "@azure/core-lro";
 import { PhoneNumberAdministration } from "./generated/src/phoneNumberRestClient";
 import {
@@ -13,7 +14,6 @@ import {
   CreateReservationRequest,
   ReleasePhoneNumbersOptions
 } from "./models";
-import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 
 /**
  * Represents the optional parameters that can be passed to search pollers.

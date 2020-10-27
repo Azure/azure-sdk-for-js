@@ -4,11 +4,12 @@
 import { delay, operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { Poller, PollOperation } from "@azure/core-lro";
 import { CanonicalCode } from "@opentelemetry/api";
-import { PhoneNumberReservation, VoidResponse } from "../..";
+import { VoidResponse } from "../../common/models";
 import { attachHttpResponse } from "../../common/mappers";
 import { createSpan } from "../../common/tracing";
 import { PhoneNumberAdministration } from "../generated/src/phoneNumberRestClient";
 import { CancelReservationOptions, GetReservationOptions, GetReservationResponse } from "../models";
+import { PhoneNumberReservation } from '../generated/src/models';
 
 /**
  * Common properties and methods of the phone number pollers.
