@@ -22,7 +22,6 @@ export interface ProcessErrorArgs {
    * 'processMessageCallback': Errors thrown from the user's `processMessage` callback passed to `subscribe`.
    * 'receive': Errors thrown when receiving messages.
    * 'renewLock': Errors thrown when automatic lock renewal fails.
-   * 'internal': Errors thrown when the library fails internally.
    */
   errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
   /**
