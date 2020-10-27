@@ -87,7 +87,7 @@ export async function scenarioRenewSessionLock() {
     }
   }
 
-  let receivers: ServiceBusSessionReceiver<ServiceBusReceivedMessage>[] = [];
+  let receivers: ServiceBusSessionReceiver[] = [];
   async function receiveMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (elapsedTime < testDurationInMs) {
@@ -95,7 +95,7 @@ export async function scenarioRenewSessionLock() {
       try {
         receiver = await sbClient.acceptNextSession(stressBase.queueName, {
           receiveMode,
-          maxAutoRenewLockDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
+          maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
         });
       } catch (error) {
         console.log(error);

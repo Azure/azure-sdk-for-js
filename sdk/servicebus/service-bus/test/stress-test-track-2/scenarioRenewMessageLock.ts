@@ -91,6 +91,7 @@ export async function main() {
       messages.map((msg) =>
         stressBase.renewMessageLockUntil(
           msg,
+          receiver,
           testDurationForLockRenewalInMs - elapsedTime,
           completeMessageAfterDuration
         )

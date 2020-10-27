@@ -61,7 +61,7 @@ export async function scenarioPeekMessages() {
 
   await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver;
 
   receiver = sbClient.createReceiver(stressBase.queueName, {
     receiveMode: "receiveAndDelete"

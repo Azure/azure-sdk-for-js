@@ -73,7 +73,7 @@ export async function scenarioStreamingReceive() {
 
   await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver;
 
   if (receiveMode === "receiveAndDelete") {
     receiver = sbClient.createReceiver(stressBase.queueName, {
