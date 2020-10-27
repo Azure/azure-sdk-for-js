@@ -415,6 +415,15 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     throwErrorIfConnectionClosed(this._context);
     if (options.autoComplete == null) options.autoComplete = true;
 
+    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
+    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
+    // since the link itself hasn't been shut down.
+    //
+    // Users can, if they want, restart their subscription (since we've got a link already established).
+    // So you'll have an instance here if the user has done:
+    // 1. const subscription = receiver.subscribe()
+    // 2. subscription.stop()
+    // 3. receiver.subscribe()
     this._streamingReceiver =
       this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
 

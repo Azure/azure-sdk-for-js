@@ -187,43 +187,14 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const receiver = this.link || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
         logger.logError(sbError, `${this.logPrefix} An error occurred for Receiver`);
-        if (!sbError.retryable) {
-          if (receiver && !receiver.isItselfClosed()) {
-            logger.verbose(
-              "%s Since the user did not close the receiver and the error is not " +
-                "retryable, we let the user know about it by calling the user's error handler.",
-              this.logPrefix
-            );
-            this._onError!({
-              error: sbError,
-              errorSource: "receive",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
-          } else {
-            logger.verbose(
-              "%s The received error is not retryable. However, the receiver was " +
-                "closed by the user. Hence not notifying the user's error handler.",
-              this.logPrefix
-            );
-          }
-        } else {
-          logger.verbose(
-            "%s Since received error is retryable, we will NOT notify the user's " +
-              "error handler.",
-            this.logPrefix
-          );
-        }
       }
     };
 
     this._onSessionError = (context: EventContext) => {
-      const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError) as MessagingError;
@@ -233,19 +204,6 @@ export class StreamingReceiver extends MessageReceiver {
           this.logPrefix,
           this.name
         );
-        if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
-          logger.verbose(
-            "%s Since the user did not close the receiver and the session error is not " +
-              "retryable, we let the user know about it by calling the user's error handler.",
-            this.logPrefix
-          );
-          this._onError!({
-            error: sbError,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
       }
     };
 
