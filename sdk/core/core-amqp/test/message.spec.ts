@@ -27,7 +27,7 @@ describe("message", function() {
         durable: false,
         firstAcquirer: false,
         priority: 0,
-        ttl: 0
+        timeToLive: 0
       };
       const amqpMsgHeaderExpected: RheaAmqpMessageHeader = {
         delivery_count: 0,
@@ -58,7 +58,7 @@ describe("message", function() {
         durable: false,
         firstAcquirer: false,
         priority: 0,
-        ttl: 0
+        timeToLive: 0
       };
       const amqpMsgHeader: RheaAmqpMessageHeader = {
         delivery_count: 0,

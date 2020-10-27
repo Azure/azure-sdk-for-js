@@ -20,9 +20,9 @@ export interface AmqpMessageHeader {
    */
   deliveryCount?: number;
   /**
-   * @property {number} [ttl] time to live in ms.
+   * @property {number} [timeToLive] time to live in ms.
    */
-  ttl?: number;
+  timeToLive?: number;
   /**
    * @property {boolean} [durable] Specifies durability requirements.
    */
@@ -57,8 +57,8 @@ export const AmqpMessageHeader = {
     if (props.priority != undefined) {
       amqpHeader.priority = props.priority;
     }
-    if (props.ttl != undefined) {
-      amqpHeader.ttl = props.ttl;
+    if (props.timeToLive != undefined) {
+      amqpHeader.ttl = props.timeToLive;
     }
     logger.verbose("To RheaAmqpMessageHeader: %O", amqpHeader);
     return amqpHeader;
@@ -85,7 +85,7 @@ export const AmqpMessageHeader = {
       msgHeader.priority = props.priority;
     }
     if (props.ttl != undefined) {
-      msgHeader.ttl = props.ttl;
+      msgHeader.timeToLive = props.ttl;
     }
     logger.verbose("From RheaAmqpMessageHeader: %O", msgHeader);
     return msgHeader;
