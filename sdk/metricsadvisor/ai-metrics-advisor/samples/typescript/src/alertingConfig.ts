@@ -101,7 +101,10 @@ async function updateAlertConfig(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
+          scopeType: "Dimension",
+          dimensionAnomalyScope: {
+            dimension: { city: "Kolkata", category: "Shoes Handbags & Sunglasses" }
+          }
         }
       }
     ]
