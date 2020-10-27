@@ -25,7 +25,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { isMessagingError } from "@azure/core-amqp";
 
 const should = chai.should();
@@ -263,7 +263,18 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name");
+    const receiver = sbClient.createReceiver(
+      "some-topic-name",
+      "some-subscription-name"
+    ) as ServiceBusReceiverImpl;
+
+    receiver["_retryOptions"] = {
+      ...receiver["_retryOptions"],
+      maxRetries: 0,
+      maxRetryDelayInMs: 0,
+      retryDelayInMs: 0
+    };
+
     receiver.subscribe({
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
@@ -290,6 +301,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       true,
       "Error thrown flag must be true"
     );
+
     await receiver.close();
   });
 });
