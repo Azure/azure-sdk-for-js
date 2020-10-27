@@ -29,6 +29,7 @@ interface ScenarioRenewSessionLockOptions {
    */
   autoLockRenewal?: boolean;
   settleMessageOnReceive?: boolean;
+  numberOfSessions?: number;
 }
 
 function sanitizeOptions(
@@ -38,6 +39,7 @@ function sanitizeOptions(
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
+    numberOfSessions: options.numberOfSessions || 1,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
@@ -56,6 +58,7 @@ export async function scenarioRenewSessionLock() {
     testDurationInMs,
     receiveBatchMaxMessageCount,
     receiveBatchMaxWaitTimeInMs,
+    numberOfSessions,
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
@@ -84,7 +87,13 @@ export async function scenarioRenewSessionLock() {
       elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
-      await stressBase.sendMessages([sender], numberOfMessagesPerSend, true);
+      await stressBase.sendMessages(
+        [sender],
+        numberOfMessagesPerSend,
+        true,
+        false,
+        numberOfSessions
+      );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
       await delay(delayBetweenSendsInMs);
     }

@@ -99,13 +99,14 @@ export class SBStressTestsBase {
     senders: ServiceBusSender[],
     numberOfMessages = 1,
     useSessions = false,
-    useScheduleApi = false
+    useScheduleApi = false,
+    numberOfSessions = 0 // Will be used only if useSessions is true
   ) {
     for (const sender of senders) {
       try {
         const messages: ServiceBusMessage[] = [];
         for (let i = 0; i < numberOfMessages; i++) {
-          messages.push(generateMessage(useSessions));
+          messages.push(generateMessage(useSessions, numberOfSessions));
         }
         if (useScheduleApi) {
           const scheduleTime = new Date();
