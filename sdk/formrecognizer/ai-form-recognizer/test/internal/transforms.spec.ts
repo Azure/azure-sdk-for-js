@@ -16,7 +16,7 @@ import {
   toFormModelResponse,
   toRecognizedForm,
   toRecognizeFormResultResponseFromReceipt
-} from "../src/transforms";
+} from "../../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
   GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
@@ -25,8 +25,8 @@ import {
   FieldValue as FieldValueModel,
   DataTable as DataTableModel,
   DocumentResult as DocumentResultModel
-} from "../src/generated/models";
-import { Point2D, FormField } from "../src/models";
+} from "../../src/generated/models";
+import { Point2D, FormField } from "../../src/models";
 
 describe("Transforms", () => {
   function verifyBoundingBox(transformed: Point2D[], original: number[]): void {

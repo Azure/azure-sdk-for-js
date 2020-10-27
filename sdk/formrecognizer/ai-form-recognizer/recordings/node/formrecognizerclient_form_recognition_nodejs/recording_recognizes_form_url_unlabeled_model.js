@@ -1,100 +1,100 @@
 let nock = require('nock');
 
-module.exports.hash = "295d8e1b75d0e0b1bf05db0b1b2408e6";
+module.exports.hash = "bae5a9114cb27f6983e59824645c7e31";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyze', {"source":"https://storageaccount/testingdata/Form_1.jpg?sastoken"})
+  .post('/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyze', {"source":"https://storageaccount/testingdata/Form_1.jpg?sastoken"})
   .reply(202, "", [
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyzeresults/449250ee-bca7-4990-b5da-01c5f6a9d108',
+  'https://endpoint/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyzeresults/6882a25c-42a3-4ef7-83b4-cf63bad3b2fa',
   'x-envoy-upstream-service-time',
-  '66',
+  '63',
   'apim-request-id',
-  'b5e26948-d560-4f6f-b09b-b56441f9e344',
+  '7b428026-84f3-4f13-9903-0c23776ce7b8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:47:58 GMT'
+  'Wed, 21 Oct 2020 18:09:18 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyzeResults/449250ee-bca7-4990-b5da-01c5f6a9d108')
-  .reply(200, {"status":"notStarted","createdDateTime":"2020-08-18T18:47:59Z","lastUpdatedDateTime":"2020-08-18T18:47:59Z"}, [
+  .get('/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyzeResults/6882a25c-42a3-4ef7-83b4-cf63bad3b2fa')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-10-21T18:09:18Z","lastUpdatedDateTime":"2020-10-21T18:09:18Z"}, [
   'Content-Length',
   '109',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '17',
+  '31',
   'apim-request-id',
-  '6a8f8488-9e99-40dc-8dcf-4c0260ce7f3f',
+  'cd8c6ddb-7b90-4608-a3ed-14e4c91c5a30',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:47:58 GMT'
+  'Wed, 21 Oct 2020 18:09:18 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyzeResults/449250ee-bca7-4990-b5da-01c5f6a9d108')
-  .reply(200, {"status":"notStarted","createdDateTime":"2020-08-18T18:47:59Z","lastUpdatedDateTime":"2020-08-18T18:47:59Z"}, [
+  .get('/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyzeResults/6882a25c-42a3-4ef7-83b4-cf63bad3b2fa')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-10-21T18:09:18Z","lastUpdatedDateTime":"2020-10-21T18:09:18Z"}, [
   'Content-Length',
   '109',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '16',
+  '21',
   'apim-request-id',
-  '7145c7d0-1f93-47c5-af74-55d336598faa',
+  '71a55f94-8419-4c11-9c04-619e57559fb0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:47:58 GMT'
+  'Wed, 21 Oct 2020 18:09:18 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyzeResults/449250ee-bca7-4990-b5da-01c5f6a9d108')
-  .reply(200, {"status":"running","createdDateTime":"2020-08-18T18:47:59Z","lastUpdatedDateTime":"2020-08-18T18:48:00Z","analyzeResult":null}, [
+  .get('/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyzeResults/6882a25c-42a3-4ef7-83b4-cf63bad3b2fa')
+  .reply(200, {"status":"running","createdDateTime":"2020-10-21T18:09:18Z","lastUpdatedDateTime":"2020-10-21T18:09:19Z","analyzeResult":null}, [
   'Content-Length',
   '134',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '30',
+  '32',
   'apim-request-id',
-  '880d049f-273e-4e25-ad31-59e8086a83be',
+  '36b08265-8119-4f8c-81fc-b8876ce97581',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:48:04 GMT'
+  'Wed, 21 Oct 2020 18:09:23 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/10a011c6-f496-448b-b7b1-d470daeeacd7/analyzeResults/449250ee-bca7-4990-b5da-01c5f6a9d108')
-  .reply(200, {"status":"succeeded","createdDateTime":"2020-08-18T18:47:59Z","lastUpdatedDateTime":"2020-08-18T18:48:05Z","analyzeResult":{"version":"2.0.0","readResults":[{"page":1,"angle":0.16,"width":1700,"height":2200,"unit":"pixel","lines":[]}],"pageResults":[{"page":1,"keyValuePairs":[{"key":{"text":"Hero Limited","boundingBox":[620,203,1078,203,1078,271,620,271],"elements":null},"value":{"text":"","boundingBox":null,"elements":null},"confidence":0.5},{"key":{"text":"Company Phone:","boundingBox":[167,351,365,351,365,382,167,382],"elements":null},"value":{"text":"555-348-6512","boundingBox":[371,351,528,351,528,380,371,380],"elements":null},"confidence":1},{"key":{"text":"Website:","boundingBox":[167,392,269,392,269,420,167,420],"elements":null},"value":{"text":"www.herolimited.com","boundingBox":[275,393,529,393,529,420,275,420],"elements":null},"confidence":1},{"key":{"text":"Dated As:","boundingBox":[1025,419,1161,419,1161,452,1025,452],"elements":null},"value":{"text":"12/20/2020","boundingBox":[1168,417,1320,417,1320,450,1168,450],"elements":null},"confidence":1},{"key":{"text":"Email:","boundingBox":[167,432,242,432,242,459,167,459],"elements":null},"value":{"text":"accounts@herolimited.com","boundingBox":[168,480,477,480,477,505,168,505],"elements":null},"confidence":1},{"key":{"text":"Purchase Order #:","boundingBox":[1027,459,1275,459,1275,491,1027,491],"elements":null},"value":{"text":"948284","boundingBox":[1282,460,1376,460,1376,492,1282,492],"elements":null},"confidence":1},{"key":{"text":"Vendor Name:","boundingBox":[162,609,346,609,346,639,162,639],"elements":null},"value":{"text":"Hillary Swank","boundingBox":[352,610,519,610,519,640,352,640],"elements":null},"confidence":0.7},{"key":{"text":"Company Name:","boundingBox":[162,646,373,646,373,677,162,677],"elements":null},"value":{"text":"Higgly Wiggly Books","boundingBox":[379,647,628,647,628,679,379,679],"elements":null},"confidence":1},{"key":{"text":"Address:","boundingBox":[162,683,272,683,272,715,162,715],"elements":null},"value":{"text":"938 NE Burner Road Boulder City, CO 92848","boundingBox":[279,684,569,684,569,753,279,753],"elements":null},"confidence":1},{"key":{"text":"Phone:","boundingBox":[615,721,707,721,707,751,615,751],"elements":null},"value":{"text":"938-294-2949","boundingBox":[713,722,884,722,884,749,713,749],"elements":null},"confidence":1},{"key":{"text":"Name:","boundingBox":[166,852,253,852,253,881,166,881],"elements":null},"value":{"text":"Bernie Sanders","boundingBox":[258,852,445,852,445,882,258,882],"elements":null},"confidence":0.53},{"key":{"text":"Company Name:","boundingBox":[169,887,378,887,378,920,169,920],"elements":null},"value":{"text":"Jupiter Book Supply","boundingBox":[385,889,624,889,624,920,385,920],"elements":null},"confidence":0.53},{"key":{"text":"Address:","boundingBox":[168,924,276,924,276,956,168,956],"elements":null},"value":{"text":"383 N Kinnick Road Seattle, WA 38383","boundingBox":[283,924,524,924,524,992,283,992],"elements":null},"confidence":1},{"key":{"text":"Phone:","boundingBox":[760,963,852,963,852,991,760,991],"elements":null},"value":{"text":"932-299-0292","boundingBox":[857,963,1032,963,1032,991,857,991],"elements":null},"confidence":1},{"key":{"text":"SUBTOTAL","boundingBox":[1156,1571,1298,1571,1298,1599,1156,1599],"elements":null},"value":{"text":"$140.00","boundingBox":[1433,1574,1530,1574,1530,1599,1433,1599],"elements":null},"confidence":1},{"key":{"text":"TAX","boundingBox":[1242,1619,1293,1619,1293,1643,1242,1643],"elements":null},"value":{"text":"$4.00","boundingBox":[1462,1615,1532,1615,1532,1640,1462,1640],"elements":null},"confidence":1},{"key":{"text":"TOTAL","boundingBox":[1206,1674,1298,1674,1298,1700,1206,1700],"elements":null},"value":{"text":"$144.00","boundingBox":[1434,1671,1531,1671,1531,1697,1434,1697],"elements":null},"confidence":1},{"key":{"text":"Additional Notes:","boundingBox":[175,1797,479,1797,479,1834,175,1834],"elements":null},"value":{"text":"Do not Jostle Box. Unpack carefully. Enjoy. Jupiter Book Supply will refund you 50% per book if returned within 60 days of reading and offer you 25% off you next total purchase.","boundingBox":[170,1881,1511,1881,1511,1993,170,1993],"elements":null},"confidence":0.53}],"tables":[{"rows":5,"columns":4,"cells":[{"text":"Details","rowIndex":0,"columnIndex":0,"boundingBox":[447,1045,551,1045,551,1078,447,1078],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Quantity","rowIndex":0,"columnIndex":1,"boundingBox":[890,1046,1028,1046,1028,1078,890,1078],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Unit Price","rowIndex":0,"columnIndex":2,"boundingBox":[1113,1046,1267,1046,1267,1081,1113,1081],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Total","rowIndex":0,"columnIndex":3,"boundingBox":[1389,1043,1466,1043,1466,1077,1389,1077],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Bindings","rowIndex":1,"columnIndex":0,"boundingBox":[173,1093,282,1093,282,1121,173,1121],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":1,"columnIndex":1,"boundingBox":[863,1095,889,1095,889,1119,863,1119],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"1.00","rowIndex":1,"columnIndex":2,"boundingBox":[1243,1096,1297,1096,1297,1122,1243,1122],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20.00","rowIndex":1,"columnIndex":3,"boundingBox":[1466,1095,1531,1095,1531,1119,1466,1119],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Covers Small","rowIndex":2,"columnIndex":0,"boundingBox":[172,1136,331,1136,331,1162,172,1162],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":2,"columnIndex":1,"boundingBox":[862,1132,889,1132,889,1157,862,1157],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"1.00","rowIndex":2,"columnIndex":2,"boundingBox":[1243,1132,1292,1132,1292,1160,1243,1160],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20.00","rowIndex":2,"columnIndex":3,"boundingBox":[1464,1134,1531,1134,1531,1158,1464,1158],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Feather Bookmark","rowIndex":3,"columnIndex":0,"boundingBox":[172,1180,403,1180,403,1206,172,1206],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":3,"columnIndex":1,"boundingBox":[863,1177,888,1177,888,1199,863,1199],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"5.00","rowIndex":3,"columnIndex":2,"boundingBox":[1243,1177,1298,1177,1298,1203,1243,1203],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"100.00","rowIndex":3,"columnIndex":3,"boundingBox":[1448,1180,1530,1180,1530,1205,1448,1205],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Copper Swirl Marker","rowIndex":4,"columnIndex":0,"boundingBox":[171,1225,426,1225,426,1248,171,1248],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":4,"columnIndex":1,"boundingBox":[863,1221,888,1221,888,1244,863,1244],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"5.00","rowIndex":4,"columnIndex":2,"boundingBox":[1242,1221,1291,1221,1291,1247,1242,1247],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"100.00","rowIndex":4,"columnIndex":3,"boundingBox":[1449,1224,1530,1224,1530,1247,1449,1247],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false}]}],"clusterId":0}],"documentResults":[],"errors":[]}}, [
+  .get('/formrecognizer/v2.1-preview.1/custom/models/ad3e6214-d225-40db-9740-aafae0578426/analyzeResults/6882a25c-42a3-4ef7-83b4-cf63bad3b2fa')
+  .reply(200, {"status":"succeeded","createdDateTime":"2020-10-21T18:09:18Z","lastUpdatedDateTime":"2020-10-21T18:09:25Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":0,"width":1700,"height":2200,"unit":"pixel","lines":[]}],"pageResults":[{"page":1,"keyValuePairs":[{"key":{"text":"Company Phone:","boundingBox":[163,352,359,352,359,378,163,378],"elements":null},"value":{"text":"555-348-6512","boundingBox":[364,351,528,351,528,378,364,378],"elements":null},"confidence":1},{"key":{"text":"Website:","boundingBox":[167,394,269,394,269,417,167,417],"elements":null},"value":{"text":"www.herolimited.com","boundingBox":[273,393,531,393,531,418,273,418],"elements":null},"confidence":1},{"key":{"text":"Email:","boundingBox":[165,435,237,435,237,460,165,460],"elements":null},"value":{"text":"accounts@herolimited.com","boundingBox":[164,481,479,481,479,503,164,503],"elements":null},"confidence":1},{"key":{"text":"Dated As:","boundingBox":[1025,421,1160,421,1160,448,1025,448],"elements":null},"value":{"text":"12/20/2020","boundingBox":[1165,420,1317,420,1317,448,1165,448],"elements":null},"confidence":1},{"key":{"text":"Purchase Order #:","boundingBox":[1023,461,1272,461,1272,488,1023,488],"elements":null},"value":{"text":"948284","boundingBox":[1277,461,1376,461,1376,489,1277,489],"elements":null},"confidence":1},{"key":{"text":"Vendor Name:","boundingBox":[160,611,344,611,344,637,160,637],"elements":null},"value":{"text":"Hillary Swank","boundingBox":[350,609,521,609,521,639,350,639],"elements":null},"confidence":0.7},{"key":{"text":"Company Name:","boundingBox":[160,648,370,648,370,677,160,677],"elements":null},"value":{"text":"Higgly Wiggly Books","boundingBox":[375,646,630,646,630,679,375,679],"elements":null},"confidence":1},{"key":{"text":"Address:","boundingBox":[161,685,269,685,269,711,161,711],"elements":null},"value":{"text":"938 NE Burner Road Boulder City, CO 92848","boundingBox":[274,685,565,685,565,751,274,751],"elements":null},"confidence":1},{"key":{"text":"Phone:","boundingBox":[613,722,702,722,702,749,613,749],"elements":null},"value":{"text":"938-294-2949","boundingBox":[708,722,885,722,885,749,708,749],"elements":null},"confidence":1},{"key":{"text":"Name:","boundingBox":[166,853,250,853,250,879,166,879],"elements":null},"value":{"text":"Bernie Sanders","boundingBox":[255,852,446,852,446,880,255,880],"elements":null},"confidence":0.53},{"key":{"text":"Company Name:","boundingBox":[164,890,374,890,374,919,164,919],"elements":null},"value":{"text":"Jupiter Book Supply","boundingBox":[380,889,629,889,629,919,380,919],"elements":null},"confidence":0.53},{"key":{"text":"Address:","boundingBox":[166,926,273,926,273,953,166,953],"elements":null},"value":{"text":"383 N Kinnick Road Seattle, WA 38383","boundingBox":[279,926,521,926,521,991,279,991],"elements":null},"confidence":1},{"key":{"text":"Phone:","boundingBox":[760,964,849,964,849,990,760,990],"elements":null},"value":{"text":"932-299-0292","boundingBox":[855,964,1033,964,1033,990,855,990],"elements":null},"confidence":1},{"key":{"text":"SUBTOTAL","boundingBox":[1147,1575,1296,1575,1296,1600,1147,1600],"elements":null},"value":{"text":"$140.00","boundingBox":[1426,1571,1529,1571,1529,1599,1426,1599],"elements":null},"confidence":1},{"key":{"text":"TAX","boundingBox":[1238,1618,1296,1618,1296,1643,1238,1643],"elements":null},"value":{"text":"$4.00","boundingBox":[1458,1615,1529,1615,1529,1643,1458,1643],"elements":null},"confidence":1},{"key":{"text":"TOTAL","boundingBox":[1204,1674,1297,1674,1297,1699,1204,1699],"elements":null},"value":{"text":"$144.00","boundingBox":[1427,1671,1529,1671,1529,1698,1427,1698],"elements":null},"confidence":1},{"key":{"text":"Additional Notes:","boundingBox":[173,1796,479,1796,479,1831,173,1831],"elements":null},"value":{"text":"Do not Jostle Box. Unpack carefully. Enjoy. Jupiter Book Supply will refund you 50% per book if returned within 60 days of reading and offer you 25% off you next total purchase.","boundingBox":[169,1880,1511,1880,1511,1992,169,1992],"elements":null},"confidence":0.53}],"tables":[{"rows":5,"columns":4,"cells":[{"text":"Details","rowIndex":0,"columnIndex":0,"boundingBox":[447,1048,558,1048,558,1078,447,1078],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Quantity","rowIndex":0,"columnIndex":1,"boundingBox":[886,1048,1034,1048,1034,1084,886,1084],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Unit Price","rowIndex":0,"columnIndex":2,"boundingBox":[1111,1047,1269,1047,1269,1078,1111,1078],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Total","rowIndex":0,"columnIndex":3,"boundingBox":[1383,1047,1467,1047,1467,1077,1383,1077],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":true,"isFooter":false},{"text":"Bindings","rowIndex":1,"columnIndex":0,"boundingBox":[172,1094,280,1094,280,1122,172,1122],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":1,"columnIndex":1,"boundingBox":[861,1094,892,1094,892,1119,861,1119],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"1.00","rowIndex":1,"columnIndex":2,"boundingBox":[1241,1095,1293,1095,1293,1118,1241,1118],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20.00","rowIndex":1,"columnIndex":3,"boundingBox":[1458,1096,1531,1096,1531,1119,1458,1119],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Covers Small","rowIndex":2,"columnIndex":0,"boundingBox":[170,1136,333,1136,333,1161,170,1161],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":2,"columnIndex":1,"boundingBox":[861,1135,892,1135,892,1160,861,1160],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"1.00","rowIndex":2,"columnIndex":2,"boundingBox":[1240,1135,1294,1135,1294,1160,1240,1160],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20.00","rowIndex":2,"columnIndex":3,"boundingBox":[1458,1135,1529,1135,1529,1160,1458,1160],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Feather Bookmark","rowIndex":3,"columnIndex":0,"boundingBox":[173,1179,402,1179,402,1206,173,1206],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":3,"columnIndex":1,"boundingBox":[863,1179,892,1179,892,1204,863,1204],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"5.00","rowIndex":3,"columnIndex":2,"boundingBox":[1239,1179,1294,1179,1294,1204,1239,1204],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"100.00","rowIndex":3,"columnIndex":3,"boundingBox":[1443,1181,1529,1181,1529,1205,1443,1205],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"Copper Swirl Marker","rowIndex":4,"columnIndex":0,"boundingBox":[170,1222,429,1222,429,1252,170,1252],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"20","rowIndex":4,"columnIndex":1,"boundingBox":[860,1223,892,1223,892,1247,860,1247],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"5.00","rowIndex":4,"columnIndex":2,"boundingBox":[1239,1221,1293,1221,1293,1247,1239,1247],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false},{"text":"100.00","rowIndex":4,"columnIndex":3,"boundingBox":[1444,1224,1530,1224,1530,1248,1444,1248],"confidence":1,"rowSpan":1,"columnSpan":1,"elements":null,"isHeader":false,"isFooter":false}]}],"clusterId":0}],"documentResults":[],"errors":[]}}, [
   'Content-Length',
-  '10257',
+  '10045',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '22',
+  '21',
   'apim-request-id',
-  '1eba1f27-08d0-498a-b807-3c31e5a7c420',
+  '744d4db4-25d2-4e8c-a2a2-afa808cd80b6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:48:09 GMT'
+  'Wed, 21 Oct 2020 18:09:28 GMT'
 ]);

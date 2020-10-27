@@ -1,5 +1,6 @@
 parameters:
   Artifacts: []
+  TestPipeline: false
   ServiceDirectory: not-specified
 
 steps:

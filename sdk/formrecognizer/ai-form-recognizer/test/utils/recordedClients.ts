@@ -12,7 +12,7 @@ import {
   isPlaybackMode
 } from "@azure/test-utils-recorder";
 
-import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src/index";
+import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 dotenv.config();
