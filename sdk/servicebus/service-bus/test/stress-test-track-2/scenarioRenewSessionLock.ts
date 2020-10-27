@@ -1,6 +1,5 @@
 import {
   ServiceBusClient,
-  ServiceBusReceivedMessage,
   ServiceBusSessionReceiver
 } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
