@@ -49,20 +49,23 @@ async function createAlertConfig(adminClient, detectionConfigId) {
   const alertConfig = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [{
-      detectionConfigurationId: detectionConfigId,
-      alertScope: {
-        scopeType: "All"
-      }
-    }, {
-      detectionConfigurationId: detectionConfigId,
-      alertScope: {
-        scopeType: "Dimension",
-        dimensionAnomalyScope: {
-          dimension: { city: "Manila", category: "Handmade" }
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        }
+      },
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "Dimension",
+          dimensionAnomalyScope: {
+            dimension: { city: "Manila", category: "Handmade" }
+          }
         }
       }
-    }],
+    ],
     hookIds: [],
     description: "alerting config description"
   };
@@ -78,17 +81,20 @@ async function updateAlertConfig(adminClient, alertConfigId, detectionConfigId, 
     //description: "new description",
     hookIds,
     crossMetricsOperator: "OR",
-    metricAlertConfigurations: [{
-      detectionConfigurationId: detectionConfigId,
-      alertScope: {
-        scopeType: "All"
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        }
+      },
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        }
       }
-    }, {
-      detectionConfigurationId: detectionConfigId,
-      alertScope: {
-        scopeType: "All"
-      }
-    }]
+    ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAnomalyAlertConfiguration(alertConfigId, patch);

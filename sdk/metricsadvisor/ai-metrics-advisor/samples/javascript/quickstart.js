@@ -93,49 +93,43 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
   ];
-  const dataFeedSchema = {
-    metrics,
-    dimensions,
-    timestampColumn: null
-  };
-  const dataFeedIngestion = {
-    ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
-  };
-  const granularity = {
-    granularityType: "Daily"
-  };
-  const source = {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  };
-  const options = {
-    rollupSettings: {
-      rollupType: "AutoRollup",
-      rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
-    },
-    missingDataPointFillSettings: {
-      fillType: "SmartFilling"
-    },
-    accessMode: "Private",
-    adminEmails: ["xyz@microsoft.com"]
-  };
-
   console.log("Creating Datafeed...");
   const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
+    source: {
+      dataSourceType: "SqlServer",
+      dataSourceParameter: {
+        connectionString: sqlServerConnectionString,
+        query: sqlServerQuery
+      }
+    },
+    granularity: {
+      granularityType: "Daily"
+    },
+    schema: {
+      metrics,
+      dimensions,
+      timestampColumn: null
+    },
+    ingestionSettings: {
+      ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
+    },
+    options: {
+      rollupSettings: {
+        rollupType: "AutoRollup",
+        rollupMethod: "Sum",
+        rollupIdentificationValue: "__SUM__"
+      },
+      missingDataPointFillSettings: {
+        fillType: "SmartFilling"
+      },
+      accessMode: "Private",
+      adminEmails: ["xyz@microsoft.com"]
+    }
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -194,27 +188,26 @@ async function createWebhookHook(adminClient) {
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    },
-    alertConditions: {
-      severityCondition: {
-        minAlertSeverity: "Medium",
-        maxAlertSeverity: "High"
-      }
-    },
-    snoozeCondition: {
-      autoSnooze: 0,
-      snoozeScope: "Metric",
-      onlyForSuccessive: true
-    }
-  };
   const anomalyAlert = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig],
+    metricAlertConfigurations: [{
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "All"
+      },
+      alertConditions: {
+        severityCondition: {
+          minAlertSeverity: "Medium",
+          maxAlertSeverity: "High"
+        }
+      },
+      snoozeCondition: {
+        autoSnooze: 0,
+        snoozeScope: "Metric",
+        onlyForSuccessive: true
+      }
+    }],
     hookIds,
     description: "Alerting config description"
   };
@@ -240,10 +233,9 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   }
   // alternatively we could list results by pages
   console.log(`  by pages`);
-  const pageSettings = { maxPageSize: 2 };
   const iterator = client
     .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
-    .byPage(pageSettings);
+    .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   while (!result.done) {

@@ -11,17 +11,11 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  DataFeedSchema,
   DataFeedMetric,
   DataFeedDimension,
-  DataFeedIngestionSettings,
-  DataFeedGranularity,
-  DataFeedSource,
-  DataFeedOptions,
   GetDataFeedResponse,
   MetricsAdvisorClient,
-  WebNotificationHook,
-  MetricAlertConfiguration
+  WebNotificationHook
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -109,49 +103,44 @@ async function createDataFeed(
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
   ];
-  const dataFeedSchema: DataFeedSchema = {
-    metrics,
-    dimensions,
-    timestampColumn: undefined
-  };
-  const dataFeedIngestion: DataFeedIngestionSettings = {
-    ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
-  };
-  const granularity: DataFeedGranularity = {
-    granularityType: "Daily"
-  };
-  const source: DataFeedSource = {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  };
-  const options: DataFeedOptions = {
-    rollupSettings: {
-      rollupType: "AutoRollup",
-      rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
-    },
-    missingDataPointFillSettings: {
-      fillType: "SmartFilling"
-    },
-    accessMode: "Private",
-    adminEmails: ["xyz@microsoft.com"]
-  };
 
   console.log("Creating Datafeed...");
   const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
+    source: {
+      dataSourceType: "SqlServer",
+      dataSourceParameter: {
+        connectionString: sqlServerConnectionString,
+        query: sqlServerQuery
+      }
+    },
+    granularity: {
+      granularityType: "Daily"
+    },
+    schema: {
+      metrics,
+      dimensions,
+      timestampColumn: undefined
+    },
+    ingestionSettings: {
+      ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
+    },
+    options: {
+      rollupSettings: {
+        rollupType: "AutoRollup",
+        rollupMethod: "Sum",
+        rollupIdentificationValue: "__SUM__"
+      },
+      missingDataPointFillSettings: {
+        fillType: "SmartFilling"
+      },
+      accessMode: "Private",
+      adminEmails: ["xyz@microsoft.com"]
+    }
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -222,27 +211,26 @@ async function configureAlertConfiguration(
   hookIds: string[]
 ) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig: MetricAlertConfiguration = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    },
-    alertConditions: {
-      severityCondition: {
-        minAlertSeverity: "Medium",
-        maxAlertSeverity: "High"
-      }
-    },
-    snoozeCondition: {
-      autoSnooze: 0,
-      snoozeScope: "Metric",
-      onlyForSuccessive: true
-    }
-  };
   const anomalyAlert = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig],
+    metricAlertConfigurations: [{
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "All"
+      },
+      alertConditions: {
+        severityCondition: {
+          minAlertSeverity: "Medium",
+          maxAlertSeverity: "High"
+        }
+      },
+      snoozeCondition: {
+        autoSnooze: 0,
+        snoozeScope: "Metric",
+        onlyForSuccessive: true
+      }
+    }],
     hookIds,
     description: "Alerting config description"
   };
@@ -272,11 +260,10 @@ async function queryAlerts(
     console.log(`      created on: ${alert.createdOn}`);
   }
   // alternatively we could list results by pages
-  const pageSettings = { maxPageSize: 2 };
   console.log(`  by pages`);
   const iterator = client
     .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
-    .byPage(pageSettings);
+    .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   while (!result.done) {

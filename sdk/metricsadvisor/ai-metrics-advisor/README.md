@@ -158,7 +158,21 @@ async function main() {
 }
 
 async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery) {
-  const metrics = [
+  console.log("Creating Datafeed...");
+  const dataFeed = {
+    name: "test_datafeed_" + new Date().getTime().toString(),
+    source: {
+    dataSourceType: "SqlServer",
+    dataSourceParameter: {
+      connectionString: sqlServerConnectionString,
+      query: sqlServerQuery
+    }
+  },
+    granularity: {
+    granularityType: "Daily"
+  },
+    schema: {
+    metrics: [
     {
       name: "revenue",
       displayName: "revenue",
@@ -169,34 +183,21 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       displayName: "cost",
       description: "Metric2 description"
     }
-  ];
-  const dimensions = [
+  ],
+    dimensions: [
     { name: "city", displayName: "city display" },
     { name: "category", displayName: "category display" }
-  ];
-  const dataFeedSchema = {
-    metrics,
-    dimensions,
+  ],
     timestampColumn: null
-  };
-  const dataFeedIngestion = {
+  },
+    ingestionSettings: {
     ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
     ingestionStartOffsetInSeconds: 0,
     dataSourceRequestConcurrency: -1,
     ingestionRetryDelayInSeconds: -1,
     stopRetryAfterInSeconds: -1
-  };
-  const granualarity = {
-    granularityType: "Daily"
-  };
-  const source = {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  };
-  const options = {
+  },
+    options: {
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
@@ -207,16 +208,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     },
     accessMode: "Private",
     adminEmails: ["xyz@example.com"]
-  };
-
-  console.log("Creating Datafeed...");
-  const dataFeed = {
-    name: "test_datafeed_" + new Date().getTime().toString(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
+  }
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -377,7 +369,10 @@ async function main() {
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig = {
+  const anomalyAlertConfig = {
+    name: "test_alert_config_" + new Date().getTime().toString(),
+    crossMetricsOperator: "AND",
+    metricAlertConfigurations: [{
     detectionConfigurationId: detectionConfigId,
     alertScope: {
       scopeType: "All"
@@ -390,11 +385,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
       snoozeScope: "Metric",
       onlyForSuccessive: true
     }
-  };
-  const anomalyAlertConfig = {
-    name: "test_alert_config_" + new Date().getTime().toString(),
-    crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig],
+  }],
     hookIds,
     description: "Alerting config description"
   };
