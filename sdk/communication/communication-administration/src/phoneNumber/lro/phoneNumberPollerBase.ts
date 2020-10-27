@@ -9,7 +9,7 @@ import { attachHttpResponse } from "../../common/mappers";
 import { createSpan } from "../../common/tracing";
 import { PhoneNumberAdministration } from "../generated/src/phoneNumberRestClient";
 import { CancelReservationOptions, GetReservationOptions, GetReservationResponse } from "../models";
-import { PhoneNumberReservation } from '../generated/src/models';
+import { PhoneNumberReservation } from "../generated/src/models";
 
 /**
  * Common properties and methods of the phone number pollers.
