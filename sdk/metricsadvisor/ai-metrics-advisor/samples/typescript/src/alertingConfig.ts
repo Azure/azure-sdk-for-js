@@ -51,26 +51,23 @@ async function createAlertConfig(
   detectionConfigId: string
 ) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig1: MetricAlertConfiguration = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    }
-  };
-  const metricAlertingConfig2: MetricAlertConfiguration = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "Dimension",
-      dimensionAnomalyScope: {
-        dimension: { city: "Manila", category: "Handmade" }
-      }
-    }
-  };
-
   const alertConfig = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig1, metricAlertingConfig2],
+    metricAlertConfigurations: [{
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "All"
+      }
+    }, {
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "Dimension",
+        dimensionAnomalyScope: {
+          dimension: { city: "Manila", category: "Handmade" }
+        }
+      }
+    }],
     hookIds: [],
     description: "alerting config description"
   };
@@ -86,18 +83,22 @@ async function updateAlertConfig(
   detectionConfigId: string,
   hookIds: string[]
 ) {
-  const metricAlertingConfig: MetricAlertConfiguration = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    }
-  };
   const patch: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "new Name",
     //description: "new description",
     hookIds,
     crossMetricsOperator: "OR",
-    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig]
+    metricAlertConfigurations: [{
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "All"
+      }
+    }, {
+      detectionConfigurationId: detectionConfigId,
+      alertScope: {
+        scopeType: "All"
+      }
+    }]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAnomalyAlertConfiguration(alertConfigId, patch);
