@@ -28,8 +28,8 @@ export {
   Dictionary,
   Message as AmqpMessage,
   isAmqpError,
-  MessageHeader as AmqpMessageHeader,
-  MessageProperties as AmqpMessageProperties
+  MessageHeader as RheaAmqpMessageHeader,
+  MessageProperties as RheaRheaAmqpMessageProperties
 } from "rhea-promise";
 export {
   MessagingError,
