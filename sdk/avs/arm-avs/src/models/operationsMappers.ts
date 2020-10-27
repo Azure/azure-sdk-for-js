@@ -10,7 +10,12 @@ export {
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,
+  LogSpecification,
+  MetricDimension,
+  MetricSpecification,
   Operation,
   OperationDisplay,
-  OperationList
+  OperationList,
+  OperationProperties,
+  ServiceSpecification
 } from "../models/mappers";

@@ -152,6 +152,122 @@ export interface OperationDisplay {
 }
 
 /**
+ * Specifications of the Log for Azure Monitoring
+ */
+export interface LogSpecification {
+  /**
+   * Name of the log
+   */
+  name?: string;
+  /**
+   * Localized friendly display name of the log
+   */
+  displayName?: string;
+  /**
+   * Blob duration of the log
+   */
+  blobDuration?: string;
+}
+
+/**
+ * Specifications of the Dimension of metrics
+ */
+export interface MetricDimension {
+  /**
+   * Name of the dimension
+   */
+  name?: string;
+  /**
+   * Localized friendly display name of the dimension
+   */
+  displayName?: string;
+}
+
+/**
+ * Specifications of the Metrics for Azure Monitoring
+ */
+export interface MetricSpecification {
+  /**
+   * Name of the metric
+   */
+  name?: string;
+  /**
+   * Localized friendly display name of the metric
+   */
+  displayName?: string;
+  /**
+   * Localized friendly description of the metric
+   */
+  displayDescription?: string;
+  /**
+   * Unit that makes sense for the metric
+   */
+  unit?: string;
+  /**
+   * Name of the metric category that the metric belongs to. A metric can only belong to a single
+   * category.
+   */
+  category?: string;
+  /**
+   * Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.
+   */
+  aggregationType?: string;
+  /**
+   * Supported aggregation types
+   */
+  supportedAggregationTypes?: string[];
+  /**
+   * Supported time grain types
+   */
+  supportedTimeGrainTypes?: string[];
+  /**
+   * Optional. If set to true, then zero will be returned for time duration where no metric is
+   * emitted/published.
+   */
+  fillGapWithZero?: boolean;
+  /**
+   * Dimensions of the metric
+   */
+  dimensions?: MetricDimension[];
+  /**
+   * Whether or not the service is using regional MDM accounts.
+   */
+  enableRegionalMdmAccount?: string;
+  /**
+   * The name of the MDM account.
+   */
+  sourceMdmAccount?: string;
+  /**
+   * The name of the MDM namespace.
+   */
+  sourceMdmNamespace?: string;
+}
+
+/**
+ * Service specification payload
+ */
+export interface ServiceSpecification {
+  /**
+   * Specifications of the Log for Azure Monitoring
+   */
+  logSpecifications?: LogSpecification[];
+  /**
+   * Specifications of the Metrics for Azure Monitoring
+   */
+  metricSpecifications?: MetricSpecification[];
+}
+
+/**
+ * Extra Operation properties
+ */
+export interface OperationProperties {
+  /**
+   * Service specifications of the operation
+   */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/**
  * A REST API operation
  */
 export interface Operation {
@@ -165,6 +281,18 @@ export interface Operation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly display?: OperationDisplay;
+  /**
+   * Gets or sets a value indicating whether the operation is a data action or not
+   */
+  isDataAction?: boolean;
+  /**
+   * Origin of the operation
+   */
+  origin?: string;
+  /**
+   * Properties of the operation
+   */
+  properties?: OperationProperties;
 }
 
 /**
@@ -387,6 +515,11 @@ export interface ClusterUpdateProperties {
  */
 export interface ManagementCluster extends ClusterUpdateProperties {
   /**
+   * The state of the cluster provisioning. Possible values include: 'Succeeded', 'Failed',
+   * 'Cancelled', 'Deleting', 'Updating'
+   */
+  provisioningState?: ClusterProvisioningState;
+  /**
    * The identity
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -434,6 +567,11 @@ export interface Cluster extends Resource {
    */
   clusterSize?: number;
   /**
+   * The state of the cluster provisioning. Possible values include: 'Succeeded', 'Failed',
+   * 'Cancelled', 'Deleting', 'Updating'
+   */
+  provisioningState?: ClusterProvisioningState;
+  /**
    * The identity
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -443,12 +581,6 @@ export interface Cluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hosts?: string[];
-  /**
-   * The state of the cluster provisioning. Possible values include: 'Succeeded', 'Failed',
-   * 'Cancelled', 'Deleting', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ClusterProvisioningState;
 }
 
 /**
@@ -638,20 +770,20 @@ export type SslEnum = 'Enabled' | 'Disabled';
 export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending' | 'Building' | 'Deleting' | 'Updating';
 
 /**
- * Defines values for InternetEnum.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type InternetEnum = 'Enabled' | 'Disabled';
-
-/**
  * Defines values for ClusterProvisioningState.
  * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Deleting', 'Updating'
  * @readonly
  * @enum {string}
  */
 export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Deleting' | 'Updating';
+
+/**
+ * Defines values for InternetEnum.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type InternetEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for HcxEnterpriseSiteStatus.
