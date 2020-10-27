@@ -4,7 +4,7 @@ The administration library is used for managing users and tokens for Azure Commu
 
 Acquired phone numbers can come with many capabilities, depending on the country, number type and phone plan. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
-## Getting started
+## Getting begined
 
 ### Prerequisites
 
@@ -189,10 +189,10 @@ const { primaryAreaCodes } = await client.getAreaCodes({
 
 #### Reserving phone numbers for purchase
 
-Use the `startReservePhoneNumbers` method to search for phone numbers and reserve them. This is a long running operation.
+Use the `beginReservePhoneNumbers` method to search for phone numbers and reserve them. This is a long running operation.
 
 ```typescript
-const reservePoller = await client.startReservePhoneNumbers({
+const reservePoller = await client.beginReservePhoneNumbers({
     name: "Phone number search 800",
     description: "Search for 800 phone numbers"
     phonePlanIds: ["phone-plan-id-1"],
@@ -215,11 +215,11 @@ await reservePoller.cancelOperation();
 
 #### Purchasing phone numbers from a reservation
 
-Use the `startPurchasePhoneNumbers` method to purchase the phone numbers from your reservation. The `reservationId` returned from `startReservePhoneNumbers` is required. `startPurchasePhoneNumbers` is also a long running operation.
+Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from your reservation. The `reservationId` returned from `beginReservePhoneNumbers` is required. `beginPurchasePhoneNumbers` is also a long running operation.
 
 ```typescript
 const { reservationId } = phoneNumberReservation;
-const purchasePoller = await client.startPurchasePhoneNumbers(reservationId);
+const purchasePoller = await client.beginPurchasePhoneNumbers(reservationId);
 ```
 
 To get the results of the purchase, use the `pollUntilDone` method on the purchase poller you created.
