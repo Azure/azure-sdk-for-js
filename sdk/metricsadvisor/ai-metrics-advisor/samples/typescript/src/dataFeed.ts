@@ -40,12 +40,11 @@ export async function main() {
 async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
-  const options = {
+  const iter = client.listDataFeeds({
     filter: {
       dataFeedName: "js-blob-datafeed"
     }
-  };
-  const iter = client.listDataFeeds(options);
+  });
   let result = await iter.next();
   while (!result.done) {
     console.log(`id :${result.value.id}, name: ${result.value.name}`);
