@@ -10,7 +10,9 @@ export {
   RetryOptions,
   TokenCredential,
   TokenType,
-  WebSocketOptions
+  WebSocketOptions,
+  AmqpMessageHeader,
+  AmqpMessageProperties
 } from "@azure/core-amqp";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
@@ -58,8 +60,6 @@ export {
 export { ServiceBusClient } from "./serviceBusClient";
 export {
   AmqpAnnotatedMessage,
-  AmqpMessageHeader,
-  AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
   ServiceBusMessage
