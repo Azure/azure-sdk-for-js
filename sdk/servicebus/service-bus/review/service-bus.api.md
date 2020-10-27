@@ -302,10 +302,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queuePropertiesWithResponse: WithResponse<QueueProperties>, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
-    updateRule(topicName: string, subscriptionName: string, rulePropertiesWithResponse: WithResponse<RuleProperties>, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
-    updateSubscription(subscriptionPropertiesWithResponse: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
-    updateTopic(topicPropertiesWithResponse: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+    updateQueue(queue: WithResponse<QueueProperties>, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    updateRule(topicName: string, subscriptionName: string, rule: WithResponse<RuleProperties>, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    updateSubscription(subscription: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    updateTopic(topic: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
 
 // @public
