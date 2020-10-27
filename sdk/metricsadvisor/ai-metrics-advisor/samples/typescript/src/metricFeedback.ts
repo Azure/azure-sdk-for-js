@@ -118,14 +118,13 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   }
 
   console.log("  first two pages using iterator");
-  const pageSettings = { maxPageSize: 2 };
   const iterator = client
     .listMetricFeedbacks(metricId, {
       filter: {
         timeMode: "FeedbackCreatedTime"
       }
     })
-    .byPage(pageSettings);
+    .byPage({ maxPageSize: 2 });
   const result = await iterator.next();
 
   if (!result.done) {

@@ -50,10 +50,9 @@ async function listIngestionStatus(
     console.log(`  ${ingestion.timestamp} ${ingestion.status}  ${ingestion.message}`);
   }
   // listing by pages
-  const pageSettings = { maxPageSize: 2 };
   const iterator = adminClient
     .listDataFeedIngestionStatus(dataFeedId, startTime, endTime)
-    .byPage(pageSettings);
+    .byPage({ maxPageSize: 2 });
   const result = await iterator.next();
 
   if (!result.done) {

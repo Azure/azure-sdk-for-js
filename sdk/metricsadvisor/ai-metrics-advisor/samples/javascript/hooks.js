@@ -89,7 +89,7 @@ async function listHooks(client) {
   let i = 1;
   const iterator = client.listHooks({
     hookName: "js "
-  })
+  });
   for await (const hook of iterator) {
     console.log(`hook ${i++} - type ${hook.hookType}`);
     console.log(`  description: ${hook.description}`);
