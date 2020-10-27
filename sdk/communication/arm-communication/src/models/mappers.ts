@@ -258,6 +258,58 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const NameAvailabilityParameters: msRest.CompositeMapper = {
+  serializedName: "NameAvailabilityParameters",
+  type: {
+    name: "Composite",
+    className: "NameAvailabilityParameters",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NameAvailability: msRest.CompositeMapper = {
+  serializedName: "NameAvailability",
+  type: {
+    name: "Composite",
+    className: "NameAvailability",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const LinkNotificationHubParameters: msRest.CompositeMapper = {
   serializedName: "LinkNotificationHubParameters",
   type: {

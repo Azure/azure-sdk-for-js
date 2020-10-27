@@ -16,6 +16,8 @@ export {
   ErrorResponseError,
   LinkedNotificationHub,
   LinkNotificationHubParameters,
+  NameAvailability,
+  NameAvailabilityParameters,
   RegenerateKeyParameters,
   TaggedResource
 } from "../models/mappers";

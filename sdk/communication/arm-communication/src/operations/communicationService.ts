@@ -28,6 +28,31 @@ export class CommunicationService {
   }
 
   /**
+   * Checks that the CommunicationService name is valid and is not already in use.
+   * @summary Check Name Availability
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CommunicationServiceCheckNameAvailabilityResponse>
+   */
+  checkNameAvailability(options?: Models.CommunicationServiceCheckNameAvailabilityOptionalParams): Promise<Models.CommunicationServiceCheckNameAvailabilityResponse>;
+  /**
+   * @param callback The callback
+   */
+  checkNameAvailability(callback: msRest.ServiceCallback<Models.NameAvailability>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(options: Models.CommunicationServiceCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
+  checkNameAvailability(options?: Models.CommunicationServiceCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CommunicationServiceCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.CommunicationServiceCheckNameAvailabilityResponse>;
+  }
+
+  /**
    * Links an Azure Notification Hub to this communication service.
    * @summary Link Notification Hub
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -394,6 +419,36 @@ export class CommunicationService {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Communication/checkNameAvailability",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "nameAvailabilityParameters"
+    ],
+    mapper: Mappers.NameAvailabilityParameters
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.NameAvailability
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const linkNotificationHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/linkNotificationHub",
