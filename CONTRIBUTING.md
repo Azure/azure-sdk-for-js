@@ -51,7 +51,7 @@ Rush provides many benefits:
 - When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
 - Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
 
-Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](../rush.json). Packages not managed by Rush can still be managed using `npm`.
+Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](./rush.json). Packages not managed by Rush can still be managed using `npm`.
 
 ## Setting up your environment
 
