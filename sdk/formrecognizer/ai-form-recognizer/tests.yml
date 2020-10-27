@@ -3,7 +3,7 @@
 # tests pipeline. This is useful for when we want to test in different
 # environments: Prod, Canary, etc.
 parameters:
-- name: location
+- name: Location
   displayName: Location
   type: string
   default: westus2
