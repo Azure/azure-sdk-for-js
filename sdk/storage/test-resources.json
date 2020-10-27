@@ -46,7 +46,7 @@
     }
   },
   "variables": {
-    "storageApiVersion": "2019-04-01",
+    "storageApiVersion": "2019-06-01",
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('dl', parameters('baseName'))]",

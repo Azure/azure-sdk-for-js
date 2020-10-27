@@ -806,10 +806,6 @@ describe("BlobClient", () => {
   });
 
   it("lastAccessed returned", async function() {
-    if (isLiveMode()) {
-      // Skipped for now as it's not working in live tests pipeline.
-      this.skip();
-    }
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 
