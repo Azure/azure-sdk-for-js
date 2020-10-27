@@ -16,14 +16,9 @@ import {
 } from "./models";
 
 /**
- * Represents the optional parameters that can be passed to search pollers.
+ * Represents the optional parameters that can be passed to phone number pollers.
  */
-export interface PhoneNumberPollerOptions {
-  /**
-   * The client used for polling.
-   */
-  client: PhoneNumberAdministration;
-
+export interface PhoneNumberPollerOptionsBase {
   /**
    * Time between each polling in milliseconds.
    */
@@ -36,17 +31,28 @@ export interface PhoneNumberPollerOptions {
 }
 
 /**
+ * @ignore
+ * Represents the optional parameters that can be passed to phone number pollers with a required client.
+ */
+export interface PhoneNumberPollerOptionsWithClient extends PhoneNumberPollerOptionsBase {
+  /**
+   * The client used for polling.
+   */
+  client: PhoneNumberAdministration;
+}
+
+/**
  * Additional request options for requesting the release of a list of phone numbers.
  */
 export interface BeginReleasePhoneNumbersOptions
-  extends Omit<PhoneNumberPollerOptions, "client">,
+  extends PhoneNumberPollerOptionsBase,
     OperationOptions {}
 
 /**
  * Additional request options for requesting the reservation of phone numbers.
  */
 export interface BeginReservePhoneNumbersOptions
-  extends Omit<PhoneNumberPollerOptions, "client">,
+  extends PhoneNumberPollerOptionsBase,
     OperationOptions {
   quantity?: number;
 
@@ -57,7 +63,7 @@ export interface BeginReservePhoneNumbersOptions
  * Additional request options for requesting the purchase of a phone number reservation.
  */
 export interface BeginPurchaseReservationOptions
-  extends Omit<PhoneNumberPollerOptions, "client">,
+  extends PhoneNumberPollerOptionsBase,
     OperationOptions {}
 
 /**
@@ -73,7 +79,7 @@ export interface UpdatePollerOptions<T> {
  * @ignore
  * Represents options for creating an instance of ReleasePhoneNumbersPoller
  */
-export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
+export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptionsWithClient {
   /**
    * The list of phone numbers to be released.
    */
@@ -89,7 +95,7 @@ export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
  * @ignore
  * Represents options for creating an instance of ReservePhoneNumbersPoller
  */
-export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptions {
+export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptionsWithClient {
   /**
    * Request to create reservation.
    */
@@ -110,7 +116,7 @@ export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
  * @ignore
  * Represents options for creating an instance of PurchaseReservationPoller
  */
-export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptions {
+export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptionsWithClient {
   /**
    * The id returned from the create reservation request.
    */

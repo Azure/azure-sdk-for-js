@@ -44,15 +44,19 @@ export interface AreaCodes {
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
 // @public
-export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptions {
+export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
 // @public
-export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {
+export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
 // @public
-export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptions {
+export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+    // (undocumented)
+    locationOptions?: LocationOptionsDetails[];
+    // (undocumented)
+    quantity?: number;
 }
 
 // @public
@@ -417,7 +421,7 @@ export interface PhoneNumberEntity {
 }
 
 // @public
-export interface PhoneNumberPollerOptions extends OperationOptions {
+export interface PhoneNumberPollerOptionsBase {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -454,7 +458,7 @@ export interface PhoneNumberReservation {
     phonePlanIds?: string[];
     quantity?: number;
     reservationExpiryDate?: Date;
-    searchId?: string;
+    reservationId?: string;
     status?: SearchStatus;
 }
 

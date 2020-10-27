@@ -7,7 +7,7 @@ export * from "./communicationIdentity/models";
 export * from "./phoneNumber/phoneNumberAdministrationClient";
 export * from "./phoneNumber/models";
 export {
-  PhoneNumberPollerOptions,
+  PhoneNumberPollerOptionsBase,
   BeginPurchaseReservationOptions,
   BeginReleasePhoneNumbersOptions,
   BeginReservePhoneNumbersOptions
