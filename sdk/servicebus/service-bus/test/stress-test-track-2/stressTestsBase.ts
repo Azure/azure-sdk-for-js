@@ -139,7 +139,7 @@ export class SBStressTestsBase {
       this.trackMessageIds(messages, "received");
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccesses++;
-      if (settleMessageOnReceive) {
+      if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
         await Promise.all(messages.map((msg) => this.completeMessage(msg, receiver)));
       }
       return messages;
