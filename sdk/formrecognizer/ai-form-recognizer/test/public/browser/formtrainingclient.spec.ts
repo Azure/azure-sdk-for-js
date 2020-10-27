@@ -2,32 +2,26 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import fs from "fs";
-import path from "path";
+import { DefaultHttpClient, WebResource } from "@azure/core-http";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import {
+  FormRecognizerClient,
+  AzureKeyCredential,
+  TrainingDocumentInfo,
+  FormTrainingClient
+} from "../../../src";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient,
   testEnv,
   testPollingOptions
-} from "../util/recordedClients";
-import {
-  FormRecognizerClient,
-  TrainingDocumentInfo,
-  FormTrainingClient,
-  AzureKeyCredential
-} from "../../src";
-import { env, Recorder } from "@azure/test-utils-recorder";
+} from "../../utils/recordedClients";
 
-const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
 let unlabeledModelId: string | undefined;
-let labeledModelId: string | undefined;
 let modelIdToDelete: string | undefined;
 
-describe("FormTrainingClient NodeJS only", () => {
+describe("FormTrainingClient browser only", () => {
   let trainingClient: FormTrainingClient;
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
@@ -35,6 +29,10 @@ describe("FormTrainingClient NodeJS only", () => {
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
+    trainingClient = new FormTrainingClient(
+      env.FORM_RECOGNIZER_ENDPOINT,
+      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
+    );
   });
 
   afterEach(async function() {
@@ -84,8 +82,6 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
     assert.ok(response!.modelId);
-    // save the id for recognition tests
-    labeledModelId = response!.modelId;
 
     assert.ok(
       response!.submodels && response!.submodels.length > 0,
@@ -204,31 +200,9 @@ describe("FormTrainingClient NodeJS only", () => {
       );
     }
   });
-
-  it("copies model", async function() {
-    // for testing purpose, copy into the same resource
-    const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
-    const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
-
-    const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
-
-    assert.ok(labeledModelId, "Expecting valid model id in source");
-    const poller = await trainingClient.beginCopyModel(
-      labeledModelId!,
-      targetAuth,
-      testPollingOptions
-    );
-    const result = await poller.pollUntilDone();
-
-    assert.ok(result, "Expecting valid copy result");
-    assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
-    assert.equal(result!.status, "ready");
-    assert.ok(result!.trainingStartedOn, "Expecting valid 'trainingStartedOn' property");
-    assert.ok(result!.trainingCompletedOn, "Expecting valid 'trainingCompletedOn' property");
-  });
 }).timeout(60000);
 
-describe("FormRecognizerClient form recognition NodeJS", () => {
+describe("FormRecognizerClient custom form recognition browser only", () => {
   let recognizerClient: FormRecognizerClient;
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
@@ -243,31 +217,6 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       await recorder.stop();
     }
   });
-
-  it("recognizes form jpeg unlabeled model", async () => {
-    const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
-    const stream = fs.createReadStream(filePath);
-
-    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, stream, {
-      contentType: "image/jpeg",
-      ...testPollingOptions
-    });
-    const forms = await poller.pollUntilDone();
-
-    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
-    const form = forms![0];
-    assert.equal(form.formType, "form-0");
-    assert.deepStrictEqual(form.pageRange, {
-      firstPageNumber: 1,
-      lastPageNumber: 1
-    });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields["field-0"], "Expecting field-0");
-    assert.ok(form.fields["field-1"], "Expecting field-1");
-    assert.ok(form.fields["field-2"], "Expecting field-2");
-  });
-
   it("recognizes form url unlabeled model", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
@@ -294,83 +243,39 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form jpeg labeled model", async () => {
-    const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
-    const stream = fs.createReadStream(filePath);
+  it("recognizes form Blob unlabeled model", async () => {
+    recorder.skip(
+      "browser",
+      "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663"
+    );
+    const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+    const urlParts = testingContainerUrl.split("?");
+    const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
+    const req = new WebResource(url, "GET");
+    req.streamResponseBody = true;
+    const httpClient = new DefaultHttpClient();
+    const blob = await httpClient.sendRequest(req);
+    const data = await blob.blobBody;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream, {
-      contentType: "image/jpeg",
-      ...testPollingOptions
-    });
-    const forms = await poller.pollUntilDone();
-
-    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
-    const form = forms![0];
-    assert.equal(form.formType, "custom:form");
-    assert.deepStrictEqual(form.pageRange, {
-      firstPageNumber: 1,
-      lastPageNumber: 1
-    });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields);
-    assert.ok(form.fields["Merchant"]);
-    assert.ok(form.fields["DatedAs"]);
-    assert.ok(form.fields["CompanyPhoneNumber"]);
-    assert.ok(form.fields["CompanyName"]);
-    assert.ok(form.fields["Signature"]);
-  });
-
-  it("recognizes form jpeg labeled model no content type", async () => {
-    const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
-    const stream = fs.createReadStream(filePath);
-
-    assert.ok(labeledModelId, "Expecting valid model id from training without labels");
+    assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await recognizerClient.beginRecognizeCustomForms(
-      labeledModelId!,
-      stream,
+      unlabeledModelId!,
+      data!,
       testPollingOptions
     );
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
-    assert.equal(form.formType, "custom:form");
+    assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
       lastPageNumber: 1
     });
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields);
-    assert.ok(form.fields["Merchant"]);
-    assert.ok(form.fields["DatedAs"]);
-    assert.ok(form.fields["CompanyPhoneNumber"]);
-    assert.ok(form.fields["CompanyName"]);
-    assert.ok(form.fields["Signature"]);
-  });
-}).timeout(60000);
-
-describe("[AAD] FormTrainingClient NodeJS only", () => {
-  let trainingClient: FormTrainingClient;
-  let recorder: Recorder;
-
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
-  });
-
-  afterEach(async function() {
-    if (recorder) {
-      await recorder.stop();
-    }
-  });
-
-  it("getAccountProperties() gets model count and limit for this account", async () => {
-    const properties = await trainingClient.getAccountProperties();
-
-    assert.ok(
-      properties.customModelLimit > 0,
-      `Expecting maximum number of models in account but got ${properties.customModelLimit}`
-    );
+    assert.ok(form.fields["field-0"], "Expecting field-0");
+    assert.ok(form.fields["field-1"], "Expecting field-1");
+    assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 }).timeout(60000);

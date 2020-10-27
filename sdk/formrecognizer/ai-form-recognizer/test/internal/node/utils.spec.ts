@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { toRequestBody } from "../../src/common";
+import { toRequestBody } from "../../../src/common";
 import { PassThrough } from "stream";
-import { streamToBuffer } from "../../src/utils/utils.node";
+import { streamToBuffer } from "../../../src/utils/utils.node";
 
 describe("toRequestBody() NodeJS only", () => {
   it("cache readable stream to Buffer", async () => {

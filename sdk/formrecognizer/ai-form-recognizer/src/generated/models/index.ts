@@ -24,6 +24,10 @@ export interface TrainRequest {
    * Use label file for training a model.
    */
   useLabelFile?: boolean;
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
 }
 
 /**
@@ -62,9 +66,13 @@ export interface Model {
    */
   keys?: KeysResult;
   /**
-   * Custom model training result.
+   * Training result for custom model.
    */
   trainResult?: TrainResult;
+  /**
+   * Training result for composed model.
+   */
+  composedTrainResults?: TrainResult[];
 }
 
 /**
@@ -87,6 +95,24 @@ export interface ModelInfo {
    * Date and time (UTC) when the status was last updated.
    */
   trainingCompletedOn: Date;
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
+  /**
+   * Optional model attributes.
+   */
+  attributes?: Attributes;
+}
+
+/**
+ * Optional model attributes.
+ */
+export interface Attributes {
+  /**
+   * Is this model composed? (default: false).
+   */
+  isComposed?: boolean;
 }
 
 /**
@@ -115,6 +141,10 @@ export interface TrainResult {
    * Average accuracy.
    */
   averageModelAccuracy?: number;
+  /**
+   * Model identifier.
+   */
+  modelId?: string;
   /**
    * Errors returned during the training operation.
    */
@@ -247,6 +277,10 @@ export interface ReadResult {
    * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in certain cases proximity is treated with higher priority. As the sorting order depends on the detected text, it may change across images and OCR version updates. Thus, business logic should be built upon the actual line location instead of order.
    */
   lines?: TextLine[];
+  /**
+   * List of selection marks extracted from the page.
+   */
+  selectionMarks?: SelectionMark[];
 }
 
 /**
@@ -287,6 +321,24 @@ export interface TextWord {
    * Confidence value.
    */
   confidence?: number;
+}
+
+/**
+ * Information about the extracted selection mark.
+ */
+export interface SelectionMark {
+  /**
+   * Bounding box of the selection mark.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+  /**
+   * State of the selection mark.
+   */
+  state: SelectionMarkState;
 }
 
 /**
@@ -337,6 +389,10 @@ export interface KeyValuePair {
  * Information about the extracted key or value in a key-value pair.
  */
 export interface KeyValueElement {
+  /**
+   * Semantic data type of the key value element.
+   */
+  type?: KeyValueType;
   /**
    * The text content of the key or value.
    */
@@ -424,9 +480,17 @@ export interface DocumentResult {
    */
   docType: string;
   /**
+   * Model identifier.
+   */
+  modelId?: string;
+  /**
    * First and last page number where the document is found.
    */
   pageRange: number[];
+  /**
+   * Predicted document type confidence.
+   */
+  docTypeConfidence?: number;
   /**
    * Dictionary of named field values.
    */
@@ -474,6 +538,10 @@ export interface FieldValue {
    * Dictionary of named field values.
    */
   valueObject?: { [propertyName: string]: FieldValue };
+  /**
+   * Selection mark value.
+   */
+  valueSelectionMark?: FieldValueSelectionMark;
   /**
    * Text content of the extracted field.
    */
@@ -569,6 +637,20 @@ export interface CopyResult {
 }
 
 /**
+ * Request contract for compose operation.
+ */
+export interface ComposeRequest {
+  /**
+   * List of model ids to compose.
+   */
+  modelIds: string[];
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
+}
+
+/**
  * Response to the list custom models operation.
  */
 export interface Models {
@@ -645,6 +727,26 @@ export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
 }
 
 /**
+ * Defines headers for GeneratedClient_composeCustomModelsAsync operation.
+ */
+export interface GeneratedClientComposeCustomModelsAsyncHeaders {
+  /**
+   * Location and ID of the composed model. The status of composed model is specified in the status property at the model location.
+   */
+  location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_analyzeBusinessCardAsync operation.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
+  operationLocation?: string;
+}
+
+/**
  * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
  */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
@@ -667,7 +769,19 @@ export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
 /**
  * Defines values for Language.
  */
-export type Language = "en" | "es";
+export type Language = "en" | "es" | string;
+/**
+ * Defines values for SelectionMarkState.
+ */
+export type SelectionMarkState = "selected" | "unselected" | string;
+/**
+ * Defines values for KeyValueType.
+ */
+export type KeyValueType = "string" | "selectionMark" | string;
+/**
+ * Defines values for FieldValueSelectionMark.
+ */
+export type FieldValueSelectionMark = "selected" | "unselected" | string;
 /**
  * Defines values for ModelStatus.
  */
@@ -703,7 +817,8 @@ export type FieldValueType =
   | "number"
   | "integer"
   | "array"
-  | "object";
+  | "object"
+  | "selectionMark";
 
 /**
  * Contains response data for the trainCustomModelAsync operation.
@@ -873,6 +988,90 @@ export type GeneratedClientGenerateModelCopyAuthorizationResponse = GeneratedCli
   };
 
 /**
+ * Contains response data for the composeCustomModelsAsync operation.
+ */
+export type GeneratedClientComposeCustomModelsAsyncResponse = GeneratedClientComposeCustomModelsAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientComposeCustomModelsAsyncHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the business card. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: string;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the business card. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: string;
+}
+
+/**
+ * Contains response data for the analyzeBusinessCardAsync operation.
+ */
+export type GeneratedClientAnalyzeBusinessCardAsyncResponse = GeneratedClientAnalyzeBusinessCardAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientAnalyzeBusinessCardAsyncHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getAnalyzeBusinessCardResult operation.
+ */
+export type GeneratedClientGetAnalyzeBusinessCardResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/**
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
@@ -881,6 +1080,10 @@ export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
    * Include text lines and element references in the result.
    */
   includeTextDetails?: boolean;
+  /**
+   * Locale of the receipt. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: string;
 }
 
 /**
@@ -896,6 +1099,10 @@ export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
    * Include text lines and element references in the result.
    */
   includeTextDetails?: boolean;
+  /**
+   * Locale of the receipt. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: string;
 }
 
 /**

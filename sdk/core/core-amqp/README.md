@@ -174,7 +174,7 @@ main().catch((err) => console.log(err));
 
 ## Troubleshooting
 
-The core-amqp library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, and for sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+The core-amqp library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, and for sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs
 
