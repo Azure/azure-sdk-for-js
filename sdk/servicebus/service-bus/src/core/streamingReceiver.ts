@@ -190,7 +190,10 @@ export class StreamingReceiver extends MessageReceiver {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
-        logger.logError(sbError, `${this.logPrefix} An error occurred for Receiver`);
+        logger.logError(
+          sbError,
+          `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
+        );
       }
     };
 
@@ -200,9 +203,7 @@ export class StreamingReceiver extends MessageReceiver {
         const sbError = translate(sessionError) as MessagingError;
         logger.logError(
           sbError,
-          "%s An error occurred on the session for Receiver '%s'",
-          this.logPrefix,
-          this.name
+          `${this.logPrefix} 'session_error' event occurred. The associated error is`
         );
       }
     };
