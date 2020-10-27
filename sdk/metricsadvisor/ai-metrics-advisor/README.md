@@ -169,45 +169,45 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     }
   },
     granularity: {
-    granularityType: "Daily"
+      granularityType: "Daily"
   },
     schema: {
-    metrics: [
-    {
-      name: "revenue",
-      displayName: "revenue",
-      description: "Metric1 description"
-    },
-    {
-      name: "cost",
-      displayName: "cost",
-      description: "Metric2 description"
-    }
+      metrics: [
+      {
+        name: "revenue",
+        displayName: "revenue",
+        description: "Metric1 description"
+      },
+      {
+        name: "cost",
+        displayName: "cost",
+        description: "Metric2 description"
+      }
   ],
     dimensions: [
-    { name: "city", displayName: "city display" },
-    { name: "category", displayName: "category display" }
+      { name: "city", displayName: "city display" },
+      { name: "category", displayName: "category display" }
   ],
     timestampColumn: null
   },
     ingestionSettings: {
-    ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
+      ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
   },
     options: {
-    rollupSettings: {
-      rollupType: "AutoRollup",
-      rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
-    },
-    missingDataPointFillSettings: {
-      fillType: "SmartFilling"
-    },
-    accessMode: "Private",
-    adminEmails: ["xyz@example.com"]
+      rollupSettings: {
+        rollupType: "AutoRollup",
+        rollupMethod: "Sum",
+        rollupIdentificationValue: "__CUSTOM_SUM__"
+      },
+      missingDataPointFillSettings: {
+        fillType: "SmartFilling"
+      },
+      accessMode: "Private",
+      adminEmails: ["xyz@example.com"]
   }
   };
   const result = await adminClient.createDataFeed(dataFeed);
