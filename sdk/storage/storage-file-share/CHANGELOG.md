@@ -3,6 +3,7 @@
 ## 12.3.0-beta.2 (Unreleased)
 
 - Removed ability to create a ShareLeaseClient for a Share or Share Snapshot. This feature has been rescheduled for future release.
+- Replaced `ShareClient.setAccessTier()` with `ShareClient.setProperties()`, which can be used to set both Share Tier and Share Quota.
 
 ## 12.3.0-beta.1 (2020-10-13)
 
