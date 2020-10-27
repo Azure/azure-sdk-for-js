@@ -3,28 +3,45 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
-import { ConnectionContext } from "../../src/connectionContext";
-import { ReceiveOptions } from "../../src/core/messageReceiver";
-import { OperationOptions, ReceiveMode } from "../../src";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { createConnectionContextForTests } from "./unittestUtils";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { StreamingReceiver, StreamingReceiverError } from "../../src/core/streamingReceiver";
 import sinon from "sinon";
+import { EventContext } from "rhea-promise";
+import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
+import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
+import { AbortError } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
-  const defaultOptions = {
+  const defaultConstructorOptions = {
     lockRenewer: undefined,
-    receiveMode: <ReceiveMode>"peekLock"
+    receiveMode: <ReceiveMode>"peekLock",
+    maxConcurrentCalls: 101
   };
 
   let closeables: { close(): Promise<void> }[];
 
+  const defaultInitArgs = {
+    connectionId: "connection-id",
+    onError: sinon.fake(),
+    reset: () => {
+      defaultInitArgs.onError.resetHistory();
+    },
+    assert: () => {
+      assert.isFalse(
+        defaultInitArgs.onError.called,
+        `Expected not to have errors, but got ${defaultInitArgs.onError.args}`
+      );
+      defaultInitArgs.reset();
+    }
+  };
+
   beforeEach(() => {
     closeables = [];
+    defaultInitArgs.reset();
   });
 
   afterEach(async () => {
@@ -38,15 +55,19 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
       assert.isFalse(streamingReceiver.isReceivingMessages);
 
       // init() is considered the start of the receive operation (from StreamingReceiver's point of
       // view)
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
       assert.isTrue(streamingReceiver.isReceivingMessages);
+      defaultInitArgs.assert();
     });
 
     it("isReceivingMessages set to true if subscribe() is called", async () => {
@@ -54,13 +75,17 @@ describe("StreamingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
-          maxConcurrentCalls: 101,
-          ...defaultOptions
+          ...defaultConstructorOptions
         }
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       // 'init' is always the predecessor to calling receive so we consider that to be the
       // start of the receive call.
@@ -94,7 +119,13 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.equal(streamingReceiver["link"]?.credit, 0, "All receiver credits have been drained"); // ie, receiver drained
 
-      await streamingReceiver.init(false);
+      await streamingReceiver.init({
+        useNewName: false,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
+
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
         "we've initialized the streaming receiver again so we're ready to receive again"
@@ -116,11 +147,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -137,11 +173,16 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -154,40 +195,20 @@ describe("StreamingReceiver unit tests", () => {
       assert.isFalse(streamingReceiver.isReceivingMessages);
     });
 
-    it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
-      const streamingReceiver = new StreamingReceiver(
-        createConnectionContextForTests(),
-        "fakeEntityPath",
-        defaultOptions
-      );
-      closeables.push(streamingReceiver);
-
-      await streamingReceiver.init(true);
-
-      streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
-      );
-
-      assert.isTrue(streamingReceiver.isReceivingMessages);
-
-      streamingReceiver["_init"] = () => {
-        throw new Error("Will never succeed");
-      };
-
-      await streamingReceiver.onDetached(new Error("let's detach"));
-      assert.isFalse(streamingReceiver.isReceivingMessages);
-    });
-
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init(true);
+      await streamingReceiver.init({
+        useNewName: true,
+        ...defaultInitArgs
+      });
+
+      defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
         async (_msg) => {},
@@ -208,160 +229,314 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  it("create() with an existing receiver and that receiver is open()", async () => {
-    const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-    closeables.push(existingStreamingReceiver);
-
-    await existingStreamingReceiver.init(false);
-
-    const originalReceiver = existingStreamingReceiver["link"]!;
-    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
-    const spy = sinon.spy(existingStreamingReceiver, "init");
-
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver,
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-
-    assert.isTrue(spy.called, "We do still call init() on the receiver");
-    assert.strictEqual(
-      newStreamingReceiver,
-      existingStreamingReceiver,
-      "Should re-use the existing streamingReceiver instance, and not create a new one"
-    );
-
-    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver will also remain open()");
-
-    assert.strictEqual(
-      originalReceiver,
-      newStreamingReceiver["link"]!,
-      "The existing internal rhea receiver was open so we kept it, even after init()"
-    );
-  });
-
-  it("create() with an existing receiver and that receiver is NOT open()", async () => {
-    const context = createConnectionContextForTests();
-    const existingStreamingReceiver = new StreamingReceiver(context, "fakeEntityPath", {
-      lockRenewer: undefined,
-      receiveMode: "peekLock"
-    });
-    closeables.push(existingStreamingReceiver);
-
-    await existingStreamingReceiver.init(false);
-
-    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
-    const spy = sinon.spy(existingStreamingReceiver, "init");
-
-    // we'll close the inner receiver - this will simulate the receiver being closed out from underneath us in some
-    // way. This will cause the normal MessageReceiver._init() behavior to run.
-    const originalReceiver = existingStreamingReceiver["link"]!;
-    await originalReceiver.close();
-    assert.isFalse(
-      existingStreamingReceiver.isOpen(),
-      "The internal receiver has been closed. This instance can be reopened"
-    );
-
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
-      cachedStreamingReceiver: existingStreamingReceiver,
-      receiveMode: "peekLock",
-      lockRenewer: undefined
-    });
-
-    assert.isTrue(spy.called, "We do still call init() on the receiver");
-    assert.strictEqual(
-      newStreamingReceiver,
-      existingStreamingReceiver,
-      "Should re-use the existing streamingReceiver instance, and not create a new one"
-    );
-
-    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver has been reopened");
-    assert.notStrictEqual(
-      originalReceiver,
-      newStreamingReceiver["link"]!,
-      "The existing internal rhea receiver was closed so a new one had to be created."
-    );
-  });
-
-  describe("AbortSignal", () => {
-    it("sanity check - abortSignal is propagated", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
+  describe("errorSource", () => {
+    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
+      const streamingReceiver = await createAndInitStreamingReceiverForTest(
         createConnectionContextForTests(),
-        "fakeEntityPath",
-        "peekLock",
-        1
-      );
-      closeables.push(receiverImpl);
-
-      const abortController = new AbortController();
-      const abortSignal = abortController.signal;
-
-      const { resolve, promise } = getPromiseResolverForTest();
-
-      receiverImpl["_createStreamingReceiver"] = async (
-        _context: ConnectionContext,
-        _entityPath: string,
-        options?: ReceiveOptions &
-          Pick<OperationOptions, "abortSignal"> & {
-            createStreamingReceiver?: (
-              context: ConnectionContext,
-              entityPath: string,
-              options?: ReceiveOptions
-            ) => StreamingReceiver;
-          }
-      ) => {
-        assert.equal(abortSignal, options?.abortSignal, "abortSignal is properly passed through");
-        resolve();
-        return { close: () => {} } as StreamingReceiver;
-      };
-
-      const errors: string[] = [];
-
-      receiverImpl.subscribe(
+        "entity path",
         {
-          processMessage: async () => {},
-          processError: async (err) => {
-            errors.push(err.message);
-          }
-        },
-        {
-          abortSignal
+          lockRenewer: undefined,
+          receiveMode: "receiveAndDelete"
         }
       );
 
-      await promise;
-      assert.isEmpty(errors);
-    }).timeout(2000); // just for safety
+      try {
+        let args: ProcessErrorArgs | undefined;
 
-    it("sanity check - abortSignal is propagated to _init()", async () => {
-      let wasCalled = false;
-      const abortController = new AbortController();
-
-      await StreamingReceiver.create(createConnectionContextForTests(), "fakeEntityPath", {
-        _createStreamingReceiverStubForTests: (_context, _options) => {
-          wasCalled = true;
-          return ({
-            init: (_useNewName: boolean, abortSignal?: AbortSignalLike) => {
-              wasCalled = true;
-              assert.equal(
-                abortSignal,
-                abortController.signal,
-                "abortSignal passed in when created should propagate to _init()"
-              );
-              return;
+        let eventContext = {
+          delivery: {},
+          message: {
+            message_annotations: {
+              [Constants.enqueuedTime]: new Date()
             }
-          } as any) as StreamingReceiver;
-        },
-        abortSignal: abortController.signal,
-        lockRenewer: undefined,
-        receiveMode: "receiveAndDelete"
-      });
+          }
+        };
 
-      assert.isTrue(wasCalled);
+        streamingReceiver.subscribe(
+          async (_message) => {
+            throw new Error("Error thrown from the user's processMessage callback");
+          },
+          async (_args) => {
+            args = _args;
+          }
+        );
+
+        await streamingReceiver["_onAmqpMessage"]((eventContext as any) as EventContext);
+
+        assert.deepEqual(
+          {
+            message: args?.error.message,
+            errorSource: args?.errorSource,
+            entityPath: args?.entityPath,
+            fullyQualifiedNamespace: args?.fullyQualifiedNamespace
+          },
+          {
+            message: "Error thrown from the user's processMessage callback",
+            errorSource: "processMessageCallback",
+            entityPath: "entity path",
+            fullyQualifiedNamespace: "fakeHost"
+          }
+        );
+      } finally {
+        await streamingReceiver.close();
+      }
     });
   });
+
+  describe("forever loop", () => {
+    let streamingReceiver: StreamingReceiver | undefined;
+
+    afterEach(() => {
+      return streamingReceiver?.close();
+    });
+
+    it("forever if initial connection fails to establish", async () => {
+      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+        receiveMode: "peekLock",
+        lockRenewer: undefined,
+        retryOptions: {
+          maxRetries: 5,
+          maxRetryDelayInMs: 101, // this is used
+          mode: RetryMode.Exponential,
+          retryDelayInMs: 201,
+          timeoutInMs: 301 // AFAICT this is not hooked up.
+        }
+      });
+
+      let numTimesRetryFnCalled = 0;
+
+      streamingReceiver["_retry"] = async function retryStub<T>(
+        retryConfig: RetryConfig<T>
+      ): Promise<T> {
+        assert.deepEqual(
+          retryConfig.retryOptions,
+          {
+            maxRetries: 5,
+            maxRetryDelayInMs: 101, // this is used
+            mode: RetryMode.Exponential,
+            retryDelayInMs: 201,
+            timeoutInMs: 301 // AFAICT this is not hooked up.)
+          },
+          "Should inherit the retry options set at the receiver level"
+        );
+
+        ++numTimesRetryFnCalled;
+        if (numTimesRetryFnCalled === 0) {
+          // add in a little variety - throwing this wrapper error should also
+          // work just fine and it'll be properly extracted when it's reported to the user's onError handler.
+          throw new StreamingReceiverError(
+            new Error(`Error in retry cycle ${numTimesRetryFnCalled}`)
+          );
+        } else if (numTimesRetryFnCalled < 4) {
+          throw new Error(`Error in retry cycle ${numTimesRetryFnCalled}`);
+        } else {
+          // go ahead and let the retry loop succeed (and it should properly terminate!)
+          return {} as T;
+        }
+      };
+
+      let errorsAfterRetryCycle: (Error | MessagingError | undefined)[] = [];
+
+      await streamingReceiver.init({
+        useNewName: false,
+        connectionId: "connection-id",
+        onError: (args) => {
+          // all calls to onError only happen within the operation itself
+          errorsAfterRetryCycle.push(args.error);
+        }
+      });
+
+      assert.equal(
+        numTimesRetryFnCalled,
+        3 + 1,
+        "Should call it four times - the first three calls through the loop fail, so we enter another retry round."
+      );
+
+      assertErrors(
+        errorsAfterRetryCycle,
+        [
+          {
+            name: "Error",
+            message: "Error in retry cycle 1",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          },
+          {
+            name: "Error",
+            message: "Error in retry cycle 2",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          },
+          {
+            name: "Error",
+            message: "Error in retry cycle 3",
+            retryable: undefined // we're rethrowing the original error and purposefully haven't set this flag.
+          }
+          // after all of these failures we let a retry<> call succeed.
+        ],
+        "onError should be called after each failed cycle (ie, retry<> call)"
+      );
+    });
+
+    it("forever loop immediately propagates AbortError", async () => {
+      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+        receiveMode: "peekLock",
+        lockRenewer: undefined,
+        retryOptions: {
+          maxRetries: 1,
+          maxRetryDelayInMs: 101,
+          mode: RetryMode.Exponential,
+          retryDelayInMs: 201,
+          timeoutInMs: 301
+        }
+      });
+
+      streamingReceiver["_retry"] = async function retryStub<T>(
+        _retryConfig: RetryConfig<T>
+      ): Promise<T> {
+        throw new AbortError("Aborting immediately - user's abortSignal takes precedence.");
+      };
+
+      let errorThatShouldNotHappen: Error | MessagingError | undefined;
+
+      try {
+        await streamingReceiver.init({
+          useNewName: false,
+          connectionId: "connection-id",
+          onError: (args) => {
+            // all calls to onError only happen within the operation itself
+            errorThatShouldNotHappen = args.error;
+          }
+        });
+        assert.fail("Should have thrown because AbortError's are immediately propagated.");
+      } catch (err) {
+        assertError(err, {
+          name: "AbortError",
+          message: "Aborting immediately - user's abortSignal takes precedence.",
+          retryable: undefined
+        });
+      }
+
+      assert.notExists(
+        errorThatShouldNotHappen,
+        "onError should never have been called. Only the operation should do that and we've purposefully stubbed that out."
+      );
+    });
+
+    describe("wrapped operation", () => {
+      it("wrapped operation reports via onError for exceptions.", async () => {
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
+          throw new Error("Normal errors are logged and rethrown.");
+        });
+
+        try {
+          await wrappedOperation();
+          assert.fail("Should have thrown");
+        } catch (err) {
+          assertError(err, {
+            name: "StreamingReceiverError",
+            message: "Normal errors are logged and rethrown.",
+            // they're also marked as retryable.
+            retryable: true
+          });
+        }
+      });
+
+      it("wrapped operation does throw if it gets an abortError.", async () => {
+        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
+          //. the user is obviously welcome to pass in and abort their passed in abortSignal.
+          // Another way this can happen is that LinkEntity.initLink will also throw an AbortError if the link has
+          // been closed by the user.
+          throw new AbortError(
+            "AbortError's should propagate or the link has had .close() called on it"
+          );
+        });
+
+        try {
+          await wrappedOperation();
+          assert.fail("AbortError should have been thrown");
+        } catch (err) {
+          assertError(err, {
+            name: "AbortError",
+            message: "AbortError's should propagate or the link has had .close() called on it",
+            retryable: undefined
+          });
+        }
+      });
+    });
+  });
+
+  it("onDetach calls through to init", async () => {
+    const streamingReceiver = new StreamingReceiver(
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      defaultConstructorOptions
+    );
+    closeables.push(streamingReceiver);
+
+    const initMock = sinon.mock();
+    const onErrorMock = sinon.mock();
+    const addCreditMock = sinon.mock();
+
+    streamingReceiver["init"] = initMock;
+    streamingReceiver["_onError"] = onErrorMock;
+    streamingReceiver["_receiverHelper"]["addCredit"] = addCreditMock;
+
+    await streamingReceiver.onDetached(new Error("let's detach"));
+    assert.isTrue(
+      addCreditMock.calledWith(101),
+      "Credits need to be re-added to the link since it's been recreated."
+    );
+
+    assert.isTrue(initMock.calledOnce);
+
+    // we log the error but we don't report it to the user. We save calling 'onError' for when
+    // we fail to do something (in this case, only when the re-initialization is failing for some reason)
+    assert.isFalse(
+      onErrorMock.calledOnce,
+      "The user's processError method should not be invoked unless we fail in init() (which isn't be called for this test)"
+    );
+
+    // simulate simultaneous detaches
+    streamingReceiver["_isDetaching"] = true;
+    initMock.resetHistory();
+
+    await streamingReceiver.onDetached(
+      new Error("let's detach but it won't because there's already a onDetached running.")
+    );
+    assert.isFalse(initMock.called); // we don't do parallel detaches - subsequent ones are just stopped
+    streamingReceiver["_isDetaching"] = false;
+  });
 });
+
+function assertError(
+  err: any,
+  expected: { name: string; message: string; retryable: boolean | undefined },
+  assertMessage?: string
+) {
+  assert.deepEqual(
+    {
+      name: err.name,
+      message: err.message,
+      retryable: err.retryable
+    },
+    expected,
+    assertMessage ?? "Exception didn't match what we expected to be thrown."
+  );
+}
+
+function assertErrors(
+  actualErrors: any[],
+  expectedErrors: { name: string; message: string; retryable: boolean | undefined }[],
+  assertMessage?: string
+) {
+  const simpleActualErrors = actualErrors.map((err) => ({
+    name: err.name,
+    message: err.message,
+    retryable: err.retryable
+  }));
+
+  assert.deepEqual(
+    simpleActualErrors,
+    expectedErrors,
+    assertMessage ?? "Exception didn't match what we expected."
+  );
+}

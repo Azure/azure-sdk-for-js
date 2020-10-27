@@ -6,12 +6,17 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
-import { MessagingError, ServiceBusClient, ServiceBusSessionReceiver } from "../src";
+import {
+  MessagingError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusSessionReceiver
+} from "../src";
 import { ServiceBusSender } from "../src/sender";
-import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
-import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
   EntityName,
@@ -20,7 +25,8 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+import { isMessagingError } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -80,7 +86,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
 
@@ -144,8 +150,20 @@ describe("Errors with non existing Namespace", function(): void {
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err);
+      async processError(args) {
+        const actual: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error);
       }
     });
 
@@ -217,8 +235,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err, "some-name");
+      async processError(args) {
+        const actual: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        actual.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error, "some-name");
       }
     });
 
@@ -233,13 +263,36 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name");
+    const receiver = sbClient.createReceiver(
+      "some-topic-name",
+      "some-subscription-name"
+    ) as ServiceBusReceiverImpl;
+
+    receiver["_retryOptions"] = {
+      ...receiver["_retryOptions"],
+      maxRetries: 0,
+      maxRetryDelayInMs: 0,
+      retryDelayInMs: 0
+    };
+
     receiver.subscribe({
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
       },
-      async processError(err) {
-        testError(err, "some-topic-name/Subscriptions/some-subscription-name");
+      async processError(args) {
+        const expected: Omit<ProcessErrorArgs, "error"> = {
+          errorSource: args.errorSource,
+          entityPath: args.entityPath,
+          fullyQualifiedNamespace: args.fullyQualifiedNamespace
+        };
+
+        expected.should.deep.equal({
+          errorSource: "receive",
+          entityPath: receiver.entityPath,
+          fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+        } as Omit<ProcessErrorArgs, "error">);
+
+        testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
       }
     });
 
@@ -248,6 +301,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       true,
       "Error thrown flag must be true"
     );
+
     await receiver.close();
   });
 });
@@ -359,8 +413,8 @@ describe("Test ServiceBusClient with TokenCredentials", function(): void {
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver;
+  let receivedMessage: ServiceBusReceivedMessage;
   let entityName: EntityName;
 
   afterEach(async () => {
@@ -419,16 +473,16 @@ describe("Errors after close()", function(): void {
     try {
       switch (operation) {
         case DispositionType.complete:
-          await receivedMessage.complete();
+          await receiver.completeMessage(receivedMessage);
           break;
         case DispositionType.abandon:
-          await receivedMessage.abandon();
+          await receiver.abandonMessage(receivedMessage);
           break;
         case DispositionType.defer:
-          await receivedMessage.defer();
+          await receiver.deferMessage(receivedMessage);
           break;
         case DispositionType.deadletter:
-          await receivedMessage.deadLetter();
+          await receiver.deadLetterMessage(receivedMessage);
           break;
 
         default:
@@ -470,7 +524,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
 
     let errorScheduleMsgs: string = "";
-    await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
+    await sender.scheduleMessages([testMessage], new Date(Date.now() + 30000)).catch((err) => {
       errorScheduleMsgs = err.message;
     });
     should.equal(
@@ -579,9 +633,7 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as ServiceBusSessionReceiver<
-      ServiceBusReceivedMessageWithLock
-    >;
+    const sessionReceiver = receiver as ServiceBusSessionReceiver;
 
     let errorPeek: string = "";
     await sessionReceiver.peekMessages(1).catch((err) => {

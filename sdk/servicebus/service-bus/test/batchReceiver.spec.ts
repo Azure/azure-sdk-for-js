@@ -4,7 +4,7 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay } from "../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
@@ -18,10 +18,7 @@ import {
   EntityName,
   getRandomTestClientType
 } from "./utils/testutils2";
-import {
-  ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock
-} from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
 
@@ -35,8 +32,8 @@ const anyRandomTestClientType = getRandomTestClientType();
 let serviceBusClient: ServiceBusClientForTests;
 let entityNames: EntityName;
 let sender: ServiceBusSender;
-let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+let receiver: ServiceBusReceiver;
+let deadLetterReceiver: ServiceBusReceiver;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
@@ -96,7 +93,7 @@ describe("Batching Receiver", () => {
         testMessage.body,
         "Received message body is different than expected"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
     });
 
     it(withSessionTestClientType + ": maxMessageCount defaults to 1", async function(): Promise<
@@ -123,7 +120,7 @@ describe("Batching Receiver", () => {
         testMessage.body,
         "Received message body is different than expected"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
     });
   });
 
@@ -144,7 +141,7 @@ describe("Batching Receiver", () => {
 
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
-    ): Promise<ServiceBusReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
 
@@ -167,7 +164,7 @@ describe("Batching Receiver", () => {
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
 
-      await msg.complete();
+      await receiver.completeMessage(msg);
 
       await testPeekMsgsLength(receiver, 0);
     }
@@ -187,7 +184,7 @@ describe("Batching Receiver", () => {
         ? TestMessage.getSessionSample()
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
-      await msg.abandon();
+      await receiver.abandonMessage(msg);
 
       await testPeekMsgsLength(receiver, 1);
 
@@ -201,7 +198,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await messageBatch[0].complete();
+      await receiver.completeMessage(messageBatch[0]);
 
       await testPeekMsgsLength(receiver, 0);
     }
@@ -245,7 +242,7 @@ describe("Batching Receiver", () => {
         );
         abandonMsgCount++;
 
-        await batch[0].abandon();
+        await receiver.abandonMessage(batch[0]);
       }
 
       await testPeekMsgsLength(receiver, 0);
@@ -269,7 +266,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch[0].complete();
+      await receiver.completeMessage(deadLetterMsgsBatch[0]);
 
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
@@ -300,7 +297,7 @@ describe("Batching Receiver", () => {
         throw "Sequence Number can not be null";
       }
       const sequenceNumber = msg.sequenceNumber;
-      await msg.defer();
+      await receiver.deferMessage(msg);
 
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
@@ -314,7 +311,7 @@ describe("Batching Receiver", () => {
       );
       should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await deferredMsg.complete();
+      await receiver.completeMessage(deferredMsg);
 
       await testPeekMsgsLength(receiver, 0);
     }
@@ -340,7 +337,7 @@ describe("Batching Receiver", () => {
         ? TestMessage.getSessionSample()
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
-      await msg.deadLetter();
+      await receiver.deadLetterMessage(msg);
 
       await testPeekMsgsLength(receiver, 0);
 
@@ -363,7 +360,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch[0].complete();
+      await receiver.completeMessage(deadLetterMsgsBatch[0]);
 
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
@@ -400,7 +397,7 @@ describe("Batching Receiver", () => {
 
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
-    ): Promise<ServiceBusReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessage);
       const batch = await receiver.receiveMessages(1);
 
@@ -413,7 +410,7 @@ describe("Batching Receiver", () => {
       );
       should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-      await batch[0].deadLetter();
+      await receiver.deadLetterMessage(batch[0]);
 
       await testPeekMsgsLength(receiver, 0);
 
@@ -441,7 +438,7 @@ describe("Batching Receiver", () => {
 
     async function completeDeadLetteredMessage(
       testMessage: ServiceBusMessage,
-      deadletterClient: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
+      deadletterClient: ServiceBusReceiver,
       expectedDeliverCount: number
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
@@ -463,7 +460,7 @@ describe("Batching Receiver", () => {
         "DeliveryCount is different than expected"
       );
 
-      await deadLetterMsgsBatch[0].complete();
+      await receiver.completeMessage(deadLetterMsgsBatch[0]);
       await testPeekMsgsLength(deadletterClient, 0);
     }
 
@@ -474,7 +471,7 @@ describe("Batching Receiver", () => {
       const deadLetterMsg = await deadLetterMessage(testMessage);
       let errorWasThrown = false;
 
-      await deadLetterMsg.deadLetter().catch((err) => {
+      await receiver.deadLetterMessage(deadLetterMsg).catch((err) => {
         should.equal(err.code, "InvalidOperationError", "Error code is different than expected");
         errorWasThrown = true;
       });
@@ -498,7 +495,7 @@ describe("Batching Receiver", () => {
         : TestMessage.getSessionSample();
       const deadLetterMsg = await deadLetterMessage(testMessage);
 
-      await deadLetterMsg.abandon();
+      await receiver.abandonMessage(deadLetterMsg);
 
       await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
     }
@@ -522,7 +519,7 @@ describe("Batching Receiver", () => {
       }
 
       const sequenceNumber = deadLetterMsg.sequenceNumber;
-      await deadLetterMsg.defer();
+      await receiver.deferMessage(deadLetterMsg);
 
       const [deferredMsg] = await deadLetterReceiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
@@ -535,7 +532,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await deferredMsg.complete();
+      await receiver.completeMessage(deferredMsg);
 
       await testPeekMsgsLength(receiver, 0);
 
@@ -595,8 +592,8 @@ describe("Batching Receiver", () => {
           async processMessage(): Promise<void> {
             // process message here - it's basically a ServiceBusMessage minus any settlement related methods
           },
-          async processError(err: Error): Promise<void> {
-            unexpectedError = err;
+          async processError(args: ProcessErrorArgs): Promise<void> {
+            unexpectedError = args.error;
           }
         });
       } catch (err) {
@@ -690,8 +687,8 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await msgs1[0].complete();
-      await msgs2[0].complete();
+      await receiver.completeMessage(msgs1[0]);
+      await receiver.completeMessage(msgs2[0]);
     }
 
     it(
@@ -739,7 +736,7 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoRenewLockDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0
           }
         );
       }
@@ -764,7 +761,7 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoRenewLockDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0
           }
         );
       }
@@ -779,7 +776,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await batch[0].complete();
+      await receiver.completeMessage(batch[0]);
     }
 
     it(
@@ -815,7 +812,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await batch[0].complete();
+      await receiver.completeMessage(batch[0]);
 
       await testPeekMsgsLength(receiver, 0);
     }
@@ -881,9 +878,7 @@ describe("Batching Receiver", () => {
   describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
     let serviceBusClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;
-    let receiver:
-      | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-      | ServiceBusReceiver<ServiceBusReceivedMessage>;
+    let receiver: ServiceBusReceiver;
 
     async function beforeEachTest(
       receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
@@ -917,13 +912,11 @@ describe("Batching Receiver", () => {
 
       let settledMessageCount = 0;
 
-      const messages1 = await (receiver as ServiceBusReceiver<
-        ServiceBusReceivedMessageWithLock
-      >).receiveMessages(1, {
+      const messages1 = await receiver.receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
       for (const message of messages1) {
-        await message.complete();
+        await receiver.completeMessage(message);
         settledMessageCount++;
       }
 
@@ -938,21 +931,17 @@ describe("Batching Receiver", () => {
       };
 
       // Simulate a disconnect being called with a non-retryable error.
-      (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>)[
-        "_context"
-      ].connection["_connection"].idle();
+      (receiver as ServiceBusReceiverImpl)["_context"].connection["_connection"].idle();
 
       // send a second message to trigger the message handler again.
       await sender.sendMessages(TestMessage.getSample());
 
       // wait for the 2nd message to be received.
-      const messages2 = await (receiver as ServiceBusReceiver<
-        ServiceBusReceivedMessageWithLock
-      >).receiveMessages(1, {
+      const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
       for (const message of messages2) {
-        await message.complete();
+        await receiver.completeMessage(message);
         settledMessageCount++;
       }
       settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
@@ -969,12 +958,8 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<
-        ServiceBusReceivedMessageWithLock
-      >)["_context"];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
-        "_batchingReceiver"
-      ];
+      const receiverContext = (receiver as ServiceBusReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
 
       if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
@@ -1034,12 +1019,8 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<
-        ServiceBusReceivedMessageWithLock
-      >)["_context"];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
-        "_batchingReceiver"
-      ];
+      const receiverContext = (receiver as ServiceBusReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
 
       if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
@@ -1106,12 +1087,8 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
-        "_context"
-      ];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
-        "_batchingReceiver"
-      ];
+      const receiverContext = (receiver as ServiceBusReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
 
       if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
@@ -1152,12 +1129,8 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<
-        ServiceBusReceivedMessageWithLock
-      >)["_context"];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
-        "_batchingReceiver"
-      ];
+      const receiverContext = (receiver as ServiceBusReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
 
       if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);

@@ -6,7 +6,7 @@ import { receiverLogger as logger } from "../log";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { LinkEntity } from "./linkEntity";
-import { OnError } from "./messageReceiver";
+import { OnErrorNoContext } from "./messageReceiver";
 
 /**
  * @internal
@@ -118,7 +118,7 @@ export class LockRenewer {
    *
    * @param bMessage The message whose lock renewal we will start.
    */
-  start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnError) {
+  start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnErrorNoContext) {
     try {
       const logPrefix = linkEntity.logPrefix;
 

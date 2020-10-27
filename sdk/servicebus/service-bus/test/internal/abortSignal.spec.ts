@@ -24,7 +24,7 @@ import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { MessageSession } from "../../src/session/messageSession";
-import { ReceiveMode } from "../../src";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
 
 describe("AbortSignal", () => {
   const defaultOptions = {
@@ -354,8 +354,8 @@ describe("AbortSignal", () => {
         session.subscribe(
           {
             processMessage: async (_msg) => {},
-            processError: async (err) => {
-              receivedErrors.push(err);
+            processError: async (args) => {
+              receivedErrors.push(args.error);
             }
           },
           {
@@ -386,9 +386,9 @@ describe("AbortSignal", () => {
           receiver.subscribe(
             {
               processMessage: async (_msg: any) => {},
-              processError: async (err: Error) => {
+              processError: async (args: ProcessErrorArgs) => {
                 resolve();
-                receivedErrors.push(err);
+                receivedErrors.push(args.error);
               }
             },
             {

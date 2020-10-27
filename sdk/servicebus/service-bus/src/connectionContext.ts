@@ -372,19 +372,16 @@ export namespace ConnectionContext {
               receiver.receiverType,
               receiver.name
             );
-            const causedByDisconnect = true;
             detachCalls.push(
-              receiver
-                .onDetached(connectionError || contextError, causedByDisconnect)
-                .catch((err) => {
-                  logger.logError(
-                    err,
-                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
-                    connectionContext.connection.id,
-                    receiver.receiverType,
-                    receiver.name
-                  );
-                })
+              receiver.onDetached(connectionError || contextError).catch((err) => {
+                logger.logError(
+                  err,
+                  "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
+                  connectionContext.connection.id,
+                  receiver.receiverType,
+                  receiver.name
+                );
+              })
             );
           }
         }
