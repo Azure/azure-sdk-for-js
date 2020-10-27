@@ -1,31 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, OperationOptions } from "@azure/core-http";
-import { PollOperation, PollOperationState } from "@azure/core-lro";
-import { VoidResponse } from "../common/models";
-import { PhoneNumberRelease, PhoneNumberReservation } from "./generated/src/models";
+import { PollOperationState } from "@azure/core-lro";
+import { PhoneNumberAdministration } from "./generated/src/phoneNumberRestClient";
 import {
-  CancelReservationOptions,
+  LocationOptionsDetails,
+  PhoneNumberRelease,
+  PhoneNumberReservation
+} from "./generated/src/models";
+import {
   CreateReservationOptions,
   CreateReservationRequest,
-  CreateReservationResponse,
-  GetReleaseOptions,
-  GetReleaseResponse,
-  GetReservationResponse,
-  PurchaseReservationOptions,
-  ReleasePhoneNumbersOptions,
-  ReleasePhoneNumbersResponse
+  ReleasePhoneNumbersOptions
 } from "./models";
+import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 
 /**
  * Represents the optional parameters that can be passed to search pollers.
  */
-export interface PhoneNumberPollerOptions extends OperationOptions {
+export interface PhoneNumberPollerOptions {
+  /**
+   * The client used for polling.
+   */
+  client: PhoneNumberAdministration;
+
   /**
    * Time between each polling in milliseconds.
    */
   intervalInMs?: number;
+
   /**
    * A serialized poller, used to resume an existing operation
    */
@@ -35,17 +38,27 @@ export interface PhoneNumberPollerOptions extends OperationOptions {
 /**
  * Additional request options for requesting the release of a list of phone numbers.
  */
-export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptions {}
+export interface BeginReleasePhoneNumbersOptions
+  extends Omit<PhoneNumberPollerOptions, "client">,
+    OperationOptions {}
 
 /**
  * Additional request options for requesting the reservation of phone numbers.
  */
-export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptions {}
+export interface BeginReservePhoneNumbersOptions
+  extends Omit<PhoneNumberPollerOptions, "client">,
+    OperationOptions {
+  quantity?: number;
+
+  locationOptions?: LocationOptionsDetails[];
+}
 
 /**
  * Additional request options for requesting the purchase of a phone number reservation.
  */
-export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptions {}
+export interface BeginPurchaseReservationOptions
+  extends Omit<PhoneNumberPollerOptions, "client">,
+    OperationOptions {}
 
 /**
  * @ignore
@@ -67,14 +80,9 @@ export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
   phoneNumbers: string[];
 
   /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
-
-  /**
    * Additional request options.
    */
-  options?: ReleasePhoneNumbersOptions;
+  requestOptions?: ReleasePhoneNumbersOptions;
 }
 
 /**
@@ -88,11 +96,6 @@ export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
   reservationRequest: CreateReservationRequest;
 
   /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
-
-  /**
    * The id returned from the create reservation request.
    */
   reservationId?: string;
@@ -100,7 +103,7 @@ export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
   /**
    * Options for creating a phone number reservation.
    */
-  options?: CreateReservationOptions;
+  requestOptions?: CreateReservationOptions;
 }
 
 /**
@@ -114,39 +117,9 @@ export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptio
   reservationId: string;
 
   /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
-
-  /**
    * Options for creating a phone number reservation.
    */
-  options?: CreateReservationOptions;
-}
-
-/**
- * @ignore
- * Represents the poller client used internally
- */
-export interface PhoneNumberPollerClient {
-  releasePhoneNumbers: (
-    phoneNumbers: string[],
-    options?: BeginReleasePhoneNumbersOptions
-  ) => Promise<ReleasePhoneNumbersResponse>;
-  getRelease: (releaseId: string, options?: GetReleaseOptions) => Promise<GetReleaseResponse>;
-  createReservation(
-    reservationRequest: CreateReservationRequest,
-    options: CreateReservationOptions
-  ): Promise<CreateReservationResponse>;
-  getReservation(reservationId: string, options: OperationOptions): Promise<GetReservationResponse>;
-  cancelReservation(
-    reservationId: string,
-    options: CancelReservationOptions
-  ): Promise<VoidResponse>;
-  purchaseReservation(
-    reservationId: string,
-    options: PurchaseReservationOptions
-  ): Promise<VoidResponse>;
+  requestOptions?: OperationOptions;
 }
 
 /**
@@ -161,20 +134,15 @@ export interface ReleasePhoneNumbersPollOperationState
   phoneNumbers: string[];
 
   /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
-
-  /**
-   * Additional request options.
-   */
-  options?: ReleasePhoneNumbersOptions;
-
-  /**
    * The releaseId returned when release operation starts.
    * Used to query the status of the operation.
    */
   releaseId?: string;
+
+  /**
+   * Additional request options.
+   */
+  requestOptions?: ReleasePhoneNumbersOptions;
 }
 
 /**
@@ -187,11 +155,6 @@ export interface ReservePhoneNumbersPollOperationState
    * Request to create reservation.
    */
   reservationRequest: CreateReservationRequest;
-
-  /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
 
   /**
    * The id returned from the create reservation request.
@@ -215,33 +178,7 @@ export interface PurchaseReservationPollOperationState extends PollOperationStat
   reservationId: string;
 
   /**
-   * Represents the poller client used internally.
-   */
-  client: PhoneNumberPollerClient;
-
-  /**
    * Options for creating a phone number reservation.
    */
   options?: CreateReservationOptions;
 }
-
-/**
- * @ignore
- * Represents the poll operation of the reserve phone numbers poller
- */
-export interface ReleasePhoneNumbersPollOperation
-  extends PollOperation<ReleasePhoneNumbersPollOperationState, PhoneNumberRelease> {}
-
-/**
- * @ignore
- * Represents the poll operation of the reserve phone numbers poller
- */
-export interface ReservePhoneNumbersPollOperation
-  extends PollOperation<ReservePhoneNumbersPollOperationState, PhoneNumberReservation> {}
-
-/**
- * @ignore
- * Represents the poll operation of the purchase reservation poller
- */
-export interface PurchaseReservationPollOperation
-  extends PollOperation<PurchaseReservationPollOperationState, void> {}

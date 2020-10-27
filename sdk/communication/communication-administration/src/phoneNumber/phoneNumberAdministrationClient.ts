@@ -30,7 +30,6 @@ import {
   PhonePlan,
   PhoneNumberEntity,
   UpdatePhoneNumberCapabilitiesResponse,
-  ReleaseResponse,
   UpdateNumberCapabilitiesResponse,
   PhoneNumberRelease,
   AreaCodes,
@@ -56,32 +55,23 @@ import {
   UpdateNumbersCapabilitiesResponse,
   PhoneNumberCapabilitiesUpdates,
   GetCapabilitiesUpdateResponse,
-  ReleasePhoneNumbersResponse,
-  GetReleaseResponse,
   GetAreaCodesResponse,
   GetPhoneNumberConfigurationResponse,
   GetPhonePlanLocationOptionsResponse,
   GetCapabilitiesUpdateOptions,
   GetPhoneNumberConfigurationOptions,
-  GetReleaseOptions,
   UnconfigurePhoneNumberOptions,
-  ReleasePhoneNumbersOptions,
   CreateReservationRequest,
-  CreateReservationOptions,
-  CreatePhoneNumberReservationResponse,
-  CreateReservationResponse,
   GetReservationOptions,
   GetReservationResponse,
-  CancelReservationOptions,
-  PurchaseReservationOptions
+  CancelReservationOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import {
   BeginPurchaseReservationOptions,
   BeginReleasePhoneNumbersOptions,
-  BeginReservePhoneNumbersOptions,
-  PhoneNumberPollerClient
+  BeginReservePhoneNumbersOptions
 } from "./lroModels";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
@@ -105,20 +95,6 @@ export class PhoneNumberAdministrationClient {
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
   private readonly client: PhoneNumberAdministration;
-
-  /**
-   * @internal
-   * @ignore
-   * A self reference that bypasses private methods, for the pollers.
-   */
-  private readonly pollerClient: PhoneNumberPollerClient = {
-    createReservation: this.createReservation.bind(this),
-    getReservation: this.getReservation.bind(this),
-    cancelReservation: this.cancelReservation.bind(this),
-    purchaseReservation: this.purchaseReservation.bind(this),
-    releasePhoneNumbers: this.releasePhoneNumbers.bind(this),
-    getRelease: this.getRelease.bind(this)
-  };
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.
@@ -978,8 +954,8 @@ export class PhoneNumberAdministrationClient {
   ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
     const poller = new ReleasePhoneNumbersPoller({
       phoneNumbers,
-      client: this.pollerClient,
-      options
+      client: this.client,
+      requestOptions: options
     });
 
     await poller.poll();
@@ -1014,8 +990,8 @@ export class PhoneNumberAdministrationClient {
   ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
-      client: this.pollerClient,
-      options
+      client: this.client,
+      requestOptions: options
     });
 
     await poller.poll();
@@ -1049,139 +1025,12 @@ export class PhoneNumberAdministrationClient {
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const poller = new PurchaseReservationPoller({
       reservationId,
-      client: this.pollerClient,
-      options
+      client: this.client,
+      requestOptions: options
     });
 
     await poller.poll();
     return poller;
-  }
-
-  /**
-   * Request the release of a list of acquired phone numbers.
-   * The response includes the id of the created release,
-   * remember that id for subsequent calls to getRelease.
-   * @param phoneNumbers The phone numbers to be released.
-   * @param options Additional request options.
-   */
-  private async releasePhoneNumbers(
-    phoneNumbers: string[],
-    options: ReleasePhoneNumbersOptions = {}
-  ): Promise<ReleasePhoneNumbersResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-releasePhoneNumbers",
-      options
-    );
-    try {
-      const { releaseId, _response } = await this.client.releasePhoneNumbers(
-        phoneNumbers,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Gets the release associated with a given id.
-   * Use this function to query the status of releases.
-   * @param releaseId The id of the release returned by releasePhoneNumbers.
-   * @param options Additional request options.
-   */
-  private async getRelease(
-    releaseId: string,
-    options: GetReleaseOptions = {}
-  ): Promise<GetReleaseResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-getRelease",
-      options
-    );
-    try {
-      const { _response, ...rest } = await this.client.getReleaseById(
-        releaseId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<PhoneNumberRelease>(rest, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Starts a search for phone numbers given some constraints such as name or area code.
-   * @param reservationRequest Request properties to constraint the search scope.
-   * @param options Additional request options.
-   */
-  private async createReservation(
-    reservationRequest: CreateReservationRequest,
-    options: CreateReservationOptions = {}
-  ): Promise<CreatePhoneNumberReservationResponse> {
-    const { name, description, phonePlanIds, areaCode, quantity } = reservationRequest;
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-createReservation",
-      Object.assign(options, { quantity })
-    );
-    try {
-      const { searchId, _response } = await this.client.createSearch(
-        name,
-        description,
-        phonePlanIds,
-        areaCode,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse<CreateReservationResponse>({ reservationId: searchId }, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Purchases the phone number(s) in the reservation associated with a given id.
-   * @param searchId The id of the reservation returned by createReservation.
-   * @param options Additional request options.
-   */
-  private async purchaseReservation(
-    searchId: string,
-    options: PurchaseReservationOptions = {}
-  ): Promise<VoidResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-purchaseReservation",
-      options
-    );
-    try {
-      const { _response } = await this.client.purchaseSearch(
-        searchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return attachHttpResponse({}, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }
 

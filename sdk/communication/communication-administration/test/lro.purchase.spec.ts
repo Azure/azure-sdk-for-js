@@ -94,7 +94,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
     assert.ok(reservePoller.getOperationState().isStarted);
 
     const phoneNumberSearch: PhoneNumberReservation = await reservePoller.pollUntilDone();
-    reservationId = phoneNumberSearch.searchId || "";
+    reservationId = phoneNumberSearch.reservationId || "";
 
     assert.ok(reservePoller.getOperationState().isCompleted);
     assert.equal(phoneNumberSearch.status, "Reserved");

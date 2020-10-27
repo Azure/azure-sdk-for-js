@@ -1039,7 +1039,7 @@ export const PhoneNumberReservation: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberReservation",
     modelProperties: {
-      searchId: {
+      reservationId: {
         serializedName: "searchId",
         type: {
           name: "String"

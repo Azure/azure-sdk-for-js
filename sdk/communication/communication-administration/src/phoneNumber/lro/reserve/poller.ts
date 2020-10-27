@@ -1,48 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
 import { PhoneNumberReservation } from "../../generated/src/models";
 import {
   ReservePhoneNumbersPollerOptions,
   ReservePhoneNumbersPollOperationState
 } from "../../lroModels";
-import { makeReservePhoneNumbersPollOperation } from "./operation";
+import { PhoneNumberPollerBase } from "../phoneNumberPollerBase";
+import { ReservePhoneNumbersPollOperation } from "./operation";
 
-export class ReservePhoneNumbersPoller extends Poller<
+/**
+ * The poller for reserving phone numbers.
+ */
+export class ReservePhoneNumbersPoller extends PhoneNumberPollerBase<
   ReservePhoneNumbersPollOperationState,
   PhoneNumberReservation
 > {
   /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
+   * Initializes an instance of ReservePhoneNumbersPoller
+   *
+   * @param {ReservePhoneNumbersPollerOptions} options Options for initializing the poller.
    */
-  public intervalInMs: number;
-
-  constructor(_options: ReservePhoneNumbersPollerOptions) {
-    const { client, reservationRequest, options, intervalInMs = 2000, resumeFrom } = _options;
+  constructor(options: ReservePhoneNumbersPollerOptions) {
+    const {
+      client,
+      reservationRequest,
+      requestOptions = {},
+      intervalInMs = 2000,
+      resumeFrom
+    } = options;
     let state: ReservePhoneNumbersPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeReservePhoneNumbersPollOperation({
-      ...state,
-      reservationRequest,
-      options,
-      client
-    });
+    const operation = new ReservePhoneNumbersPollOperation(
+      {
+        ...state,
+        reservationRequest
+      },
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }

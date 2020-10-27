@@ -1,48 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
 import { PhoneNumberRelease } from "../../generated/src/models";
 import {
   ReleasePhoneNumbersPollerOptions,
   ReleasePhoneNumbersPollOperationState
 } from "../../lroModels";
-import { makeReleasePhoneNumbersPollOperation } from "./operation";
+import { PhoneNumberPollerBase } from "../phoneNumberPollerBase";
+import { ReleasePhoneNumbersPollOperation } from "./operation";
 
-export class ReleasePhoneNumbersPoller extends Poller<
+/**
+ * The poller for release a phone number or list of phone numbers.
+ */
+export class ReleasePhoneNumbersPoller extends PhoneNumberPollerBase<
   ReleasePhoneNumbersPollOperationState,
   PhoneNumberRelease
 > {
   /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
+   * Initializes an instance of ReleasePhoneNumbersPoller
+   *
+   * @param {ReleasePhoneNumbersPollerOptions} options Options for initializing the poller.
    */
-  public intervalInMs: number;
-
-  constructor(_options: ReleasePhoneNumbersPollerOptions) {
-    const { client, phoneNumbers, options, intervalInMs = 2000, resumeFrom } = _options;
+  constructor(options: ReleasePhoneNumbersPollerOptions) {
+    const { client, phoneNumbers, requestOptions = {}, intervalInMs = 2000, resumeFrom } = options;
     let state: ReleasePhoneNumbersPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeReleasePhoneNumbersPollOperation({
-      ...state,
-      phoneNumbers,
-      options,
-      client
-    });
+    const operation = new ReleasePhoneNumbersPollOperation(
+      {
+        ...state,
+        phoneNumbers
+      },
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }

@@ -564,7 +564,7 @@ export interface PhoneNumberReservation {
   /**
    * The id of the search.
    */
-  searchId?: string;
+  reservationId?: string;
   /**
    * The name of the search.
    */

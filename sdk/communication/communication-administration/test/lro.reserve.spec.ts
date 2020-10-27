@@ -97,7 +97,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
     assert.ok(poller.getOperationState().isStarted);
 
     const phoneNumberSearch: PhoneNumberReservation = await poller.pollUntilDone();
-    reservationId = phoneNumberSearch.searchId || "";
+    reservationId = phoneNumberSearch.reservationId || "";
 
     assert.ok(poller.getOperationState().isCompleted);
     assert.equal(phoneNumberSearch.status, "Reserved");

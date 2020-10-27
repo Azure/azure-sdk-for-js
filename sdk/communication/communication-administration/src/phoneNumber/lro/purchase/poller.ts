@@ -1,44 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
 import {
   PurchaseReservationPollerOptions,
   PurchaseReservationPollOperationState
 } from "../../lroModels";
-import { makePurchaseReservationPollOperation } from "./operation";
+import { PhoneNumberPollerBase } from "../phoneNumberPollerBase";
+import { PurchaseReservationPollOperation } from "./operation";
 
-export class PurchaseReservationPoller extends Poller<PurchaseReservationPollOperationState, void> {
+/**
+ * The poller for purchasing a phone number reservation.
+ */
+export class PurchaseReservationPoller extends PhoneNumberPollerBase<
+  PurchaseReservationPollOperationState,
+  void
+> {
   /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
+   * Initializes an instance of PurchaseReservationPoller
+   *
+   * @param {PurchaseReservationPollerOptions} options Options for initializing the poller.
    */
-  public intervalInMs: number;
-
-  constructor(_options: PurchaseReservationPollerOptions) {
-    const { client, reservationId, options, intervalInMs = 2000, resumeFrom } = _options;
+  constructor(options: PurchaseReservationPollerOptions) {
+    const { client, reservationId, requestOptions = {}, intervalInMs = 2000, resumeFrom } = options;
     let state: PurchaseReservationPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makePurchaseReservationPollOperation({
-      ...state,
-      reservationId,
-      options,
-      client
-    });
+    const operation = new PurchaseReservationPollOperation(
+      {
+        ...state,
+        reservationId
+      },
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }
