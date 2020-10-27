@@ -4,7 +4,7 @@ The administration library is used for managing users and tokens for Azure Commu
 
 Acquired phone numbers can come with many capabilities, depending on the country, number type and phone plan. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
-## Getting begined
+## Getting started
 
 ### Prerequisites
 
