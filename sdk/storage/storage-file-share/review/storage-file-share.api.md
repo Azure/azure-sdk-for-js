@@ -1351,7 +1351,6 @@ export class ShareClient extends StorageClient {
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
-    getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
     get name(): string;
     get rootDirectoryClient(): ShareDirectoryClient;
@@ -1703,7 +1702,7 @@ export interface ShareItem {
 
 // @public
 export class ShareLeaseClient {
-    constructor(client: ShareFileClient | ShareClient, leaseId?: string);
+    constructor(client: ShareFileClient, leaseId?: string);
     acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;

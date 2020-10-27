@@ -2,6 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
+- Removed ability to create a ShareLeaseClient for a Share or Share Snapshot. This feature has been rescheduled for future release.
 
 ## 12.3.0-beta.1 (2020-10-13)
 

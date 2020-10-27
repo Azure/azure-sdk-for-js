@@ -4,9 +4,9 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import {
   ShareClient,
   ShareDirectoryClient,
-  ShareFileClient,
-  ShareLeaseClient,
-  ShareServiceClient
+  ShareFileClient
+  // ShareLeaseClient,
+  // ShareServiceClient
 } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -334,6 +334,7 @@ describe("LeaseClient", () => {
   });
 });
 
+/*
 describe("LeaseClient for share", () => {
   let serviceClient: ShareServiceClient;
   let shareName: string;
@@ -597,3 +598,4 @@ describe("LeaseClient for share", () => {
     await leaseClient.releaseLease();
   });
 });
+  */
