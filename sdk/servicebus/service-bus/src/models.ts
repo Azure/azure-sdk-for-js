@@ -24,13 +24,7 @@ export interface ProcessErrorArgs {
    * 'renewLock': Errors thrown when automatic lock renewal fails.
    * 'internal': Errors thrown when the library fails internally.
    */
-  errorSource:
-    | "abandon"
-    | "complete"
-    | "processMessageCallback"
-    | "receive"
-    | "renewLock"
-    | "internal";
+  errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
   /**
    * The entity path for the current receiver.
    */
