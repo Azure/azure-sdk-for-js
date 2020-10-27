@@ -162,41 +162,41 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
   const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  },
+      dataSourceType: "SqlServer",
+      dataSourceParameter: {
+        connectionString: sqlServerConnectionString,
+        query: sqlServerQuery
+      }
+    },
     granularity: {
       granularityType: "Daily"
-  },
+    },
     schema: {
       metrics: [
-      {
-        name: "revenue",
-        displayName: "revenue",
-        description: "Metric1 description"
-      },
-      {
-        name: "cost",
-        displayName: "cost",
-        description: "Metric2 description"
-      }
-  ],
-    dimensions: [
-      { name: "city", displayName: "city display" },
-      { name: "category", displayName: "category display" }
-  ],
-    timestampColumn: null
-  },
+        {
+          name: "revenue",
+          displayName: "revenue",
+          description: "Metric1 description"
+        },
+        {
+          name: "cost",
+          displayName: "cost",
+          description: "Metric2 description"
+        }
+      ],
+      dimensions: [
+        { name: "city", displayName: "city display" },
+        { name: "category", displayName: "category display" }
+      ],
+      timestampColumn: null
+    },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
       ingestionStartOffsetInSeconds: 0,
       dataSourceRequestConcurrency: -1,
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
-  },
+    },
     options: {
       rollupSettings: {
         rollupType: "AutoRollup",
@@ -208,7 +208,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       },
       accessMode: "Private",
       adminEmails: ["xyz@example.com"]
-  }
+    }
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -372,20 +372,22 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
   const anomalyAlertConfig = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [{
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    },
-    alertConditions: {
-      severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
-    },
-    snoozeCondition: {
-      autoSnooze: 0,
-      snoozeScope: "Metric",
-      onlyForSuccessive: true
-    }
-  }],
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        },
+        alertConditions: {
+          severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
+        },
+        snoozeCondition: {
+          autoSnooze: 0,
+          snoozeScope: "Metric",
+          onlyForSuccessive: true
+        }
+      }
+    ],
     hookIds,
     description: "Alerting config description"
   };
