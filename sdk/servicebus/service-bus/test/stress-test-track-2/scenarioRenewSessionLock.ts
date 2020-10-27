@@ -28,6 +28,7 @@ interface ScenarioRenewSessionLockOptions {
    * If this flag is set to true, manual lock renewal is disabled, related logging is also gone with it
    */
   autoLockRenewal?: boolean;
+  settleMessageOnReceive?: boolean;
 }
 
 function sanitizeOptions(
@@ -41,7 +42,8 @@ function sanitizeOptions(
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    autoLockRenewal: options.autoLockRenewal || false
+    autoLockRenewal: options.autoLockRenewal || false,
+    settleMessageOnReceive: options.settleMessageOnReceive || true
   };
 }
 
@@ -58,7 +60,8 @@ export async function scenarioRenewSessionLock() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
-    autoLockRenewal
+    autoLockRenewal,
+    settleMessageOnReceive
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -104,7 +107,8 @@ export async function scenarioRenewSessionLock() {
         await stressBase.receiveMessages(
           receiver,
           receiveBatchMaxMessageCount,
-          receiveBatchMaxWaitTimeInMs
+          receiveBatchMaxWaitTimeInMs,
+          settleMessageOnReceive
         );
         receivers.push(receiver);
         if (!autoLockRenewal) {
