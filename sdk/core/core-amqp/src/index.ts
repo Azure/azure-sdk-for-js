@@ -17,8 +17,8 @@ export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfi
 
 export { CbsClient, CbsResponse } from "./cbs";
 export { Constants } from "./util/constants";
-export { MessageHeader } from "./messageHeader";
-export { MessageProperties } from "./messageProperties";
+export { AmqpMessageHeader } from "./messageHeader";
+export { AmqpMessageProperties } from "./messageProperties";
 export {
   ConnectionContextBase,
   ConnectionProperties,
@@ -29,7 +29,7 @@ export {
   Message as AmqpMessage,
   isAmqpError,
   MessageHeader as RheaAmqpMessageHeader,
-  MessageProperties as RheaRheaAmqpMessageProperties
+  MessageProperties as RheaAmqpMessageProperties
 } from "rhea-promise";
 export {
   MessagingError,

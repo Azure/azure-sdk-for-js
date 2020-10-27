@@ -8,7 +8,7 @@ import { logger } from "./log";
 /**
  * Describes the defined set of standard properties of the message.
  */
-export interface MessageProperties {
+export interface AmqpMessageProperties {
   /**
    * @property {string | number | Buffer} [messageId] The application message identifier that uniquely identifies a message.
    * The user is responsible for making sure that this is unique in the given context. Guids usually make a good fit.
@@ -68,15 +68,15 @@ export interface MessageProperties {
 
 /**
  * Describes the operations that can be performed on the amqp message properties.
- * @module MessageProperties
+ * @module AmqpMessageProperties
  */
-export const MessageProperties = {
+export const AmqpMessageProperties = {
   /**
    * Converts MessageProperties to RheaAmqpMessageProperties.
    * @param {MessageProperties} props Message properties.
    * @returns {RheaAmqpMessageProperties} RheaAmqpMessageProperties.
    */
-  toRheaAmqpMessageProperties(props: MessageProperties): RheaAmqpMessageProperties {
+  toRheaAmqpMessageProperties(props: AmqpMessageProperties): RheaAmqpMessageProperties {
     const amqpProperties: RheaAmqpMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
       amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
@@ -125,10 +125,10 @@ export const MessageProperties = {
   /**
    * Converts RheaAmqpMessageProperties to MessageProperties.
    * @param {RheaAmqpMessageProperties} props Amqp message properties.
-   * @returns {MessageProperties} MessageProperties.
+   * @returns {AmqpMessageProperties} MessageProperties.
    */
-  fromRheaAmqpMessageProperties(props: RheaAmqpMessageProperties): MessageProperties {
-    const msgProperties: MessageProperties = {};
+  fromRheaAmqpMessageProperties(props: RheaAmqpMessageProperties): AmqpMessageProperties {
+    const msgProperties: AmqpMessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
       msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
     }

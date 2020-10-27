@@ -8,8 +8,6 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import { Message as AmqpMessage } from 'rhea-promise';
-import { MessageHeader as AmqpMessageHeader } from 'rhea-promise';
-import { MessageProperties as AmqpMessageProperties } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
@@ -18,6 +16,8 @@ import { isTokenCredential } from '@azure/core-auth';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
+import { MessageHeader as RheaAmqpMessageHeader } from 'rhea-promise';
+import { MessageProperties as RheaAmqpMessageProperties } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
@@ -28,9 +28,43 @@ export { AccessToken }
 
 export { AmqpMessage }
 
-export { AmqpMessageHeader }
+// @public
+export interface AmqpMessageHeader {
+    deliveryCount?: number;
+    durable?: boolean;
+    firstAcquirer?: boolean;
+    priority?: number;
+    ttl?: number;
+}
 
-export { AmqpMessageProperties }
+// @public
+export const AmqpMessageHeader: {
+    toRheaAmqpMessageHeader(props: AmqpMessageHeader): RheaAmqpMessageHeader;
+    fromRheaAmqpMessageHeader(props: RheaAmqpMessageHeader): AmqpMessageHeader;
+};
+
+// @public
+export interface AmqpMessageProperties {
+    absoluteExpiryTime?: number;
+    contentEncoding?: string;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    creationTime?: number;
+    groupId?: string;
+    groupSequence?: number;
+    messageId?: string | number | Buffer;
+    replyTo?: string;
+    replyToGroupId?: string;
+    subject?: string;
+    to?: string;
+    userId?: string;
+}
+
+// @public
+export const AmqpMessageProperties: {
+    toRheaAmqpMessageProperties(props: AmqpMessageProperties): RheaAmqpMessageProperties;
+    fromRheaAmqpMessageProperties(props: RheaAmqpMessageProperties): AmqpMessageProperties;
+};
 
 export { AsyncLock }
 
@@ -502,44 +536,6 @@ export { isTokenCredential }
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export interface MessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    ttl?: number;
-}
-
-// @public
-export const MessageHeader: {
-    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-};
-
-// @public
-export interface MessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
-
-// @public
-export const MessageProperties: {
-    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-};
-
-// @public
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
@@ -654,6 +650,10 @@ export interface RetryOptions {
     retryDelayInMs?: number;
     timeoutInMs?: number;
 }
+
+export { RheaAmqpMessageHeader }
+
+export { RheaAmqpMessageProperties }
 
 // @public
 export interface SendRequestOptions {

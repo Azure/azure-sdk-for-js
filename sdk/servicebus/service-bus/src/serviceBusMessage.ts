@@ -7,8 +7,8 @@ import {
   AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
-  MessageHeader,
-  MessageProperties,
+  AmqpMessageHeader as CoreAmqpMessageHeader,
+  AmqpMessageProperties as CoreAmqpMessageProperties,
   translate
 } from "@azure/core-amqp";
 import { messageLogger as logger, receiverLogger } from "./log";
@@ -711,14 +711,14 @@ export function fromAmqpMessage(
  * @ignore
  */
 export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
-  const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);
+  const messageHeader = CoreAmqpMessageHeader.fromRheaAmqpMessageHeader(msg);
   return {
     header: { ...messageHeader, timeToLive: messageHeader.ttl },
     footer: (msg as any).footer,
     messageAnnotations: msg.message_annotations,
     deliveryAnnotations: msg.delivery_annotations,
     applicationProperties: msg.application_properties,
-    properties: MessageProperties.fromAmqpMessageProperties(msg),
+    properties: CoreAmqpMessageProperties.fromRheaAmqpMessageProperties(msg),
     body: msg.body
   };
 }
