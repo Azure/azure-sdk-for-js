@@ -356,6 +356,7 @@ async function main(argv) {
   const packageJsonContents = await packageUtils.readFileJson(
     packageJsonLocation
   );
+  const allowedVersionList = await insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackage.packageName, versionType, testFolder);
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (dryRun) {
     console.log("Dry run only, no changes");
