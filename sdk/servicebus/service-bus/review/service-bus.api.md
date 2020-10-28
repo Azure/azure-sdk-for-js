@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { AmqpMessageHeader } from '@azure/core-amqp';
 import { AmqpMessageProperties } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
@@ -24,25 +25,6 @@ import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
-
-// @public
-export interface AmqpAnnotatedMessage {
-    applicationProperties?: {
-        [key: string]: any;
-    };
-    body: any;
-    deliveryAnnotations?: {
-        [key: string]: any;
-    };
-    footer?: {
-        [key: string]: any;
-    };
-    header?: AmqpMessageHeader;
-    messageAnnotations?: {
-        [key: string]: any;
-    };
-    properties?: AmqpMessageProperties;
-}
 
 export { AmqpMessageHeader }
 
