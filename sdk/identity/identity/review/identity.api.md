@@ -83,7 +83,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
-    includeX5c?: boolean;
+    sendCertificateChain?: boolean;
 }
 
 // @public
