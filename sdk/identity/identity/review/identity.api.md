@@ -93,13 +93,6 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
-    authenticationRecord?: AuthenticationRecord;
-    cachePath?: string;
-    persistenceEnabled?: boolean;
-}
-
-// @public
 export class CredentialUnavailable extends Error {
 }
 

@@ -8,7 +8,6 @@ export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export { TokenCredentialOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
-export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
