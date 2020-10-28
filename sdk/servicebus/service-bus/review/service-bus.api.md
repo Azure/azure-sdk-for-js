@@ -6,7 +6,7 @@
 
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpOperationResponse } from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
 import { isMessagingError } from '@azure/core-amqp';
 import Long from 'long';
 import { MessageErrorCodes } from '@azure/core-amqp';
@@ -557,7 +557,7 @@ export { WebSocketOptions }
 
 // @public
 export type WithResponse<T extends object> = T & {
-    _response: HttpOperationResponse;
+    _response: HttpResponse;
 };
 
 
