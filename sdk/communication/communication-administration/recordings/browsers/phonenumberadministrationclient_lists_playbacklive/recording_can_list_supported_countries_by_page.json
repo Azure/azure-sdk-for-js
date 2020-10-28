@@ -1,0 +1,25 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/countries",
+      "query": {
+        "locale": "en-US",
+        "skip": "0",
+        "take": "5",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"countries\":[{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "4c49269ca7a837cc2e9de446d9e88b76"
+}

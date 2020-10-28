@@ -54,8 +54,14 @@ export interface BeginReleasePhoneNumbersOptions
 export interface BeginReservePhoneNumbersOptions
   extends PhoneNumberPollerOptionsBase,
     OperationOptions {
+  /**
+   * The amount of phone numbers to search for and reserve.
+   */
   quantity?: number;
 
+  /**
+   * Additional location options to apply to the list of phone numbers being reserved.
+   */
   locationOptions?: LocationOptionsDetails[];
 }
 

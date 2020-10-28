@@ -53,9 +53,7 @@ export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOption
 
 // @public
 export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
-    // (undocumented)
     locationOptions?: LocationOptionsDetails[];
-    // (undocumented)
     quantity?: number;
 }
 

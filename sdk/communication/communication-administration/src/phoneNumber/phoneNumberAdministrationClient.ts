@@ -77,6 +77,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
 import { ReservePhoneNumbersPoller } from "./lro/reserve/poller";
 import { PurchaseReservationPoller } from "./lro/purchase/poller";
+import { getSkipTakeFromNextLink } from "./utils";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -459,6 +460,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getAllSearches(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
@@ -537,6 +544,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getAllReleases(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
@@ -615,6 +628,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getAllSupportedCountries(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
@@ -694,6 +713,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getAllPhoneNumbers(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
@@ -774,6 +799,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getPhonePlanGroups(countryCode, options);
       continuationState.continuationToken = currentResponse.nextLink;
 
@@ -862,6 +893,12 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
+      const skipTake = getSkipTakeFromNextLink(continuationState.continuationToken);
+      if (skipTake.length === 2) {
+        options.skip = skipTake[0];
+        options.take = skipTake[1];
+      }
+
       const currentResponse = await this.client.getPhonePlans(
         planGroupInfo.countryCode,
         planGroupInfo.phonePlanGroupId,

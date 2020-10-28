@@ -11,7 +11,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"countries\":[{\"localizedName\":\"Australia\",\"countryCode\":\"AU\"},{\"localizedName\":\"Japan\",\"countryCode\":\"JP\"},{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
+      "response": "{\"countries\":[{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -21,5 +21,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "a64778200ecc73a3a09c66c90365e4dd"
+  "hash": "7d7ef85b34cc9b5e9d8486404032f8e0"
 }

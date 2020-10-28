@@ -1,0 +1,73 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/phonenumbers",
+      "query": {
+        "locale": "en-US",
+        "skip": "0",
+        "take": "5",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\",\"OutboundCalling\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundA2PSms\",\"TollFree\",\"InboundA2PSms\",\"OutboundCalling\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"}],\"nextLink\":\"https://endpoint/administration/phonenumbers/phonenumbers?locale=en-US&skip=5&take=5&api-version=2020-07-20-preview1\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/phonenumbers",
+      "query": {
+        "locale": "en-US",
+        "skip": "5",
+        "take": "5",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"OutboundCalling\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"}],\"nextLink\":\"https://endpoint/administration/phonenumbers/phonenumbers?locale=en-US&skip=10&take=5&api-version=2020-07-20-preview1\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/phonenumbers",
+      "query": {
+        "locale": "en-US",
+        "skip": "10",
+        "take": "5",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"TollFree\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"OutboundCalling\",\"UserAssignment\",\"Geographic\"],\"availableCapabilities\":[\"UserAssignment\",\"Geographic\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Camden, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"Geographic\"],\"availableCapabilities\":[\"ConferenceAssignment\",\"Geographic\",\"FirstPartyAppAssignment\",\"ThirdPartyAppAssignment\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Grand Junction, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\",\"OutboundCalling\"],\"availableCapabilities\":[\"UserAssignment\",\"Geographic\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Grand Junction, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\",\"OutboundCalling\"],\"availableCapabilities\":[\"UserAssignment\",\"Geographic\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Grand Junction, United States\",\"activationState\":\"Activated\"}],\"nextLink\":\"https://endpoint/administration/phonenumbers/phonenumbers?locale=en-US&skip=15&take=5&api-version=2020-07-20-preview1\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/phonenumbers",
+      "query": {
+        "locale": "en-US",
+        "skip": "15",
+        "take": "5",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "3640903f08a171d2ea050ed4c4ef884d"
+}
