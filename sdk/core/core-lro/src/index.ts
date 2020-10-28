@@ -14,7 +14,8 @@ export {
   LROOperationStep,
   LROOperationState,
   LROStrategy,
-  LROOperation
+  LROOperation,
+  FinalStateVia
 } from "./models";
 export { makeOperation } from "./operation";
 export * from "./locationStrategy";

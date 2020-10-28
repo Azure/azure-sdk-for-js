@@ -74,12 +74,14 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
             return currentOperation;
           case "location":
           default:
+            // eslint-disable-next-line no-case-declarations
             const location = initialOperationResult.location || currentOperationResult.location;
 
             if (!location) {
               throw new Error("Couldn't determine final GET URL from location");
             }
 
+            // eslint-disable-next-line no-case-declarations
             const result: LROOperationStep<TResult> = await sendFinalGet(
               initialOperation,
               sendOperationFn,

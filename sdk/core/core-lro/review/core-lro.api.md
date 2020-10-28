@@ -31,12 +31,13 @@ export function createBodyPollingStrategy<TResult extends BaseResult>(initialOpe
 export function createLocationStrategy<TResult extends BaseResult>(initialOperation: LROOperationStep<TResult>, sendOperationFn: SendOperationFn<TResult>): LROStrategy<TResult>;
 
 // @public (undocumented)
+export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
+
+// @public (undocumented)
 export type LROOperation<TResult extends BaseResult> = PollOperation<LROOperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface LROOperationState<TResult extends BaseResult> extends PollOperationState<TResult> {
-    // Warning: (ae-forgotten-export) The symbol "FinalStateVia" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     finalStateVia?: FinalStateVia;
     // (undocumented)
