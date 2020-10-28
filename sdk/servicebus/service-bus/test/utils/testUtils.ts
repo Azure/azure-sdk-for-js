@@ -4,6 +4,9 @@
 import chai from "chai";
 import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
+import { ConnectionContext } from "../../src/connectionContext";
+import { ReceiveOptions } from "../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 dotenv.config();
 
 export class TestMessage {
@@ -30,8 +33,7 @@ export class TestMessage {
         propTwo: "two",
         propThree: true,
         propFour: Date()
-      },
-      userId: `${randomTag} userId`
+      }
     };
   }
 
@@ -54,8 +56,7 @@ export class TestMessage {
         propThree: true
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id",
-      userId: `${randomNumber} userId`
+      replyToSessionId: "some-other-session-id"
     };
   }
 
@@ -127,8 +128,6 @@ export class TestMessage {
         `Unexpected partitionKey in received msg`
       );
     }
-
-    chai.assert.equal(received.userId, sent.userId, "Unexpected userId in received msg");
   }
 }
 
@@ -204,9 +203,37 @@ export enum EntityNames {
 }
 
 /**
- * Utility to check if given error is instance of `MessagingError`
- * @param err
+ * Create and initialize a streaming receiver using a given context and entityPath.
+ *
+ * Defaults to peekLock, with no auto lock renewal.
  */
-export function isMessagingError(err: any): err is MessagingError {
-  return err.name === "MessagingError";
+export async function createAndInitStreamingReceiverForTest(
+  context: ConnectionContext,
+  entityPath: string,
+  receiveOptions?: ReceiveOptions
+): Promise<StreamingReceiver> {
+  const streamingReceiver = new StreamingReceiver(
+    context,
+    entityPath,
+    receiveOptions ?? {
+      receiveMode: "peekLock",
+      lockRenewer: undefined
+    }
+  );
+
+  let err: Error | MessagingError | undefined;
+
+  await streamingReceiver.init({
+    useNewName: false,
+    connectionId: context.connectionId,
+    onError: (args) => {
+      err = args.error;
+    }
+  });
+
+  if (err) {
+    throw err;
+  }
+
+  return streamingReceiver;
 }

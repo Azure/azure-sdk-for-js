@@ -33,6 +33,8 @@ export {
 } from "rhea-promise";
 export {
   MessagingError,
+  MessageErrorCodes,
+  isMessagingError,
   ErrorNameConditionMapper,
   ConditionStatusMapper,
   ConditionErrorNameMapper,

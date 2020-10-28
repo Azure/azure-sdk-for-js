@@ -682,7 +682,7 @@ export class PhoneNumberAdministration {
    */
   getSearchById(
     searchId: string,
-    callback: coreHttp.ServiceCallback<Models.PhoneNumberSearch>
+    callback: coreHttp.ServiceCallback<Models.PhoneNumberReservation>
   ): void;
   /**
    * @param searchId The search id to be searched for
@@ -692,12 +692,12 @@ export class PhoneNumberAdministration {
   getSearchById(
     searchId: string,
     options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.PhoneNumberSearch>
+    callback: coreHttp.ServiceCallback<Models.PhoneNumberReservation>
   ): void;
   getSearchById(
     searchId: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PhoneNumberSearch>,
-    callback?: coreHttp.ServiceCallback<Models.PhoneNumberSearch>
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PhoneNumberReservation>,
+    callback?: coreHttp.ServiceCallback<Models.PhoneNumberReservation>
   ): Promise<Models.PhoneNumberAdministrationGetSearchByIdResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1173,7 +1173,7 @@ const getSearchByIdOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
-      bodyMapper: Mappers.PhoneNumberSearch
+      bodyMapper: Mappers.PhoneNumberReservation
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
