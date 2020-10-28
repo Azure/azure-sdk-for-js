@@ -682,20 +682,20 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSettings: msRest.CompositeMapper = {
-  serializedName: "NetworkSettings",
+export const NetworkProperties: msRest.CompositeMapper = {
+  serializedName: "NetworkProperties",
   type: {
     name: "Composite",
-    className: "NetworkSettings",
+    className: "NetworkProperties",
     modelProperties: {
-      publicNetworkAccess: {
-        serializedName: "publicNetworkAccess",
+      resourceProviderConnection: {
+        serializedName: "resourceProviderConnection",
         type: {
           name: "String"
         }
       },
-      outboundOnlyPublicNetworkAccessType: {
-        serializedName: "outboundOnlyPublicNetworkAccessType",
+      privateLink: {
+        serializedName: "privateLink",
         type: {
           name: "String"
         }
@@ -855,11 +855,11 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      networkSettings: {
-        serializedName: "networkSettings",
+      networkProperties: {
+        serializedName: "networkProperties",
         type: {
           name: "Composite",
-          className: "NetworkSettings"
+          className: "NetworkProperties"
         }
       }
     }
@@ -1105,6 +1105,12 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
           ]
         }
       },
+      clusterId: {
+        serializedName: "clusterId",
+        type: {
+          name: "String"
+        }
+      },
       clusterDefinition: {
         required: true,
         serializedName: "clusterDefinition",
@@ -1210,11 +1216,11 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      networkSettings: {
-        serializedName: "networkSettings",
+      networkProperties: {
+        serializedName: "networkProperties",
         type: {
           name: "Composite",
-          className: "NetworkSettings"
+          className: "NetworkProperties"
         }
       }
     }
