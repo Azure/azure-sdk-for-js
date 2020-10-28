@@ -26,6 +26,30 @@ import { WebSocketImpl } from 'rhea-promise';
 
 export { AccessToken }
 
+// @public
+export interface AmqpAnnotatedMessage {
+    applicationProperties?: {
+        [key: string]: any;
+    };
+    body: any;
+    deliveryAnnotations?: {
+        [key: string]: any;
+    };
+    footer?: {
+        [key: string]: any;
+    };
+    header?: AmqpMessageHeader;
+    messageAnnotations?: {
+        [key: string]: any;
+    };
+    properties?: AmqpMessageProperties;
+}
+
+// @public
+export const AmqpAnnotatedMessage: {
+    fromRheaAmqpMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
+};
+
 export { AmqpMessage }
 
 // @public

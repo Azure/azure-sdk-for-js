@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
-import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
 import {
+  AmqpAnnotatedMessage,
   AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
-  translate,
-  AmqpMessageHeader,
-  AmqpMessageProperties
+  translate
 } from "@azure/core-amqp";
-import { messageLogger as logger, receiverLogger } from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
+import Long from "long";
+import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
+import { ConnectionContext } from "./connectionContext";
 import { DispositionStatusOptions } from "./core/managementClient";
+import { messageLogger as logger, receiverLogger } from "./log";
 import { ReceiveMode } from "./models";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { reorderLockToken } from "./util/utils";
 
 /**
  * @internal
@@ -218,41 +217,6 @@ export interface ServiceBusMessage {
    * @property The identity of the user producing the message.
    */
   userId?: string;
-}
-
-/**
- * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
- */
-export interface AmqpAnnotatedMessage {
-  /**
-   * Describes the defined set of standard header properties of the message.
-   */
-  header?: AmqpMessageHeader;
-  /**
-   * Describes set of footer properties of the message.
-   */
-  footer?: { [key: string]: any };
-  /**
-   * A dictionary containing message attributes that will be held in the message header
-   */
-  messageAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary used for delivery-specific
-   * non-standard properties at the head of the message.
-   */
-  deliveryAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary containing application specific message properties.
-   */
-  applicationProperties?: { [key: string]: any };
-  /**
-   *  Describes the defined set of standard properties of the message.
-   */
-  properties?: AmqpMessageProperties;
-  /**
-   * The message body.
-   */
-  body: any;
 }
 
 /**
@@ -584,7 +548,7 @@ export function fromAmqpMessage(
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
+    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaAmqpMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -607,27 +571,6 @@ export function fromAmqpMessage(
 
   logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
-}
-
-/**
- * Takes AmqpMessage(type from "rhea") and returns it in the AmqpAnnotatedMessage format.
- *
- * @export
- * @param {AmqpMessage} msg
- * @returns {AmqpAnnotatedMessage}
- * @internal
- * @ignore
- */
-export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
-  return {
-    header: AmqpMessageHeader.fromRheaAmqpMessageHeader(msg),
-    footer: (msg as any).footer,
-    messageAnnotations: msg.message_annotations,
-    deliveryAnnotations: msg.delivery_annotations,
-    applicationProperties: msg.application_properties,
-    properties: AmqpMessageProperties.fromRheaAmqpMessageProperties(msg),
-    body: msg.body
-  };
 }
 
 /**
@@ -858,7 +801,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
-    this._amqpAnnotatedMessage = toAmqpAnnotatedMessage(msg);
+    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaAmqpMessage(msg);
     this.delivery = delivery;
   }
 
