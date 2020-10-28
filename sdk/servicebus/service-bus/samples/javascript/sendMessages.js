@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
@@ -33,7 +34,8 @@ const listOfScientists = [
   { name: "Kepler", firstName: "Johannes" },
   { name: "Kopernikus", firstName: "Nikolaus" }
 ];
-async function main() {
+
+export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // createSender() can also be used to create a sender for a topic.
@@ -44,10 +46,10 @@ async function main() {
       const scientist = listOfScientists[index];
       const message = {
         body: `${scientist.firstName} ${scientist.name}`,
-        label: "Scientist"
+        subject: "Scientist"
       };
 
-      console.log(`Sending message: ${message.body} - ${message.label}`);
+      console.log(`Sending message: ${message.body} - ${message.subject}`);
       await sender.sendMessages(message);
     }
 

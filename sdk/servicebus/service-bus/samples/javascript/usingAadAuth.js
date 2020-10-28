@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to create a namespace using AAD token credentials
@@ -35,7 +36,8 @@ const serviceBusEndpoint =
 const tenantId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
-async function main() {
+
+export async function main() {
   const tokenCreds = new DefaultAzureCredential();
 
   const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);

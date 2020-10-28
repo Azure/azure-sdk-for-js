@@ -64,7 +64,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
     `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
   );
 
-  await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+  await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
 }
 
 async function receiveMessages(sbClient: ServiceBusClient) {

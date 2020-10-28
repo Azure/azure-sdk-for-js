@@ -43,7 +43,7 @@ export async function main() {
       }
 
       console.log(`Received message #${i}: ${messages[0].body}`);
-      await messages[0].complete();
+      await queueReceiver.completeMessage(messages[0]);
     }
     await queueReceiver.close();
   } finally {

@@ -2,10 +2,11 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
-  This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
+  This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
   See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
@@ -20,6 +21,7 @@ require("dotenv").config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
+
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
   { lastName: "Heisenberg", firstName: "Werner" },
@@ -33,7 +35,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main() {
+export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   try {
     await sendScheduledMessages(sbClient);
@@ -61,7 +63,7 @@ async function sendScheduledMessages(sbClient) {
     `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
   );
 
-  await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+  await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
 }
 
 async function receiveMessages(sbClient) {
@@ -80,6 +82,7 @@ async function receiveMessages(sbClient) {
   };
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
+
   queueReceiver.subscribe({
     processMessage,
     processError
@@ -89,13 +92,15 @@ async function receiveMessages(sbClient) {
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
-
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
+
   queueReceiver = sbClient.createReceiver(queueName);
+
   queueReceiver.subscribe({
     processMessage,
     processError
   });
+
   await delay(5000);
   await queueReceiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);

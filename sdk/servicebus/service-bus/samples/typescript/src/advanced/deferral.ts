@@ -127,7 +127,7 @@ async function receiveMessage() {
       const [message] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (message) {
         console.log("Process deferred message:", message.body);
-        await message.complete();
+        await receiver.completeMessage(message);
       } else {
         console.log("No message found for step number ", step);
       }

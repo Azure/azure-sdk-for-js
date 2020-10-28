@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
@@ -23,7 +24,7 @@ require("dotenv").config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-async function main() {
+export async function main() {
   await sendMessages();
   await receiveMessage();
 }
@@ -69,7 +70,7 @@ async function sendMessages() {
 async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
+  // If receiving from a subscription, you can use the createReceiver(topic, subscription) overload
   let receiver = sbClient.createReceiver(queueName);
 
   const deferredSteps = new Map();
@@ -106,6 +107,7 @@ async function receiveMessage() {
     const processError = async (args) => {
       console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
     };
+
     receiver.subscribe(
       { processMessage, processError },
       {
@@ -124,7 +126,7 @@ async function receiveMessage() {
       const [message] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (message) {
         console.log("Process deferred message:", message.body);
-        await message.complete();
+        await receiver.completeMessage(message);
       } else {
         console.log("No message found for step number ", step);
       }

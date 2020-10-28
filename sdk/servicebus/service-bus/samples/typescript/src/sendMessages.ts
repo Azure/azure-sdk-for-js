@@ -47,10 +47,10 @@ export async function main() {
       const scientist = listOfScientists[index];
       const message: ServiceBusMessage = {
         body: `${scientist.firstName} ${scientist.name}`,
-        label: "Scientist"
+        subject: "Scientist"
       };
 
-      console.log(`Sending message: ${message.body} - ${message.label}`);
+      console.log(`Sending message: ${message.body} - ${message.subject}`);
       await sender.sendMessages(message);
     }
 

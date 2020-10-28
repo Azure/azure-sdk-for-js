@@ -78,7 +78,7 @@ async function receiveFromNextSession(serviceBusClient) {
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
-      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
     if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {

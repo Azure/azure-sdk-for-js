@@ -46,7 +46,7 @@ async function processDeadletterMessageQueue() {
     await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await messages[0].complete();
+    await receiver.completeMessage(messages[0]);
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }

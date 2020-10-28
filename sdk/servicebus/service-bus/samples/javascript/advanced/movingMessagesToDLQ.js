@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
   
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
@@ -22,7 +23,7 @@ const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connecti
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
-async function main() {
+export async function main() {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -61,7 +62,7 @@ async function receiveMessage() {
       messages[0].body
     );
     // Deadletter the message received
-    await messages[0].deadLetter({
+    await receiver.deadLetterMessage(messages[0], {
       deadLetterReason: "Incorrect Recipe type",
       deadLetterErrorDescription: "Recipe type does not match preferences."
     });
