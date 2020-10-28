@@ -141,11 +141,6 @@ export interface CreateReservationResponse {
 }
 
 // @public
-export interface CreateSearchResponse {
-    searchId: string;
-}
-
-// @public
 export type CreateUserResponse = WithResponse<CommunicationUser>;
 
 // @public
@@ -323,14 +318,6 @@ export interface PhoneNumberAdministrationClientOptions extends PipelineOptions 
 }
 
 // @public
-export type PhoneNumberAdministrationCreateSearchResponse = CreateSearchResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateSearchResponse;
-    };
-};
-
-// @public
 export type PhoneNumberAdministrationGetAllAreaCodesResponse = AreaCodes & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -367,14 +354,6 @@ export type PhoneNumberAdministrationGetReleaseByIdResponse = PhoneNumberRelease
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: PhoneNumberRelease;
-    };
-};
-
-// @public
-export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberReservation & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PhoneNumberReservation;
     };
 };
 

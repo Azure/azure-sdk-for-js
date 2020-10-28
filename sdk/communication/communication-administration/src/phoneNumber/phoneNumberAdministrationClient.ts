@@ -1044,9 +1044,7 @@ export {
   PhoneNumberAdministrationReleasePhoneNumbersResponse,
   PhoneNumberAdministrationGetReleaseByIdResponse,
   PhoneNumberAdministrationGetCapabilitiesUpdateResponse,
-  PhoneNumberAdministrationGetSearchByIdResponse,
   PhoneNumberAdministrationGetNumberConfigurationResponse,
-  PhoneNumberAdministrationCreateSearchResponse,
   PhoneNumberAdministrationGetPhonePlanLocationOptionsResponse,
   PstnConfiguration,
   ReleaseResponse,
@@ -1080,6 +1078,5 @@ export {
   SearchStatus,
   LocationOptionsResponse,
   NumberConfigurationResponse,
-  LocationOptionsQueries,
-  CreateSearchResponse
+  LocationOptionsQueries
 } from "./generated/src/models";
