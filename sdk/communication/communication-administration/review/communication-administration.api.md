@@ -11,6 +11,8 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -42,7 +44,23 @@ export interface AreaCodes {
 export type AssignmentStatus = "Unassigned" | "Unknown" | "UserAssigned" | "ConferenceAssigned" | "FirstPartyAppAssigned" | "ThirdPartyAppAssigned";
 
 // @public
-export type CancelSearchOptions = OperationOptions;
+export interface BeginPurchaseReservationOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+}
+
+// @public
+export interface BeginReleasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+}
+
+// @public
+export interface BeginReservePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+    // (undocumented)
+    locationOptions?: LocationOptionsDetails[];
+    // (undocumented)
+    quantity?: number;
+}
+
+// @public
+export type CancelReservationOptions = OperationOptions;
 
 // @public
 export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
@@ -100,15 +118,15 @@ export interface ConfigurePhoneNumberRequest {
 }
 
 // @public
-export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+export type CreatePhoneNumberReservationResponse = WithResponse<CreateReservationResponse>;
 
 // @public
-export interface CreateSearchOptions extends OperationOptions {
+export interface CreateReservationOptions extends OperationOptions {
     locationOptions?: LocationOptionsDetails[];
 }
 
 // @public
-export interface CreateSearchRequest {
+export interface CreateReservationRequest {
     areaCode: string;
     description: string;
     name: string;
@@ -116,9 +134,10 @@ export interface CreateSearchRequest {
     quantity: number;
 }
 
-// @public
-export interface CreateSearchResponse {
-    searchId: string;
+// @public (undocumented)
+export interface CreateReservationResponse {
+    // (undocumented)
+    reservationId: string;
 }
 
 // @public
@@ -173,10 +192,10 @@ export type GetReleaseOptions = OperationOptions;
 export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 
 // @public
-export type GetSearchOptions = OperationOptions;
+export type GetReservationOptions = OperationOptions;
 
 // @public
-export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
+export type GetReservationResponse = WithResponse<PhoneNumberReservation>;
 
 // @public
 export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
@@ -274,23 +293,22 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
-    cancelSearch(searchId: string, options?: CancelSearchOptions): Promise<VoidResponse>;
+    beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
+    beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>>;
+    cancelReservation(reservationId: string, options?: CancelReservationOptions): Promise<VoidResponse>;
     configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
-    createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
     getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: GetCapabilitiesUpdateOptions): Promise<GetCapabilitiesUpdateResponse>;
     getPhoneNumberConfiguration(phoneNumber: string, options?: GetPhoneNumberConfigurationOptions): Promise<GetPhoneNumberConfigurationResponse>;
     getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
-    getRelease(releaseId: string, options?: GetReleaseOptions): Promise<GetReleaseResponse>;
-    getSearch(searchId: string, options?: GetSearchOptions): Promise<GetSearchResponse>;
+    getReservation(reservationId: string, options?: GetReservationOptions): Promise<GetReservationResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
     listPhonePlans(planGroupInfo: ListPhonePlansRequest, options?: ListPhonePlansOptions): PagedAsyncIterableIterator<PhonePlan>;
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    purchaseSearch(searchId: string, options?: PurchaseSearchOptions): Promise<VoidResponse>;
-    releasePhoneNumbers(phoneNumbers: string[], options?: ReleasePhoneNumberOptions): Promise<ReleasePhoneNumbersResponse>;
     unconfigurePhoneNumber(phoneNumber: string, options?: UnconfigurePhoneNumberOptions): Promise<VoidResponse>;
     updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
@@ -298,14 +316,6 @@ export class PhoneNumberAdministrationClient {
 // @public
 export interface PhoneNumberAdministrationClientOptions extends PipelineOptions {
 }
-
-// @public
-export type PhoneNumberAdministrationCreateSearchResponse = CreateSearchResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateSearchResponse;
-    };
-};
 
 // @public
 export type PhoneNumberAdministrationGetAllAreaCodesResponse = AreaCodes & {
@@ -344,14 +354,6 @@ export type PhoneNumberAdministrationGetReleaseByIdResponse = PhoneNumberRelease
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: PhoneNumberRelease;
-    };
-};
-
-// @public
-export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberSearch & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PhoneNumberSearch;
     };
 };
 
@@ -398,6 +400,12 @@ export interface PhoneNumberEntity {
 }
 
 // @public
+export interface PhoneNumberPollerOptionsBase {
+    pollInterval?: number;
+    resumeFrom?: string;
+}
+
+// @public
 export interface PhoneNumberRelease {
     createdAt?: Date;
     errorMessage?: string;
@@ -418,7 +426,7 @@ export interface PhoneNumberReleaseDetails {
 export type PhoneNumberReleaseStatus = "Pending" | "Success" | "Error" | "InProgress";
 
 // @public
-export interface PhoneNumberSearch {
+export interface PhoneNumberReservation {
     areaCode?: string;
     createdAt?: Date;
     description?: string;
@@ -429,7 +437,7 @@ export interface PhoneNumberSearch {
     phonePlanIds?: string[];
     quantity?: number;
     reservationExpiryDate?: Date;
-    searchId?: string;
+    reservationId?: string;
     status?: SearchStatus;
 }
 
@@ -477,7 +485,7 @@ export interface PstnConfiguration {
 }
 
 // @public
-export type PurchaseSearchOptions = OperationOptions;
+export type PurchaseReservationOptions = OperationOptions;
 
 // @public
 export interface RateInformation {
@@ -487,10 +495,7 @@ export interface RateInformation {
 }
 
 // @public
-export type RefreshSearchOptions = OperationOptions;
-
-// @public
-export type ReleasePhoneNumberOptions = OperationOptions;
+export type ReleasePhoneNumbersOptions = OperationOptions;
 
 // @public
 export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
