@@ -39,8 +39,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
       throw error;
     }
 
-    const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    const authenticationRecord = options?.authenticationRecord;
+    // const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
+    // const authenticationRecord = options?.authenticationRecord;
 
     if (options && options.redirectUri) {
       if (typeof options.redirectUri === "string") {
@@ -72,9 +72,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.msalClient = new MsalClient(
       { clientId, authority: authorityHost },
       tenantId,
-      persistenceEnabled,
-      authenticationRecord,
-      options?.cachePath,
+      false,
+      undefined,
+      undefined,
       options
     );
   }

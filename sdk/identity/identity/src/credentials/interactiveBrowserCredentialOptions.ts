@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
-import { AuthenticationRecord } from "../client/msalClient";
 
 /**
  * The "login style" to use in the authentication flow:
@@ -47,19 +46,4 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * The client (application) ID of an App Registration in the tenant.
    */
   clientId?: string;
-
-  /**
-   * Whether to persist the authentication cache.
-   */
-  persistenceEnabled?: boolean;
-
-  /**
-   * The authentication record to use to find existing tokens in the cache.
-   */
-  authenticationRecord?: AuthenticationRecord;
-
-  /**
-   * Path to the authentication cache, if file-based
-   */
-  cachePath?: string;
 }
