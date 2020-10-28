@@ -109,16 +109,9 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: DeviceCodeCredentialOptions);
+    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
-
-// @public
-export interface DeviceCodeCredentialOptions extends TokenCredentialOptions {
-    authenticationRecord?: AuthenticationRecord;
-    cachePath?: string;
-    persistenceEnabled?: boolean;
-}
 
 // @public
 export interface DeviceCodeInfo {

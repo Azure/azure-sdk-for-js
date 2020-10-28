@@ -28,7 +28,6 @@ export {
   DeviceCodePromptCallback,
   DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
-export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
 
 export {
   DefaultAzureCredential,

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
-import { DeviceCodeCredentialOptions } from "./deviceCodeCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { credentialLogger, formatError } from "../util/logging";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { TokenCredentialOptions } from "../client/identityClient";
 
 import { DeviceCodeRequest } from "@azure/msal-node";
 
@@ -74,7 +74,7 @@ export class DeviceCodeCredential implements TokenCredential {
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
-    options?: DeviceCodeCredentialOptions
+    options?: TokenCredentialOptions
   ) {
     if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
       const error = new Error(
@@ -85,9 +85,6 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
     this.userPromptCallback = userPromptCallback;
-
-    const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    const authenticationRecord = options?.authenticationRecord;
 
     let authorityHost;
     if (options && options.authorityHost) {
@@ -102,9 +99,9 @@ export class DeviceCodeCredential implements TokenCredential {
 
     this.msalClient = new MsalClient(
       { clientId: clientId, authority: authorityHost },
-      persistenceEnabled,
-      authenticationRecord,
-      options?.cachePath,
+      false,
+      undefined,
+      undefined,
       options
     );
   }
