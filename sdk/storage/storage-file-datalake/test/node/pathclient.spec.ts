@@ -10,7 +10,7 @@ import {
   DataLakeFileSystemClient,
   DataLakeServiceClient,
   PathAccessControlItem,
-  PathPermissions,
+  PathPermissions
 } from "../../src";
 import { toAcl, toRemoveAcl } from "../../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
@@ -393,7 +393,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setAccessControlRecursive should work", async () => {
@@ -603,7 +603,11 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     } catch (err) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
       assert.equal(err.innerError.name, "AbortError");
-      assert.equal(err.innerError.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.innerError.message,
+        "The operation was aborted.",
+        "Unexpected error caught: " + err
+      );
     }
 
     const result = await directoryClient.setAccessControlRecursive(
@@ -725,7 +729,6 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     // TODO: Cannot set up environment to reproduce progress failure due to service change
     // Blob Data Contributor unexpectedly doesn't have permission for setRecursiveAcl API
     // Check with feature team
-    
     // /directory
     // /directory/subdirectory1
     // /directory/subdirectory1/fileName1
@@ -735,7 +738,6 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     // Service client with SharedKey authentication creates following directories and files
     // /directory/subdirectory1/fileName5
     // /directory/subdirectory2/fileName6
-
     /*
 
     const token = "";

@@ -42,7 +42,7 @@ describe("MetricsAdvisorClient hooks", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
