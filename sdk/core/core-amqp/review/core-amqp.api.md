@@ -491,7 +491,7 @@ export { isAmqpError }
 export function isIotHubConnectionString(connectionString: string): boolean;
 
 // @public
-export function isMessagingError<knownErrorCodesOnly extends true | false = true>(error: Error | MessagingError<knownErrorCodesOnly>): error is MessagingError<knownErrorCodesOnly>;
+export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
 export const isNode: boolean;
@@ -546,10 +546,10 @@ export const MessageProperties: {
 };
 
 // @public
-export class MessagingError<knownErrorCodesOnly extends true | false = false> extends Error {
+export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: knownErrorCodesOnly extends true ? MessageErrorCodes : MessageErrorCodes | string;
+    code?: MessageErrorCodes | string;
     errno?: number | string;
     info?: any;
     name: string;

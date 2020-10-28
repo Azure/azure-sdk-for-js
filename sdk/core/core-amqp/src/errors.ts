@@ -626,9 +626,7 @@ export type MessageErrorCodes =
  *
  * @param error An error that can either be an Error or a MessagingError.
  */
-export function isMessagingError<knownErrorCodesOnly extends true | false = true>(
-  error: Error | MessagingError<knownErrorCodesOnly>
-): error is MessagingError<knownErrorCodesOnly> {
+export function isMessagingError(error: Error | MessagingError): error is MessagingError {
   return error.name === "MessagingError";
 }
 
@@ -637,7 +635,7 @@ export function isMessagingError<knownErrorCodesOnly extends true | false = true
  * @class {MessagingError}
  * @extends Error
  */
-export class MessagingError<knownErrorCodesOnly extends true | false = false> extends Error {
+export class MessagingError extends Error {
   /**
    * Address to which the network connection failed.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
@@ -646,7 +644,7 @@ export class MessagingError<knownErrorCodesOnly extends true | false = false> ex
   /**
    * A string label that identifies the error.
    */
-  code?: knownErrorCodesOnly extends true ? MessageErrorCodes : MessageErrorCodes | string;
+  code?: MessageErrorCodes | string;
   /**
    * System-provided error number.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
