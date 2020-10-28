@@ -1409,17 +1409,6 @@ export class ShareClient extends StorageClient {
       span.end();
     }
   }
-
-  // /**
-  //  * Get a {@link ShareLeaseClient} that manages leases on the share.
-  //  *
-  //  * @param {string} [proposeLeaseId] Initial proposed lease Id.
-  //  * @returns {ShareLeaseClient} A new ShareLeaseClient object for managing leases on the share.
-  //  * @memberof ShareClient
-  //  */
-  // public getShareLeaseClient(proposeLeaseId?: string) {
-  //   return new ShareLeaseClient(this, proposeLeaseId);
-  // }
 }
 
 /**
@@ -5860,7 +5849,6 @@ export class ShareLeaseClient {
    * @param {string} leaseId Initial proposed lease id.
    * @memberof ShareLeaseClient
    */
-  // constructor(client: ShareFileClient | ShareClient, leaseId?: string) {
   constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
       SERVICE_VERSION,
