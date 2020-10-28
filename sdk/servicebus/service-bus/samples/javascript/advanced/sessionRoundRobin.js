@@ -8,7 +8,7 @@
   Run the sendMessages sample with different session ids before running this sample.
 */
 
-const { ServiceBusClient, delay } = require("@azure/service-bus");
+const { ServiceBusClient, delay, isMessagingError } = require("@azure/service-bus");
 const dotenv = require("dotenv");
 const { AbortController } = require("@azure/abort-controller");
 
@@ -81,7 +81,10 @@ async function receiveFromNextSession(serviceBusClient) {
       maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {
+    if (
+      isMessagingError(err) &&
+      (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError")
+    ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
       await processError(err, undefined);

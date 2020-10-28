@@ -12,7 +12,7 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-const { delay, ServiceBusClient } = require("@azure/service-bus");
+const { delay, isMessagingError, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
