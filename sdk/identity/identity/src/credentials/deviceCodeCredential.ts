@@ -3,7 +3,7 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { createSpan } from "../util/tracing";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TokenCredentialOptions } from "../client/identityClient";
@@ -131,7 +131,7 @@ export class DeviceCodeCredential implements TokenCredential {
     return this.msalClient.acquireTokenFromCache().catch((e) => {
       if (e instanceof AuthenticationRequired) {
         try {
-          return this.acquireTokenByDeviceCode(deviceCodeRequest);
+          return this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
         } catch (err) {
           const code =
             err.name === AuthenticationErrorName
@@ -141,7 +141,7 @@ export class DeviceCodeCredential implements TokenCredential {
             code,
             message: err.message
           });
-          logger.getToken.info(err);
+          logger.getToken.info(formatError(err));
           throw err;
         } finally {
           span.end();
@@ -153,10 +153,12 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   private async acquireTokenByDeviceCode(
-    deviceCodeRequest: DeviceCodeRequest
+    deviceCodeRequest: DeviceCodeRequest,
+    scopes: string[]
   ): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.msalClient.acquireTokenByDeviceCode(deviceCodeRequest);
+      logger.getToken.info(formatSuccess(scopes));
       return {
         expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
         token: deviceResponse.accessToken

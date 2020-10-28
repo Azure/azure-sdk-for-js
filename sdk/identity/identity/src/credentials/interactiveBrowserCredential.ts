@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
@@ -98,6 +98,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         return this.acquireTokenFromBrowser(scopeArray);
       } else {
+        logger.getToken.info(formatError(e));
         throw e;
       }
     });
@@ -143,7 +144,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           res.sendStatus(200);
 
-          console.log(authResponse);
+          logger.getToken.info(formatSuccess(scopeArray));
 
           resolve({
             expiresOnTimestamp: authResponse.expiresOn.valueOf(),
@@ -152,6 +153,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         } catch (error) {
           res.status(500).send(error);
 
+          logger.getToken.info(formatError(error));
           reject(
             new Error(
               `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`

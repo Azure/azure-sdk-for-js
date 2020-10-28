@@ -100,7 +100,7 @@ export class ClientCertificateCredential implements TokenCredential {
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
-    if (options && options.includeX5c) {
+    if (options && options.sendCertificateChain) {
       this.certificateX5c = publicKeys;
     }
   }
