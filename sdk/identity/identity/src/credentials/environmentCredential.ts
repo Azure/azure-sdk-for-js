@@ -14,6 +14,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
+import {checkTenantId} from '../util/checkTenantId';
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -65,13 +66,7 @@ export class EnvironmentCredential implements TokenCredential {
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
-    if (!tenantId?.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error(
-        "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-      );
-      logger.getToken.info(formatError(error));
-      throw error;
-    }
+    checkTenantId(logger, tenantId ? tenantId : "");
 
     if (tenantId && clientId && clientSecret) {
       logger.info(

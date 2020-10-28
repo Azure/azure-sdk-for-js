@@ -14,6 +14,7 @@ import { AuthorizationCodeRequest } from "@azure/msal-node";
 import express from "express";
 import open from "open";
 import http from "http";
+import {checkTenantId} from '../util/checkTenantId';
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -31,13 +32,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const tenantId = (options && options.tenantId) || DefaultTenantId;
     const clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
-    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error(
-        "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-      );
-      logger.getToken.info(formatError(error));
-      throw error;
-    }
+    checkTenantId(logger, tenantId);
 
     // const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
     // const authenticationRecord = options?.authenticationRecord;

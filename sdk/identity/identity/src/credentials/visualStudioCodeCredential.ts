@@ -16,6 +16,7 @@ try {
 
 import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import {checkTenantId} from '../util/checkTenantId';
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -97,13 +98,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   constructor(options?: VisualStudioCodeCredentialOptions) {
     this.identityClient = new IdentityClient(options);
     if (options && options.tenantId) {
-      if (!options.tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        const error = new Error(
-          "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-        );
-        logger.getToken.info(formatError(error));
-        throw error;
-      }
+      checkTenantId(logger, options.tenantId);
 
       this.tenantId = options.tenantId;
     } else {

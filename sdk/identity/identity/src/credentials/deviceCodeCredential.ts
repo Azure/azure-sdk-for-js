@@ -9,6 +9,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { TokenCredentialOptions } from "../client/identityClient";
 
 import { DeviceCodeRequest } from "@azure/msal-node";
+import {checkTenantId} from '../util/checkTenantId';
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -76,13 +77,7 @@ export class DeviceCodeCredential implements TokenCredential {
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error(
-        "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-      );
-      logger.getToken.info(formatError(error));
-      throw error;
-    }
+    checkTenantId(logger, tenantId);
 
     this.userPromptCallback = userPromptCallback;
 

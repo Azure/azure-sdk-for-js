@@ -167,9 +167,6 @@ export class MsalClient {
     };
 
     this.pca = new PublicClientApplication(clientConfig);
-    // if (clientConfig.auth.clientSecret || clientConfig.auth.clientCertificate) {
-    //   this.cca = new ConfidentialClientApplication(clientConfig);
-    // }
   }
 
   async acquireTokenFromCache(): Promise<AccessToken | null> {

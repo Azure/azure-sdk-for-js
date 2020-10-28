@@ -9,6 +9,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import {checkTenantId} from '../util/checkTenantId';
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -43,13 +44,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options?: TokenCredentialOptions
   ) {
-    if (!tenantIdOrName.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error(
-        "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-      );
-      logger.getToken.info(formatError(error));
-      throw error;
-    }
+    checkTenantId(logger, tenantIdOrName);
 
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
