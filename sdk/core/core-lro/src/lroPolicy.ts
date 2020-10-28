@@ -23,9 +23,7 @@ class LROPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  public async sendRequest(
-    webResource: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     let result = await this._nextPolicy.sendRequest(webResource);
 
     if (webResource.shouldDeserialize !== undefined) {
