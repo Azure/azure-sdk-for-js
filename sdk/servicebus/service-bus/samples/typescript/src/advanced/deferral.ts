@@ -15,7 +15,12 @@
   message deferral.
 */
 
-import { ServiceBusClient, delay } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  delay,
+  ProcessErrorArgs,
+  ServiceBusReceivedMessage
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -77,9 +82,9 @@ async function receiveMessage() {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const processMessage = async (brokeredMessage) => {
+    const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
       if (
-        brokeredMessage.label === "RecipeStep" &&
+        brokeredMessage.subject === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
       ) {
         const message = brokeredMessage.body;
@@ -87,14 +92,14 @@ async function receiveMessage() {
         if (message.step === lastProcessedRecipeStep + 1) {
           console.log("Process received message:", message);
           lastProcessedRecipeStep++;
-          await brokeredMessage.complete();
+          await receiver.completeMessage(brokeredMessage);
         } else {
           // if this is not the step we expected, we defer the message, meaning that we leave it in the queue but take it out of
           // the delivery order. We put it aside. To retrieve it later, we remeber its sequence number
           const sequenceNumber = brokeredMessage.sequenceNumber;
           deferredSteps.set(message.step, sequenceNumber);
           console.log("Defer received message:", message);
-          await brokeredMessage.defer();
+          await receiver.deferMessage(brokeredMessage);
         }
       } else {
         // we dead-letter the message if we don't know what to do with it.
@@ -102,10 +107,10 @@ async function receiveMessage() {
           "Unknown message received, moving it to dead-letter queue ",
           brokeredMessage.body
         );
-        await brokeredMessage.deadLetter();
+        await receiver.deadLetterMessage(brokeredMessage);
       }
     };
-    const processError = async (args) => {
+    const processError = async (args: ProcessErrorArgs) => {
       console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
     };
 

@@ -74,8 +74,8 @@ async function receiveMessages(sbClient) {
   let numOfMessagesReceived = 0;
   const processMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
-    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-    await brokeredMessage.complete();
+    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.subject}`);
+    await queueReceiver.completeMessage(brokeredMessage);
   };
   const processError = async (args) => {
     console.log(`Error from error source ${args.errorSource} occurred: `, args.error);

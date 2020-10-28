@@ -21,7 +21,7 @@ dotenv.config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-async function main() {
+export async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);

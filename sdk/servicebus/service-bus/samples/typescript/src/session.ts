@@ -15,7 +15,7 @@
   sessions in Service Bus.
 */
 
-import { delay, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -85,7 +85,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   const processMessage = async (message: ServiceBusMessage) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (args) => {
+  const processError = async (args: ProcessErrorArgs) => {
     console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
   };
   receiver.subscribe({

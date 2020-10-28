@@ -15,6 +15,8 @@
   sessions in Service Bus.
 */
 
+const { ServiceBusClient, delay } = require("@azure/service-bus");
+
 // Load the .env file if it exists
 require("dotenv").config();
 

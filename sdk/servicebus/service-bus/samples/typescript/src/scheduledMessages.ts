@@ -13,7 +13,13 @@
   to learn about scheduling messages.
 */
 
-import { delay, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import {
+  delay,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusMessage,
+  ServiceBusReceivedMessage
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -73,12 +79,12 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
-  const processMessage = async (brokeredMessage) => {
+  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
     numOfMessagesReceived++;
-    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-    await brokeredMessage.complete();
+    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.subject}`);
+    await queueReceiver.completeMessage(brokeredMessage);
   };
-  const processError = async (args) => {
+  const processError = async (args: ProcessErrorArgs) => {
     console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
