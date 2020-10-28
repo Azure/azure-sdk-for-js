@@ -12,7 +12,13 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { delay, ServiceBusClient } from "@azure/service-bus";
+import {
+  delay,
+  isMessagingError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusReceivedMessage
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,19 +36,41 @@ export async function main() {
   // - See session.ts for how to receive using sessions.
   const receiver = sbClient.createReceiver(queueName);
 
-  const processMessage = async (brokeredMessage) => {
-    console.log(`Received message: ${brokeredMessage.body}`);
-    await brokeredMessage.complete();
-  };
-  const processError = async (args) => {
-    console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
-  };
-
   try {
-    receiver.subscribe(
+    const subscription = receiver.subscribe(
       {
-        processMessage,
-        processError
+        processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
+          console.log(`Received message: ${brokeredMessage.body}`);
+          await receiver.completeMessage(brokeredMessage);
+        },
+        processError: async (args: ProcessErrorArgs) => {
+          console.log(`Error from source ${args.errorSource} occurred: `, args.error);
+
+          // the handler will not stop without explicit intervention from you.
+          if (isMessagingError(args.error)) {
+            switch (args.error.code) {
+              case "MessagingEntityDisabledError":
+              case "MessagingEntityNotFoundError":
+              case "UnauthorizedError":
+                // It's possible you have a temporary infrastructure change (for instance, the entity being
+                // temporarily disabled). The handler will continue to retry - it is completely up to you
+                // what is considered fatal for your program.
+                console.log(
+                  `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                  args.error
+                );
+                await subscription.close();
+                break;
+              case "MessageLockLostError":
+                console.log(`Message lock lost for message`, args.error);
+                break;
+              case "ServerBusyError":
+                // choosing an arbitrary amount of time to wait.
+                await delay(1000);
+                break;
+            }
+          }
+        }
       },
       {
         autoComplete: false
@@ -50,6 +78,7 @@ export async function main() {
     );
 
     // Waiting long enough before closing the receiver to receive messages
+    console.log(`Receiving messages for  5 seconds before exiting...`);
     await delay(5000);
 
     await receiver.close();
