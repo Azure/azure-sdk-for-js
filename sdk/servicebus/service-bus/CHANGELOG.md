@@ -37,8 +37,12 @@
 - The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
 - The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs`.
 - `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
+- `NamespaceProperties` interface property "namespaceType" has been removed. [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
 - Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
   [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
+- Updated the `update{Entity}` methods under `ServiceBusAdministrationClient` with relevant param names and types, more docs.
+  [PR 12013](https://github.com/Azure/azure-sdk-for-js/pull/12013)
 - The raw responses(`_response`) in the returned objects from any of the methods under the `ServiceBusAdministrationClient` have been updated to return only the `{request, status, headers}`, properties such as `parsedHeaders`, `parsedBody` have been removed.
   [PR 12015](https://github.com/Azure/azure-sdk-for-js/pull/12015)
 - `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
