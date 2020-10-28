@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AmqpMessageHeader, AmqpMessageProperties } from "../src";
 import {
-  RheaAmqpMessageHeader,
-  RheaAmqpMessageProperties,
-  AmqpMessageHeader,
-  AmqpMessageProperties
-} from "../src";
+  MessageHeader as RheaAmqpMessageHeader,
+  MessageProperties as RheaAmqpMessageProperties
+} from "rhea-promise";
 import * as chai from "chai";
 chai.should();
 

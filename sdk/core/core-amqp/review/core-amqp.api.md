@@ -13,11 +13,11 @@ import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
 import { isAmqpError } from 'rhea-promise';
 import { isTokenCredential } from '@azure/core-auth';
+import { MessageHeader } from 'rhea-promise';
+import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
-import { MessageHeader as RheaAmqpMessageHeader } from 'rhea-promise';
-import { MessageProperties as RheaAmqpMessageProperties } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
@@ -63,8 +63,8 @@ export interface AmqpMessageHeader {
 
 // @public
 export const AmqpMessageHeader: {
-    toRheaAmqpMessageHeader(props: AmqpMessageHeader): RheaAmqpMessageHeader;
-    fromRheaAmqpMessageHeader(props: RheaAmqpMessageHeader): AmqpMessageHeader;
+    toRheaAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
+    fromRheaAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
 };
 
 // @public
@@ -86,8 +86,8 @@ export interface AmqpMessageProperties {
 
 // @public
 export const AmqpMessageProperties: {
-    toRheaAmqpMessageProperties(props: AmqpMessageProperties): RheaAmqpMessageProperties;
-    fromRheaAmqpMessageProperties(props: RheaAmqpMessageProperties): AmqpMessageProperties;
+    toRheaAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
+    fromRheaAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
 
 export { AsyncLock }
@@ -674,10 +674,6 @@ export interface RetryOptions {
     retryDelayInMs?: number;
     timeoutInMs?: number;
 }
-
-export { RheaAmqpMessageHeader }
-
-export { RheaAmqpMessageProperties }
 
 // @public
 export interface SendRequestOptions {
