@@ -88,10 +88,16 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "ClientSecretCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(tenantId: string, clientId: string, clientSecret: string, options?: ClientSecretCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+    authenticationRecord?: AuthenticationRecord;
+    cachePath?: string;
+    persistenceEnabled?: boolean;
+}
 
 // @public
 export class CredentialUnavailable extends Error {
