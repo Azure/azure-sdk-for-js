@@ -566,44 +566,6 @@ export const logger: import("@azure/logger").AzureLogger;
 export type MessageErrorCodes = "AddressAlreadyInUseError" | "StoreLockLostError" | "NoMatchingSubscriptionError" | "PartitionNotOwnedError" | "PublisherRevokedError" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessageLockLostError" | "SessionLockLostError" | "SessionCannotBeLockedError" | "InternalServerError" | "ServiceCommunicationError" | "MessageNotFoundError" | "RelayNotFoundError" | "NotImplementedError" | "InvalidOperationError" | "QuotaExceededError" | "UnauthorizedError" | "ServiceUnavailableError" | "MessageWaitTimeout" | "ArgumentOutOfRangeError" | "PreconditionFailedError" | "DecodeError" | "InvalidFieldError" | "ResourceLockedError" | "ResourceDeletedError" | "IllegalStateError" | "FrameSizeTooSmallError" | "DetachForcedError" | "TransferLimitExceededError" | "MessageTooLargeError" | "LinkRedirectError" | "ReceiverDisconnectedError" | "SessionWindowViolationError" | "ErrantLinkError" | "HandleInUseError" | "UnattachedHandleError" | "ConnectionForcedError" | "FramingError" | "ConnectionRedirectError" | "ServerBusyError" | "ArgumentError" | "OperationCancelledError" | "SenderBusyError" | "SystemError";
 
 // @public
-export interface MessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    ttl?: number;
-}
-
-// @public
-export const MessageHeader: {
-    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-};
-
-// @public
-export interface MessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
-
-// @public
-export const MessageProperties: {
-    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-};
-
-// @public
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
