@@ -363,7 +363,6 @@ export interface ServiceBusMessage {
     subject?: string;
     timeToLive?: number;
     to?: string;
-    userId?: string;
 }
 
 // @public

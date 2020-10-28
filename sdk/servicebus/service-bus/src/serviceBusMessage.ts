@@ -213,11 +213,6 @@ export interface ServiceBusMessage {
    * used for custom message metadata.
    */
   applicationProperties?: { [key: string]: number | boolean | string | Date };
-
-  /**
-   * @property The identity of the user producing the message.
-   */
-  userId?: string;
 }
 
 /**
@@ -484,10 +479,6 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
 
-  if (msg.userId != null) {
-    amqpMsg.user_id = msg.userId;
-  }
-
   logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
@@ -669,10 +660,6 @@ export function fromAmqpMessage(
     props.expiresAtUtc = new Date(Constants.maxDurationValue);
   } else {
     props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
-  }
-
-  if (msg.user_id != null) {
-    sbmsg.userId = msg.user_id;
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
