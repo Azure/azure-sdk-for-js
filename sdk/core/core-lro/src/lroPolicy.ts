@@ -19,12 +19,13 @@ export function lroPolicy() {
 }
 
 class LROPolicy extends BaseRequestPolicy {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    let result = await this._nextPolicy.sendRequest(webResource);
+    const result = await this._nextPolicy.sendRequest(webResource);
 
     if (webResource.shouldDeserialize !== undefined) {
       const _lroData = getLROData(result);

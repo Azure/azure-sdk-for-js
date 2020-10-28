@@ -80,7 +80,12 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
               throw new Error("Couldn't determine final GET URL from location");
             }
 
-            return await sendFinalGet(initialOperation, sendOperationFn, location);
+            const result: LROOperationStep<TResult> = await sendFinalGet(
+              initialOperation,
+              sendOperationFn,
+              location
+            );
+            return result;
         }
       }
 
@@ -121,7 +126,10 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
   };
 }
 
-function shouldPerformFinalGet(initialResult: LROResponseInfo, currentResult: LROResponseInfo) {
+function shouldPerformFinalGet(
+  initialResult: LROResponseInfo,
+  currentResult: LROResponseInfo
+): boolean {
   const { status } = currentResult;
   const { requestMethod: initialRequestMethod, location } = initialResult;
   if (status && status.toLowerCase() !== "succeeded") {
@@ -157,7 +165,7 @@ async function sendFinalGet<TResult extends BaseResult>(
     ...(path && { path })
   };
 
-  let operationArgs: OperationArguments = initialOperation.args;
+  const operationArgs: OperationArguments = initialOperation.args;
   if (operationArgs.options) {
     operationArgs.options.shouldDeserialize = true;
   }

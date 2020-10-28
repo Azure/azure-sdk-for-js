@@ -37,6 +37,7 @@ export function makeOperation<TResult extends BaseResult>(
 async function update<TResult extends BaseResult>(
   this: LROOperation<TResult>
 ): Promise<LROOperation<TResult>> {
+  // eslint-disable-next-line no-invalid-this
   const state = { ...this.state };
 
   const { sendFinalRequest, poll, isTerminal } = state.pollingStrategy;
@@ -71,5 +72,6 @@ async function update<TResult extends BaseResult>(
 async function cancel<TResult extends BaseResult>(
   this: LROOperation<TResult>
 ): Promise<LROOperation<TResult>> {
+  // eslint-disable-next-line no-invalid-this
   return makeOperation({ ...this.state, isCancelled: true });
 }
