@@ -24,13 +24,7 @@ export {
   ConnectionProperties,
   CreateConnectionContextBaseParameters
 } from "./ConnectionContextBase";
-export {
-  Dictionary,
-  Message as AmqpMessage,
-  isAmqpError,
-  MessageHeader as RheaAmqpMessageHeader,
-  MessageProperties as RheaAmqpMessageProperties
-} from "rhea-promise";
+export { Dictionary, Message as AmqpMessage, isAmqpError } from "rhea-promise";
 export {
   MessagingError,
   ErrorNameConditionMapper,
