@@ -9,7 +9,7 @@ import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import {checkTenantId} from '../util/checkTenantId';
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 

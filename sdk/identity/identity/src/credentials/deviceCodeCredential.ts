@@ -9,7 +9,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { TokenCredentialOptions } from "../client/identityClient";
 
 import { DeviceCodeRequest } from "@azure/msal-node";
-import {checkTenantId} from '../util/checkTenantId';
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Provides the user code and verification URI where the code must be

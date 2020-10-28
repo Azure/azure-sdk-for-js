@@ -14,7 +14,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
-import {checkTenantId} from '../util/checkTenantId';
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Contains the list of all supported environment variable names so that an

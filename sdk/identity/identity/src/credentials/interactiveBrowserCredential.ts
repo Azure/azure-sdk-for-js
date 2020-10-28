@@ -14,7 +14,7 @@ import { AuthorizationCodeRequest } from "@azure/msal-node";
 import express from "express";
 import open from "open";
 import http from "http";
-import {checkTenantId} from '../util/checkTenantId';
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

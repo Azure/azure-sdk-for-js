@@ -62,7 +62,7 @@ export class ClientCertificateCredential implements TokenCredential {
     options?: ClientCertificateCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
-    
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
