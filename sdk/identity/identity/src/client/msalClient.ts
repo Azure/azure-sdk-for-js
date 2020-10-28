@@ -130,13 +130,11 @@ export class MsalClient {
   private identityClient: IdentityClient;
   private pca: PublicClientApplication | undefined;
   private cca: ConfidentialClientApplication | undefined;
-  //private tenantId: string;
   private cachePath?: string;
   private msalConfig: NodeAuthOptions;
 
   constructor(
     msalConfig: NodeAuthOptions,
-    _tenantId: string,
     persistenceEnabled: boolean,
     authenticationRecord?: AuthenticationRecord,
     cachePath?: string,
@@ -144,7 +142,6 @@ export class MsalClient {
   ) {
     this.identityClient = new IdentityClient(options);
     this.msalConfig = msalConfig;
-    //this.tenantId = tenantId;
     this.cachePath = cachePath ? cachePath : "cache.bin";
     this.persistenceEnabled = persistenceEnabled;
     this.authenticationRecord = authenticationRecord;
@@ -261,8 +258,6 @@ export class HttpClient implements INetworkModule {
       body: response.data as T,
       status: response.status
     };
-    console.log("RESPONSE:");
-    console.log(out);
     return out;
   }
 
@@ -281,8 +276,6 @@ export class HttpClient implements INetworkModule {
       data: (options && options.body) || "",
       headers: options && options.headers
     };
-    console.log("POST REQUEST:");
-    console.log(request);
 
     const response = await axios(request);
     const out = {
@@ -290,8 +283,6 @@ export class HttpClient implements INetworkModule {
       body: response.data as T,
       status: response.status
     };
-    console.log("POST RESPONSE:");
-    console.log(out);
 
     return out;
   }

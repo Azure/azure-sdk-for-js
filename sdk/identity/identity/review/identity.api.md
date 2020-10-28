@@ -88,7 +88,7 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, clientSecret: string, options?: ClientSecretCredentialOptions);
+    constructor(tenantId: string, clientId: string, clientSecret: string, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 

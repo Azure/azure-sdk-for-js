@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// import qs from "qs";
+import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { MsalClient, AuthenticationRequired } from "../client/msalClient";
+import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatError } from "../util/logging";
-// import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-// import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
-import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
-import { ClientCredentialRequest } from "@azure/msal-node";
+import { credentialLogger, formatSuccess } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
 
@@ -24,7 +21,10 @@ const logger = credentialLogger("ClientSecretCredential");
  *
  */
 export class ClientSecretCredential implements TokenCredential {
-  private msalClient: MsalClient;
+  private identityClient: IdentityClient;
+  private tenantId: string;
+  private clientId: string;
+  private clientSecret: string;
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
@@ -40,38 +40,12 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options?: ClientSecretCredentialOptions
+    options?: TokenCredentialOptions
   ) {
-    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error(
-        "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-      );
-      logger.getToken.info(formatError(error));
-      throw error;
-    }
-
-    const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    const authenticationRecord = options?.authenticationRecord;
-
-    let authorityHost;
-    if (options && options.authorityHost) {
-      if (options.authorityHost.endsWith("/")) {
-        authorityHost = options.authorityHost + tenantId;
-      } else {
-        authorityHost = options.authorityHost + "/" + tenantId;
-      }
-    } else {
-      authorityHost = "https://login.microsoftonline.com/" + tenantId;
-    }
-
-    this.msalClient = new MsalClient(
-      { clientId, clientSecret, authority: authorityHost },
-      tenantId,
-      persistenceEnabled,
-      authenticationRecord,
-      options?.cachePath,
-      options
-    );
+    this.identityClient = new IdentityClient(options);
+    this.tenantId = tenantId;
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
   }
 
   /**
@@ -88,35 +62,6 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span } = createSpan("ClientSecretCredential-getToken", options);
-
-    const scopeArray = typeof scopes === "object" ? scopes : [scopes];
-
-    return this.msalClient.acquireTokenFromCache().catch((e) => {
-      console.log(e);
-      if (e instanceof AuthenticationRequired) {
-        try {
-          return this.acquireTokenByClientCredential({ scopes: scopeArray });
-        } catch (err) {
-          const code =
-            err.name === AuthenticationErrorName
-              ? CanonicalCode.UNAUTHENTICATED
-              : CanonicalCode.UNKNOWN;
-          span.setStatus({
-            code,
-            message: err.message
-          });
-          logger.getToken.info(err);
-          throw err;
-        } finally {
-          span.end();
-        }
-      } else {
-        throw e;
-      }
-    });
-
-    /*
     const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
@@ -156,27 +101,6 @@ export class ClientSecretCredential implements TokenCredential {
       throw err;
     } finally {
       span.end();
-    }
-    */
-  }
-
-  private async acquireTokenByClientCredential(
-    clientCredentialRequest: ClientCredentialRequest
-  ): Promise<AccessToken | null> {
-    try {
-      console.log("trying to acquire token by client credential");
-      const response = await this.msalClient.acquireTokenByClientCredential(
-        clientCredentialRequest
-      );
-      console.log("acquired: ");
-      console.log(response);
-      return {
-        expiresOnTimestamp: response.expiresOn.getTime(),
-        token: response.accessToken
-      };
-    } catch (error) {
-      console.log(error);
-      throw new Error(`Client Secret Authentication Error "${JSON.stringify(error)}"`);
     }
   }
 }
