@@ -491,7 +491,7 @@ export { isAmqpError }
 export function isIotHubConnectionString(connectionString: string): boolean;
 
 // @public
-export function isMessagingError(error: Error | MessagingError): error is MessagingError;
+export function isMessagingError<knownErrorCodesOnly extends true | false = true>(error: Error | MessagingError<knownErrorCodesOnly>): error is MessagingError<knownErrorCodesOnly>;
 
 // @public
 export const isNode: boolean;
@@ -505,7 +505,7 @@ export { isTokenCredential }
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export type MessageErrorCodes = "AddressAlreadyInUseError" | "StoreLockLostError" | "NoMatchingSubscriptionError" | "PartitionNotOwnedError" | "PublisherRevokedError" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessageLockLostError" | "SessionLockLostError" | "SessionCannotBeLockedError" | "InternalServerError" | "ServiceCommunicationError" | "MessageNotFoundError" | "RelayNotFoundError" | "NotImplementedError" | "InvalidOperationError" | "QuotaExceededError" | "UnauthorizedError" | "ServiceUnavailableError" | "MessageWaitTimeout" | "ArgumentOutOfRangeError" | "PreconditionFailedError" | "DecodeError" | "InvalidFieldError" | "ResourceLockedError" | "ResourceDeletedError" | "IllegalStateError" | "FrameSizeTooSmallError" | "DetachForcedError" | "TransferLimitExceededError" | "MessageTooLargeError" | "LinkRedirectError" | "ReceiverDisconnectedError" | "SessionWindowViolationError" | "ErrantLinkError" | "HandleInUseError" | "UnattachedHandleError" | "ConnectionForcedError" | "FramingError" | "ConnectionRedirectError" | "ServerBusyError" | "ArgumentError" | "OperationCancelledError" | "SenderBusyError" | "SystemError";
+export type MessageErrorCodes = "AddressAlreadyInUseError" | "StoreLockLostError" | "NoMatchingSubscriptionError" | "PartitionNotOwnedError" | "PublisherRevokedError" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessageLockLostError" | "SessionLockLostError" | "SessionCannotBeLockedError" | "InternalServerError" | "ServiceCommunicationError" | "MessageNotFoundError" | "RelayNotFoundError" | "NotImplementedError" | "InvalidOperationError" | "QuotaExceededError" | "UnauthorizedError" | "ServiceUnavailableError" | "MessageWaitTimeout" | "ArgumentOutOfRangeError" | "PreconditionFailedError" | "DecodeError" | "InvalidFieldError" | "ResourceLockedError" | "ResourceDeletedError" | "IllegalStateError" | "FrameSizeTooSmallError" | "DetachForcedError" | "TransferLimitExceededError" | "MessageTooLargeError" | "LinkRedirectError" | "ReceiverDisconnectedError" | "SessionWindowViolationError" | "ErrantLinkError" | "HandleInUseError" | "UnattachedHandleError" | "ConnectionForcedError" | "FramingError" | "ConnectionRedirectError" | "ServerBusyError" | "ArgumentError" | "OperationCancelledError" | "SenderBusyError" | "SystemError" | "OperationTimeoutError" | "MessagingEntityNotFoundError";
 
 // @public
 export interface MessageHeader {
@@ -546,10 +546,10 @@ export const MessageProperties: {
 };
 
 // @public
-export class MessagingError extends Error {
+export class MessagingError<knownErrorCodesOnly extends true | false = false> extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: MessageErrorCodes | string;
+    code?: knownErrorCodesOnly extends true ? MessageErrorCodes : MessageErrorCodes | string;
     errno?: number | string;
     info?: any;
     name: string;

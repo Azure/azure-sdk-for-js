@@ -465,6 +465,54 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
 
 /**
  * AMQP messaging error codes
+ *
+ * AddressAlreadyInUseError: the address is already in use.
+ * ArgumentError: an incorrect argument was received.
+ * ArgumentOutOfRangeError: an argument has a value that is out of the admissible range.
+ * ConnectionForcedError: an operator intervened to close the connection for some reason.
+ * ConnectionRedirectError: the container is no longer available on the current connection.
+ * DecodeError: data could not be decoded.
+ * DetachForcedError: an operator intervened to detach for some reason.
+ * ErrantLinkError: input was received for a link that was detached with an error.
+ * FrameSizeTooSmallError: the peer cannot send a frame because the smallest encoding of the performative with the currently valid values would be too large to fit within a frame of the agreed maximum frame size.
+ * FramingError: a valid frame header cannot be formed from the incoming byte stream.
+ * HandleInUseError: an attach was received using a handle that is already in use for an attached link a frame (other than attach) was received referencing a handle which is not
+ * IllegalStateError: the peer sent a frame that is not permitted in the current state.
+ * InternalServerError: an internal server error occurred. You may have found a bug?
+ * InvalidFieldError: an invalid field was passed in a frame body, and the operation could not proceed.
+ * InvalidOperationError: an operation is attempted but is not allowed.
+ * LinkRedirectError: the address provided cannot be resolved to a terminus at the current container.
+ * MessageLockLostError: the lock on the message is lost.
+ * MessageNotFoundError: message is not found.
+ * MessageTooLargeError: the message sent is too large: the maximum size is 256Kb.
+ * MessageWaitTimeout: no new messages are received for the specified time.
+ * MessagingEntityAlreadyExistsError: an attempt is made to create an entity that already exists.
+ * MessagingEntityNotFoundError: the messaging entity does not exist.
+ * MessagingEntityDisabledError: trying to access/connect to a disabled messaging entity.
+ * NoMatchingSubscriptionError: a matching subscription is not found.
+ * NotImplementedError: a feature is not implemented yet but the placeholder is present.
+ * OperationCancelledError: server cancels the operation due to an internal issue.
+ * OperationTimeoutError: the service fails to respond within a given timeframe.
+ * PartitionNotOwnedError: an attempt is made to access a partition that is not owned by the requesting entity.
+ * PreconditionFailedError: a condition that should have been met in order to execute an operation was not.
+ * PublisherRevokedError: access to publisher has been revoked.
+ * QuotaExceededError: The the Azure EventHub/ServiceBus quota has been exceeded.
+ * ReceiverDisconnectedError: two or more instances connect to the same partition with different epoch values.
+ * RelayNotFoundError: relay is not found.
+ * ResourceDeletedError: a server entity the client is working with has been deleted.
+ * ResourceLockedError: the client attempted to work with a server entity to which it has no access because another client is working with it.
+ * SenderBusyError: the client sender does not have enough link credits to send the message.
+ * ServerBusyError: the server is busy. Callers should wait a while and retry the operation.
+ * ServiceCommunicationError: Error for signaling general communication errors related to messaging operations.
+ * ServiceUnavailableError: the service is unavailable. The operation should be retried.
+ * SessionCannotBeLockedError: the Azure ServiceBus session cannot be locked.
+ * SessionLockLostError: the lock on the Azure ServiceBus session is lost.
+ * SessionWindowViolationError: the peer violated incoming window for the session.
+ * StoreLockLostError: the store lock is lost.
+ * SystemError: a low level system error is thrown by node.js. See {@link https://nodejs.org/api/errors.html#errors_class_systemerror}.
+ * TransferLimitExceededError: the peer sent more message transfers than currently allowed on the link.
+ * UnattachedHandleError: currently in use of an attached link.
+ * UnauthorizedError: the connection parameters are wrong and the server refused the connection.
  */
 export type MessageErrorCodes =
   // Error is thrown when the address is already in use.
@@ -567,12 +615,20 @@ export type MessageErrorCodes =
   | "SenderBusyError"
   // Error is thrown when a low level system error is thrown by node.js.
   // {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
-  | "SystemError";
+  | "SystemError"
+  // the service fails to respond within a given timeframe.
+  | "OperationTimeoutError"
+  // the messaging entity does not exist.
+  | "MessagingEntityNotFoundError";
 
 /**
- * Determines if an error is a MessagingError
+ * Determines if an error is a MessagingError.
+ *
+ * @param error An error that can either be an Error or a MessagingError.
  */
-export function isMessagingError(error: Error | MessagingError): error is MessagingError {
+export function isMessagingError<knownErrorCodesOnly extends true | false = true>(
+  error: Error | MessagingError<knownErrorCodesOnly>
+): error is MessagingError<knownErrorCodesOnly> {
   return error.name === "MessagingError";
 }
 
@@ -581,7 +637,7 @@ export function isMessagingError(error: Error | MessagingError): error is Messag
  * @class {MessagingError}
  * @extends Error
  */
-export class MessagingError extends Error {
+export class MessagingError<knownErrorCodesOnly extends true | false = false> extends Error {
   /**
    * Address to which the network connection failed.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
@@ -590,7 +646,7 @@ export class MessagingError extends Error {
   /**
    * A string label that identifies the error.
    */
-  code?: MessageErrorCodes | string;
+  code?: knownErrorCodesOnly extends true ? MessageErrorCodes : MessageErrorCodes | string;
   /**
    * System-provided error number.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
