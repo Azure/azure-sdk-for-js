@@ -5,9 +5,111 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { BaseRequestPolicy } from '@azure/core-http';
+import { HttpMethods } from '@azure/core-http';
+import { HttpOperationResponse } from '@azure/core-http';
+import { OperationArguments } from '@azure/core-http';
+import { OperationSpec } from '@azure/core-http';
+import { RequestPolicy } from '@azure/core-http';
+import { RequestPolicyOptions } from '@azure/core-http';
+import { RestResponse } from '@azure/core-http';
+import { WebResource } from '@azure/core-http';
+
+// @public (undocumented)
+export interface BaseResult extends RestResponse {
+    // (undocumented)
+    _lroData?: LROResponseInfo;
+}
 
 // @public
 export type CancelOnProgress = () => void;
+
+// @public
+export function createBodyPollingStrategy<TResult extends BaseResult>(initialOperation: LROOperationStep<TResult>, sendOperation: SendOperationFn<TResult>): LROStrategy<TResult>;
+
+// @public (undocumented)
+export function createLocationStrategy<TResult extends BaseResult>(initialOperation: LROOperationStep<TResult>, sendOperationFn: SendOperationFn<TResult>): LROStrategy<TResult>;
+
+// @public (undocumented)
+export type LROOperation<TResult extends BaseResult> = PollOperation<LROOperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface LROOperationState<TResult extends BaseResult> extends PollOperationState<TResult> {
+    // Warning: (ae-forgotten-export) The symbol "FinalStateVia" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    finalStateVia?: FinalStateVia;
+    // (undocumented)
+    initialOperation: LROOperationStep<TResult>;
+    // (undocumented)
+    lastOperation: LROOperationStep<TResult>;
+    // (undocumented)
+    pollingStrategy: LROStrategy<TResult>;
+}
+
+// @public (undocumented)
+export interface LROOperationStep<TResult extends BaseResult> {
+    // (undocumented)
+    args: OperationArguments;
+    // (undocumented)
+    result: TResult;
+    // (undocumented)
+    spec: OperationSpec;
+}
+
+// @public (undocumented)
+export function lroPolicy(): {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => LROPolicy;
+};
+
+// @public (undocumented)
+export class LROPoller<TResult extends BaseResult> extends Poller<LROOperationState<TResult>, TResult> {
+    constructor({ initialOperationArguments, initialOperationResult, initialOperationSpec, sendOperation, finalStateVia, intervalInMs }: LROPollerOptions<TResult>);
+    delay(): Promise<void>;
+    }
+
+// @public (undocumented)
+export interface LROPollerOptions<TResult extends BaseResult> {
+    finalStateVia?: FinalStateVia;
+    initialOperationArguments: OperationArguments;
+    initialOperationResult: TResult;
+    initialOperationSpec: OperationSpec;
+    intervalInMs?: number;
+    sendOperation: SendOperationFn<TResult>;
+}
+
+// @public (undocumented)
+export interface LROResponseInfo {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    isInitialRequest?: boolean;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    operationLocation?: string;
+    // (undocumented)
+    provisioningState?: string;
+    // (undocumented)
+    requestMethod: HttpMethods;
+    // (undocumented)
+    status?: string;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public (undocumented)
+export interface LROStrategy<TResult extends BaseResult> {
+    // (undocumented)
+    isTerminal: () => boolean;
+    // (undocumented)
+    poll: () => Promise<LROOperationStep<TResult>>;
+    // (undocumented)
+    sendFinalRequest: () => Promise<LROOperationStep<TResult>>;
+}
+
+// @public
+export function makeOperation<TResult extends BaseResult>(state: LROOperationState<TResult>): LROOperation<TResult>;
 
 // @public
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult> implements PollerLike<TState, TResult> {
@@ -83,6 +185,19 @@ export interface PollOperationState<TResult> {
 // @public
 export type PollProgressCallback<TState> = (state: TState) => void;
 
+// @public (undocumented)
+export type SendOperationFn<TResult extends BaseResult> = (args: OperationArguments, spec: OperationSpec) => Promise<TResult>;
+
+// @public
+export function shouldDeserializeLRO(finalStateVia?: string): (response: HttpOperationResponse) => boolean;
+
+// @public (undocumented)
+export const terminalStates: string[];
+
+
+// Warnings were encountered during analysis:
+//
+// src/lroPolicy.ts:13:26 - (ae-forgotten-export) The symbol "LROPolicy" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
