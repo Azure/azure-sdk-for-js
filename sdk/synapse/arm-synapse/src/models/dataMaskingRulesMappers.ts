@@ -20,6 +20,7 @@ export {
   DataLakeStorageAccountDetails,
   DataMaskingPolicy,
   DataMaskingRule,
+  DataMaskingRuleListResult,
   DataWarehouseUserActivities,
   EntityReference,
   EnvironmentVariableSetup,
