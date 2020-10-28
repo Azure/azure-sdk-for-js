@@ -13,8 +13,8 @@ import {
   DataFeedPatch,
   DataFeedSchema,
   DataFeedSource,
-  Dimension,
-  Metric,
+  DataFeedDimension,
+  DataFeedMetric,
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorKeyCredential
 } from "../src";
@@ -98,7 +98,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   let createdPostGreSqlId: string;
 
   describe("DataFeed", async () => {
-    const metric: Metric[] = [
+    const metric: DataFeedMetric[] = [
       {
         name: "Metric1",
         displayName: "Metric1",
@@ -110,7 +110,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         description: ""
       }
     ];
-    const dimension: Dimension[] = [
+    const dimension: DataFeedDimension[] = [
       { name: "Dim1", displayName: "Dim1 display" },
       { name: "Dim2", displayName: "Dim2 display" }
     ];
@@ -309,7 +309,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
             fillType: "PreviousValue"
           },
           accessMode: "Public",
-          viewers: ["viewer1@example.com"],
+          viewerEmails: ["viewer1@example.com"],
           actionLinkTemplate: "Updated Azure Blob action link template"
         }
       };
@@ -329,7 +329,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       );
       assert.equal(updated.options!.missingDataPointFillSettings?.fillType, "PreviousValue");
       assert.equal(updated.options!.accessMode, "Public");
-      assert.deepStrictEqual(updated.options!.viewers, ["viewer1@example.com"]);
+      assert.deepStrictEqual(updated.options!.viewerEmails, ["viewer1@example.com"]);
       assert.equal(updated.options?.actionLinkTemplate, "Updated Azure Blob action link template");
     });
 

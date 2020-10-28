@@ -44,14 +44,17 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   } else {
     result = {
       correlationId: getStringOrUndefined(value["CorrelationId"]),
-      label: getStringOrUndefined(value["Label"]),
+      subject: getStringOrUndefined(value["Label"]),
       to: getStringOrUndefined(value["To"]),
       replyTo: getStringOrUndefined(value["ReplyTo"]),
       replyToSessionId: getStringOrUndefined(value["ReplyToSessionId"]),
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      properties: getKeyValuePairsOrUndefined(value["Properties"], "UserProperties")
+      applicationProperties: getKeyValuePairsOrUndefined(
+        value["Properties"],
+        "ApplicationProperties"
+      )
     };
   }
   return result;
@@ -143,7 +146,7 @@ export interface SqlRuleFilter {
    * SQL expression to use in the rule filter.
    * Defaults to creating a true filter if none specified
    */
-  sqlExpression?: string;
+  sqlExpression: string;
 
   /**
    * SQL parameters to the SQL expression in the rule filter.
@@ -189,14 +192,17 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 
         resource.Filter = {
           CorrelationId: correlationFilter.correlationId,
-          Label: correlationFilter.label,
+          Label: correlationFilter.subject,
           To: correlationFilter.to,
           ReplyTo: correlationFilter.replyTo,
           ReplyToSessionId: correlationFilter.replyToSessionId,
           ContentType: correlationFilter.contentType,
           SessionId: correlationFilter.sessionId,
           MessageId: correlationFilter.messageId,
-          Properties: buildInternalRawKeyValuePairs(correlationFilter.properties, "userProperties")
+          Properties: buildInternalRawKeyValuePairs(
+            correlationFilter.applicationProperties,
+            "applicationProperties"
+          )
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "CorrelationFilter",
@@ -300,7 +306,7 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  */
 function getKeyValuePairsOrUndefined(
   value: any,
-  attribute: "UserProperties" | "SQLParameters"
+  attribute: "ApplicationProperties" | "SQLParameters"
 ): { [key: string]: any } | undefined {
   if (!value) {
     return undefined;
@@ -353,7 +359,7 @@ function getKeyValuePairsOrUndefined(
  */
 export function buildInternalRawKeyValuePairs(
   parameters: { [key: string]: any } | undefined,
-  attribute: "userProperties" | "sqlParameters"
+  attribute: "applicationProperties" | "sqlParameters"
 ): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;

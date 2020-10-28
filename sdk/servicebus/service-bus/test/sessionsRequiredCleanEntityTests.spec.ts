@@ -11,7 +11,6 @@ import {
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
 import { TestMessage } from "./utils/testUtils";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -23,7 +22,7 @@ const should = chai.should();
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver;
 
   const testClientType = getRandomTestClientTypeWithSessions();
 
@@ -113,7 +112,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         "SessionId is different than expected"
       );
 
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
     }
 
     it(testClientType + " - Peek Session with sessionId", async function(): Promise<void> {
@@ -166,7 +165,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         true,
         "Received Message doesnt match any of the test messages"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
       await receiver.close();
 
       // get the next available session ID rather than specifying one
@@ -186,7 +185,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         true,
         "Received Message doesnt match any of the test messages"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
     }
 
@@ -239,7 +238,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
           true,
           "Received Message doesnt match expected test message"
         );
-        await msgs[0].complete();
+        await receiver.completeMessage(msgs[0]);
 
         const peekedMsgsInSession = await receiver.peekMessages(1);
         should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");

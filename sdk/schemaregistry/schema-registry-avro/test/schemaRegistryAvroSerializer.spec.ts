@@ -45,7 +45,7 @@ const testGroup = "azsdk_js_test_group";
 const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
   "{DC7EF290-CDB1-4245-8EE8-3DD52965866E}"
-].map((x) => x.replace(/[\{\-\}]/g, ""));
+].map((x) => x.replace(/[{\-}]/g, ""));
 
 const testSchema = JSON.stringify(testSchemaObject);
 const testValue = { name: "Nick", favoriteNumber: 42 };
@@ -209,7 +209,7 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
     return result;
 
     function newId(): string {
-      if (idCounter == testSchemaIds.length) {
+      if (idCounter === testSchemaIds.length) {
         throw new Error("Out of IDs. Generate more GUIDs and paste them above.");
       }
       const id = testSchemaIds[idCounter];

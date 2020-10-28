@@ -5,7 +5,6 @@ import { Constants, ErrorNameConditionMapper, MessagingError, translate } from "
 import {
   AmqpError,
   EventContext,
-  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
@@ -27,7 +26,12 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, ReceiveMode, SubscribeOptions } from "../models";
+import {
+  ServiceBusSessionReceiverOptions,
+  ProcessErrorArgs,
+  ReceiveMode,
+  SubscribeOptions
+} from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
@@ -50,8 +54,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  AcceptSessionOptions<"receiveAndDelete">,
-  "maxAutoRenewLockDurationInMs" | "abortSignal"
+  ServiceBusSessionReceiverOptions,
+  "maxAutoLockRenewalDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
 };
@@ -370,8 +374,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
+      options.maxAutoLockRenewalDurationInMs != null
+        ? options.maxAutoLockRenewalDurationInMs
         : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";
@@ -393,9 +397,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (error: MessagingError | Error) => {
+    this._notifyError = (args: ProcessErrorArgs) => {
       if (this._onError) {
-        this._onError(error);
+        this._onError(args);
         logger.verbose(
           "%s Notified the user's error handler about the error received by the Receiver",
           this.logPrefix
@@ -411,7 +415,12 @@ export class MessageSession extends LinkEntity<Receiver> {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
-        this._notifyError(sbError);
+        this._notifyError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -427,7 +436,12 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.name,
           sbError
         );
-        this._notifyError(sbError);
+        this._notifyError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -616,17 +630,19 @@ export class MessageSession extends LinkEntity<Receiver> {
         try {
           await this._onMessage(bMessage);
         } catch (err) {
-          // This ensures we call users' error handler when users' message handler throws.
-          if (!isAmqpError(err)) {
-            logger.logError(
-              err,
-              "%s An error occurred while running user's message handler for the message " +
-                "with id '%s' on the receiver",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            this._onError!(err);
-          }
+          logger.logError(
+            err,
+            "%s An error occurred while running user's message handler for the message " +
+              "with id '%s' on the receiver",
+            this.logPrefix,
+            bMessage.messageId
+          );
+          this._onError!({
+            error: err,
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
 
           const error = translate(err);
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
@@ -653,7 +669,12 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError(translatedError);
+              this._notifyError({
+                error: translatedError,
+                errorSource: "abandon",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host
+              });
             }
           }
           return;
@@ -683,7 +704,12 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError(translatedError);
+            this._notifyError({
+              error: translatedError,
+              errorSource: "complete",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           }
         }
       };
@@ -697,7 +723,20 @@ export class MessageSession extends LinkEntity<Receiver> {
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
       logger.verbose("[%s] %s", this._context.connectionId, msg);
-      this._notifyError(new Error(msg));
+      this._notifyError({
+        error: new Error(msg),
+        // This is _probably_ the right error code since we require that
+        // the message session is created before we even give back the receiver. So it not
+        // being open at this point is either:
+        //
+        // 1. we didn't acquire the lock
+        // 2. the connection was broken (we don't reconnect)
+        //
+        // If any of these becomes untrue you'll probably want to re-evaluate this classification.
+        errorSource: "receive",
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host
+      });
     }
   }
 

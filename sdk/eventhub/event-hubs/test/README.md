@@ -10,7 +10,7 @@ The Azure resources that are used by the tests in this project are:
 
 - An [Azure Event Hubs namespace](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#namespace) with atleast one Event Hub instance in it.
 - An [Azure Storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
-- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#AAD-based-authentication) for steps to register the application.
+- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#aad-based-authentication) for steps to register the application.
 
 To run the live tests, you will also need to set the below environment variables:
 

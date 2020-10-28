@@ -87,13 +87,13 @@ const provider = new NodeTracerProvider({
 
 ## Next steps
 
-This exporter is made to be used with the [OpenTelemetry JS](http://github.com/open-telemetry/opentelemetry-js).
+This exporter is made to be used with the [OpenTelemetry JS](https://github.com/open-telemetry/opentelemetry-js).
 
 ### Plugin Registry
 
 To see if a plugin has already been made for a library you are using, please check out the [OpenTelemetry Registry](https://opentelemetry.io/registry/).
 
-If you cannot your library in the registry, feel free to suggest a new plugin request at [`opentelemetry-js-contrib`](http://github.com/open-telemetry/opentelemetry-js-contrib).
+If you cannot your library in the registry, feel free to suggest a new plugin request at [`opentelemetry-js-contrib`](https://github.com/open-telemetry/opentelemetry-js-contrib).
 
 ## Contributing
 

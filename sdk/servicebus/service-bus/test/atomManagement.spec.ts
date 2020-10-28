@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { isNode } from "@azure/core-amqp";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
+import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
-import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
+import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
@@ -31,9 +32,9 @@ const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new Servi
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
-const endpointWithProtocol = (parseConnectionString(
+const endpointWithProtocol = parseServiceBusConnectionString(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-) as any).Endpoint;
+).endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -62,7 +63,7 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
@@ -268,10 +269,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
-        .Endpoint;
-      const host = endpoint.match(".*://([^/]*)")[1];
-
+      const connectionStringProperties = parseServiceBusConnectionString(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+      );
+      const host = connectionStringProperties.fullyQualifiedNamespace;
+      const endpoint = connectionStringProperties.endpoint;
       const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
@@ -316,7 +318,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        host.match("(.*).servicebus.windows.net")[1],
+        (host.match("(.*).servicebus.windows.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -1694,7 +1696,11 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Rule tests
-[
+const createRuleTests: {
+  testCaseTitle: string;
+  input: Omit<CreateRuleOptions, "name"> | undefined;
+  output: RuleProperties;
+}[] = [
   {
     testCaseTitle: "Undefined rule options",
     input: undefined,
@@ -1736,7 +1742,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1746,13 +1752,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA"
         }
       },
@@ -1768,7 +1774,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         correlationId: "abcd",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -1782,13 +1788,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: {
+        applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -1803,7 +1809,8 @@ describe("Atom management - Authentication", function(): void {
       name: managementRule1
     }
   }
-].forEach((testCase) => {
+];
+createRuleTests.forEach((testCase) => {
   describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
@@ -2315,13 +2322,13 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "defg",
         contentType: "",
-        label: "",
+        subject: "",
         messageId: "",
         replyTo: "",
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        properties: undefined
+        applicationProperties: undefined
       },
       action: {
         sqlExpression: "SET sys.label='RED'",
@@ -2410,7 +2417,7 @@ async function createEntity(
   queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<CreateTopicOptions, "name">,
   subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleProperties, "name">
+  ruleOptions?: Omit<CreateRuleOptions, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {

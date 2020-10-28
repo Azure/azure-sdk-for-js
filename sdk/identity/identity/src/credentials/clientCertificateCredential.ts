@@ -60,6 +60,12 @@ export class ClientCertificateCredential implements TokenCredential {
     certificatePath: string,
     options?: ClientCertificateCredentialOptions
   ) {
+    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      const error = new Error("Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+      logger.getToken.info(formatError(error));
+      throw error;
+    }
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;

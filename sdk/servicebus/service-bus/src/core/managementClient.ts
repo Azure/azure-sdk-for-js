@@ -4,15 +4,14 @@
 import Long from "long";
 import {
   EventContext,
-  ReceiverEvents,
   ReceiverOptions,
   message as RheaMessageUtil,
-  SenderEvents,
   SenderOptions,
   generate_uuid,
   string_to_uuid,
   types,
-  Typed
+  Typed,
+  ReceiverEvents
 } from "rhea-promise";
 import {
   AmqpMessage,
@@ -107,9 +106,9 @@ export interface CorrelationRuleFilter {
    */
   replyTo?: string;
   /**
-   * Value to be matched with the `label` property of the incoming message.
+   * Value to be matched with the `subject` property of the incoming message.
    */
-  label?: string;
+  subject?: string;
   /**
    * Value to be matched with the `sessionId` property of the incoming message.
    */
@@ -125,7 +124,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  properties?: { [key: string]: string | number | boolean | Date };
+  applicationProperties?: { [key: string]: string | number | boolean | Date };
 }
 
 /**
@@ -137,11 +136,11 @@ const correlationProperties = [
   "messageId",
   "to",
   "replyTo",
-  "label",
+  "subject",
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "properties"
+  "applicationProperties"
 ];
 
 /**
@@ -226,15 +225,26 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         name: this.replyTo,
         target: { address: this.replyTo },
         onSessionError: (context: EventContext) => {
-          const ehError = translate(context.session!.error!);
+          const sbError = translate(context.session!.error!);
           managementClientLogger.logError(
-            ehError,
+            sbError,
             `${this.logPrefix} An error occurred on the session for request/response links for $management`
           );
         }
       };
-      const sropt: SenderOptions = { target: { address: this.address } };
+      const sropt: SenderOptions = {
+        target: { address: this.address },
+        onError: (context: EventContext) => {
+          const ehError = translate(context.sender!.error!);
+          managementClientLogger.logError(
+            ehError,
+            `${this.logPrefix} An error occurred on the $management sender link`
+          );
+        }
+      };
 
+      // Even if multiple parallel requests reach here, the initLink secures a lock
+      // to ensure there won't be multiple initializations
       await this.initLink(
         {
           senderOptions: sropt,
@@ -242,37 +252,37 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
         abortSignal
       );
-
-      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
-        const ehError = translate(context.sender!.error!);
-        managementClientLogger.logError(
-          ehError,
-          `${this.logPrefix} An error occurred on the $management sender link`
-        );
-      });
-      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-        const ehError = translate(context.receiver!.error!);
-        managementClientLogger.logError(
-          ehError,
-          `${this.logPrefix} An error occurred on the $management receiver link`
-        );
-      });
     } catch (err) {
       err = translate(err);
       managementClientLogger.logError(
         err,
-        `${this.logPrefix} An error occured while establishing the $management links`
+        `${this.logPrefix} An error occurred while establishing the $management links`
       );
       throw err;
     }
   }
 
-  protected createRheaLink(options: RequestResponseLinkOptions): Promise<RequestResponseLink> {
-    return RequestResponseLink.create(
+  protected async createRheaLink(
+    options: RequestResponseLinkOptions
+  ): Promise<RequestResponseLink> {
+    const rheaLink = await RequestResponseLink.create(
       this._context.connection,
       options.senderOptions,
       options.receiverOptions
     );
+    // Attach listener for the `receiver_error` events to log the errors.
+
+    // "message" event listener is added in core-amqp.
+    // "rhea" doesn't allow setting only the "onError" handler in the options if it is not accompanied by an "onMessage" handler.
+    // Hence, not passing onError handler in the receiver options, adding a handler below.
+    rheaLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+      const ehError = translate(context.receiver!.error!);
+      managementClientLogger.logError(
+        ehError,
+        `${this.logPrefix} An error occurred on the $management receiver link`
+      );
+    });
+    return rheaLink;
   }
 
   /**
@@ -589,9 +599,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         if (item.partitionKey) {
           entry["partition-key"] = item.partitionKey;
         }
-        if (item.viaPartitionKey) {
-          entry["via-partition-key"] = item.viaPartitionKey;
-        }
+
+        // Will be required later for implementing Transactions
+        // if (item.viaPartitionKey) {
+        //   entry["via-partition-key"] = item.viaPartitionKey;
+        // }
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
@@ -1140,11 +1152,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
               to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
               replyTo: this._safelyGetTypedValueFromArray(filtersRawData.value, 3),
-              label: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
+              subject: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1265,11 +1277,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             "message-id": filter.messageId,
             to: filter.to,
             "reply-to": filter.replyTo,
-            label: filter.label,
+            subject: filter.subject,
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.properties
+            applicationProperties: filter.applicationProperties
           };
           break;
       }

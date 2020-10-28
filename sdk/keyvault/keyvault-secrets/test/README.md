@@ -6,7 +6,7 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication). 
+- An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#aad-based-authentication). 
 
 To run the live tests, you will also need to set the below environment variables:
 

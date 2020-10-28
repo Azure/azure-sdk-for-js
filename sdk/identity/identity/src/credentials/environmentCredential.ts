@@ -65,6 +65,12 @@ export class EnvironmentCredential implements TokenCredential {
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
+    if (!tenantId?.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      const error = new Error("Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+      logger.getToken.info(formatError(error));
+      throw error;
+    }
+    
     if (tenantId && clientId && clientSecret) {
       logger.info(
         `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`

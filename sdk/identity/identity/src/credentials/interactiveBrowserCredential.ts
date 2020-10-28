@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
@@ -30,6 +30,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
   constructor(options?: InteractiveBrowserCredentialOptions) {
     const tenantId = (options && options.tenantId) || DefaultTenantId;
     const clientId = (options && options.clientId) || DeveloperSignOnClientId;
+
+    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      const error = new Error("Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+      logger.getToken.info(formatError(error));
+      throw error;
+    }
 
     const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
     const authenticationRecord = options?.authenticationRecord;
@@ -113,7 +119,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       let listen: http.Server | undefined;
       let socketToDestroy: Socket | undefined;
 
-      function cleanup() {
+      function cleanup(): void {
         if (listen) {
           listen.close();
         }

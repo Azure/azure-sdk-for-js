@@ -42,12 +42,16 @@ async function listIncidentsForDetectionConfig(
   for await (const incident of client.listIncidentsForDetectionConfiguration(
     detectionConfigId,
     new Date("09/06/2020"),
-    new Date("09/11/2020")
+    new Date("09/11/2020"),
+    {
+      dimensionFilter: [{ dimension: { city: "Manila", category: "Shoes Handbags & Sunglasses" } }]
+    }
   )) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
+    console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
     console.log(`      last occured: ${incident.lastOccuredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
@@ -69,6 +73,7 @@ async function listIncidentsForDetectionConfig(
       "id",
       "severity",
       "status",
+      "rootDimensionKey",
       "startTime",
       "lastOccuredTime",
       "detectionConfigurationId"
@@ -92,9 +97,13 @@ async function listAnomaliesForDetectionConfig(
     }
   )) {
     console.log("    Anomaly");
-    console.log(`      timestamp: ${anomaly.timestamp}`);
+    console.log(`      metric id: ${anomaly.metricId}`);
+    console.log(`      detection config id: ${anomaly.detectionConfigurationId}`);
+    console.log(`      created on: ${anomaly.createdOn}`);
+    console.log(`      modified on: ${anomaly.modifiedOn}`);
     console.log(`      severity: ${anomaly.severity}`);
-    console.log(`      dimension: ${anomaly.dimension}`);
+    console.log(`      status: ${anomaly.status}`);
+    console.log(`      series key: ${anomaly.seriesKey}`);
   }
 
   console.log(`  by pages`);
@@ -112,7 +121,7 @@ async function listAnomaliesForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "severity", "dimension"]);
+    console.table(result.value.anomalies, ["timestamp", "severity", "seriesKey"]);
     result = await iterator.next();
   }
 }
@@ -124,7 +133,13 @@ async function getRootCauses(
 ) {
   console.log("Retrieving root causes...");
   const result = await client.getIncidentRootCauses(detectionConfigId, incidentId);
-  console.table(result.rootCauses);
+  for (const rootcause of result.rootCauses) {
+    console.log(`Root cause`);
+    console.log(`  Trace the path for the incident root cause ${rootcause.path.join(" => ")}`);
+    console.log(`  Series key: ${rootcause.seriesKey}`);
+    console.log(`  Description: ${rootcause.description}`);
+    console.log(`  ranking score: ${rootcause.score}`);
+  }
 }
 
 async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
@@ -174,6 +189,7 @@ async function listIncidentsForAlert(
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
+    console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
     console.log(`      last occured: ${incident.lastOccuredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
@@ -189,6 +205,7 @@ async function listIncidentsForAlert(
       "id",
       "severity",
       "status",
+      "rootDimensionKey",
       "startTime",
       "lastOccuredTime",
       "detectionConfigurationId"
@@ -209,7 +226,7 @@ async function listAnomaliesForAlert(
   for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
     console.log("    Anomaly");
     console.log(`      timestamp: ${anomaly.timestamp}`);
-    console.log(`      dimension: ${anomaly.dimension}`);
+    console.log(`      dimension: ${anomaly.seriesKey}`);
     console.log(`      status: ${anomaly.status}`);
   }
 
@@ -219,7 +236,7 @@ async function listAnomaliesForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "dimension", "status"]);
+    console.table(result.value.anomalies, ["timestamp", "seriesKey", "status"]);
     result = await iterator.next();
   }
 }

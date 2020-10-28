@@ -7,7 +7,7 @@ import { MsalClient, AuthenticationRequired } from "../client/msalClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging";
 // import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 // import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
@@ -42,6 +42,12 @@ export class ClientSecretCredential implements TokenCredential {
     clientSecret: string,
     options?: ClientSecretCredentialOptions
   ) {
+    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      const error = new Error("Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+      logger.getToken.info(formatError(error));
+      throw error;
+    }
+
     const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
     const authenticationRecord = options?.authenticationRecord;
 

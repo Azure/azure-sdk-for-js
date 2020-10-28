@@ -4,7 +4,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { DeviceCodeCredentialOptions } from "./deviceCodeCredentialOptions";
 import { createSpan } from "../util/tracing";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
@@ -76,6 +76,12 @@ export class DeviceCodeCredential implements TokenCredential {
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: DeviceCodeCredentialOptions
   ) {
+    if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      const error = new Error("Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+      logger.getToken.info(formatError(error));
+      throw error;
+    }
+
     this.userPromptCallback = userPromptCallback;
 
     const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;

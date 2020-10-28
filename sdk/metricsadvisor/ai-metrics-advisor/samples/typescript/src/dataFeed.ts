@@ -11,8 +11,8 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   DataFeedSchema,
-  Metric,
-  Dimension,
+  DataFeedMetric,
+  DataFeedDimension,
   DataFeedIngestionSettings,
   DataFeedGranularity,
   DataFeedSource,
@@ -76,7 +76,7 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 async function createDataFeed(
   client: MetricsAdvisorAdministrationClient
 ): Promise<GetDataFeedResponse> {
-  const metric: Metric[] = [
+  const metrics: DataFeedMetric[] = [
     {
       name: "Metric1",
       displayName: "Metric1 display",
@@ -88,13 +88,13 @@ async function createDataFeed(
       description: ""
     }
   ];
-  const dimension: Dimension[] = [
+  const dimensions: DataFeedDimension[] = [
     { name: "Dim1", displayName: "Dim1 display" },
     { name: "Dim2", displayName: "Dim2 display" }
   ];
   const dataFeedSchema: DataFeedSchema = {
-    metrics: metric,
-    dimensions: dimension,
+    metrics,
+    dimensions,
     timestampColumn: undefined
   };
   const dataFeedIngestion: DataFeedIngestionSettings = {
@@ -133,7 +133,7 @@ async function createDataFeed(
 
   console.log("Creating Datafeed...");
   const result = await client.createDataFeed({
-    name: "test-datafeed-" + new Date().getTime().toFixed(),
+    name: "test-datafeed-" + new Date().getTime().toString(),
     source,
     granularity,
     schema: dataFeedSchema,

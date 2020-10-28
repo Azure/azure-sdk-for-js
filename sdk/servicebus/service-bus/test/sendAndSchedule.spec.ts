@@ -19,7 +19,6 @@ import {
   getRandomTestClientType
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { setTracerForTest } from "./utils/misc";
@@ -31,7 +30,7 @@ const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -75,7 +74,7 @@ describe("Sender Tests", () => {
       entityName.isPartitioned
     );
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -133,8 +132,8 @@ describe("Sender Tests", () => {
       );
     }
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -155,7 +154,7 @@ describe("Sender Tests", () => {
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
 
-    await sender.scheduleMessages(scheduleTime, testMessage);
+    await sender.scheduleMessages(testMessage, scheduleTime);
 
     const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -170,7 +169,7 @@ describe("Sender Tests", () => {
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -180,7 +179,7 @@ describe("Sender Tests", () => {
       ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
       : [TestMessage.getSample(), TestMessage.getSample()];
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await sender.scheduleMessages(scheduleTime, testMessages);
+    await sender.scheduleMessages(testMessages, scheduleTime);
 
     const msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -211,8 +210,8 @@ describe("Sender Tests", () => {
       "MessageId of second message is different than expected"
     );
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -232,7 +231,7 @@ describe("Sender Tests", () => {
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
+    const [sequenceNumber] = await sender.scheduleMessages(testMessage, scheduleTime);
 
     await delay(2000);
 
@@ -249,10 +248,10 @@ describe("Sender Tests", () => {
       : TestMessage.getSample;
 
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
-      getTestMessage(),
-      getTestMessage()
-    ]);
+    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(
+      [getTestMessage(), getTestMessage()],
+      scheduleTime
+    );
 
     await delay(2000);
 
@@ -293,9 +292,9 @@ describe("Sender Tests", () => {
     ];
     const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
-      sender.scheduleMessages(date, messages[0]),
-      sender.scheduleMessages(date, messages[1]),
-      sender.scheduleMessages(date, messages[2])
+      sender.scheduleMessages(messages[0], date),
+      sender.scheduleMessages(messages[1], date),
+      sender.scheduleMessages(messages[2], date)
     ]);
     const sequenceNumbers = [result1[0], result2[0], result3[0]];
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
@@ -326,14 +325,14 @@ describe("Sender Tests", () => {
         messages[sequenceNumbers.indexOf(seqNum)].body,
         "Message body did not match though the sequence numbers matched!"
       );
-      await msgWithSeqNum?.complete();
+      await receiver.completeMessage(msgWithSeqNum!);
     }
 
     await testPeekMsgsLength(receiver, 0);
   });
 
   async function testReceivedMsgsLength(
-    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
@@ -354,7 +353,7 @@ describe("Sender Tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await sender.scheduleMessages(new Date(), [TestMessage.getSample()], {
+        await sender.scheduleMessages([TestMessage.getSample()], new Date(), {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -410,7 +409,7 @@ describe("ServiceBusMessage validations", function(): void {
       title: "contentType is of invalid type"
     },
     {
-      message: { body: "", label: 1 as any },
+      message: { body: "", subject: 1 as any },
       expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
       title: "label is of invalid type"
     },
@@ -446,12 +445,12 @@ describe("ServiceBusMessage validations", function(): void {
         "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
       title: "partitionKey is longer than 128 characters"
     },
-    {
-      message: { body: "", viaPartitionKey: longString },
-      expectedErrorMessage:
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
-      title: "viaPartitionKey is longer than 128 characters"
-    },
+    // {
+    //   message: { body: "", viaPartitionKey: longString },
+    //   expectedErrorMessage:
+    //     "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+    //   title: "viaPartitionKey is longer than 128 characters"
+    // },
     {
       message: { body: "", sessionId: longString },
       expectedErrorMessage:
@@ -521,7 +520,7 @@ describe("ServiceBusMessage validations", function(): void {
     it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
       let actualErrorMsg = "";
       let actualErr;
-      await sender.scheduleMessages(new Date(), testInput.message).catch((err) => {
+      await sender.scheduleMessages(testInput.message, new Date()).catch((err) => {
         actualErr = err;
         actualErrorMsg = err.message;
       });
@@ -558,10 +557,10 @@ describe("Tracing for send", function(): void {
 
     const list = [{ name: "Albert" }, { name: "Marie" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
     }
     await sender.sendMessages(batch);
     rootSpan.end();
@@ -604,17 +603,17 @@ describe("Tracing for send", function(): void {
       { name: "Albert" },
       {
         name: "Marie",
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: "foo"
         }
       }
     ];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd(
-        { body: `${list[i].name}`, properties: list[i].properties },
+      batch.tryAddMessage(
+        { body: `${list[i].name}`, applicationProperties: list[i].applicationProperties },
         { parentSpan: rootSpan }
       );
     }
@@ -651,9 +650,9 @@ describe("Tracing for send", function(): void {
 
     const list = [{ name: "Albert" }, { name: "Marie" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
     for (let i = 0; i < 2; i++) {
-      batch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
     }
     await sender.sendMessages(batch, {
       tracingOptions: {
@@ -777,7 +776,7 @@ describe("Tracing for send", function(): void {
     for (let i = 0; i < 5; i++) {
       messages.push({ body: `multiple messages - manual trace propgation: ${i}` });
     }
-    messages[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+    messages[0].applicationProperties = { [TRACEPARENT_PROPERTY]: "foo" };
     await sender.sendMessages(messages, {
       tracingOptions: {
         spanOptions: {
