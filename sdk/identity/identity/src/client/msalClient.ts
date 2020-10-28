@@ -249,8 +249,6 @@ export class HttpClient implements INetworkModule {
       url: url,
       headers: options && options.headers
     };
-    console.log("REQUEST:");
-    console.log(request);
 
     const response = await axios(request);
     const out = {
