@@ -30,7 +30,7 @@ function expiresInParser(requestBody: any) {
       queryParameters,
       headers: {
         Accept: "application/json",
-        "X-IDENTITY-HEADER": process.env.IDENTITY_HEADER
+        Secret: process.env.IDENTITY_HEADER
       }
     };
   }
