@@ -20,7 +20,7 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
-import { CreateStreamingReceiverOptions, StreamingReceiver } from "../core/streamingReceiver";
+import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import Long from "long";
@@ -366,12 +366,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createStreamingReceiver(this._context, this.entityPath, {
+    this._createStreamingReceiver({
       ...options,
       receiveMode: this.receiveMode,
       retryOptions: this._retryOptions,
-      cachedStreamingReceiver: this._streamingReceiver,
-      lockRenewer: this._lockRenewer
+      lockRenewer: this._lockRenewer,
+      onError
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
@@ -409,12 +409,36 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       });
   }
 
-  private _createStreamingReceiver(
-    context: ConnectionContext,
-    entityPath: string,
-    options: CreateStreamingReceiverOptions
+  private async _createStreamingReceiver(
+    options: StreamingReceiverInitArgs
   ): Promise<StreamingReceiver> {
-    return StreamingReceiver.create(context, entityPath, options);
+    throwErrorIfConnectionClosed(this._context);
+    if (options.autoComplete == null) options.autoComplete = true;
+
+    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
+    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
+    // since the link itself hasn't been shut down.
+    //
+    // Users can, if they want, restart their subscription (since we've got a link already established).
+    // So you'll have an instance here if the user has done:
+    // 1. const subscription = receiver.subscribe()
+    // 2. subscription.stop()
+    // 3. receiver.subscribe()
+    this._streamingReceiver =
+      this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
+
+    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
+    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
+    // open but we do need to close the receiver to exit the init() loop.
+    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
+
+    await this._streamingReceiver.init({
+      connectionId: this._context.connectionId,
+      useNewName: false,
+      ...options
+    });
+
+    return this._streamingReceiver;
   }
 
   async receiveMessages(

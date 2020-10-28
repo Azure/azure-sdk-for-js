@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 
-import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import {
@@ -19,6 +19,7 @@ import {
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
+import { isMessagingError } from "@azure/core-amqp";
 
 let unexpectedError: Error | undefined;
 

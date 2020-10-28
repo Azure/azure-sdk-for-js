@@ -9,8 +9,10 @@ import { AmqpMessageHeader } from '@azure/core-amqp';
 import { AmqpMessageProperties } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpOperationResponse } from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
+import { isMessagingError } from '@azure/core-amqp';
 import Long from 'long';
+import { MessageErrorCodes } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -139,6 +141,10 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
+export { isMessagingError }
+
+export { MessageErrorCodes }
+
 // @public
 export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
@@ -264,10 +270,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
-    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
-    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+    updateQueue(queue: WithResponse<QueueProperties>, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    updateRule(topicName: string, subscriptionName: string, rule: WithResponse<RuleProperties>, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    updateSubscription(subscription: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    updateTopic(topic: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
 
 // @public
@@ -319,7 +325,6 @@ export interface ServiceBusMessage {
     subject?: string;
     timeToLive?: number;
     to?: string;
-    userId?: string;
 }
 
 // @public
@@ -514,7 +519,7 @@ export { WebSocketOptions }
 
 // @public
 export type WithResponse<T extends object> = T & {
-    _response: HttpOperationResponse;
+    _response: HttpResponse;
 };
 
 

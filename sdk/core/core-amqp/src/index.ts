@@ -27,6 +27,8 @@ export {
 export { Dictionary, Message as AmqpMessage, isAmqpError } from "rhea-promise";
 export {
   MessagingError,
+  MessageErrorCodes,
+  isMessagingError,
   ErrorNameConditionMapper,
   ConditionStatusMapper,
   ConditionErrorNameMapper,
