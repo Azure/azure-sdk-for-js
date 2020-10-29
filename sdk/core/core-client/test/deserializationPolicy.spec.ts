@@ -513,8 +513,8 @@ describe("deserializationPolicy", function() {
         assert.fail();
       } catch (e) {
         assert(e);
-        assert.strictEqual(e.status, 400);
-        assert.strictEqual(e.parsedBody.message, "InternalServerError");
+        assert.strictEqual(e.statusCode, 400);
+        assert.include(e.message, "InternalServerError");
       }
     });
 

@@ -209,13 +209,6 @@ function handleErrorResponse(
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
-  if (!errorResponseSpec) {
-    throw parsedResponse;
-  }
-
-  const defaultBodyMapper = errorResponseSpec.bodyMapper;
-  const defaultHeadersMapper = errorResponseSpec.headersMapper;
-
   const initialErrorMessage = isStreamOperation(operationSpec)
     ? `Unexpected status code: ${parsedResponse.status}`
     : (parsedResponse.bodyAsText as string);
@@ -225,6 +218,15 @@ function handleErrorResponse(
     request: parsedResponse.request,
     response: parsedResponse
   });
+
+  // If the item failed but there's no error spec or default spec to deserialize the error,
+  // we should fail so we just throw the parsed response
+  if (!errorResponseSpec) {
+    throw error;
+  }
+
+  const defaultBodyMapper = errorResponseSpec.bodyMapper;
+  const defaultHeadersMapper = errorResponseSpec.headersMapper;
 
   try {
     // If error response has a body, try to extract error code & message from it
