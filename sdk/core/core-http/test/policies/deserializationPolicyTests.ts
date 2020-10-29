@@ -821,17 +821,17 @@ describe("deserializationPolicy", function() {
 
       const response: HttpOperationResponse = {
         request: createRequest(operationSpec),
-        status: 400,
+        status: 500,
         headers: new HttpHeaders(),
         bodyAsText: '{"message": "InternalServerError"}'
       };
 
       try {
         await deserializeResponse(response);
-        assert.fail();
+        assert.fail("Expected deserializeResponse to throw an error");
       } catch (e) {
         assert(e);
-        assert.strictEqual(e.statusCode, 400);
+        assert.strictEqual(e.statusCode, 500);
         assert.include(e.message, "InternalServerError");
       }
     });
