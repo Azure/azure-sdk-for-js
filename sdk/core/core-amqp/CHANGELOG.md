@@ -2,7 +2,7 @@
 
 ## 2.0.0-beta.1 (Unreleased)
 
-- `AmqpAnnotatedMessage` that closely represents the AMQP annotated message from the AMQP spec has been added.New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
+- `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
 
 ## 1.1.7 (2020-10-28)
