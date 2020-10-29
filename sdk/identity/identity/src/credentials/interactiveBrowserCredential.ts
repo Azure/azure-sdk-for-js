@@ -68,7 +68,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
       { clientId, authority: authorityHost },
       false,
       undefined,
-      undefined,
       options
     );
   }
@@ -89,7 +88,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
-    return this.msalClient.acquireTokenFromCache().catch((e) => {
+    return this.msalClient.acquireTokenFromCache(scopeArray).catch((e) => {
       if (e instanceof AuthenticationRequired) {
         return this.acquireTokenFromBrowser(scopeArray);
       } else {

@@ -96,7 +96,6 @@ export class DeviceCodeCredential implements TokenCredential {
       { clientId: clientId, authority: authorityHost },
       false,
       undefined,
-      undefined,
       options
     );
   }
@@ -123,7 +122,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
     logger.info("Sending devicecode request");
 
-    return this.msalClient.acquireTokenFromCache().catch((e) => {
+    return this.msalClient.acquireTokenFromCache(scopeArray).catch((e) => {
       if (e instanceof AuthenticationRequired) {
         try {
           return this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
