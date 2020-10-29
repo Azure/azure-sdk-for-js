@@ -17,7 +17,7 @@ function expiresInParser(requestBody: any) {
   function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
-      "api-version": "2019-08-01"
+      "api-version": "2019-07-01"
     };
   
     if (clientId) {
@@ -34,6 +34,17 @@ function expiresInParser(requestBody: any) {
       }
     };
   }
+
+// This credential can be easily tested by deploying a container to Azure Fabric with the Dockerfile:
+//
+//   FROM node:12
+//   RUN wget https://host.any/path/bash.sh
+//   CMD ["bash", "bash.sh"]
+//
+// Where the bash script contains:
+// 
+//   curl --insecure $IDENTITY_ENDPOINT'?api-version=2019-07-01-preview&resource=https://vault.azure.net/' -H "Secret: $IDENTITY_HEADER"
+//
 
 export const fabricMsi: MSI = {
   async isAvailable(
