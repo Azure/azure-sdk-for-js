@@ -30,7 +30,7 @@ export {
   PhoneNumberEntity,
   PhoneNumberRelease,
   PhoneNumberReleaseDetails,
-  PhoneNumberSearch,
+  PhoneNumberReservation,
   PhonePlan,
   PhonePlanGroup,
   PhonePlanGroups,

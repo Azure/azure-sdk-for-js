@@ -6,8 +6,6 @@ import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
-import { StreamingReceiver } from "../src/core/streamingReceiver";
-
 import { DispositionType, ServiceBusMessageImpl } from "../src/serviceBusMessage";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -20,8 +18,9 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { MessagingError, translate } from "@azure/core-amqp";
+import { isNode } from "@azure/core-amqp";
 import { verifyMessageCount } from "./utils/managementUtils";
+import sinon from "sinon";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -150,52 +149,6 @@ describe("Streaming Receiver Tests", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiver, 0);
-    });
-
-    it("onDetached should forward error messages if it fails to retry", async function(): Promise<
-      void
-    > {
-      let streamingReceiver: StreamingReceiver | undefined;
-      try {
-        let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create(
-          (receiver as any)._context,
-          receiver.entityPath,
-          {
-            receiveMode: "peekLock",
-            lockRenewer: undefined
-          }
-        );
-
-        streamingReceiver.subscribe(
-          async () => {},
-          (args) => {
-            actualError = args.error;
-          }
-        );
-
-        // overwrite _init to throw a non-retryable error.
-        // this will be called by onDetached
-        (streamingReceiver as any).init = async () => {
-          const error = new Error("Expected test error!");
-          // prevent retry from translating error.
-          (error as any).translated = true;
-          throw error;
-        };
-
-        // call detached directly
-        await streamingReceiver.onDetached();
-
-        should.equal(
-          actualError!.message,
-          "Expected test error!",
-          "Did not see the expected error in user-provided error handler."
-        );
-      } finally {
-        if (streamingReceiver) {
-          await streamingReceiver.close();
-        }
-      }
     });
 
     it("can stop and start a subscription", async () => {
@@ -913,191 +866,6 @@ describe("Streaming Receiver Tests", () => {
   );
 });
 
-describe(testClientType + ": Streaming - onDetached", function(): void {
-  let serviceBusClient: ServiceBusClientForTests;
-  let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver | ServiceBusReceiver;
-
-  before(() => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(async () => {
-    await serviceBusClient.test.after();
-  });
-
-  async function beforeEachTest(receiveMode?: "peekLock" | "receiveAndDelete"): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-
-    if (receiveMode === "receiveAndDelete") {
-      receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
-    } else {
-      receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
-    }
-    sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-    );
-
-    errorWasThrown = false;
-    unexpectedError = undefined;
-  }
-
-  afterEach(async () => {
-    return serviceBusClient.test.afterEach();
-  });
-
-  it("doesn't call user's error handler on non-retryable errors", async function(): Promise<void> {
-    /**
-     * If onDetached is called with a non-retryable error, it is assumed that
-     * the onSessionError or onAmqpError has already called the user's
-     * error handler.
-     */
-    // Create the sender and receiver.
-    await beforeEachTest("receiveAndDelete");
-    // Send a message so we can be sure when the receiver is open and active.
-    await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
-
-    let receiverIsActiveResolver: Function;
-    const receiverIsActive = new Promise((resolve) => {
-      receiverIsActiveResolver = resolve;
-    });
-    // Start the receiver.
-    receiver.subscribe({
-      async processMessage() {
-        // Since we've received a message, mark the receiver as active.
-        receiverIsActiveResolver();
-      },
-      async processError(err) {
-        receivedErrors.push(err);
-      }
-    });
-
-    // Wait until we're sure the receiver is open and receiving messages.
-    await receiverIsActive;
-
-    // Simulate onDetached being called with a non-retryable error.
-    const nonRetryableError = translate(new Error(`I break systems.`));
-    (nonRetryableError as MessagingError).retryable = false;
-    await (receiver as any)._streamingReceiver!.onDetached(nonRetryableError);
-
-    receivedErrors.length.should.equal(0, "Unexpected number of errors received.");
-  });
-
-  it("does call user's error handler on non-retryable errors due to disconnect", async function(): Promise<
-    void
-  > {
-    // Create the sender and receiver.
-    await beforeEachTest("receiveAndDelete");
-    // Send a message so we can be sure when the receiver is open and active.
-    await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
-
-    let receiverIsActiveResolver: Function;
-    const receiverIsActive = new Promise((resolve) => {
-      receiverIsActiveResolver = resolve;
-    });
-    // Start the receiver.
-    receiver.subscribe({
-      async processMessage() {
-        // Since we've received a message, mark the receiver as active.
-        receiverIsActiveResolver();
-      },
-      async processError(err) {
-        receivedErrors.push(err);
-      }
-    });
-
-    // Wait until we're sure the receiver is open and receiving messages.
-    await receiverIsActive;
-
-    // Simulate onDetached being called with a non-retryable error.
-    const nonRetryableError = new MessagingError(`I break systems.`);
-    (nonRetryableError as MessagingError).retryable = false;
-    await (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true);
-
-    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
-  });
-
-  it("doesn't call user's error handler multiple times (disconnect)", async function(): Promise<
-    void
-  > {
-    // Create the sender and receiver.
-    await beforeEachTest("receiveAndDelete");
-    // Send a message so we can be sure when the receiver is open and active.
-    await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
-
-    let receiverIsActiveResolver: Function;
-    const receiverIsActive = new Promise((resolve) => {
-      receiverIsActiveResolver = resolve;
-    });
-    // Start the receiver.
-    receiver.subscribe({
-      async processMessage() {
-        // Since we've received a message, mark the receiver as active.
-        receiverIsActiveResolver();
-      },
-      async processError(err) {
-        receivedErrors.push(err);
-      }
-    });
-
-    // Wait until we're sure the receiver is open and receiving messages.
-    await receiverIsActive;
-
-    // Simulate onDetached being called multiple times with non-retryable errors.
-    const nonRetryableError = new MessagingError(`I break systems.`);
-    (nonRetryableError as MessagingError).retryable = false;
-    await Promise.all([
-      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true)
-    ]);
-
-    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
-  });
-
-  it("doesn't call user's error handler multiple times (retryable)", async function(): Promise<
-    void
-  > {
-    // Create the sender and receiver.
-    await beforeEachTest("receiveAndDelete");
-    // Send a message so we can be sure when the receiver is open and active.
-    await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
-
-    let receiverIsActiveResolver: Function;
-    const receiverIsActive = new Promise((resolve) => {
-      receiverIsActiveResolver = resolve;
-    });
-    // Start the receiver.
-    receiver.subscribe({
-      async processMessage() {
-        // Since we've received a message, mark the receiver as active.
-        receiverIsActiveResolver();
-      },
-      async processError(err) {
-        receivedErrors.push(err);
-      }
-    });
-
-    // Wait until we're sure the receiver is open and receiving messages.
-    await receiverIsActive;
-
-    // Simulate onDetached being called multiple times with non-retryable and then retryable errors.
-    const nonRetryableError = new MessagingError(`I break systems.`);
-    (nonRetryableError as MessagingError).retryable = false;
-    const retryableError = new Error("I temporarily break systems.");
-    (retryableError as any).retryable = true;
-    await Promise.all([
-      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiver as any)._streamingReceiver!.onDetached(retryableError)
-    ]);
-
-    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
-  });
-});
-
 describe(testClientType + ": Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
@@ -1133,7 +901,6 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     await beforeEachTest();
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
-    const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
     let messageHandlerCount = 0;
@@ -1146,6 +913,8 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
       receiverSecondMessageResolver = resolve;
     });
 
+    const processErrorFake = createOnDetachedProcessErrorFake();
+
     // Start the receiver.
     receiver.subscribe({
       async processMessage(message: ServiceBusReceivedMessage) {
@@ -1153,27 +922,24 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
         try {
           await receiver.completeMessage(message);
           settledMessageCount++;
-        } catch (err) {
-          receivedErrors.push(err);
-        }
-        if (messageHandlerCount === 1) {
-          // Since we've received a message, mark the receiver as active.
-          receiverIsActiveResolver();
-        } else {
-          // Mark the second message resolver!
-          receiverSecondMessageResolver();
+        } finally {
+          if (messageHandlerCount === 1) {
+            // Since we've received a message, mark the receiver as active.
+            receiverIsActiveResolver();
+          } else {
+            // Mark the second message resolver!
+            receiverSecondMessageResolver();
+          }
         }
       },
-      async processError(err) {
-        receivedErrors.push(err);
-      }
+      processError: processErrorFake
     });
 
     // Wait until we're sure the receiver is open and receiving messages.
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+    processErrorFake.called.should.be.false;
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
@@ -1192,10 +958,68 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     // wait for the 2nd message to be received.
     await receiverSecondMessage;
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
-    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+
+    processErrorFake.assertErrors();
+
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 });
+
+/**
+ * Creates a validator for processError that can handle the differences
+ * between a browser and node.js when it comes to reported errors.
+ *
+ * @param receivedErrors Errors received while detaching
+ */
+export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
+  /**
+   * Validates the errors that have been reported and makes sure they're consistent
+   * with the platform we're running on.
+   */
+  assertErrors: () => void;
+} {
+  const processErrorFake = sinon.fake() as sinon.SinonSpy & {
+    assertErrors: () => void;
+  };
+
+  const assertErrors = () => {
+    const errors: string[] = [];
+
+    for (const callArgs of processErrorFake.args) {
+      const processErrorArgs: ProcessErrorArgs = callArgs[0];
+
+      if (processErrorArgs.error.message == null) {
+        errors.push(`No message for error type ${processErrorArgs.error.constructor.name}`);
+        continue;
+      }
+
+      errors.push(processErrorArgs.error.message);
+    }
+
+    // The way we trigger our detached logic can occasionally deliver a sensible error
+    // indicating socket state (on node.js this can manifest as an ECONNRESET and on
+    // websocket platforms this can manifest as a CloseEvent).
+    const expectedErrors = [];
+
+    if (isNode) {
+      if (errors.length > 0) {
+        expectedErrors.push("read ECONNRESET");
+      }
+    } else {
+      if (errors.length > 0) {
+        expectedErrors.push("No message for error type CloseEvent");
+      }
+    }
+
+    errors.should.deep.equal(
+      expectedErrors,
+      "Errors were incorrect (or outside of expected errors)."
+    );
+  };
+
+  processErrorFake["assertErrors"] = assertErrors;
+  return processErrorFake;
+}
 
 export function singleMessagePromise(
   receiver: ServiceBusReceiver

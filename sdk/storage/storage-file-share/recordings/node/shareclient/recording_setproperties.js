@@ -1,97 +1,89 @@
 let nock = require('nock');
 
-module.exports.hash = "97606f0e609c7dd5b3f6d2632d8e969f";
+module.exports.hash = "9b7ca4d84244be16ba8f69c9a51c4d47";
 
-module.exports.testInfo = {"uniqueName":{"share":"share160223286522402314"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"share":"share160378660814408877"},"newDate":{}}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share160223286522402314')
+  .put('/share160378660814408877')
   .query(true)
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 09 Oct 2020 08:41:05 GMT',
+  'Tue, 27 Oct 2020 08:16:49 GMT',
   'ETag',
-  '"0x8D86C2F0F99CE13"',
+  '"0x8D87A50A7210F65"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '99321f04-901a-003e-0417-9ef9d9000000',
+  'a58e8190-b01a-0009-2d39-ac102e000000',
   'x-ms-client-request-id',
-  'caeb897f-b0ee-4f12-b4c6-7aea17f48b80',
+  'dd905004-de24-4ae9-b031-d1ee50324ba9',
   'x-ms-version',
   '2020-02-10',
   'Date',
-  'Fri, 09 Oct 2020 08:41:04 GMT'
+  'Tue, 27 Oct 2020 08:16:49 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share160223286522402314')
+  .put('/share160378660814408877')
   .query(true)
   .reply(200, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 09 Oct 2020 08:41:05 GMT',
+  'Tue, 27 Oct 2020 08:16:49 GMT',
   'ETag',
-  '"0x8D86C2F0FCA822C"',
+  '"0x8D87A50A7620BD1"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '99321f07-901a-003e-0617-9ef9d9000000',
+  'a58e8193-b01a-0009-2e39-ac102e000000',
   'x-ms-client-request-id',
-  '4c684016-8e01-4c45-b31e-2d32e05936d5',
+  'b8682f4f-d0e9-4fcb-8e55-4fc67423bfd6',
   'x-ms-version',
   '2020-02-10',
   'Date',
-  'Fri, 09 Oct 2020 08:41:04 GMT'
+  'Tue, 27 Oct 2020 08:16:49 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/share160223286522402314')
+  .get('/share160378660814408877')
   .query(true)
   .reply(200, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 09 Oct 2020 08:41:05 GMT',
+  'Tue, 27 Oct 2020 08:16:49 GMT',
   'ETag',
-  '"0x8D86C2F0FCA822C"',
+  '"0x8D87A50A7620BD1"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '99321f08-901a-003e-0717-9ef9d9000000',
+  'a58e8196-b01a-0009-3139-ac102e000000',
   'x-ms-client-request-id',
-  '876b515a-7d8e-4f3d-84e3-d7deef1b3a3c',
+  '4a2e0ac7-13a0-4d51-84a4-91f999405a7a',
   'x-ms-version',
   '2020-02-10',
-  'x-ms-lease-status',
-  'unlocked',
-  'x-ms-lease-state',
-  'available',
   'x-ms-has-immutability-policy',
   'false',
   'x-ms-has-legal-hold',
   'false',
   'x-ms-share-quota',
-  '5120',
+  '20',
   'x-ms-access-tier',
   'Hot',
   'x-ms-access-tier-change-time',
-  'Fri, 09 Oct 2020 08:41:05 GMT',
+  'Tue, 27 Oct 2020 08:16:49 GMT',
   'x-ms-access-tier-transition-state',
   'pending-from-transactionOptimized',
-  'Access-Control-Expose-Headers',
-  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Last-Modified,ETag,x-ms-lease-status,x-ms-lease-state,x-ms-has-immutability-policy,x-ms-has-legal-hold,x-ms-share-quota,x-ms-access-tier,x-ms-access-tier-change-time,x-ms-access-tier-transition-state,Content-Length,Date,Transfer-Encoding',
-  'Access-Control-Allow-Origin',
-  '*',
   'Date',
-  'Fri, 09 Oct 2020 08:41:05 GMT'
+  'Tue, 27 Oct 2020 08:16:49 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share160223286522402314')
+  .delete('/share160378660814408877')
   .query(true)
   .reply(202, "", [
   'Content-Length',
@@ -99,11 +91,11 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '99321f0a-901a-003e-0917-9ef9d9000000',
+  'a58e819a-b01a-0009-3439-ac102e000000',
   'x-ms-client-request-id',
-  '29dc1124-d0e4-4bdb-9b81-10b487fef1bd',
+  '47f8d99e-caae-4b43-9ca2-d1000627fe16',
   'x-ms-version',
   '2020-02-10',
   'Date',
-  'Fri, 09 Oct 2020 08:41:05 GMT'
+  'Tue, 27 Oct 2020 08:16:50 GMT'
 ]);

@@ -393,19 +393,19 @@ export interface StorageProfile {
 }
 
 /**
- * The network settings.
+ * The network properties.
  */
-export interface NetworkSettings {
+export interface NetworkProperties {
   /**
-   * Specifies whether public network access is enabled for inbound and outbound, or outbound only.
-   * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
+   * The direction for the resource provider connection. Possible values include: 'Inbound',
+   * 'Outbound'
    */
-  publicNetworkAccess?: PublicNetworkAccess;
+  resourceProviderConnection?: ResourceProviderConnection;
   /**
-   * The mechanism through which the cluster will have outbound access to the public network.
-   * Possible values include: 'PublicLoadBalancer', 'UDR'
+   * Indicates whether or not private link is enabled. Possible values include: 'Disabled',
+   * 'Enabled'
    */
-  outboundOnlyPublicNetworkAccessType?: OutboundOnlyPublicNetworkAccessType;
+  privateLink?: PrivateLink;
 }
 
 /**
@@ -499,9 +499,9 @@ export interface ClusterCreateProperties {
    */
   minSupportedTlsVersion?: string;
   /**
-   * The network settings.
+   * The network properties.
    */
-  networkSettings?: NetworkSettings;
+  networkProperties?: NetworkProperties;
 }
 
 /**
@@ -645,6 +645,10 @@ export interface ClusterGetProperties {
    */
   tier?: Tier;
   /**
+   * The cluster id.
+   */
+  clusterId?: string;
+  /**
    * The cluster definition.
    */
   clusterDefinition: ClusterDefinition;
@@ -698,9 +702,9 @@ export interface ClusterGetProperties {
    */
   minSupportedTlsVersion?: string;
   /**
-   * The network settings.
+   * The network properties.
    */
-  networkSettings?: NetworkSettings;
+  networkProperties?: NetworkProperties;
 }
 
 /**
@@ -1626,20 +1630,20 @@ export type DirectoryType = 'ActiveDirectory';
 export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 /**
- * Defines values for PublicNetworkAccess.
- * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
+ * Defines values for ResourceProviderConnection.
+ * Possible values include: 'Inbound', 'Outbound'
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'InboundAndOutbound' | 'OutboundOnly';
+export type ResourceProviderConnection = 'Inbound' | 'Outbound';
 
 /**
- * Defines values for OutboundOnlyPublicNetworkAccessType.
- * Possible values include: 'PublicLoadBalancer', 'UDR'
+ * Defines values for PrivateLink.
+ * Possible values include: 'Disabled', 'Enabled'
  * @readonly
  * @enum {string}
  */
-export type OutboundOnlyPublicNetworkAccessType = 'PublicLoadBalancer' | 'UDR';
+export type PrivateLink = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for OSType.
