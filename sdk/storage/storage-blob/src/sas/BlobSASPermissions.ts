@@ -49,6 +49,12 @@ export class BlobSASPermissions {
         case "t":
           blobSASPermissions.tag = true;
           break;
+        case "m":
+          blobSASPermissions.move = true;
+          break;
+        case "e":
+          blobSASPermissions.execute = true;
+          break;
         default:
           throw new RangeError(`Invalid permission: ${char}`);
       }
@@ -114,6 +120,22 @@ export class BlobSASPermissions {
   public tag: boolean = false;
 
   /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissions
+   */
+  public move: boolean = false;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissions
+   */
+  public execute: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -142,6 +164,12 @@ export class BlobSASPermissions {
     }
     if (this.tag) {
       permissions.push("t");
+    }
+    if (this.move) {
+      permissions.push("m");
+    }
+    if (this.execute) {
+      permissions.push("e");
     }
     return permissions.join("");
   }

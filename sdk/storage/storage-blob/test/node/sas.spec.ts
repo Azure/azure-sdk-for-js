@@ -16,7 +16,8 @@ import {
   newPipeline,
   BlobClient,
   Tags,
-  SASProtocol
+  SASProtocol,
+  UserDelegationKey
 } from "../../src";
 import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
@@ -1226,5 +1227,170 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(!(await blobVersionClient.exists()));
 
     await containerClient.delete();
+  });
+
+  it("SAS permission m, e for blob should work", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwdxtme"),
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const blobClientWithSAS = new BlobClient(`${blobClient.url}?${sas}`);
+    await blobClientWithSAS.getProperties();
+  });
+
+  it("SAS permission m, e for container should work", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("racwdltxme"),
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const containerClientWithSAS = new ContainerClient(`${containerClient.url}?${sas}`);
+    await containerClientWithSAS
+      .listBlobsFlat()
+      .byPage()
+      .next();
+  });
+});
+
+describe("Generation for user delegation SAS Node.js only", () => {
+  let recorder: any;
+  let blobServiceClient: BlobServiceClient;
+  let userDelegationKey: UserDelegationKey;
+  let accountName: string;
+  let now: Date;
+  let tmr: Date;
+  let containerClient: ContainerClient;
+  let blobClient: BlobClient;
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      blobServiceClient = getTokenBSUWithDefaultCredential();
+    } catch (err) {
+      console.log(err);
+      this.skip();
+    }
+    accountName = process.env["ACCOUNT_NAME"] || "";
+
+    now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+
+    const containerName = recorder.getUniqueName("container");
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
+
+  afterEach(async function() {
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
+  it("SAS permission m, e for blob should work", async function() {
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwdxtme"),
+        version: "2020-02-10"
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
+    await blobClientWithSAS.getProperties();
+  });
+
+  it("SAS permission m, e for container should work", async function() {
+    const sas = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("racwdltxme"),
+        version: "2020-02-10"
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const containerClientWithSAS = new ContainerClient(`${containerClient.url}?${sas}`);
+    await containerClientWithSAS
+      .listBlobsFlat()
+      .byPage()
+      .next();
+  });
+
+  it("saoid and scid should work", async function() {
+    const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const authorizedGuid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwdxtme"),
+        version: "2020-02-10",
+        preauthorizedAgentObjectId: authorizedGuid,
+        correlationId: guid
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
+    await blobClientWithSAS.getProperties();
   });
 });

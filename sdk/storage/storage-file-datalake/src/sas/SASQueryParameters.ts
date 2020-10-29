@@ -23,7 +23,7 @@ export enum SASProtocol {
 }
 
 /**
- * Options interfac to construct {@link SASQueryParameters}.
+ * Options to construct {@link SASQueryParameters}.
  *
  * @export
  * @interface SASQueryParametersOptions
@@ -92,7 +92,8 @@ export interface SASQueryParametersOptions {
    */
   identifier?: string;
   /**
-   * Optional. The storage container or blob (only for {@link BlobSASSignatureValues}).
+   * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
+   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    *
    * @type {string}
    * @memberof SASQueryParametersOptions
@@ -149,19 +150,20 @@ export interface SASQueryParametersOptions {
    */
   directoryDepth?: number;
   /**
-   * Authorized AAD Object Id in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
+   * Authorized AAD Object ID in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
    * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
    * has the required permissions before granting access but no additional permission check for the user specified in
    * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
+   * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParametersOptions
    */
   preauthorizedAgentObjectId?: string;
   /**
-   * Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
+   * Unauthorized AAD Object ID in GUID format. The AAD Object ID of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
    * The Azure Storage Service will perform an additional POSIX ACL check to determine if the user is authorized to perform the requested operation.
-   * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}.
+   * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}. This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParametersOptions
@@ -169,6 +171,7 @@ export interface SASQueryParametersOptions {
   agentObjectId?: string;
   /**
    * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+   * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParametersOptions
@@ -260,7 +263,8 @@ export class SASQueryParameters {
   public readonly identifier?: string;
 
   /**
-   * Optional. The storage container or blob (only for {@link BlobSASSignatureValues}).
+   * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
+   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    *
    * @type {string}
    * @memberof SASQueryParameters
@@ -394,10 +398,11 @@ export class SASQueryParameters {
   public readonly directoryDepth?: number;
 
   /**
-   * Authorized AAD Object Id in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
+   * Authorized AAD Object ID in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
    * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
    * has the required permissions before granting access but no additional permission check for the user specified in
    * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
+   * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParameters
@@ -405,9 +410,10 @@ export class SASQueryParameters {
   public readonly preauthorizedAgentObjectId?: string;
 
   /**
-   * Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
+   * Unauthorized AAD Object ID in GUID format. The AAD Object ID of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
    * The Azure Storage Service will perform an additional POSIX ACL check to determine if the user is authorized to perform the requested operation.
    * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}.
+   * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParameters
@@ -416,6 +422,7 @@ export class SASQueryParameters {
 
   /**
    * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+   * This is only used for User Delegation SAS.
    *
    * @type {string}
    * @memberof SASQueryParameters
@@ -459,6 +466,9 @@ export class SASQueryParameters {
    * @param {string} [contentLanguage] Representing the content-language header (only for Blob/File Service SAS)
    * @param {string} [contentType] Representing the content-type header (only for Blob/File Service SAS)
    * @param {userDelegationKey} [userDelegationKey] Representing the user delegation key properties
+   * @param {string} [preauthorizedAgentObjectId] Representing the authorized AAD Object ID (only for User Delegation SAS)
+   * @param {string} [agentObjectId] Representing the unauthorized AAD Object ID (only for User Delegation SAS)
+   * @param {string} [correlationId] Representing the correlation ID (only for User Delegation SAS)
    * @memberof SASQueryParameters
    */
   constructor(
@@ -539,9 +549,6 @@ export class SASQueryParameters {
       this.contentLanguage = options.contentLanguage;
       this.contentType = options.contentType;
       this.directoryDepth = options.directoryDepth;
-      this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
-      this.agentObjectId = options.agentObjectId;
-      this.correlationId = options.correlationId;
 
       if (options.userDelegationKey) {
         this.signedOid = options.userDelegationKey.signedObjectId;
@@ -550,6 +557,10 @@ export class SASQueryParameters {
         this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
         this.signedService = options.userDelegationKey.signedService;
         this.signedVersion = options.userDelegationKey.signedVersion;
+
+        this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
+        this.agentObjectId = options.agentObjectId;
+        this.correlationId = options.correlationId;
       }
     } else {
       this.services = services;
@@ -567,9 +578,6 @@ export class SASQueryParameters {
       this.contentLanguage = contentLanguage;
       this.contentType = contentType;
       this.directoryDepth = directoryDepth;
-      this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
-      this.agentObjectId = agentObjectId;
-      this.correlationId = correlationId;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -578,6 +586,10 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
+
+        this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
+        this.agentObjectId = agentObjectId;
+        this.correlationId = correlationId;
       }
     }
   }

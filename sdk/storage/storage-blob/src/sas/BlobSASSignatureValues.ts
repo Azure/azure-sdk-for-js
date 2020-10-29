@@ -151,6 +151,26 @@ export interface BlobSASSignatureValues {
    * @memberof BlobSASSignatureValues
    */
   contentType?: string;
+
+  /**
+   * Optional. Beginning in version 2020-02-10, specifies the Authorized AAD Object ID in GUID format. The AAD Object ID of a user
+   * authorized by the owner of the user delegation key to perform the action granted by the SAS. The Azure Storage service will
+   * ensure that the owner of the user delegation key has the required permissions before granting access but no additional permission
+   * check for the user specified in this value will be performed. This is only used for User Delegation SAS.
+   *
+   * @type {string}
+   * @memberof BlobSASSignatureValues
+   */
+  preauthorizedAgentObjectId?: string;
+
+  /**
+   * Optional. Beginning in version 2020-02-10, this is a GUID value that will be logged in the storage diagnostic logs and can be used to
+   * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
+   *
+   * @type {string}
+   * @memberof BlobSASSignatureValues
+   */
+  correlationId?: string;
 }
 
 /**
@@ -736,9 +756,9 @@ function generateBlobSASQueryParametersUDK20200210(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    undefined, // preauthorizedAgentObjectId
+    blobSASSignatureValues.preauthorizedAgentObjectId,
     undefined, // agentObjectId
-    undefined, // correlationId
+    blobSASSignatureValues.correlationId,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     blobSASSignatureValues.version,
@@ -769,7 +789,9 @@ function generateBlobSASQueryParametersUDK20200210(
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
     blobSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey
+    userDelegationKeyCredential.userDelegationKey,
+    blobSASSignatureValues.preauthorizedAgentObjectId,
+    blobSASSignatureValues.correlationId
   );
 }
 
@@ -815,6 +837,23 @@ function SASSignatureValuesSanityCheckAndAutofill(
     version < "2019-12-12"
   ) {
     throw RangeError("'version' must be >= '2019-12-12' when providing 't' permission.");
+  }
+
+  if (
+    version < "2020-02-10" &&
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions.move || blobSASSignatureValues.permissions.execute)
+  ) {
+    throw RangeError("'version' must be >= '2020-02-10' when providing the 'm' or 'e' permission.");
+  }
+
+  if (
+    version < "2020-02-10" &&
+    (blobSASSignatureValues.preauthorizedAgentObjectId || blobSASSignatureValues.correlationId)
+  ) {
+    throw RangeError(
+      "'version' must be >= '2020-02-10' when providing 'preauthorizedAgentObjectId' or 'correlationId'."
+    );
   }
 
   blobSASSignatureValues.version = version;

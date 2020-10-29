@@ -50,6 +50,12 @@ export class ContainerSASPermissions {
         case "x":
           containerSASPermissions.deleteVersion = true;
           break;
+        case "m":
+          containerSASPermissions.move = true;
+          break;
+        case "e":
+          containerSASPermissions.execute = true;
+          break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
@@ -123,6 +129,22 @@ export class ContainerSASPermissions {
   public tag: boolean = false;
 
   /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissions
+   */
+  public move: boolean = false;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissions
+   */
+  public execute: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -157,6 +179,12 @@ export class ContainerSASPermissions {
     }
     if (this.tag) {
       permissions.push("t");
+    }
+    if (this.move) {
+      permissions.push("m");
+    }
+    if (this.execute) {
+      permissions.push("e");
     }
     return permissions.join("");
   }
