@@ -40,8 +40,8 @@ function sanitizeOptions(
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    autoLockRenewal: options.autoLockRenewal || false,
-    settleMessageOnReceive: options.settleMessageOnReceive || true
+    autoLockRenewal: options.autoLockRenewal,
+    settleMessageOnReceive: options.settleMessageOnReceive
   };
 }
 
@@ -51,7 +51,8 @@ function sanitizeOptions(
 export async function scenarioRenewSessionLock() {
   const testOptions = sanitizeOptions(
     parsedArgs<ScenarioRenewSessionLockOptions>(process.argv, {
-      boolean: ["autoLockRenewal", "settleMessageOnReceive"]
+      boolean: ["autoLockRenewal", "settleMessageOnReceive"],
+      default: { autoLockRenewal: false, settleMessageOnReceive: true }
     })
   );
   const {
