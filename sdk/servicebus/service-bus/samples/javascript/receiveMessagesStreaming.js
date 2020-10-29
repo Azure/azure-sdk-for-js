@@ -45,7 +45,7 @@ export async function main() {
               case "MessagingEntityNotFoundError":
               case "UnauthorizedError":
                 // It's possible you have a temporary infrastructure change (for instance, the entity being
-                // temporarily disabled). The handler will continue to retry - it is completely up to you
+                // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
                 // what is considered fatal for your program.
                 console.log(
                   `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
