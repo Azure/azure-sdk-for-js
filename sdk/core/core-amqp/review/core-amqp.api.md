@@ -8,13 +8,13 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import { Message as AmqpMessage } from 'rhea-promise';
-import { MessageHeader as AmqpMessageHeader } from 'rhea-promise';
-import { MessageProperties as AmqpMessageProperties } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
 import { isAmqpError } from 'rhea-promise';
 import { isTokenCredential } from '@azure/core-auth';
+import { MessageHeader } from 'rhea-promise';
+import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
@@ -26,11 +26,69 @@ import { WebSocketImpl } from 'rhea-promise';
 
 export { AccessToken }
 
+// @public
+export interface AmqpAnnotatedMessage {
+    applicationProperties?: {
+        [key: string]: any;
+    };
+    body: any;
+    deliveryAnnotations?: {
+        [key: string]: any;
+    };
+    footer?: {
+        [key: string]: any;
+    };
+    header?: AmqpMessageHeader;
+    messageAnnotations?: {
+        [key: string]: any;
+    };
+    properties?: AmqpMessageProperties;
+}
+
+// @public
+export const AmqpAnnotatedMessage: {
+    fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
+};
+
 export { AmqpMessage }
 
-export { AmqpMessageHeader }
+// @public
+export interface AmqpMessageHeader {
+    deliveryCount?: number;
+    durable?: boolean;
+    firstAcquirer?: boolean;
+    priority?: number;
+    timeToLive?: number;
+}
 
-export { AmqpMessageProperties }
+// @public
+export const AmqpMessageHeader: {
+    toRheaMessageHeader(props: AmqpMessageHeader): MessageHeader;
+    fromRheaMessageHeader(props: MessageHeader): AmqpMessageHeader;
+};
+
+// @public
+export interface AmqpMessageProperties {
+    absoluteExpiryTime?: number;
+    contentEncoding?: string;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    creationTime?: number;
+    groupId?: string;
+    groupSequence?: number;
+    messageId?: string | number | Buffer;
+    replyTo?: string;
+    replyToGroupId?: string;
+    subject?: string;
+    to?: string;
+    userId?: string;
+}
+
+// @public
+export const AmqpMessageProperties: {
+    toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
+    fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
+};
 
 export { AsyncLock }
 
@@ -506,44 +564,6 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MessageErrorCodes = "AddressAlreadyInUseError" | "ArgumentError" | "ArgumentOutOfRangeError" | "ConnectionForcedError" | "ConnectionRedirectError" | "DecodeError" | "DetachForcedError" | "ErrantLinkError" | "FrameSizeTooSmallError" | "FramingError" | "HandleInUseError" | "IllegalStateError" | "InternalServerError" | "InvalidFieldError" | "InvalidOperationError" | "LinkRedirectError" | "MessageLockLostError" | "MessageNotFoundError" | "MessageTooLargeError" | "MessageWaitTimeout" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessagingEntityNotFoundError" | "NoMatchingSubscriptionError" | "NotImplementedError" | "OperationCancelledError" | "OperationTimeoutError" | "PartitionNotOwnedError" | "PreconditionFailedError" | "PublisherRevokedError" | "QuotaExceededError" | "ReceiverDisconnectedError" | "RelayNotFoundError" | "ResourceDeletedError" | "ResourceLockedError" | "SenderBusyError" | "ServerBusyError" | "ServiceCommunicationError" | "ServiceUnavailableError" | "SessionCannotBeLockedError" | "SessionLockLostError" | "SessionWindowViolationError" | "StoreLockLostError" | "SystemError" | "TransferLimitExceededError" | "UnattachedHandleError" | "UnauthorizedError";
-
-// @public
-export interface MessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    ttl?: number;
-}
-
-// @public
-export const MessageHeader: {
-    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-};
-
-// @public
-export interface MessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
-
-// @public
-export const MessageProperties: {
-    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-};
 
 // @public
 export class MessagingError extends Error {
