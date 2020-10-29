@@ -2,8 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace.
