@@ -2,8 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates usage of SessionState.
@@ -30,7 +30,8 @@ require("dotenv").config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
-async function main() {
+
+export async function main() {
   try {
     await runScenario();
   } finally {
@@ -46,24 +47,30 @@ async function runScenario() {
     { event_name: "Add Item", event_details: "Eggs" },
     { event_name: "Checkout", event_details: "Success" }
   ];
+
   const shoppingEventsDataBob = [
     { event_name: "Add Item", event_details: "Pencil" },
     { event_name: "Add Item", event_details: "Paper" },
     { event_name: "Add Item", event_details: "Stapler" }
   ];
+
   // Simulating user events
   await sendMessagesForSession(shoppingEventsDataAlice, "alice");
   await sendMessagesForSession(shoppingEventsDataBob, "bob");
+
   await processMessageFromSession("alice");
   await processMessageFromSession("alice");
+
   // Displaying snapshot of Alice's shopping cart (SessionState) after processing 2 events
   // This will show two items
   await getSessionState("alice");
+
   await processMessageFromSession("alice");
   await processMessageFromSession("alice");
   await processMessageFromSession("bob");
   await processMessageFromSession("bob");
   await processMessageFromSession("bob");
+
   // Displaying snapshot of Alice's shopping cart (SessionState) after processing remaining events
   // This will show null as Alice checksout and cart is cleared
   await getSessionState("alice");
@@ -71,6 +78,7 @@ async function runScenario() {
   // This will show three items
   await getSessionState("bob");
 }
+
 async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
@@ -82,11 +90,14 @@ async function getSessionState(sessionId) {
   } else {
     console.log(`\nNo Items were added to cart for ${sessionId}\n`);
   }
+
   await sessionReceiver.close();
 }
+
 async function sendMessagesForSession(shoppingEvents, sessionId) {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(userEventsQueueName);
+
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
       sessionId: sessionId,
@@ -97,6 +108,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
   }
   await sender.close();
 }
+
 async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
@@ -104,6 +116,7 @@ async function processMessageFromSession(sessionId) {
   const messages = await sessionReceiver.receiveMessages(1, {
     maxWaitTimeInMs: 10000
   });
+
   // Custom logic for processing the messages
   if (messages.length > 0) {
     // Update sessionState
@@ -124,13 +137,14 @@ async function processMessageFromSession(sessionId) {
     console.log(
       `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
-    await messages[0].complete();
+    await sessionReceiver.completeMessage(messages[0]);
   } else {
     console.log(`No events were received for Customer: ${sessionId}\n`);
   }
 
   await sessionReceiver.close();
 }
+
 main().catch((err) => {
   console.log("Error occurred: ", err);
   process.exit(1);
