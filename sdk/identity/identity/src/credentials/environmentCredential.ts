@@ -66,7 +66,9 @@ export class EnvironmentCredential implements TokenCredential {
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
-    checkTenantId(logger, tenantId ? tenantId : "");
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
