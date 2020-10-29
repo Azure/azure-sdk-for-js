@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions";
-import { UserDelegationKey } from "./BlobServiceClient";
+import { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { UserDelegationKeyCredential } from "./credentials/UserDelegationKeyCredential";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
+import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
 import { ipRangeToString, SasIPRange } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { SERVICE_VERSION } from "../utils/constants";
+import { truncatedISO8061Date } from "../utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

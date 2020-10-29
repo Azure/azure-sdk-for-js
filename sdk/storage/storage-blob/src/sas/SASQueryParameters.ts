@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { truncatedISO8061Date } from "./utils/utils.common";
-import { UserDelegationKey } from "./BlobServiceClient";
+import { truncatedISO8061Date } from "../utils/utils.common";
+import { UserDelegationKey } from "../BlobServiceClient";
 
 /**
  * Protocols for generated SAS.

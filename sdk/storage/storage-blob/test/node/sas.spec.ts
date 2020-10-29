@@ -15,9 +15,9 @@ import {
   StorageSharedKeyCredential,
   newPipeline,
   BlobClient,
-  Tags
+  Tags,
+  SASProtocol
 } from "../../src";
-import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
