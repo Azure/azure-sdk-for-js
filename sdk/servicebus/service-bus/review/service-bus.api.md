@@ -5,8 +5,6 @@
 ```ts
 
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
-import { AmqpMessageHeader } from '@azure/core-amqp';
-import { AmqpMessageProperties } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
@@ -27,10 +25,6 @@ import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
-
-export { AmqpMessageHeader }
-
-export { AmqpMessageProperties }
 
 // @public
 export type AuthorizationRule = {
