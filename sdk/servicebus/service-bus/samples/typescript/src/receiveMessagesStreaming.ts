@@ -2,8 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the receive() function can be used to receive Service Bus messages
@@ -12,7 +12,13 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { delay, ServiceBusClient } from "@azure/service-bus";
+import {
+  delay,
+  isMessagingError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusReceivedMessage
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,28 +36,55 @@ export async function main() {
   // - See session.ts for how to receive using sessions.
   const receiver = sbClient.createReceiver(queueName);
 
-  const processMessage = async (brokeredMessage) => {
-    console.log(`Received message: ${brokeredMessage.body}`);
-    await brokeredMessage.complete();
-  };
-  const processError = async (args) => {
-    console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
-  };
-
   try {
-    receiver.subscribe(
-      {
-        processMessage,
-        processError
+    const subscription = receiver.subscribe({
+      processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
+        console.log(`Received message: ${brokeredMessage.body}`);
+
+        // autoComplete, which is enabled by default, will automatically call
+        // receiver.completeMessage() on your message so long as your
+        // processMessage handler does not throw an error.
+        //
+        // If your handler _does_ throw an error then the message will automatically
+        // be abandoned using receiver.abandonMessage()
+        //
+        // autoComplete can be disabled in the options for subscribe().
       },
-      {
-        autoComplete: false
+      processError: async (args: ProcessErrorArgs) => {
+        console.log(`Error from source ${args.errorSource} occurred: `, args.error);
+
+        // the handler will not stop without explicit intervention from you.
+        if (isMessagingError(args.error)) {
+          switch (args.error.code) {
+            case "MessagingEntityDisabledError":
+            case "MessagingEntityNotFoundError":
+            case "UnauthorizedError":
+              // It's possible you have a temporary infrastructure change (for instance, the entity being
+              // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
+              // what is considered fatal for your program.
+              console.log(
+                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                args.error
+              );
+              await subscription.close();
+              break;
+            case "MessageLockLostError":
+              console.log(`Message lock lost for message`, args.error);
+              break;
+            case "ServerBusyError":
+              // choosing an arbitrary amount of time to wait.
+              await delay(1000);
+              break;
+          }
+        }
       }
-    );
+    });
 
     // Waiting long enough before closing the receiver to receive messages
-    await delay(5000);
+    console.log(`Receiving messages for 20 seconds before exiting...`);
+    await delay(20000);
 
+    console.log(`Closing...`);
     await receiver.close();
   } finally {
     await sbClient.close();

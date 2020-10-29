@@ -11,12 +11,10 @@ import {
   PhoneNumberCountry,
   PhoneNumberEntities,
   PhoneNumberEntity,
-  PhoneNumberRelease,
   PhonePlan,
   PhonePlanGroup,
   PhonePlanGroups,
   PhonePlansResponse,
-  ReleaseResponse,
   UpdateNumberCapabilitiesResponse
 } from "../../src";
 import { CommunicationIdentity } from "../../src/communicationIdentity/generated/src/models";
@@ -138,28 +136,6 @@ export const listReleasesOrSearchesHttpClient: HttpClient = createMockHttpClient
 export const phoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<
   UpdateNumberCapabilitiesResponse
 >(200, { capabilitiesUpdateId: "1" });
-
-export const releasePhoneNumbersHttpClient: HttpClient = createMockHttpClient<ReleaseResponse>(
-  200,
-  {
-    releaseId: "1"
-  }
-);
-
-const phoneNumberRelease: PhoneNumberRelease = {
-  releaseId: "1",
-  createdAt: new Date(),
-  status: "Complete",
-  phoneNumberReleaseStatusDetails: {
-    "+18005551234": { status: "Success" },
-    "+18005555555": { status: "Success" }
-  }
-};
-
-export const getReleaseHttpClient: HttpClient = createMockHttpClient<PhoneNumberRelease>(
-  200,
-  phoneNumberRelease
-);
 
 const areaCodes: AreaCodes = {
   primaryAreaCodes: ["555", "555"],

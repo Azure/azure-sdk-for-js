@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^1.1.6",
+    "@azure/core-amqp": "2.0.0-beta.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
@@ -143,6 +143,7 @@
     "eslint": "^6.1.0",
     "esm": "^3.2.18",
     "glob": "^7.1.2",
+    "https-proxy-agent": "^5.0.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

@@ -4,10 +4,13 @@
 
 ```ts
 
+import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpOperationResponse } from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
+import { isMessagingError } from '@azure/core-amqp';
 import Long from 'long';
+import { MessageErrorCodes } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -22,51 +25,6 @@ import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
-
-// @public
-export interface AmqpAnnotatedMessage {
-    applicationProperties?: {
-        [key: string]: any;
-    };
-    body: any;
-    deliveryAnnotations?: {
-        [key: string]: any;
-    };
-    footer?: {
-        [key: string]: any;
-    };
-    header?: AmqpMessageHeader;
-    messageAnnotations?: {
-        [key: string]: any;
-    };
-    properties?: AmqpMessageProperties;
-}
-
-// @public
-export interface AmqpMessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    timeToLive?: number;
-}
-
-// @public
-export interface AmqpMessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
 
 // @public
 export type AuthorizationRule = {
@@ -176,6 +134,10 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
+
+export { isMessagingError }
+
+export { MessageErrorCodes }
 
 // @public
 export interface MessageHandlers {
@@ -302,10 +264,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
-    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
-    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+    updateQueue(queue: WithResponse<QueueProperties>, operationOptions?: OperationOptions): Promise<WithResponse<QueueProperties>>;
+    updateRule(topicName: string, subscriptionName: string, rule: WithResponse<RuleProperties>, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
+    updateSubscription(subscription: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
+    updateTopic(topic: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
 
 // @public
@@ -357,8 +319,6 @@ export interface ServiceBusMessage {
     subject?: string;
     timeToLive?: number;
     to?: string;
-    userId?: string;
-    viaPartitionKey?: string;
 }
 
 // @public
@@ -553,7 +513,7 @@ export { WebSocketOptions }
 
 // @public
 export type WithResponse<T extends object> = T & {
-    _response: HttpOperationResponse;
+    _response: HttpResponse;
 };
 
 

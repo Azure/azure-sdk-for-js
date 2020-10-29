@@ -6,6 +6,8 @@
 
 export {
   delay,
+  isMessagingError,
+  MessageErrorCodes,
   MessagingError,
   RetryOptions,
   TokenCredential,
@@ -57,9 +59,6 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
-  AmqpAnnotatedMessage,
-  AmqpMessageHeader,
-  AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
   ServiceBusMessage
