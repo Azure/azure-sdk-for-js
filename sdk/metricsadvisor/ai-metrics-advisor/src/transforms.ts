@@ -392,7 +392,13 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result13;
     }
     default:
-      throw new Error(`Unrecognized datasource type ${original.dataSourceType}`);
+      return {
+        ...common,
+        source: {
+          dataSourceType: "Unknown",
+          dataSourceParameter: (original as any).dataSourceParameter
+        }
+      };
   }
 }
 

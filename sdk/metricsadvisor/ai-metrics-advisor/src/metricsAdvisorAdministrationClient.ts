@@ -177,6 +177,9 @@ export class MetricsAdvisorAdministrationClient {
       operationOptions
     );
     const { name, granularity, source, schema, ingestionSettings, options } = feed;
+    if (source.dataSourceType === "Unknown") {
+      throw new Error("Cannot create a data feed with the Unknown source type.");
+    }
 
     const needRollup: NeedRollupEnum | undefined =
       options?.rollupSettings?.rollupType === "AutoRollup"
@@ -434,7 +437,9 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
     );
-
+    if (patch.source.dataSourceType === "Unknown") {
+      throw new Error("Cannot update a data feed to have the Unknown source type.");
+    }
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
