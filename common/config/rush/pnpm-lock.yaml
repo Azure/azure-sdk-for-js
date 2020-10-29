@@ -65,7 +65,7 @@ packages:
       '@types/async-lock': 1.1.2
       '@types/is-buffer': 2.0.0
       async-lock: 1.2.4
-      buffer: 5.6.1
+      buffer: 5.7.0
       debug: 3.2.6
       events: 3.2.0
       is-buffer: 2.0.4
@@ -165,7 +165,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       events: 3.2.0
       jws: 4.0.0
-      msal: 1.4.2
+      msal: 1.4.3
       qs: 6.9.4
       tslib: 2.0.3
       uuid: 8.3.1
@@ -249,7 +249,7 @@ packages:
       '@babel/types': 7.12.1
       convert-source-map: 1.7.0
       debug: 4.2.0
-      gensync: 1.0.0-beta.1
+      gensync: 1.0.0-beta.2
       json5: 2.1.3
       lodash: 4.17.20
       resolve: 1.18.1
@@ -585,7 +585,7 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==
-  /@rollup/plugin-replace/2.3.3_rollup@1.32.1:
+  /@rollup/plugin-replace/2.3.4_rollup@1.32.1:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@1.32.1
       magic-string: 0.25.7
@@ -594,7 +594,7 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
-      integrity: sha512-XPmVXZ7IlaoWaJLkSCDaa0Y6uVo5XQYHhiMFzOd5qSv5rE+t/UJToPIOE56flKIxBFQI27ONsxb7dqHnwSsjKQ==
+      integrity: sha512-waBhMzyAtjCL1GwZes2jaE9MjuQ/DQF2BatH3fRivUF3z0JBFrU0U6iBNC/4WR+2rLKhaAhPWDNPYp4mI6RqdQ==
   /@rollup/pluginutils/3.1.0_rollup@1.32.1:
     dependencies:
       '@types/estree': 0.0.39
@@ -694,14 +694,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-j9n4bb6RhgFIydBe0+kpjnBPYumDaDyU8zvbWykyVMkku+c2CSu31MZkLeaBfqIwU+XCxlDpYDfyMQRkM0AkeQ==
-  /@types/bluebird/3.5.32:
+  /@types/bluebird/3.5.33:
     dev: false
     resolution:
-      integrity: sha512-dIOxFfI0C+jz89g6lQ+TqhGgPQ0MxSnh/E4xuC0blhFtyW269+mPG5QeLgbdwst/LvdP8o1y0o/Gz5EHXLec/g==
+      integrity: sha512-ndEo1xvnYeHxm7I/5sF6tBvnsA4Tdi3zj1keRKRs12SP+2ye2A27NDJ1B6PqkfMbGAcT+mqQVqbZRIrhfOp5PQ==
   /@types/body-parser/1.19.0:
     dependencies:
       '@types/connect': 3.4.33
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
@@ -730,7 +730,7 @@ packages:
       integrity: sha512-1zzPV9FDe1I/WHhRkf9SNgqtRJWZqrBWgu7JGveuHmmyR9CnAPCie2N/x+iHrgnpYBIcCJWHBoMRv2TRWktsvw==
   /@types/connect/3.4.33:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 10.17.13
     dev: false
     resolution:
       integrity: sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
@@ -759,7 +759,7 @@ packages:
       integrity: sha512-jnqIUKDUqJbDIUxm0Uj7bnlMnRm1T/eZ9N+AVMqhPgzrba2GhGG5o/jCTwmdPK709nEZsGoMzXEDUjcXHa3W0g==
   /@types/express-serve-static-core/4.17.13:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/qs': 6.9.5
       '@types/range-parser': 1.2.3
     dev: false
@@ -780,20 +780,20 @@ packages:
       integrity: sha512-mky/O83TXmGY39P1H9YbUpjV6l6voRYlufqfFCvel8l1phuy8HRjdWc1rrPuN53ITBJlbyMSV6z3niOySO5pgQ==
   /@types/fs-extra/8.1.1:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-TcUlBem321DFQzBNuz8p0CLLKp0VvF/XH9E4KHNmgwyp4E3AfgI5cjiIVZWlbfThBop2qxFIh4+LeY6hVWWZ2w==
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.3
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/is-buffer/2.0.0:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==
@@ -808,7 +808,7 @@ packages:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
   /@types/jws/3.2.2:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-S0ohSSX8ioT65zu8KbG99xKyFV3InIjbM3c8roYqWy4+5HpYPyUHLYykfhM6MEI5B/3s7KSZPGFyCzCrZ2TOZA==
@@ -822,7 +822,7 @@ packages:
       integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
   /@types/md5/2.2.1:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-bZB0jqBL7JETFqvRKyuDETFceFaVcLm2MBPP5LFEEL/SZuqLnyvzF37tXmMERDncC3oeEj/fOUw88ftJeMpZaw==
@@ -844,13 +844,13 @@ packages:
       integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
   /@types/mock-fs/4.10.0:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-FQ5alSzmHMmliqcL36JqIA4Yyn9jyJKvRSGV3mvPh108VFatX7naJDzSG4fnFQNZFq9dIx0Dzoe6ddflMB2Xkg==
   /@types/mock-require/2.0.0:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-nOgjoE5bBiDeiA+z41i95makyHUSMWQMOPocP+J67Pqx/68HAXaeWN1NFtrAYYV6LrISIZZ8vKHm/a50k0f6Sg==
@@ -860,7 +860,7 @@ packages:
       integrity: sha512-DPxmjiDwubsNmguG5X4fEJ+XCyzWM3GXWsqQlvUcjJKa91IOoJUy51meDr0GkzK64qqNcq85ymLlyjoct9tInw==
   /@types/node-fetch/2.5.7:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       form-data: 3.0.0
     dev: false
     resolution:
@@ -869,14 +869,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==
-  /@types/node/10.17.42:
+  /@types/node/10.17.44:
     dev: false
     resolution:
-      integrity: sha512-HElxYF7C/MSkuvlaHB2c+82zhXiuO49Cq056Dol8AQuTph7oJtduo2n6J8rFa+YhJyNgQ/Lm20ZaxqD0vxU0+Q==
-  /@types/node/8.10.65:
+      integrity: sha512-vHPAyBX1ffLcy4fQHmDyIUMUb42gHZjPHU66nhvbMzAWJqHnySGZ6STwN3rwrnSd1FHB0DI/RWgGELgKSYRDmw==
+  /@types/node/8.10.66:
     dev: false
     resolution:
-      integrity: sha512-xdcqtQl1g3p/49kmcj7ZixPWOcNHA1tYNz+uN0PJEcgtN6zywK74aacTnd3eFGPuBpD7kK8vowmMRkUt6jHU/Q==
+      integrity: sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==
   /@types/prettier/2.0.2:
     dev: false
     resolution:
@@ -899,7 +899,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 10.17.13
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -910,7 +910,7 @@ packages:
   /@types/serve-static/1.13.6:
     dependencies:
       '@types/mime': 2.0.3
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-nuRJmv7jW7VmCVTn+IgYDkkbbDGyIINOeu/G0d74X3lm6E5KfMeQPJhxIt1ayQeQB3cSxvYs1RA/wipYoFB4EA==
@@ -930,13 +930,13 @@ packages:
       integrity: sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
   /@types/tunnel/0.0.0:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-FGDp0iBRiBdPjOgjJmn1NH0KDLN+Z8fRmo+9J7XGBhubq1DPrGrbmG4UTlGzrpbCpesMqD0sWkzi27EYkOMHyg==
   /@types/tunnel/0.0.1:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==
@@ -948,15 +948,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
-  /@types/ws/7.2.8:
+  /@types/ws/7.2.9:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
-      integrity: sha512-LGtjDQxcMk4uU7ET85qJWYLwCdsSxLRxqOums/SDDWJw/BCCgFrOvqcvly6rGNkB/OkOiUaRzzhz8pchuxXr7w==
+      integrity: sha512-gmXYAXr7G4BrRMnkGQGkGonc3ArVro9VZd//C1uns/qqsJyl2dxaJdlPMhZbcq5MTxFFC+ttFWtHSfVW5+hlRA==
   /@types/xml2js/0.4.5:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-yohU3zMn0fkhlape1nxXG2bLEGZRc1FeqF80RoHaYXJN7uibaauXfhzhOJr1Xh36sn+/tx21QAOf07b/xYVk1w==
@@ -972,7 +972,7 @@ packages:
       integrity: sha512-HmU8SeIRhZCWcnRskCs36Q1Q00KBV6Cqh/ora8WN1+22dY07AZdn6Gel8QZ3t26XYPImtcL8WV/eqjhVmMEw4g==
   /@types/yauzl/2.9.1:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 10.17.13
     dev: false
     optional: true
     resolution:
@@ -1104,14 +1104,14 @@ packages:
       integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
   /adal-node/0.1.28:
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       async: 3.2.0
       date-utils: 1.2.21
       jws: 3.2.2
       request: 2.88.2
       underscore: 1.11.0
       uuid: 3.4.0
-      xmldom: 0.3.0
+      xmldom: 0.4.0
       xpath.js: 1.1.0
     dev: false
     engines:
@@ -1422,12 +1422,12 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-XWX3OX8Onv97LMk/ftVyBibpGwY5a8SmuxZPzeOxqmuEqUCOM9ZE+uIaD1VNJ5QnvU2UQusvmKbuM1FR8QWGfQ==
-  /avsc/5.5.2:
+  /avsc/5.5.3:
     dev: false
     engines:
       node: '>=0.11'
     resolution:
-      integrity: sha512-ADkdb9T5KhRRIzbRZ2Pj1f+SMILDnihgbqlksbJcbHpnyNYCAJDa4RCG6o5AT4uktW2noRRvSF7DTrkE4Z4z4A==
+      integrity: sha512-LaBbmBsus1mpK+6i99AF57/tUP8/wAj9+ZZm/5HGNIWN0dUZWUEp4/o79pAiRz49Mdb3PskltbCFD3w115TdZQ==
   /aws-sign2/0.7.0:
     dev: false
     resolution:
@@ -1545,7 +1545,7 @@ packages:
       integrity: sha1-yba8oI0bwuoA/Ir7Txpf0eHGbk4=
   /bl/4.0.3:
     dependencies:
-      buffer: 5.6.1
+      buffer: 5.7.0
       inherits: 2.0.4
       readable-stream: 3.6.0
     dev: false
@@ -1688,13 +1688,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-JuYe0UIvtw3ULm42cp7VHYVf6Nk=
-  /buffer/5.6.1:
+  /buffer/5.7.0:
     dependencies:
       base64-js: 1.3.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
     dev: false
     resolution:
-      integrity: sha512-2z15UUHpS9/3tk9mY/q+Rl3rydOi7yMp5XWNQnRvoz+mJwiv8brqYwp9a+nOCtma6dwuEIxljD8W3ysVBZ05Vg==
+      integrity: sha512-cd+5r1VLBwUqTrmnzW+D7ABkJUM6mr7uv1dv+6jRw4Rcl7tFIFHDqHPL98LhpGFn3dbAt3gtLxtrWp4m1kFrqg==
   /builtin-modules/1.1.1:
     dev: false
     engines:
@@ -2740,7 +2740,7 @@ packages:
       source-map: 0.2.0
     resolution:
       integrity: sha1-WltTr0aTEQvrsIZ6o0MN07cKEBg=
-  /eslint-config-prettier/6.14.0_eslint@6.8.0:
+  /eslint-config-prettier/6.15.0_eslint@6.8.0:
     dependencies:
       eslint: 6.8.0
       get-stdin: 6.0.0
@@ -2749,7 +2749,7 @@ packages:
     peerDependencies:
       eslint: '>=3.14.1'
     resolution:
-      integrity: sha512-DbVwh0qZhAC7CNDWcq8cBdK6FcVHiMTKmCypOPWeZkp9hJ8xYwTaWSa6bb6cjfi8KOeJy0e9a8Izxyx+O4+gCQ==
+      integrity: sha512-a1+kOYLR8wMGustcgAjdydMsQ2A/2ipRPwRKUmfYaSxc9ZPcrku080Ctl6zrZzZNs/U82MjSv+qKREkoq3bJaw==
   /eslint-plugin-es/3.0.1_eslint@6.8.0:
     dependencies:
       eslint: 6.8.0
@@ -2859,7 +2859,7 @@ packages:
       strip-json-comments: 3.1.1
       table: 5.4.6
       text-table: 0.2.0
-      v8-compile-cache: 2.1.1
+      v8-compile-cache: 2.2.0
     dev: false
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -3410,12 +3410,12 @@ packages:
       node: '>=8.10.0'
     resolution:
       integrity: sha512-ZQf+DLZ5aKcRpLzYUyBS3yo3N0JSa82lNDO8rj3nMSlovLcz2riKFBsYgDzeXcv75oo5eqB2lx+B14UvPoCRnA==
-  /gensync/1.0.0-beta.1:
+  /gensync/1.0.0-beta.2:
     dev: false
     engines:
       node: '>=6.9.0'
     resolution:
-      integrity: sha512-r8EC6NO1sngH/zdD9fiRDLdcgnbayXah+mLgManTaIZJqEC1MZstmnox8KpnI2/fxQwrp5OpCOYWLp4rBl4Jcg==
+      integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
   /get-caller-file/1.0.3:
     dev: false
     resolution:
@@ -3879,10 +3879,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-zfNREywMuf0NzDo9mVsL0yegjsirJxHpKHvWcyRozIqQy89g0a3U+oBPOCN4cc0oCiOuYgZHimzaW/R46G1Mpg==
-  /ieee754/1.1.13:
+  /ieee754/1.2.1:
     dev: false
     resolution:
-      integrity: sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
+      integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
   /ignore/4.0.6:
     dev: false
     engines:
@@ -5357,14 +5357,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-  /msal/1.4.2:
+  /msal/1.4.3:
     dependencies:
       tslib: 1.14.1
     dev: false
     engines:
       node: '>=0.8.0'
     resolution:
-      integrity: sha512-zoKU3NbYSCrm+rz+Dgvh24ZZ7mvFjzsdRMJW8IPcuD7EbrKrF0HlKy+Pi0Kvnuz1yWXNWVheTY4YGu66CpO80g==
+      integrity: sha512-C90MhgzcBuTSR2BOQ/LQryY1CZVESQLJDdmRDWSsaVde+zwZ2iXD0fWw7zeBd5TzfUCiJEXZVs4lFJ8d/IGbiQ==
   /multipipe/0.1.2:
     dependencies:
       duplexer2: 0.0.2
@@ -6709,7 +6709,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.45
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
     hasBin: true
@@ -6910,7 +6910,7 @@ packages:
     optional: true
     resolution:
       integrity: sha512-bCR6cP+aTdScaQCnQKbPKtJOKDp/hj9EDLJo3Nw4y1QksqaovlW/bnptB6/c1e+qmNIDHRK+oXFDdEqBT8WzUA==
-  /sinon/9.2.0:
+  /sinon/9.2.1:
     dependencies:
       '@sinonjs/commons': 1.8.1
       '@sinonjs/fake-timers': 6.0.1
@@ -6921,7 +6921,7 @@ packages:
       supports-color: 7.2.0
     dev: false
     resolution:
-      integrity: sha512-eSNXz1XMcGEMHw08NJXSyTHIu6qTCOiN8x9ODACmZpNQpr0aXTBXBnI4xTzQzR+TEpOmLiKowGf9flCuKIzsbw==
+      integrity: sha512-naPfsamB5KEE1aiioaoqJ6MEhdUs/2vtI5w1hPAXX/UwvoPjXcwh1m5HiKx0HGgKR8lQSoFIgY5jM6KK8VrS9w==
   /slice-ansi/2.1.0:
     dependencies:
       ansi-styles: 3.2.1
@@ -7795,7 +7795,7 @@ packages:
       integrity: sha512-FyYnoxVL1D6+jDGQpbK5jW6y/2JlVfRfEeQ67BPCUg5wfCjaKOpr2XeceE4QL+MkhxliLtf5EbrMDZgzpt2CNw==
   /unbzip2-stream/1.4.3:
     dependencies:
-      buffer: 5.6.1
+      buffer: 5.7.0
       through: 2.3.8
     dev: false
     resolution:
@@ -7885,10 +7885,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
-  /v8-compile-cache/2.1.1:
+  /v8-compile-cache/2.2.0:
     dev: false
     resolution:
-      integrity: sha512-8OQ9CL+VWyt3JStj7HX7/ciTL2V3Rl1Wf5OL+SNTm0yK1KvtReVulksyeRnCANHHuUxHlQig+JJDlUhBt1NQDQ==
+      integrity: sha512-gTpR5XQNKFwOd4clxfnhaqvfqMpqEwr4tOtCyz4MtYZX2JYhfr1JvBFKdS+7K/9rfpZR3VLX+YWBbKoxCgS43Q==
   /validate-npm-package-license/3.0.4:
     dependencies:
       spdx-correct: 3.1.1
@@ -8131,12 +8131,12 @@ packages:
       node: '>=4.0'
     resolution:
       integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
-  /xmldom/0.3.0:
+  /xmldom/0.4.0:
     dev: false
     engines:
       node: '>=10.0.0'
     resolution:
-      integrity: sha512-z9s6k3wxE+aZHgXYxSTpGDo7BYOUfJsIRyoZiX6HTjwpwfS2wpQBQKa2fD+ShLyPkqDYo5ud7KitmLZ2Cd6r0g==
+      integrity: sha512-2E93k08T30Ugs+34HBSTQLVtpi6mCddaY8uO+pMNk1pqSjV5vElzn4mmh6KLxN3hki8rNcHSYzILoh3TEWORvA==
   /xmlhttprequest-ssl/1.5.5:
     dev: false
     engines:
@@ -8325,9 +8325,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       delay: 4.4.0
@@ -8370,10 +8370,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       chai: 4.2.0
       cross-env: 7.0.2
       dotenv: 8.2.0
@@ -8417,7 +8417,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -8443,7 +8443,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -8461,7 +8461,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -8487,7 +8487,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -8507,7 +8507,7 @@ packages:
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -8534,7 +8534,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -8556,10 +8556,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -8588,7 +8588,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -8609,10 +8609,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -8644,13 +8644,13 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-Qlh3UEY4LjLCOJHjghbHZ6TizpAc2QXJYEuu5CSs3aZHZVW/Oyc5Y2A1XHTKf8rOuKyO+eywJcNaq2OxkGZqog==
+      integrity: sha512-vMH9RkYhww/ABiqRkUX2hF3dYzJqL/62Bh+RODDDdekGAgv6uSefG861U0bUTlxtZZQ/0dKE32jjfQ6ynn7b+g==
       tarball: 'file:projects/communication-administration.tgz'
     version: 0.0.0
   'file:projects/communication-chat.tgz':
@@ -8663,10 +8663,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -8698,7 +8698,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -8716,12 +8716,12 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/jwt-decode': 2.2.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -8751,7 +8751,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -8770,10 +8770,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -8803,7 +8803,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -8822,18 +8822,18 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/debug': 4.1.5
       '@types/is-buffer': 2.0.0
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       async-lock: 1.2.4
-      buffer: 5.6.1
+      buffer: 5.7.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.2
@@ -8860,7 +8860,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -8878,7 +8878,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       chai: 4.2.0
       eslint: 6.8.0
       mocha: 7.2.0
@@ -8902,7 +8902,7 @@ packages:
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       eslint: 6.8.0
       prettier: 1.19.1
       typescript: 3.9.7
@@ -8921,9 +8921,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       downlevel-dts: 0.4.0
@@ -8955,10 +8955,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       cross-env: 7.0.2
@@ -8984,7 +8984,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -9008,7 +9008,7 @@ packages:
       '@types/express': 4.17.8
       '@types/glob': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/node-fetch': 2.5.7
       '@types/sinon': 9.0.8
       '@types/tough-cookie': 4.0.0
@@ -9046,7 +9046,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
       shx: 0.3.3
-      sinon: 9.2.0
+      sinon: 9.2.1
       tough-cookie: 4.0.0
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -9071,10 +9071,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
       chai: 4.2.0
@@ -9103,7 +9103,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9122,10 +9122,10 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       chai: 4.2.0
       eslint: 6.8.0
@@ -9164,7 +9164,7 @@ packages:
     version: 0.0.0
   'file:projects/core-paging.tgz':
     dependencies:
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       eslint: 6.8.0
       prettier: 1.19.1
       typescript: 3.9.7
@@ -9183,9 +9183,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       eslint: 6.8.0
@@ -9214,10 +9214,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       '@types/xml2js': 0.4.5
       chai: 4.2.0
@@ -9244,7 +9244,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -9263,7 +9263,7 @@ packages:
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/node-fetch': 2.5.7
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.0
@@ -9292,7 +9292,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-local-resolve: 1.0.7
       semaphore: 1.1.0
-      sinon: 9.2.0
+      sinon: 9.2.1
       snap-shot-it: 7.9.3
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
@@ -9319,10 +9319,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       cross-env: 7.0.2
@@ -9350,7 +9350,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -9372,7 +9372,7 @@ packages:
       '@types/fs-extra': 8.1.1
       '@types/minimist': 1.2.0
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/prettier': 2.0.2
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
@@ -9409,10 +9409,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       cross-env: 7.0.2
@@ -9442,7 +9442,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -9454,13 +9454,13 @@ packages:
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
     dependencies:
-      '@types/bluebird': 3.5.32
+      '@types/bluebird': 3.5.33
       '@types/chai': 4.2.14
       '@types/eslint': 4.16.8
       '@types/estree': 0.0.39
       '@types/glob': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/experimental-utils': 2.34.0_eslint@6.8.0+typescript@3.9.7
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
@@ -9468,7 +9468,7 @@ packages:
       bluebird: 3.7.2
       chai: 4.2.0
       eslint: 6.8.0
-      eslint-config-prettier: 6.14.0_eslint@6.8.0
+      eslint-config-prettier: 6.15.0_eslint@6.8.0
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       glob: 7.1.6
@@ -9496,7 +9496,7 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
@@ -9504,12 +9504,12 @@ packages:
       '@types/debug': 4.1.5
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
-      '@types/ws': 7.2.8
+      '@types/ws': 7.2.9
       assert: 1.5.0
-      buffer: 5.6.1
+      buffer: 5.7.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
@@ -9542,7 +9542,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9551,7 +9551,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-UekhJtrduR/NW15Smomg3rLI+iz68Rz4+Pu2b3gXYvp7IViWTSYeJYGBSK5HRonIUSwa8Bewj9tG2Ugs+7hVxA==
+      integrity: sha512-JqCjIOawpToXBJIv67KpVhJq5ODgj35EnNKOBPIUgpNlBaAq1N+W2CXKEFri2H7qVc5aKahCP1VcqAYwAI70xg==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -9563,16 +9563,16 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/uuid': 8.3.0
-      '@types/ws': 7.2.8
+      '@types/ws': 7.2.9
       async-lock: 1.2.4
       azure-storage: 2.10.3
       chai: 4.2.0
@@ -9613,11 +9613,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
       chai: 4.2.0
@@ -9648,7 +9648,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -9667,13 +9667,13 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -9727,11 +9727,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/express': 4.17.8
       '@types/jws': 3.2.2
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/qs': 6.9.5
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
@@ -9753,7 +9753,7 @@ packages:
       karma-remap-istanbul: 0.6.0_karma@5.2.3
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      msal: 1.4.2
+      msal: 1.4.3
       open: 7.3.0
       prettier: 1.19.1
       puppeteer: 3.3.0
@@ -9763,7 +9763,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
@@ -9786,11 +9786,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       '@types/uuid': 8.3.0
       assert: 1.5.0
@@ -9822,7 +9822,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9843,11 +9843,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/query-string': 6.2.0
       '@types/sinon': 9.0.8
       assert: 1.5.0
@@ -9882,7 +9882,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9915,11 +9915,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/query-string': 6.2.0
       '@types/sinon': 9.0.8
       assert: 1.5.0
@@ -9954,7 +9954,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9975,11 +9975,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/query-string': 6.2.0
       '@types/sinon': 9.0.8
       assert: 1.5.0
@@ -10014,7 +10014,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
@@ -10031,10 +10031,10 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       chai: 4.2.0
@@ -10062,7 +10062,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -10079,7 +10079,7 @@ packages:
       '@opentelemetry/semantic-conventions': 0.10.2
       '@opentelemetry/tracing': 0.10.2
       '@types/mocha': 7.0.2
-      '@types/node': 10.17.42
+      '@types/node': 10.17.44
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
       eslint: 6.8.0
@@ -10090,7 +10090,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-mocha: 7.0.0_mocha@7.2.0
       typescript: 3.9.7
     dev: false
@@ -10108,13 +10108,13 @@ packages:
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
-      avsc: 5.5.2
-      buffer: 5.6.1
+      '@types/node': 8.10.66
+      avsc: 5.5.3
+      buffer: 5.7.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.2
@@ -10162,11 +10162,11 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.2
@@ -10213,10 +10213,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       chai: 4.2.0
       cross-env: 7.0.2
@@ -10247,7 +10247,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -10269,7 +10269,7 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/debug': 4.1.5
@@ -10277,11 +10277,11 @@ packages:
       '@types/is-buffer': 2.0.0
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
-      '@types/ws': 7.2.8
+      '@types/ws': 7.2.9
       assert: 1.5.0
-      buffer: 5.6.1
+      buffer: 5.7.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-exclude: 2.0.2_chai@4.2.0
@@ -10294,6 +10294,7 @@ packages:
       esm: 3.2.25
       events: 3.2.0
       glob: 7.1.6
+      https-proxy-agent: 5.0.0
       is-buffer: 2.0.4
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
@@ -10321,7 +10322,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -10329,7 +10330,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-ToeWVBzLw1MTLfNAo1OjUtI72XfTvYWQ4tyRwZx36W9QQf9E6KgyLJQ/jrRxCYh+m6ozKn1Rpe15yQETGCRtnA==
+      integrity: sha512-d9s7DZD2MUzIIMKn9T4FTFq3Foa1MoUjOs3JyUyrDtl3VMgNMyXvTfxl1z1jufqtzsl1CU1bjRUfP5lZXR4LmQ==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob-changefeed.tgz':
@@ -10341,9 +10342,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.8
       assert: 1.5.0
       cross-env: 7.0.2
@@ -10378,7 +10379,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.1.2_rollup@1.32.1
-      sinon: 9.2.0
+      sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10399,9 +10400,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       dotenv: 8.2.0
@@ -10455,10 +10456,10 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/query-string': 6.2.0
       assert: 1.5.0
       cross-env: 7.0.2
@@ -10515,9 +10516,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       dotenv: 8.2.0
@@ -10568,9 +10569,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
@@ -10622,9 +10623,9 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       assert: 1.5.0
       cross-env: 7.0.2
       dotenv: 8.2.0
@@ -10676,7 +10677,7 @@ packages:
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.2
@@ -10714,7 +10715,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 0.10.2
       '@types/minimist': 1.2.0
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/node-fetch': 2.5.7
       eslint: 6.8.0
       karma: 5.2.3
@@ -10739,7 +10740,7 @@ packages:
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/md5': 2.2.1
@@ -10747,7 +10748,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       chai: 4.2.0
       eslint: 6.8.0
       fs-extra: 8.1.0
@@ -10792,7 +10793,7 @@ packages:
   'file:projects/testhub.tgz':
     dependencies:
       '@azure/event-hubs': 2.1.4
-      '@types/node': 8.10.65
+      '@types/node': 8.10.66
       '@types/uuid': 8.3.0
       '@types/yargs': 15.0.9
       async-lock: 1.2.4
