@@ -116,46 +116,26 @@ export class ManagedIdentityCredential implements TokenCredential {
   private createAppServiceMsiAuthRequest(
     resource: string,
     clientId?: string,
-    version?: "2019-08-01" | "2017-09-01"
+    _version?: "2019-08-01" | "2017-09-01"
   ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
       "api-version": AppServiceMsiApiVersion
     };
 
-    if (version === "2019-08-01") {
-      if (clientId) {
-        queryParameters.client_id = clientId;
-      }
-
-      return {
-        url: process.env.IDENTITY_ENDPOINT,
-        method: "GET",
-        queryParameters,
-        headers: {
-          Accept: "application/json",
-          "X-IDENTITY-HEADER": process.env.IDENTITY_HEADER
-        }
-      };
-    } else if (version === "2017-09-01") {
-      if (clientId) {
-        queryParameters.clientid = clientId;
-      }
-
-      return {
-        url: process.env.MSI_ENDPOINT,
-        method: "GET",
-        queryParameters,
-        headers: {
-          Accept: "application/json",
-          secret: process.env.MSI_SECRET
-        }
-      };
-    } else {
-      throw new Error(
-        `Unsupported version ${version}. The supported versions are "2019-08-01" and "2017-09-01"`
-      );
+    if (clientId) {
+      queryParameters.clientid = clientId;
     }
+
+    return {
+      url: process.env.MSI_ENDPOINT,
+      method: "GET",
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        secret: process.env.MSI_SECRET
+      }
+    };
   }
 
   private createCloudShellMsiAuthRequest(
