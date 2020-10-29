@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CredentialLogger, formatError } from "../util/logging";
 
 export function checkTenantId(logger: CredentialLogger, tenantId: string) {
