@@ -18,7 +18,7 @@ export function atob(str: string) {
     );
   }
 
-  // Adding the padding if missing, for semplicity
+  // Adding the padding if missing, for simplicity
   str += "==".slice(2 - (str.length & 3));
   let bitmap;
   let result = "";
