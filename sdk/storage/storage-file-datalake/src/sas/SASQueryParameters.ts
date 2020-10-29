@@ -549,6 +549,9 @@ export class SASQueryParameters {
       this.contentLanguage = options.contentLanguage;
       this.contentType = options.contentType;
       this.directoryDepth = options.directoryDepth;
+      this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
+      this.agentObjectId = options.agentObjectId;
+      this.correlationId = options.correlationId;
 
       if (options.userDelegationKey) {
         this.signedOid = options.userDelegationKey.signedObjectId;
@@ -557,10 +560,6 @@ export class SASQueryParameters {
         this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
         this.signedService = options.userDelegationKey.signedService;
         this.signedVersion = options.userDelegationKey.signedVersion;
-
-        this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
-        this.agentObjectId = options.agentObjectId;
-        this.correlationId = options.correlationId;
       }
     } else {
       this.services = services;
@@ -578,6 +577,9 @@ export class SASQueryParameters {
       this.contentLanguage = contentLanguage;
       this.contentType = contentType;
       this.directoryDepth = directoryDepth;
+      this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
+      this.agentObjectId = agentObjectId;
+      this.correlationId = correlationId;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -586,10 +588,6 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
-
-        this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
-        this.agentObjectId = agentObjectId;
-        this.correlationId = correlationId;
       }
     }
   }
