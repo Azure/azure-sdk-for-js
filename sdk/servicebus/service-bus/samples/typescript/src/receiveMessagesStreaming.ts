@@ -37,45 +37,46 @@ export async function main() {
   const receiver = sbClient.createReceiver(queueName);
 
   try {
-    const subscription = receiver.subscribe(
-      {
-        processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
-          console.log(`Received message: ${brokeredMessage.body}`);
-          await receiver.completeMessage(brokeredMessage);
-        },
-        processError: async (args: ProcessErrorArgs) => {
-          console.log(`Error from source ${args.errorSource} occurred: `, args.error);
+    const subscription = receiver.subscribe({
+      processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
+        console.log(`Received message: ${brokeredMessage.body}`);
 
-          // the handler will not stop without explicit intervention from you.
-          if (isMessagingError(args.error)) {
-            switch (args.error.code) {
-              case "MessagingEntityDisabledError":
-              case "MessagingEntityNotFoundError":
-              case "UnauthorizedError":
-                // It's possible you have a temporary infrastructure change (for instance, the entity being
-                // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
-                // what is considered fatal for your program.
-                console.log(
-                  `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
-                  args.error
-                );
-                await subscription.close();
-                break;
-              case "MessageLockLostError":
-                console.log(`Message lock lost for message`, args.error);
-                break;
-              case "ServerBusyError":
-                // choosing an arbitrary amount of time to wait.
-                await delay(1000);
-                break;
-            }
+        // autoComplete, which is enabled by default, will automatically call
+        // receiver.completeMessage() on your message so long as your
+        // processMessage handler does not throw an error.
+        //
+        // If your handler _does_ throw an error then the message will automatically
+        // be abandoned using receiver.abandonMessage()
+      },
+      processError: async (args: ProcessErrorArgs) => {
+        console.log(`Error from source ${args.errorSource} occurred: `, args.error);
+
+        // the handler will not stop without explicit intervention from you.
+        if (isMessagingError(args.error)) {
+          switch (args.error.code) {
+            case "MessagingEntityDisabledError":
+            case "MessagingEntityNotFoundError":
+            case "UnauthorizedError":
+              // It's possible you have a temporary infrastructure change (for instance, the entity being
+              // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
+              // what is considered fatal for your program.
+              console.log(
+                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                args.error
+              );
+              await subscription.close();
+              break;
+            case "MessageLockLostError":
+              console.log(`Message lock lost for message`, args.error);
+              break;
+            case "ServerBusyError":
+              // choosing an arbitrary amount of time to wait.
+              await delay(1000);
+              break;
           }
         }
-      },
-      {
-        autoComplete: false
       }
-    );
+    });
 
     // Waiting long enough before closing the receiver to receive messages
     console.log(`Receiving messages for  5 seconds before exiting...`);
