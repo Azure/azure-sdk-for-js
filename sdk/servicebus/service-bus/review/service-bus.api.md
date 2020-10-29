@@ -335,7 +335,7 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
-    readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+    readonly _amqpAnnotatedMessage?: AmqpAnnotatedMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
