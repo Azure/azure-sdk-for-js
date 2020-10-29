@@ -26,7 +26,7 @@ describe("FormRecognizerClient NodeJS only", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -185,7 +185,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
-import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -15,6 +15,7 @@ import {
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+import { isMessagingError } from "@azure/core-amqp";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;

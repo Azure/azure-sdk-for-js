@@ -28,8 +28,8 @@ tests of an sdk.
 
 - [Key concepts](#key-concepts).
 - [Getting started](#getting-started).
-    - [Installing the package](#installing-the-package).
-    - [Configuring your project](#configuring-your-project).
+  - [Installing the package](#installing-the-package).
+  - [Configuring your project](#configuring-your-project).
 - [Examples](#examples).
   - [How to record](#how-to-record).
   - [How to playback](#how-to-playback).
@@ -139,7 +139,7 @@ Or, if you know what functions you want to import, you can also do the following
 ```typescript
 import { record, env, delay } from "@azure/test-utils-recorder";
 ```
- 
+
 The common recorder provides the following public methods and properties:
 
 - `record()`: Which deals with recording and playing back the network requests,
@@ -203,7 +203,7 @@ make it easier to switch from record mode to playback mode, on a meaningful cont
   // ... your package.json properties
   "integration-test:node": "mocha myNodeTests.js",
   "unit-test:node": "TEST_MODE=playback npm run integration-test:node",
-  "test:node:record": "TEST_MODE=record npm run integration-test:node",
+  "test:node:record": "TEST_MODE=record npm run integration-test:node"
   // ... more of your package.json properties
 }
 ```
@@ -216,7 +216,7 @@ add a way to clear the recordings on your `package.json`, like the following one
 ```json
 {
   // ... your package.json properties
-  "clear-recordings": "rm -fr recordings",
+  "clear-recordings": "rm -fr recordings"
   // ... more of your package.json properties
 }
 ```
@@ -245,7 +245,7 @@ config.set({
   files: [
     // ... you might have other things here. Keep them.
     "recordings/browsers/**/*.json"
-  ],
+  ]
   // ... more configuration properties here
 });
 ```
@@ -258,7 +258,7 @@ config.set({
   preprocessors: {
     // ... you might have other things here. Keep them.
     "recordings/browsers/**/*.json": ["json"]
-  },
+  }
   // ... more configuration properties here
 });
 ```
@@ -272,7 +272,7 @@ config.set({
   envPreprocessor: [
     // ... you might have other things here. Keep them.
     "TEST_MODE"
-  ],
+  ]
   // ... more configuration properties here
 });
 ```
@@ -285,7 +285,7 @@ config.set({
   // ... more configuration properties here
   browserConsoleLogOptions: {
     terminal: process.env.TEST_MODE !== "record"
-  },
+  }
   // ... more configuration properties here
 });
 ```
@@ -327,8 +327,8 @@ describe("My test", () => {
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 });
 ```
@@ -367,8 +367,8 @@ recordings.
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function () {
+    await recorder.stop();
   });
 
   it("my first test", async function() {
@@ -388,7 +388,7 @@ recordings.
 ### How to playback
 
 Once you have recorded something, you can run your tests again with `TEST_MODE`
-set to `playback`.  You'll notice how they pass much faster. This time, they
+set to `playback`. You'll notice how they pass much faster. This time, they
 will not reach out to the remote address, but instead they will respond every
 request according to their matching copy stored in the recordings.
 
@@ -411,9 +411,9 @@ Writing live tests can take considerable time, specially since each time you
 want to check that everything works fine, you potentially need to run again
 every test. With the common recorder, you can specify what test to run by following Mocha's
 approach of setting certain tests to `it.only`, and also to skip specific tests
-with `it.skip`.  If you launch the recorder in record mode with some of these
+with `it.skip`. If you launch the recorder in record mode with some of these
 changes (and given that you activate the recorder on `beforeEach`), only the
-files that relate to the changed tests will be updated.  Skipped tests won't
+files that relate to the changed tests will be updated. Skipped tests won't
 update their recordings. This way, you can focus on fixing a specific set of
 test with `.only`, then remove all the `.only` calls and trust that the playback will
 keep confirming that the unaffected tests are fine and green.
@@ -474,10 +474,7 @@ the recorded string and return a string.
 Let's say your project can't include the word `mango`. You will be able to get rid of it with the following code inside your `beforeEach`:
 
 ```typescript
-setReplacements([
-  (recording: string): string =>
-    recording.replace(/mango/g, "bananas"),
-]);
+setReplacements([(recording: string): string => recording.replace(/mango/g, "bananas")]);
 ```
 
 This lets you have control over the generated recordings and filter any
@@ -494,7 +491,7 @@ For example, given that we find this query parameters in our recordings:
 if we don't want the parameters "sr", "sig" and "sp" to appear in these files, we can do the following:
 
 ```typescript
-skipQueryParams(["sr", "sig", "sp"])
+skipQueryParams(["sr", "sig", "sp"]);
 ```
 
 ### Ever-changing tests
@@ -514,13 +511,13 @@ understand, and we might be able to help by providing you with the following
 suggestions:
 
 1. Use randomly generated strings as prefixes or suffixes for the resources you
-create.  This will help you, but it will also only work so far, since new
-resources are likely to get accumulated, even if you set code to delete them in
-between tests, since some tests will eventually fail and crash your program.
+   create. This will help you, but it will also only work so far, since new
+   resources are likely to get accumulated, even if you set code to delete them in
+   between tests, since some tests will eventually fail and crash your program.
 2. Set up a separate program as part of your CI to automatically create and
-destroy new resources each time you run a test. It doesn't sound easy, but it
-might be a better solution.  You'll need to make sure to clear resources in
-case this program fails.
+   destroy new resources each time you run a test. It doesn't sound easy, but it
+   might be a better solution. You'll need to make sure to clear resources in
+   case this program fails.
 
 These ideas come with their own issue and things to consider, so please take them
 as ideas. We understand that might not be an easy problem to fix.
@@ -542,7 +539,7 @@ make sure to handle it as soon as we find the time.
 ## Next steps
 
 The common recorder might not be used yet in each one of the libraries in the
-azure-sdk-for-js repository (we're working on it).  In the mean time, an easy
+azure-sdk-for-js repository (we're working on it). In the mean time, an easy
 way to find where we're using this package is by going through the following
 search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-utils-recorder>

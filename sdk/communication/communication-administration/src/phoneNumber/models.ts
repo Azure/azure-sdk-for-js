@@ -10,18 +10,17 @@ import {
   UpdatePhoneNumberCapabilitiesResponse,
   ReleaseResponse,
   PhoneNumberRelease,
-  CreateSearchResponse,
   AreaCodes,
   NumberConfigurationResponse,
   LocationOptionsResponse,
-  PhoneNumberSearch,
+  PhoneNumberReservation,
   LocationOptionsQueries
 } from "./generated/src/models";
 
 /**
- * Request to create a search.
+ * Request to create phone number reservations.
  */
-export interface CreateSearchRequest {
+export interface CreateReservationRequest {
   /**
    * Display name of the search.
    */
@@ -47,11 +46,15 @@ export interface CreateSearchRequest {
 /**
  * Options for creating a search.
  */
-export interface CreateSearchOptions extends OperationOptions {
+export interface CreateReservationOptions extends OperationOptions {
   /**
    * The location options of the search.
    */
   locationOptions?: LocationOptionsDetails[];
+}
+
+export interface CreateReservationResponse {
+  reservationId: string;
 }
 
 /**
@@ -169,7 +172,7 @@ export type GetCapabilitiesUpdateOptions = OperationOptions;
 /**
  * Additional request options for requesting the release of a list of phone numbers.
  */
-export type ReleasePhoneNumberOptions = OperationOptions;
+export type ReleasePhoneNumbersOptions = OperationOptions;
 
 /**
  * Additional request options for getting a release.
@@ -182,24 +185,19 @@ export type GetReleaseOptions = OperationOptions;
 export type GetPhoneNumberConfigurationOptions = OperationOptions;
 
 /**
- * Additional request option for get search operations.
+ * Additional request option for the get phone number reservation operation.
  */
-export type GetSearchOptions = OperationOptions;
+export type GetReservationOptions = OperationOptions;
 
 /**
- * Additional request option for refresh search operations.
+ * Additional request option for the cancel phone number reservation operation.
  */
-export type RefreshSearchOptions = OperationOptions;
+export type CancelReservationOptions = OperationOptions;
 
 /**
- * Additional request option for cancel search operations.
+ * Additional request option for the purchase reservation operation.
  */
-export type CancelSearchOptions = OperationOptions;
-
-/**
- * Additional request option for get search operations.
- */
-export type PurchaseSearchOptions = OperationOptions;
+export type PurchaseReservationOptions = OperationOptions;
 
 /**
  * The capabilities update for each of a set of phone numbers.
@@ -272,7 +270,7 @@ export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
 /**
  * Represents the response from starting a search for phone numbers.
  */
-export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+export type CreatePhoneNumberReservationResponse = WithResponse<CreateReservationResponse>;
 
 /**
  * Represents the response from getting a list of the supported area codes.
@@ -292,4 +290,4 @@ export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsRe
 /**
  * Represents the response from getting the search associated with a given id.
  */
-export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
+export type GetReservationResponse = WithResponse<PhoneNumberReservation>;

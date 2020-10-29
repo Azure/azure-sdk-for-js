@@ -41,7 +41,7 @@ describe("Local cryptography public tests", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("encrypt & decrypt RSA1_5", async function() {

@@ -2336,7 +2336,10 @@ export class ShareDirectoryClient extends StorageClient {
         ...res
       };
     } catch (e) {
-      if (e.details?.errorCode === "ResourceNotFound") {
+      if (
+        e.details?.errorCode === "ResourceNotFound" ||
+        e.details?.errorCode === "ParentNotFound"
+      ) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a directory only if it exists."
@@ -4324,7 +4327,10 @@ export class ShareFileClient extends StorageClient {
         ...res
       };
     } catch (e) {
-      if (e.details?.errorCode === "ResourceNotFound") {
+      if (
+        e.details?.errorCode === "ResourceNotFound" ||
+        e.details?.errorCode === "ParentNotFound"
+      ) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a file only if it exists."
