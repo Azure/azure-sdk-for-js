@@ -15,21 +15,21 @@ npm install @azure/arm-locks
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list authorizationOperations as an example written in TypeScript.
+#### nodejs - client creation and list authorizationOperations as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ManagementLockClient, ManagementLockModels, ManagementLockMappers } from "@azure/arm-locks";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { ManagementLockClient } = require("@azure/arm-locks");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -95,4 +95,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Flocks%2Farm-locks%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/locks/arm-locks/README.png)
