@@ -34,8 +34,8 @@ export async function main() {
         console.log(`Received message: ${brokeredMessage.body}`);
 
         // autoComplete, which is enabled by default, will automatically call
-        // receiver.completeMessage() on your message so long as your
-        // processMessage handler does not throw an error.
+        // receiver.completeMessage() on your message after awaiting on your processMessage 
+        // handler so long as your handler does not throw an error.
         //
         // If your handler _does_ throw an error then the message will automatically
         // be abandoned using receiver.abandonMessage()
