@@ -44,11 +44,7 @@ import {
   HooksPageResponse,
   DataFeedStatus
 } from "./models";
-import {
-  DataSourceType,
-  GeneratedClientGetIngestionProgressResponse,
-  NeedRollupEnum
-} from "./generated/models";
+import { DataSourceType, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -1295,7 +1291,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDataFeedIngestionProgress(
     dataFeedId: string,
     options = {}
-  ): Promise<GeneratedClientGetIngestionProgressResponse> {
+  ): Promise<GetIngestionProgressResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
       options
@@ -1303,7 +1299,12 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      return {
+        latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
+        _response: response._response
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1338,7 +1339,13 @@ export class MetricsAdvisorAdministrationClient {
           top: options?.maxPageSize
         }
       );
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
+        return {
+          timestamp: s.timestamp?.getTime(),
+          status: s.status,
+          message: s.message
+        };
+      }) || [], "continuationToken", {
         enumerable: true,
         value: segmentResponse.nextLink
       });
@@ -1362,7 +1369,13 @@ export class MetricsAdvisorAdministrationClient {
         options
       );
 
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
+        return {
+          timestamp: s.timestamp?.getTime(),
+          status: s.status,
+          message: s.message
+        };
+      }) || [], "continuationToken", {
         enumerable: true,
         value: segmentResponse.nextLink
       });

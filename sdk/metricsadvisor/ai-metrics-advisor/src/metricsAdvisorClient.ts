@@ -32,16 +32,12 @@ import {
   MetricEnrichmentStatusPageResponse,
   MetricSeriesDefinition,
   DimensionKey,
+  EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
   AlertQueryTimeMode
 } from "./models";
-import {
-  SeverityFilterCondition,
-  EnrichmentStatus,
-  FeedbackType,
-  FeedbackQueryTimeMode
-} from "./generated/models";
+import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
 import { createClientPipeline } from "./createClientPipeline";
 
@@ -259,7 +255,7 @@ export class MetricsAdvisorClient {
           alertConfigId: alertConfigId,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          timestamp: a.timestamp
+          timestamp: a.timestamp?.getTime()
         };
       });
       const resultArray = Object.defineProperty(alerts || [], "continuationToken", {
@@ -287,7 +283,7 @@ export class MetricsAdvisorClient {
           alertConfigId: alertConfigId,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          timestamp: a.timestamp
+          timestamp: a.timestamp?.getTime()
         };
       });
       const resultArray = Object.defineProperty(alerts || [], "continuationToken", {
@@ -454,13 +450,12 @@ export class MetricsAdvisorClient {
         return {
           detectionConfigurationId: a.anomalyDetectionConfigurationId!,
           metricId: a.metricId,
-          timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
-          timestamp: a.timestamp
+          timestamp: a.timestamp.getTime()
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
@@ -490,13 +485,12 @@ export class MetricsAdvisorClient {
         return {
           detectionConfigurationId: a.anomalyDetectionConfigurationId!,
           metricId: a.metricId,
-          timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
-          timestamp: a.timestamp
+          timestamp: a.timestamp.getTime()
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
@@ -931,7 +925,7 @@ export class MetricsAdvisorClient {
         return {
           detectionConfigurationId: detectionConfigId,
           metricId: a.metricId,
-          timestamp: a.timestamp,
+          timestamp: a.timestamp.getTime(),
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
@@ -963,7 +957,7 @@ export class MetricsAdvisorClient {
         return {
           detectionConfigurationId: detectionConfigId,
           metricId: a.metricId,
-          timestamp: a.timestamp,
+          timestamp: a.timestamp.getTime(),
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
@@ -2180,7 +2174,13 @@ export class MetricsAdvisorClient {
         ...options,
         top: maxPageSize
       });
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
+        return {
+          timestamp: s.timestamp?.getTime(),
+          status: s.status,
+          message: s.message
+        };
+      }) || [], "continuationToken", {
         enumerable: true,
         value: segmentResponse.nextLink
       });
@@ -2199,7 +2199,13 @@ export class MetricsAdvisorClient {
         optionsBody,
         options
       );
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
+        return {
+          timestamp: s.timestamp?.getTime(),
+          status: s.status,
+          message: s.message
+        };
+      }) || [], "continuationToken", {
         enumerable: true,
         value: segmentResponse.nextLink
       });

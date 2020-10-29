@@ -52,7 +52,7 @@ export interface AnomalyAlert {
     createdOn?: Date;
     id: string;
     modifiedOn?: Date;
-    timestamp?: Date;
+    timestamp?: number;
 }
 
 // @public
@@ -335,7 +335,7 @@ export interface DataPointAnomaly {
     seriesKey: DimensionKey;
     severity: AnomalySeverity;
     status?: AnomalyStatus;
-    timestamp: Date;
+    timestamp: number;
 }
 
 // @public
@@ -407,7 +407,7 @@ export type EmailNotificationHookPatch = {
 export interface EnrichmentStatus {
     readonly message?: string;
     readonly status?: string;
-    readonly timestamp?: Date;
+    readonly timestamp?: number;
 }
 
 // @public
@@ -467,6 +467,17 @@ export type GetHookResponse = NotificationHookUnion & {
 // @public
 export type GetIncidentRootCauseResponse = {
     rootCauses: IncidentRootCause[];
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+};
+
+// @public
+export type GetIngestionProgressResponse = {
+    readonly latestSuccessTimestamp?: number;
+    readonly latestActiveTimestamp?: number;
+} & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -571,7 +582,7 @@ export interface InfluxDBParameter {
 export interface IngestionStatus {
     readonly message?: string;
     readonly status?: IngestionStatusType;
-    readonly timestamp?: Date;
+    readonly timestamp?: number;
 }
 
 // @public
@@ -810,7 +821,7 @@ export class MetricsAdvisorAdministrationClient {
     readonly endpointUrl: string;
     getAnomalyAlertConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
-    getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GeneratedClientGetIngestionProgressResponse>;
+    getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     getMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
