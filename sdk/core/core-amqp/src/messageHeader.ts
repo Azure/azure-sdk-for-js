@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessageHeader as RheaAmqpMessageHeader } from "rhea-promise";
+import { MessageHeader as RheaMessageHeader } from "rhea-promise";
 import { logger } from "./log";
 
 /**
@@ -40,13 +40,13 @@ export interface AmqpMessageHeader {
  */
 export const AmqpMessageHeader = {
   /**
-   * Converts MessageHeader to RheaAmqpMessageHeader.
+   * Converts MessageHeader to RheaMessageHeader.
    *
    * @param {MessageHeader} props Message header.
-   * @returns {RheaAmqpMessageHeader} RheaAmqpMessageHeader
+   * @returns {RheaMessageHeader} RheaMessageHeader
    */
-  toRheaAmqpMessageHeader(props: AmqpMessageHeader): RheaAmqpMessageHeader {
-    const amqpHeader: RheaAmqpMessageHeader = {};
+  toRheaMessageHeader(props: AmqpMessageHeader): RheaMessageHeader {
+    const amqpHeader: RheaMessageHeader = {};
     if (props.deliveryCount != undefined) {
       amqpHeader.delivery_count = props.deliveryCount;
     }
@@ -60,17 +60,17 @@ export const AmqpMessageHeader = {
     if (props.timeToLive != undefined) {
       amqpHeader.ttl = props.timeToLive;
     }
-    logger.verbose("To RheaAmqpMessageHeader: %O", amqpHeader);
+    logger.verbose("To RheaMessageHeader: %O", amqpHeader);
     return amqpHeader;
   },
 
   /**
-   * Converts RheaAmqpMessageHeader to MessageHeader.
+   * Converts RheaMessageHeader to MessageHeader.
    *
-   * @param {RheaAmqpMessageHeader} props Amqp Message Header
+   * @param {RheaMessageHeader} props Amqp Message Header
    * @returns {AmqpMessageHeader} MessageHeader.
    */
-  fromRheaAmqpMessageHeader(props: RheaAmqpMessageHeader): AmqpMessageHeader {
+  fromRheaMessageHeader(props: RheaMessageHeader): AmqpMessageHeader {
     const msgHeader: AmqpMessageHeader = {};
     if (props.delivery_count != undefined) {
       msgHeader.deliveryCount = props.delivery_count;
@@ -87,7 +87,7 @@ export const AmqpMessageHeader = {
     if (props.ttl != undefined) {
       msgHeader.timeToLive = props.ttl;
     }
-    logger.verbose("From RheaAmqpMessageHeader: %O", msgHeader);
+    logger.verbose("From RheaMessageHeader: %O", msgHeader);
     return msgHeader;
   }
 };

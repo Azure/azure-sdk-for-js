@@ -535,7 +535,7 @@ export function fromAmqpMessage(
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaAmqpMessage(msg),
+    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -788,7 +788,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
-    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaAmqpMessage(msg);
+    // TODO: I believe this is not needed, remove it
+    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
 

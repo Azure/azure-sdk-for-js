@@ -49,14 +49,14 @@ export const AmqpAnnotatedMessage = {
    *
    * @param {AmqpMessage} msg
    */
-  fromRheaAmqpMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
+  fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
     return {
-      header: AmqpMessageHeader.fromRheaAmqpMessageHeader(msg),
+      header: AmqpMessageHeader.fromRheaMessageHeader(msg),
       footer: (msg as any).footer,
       messageAnnotations: msg.message_annotations,
       deliveryAnnotations: msg.delivery_annotations,
       applicationProperties: msg.application_properties,
-      properties: AmqpMessageProperties.fromRheaAmqpMessageProperties(msg),
+      properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body
     };
   }

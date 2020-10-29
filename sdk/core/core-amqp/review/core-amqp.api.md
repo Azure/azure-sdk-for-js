@@ -47,7 +47,7 @@ export interface AmqpAnnotatedMessage {
 
 // @public
 export const AmqpAnnotatedMessage: {
-    fromRheaAmqpMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
+    fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
 };
 
 export { AmqpMessage }
@@ -63,8 +63,8 @@ export interface AmqpMessageHeader {
 
 // @public
 export const AmqpMessageHeader: {
-    toRheaAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-    fromRheaAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
+    toRheaMessageHeader(props: AmqpMessageHeader): MessageHeader;
+    fromRheaMessageHeader(props: MessageHeader): AmqpMessageHeader;
 };
 
 // @public
@@ -86,8 +86,8 @@ export interface AmqpMessageProperties {
 
 // @public
 export const AmqpMessageProperties: {
-    toRheaAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-    fromRheaAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
+    toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
+    fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
 
 export { AsyncLock }

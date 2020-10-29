@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessageProperties as RheaAmqpMessageProperties } from "rhea-promise";
+import { MessageProperties as RheaMessageProperties } from "rhea-promise";
 import { logger } from "./log";
 
 /**
@@ -72,12 +72,12 @@ export interface AmqpMessageProperties {
  */
 export const AmqpMessageProperties = {
   /**
-   * Converts MessageProperties to RheaAmqpMessageProperties.
+   * Converts MessageProperties to RheaMessageProperties.
    * @param {MessageProperties} props Message properties.
-   * @returns {RheaAmqpMessageProperties} RheaAmqpMessageProperties.
+   * @returns {RheaMessageProperties} RheaMessageProperties.
    */
-  toRheaAmqpMessageProperties(props: AmqpMessageProperties): RheaAmqpMessageProperties {
-    const amqpProperties: RheaAmqpMessageProperties = {};
+  toRheaMessageProperties(props: AmqpMessageProperties): RheaMessageProperties {
+    const amqpProperties: RheaMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
       amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
     }
@@ -118,16 +118,16 @@ export const AmqpMessageProperties = {
       amqpProperties.user_id = props.userId;
     }
 
-    logger.verbose("To RheaAmqpMessageProperties: %O", amqpProperties);
+    logger.verbose("To RheaMessageProperties: %O", amqpProperties);
     return amqpProperties;
   },
 
   /**
-   * Converts RheaAmqpMessageProperties to MessageProperties.
-   * @param {RheaAmqpMessageProperties} props Amqp message properties.
+   * Converts RheaMessageProperties to MessageProperties.
+   * @param {RheaMessageProperties} props Amqp message properties.
    * @returns {AmqpMessageProperties} MessageProperties.
    */
-  fromRheaAmqpMessageProperties(props: RheaAmqpMessageProperties): AmqpMessageProperties {
+  fromRheaMessageProperties(props: RheaMessageProperties): AmqpMessageProperties {
     const msgProperties: AmqpMessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
       msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
@@ -169,7 +169,7 @@ export const AmqpMessageProperties = {
       msgProperties.userId = props.user_id;
     }
 
-    logger.verbose("From RheaAmqpMessageProperties: %O", msgProperties);
+    logger.verbose("From RheaMessageProperties: %O", msgProperties);
     return msgProperties;
   }
 };
