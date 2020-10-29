@@ -16,7 +16,12 @@ import {
 } from "@azure/core-http";
 import { logger, parseConnectionString } from "@azure/core-amqp";
 import { v4 as uuidv4 } from "uuid";
-import { NativeRegistrationOptions, RegistrationDescription, RegistrationRequest, RegistrationUpdateRequest } from "./registrationDescription";
+import {
+  NativeRegistrationOptions,
+  RegistrationDescription,
+  RegistrationRequest,
+  RegistrationUpdateRequest
+} from "./registrationDescription";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import * as Constants from "./util/constants";
 import { createSpan, getCanonicalCode } from "./util/tracing";
@@ -33,7 +38,7 @@ import {
   transformFcmLegacyNotificaiton,
   transformWindowsNotification
 } from "./notification";
-import * as url from 'url';
+import * as url from "url";
 import { NotificationHubOperationResponse } from "./interfaces";
 import { serializeToAtomXmlRequest } from "./util/atomXmlHelper";
 import { parseUrl } from "./util/parseUrl";
@@ -316,7 +321,7 @@ export class NotificationHubClient extends ServiceClient {
       options
     );
 
-    const contentType = 'application/atom+xml;type=entry;charset=utf-8';
+    const contentType = "application/atom+xml;type=entry;charset=utf-8";
     const url = this.getUrl(`${this._hubName}/registrations/`);
 
     try {
@@ -365,100 +370,101 @@ export class NotificationHubClient extends ServiceClient {
     request: RegistrationRequest,
     options: NativeRegistrationOptions = {}
   ): Promise<RegistrationDescription> {
-
     let tags: string | undefined;
     if (options.tags) {
-      tags = options.tags.join(', ');
+      tags = options.tags.join(", ");
     }
 
     let content;
-    if (request.platformType === 'adm') {
-      content = serializeToAtomXmlRequest('AdmRegistrationDescription', {
-        'AdmRegistrationId': request.admRegistrationId,
-        'Tags': tags
+    if (request.platformType === "adm") {
+      content = serializeToAtomXmlRequest("AdmRegistrationDescription", {
+        AdmRegistrationId: request.admRegistrationId,
+        Tags: tags
       });
-    } else if (request.platformType === 'admtemplate') {
-      content = serializeToAtomXmlRequest('AdmTemplateRegistrationDescription', {
-        'AdmRegistrationId': request.admRegistrationId,
-        'Tags': tags,
-        'BodyTemplate': `<![CDATA[${request.bodyTemplate}]] >`
+    } else if (request.platformType === "admtemplate") {
+      content = serializeToAtomXmlRequest("AdmTemplateRegistrationDescription", {
+        AdmRegistrationId: request.admRegistrationId,
+        Tags: tags,
+        BodyTemplate: `<![CDATA[${request.bodyTemplate}]] >`
       });
-    } else if (request.platformType === 'apple') {
-      content = serializeToAtomXmlRequest('AppleRegistrationDescription', {
-        'DeviceToken': request.deviceToken,
-        'Tags': tags
+    } else if (request.platformType === "apple") {
+      content = serializeToAtomXmlRequest("AppleRegistrationDescription", {
+        DeviceToken: request.deviceToken,
+        Tags: tags
       });
-    } else if (request.platformType === 'appletemplate') {
+    } else if (request.platformType === "appletemplate") {
       let apnsHeaders = undefined;
       if (request.apnsHeaders) {
-        if (!apnsHeaders) { apnsHeaders = ''; }
-        apnsHeaders += '<ApnsHeaders>';
+        if (!apnsHeaders) {
+          apnsHeaders = "";
+        }
+        apnsHeaders += "<ApnsHeaders>";
 
         for (const [key, value] of Object.entries(request.apnsHeaders)) {
           apnsHeaders += `<ApnsHeader><Header>${key}</Header><Value>${value}</Value></ApnsHeader>`;
         }
 
-        apnsHeaders += '<ApnsHeaders>';
+        apnsHeaders += "<ApnsHeaders>";
       }
-      content = serializeToAtomXmlRequest('AppleTemplateRegistrationDescription', {
-        'DeviceToken': request.deviceToken,
-        'Tags': tags,
-        'BodyTemplate': `<![CDATA[${request.bodyTemplate}]] >`
+      content = serializeToAtomXmlRequest("AppleTemplateRegistrationDescription", {
+        DeviceToken: request.deviceToken,
+        Tags: tags,
+        BodyTemplate: `<![CDATA[${request.bodyTemplate}]] >`
       });
-    } else if (request.platformType === 'baidu') {
-      content = serializeToAtomXmlRequest('BaiduRegistrationDescription', {
-        'BaiduUserId': request.baiduUserId,
-        'BaiduChannelId': request.baiduChannelId,
-        'Tags': tags
+    } else if (request.platformType === "baidu") {
+      content = serializeToAtomXmlRequest("BaiduRegistrationDescription", {
+        BaiduUserId: request.baiduUserId,
+        BaiduChannelId: request.baiduChannelId,
+        Tags: tags
       });
-    } else if (request.platformType === 'baidutemplate') {
-      content = serializeToAtomXmlRequest('BaiduTemplateRegistrationDescription', {
-        'BaiduUserId': request.baiduUserId,
-        'BaiduChannelId': request.baiduChannelId,
-        'TemplateName': request.templateName,
-        'MessageType': request.messageType,
-        'Tags': tags,
-        'BodyTemplate': `<![CDATA[${request.bodyTemplate}]] >`
+    } else if (request.platformType === "baidutemplate") {
+      content = serializeToAtomXmlRequest("BaiduTemplateRegistrationDescription", {
+        BaiduUserId: request.baiduUserId,
+        BaiduChannelId: request.baiduChannelId,
+        TemplateName: request.templateName,
+        MessageType: request.messageType,
+        Tags: tags,
+        BodyTemplate: `<![CDATA[${request.bodyTemplate}]] >`
       });
-    } else if (request.platformType === 'gcm') {
-      content = serializeToAtomXmlRequest('GcmRegistrationDescription', {
-        'GcmRegistrationId': request.fcmRegistrationId,
-        'Tags': tags
+    } else if (request.platformType === "gcm") {
+      content = serializeToAtomXmlRequest("GcmRegistrationDescription", {
+        GcmRegistrationId: request.fcmRegistrationId,
+        Tags: tags
       });
-    } else if (request.platformType === 'gcmtemplate') {
-      content = serializeToAtomXmlRequest('GcmTemplateRegistrationDescription', {
-        'GcmRegistrationId': request.fcmRegistrationId,
-        'Tags': tags,
-        'TemplateName': request.templateName,
-        'BodyTemplate': `<![CDATA[${request.bodyTemplate}]] >`
+    } else if (request.platformType === "gcmtemplate") {
+      content = serializeToAtomXmlRequest("GcmTemplateRegistrationDescription", {
+        GcmRegistrationId: request.fcmRegistrationId,
+        Tags: tags,
+        TemplateName: request.templateName,
+        BodyTemplate: `<![CDATA[${request.bodyTemplate}]] >`
       });
-    } else if (request.platformType === 'windows') {
-      content = serializeToAtomXmlRequest('WindowsRegistrationDescription', {
-        'ChannelUri': request.channelUri,
-        'SecondaryTileName': request.secondaryTileName,
-        'Tags': tags
+    } else if (request.platformType === "windows") {
+      content = serializeToAtomXmlRequest("WindowsRegistrationDescription", {
+        ChannelUri: request.channelUri,
+        SecondaryTileName: request.secondaryTileName,
+        Tags: tags
       });
-    } else if (request.platformType === 'windowstemplate') {
-      let wnsHeaders = '';
+    } else if (request.platformType === "windowstemplate") {
+      let wnsHeaders = "";
       if (request.wnsHeaders) {
-        wnsHeaders += '<WnsHeaders>';
+        wnsHeaders += "<WnsHeaders>";
 
         for (const [key, value] of Object.entries(request.wnsHeaders)) {
           wnsHeaders += `<WnsHeader><Header>${key}</Header><Value>${value}</Value></WnsHeader>`;
         }
 
-        wnsHeaders += '</WnsHeaders>';
+        wnsHeaders += "</WnsHeaders>";
       }
-      content = serializeToAtomXmlRequest('WindowsTemplateRegistrationDescription', {
-        'ChannelUri': request.channelUri,
-        'SecondaryTileName': request.secondaryTileName,
-        'TemplateName': request.templateName,
-        'BodyTemplate': `<![CDATA[${request.bodyTemplate}]] >`,
-        'Tags': tags,
-        'WnsHeaders': wnsHeaders
+      content = serializeToAtomXmlRequest("WindowsTemplateRegistrationDescription", {
+        ChannelUri: request.channelUri,
+        SecondaryTileName: request.secondaryTileName,
+        TemplateName: request.templateName,
+        BodyTemplate: `<![CDATA[${request.bodyTemplate}]] >`,
+        Tags: tags,
+        WnsHeaders: wnsHeaders
       });
     } else {
-      throw new Error('Platform unsupported');
+      throw new Error("Platform unsupported");
     }
 
     const xmlRegistration = stringifyXML(content, { rootName: "entry" });
@@ -495,23 +501,26 @@ export class NotificationHubClient extends ServiceClient {
    * @returns {Promise<NotificationHubOperationResponse>}
    * @memberof NotificationHubClient
    */
-  async deleteRegistration(registrationId: string, options: ETagOperationOptions = {}): Promise<NotificationHubOperationResponse> {
+  async deleteRegistration(
+    registrationId: string,
+    options: ETagOperationOptions = {}
+  ): Promise<NotificationHubOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
       "NotificationHubClient-createAdmNativeRegistration",
       options
     );
 
     if (!options.eTag) {
-      options.eTag = '*';
+      options.eTag = "*";
     }
 
-    const contentType = 'application/atom+xml;type=entry;charset=utf-8';
+    const contentType = "application/atom+xml;type=entry;charset=utf-8";
     const url = this.getUrl(`${this._hubName}/registrations/${registrationId}`);
 
     try {
-      const webResource = this.createWebResource(url, 'DELETE', updatedOperationOptions);
-      webResource.headers.set('Content-Type', contentType);
-      webResource.headers.set('If-Match', options.eTag);
+      const webResource = this.createWebResource(url, "DELETE", updatedOperationOptions);
+      webResource.headers.set("Content-Type", contentType);
+      webResource.headers.set("If-Match", options.eTag);
 
       const response: HttpOperationResponse = await this.sendRequest(webResource);
 
@@ -605,13 +614,16 @@ export class NotificationHubClient extends ServiceClient {
     return [webResource, response];
   }
 
-  async processResponse(webResource: WebResource, response: HttpOperationResponse): Promise<NotificationOutcome> {
-    const trackingId = webResource.headers.get('TrackingId');
-    let notificationId = '';
-    const location = response.headers.get('Location');
+  async processResponse(
+    webResource: WebResource,
+    response: HttpOperationResponse
+  ): Promise<NotificationOutcome> {
+    const trackingId = webResource.headers.get("TrackingId");
+    let notificationId = "";
+    const location = response.headers.get("Location");
     if (location) {
       const u = parseUrl(location);
-      const splitUrl = u.pathname.split('/');
+      const splitUrl = u.pathname.split("/");
       notificationId = splitUrl[splitUrl.length - 1];
     }
 
@@ -661,7 +673,11 @@ export class NotificationHubClient extends ServiceClient {
     );
 
     try {
-      const [webResource, response] = await this.getNotificationResponse(notification, undefined, updatedOperationOptions);
+      const [webResource, response] = await this.getNotificationResponse(
+        notification,
+        undefined,
+        updatedOperationOptions
+      );
       return await this.processResponse(webResource, response);
     } catch (e) {
       span.setStatus({
@@ -685,7 +701,11 @@ export class NotificationHubClient extends ServiceClient {
     );
 
     try {
-      const [webResource, response] = await this.getNotificationResponse(notification, deviceHandle, updatedOperationOptions);
+      const [webResource, response] = await this.getNotificationResponse(
+        notification,
+        deviceHandle,
+        updatedOperationOptions
+      );
       return await this.processResponse(webResource, response);
     } catch (e) {
       span.setStatus({
@@ -715,14 +735,18 @@ export class NotificationHubClient extends ServiceClient {
     notification.headers[Constants.HEADER_SCHEDULE] = scheduleTime.toISOString();
 
     try {
-      const [webResource, response] = await this.getNotificationResponse(notification, undefined, updatedOperationOptions);
+      const [webResource, response] = await this.getNotificationResponse(
+        notification,
+        undefined,
+        updatedOperationOptions
+      );
 
-      const trackingId = webResource.headers.get('TrackingId');
-      let notificationId = '';
-      const location = response.headers.get('Location');
+      const trackingId = webResource.headers.get("TrackingId");
+      let notificationId = "";
+      const location = response.headers.get("Location");
       if (location) {
         const u = parseUrl(location);
-        const splitUrl = u.pathname.split('/');
+        const splitUrl = u.pathname.split("/");
         notificationId = splitUrl[splitUrl.length - 1];
       }
 

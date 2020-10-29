@@ -135,23 +135,23 @@ export function transformFcmLegacyNotificaiton(notification: FcmLegacyNotificati
 export function transformWindowsNotification(notification: WindowsNotification) {
   notification.headers![Constants.HEADER_NOTIFICATION_FORMAT] = notification.platform;
 
-  if (notification.headers![Constants.WNS_TYPE_NAME] && 
-    notification.headers![Constants.WNS_TYPE_NAME] === Constants.WNS_RAW) {
+  if (
+    notification.headers![Constants.WNS_TYPE_NAME] &&
+    notification.headers![Constants.WNS_TYPE_NAME] === Constants.WNS_RAW
+  ) {
     notification.contentType = Constants.WNS_STREAM_CONTENT_TYPE;
   } else {
-    if (notification.body.indexOf('<toast>') !== -1) {
+    if (notification.body.indexOf("<toast>") !== -1) {
       notification.contentType = Constants.WNS_CONTENT_TYPE;
       notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST;
-    } else if (notification.body.indexOf('<badge>') !== -1) {
+    } else if (notification.body.indexOf("<badge>") !== -1) {
       notification.contentType = Constants.WNS_CONTENT_TYPE;
       notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE;
-    } else if (notification.body.indexOf('<tile>') !== -1) {
+    } else if (notification.body.indexOf("<tile>") !== -1) {
       notification.contentType = Constants.WNS_CONTENT_TYPE;
       notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_TILE;
     } else {
-      throw new Error('Unsupported WNS message type');
+      throw new Error("Unsupported WNS message type");
     }
   }
-
-
 }

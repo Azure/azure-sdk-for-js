@@ -1,4 +1,4 @@
-import * as Constants from './constants';
+import * as Constants from "./constants";
 
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
