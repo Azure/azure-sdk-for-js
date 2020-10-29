@@ -65,7 +65,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-http": "^1.1.6",
+    "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/logger": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
