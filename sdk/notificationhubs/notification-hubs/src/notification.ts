@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
+import { NotificationHubOperationResponse } from "./interfaces";
 import * as Constants from "./util/constants";
 
 export interface Notification {
@@ -33,27 +34,38 @@ export interface WindowsNotification extends Notification {
   platform: "windows";
 }
 
-export type NativeNotification =
+export interface TemplateNotification extends Notification {
+  platform: "template";
+  templateProperties: { [key: string]: string };
+}
+
+export type NotificationLike =
   | AdmNotification
   | AppleNotification
   | BaiduNotification
   | FcmLegacyNotification
-  | WindowsNotification;
+  | WindowsNotification
+  | TemplateNotification;
 
 export interface NotificationOptions extends OperationOptions {
   tags?: string[];
   tagExpression?: string;
-  deviceHandle?: string;
 }
 
-export interface NotificationOutcome {
+export interface NotificationOutcome extends NotificationHubOperationResponse {
   state: NotificationOutcomeState;
   success: number;
   failure: number;
-  location?: string;
+  notificationId?: string;
   trackingId: string;
   results?: RegistrationResult[];
-  _response: HttpOperationResponse;
+}
+
+export interface ScheduledNotification extends NotificationHubOperationResponse {
+  scheduledNotificationId?: string;
+  tags?: string;
+  payload: NotificationLike;
+  trackingId: string;
 }
 
 export enum NotificationOutcomeState {
@@ -122,4 +134,24 @@ export function transformFcmLegacyNotificaiton(notification: FcmLegacyNotificati
 
 export function transformWindowsNotification(notification: WindowsNotification) {
   notification.headers![Constants.HEADER_NOTIFICATION_FORMAT] = notification.platform;
+
+  if (notification.headers![Constants.WNS_TYPE_NAME] && 
+    notification.headers![Constants.WNS_TYPE_NAME] === Constants.WNS_RAW) {
+    notification.contentType = Constants.WNS_STREAM_CONTENT_TYPE;
+  } else {
+    if (notification.body.indexOf('<toast>') !== -1) {
+      notification.contentType = Constants.WNS_CONTENT_TYPE;
+      notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST;
+    } else if (notification.body.indexOf('<badge>') !== -1) {
+      notification.contentType = Constants.WNS_CONTENT_TYPE;
+      notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE;
+    } else if (notification.body.indexOf('<tile>') !== -1) {
+      notification.contentType = Constants.WNS_CONTENT_TYPE;
+      notification.headers![Constants.WNS_TYPE_NAME] = Constants.WNS_TILE;
+    } else {
+      throw new Error('Unsupported WNS message type');
+    }
+  }
+
+
 }

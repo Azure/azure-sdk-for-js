@@ -1,135 +1,150 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { OperationOptions } from "@azure/core-http";
 import { NotificationHubOperationResponse } from "./interfaces";
 
-export interface RegistrationDescriptionResponse extends NotificationHubOperationResponse {
-  id: string;
-  title: string;
-  etag: string;
-  admRegistration?: AdmRegistrationDescription;
-  admTemplateRegistration?: AdmTemplateRegistrationDescription;
+export interface RegistrationDescription extends NotificationHubOperationResponse {
+
 }
 
-export interface RegistrationDescriptionResponse {
-  tags?: string[];
-  readonly registrationId: string;
-  readonly etag: string;
-  readonly expirationTime: Date;
-}
-
-// TODO: Split between registration request and response types
-// TODO: Research omit for fields and create type alias with it
-
-export interface TemplateRegistrationDescription extends RegistrationDescription {
-  body: string;
-}
-
-export interface AdmRegistrationDescription extends RegistrationDescription {
-  admRegistrationId: string;
-}
-
-export interface AdmTemplateRegistrationDescription
-  extends AdmRegistrationDescription,
-    TemplateRegistrationDescription {}
-
-export interface AppleRegistrationDescription extends RegistrationDescription {
-  deviceToken: string;
-}
-
-/**
-
-export interface RegistrationDescription {
+export interface UpdateRegistrationDescription {
   registrationId: string;
   expirationTime?: Date;
-  eTag?: string;
-  tags?: Set<string>;
-  propertyVariables: Map<string, string>;
+  etag?: string;
 }
 
-export interface RegistrationDescriptionResponse extends RegistrationDescription, NotificationHubOperationResponse {}
+export interface NativeRegistrationOptions extends OperationOptions {
+  tags?: string[];
+}
 
-export interface TemplateRegistrationDescription extends RegistrationDescription {
+export interface AdmRegistrationRequest {
+  admRegistrationId: string;
+  platformType: 'adm';
+}
+
+export interface AdmUpdateRegistrationRequest extends AdmRegistrationRequest, UpdateRegistrationDescription {
+
+}
+
+export interface AdmTemplateRegistrationRequest {
+  admRegistrationId: string;
+  templateName?: string;
+  bodyTemplate: string;  
+  platformType: 'admtemplate';
+}
+
+export interface AdmUpdateTemplateRegistrationRequest extends AdmTemplateRegistrationRequest, UpdateRegistrationDescription {
+
+}
+
+export interface AppleRegistrationRequest {
+  deviceToken: string;
+  platformType: 'apple';
+}
+
+export interface AppleUpdateRegistrationRequest extends AppleRegistrationRequest, UpdateRegistrationDescription {
+
+}
+
+export interface AppleTemplateRegistrationRequest {
+  deviceToken: string;
+  apnsHeaders: { [key: string]: string };
   templateName?: string;
   bodyTemplate: string;
+  platformType: 'appletemplate';
 }
 
-export interface TemplateRegistrationDescriptionResponse extends TemplateRegistrationDescription, NotificationHubOperationResponse {}
+export interface AppleUpdateTemplateRegistrationRequest extends AppleTemplateRegistrationRequest, UpdateRegistrationDescription {
 
-export interface AdmRegistrationDescription extends RegistrationDescription {
-  registrationId: string;
 }
 
-export interface AdmRegistrationDescriptionResponse extends AdmRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface AdmTemplateRegistrationDescription
-  extends AdmRegistrationDescription,
-    TemplateRegistrationDescription {}
-
-export interface AdmTemplateRegistrationDescriptionResponse extends AdmTemplateRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface AppleRegistrationDescription extends RegistrationDescription {
-  deviceToken: string;
-}
-
-export interface AppleRegistrationDescriptionResponse extends AppleRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface AppleTemplateRegistrationDescription
-  extends AppleRegistrationDescription,
-    TemplateRegistrationDescription {}
-
-export interface AppleTemplateRegistrationDescriptionResponse extends AppleTemplateRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface BaiduRegistrationDescription extends RegistrationDescription {
+export interface BaiduRegistrationRequest {
   baiduUserId: string;
   baiduChannelId: string;
+  platformType: 'baidu';
 }
 
-export interface BaiduRegistrationDescriptionResponse extends BaiduRegistrationDescription, NotificationHubOperationResponse {}
+export interface BaiduUpdateRegistrationRequest extends BaiduRegistrationRequest, UpdateRegistrationDescription {
 
-export interface BaiduTemplateRegistrationDescription
-  extends BaiduRegistrationDescription,
-    TemplateRegistrationDescription {}
+}
 
-export interface BaiduTemplateRegistrationDescriptionResponse extends BaiduTemplateRegistrationDescription, NotificationHubOperationResponse {}
+export interface BaiduTemplateRegistrationRequest {
+  baiduUserId: string;
+  baiduChannelId: string;
+  bodyTemplate: string;
+  templateName?: string;
+  messageType?: number;
+  platformType: 'baidutemplate';
+}
 
-export interface FcmLegacyRegistrationDescription extends RegistrationDescription {
+export interface BaiduUpdateTemplateRegistrationRequest extends BaiduTemplateRegistrationRequest, UpdateRegistrationDescription {
+
+}
+
+export interface FcmLegacyRegistrationRequest {
   fcmRegistrationId: string;
+  platformType: 'gcm';
 }
 
-export interface FcmLegacyRegistrationDescriptionResonse extends FcmLegacyRegistrationDescription, NotificationHubOperationResponse {}
+export interface FcmLegacyUpdateRegistrationRequest extends FcmLegacyRegistrationRequest, UpdateRegistrationDescription {
 
-export interface FcmLegacyTemplateRegistrationDescription
-  extends FcmLegacyRegistrationDescription,
-    TemplateRegistrationDescription {}
-
-export interface FcmLegacyTemplateRegistrationDescriptionResponse extends FcmLegacyTemplateRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface WindowsPhoneRegistrationDescription extends RegistrationDescription {}
-
-export interface WindowsPhoneRegistrationDescriptionResponse extends WindowsPhoneRegistrationDescription, NotificationHubOperationResponse {}
-
-export interface WindowsPhoneTemplateRegistrationDescription
-  extends WindowsPhoneRegistrationDescription,
-    TemplateRegistrationDescription {
-  mpnsHeaders?: Map<string, string>;
 }
 
-export interface WindowsPhoneTemplateRegistrationDescriptionResponse extends WindowsPhoneTemplateRegistrationDescription, NotificationHubOperationResponse {}
+export interface FcmLegacyTemplateRegisrationrequest {
+  fcmRegistrationId: string;
+  bodyTemplate: string;
+  templateName?: string;
+  platformType: 'gcmtemplate';
+}
 
-export interface WindowsRegistrationDescription extends RegistrationDescription {
+export interface FcmLegacyUpdateTemplateRegisrationrequest extends FcmLegacyTemplateRegisrationrequest, UpdateRegistrationDescription {
+
+}
+
+export interface WindowsRegistrationRequest {
   channelUri: string;
   secondaryTileName?: string;
+  platformType: 'windows';
 }
 
-export interface WindowsRegistrationDescriptionResponse extends WindowsRegistrationDescription, NotificationHubOperationResponse {}
+export interface WindowsUpdateRegistrationRequest extends WindowsRegistrationRequest, UpdateRegistrationDescription {
 
-export interface WindowsTemplateRegistrationDescription
-  extends WindowsRegistrationDescription,
-    TemplateRegistrationDescription {
-  wnsHeaders?: Map<string, string>;
 }
 
-export interface WindowsTemplateRegistrationDescriptionResponse extends WindowsTemplateRegistrationDescription, NotificationHubOperationResponse {}
+export interface WindowsTemplateRegistrationRequest {
+  channelUri: string;
+  secondaryTileName?: string;
+  wnsHeaders: { [key: string]: string };
+  bodyTemplate: string;
+  templateName?: string;
+  platformType: 'windowstemplate';
+}
 
-*/
+export interface WindowsTemplateUpdateRegistrationRequest extends WindowsTemplateRegistrationRequest, UpdateRegistrationDescription {
+
+}
+
+export type RegistrationRequest =
+  AdmRegistrationRequest |
+  AdmTemplateRegistrationRequest |
+  AppleRegistrationRequest |
+  AppleTemplateRegistrationRequest |
+  BaiduRegistrationRequest |
+  BaiduTemplateRegistrationRequest |
+  FcmLegacyRegistrationRequest |
+  FcmLegacyTemplateRegisrationrequest |
+  WindowsRegistrationRequest |
+  WindowsTemplateRegistrationRequest;
+
+  export type RegistrationUpdateRequest =
+    AdmUpdateRegistrationRequest |
+    AdmUpdateTemplateRegistrationRequest |
+    AppleUpdateRegistrationRequest |
+    AppleUpdateTemplateRegistrationRequest |
+    BaiduUpdateRegistrationRequest |
+    BaiduUpdateTemplateRegistrationRequest |
+    FcmLegacyUpdateRegistrationRequest |
+    FcmLegacyUpdateTemplateRegisrationrequest |
+    WindowsUpdateRegistrationRequest |
+    WindowsTemplateUpdateRegistrationRequest;
