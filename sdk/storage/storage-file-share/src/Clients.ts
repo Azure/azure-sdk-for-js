@@ -321,25 +321,41 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the {@link ShareClient.setAccessTier} operation.
+ * Options to configure the {@link ShareClient.setProperties} operation.
  *
  * @export
- * @interface ShareSetAccessTierOptions
+ * @interface ShareSetPropertiesOptions
  */
-export interface ShareSetAccessTierOptions extends CommonOptions {
+export interface ShareSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof ShareSetAccessTierOptions
+   * @memberof ShareSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
+   * 'Hot', 'Cool'.
+   *
+   * @type {ShareAccessTier}
+   * @memberof ShareSetPropertiesOptions
+   */
+  accessTier?: ShareAccessTier;
+
+  /**
+   * Specifies the maximum size of the share, in gigabytes.
+   * @type {number}
+   * @memberof ShareSetPropertiesOptions
+   */
+  quotaInGB?: number;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
    *
    * @type {LeaseAccessConditions}
-   * @memberof ShareSetAccessTierOptions
+   * @memberof ShareSetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -1252,6 +1268,8 @@ export class ShareClient extends StorageClient {
   /**
    * Sets quota for the specified share.
    *
+   * @deprecated Use {@link ShareClient.setProperties} instead.
+   *
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @param {ShareSetQuotaOptions} [option] Options to Share Set Quota operation.
    * @returns {Promise<ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
@@ -1263,11 +1281,6 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetQuotaResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setQuota", options.tracingOptions);
     try {
-      if (quotaInGB <= 0 || quotaInGB > 5120) {
-        throw new RangeError(
-          `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
-        );
-      }
       return await this.context.setProperties({
         ...options,
         quota: quotaInGB,
@@ -1285,22 +1298,20 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Sets access tier of the share.
+   * Sets properties of the share.
    *
-   * @param {ShareAccessTier} accessTier Access tier to set on the share.
-   * @param {ShareSetAccessTierOptions} [option] Options to Share Set Quota operation.
-   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Get Quota operation.
+   * @param {ShareSetPropertiesOptions} [option] Options to Share Set Properties operation.
+   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Set Properties operation.
    * @memberof ShareClient
    */
-  public async setAccessTier(
-    accessTier: ShareAccessTier,
-    options: ShareSetAccessTierOptions = {}
+  public async setProperties(
+    options: ShareSetPropertiesOptions = {}
   ): Promise<ShareSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setAccessTier", options.tracingOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setProperties", options.tracingOptions);
     try {
       return await this.context.setProperties({
         ...options,
-        accessTier,
+        quota: options.quotaInGB,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
