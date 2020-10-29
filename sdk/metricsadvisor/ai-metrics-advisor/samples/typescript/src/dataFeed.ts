@@ -161,7 +161,7 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
       ingestionStartOffsetInSeconds: 4444
     },
     options: {
-      dataFeedDescription: "New datafeed description",
+      description: "New datafeed description",
       missingDataPointFillSettings: {
         fillType: "SmartFilling"
       },

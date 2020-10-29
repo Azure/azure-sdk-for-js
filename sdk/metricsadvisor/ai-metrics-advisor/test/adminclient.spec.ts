@@ -171,7 +171,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         },
         seriesGroupDetectionConditions: [
           {
-            group: { dimension: { Dim1: "Common Lime" } },
+            group: { Dim1: "Common Lime" },
             hardThresholdCondition: {
               anomalyDetectorDirection: "Up",
               upperBound: 400,
@@ -181,7 +181,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+            series: { Dim1: "Common Beech", Dim2: "Ant" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,
@@ -207,12 +207,28 @@ describe("MetricsAdvisorAdministrationClient", () => {
         actual.wholeSeriesDetectionCondition,
         expected.wholeSeriesDetectionCondition
       );
-      assert.deepStrictEqual(
+      assert.ok(
         actual.seriesGroupDetectionConditions,
-        expected.seriesGroupDetectionConditions
+        "Expecting valid seriesGroupDetectionConditions"
       );
+      assert.deepStrictEqual(
+        actual.seriesGroupDetectionConditions![0].group,
+        expected.seriesGroupDetectionConditions![0].group
+      );
+      assert.deepStrictEqual(
+        actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
+        expected.seriesGroupDetectionConditions![0].hardThresholdCondition
+      );
+      assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
       delete (actual.seriesDetectionConditions![0].series as any).seriesId; // workaround service issue
-      assert.deepStrictEqual(actual.seriesDetectionConditions, expected.seriesDetectionConditions);
+      assert.deepStrictEqual(
+        actual.seriesDetectionConditions![0].series,
+        expected.seriesDetectionConditions![0].series
+      );
+      assert.deepStrictEqual(
+        actual.seriesDetectionConditions![0].changeThresholdCondition,
+        expected.seriesDetectionConditions![0].changeThresholdCondition
+      );
     });
 
     it("retrieves a detection configuration", async function() {

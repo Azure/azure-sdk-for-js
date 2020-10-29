@@ -149,7 +149,7 @@ async function updateDataFeed(client, dataFeedId) {
       ingestionStartOffsetInSeconds: 4444
     },
     options: {
-      dataFeedDescription: "New datafeed description",
+      description: "New datafeed description",
       missingDataPointFillSettings: {
         fillType: "SmartFilling"
       },

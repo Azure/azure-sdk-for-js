@@ -66,9 +66,7 @@ export type ListIncidentsForDetectionConfigurationOptions = {
  * Options for retreiving metric enriched series data
  */
 
-export type GetMetricEnrichedSeriesDataOptions = {
-  skip?: number;
-} & OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
 
 /**
  * Options for listing anomalies for detection configurations
@@ -151,9 +149,7 @@ export type ListMetricSeriesDefinitionsOptions = {
  * Options for retreiving metric series data
  */
 
-export type GetMetricSeriesDataOptions = {
-  skip?: number;
-} & OperationOptions;
+export type GetMetricSeriesDataOptions = {} & OperationOptions;
 
 /**
  * Options for listing alerts
@@ -453,7 +449,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          seriesKey: { dimension: a.dimension },
+          seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -485,7 +481,7 @@ export class MetricsAdvisorClient {
           timestampe: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          seriesKey: { dimension: a.dimension },
+          seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
           timestamp: a.timestamp
@@ -632,11 +628,11 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          rootDimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode.dimension,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccuredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime
         };
       });
       yield {
@@ -663,11 +659,11 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: incident.anomalyDetectionConfigurationId!,
-          rootDimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode.dimension,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccuredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime
         };
       });
       yield {
@@ -804,7 +800,9 @@ export class MetricsAdvisorClient {
     const optionsBody = {
       startTime: startTime,
       endTime: endTime,
-      series: seriesToFilter
+      series: seriesToFilter.map((s) => {
+        return { dimension: s };
+      })
     };
     const result = await this.client.getSeriesByAnomalyDetectionConfiguration(
       detectionConfigId,
@@ -814,7 +812,7 @@ export class MetricsAdvisorClient {
     return {
       results: result.value.map((d) => {
         return {
-          series: d.series,
+          series: d.series.dimension,
           timestamps: d.timestampList,
           values: d.valueList,
           expectedValues: d.expectedValueList,
@@ -847,7 +845,9 @@ export class MetricsAdvisorClient {
       filter:
         options.dimensionFilter || options.severityFilter
           ? {
-              dimensionFilter: options.dimensionFilter,
+              dimensionFilter: options.dimensionFilter?.map((d) => {
+                return { dimension: d };
+              }),
               severityFilter: options.severityFilter
             }
           : undefined
@@ -868,7 +868,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          seriesKey: { dimension: a.dimension },
+          seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -896,7 +896,7 @@ export class MetricsAdvisorClient {
           timestamp: a.timestamp,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          seriesKey: { dimension: a.dimension },
+          seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus
         };
@@ -1042,6 +1042,7 @@ export class MetricsAdvisorClient {
     let segmentResponse;
     const optionsBody = {
       ...options,
+      dimensionFilter: options.dimensionFilter ? { dimension: options.dimensionFilter } : undefined,
       startTime,
       endTime,
       dimensionName
@@ -1216,7 +1217,9 @@ export class MetricsAdvisorClient {
       startTime: startTime,
       endTime: endTime,
       filter: {
-        dimensionFilter: options.dimensionFilter
+        dimensionFilter: options.dimensionFilter?.map((d) => {
+          return { dimension: d };
+        })
       }
     };
     if (continuationToken === undefined) {
@@ -1233,11 +1236,11 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          rootDimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode.dimension,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccuredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime
         };
       });
       yield {
@@ -1262,11 +1265,11 @@ export class MetricsAdvisorClient {
           id: incident.incidentId,
           metricId: incident.metricId,
           detectionConfigurationId: detectionConfigId,
-          rootDimensionKey: incident.rootNode,
+          rootDimensionKey: incident.rootNode.dimension,
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccuredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime
         };
       });
       yield {
@@ -1421,7 +1424,7 @@ export class MetricsAdvisorClient {
       );
       const transformed = result.value?.map((r) => {
         return {
-          seriesKey: r.rootCause,
+          seriesKey: r.rootCause.dimension,
           path: r.path,
           score: r.score,
           description: r.description
@@ -1518,7 +1521,13 @@ export class MetricsAdvisorClient {
     let segmentResponse;
     const optionsBody = {
       metricId,
-      ...options.filter
+      dimensionFilter: options.filter?.dimensionFilter
+        ? { dimension: options.filter?.dimensionFilter }
+        : undefined,
+      feedbackType: options.filter?.feedbackType,
+      startTime: options.filter?.startTime,
+      endTime: options.filter?.endTime,
+      timeMode: options.filter?.timeMode
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listMetricFeedbacks(optionsBody, {
@@ -1663,7 +1672,7 @@ export class MetricsAdvisorClient {
     const optionsBody = {
       startTime: startTime,
       endTime: endTime,
-      series: seriesToFilter.map((f) => f.dimension)
+      series: seriesToFilter
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
 
