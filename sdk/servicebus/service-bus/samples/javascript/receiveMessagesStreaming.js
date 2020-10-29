@@ -39,6 +39,8 @@ export async function main() {
         //
         // If your handler _does_ throw an error then the message will automatically
         // be abandoned using receiver.abandonMessage()
+        //
+        // autoComplete can be disabled in the options for subscribe().
       },
       processError: async (args) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
@@ -71,9 +73,10 @@ export async function main() {
     });
 
     // Waiting long enough before closing the receiver to receive messages
-    console.log(`Receiving messages for  5 seconds before exiting...`);
-    await delay(5000);
+    console.log(`Receiving messages for 20 seconds before exiting...`);
+    await delay(20000);
 
+    console.log(`Closing...`);
     await receiver.close();
   } finally {
     await sbClient.close();
