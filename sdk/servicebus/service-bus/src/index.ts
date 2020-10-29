@@ -12,9 +12,7 @@ export {
   RetryOptions,
   TokenCredential,
   TokenType,
-  WebSocketOptions,
-  AmqpMessageHeader,
-  AmqpMessageProperties
+  WebSocketOptions
 } from "@azure/core-amqp";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
