@@ -969,11 +969,11 @@ export class DigitalTwinsClient {
    * @returns The created application/json models and the http response.
    */
   public createModels(
-    models: any[],
+    dtdlModels: any[],
     options: OperationOptions = {}
   ): Promise<DigitalTwinModelsAddResponse> {
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
-    digitalTwinModelsAddOptionalParams.models = models;
+    digitalTwinModelsAddOptionalParams.models = dtdlModels;
     const span = this.createSpan(
       "DigitalTwinsClient-createModels",
       digitalTwinModelsAddOptionalParams
@@ -1223,7 +1223,7 @@ export class DigitalTwinsClient {
   /**
    * Delete an event route.
    *
-   * @param eventRouteId The Id of the model to delete.
+   * @param eventRouteId The Id of the eventRoute to delete.
    * @param options The operation options
    * @returns The http response.
    */

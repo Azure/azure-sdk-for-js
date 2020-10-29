@@ -69,7 +69,7 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 // @public
 export class DigitalTwinsClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
-    createModels(models: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
+    createModels(dtdlModels: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDigitalTwin(digitalTwinId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
     deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
