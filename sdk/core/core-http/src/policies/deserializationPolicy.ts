@@ -237,9 +237,10 @@ function handleErrorResponse(
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
-  // If the item failed but there's no error spec or default spec, just return it as-is.
+  // If the item failed but there's no error spec or default spec to deserialize the error,
+  // we should fail so we just throw the parsed response
   if (!errorResponseSpec) {
-    return { error: null, shouldReturnResponse: true };
+    throw parsedResponse;
   }
 
   const defaultBodyMapper = errorResponseSpec.bodyMapper;

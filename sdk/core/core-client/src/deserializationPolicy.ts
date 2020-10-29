@@ -210,7 +210,7 @@ function handleErrorResponse(
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
   if (!errorResponseSpec) {
-    return { error: null, shouldReturnResponse: true };
+    throw parsedResponse;
   }
 
   const defaultBodyMapper = errorResponseSpec.bodyMapper;
