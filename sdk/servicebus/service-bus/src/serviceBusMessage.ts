@@ -438,7 +438,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage?: AmqpAnnotatedMessage;
+  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
 }
 
 /**
@@ -749,7 +749,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * @property {AmqpMessage} _amqpAnnotatedMessage The underlying raw amqp annotated message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage?: AmqpAnnotatedMessage;
+  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
   /**
    * @property The reason for deadlettering the message.
    * @readonly
@@ -788,6 +788,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
+    // TODO: _amqpAnnotatedMessage is already being populated in fromAmqpMessage(), no need to do it twice
+    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
 
