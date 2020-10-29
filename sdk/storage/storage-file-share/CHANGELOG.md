@@ -2,6 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
+- Fixed a bug where `ShareDirectoryClient.DeleteIfExists()` and `ShareFileClient.DeleteIfExists()` would throw an exception if the directory or file's parent directory doesn't exist.
 
 ## 12.3.0-beta.1 (2020-10-13)
 
