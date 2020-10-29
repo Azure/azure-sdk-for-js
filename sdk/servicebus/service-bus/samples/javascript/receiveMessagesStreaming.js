@@ -45,7 +45,7 @@ export async function main() {
       processError: async (args) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
-        // the handler will not stop without explicit intervention from you.
+        // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
         if (isMessagingError(args.error)) {
           switch (args.error.code) {
             case "MessagingEntityDisabledError":
