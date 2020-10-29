@@ -30,7 +30,7 @@ describe("interface compatibility", () => {
       parent: context
     };
 
-    const OTSpanOptions: OTSpanOptions = spanOptions;
-    assert.ok(OTSpanOptions);
+    const OTOptions: OTSpanOptions = spanOptions;
+    assert.ok(OTOptions);
   });
 });
