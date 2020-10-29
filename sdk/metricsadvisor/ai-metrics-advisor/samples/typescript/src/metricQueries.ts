@@ -35,7 +35,6 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
   )) {
     console.log(definition);
   }
-
   console.log("  first two pages using byPage()");
   const iterator = client
     .listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))

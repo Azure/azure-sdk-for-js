@@ -98,7 +98,6 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
     console.log(`      status: ${anomaly.status}`);
     console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
   console.log(`  by pages`);
   const iterator = client
     .listAnomaliesForDetectionConfiguration(
@@ -214,7 +213,6 @@ async function listAnomaliesForAlert(client, alertConfigId, alertId) {
     console.log(`      status: ${anomaly.status}`);
     console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
   console.log(`  by pages`);
   const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
 
