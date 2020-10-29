@@ -21,7 +21,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   const queueReceiver = sbClient.createReceiver(queueName);
 

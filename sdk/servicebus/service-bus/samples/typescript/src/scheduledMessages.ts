@@ -74,7 +74,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
 }
 
 async function receiveMessages(sbClient: ServiceBusClient) {
-  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   let queueReceiver = sbClient.createReceiver(queueName);
 

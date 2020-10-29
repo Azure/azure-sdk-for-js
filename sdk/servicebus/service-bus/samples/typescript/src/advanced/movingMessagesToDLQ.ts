@@ -52,7 +52,7 @@ async function sendMessage() {
 }
 
 async function receiveMessage() {
-  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   const receiver = sbClient.createReceiver(queueName);
 
   const messages = await receiver.receiveMessages(1);
