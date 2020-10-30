@@ -4,7 +4,7 @@
 
 - `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
-- `Message` from "rhea" library which was being exported as `AmqpMessage` has now been changed to `RheaMessage` to adhere to the convention for "Amqp" prefix being followed with the `AmqpAnnotatedMessage` or `AmqpMessageProperties` which are defined in the SDK itself.
+- `Message` from "rhea" library which was being exported as `AmqpMessage` is removed.
   [PR 12169](https://github.com/Azure/azure-sdk-for-js/pull/12169)
 
 ## 1.1.7 (2020-10-28)
