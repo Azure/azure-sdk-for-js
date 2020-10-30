@@ -1,0 +1,164 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1500",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:37:48 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - NCUS ProdSlices",
+    "x-ms-request-id": "4ab54a4e-a85f-4cdc-81b2-13e4a0fe1200"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models",
+   "query": {},
+   "requestBody": "{\"source\":\"https://storageaccount/trainingdata?sastoken\",\"sourceFilter\":{\"includeSubFolders\":true},\"useLabelFile\":false,\"modelName\":\"modelName160409746912904869\"}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "9e72efca-f3f6-4987-ae92-3e296c0cbbb0",
+    "content-length": "0",
+    "date": "Fri, 30 Oct 2020 22:37:49 GMT",
+    "location": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "72"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"modelName\":\"modelName160409746912904869\",\"status\":\"creating\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:37:49Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "4ab88058-39c5-4530-b80f-031becdeceec",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:37:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "17"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"modelName\":\"modelName160409746912904869\",\"status\":\"creating\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:37:49Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "2c2d755a-00eb-4269-9dcf-a51aafa09ed9",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:37:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "27"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"modelName\":\"modelName160409746912904869\",\"status\":\"creating\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:37:49Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "8e07ec48-39c5-4f80-8b0d-d2c35fb2c1d9",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:37:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "19"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"modelName\":\"modelName160409746912904869\",\"status\":\"creating\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:37:49Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "2714ec5e-5690-48dc-a22a-142c3b6f47ea",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:37:59 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "16"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"modelName\":\"modelName160409746912904869\",\"status\":\"creating\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:37:49Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "75e1e89f-6e2b-4659-9067-29376fcf93b7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:38:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "19"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/5e2ad10e-3fab-4e24-80db-3a0daba75e21",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"5e2ad10e-3fab-4e24-80db-3a0daba75e21\",\"status\":\"ready\",\"createdDateTime\":\"2020-10-30T22:37:49Z\",\"lastUpdatedDateTime\":\"2020-10-30T22:38:08Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Ft Lauderdale, FL Phone:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"subfolder/Form_6.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "responseHeaders": {
+    "apim-request-id": "eeef862f-b2cd-4ac4-bd38-fbf1625eab5f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Oct 2020 22:38:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "24"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "3": "modelName160409746912904869"
+  },
+  "newDate": {}
+ },
+ "hash": "7a98a8f5ed0634d0668aafa33a1d00d1"
+}

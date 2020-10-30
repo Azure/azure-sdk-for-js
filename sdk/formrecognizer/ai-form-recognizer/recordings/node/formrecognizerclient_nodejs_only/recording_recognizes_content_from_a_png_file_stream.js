@@ -10,72 +10,72 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.1-preview.1/layout/analyzeResults/b6f64745-c6bc-46ae-9d5c-26dd4a17915a',
+  'https://endpoint/formrecognizer/v2.1-preview.1/layout/analyzeResults/116e5c7a-c132-4d02-bcb9-4ef25a3a5f0c',
   'x-envoy-upstream-service-time',
-  '321',
+  '440',
   'apim-request-id',
-  'b6f64745-c6bc-46ae-9d5c-26dd4a17915a',
+  '116e5c7a-c132-4d02-bcb9-4ef25a3a5f0c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 21 Oct 2020 18:06:14 GMT'
+  'Fri, 30 Oct 2020 22:28:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/b6f64745-c6bc-46ae-9d5c-26dd4a17915a')
-  .reply(200, {"status":"running","createdDateTime":"2020-10-21T18:06:15Z","lastUpdatedDateTime":"2020-10-21T18:06:15Z"}, [
+  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/116e5c7a-c132-4d02-bcb9-4ef25a3a5f0c')
+  .reply(200, {"status":"running","createdDateTime":"2020-10-30T22:28:38Z","lastUpdatedDateTime":"2020-10-30T22:28:38Z"}, [
   'Content-Length',
   '106',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '36',
+  '15',
   'apim-request-id',
-  '27e78048-db1d-4750-b7fa-2fcef6761197',
+  'c6100250-449b-47ea-898e-f8ee97720d5d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 21 Oct 2020 18:06:15 GMT'
+  'Fri, 30 Oct 2020 22:28:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/b6f64745-c6bc-46ae-9d5c-26dd4a17915a')
-  .reply(200, {"status":"running","createdDateTime":"2020-10-21T18:06:15Z","lastUpdatedDateTime":"2020-10-21T18:06:15Z"}, [
+  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/116e5c7a-c132-4d02-bcb9-4ef25a3a5f0c')
+  .reply(200, {"status":"running","createdDateTime":"2020-10-30T22:28:38Z","lastUpdatedDateTime":"2020-10-30T22:28:38Z"}, [
   'Content-Length',
   '106',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '10',
+  '15',
   'apim-request-id',
-  'a4de1257-0199-4eaf-b5bc-60418cea2b76',
+  '06bc26f6-0e3a-4db9-b47b-8a49867a58c6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 21 Oct 2020 18:06:15 GMT'
+  'Fri, 30 Oct 2020 22:28:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/b6f64745-c6bc-46ae-9d5c-26dd4a17915a')
-  .reply(200, {"status":"succeeded","createdDateTime":"2020-10-21T18:06:15Z","lastUpdatedDateTime":"2020-10-21T18:06:17Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":0.3356,"width":1688,"height":3000,"unit":"pixel","lines":[{"boundingBox":[620,291,1048,288,1049,384,621,389],"text":"Contoso","words":[{"boundingBox":[620,292,1045,290,1046,379,623,389],"text":"Contoso","confidence":0.984}]},{"boundingBox":[326,589,499,601,496,651,323,640],"text":"Contoso","words":[{"boundingBox":[328,590,500,601,497,651,324,640],"text":"Contoso","confidence":0.94}]},{"boundingBox":[314,690,650,694,649,754,314,751],"text":"123 Main Street","words":[{"boundingBox":[318,690,383,693,379,752,314,748],"text":"123","confidence":0.987},{"boundingBox":[394,694,493,697,490,754,391,752],"text":"Main","confidence":0.986},{"boundingBox":[504,697,649,697,648,751,502,754],"text":"Street","confidence":0.985}]},{"boundingBox":[311,796,751,796,751,854,311,855],"text":"Redmond, WA 98052","words":[{"boundingBox":[313,796,517,799,517,856,311,851],"text":"Redmond,","confidence":0.897},{"boundingBox":[528,799,592,799,592,855,527,856],"text":"WA","confidence":0.988},{"boundingBox":[603,799,749,797,750,848,603,855],"text":"98052","confidence":0.984}]},{"boundingBox":[307,1004,619,1010,618,1068,306,1061],"text":"123-456-7890","words":[{"boundingBox":[308,1005,620,1012,616,1068,306,1063],"text":"123-456-7890","confidence":0.968}]},{"boundingBox":[301,1222,631,1224,630,1290,301,1287],"text":"6/10/2019 13:59","words":[{"boundingBox":[302,1223,496,1224,496,1290,301,1289],"text":"6/10/2019","confidence":0.903},{"boundingBox":[509,1224,630,1228,629,1290,509,1290],"text":"13:59","confidence":0.983}]},{"boundingBox":[301,1335,769,1338,768,1396,300,1393],"text":"Sales Associate: Paul","words":[{"boundingBox":[301,1336,409,1336,408,1393,301,1393],"text":"Sales","confidence":0.985},{"boundingBox":[420,1336,646,1337,645,1396,420,1393],"text":"Associate:","confidence":0.98},{"boundingBox":[658,1338,769,1338,768,1397,657,1396],"text":"Paul","confidence":0.987}]},{"boundingBox":[333,1560,674,1562,674,1620,332,1618],"text":"1 Surface Pro 6","words":[{"boundingBox":[334,1560,353,1561,352,1619,333,1619],"text":"1","confidence":0.986},{"boundingBox":[365,1561,539,1562,538,1620,364,1619],"text":"Surface","confidence":0.983},{"boundingBox":[550,1562,628,1563,626,1621,549,1620],"text":"Pro","confidence":0.953},{"boundingBox":[639,1563,674,1563,673,1621,638,1621],"text":"6","confidence":0.963}]},{"boundingBox":[369,1672,846,1674,846,1739,369,1736],"text":"256GB / Intel Core i5 /","words":[{"boundingBox":[370,1673,502,1673,501,1737,370,1734],"text":"256GB","confidence":0.984},{"boundingBox":[514,1673,526,1673,525,1737,513,1737],"text":"/","confidence":0.962},{"boundingBox":[537,1673,641,1673,640,1739,537,1738],"text":"Intel","confidence":0.926},{"boundingBox":[653,1673,753,1674,751,1739,652,1739],"text":"Core","confidence":0.986},{"boundingBox":[765,1674,805,1674,802,1739,763,1739],"text":"i5","confidence":0.973},{"boundingBox":[817,1674,845,1674,842,1739,814,1739],"text":"/","confidence":0.979}]},{"boundingBox":[368,1784,731,1784,730,1853,368,1849],"text":"8GB RAM (Black)","words":[{"boundingBox":[368,1785,446,1785,446,1849,369,1847],"text":"8GB","confidence":0.943},{"boundingBox":[458,1785,555,1785,556,1852,459,1849],"text":"RAM","confidence":0.985},{"boundingBox":[567,1785,730,1785,730,1854,568,1852],"text":"(Black)","confidence":0.981}]},{"boundingBox":[977,1796,1130,1800,1128,1854,977,1849],"text":"999.00","words":[{"boundingBox":[977,1796,1128,1800,1127,1854,977,1849],"text":"999.00","confidence":0.98}]},{"boundingBox":[317,2018,627,2013,628,2073,318,2080],"text":"1 SurfacePen","words":[{"boundingBox":[317,2021,341,2020,343,2080,320,2080],"text":"1","confidence":0.983},{"boundingBox":[353,2019,625,2014,626,2075,355,2080],"text":"SurfacePen","confidence":0.98}]},{"boundingBox":[1004,2031,1130,2031,1129,2090,1004,2089],"text":"99.99","words":[{"boundingBox":[1004,2031,1130,2031,1130,2090,1004,2089],"text":"99.99","confidence":0.983}]},{"boundingBox":[278,2168,321,2168,322,2180,278,2181],"text":"--","words":[{"boundingBox":[288,2169,322,2168,322,2180,288,2181],"text":"--","confidence":0.559}]},{"boundingBox":[471,2243,698,2245,697,2307,471,2304],"text":"Sub-Total","words":[{"boundingBox":[471,2243,696,2245,694,2307,472,2305],"text":"Sub-Total","confidence":0.974}]},{"boundingBox":[956,2261,1135,2255,1137,2314,957,2319],"text":"1098.99","words":[{"boundingBox":[960,2262,1136,2256,1138,2315,963,2320],"text":"1098.99","confidence":0.983}]},{"boundingBox":[566,2354,657,2361,652,2414,562,2412],"text":"Tax","words":[{"boundingBox":[564,2354,657,2358,654,2415,562,2411],"text":"Tax","confidence":0.987}]},{"boundingBox":[977,2374,1132,2370,1131,2428,979,2428],"text":"104.40","words":[{"boundingBox":[977,2372,1128,2370,1129,2427,977,2429],"text":"104.40","confidence":0.983}]},{"boundingBox":[546,2594,669,2589,670,2647,548,2652],"text":"Total","words":[{"boundingBox":[546,2594,665,2589,668,2647,548,2652],"text":"Total","confidence":0.907}]},{"boundingBox":[909,2593,1128,2611,1121,2673,907,2650],"text":"$ 1203.39","words":[{"boundingBox":[909,2594,939,2596,936,2653,907,2650],"text":"$","confidence":0.985},{"boundingBox":[950,2596,1127,2613,1121,2674,947,2654],"text":"1203.39","confidence":0.983}]}],"selectionMarks":[{"boundingBox":[509,620,720,620,720,704,509,704],"confidence":0.775,"state":"unselected"},{"boundingBox":[1497,2820,1688,2820,1688,2999,1497,2999],"confidence":0.654,"state":"unselected"},{"boundingBox":[866,2259,918,2259,918,2358,866,2358],"confidence":0.6,"state":"unselected"},{"boundingBox":[875,2285,912,2285,912,2331,875,2331],"confidence":0.553,"state":"unselected"},{"boundingBox":[836,2277,866,2277,866,2309,836,2309],"confidence":0.553,"state":"unselected"}]}],"pageResults":[{"page":1,"tables":[]}]}}, [
+  .get('/formrecognizer/v2.1-preview.1/layout/analyzeResults/116e5c7a-c132-4d02-bcb9-4ef25a3a5f0c')
+  .reply(200, {"status":"succeeded","createdDateTime":"2020-10-30T22:28:38Z","lastUpdatedDateTime":"2020-10-30T22:28:41Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":0.3356,"width":1688,"height":3000,"unit":"pixel","lines":[{"boundingBox":[620,291,1048,288,1049,384,621,389],"text":"Contoso","words":[{"boundingBox":[620,292,1045,290,1046,379,623,389],"text":"Contoso","confidence":0.984}]},{"boundingBox":[326,589,499,601,496,651,323,640],"text":"Contoso","words":[{"boundingBox":[328,590,500,601,497,651,324,640],"text":"Contoso","confidence":0.94}]},{"boundingBox":[314,690,650,694,649,754,314,751],"text":"123 Main Street","words":[{"boundingBox":[318,690,383,693,379,752,314,748],"text":"123","confidence":0.987},{"boundingBox":[394,694,493,697,490,754,391,752],"text":"Main","confidence":0.986},{"boundingBox":[504,697,649,697,648,751,502,754],"text":"Street","confidence":0.985}]},{"boundingBox":[311,796,751,796,751,854,311,855],"text":"Redmond, WA 98052","words":[{"boundingBox":[313,796,517,799,517,856,311,851],"text":"Redmond,","confidence":0.897},{"boundingBox":[528,799,592,799,592,855,527,856],"text":"WA","confidence":0.988},{"boundingBox":[603,799,749,797,750,848,603,855],"text":"98052","confidence":0.984}]},{"boundingBox":[307,1004,619,1010,618,1068,306,1061],"text":"123-456-7890","words":[{"boundingBox":[308,1005,620,1012,616,1068,306,1063],"text":"123-456-7890","confidence":0.968}]},{"boundingBox":[301,1222,631,1224,630,1290,301,1287],"text":"6/10/2019 13:59","words":[{"boundingBox":[302,1223,496,1224,496,1290,301,1289],"text":"6/10/2019","confidence":0.903},{"boundingBox":[509,1224,630,1228,629,1290,509,1290],"text":"13:59","confidence":0.983}]},{"boundingBox":[301,1335,769,1338,768,1396,300,1393],"text":"Sales Associate: Paul","words":[{"boundingBox":[301,1336,409,1336,408,1393,301,1393],"text":"Sales","confidence":0.985},{"boundingBox":[420,1336,646,1337,645,1396,420,1393],"text":"Associate:","confidence":0.98},{"boundingBox":[658,1338,769,1338,768,1397,657,1396],"text":"Paul","confidence":0.987}]},{"boundingBox":[333,1560,674,1562,674,1620,332,1618],"text":"1 Surface Pro 6","words":[{"boundingBox":[334,1560,353,1561,352,1619,333,1619],"text":"1","confidence":0.986},{"boundingBox":[365,1561,539,1562,538,1620,364,1619],"text":"Surface","confidence":0.983},{"boundingBox":[550,1562,628,1563,626,1621,549,1620],"text":"Pro","confidence":0.953},{"boundingBox":[639,1563,674,1563,673,1621,638,1621],"text":"6","confidence":0.963}]},{"boundingBox":[369,1672,846,1674,846,1739,369,1736],"text":"256GB / Intel Core i5 /","words":[{"boundingBox":[370,1673,502,1673,501,1737,370,1734],"text":"256GB","confidence":0.984},{"boundingBox":[514,1673,526,1673,525,1737,513,1737],"text":"/","confidence":0.962},{"boundingBox":[537,1673,641,1673,640,1739,537,1738],"text":"Intel","confidence":0.926},{"boundingBox":[653,1673,753,1674,751,1739,652,1739],"text":"Core","confidence":0.986},{"boundingBox":[765,1674,805,1674,802,1739,763,1739],"text":"i5","confidence":0.973},{"boundingBox":[817,1674,845,1674,842,1739,814,1739],"text":"/","confidence":0.979}]},{"boundingBox":[368,1784,731,1784,730,1853,368,1849],"text":"8GB RAM (Black)","words":[{"boundingBox":[368,1785,446,1785,446,1849,369,1847],"text":"8GB","confidence":0.943},{"boundingBox":[458,1785,555,1785,556,1852,459,1849],"text":"RAM","confidence":0.985},{"boundingBox":[567,1785,730,1785,730,1854,568,1852],"text":"(Black)","confidence":0.981}]},{"boundingBox":[977,1796,1130,1800,1128,1854,977,1849],"text":"999.00","words":[{"boundingBox":[977,1796,1128,1800,1127,1854,977,1849],"text":"999.00","confidence":0.98}]},{"boundingBox":[317,2018,627,2013,628,2073,318,2080],"text":"1 SurfacePen","words":[{"boundingBox":[317,2021,341,2020,343,2080,320,2080],"text":"1","confidence":0.983},{"boundingBox":[353,2019,625,2014,626,2075,355,2080],"text":"SurfacePen","confidence":0.98}]},{"boundingBox":[1004,2031,1130,2031,1129,2090,1004,2089],"text":"99.99","words":[{"boundingBox":[1004,2031,1130,2031,1130,2090,1004,2089],"text":"99.99","confidence":0.983}]},{"boundingBox":[278,2168,321,2168,322,2180,278,2181],"text":"--","words":[{"boundingBox":[288,2169,322,2168,322,2180,288,2181],"text":"--","confidence":0.559}]},{"boundingBox":[471,2243,698,2245,697,2307,471,2304],"text":"Sub-Total","words":[{"boundingBox":[471,2243,696,2245,694,2307,472,2305],"text":"Sub-Total","confidence":0.974}]},{"boundingBox":[956,2261,1135,2255,1137,2314,957,2319],"text":"1098.99","words":[{"boundingBox":[960,2262,1136,2256,1138,2315,963,2320],"text":"1098.99","confidence":0.983}]},{"boundingBox":[566,2354,657,2361,652,2414,562,2412],"text":"Tax","words":[{"boundingBox":[564,2354,657,2358,654,2415,562,2411],"text":"Tax","confidence":0.987}]},{"boundingBox":[977,2374,1132,2370,1131,2428,979,2428],"text":"104.40","words":[{"boundingBox":[977,2372,1128,2370,1129,2427,977,2429],"text":"104.40","confidence":0.983}]},{"boundingBox":[546,2594,669,2589,670,2647,548,2652],"text":"Total","words":[{"boundingBox":[546,2594,665,2589,668,2647,548,2652],"text":"Total","confidence":0.907}]},{"boundingBox":[909,2593,1128,2611,1121,2673,907,2650],"text":"$ 1203.39","words":[{"boundingBox":[909,2594,939,2596,936,2653,907,2650],"text":"$","confidence":0.985},{"boundingBox":[950,2596,1127,2613,1121,2674,947,2654],"text":"1203.39","confidence":0.983}]}],"selectionMarks":[{"boundingBox":[509,620,720,620,720,704,509,704],"confidence":0.775,"state":"unselected"},{"boundingBox":[1497,2820,1688,2820,1688,2999,1497,2999],"confidence":0.654,"state":"unselected"},{"boundingBox":[866,2259,918,2259,918,2358,866,2358],"confidence":0.6,"state":"unselected"},{"boundingBox":[875,2285,912,2285,912,2331,875,2331],"confidence":0.553,"state":"unselected"},{"boundingBox":[836,2277,866,2277,866,2309,836,2309],"confidence":0.553,"state":"unselected"}]}],"pageResults":[{"page":1,"tables":[]}]}}, [
   'Content-Length',
   '5864',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '40',
+  '24',
   'apim-request-id',
-  'd8e499ca-9865-480c-9048-5f4fba23106b',
+  '963c7c99-69f3-4295-8eb1-3bb235d3d0b3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 21 Oct 2020 18:06:20 GMT'
+  'Fri, 30 Oct 2020 22:28:43 GMT'
 ]);
