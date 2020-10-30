@@ -16,6 +16,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [differentiateLabeledUnlabeled.js][differentiatelabeledunlabeled] | See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data |
 | [copyModel.js][copymodel]                                         | Copy a custom model from one Form Recognizer resource to another                                                      |
 | [authenticationMethods.js][authenticationmethods]                 | authenticates a service client using both Azure Active Directory and an API key                                       |
+| [deleteAllModels.js][deleteallmodels]                             | Delete all models in a Form Recognizer account                                                                        |
 
 ## Prerequisites
 
@@ -59,6 +60,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
 [copymodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/copyModel.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/authenticationMethods.js
+[deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/deleteAllModels.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
