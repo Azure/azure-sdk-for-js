@@ -227,15 +227,11 @@ function handleErrorResponse(
   });
 
   try {
-    // If error response has a body, try to extract error code & message from it
-    // Then try to deserialize it using default body mapper
+    // If error response has a body, try to deserialize it using default body mapper.
+    // Then try to extract error code & message from it
     if (parsedResponse.parsedBody) {
       const parsedBody = parsedResponse.parsedBody;
-      const internalError: any = parsedBody.error || parsedBody;
-      error.code = internalError.code;
-      if (internalError.message) {
-        error.message = internalError.message;
-      }
+      let deserializedError;
 
       if (defaultBodyMapper) {
         let valueToDeserialize: any = parsedBody;
@@ -247,12 +243,24 @@ function handleErrorResponse(
           }
         }
         if (error.response) {
-          const errorResponse: FullOperationResponse = error.response;
-          errorResponse.parsedBody = operationSpec.serializer.deserialize(
+          deserializedError = operationSpec.serializer.deserialize(
             defaultBodyMapper,
             valueToDeserialize,
             "error.response.parsedBody"
           );
+        }
+      }
+
+      const internalError: any = parsedBody.error || deserializedError || parsedBody;
+      error.code = internalError.code;
+      if (internalError.message) {
+        error.message = internalError.message;
+      }
+
+      if (defaultBodyMapper) {
+        if (error.response) {
+          const errorResponse: FullOperationResponse = error.response;
+          errorResponse.parsedBody = deserializedError;
         }
       }
     }

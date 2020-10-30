@@ -566,6 +566,64 @@ describe("deserializationPolicy", function() {
         assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
       }
     });
+
+    it(`with default error response body`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "StorageError",
+        type: {
+          name: "Composite",
+          className: "StorageError",
+          modelProperties: {
+            code: {
+              xmlName: "Code",
+              serializedName: "Code",
+              type: {
+                name: "String"
+              }
+            },
+            message: {
+              xmlName: "Message",
+              serializedName: "Message",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = createSerializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: {},
+          bodyAsText:
+            '{"Code": "ContainerAlreadyExists", "Message": "The specified container already exists."}',
+          status: 500
+        });
+        assert.fail();
+      } catch (e) {
+        assert.exists(e);
+        assert.strictEqual(e.code, "ContainerAlreadyExists");
+        assert.strictEqual(e.message, "The specified container already exists.");
+        assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
+        assert.strictEqual(
+          e.response.parsedBody.message,
+          "The specified container already exists."
+        );
+      }
+    });
   });
 });
 
