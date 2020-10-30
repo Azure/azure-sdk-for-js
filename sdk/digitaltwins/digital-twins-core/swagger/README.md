@@ -43,3 +43,12 @@ directive:
         $["x-ms-client-name"] = "timestamp";
       }
 ```
+
+### Expose If-None_match header
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $..[?(@.name=='If-None-Match')]
+    transform: delete $.enum;
+```

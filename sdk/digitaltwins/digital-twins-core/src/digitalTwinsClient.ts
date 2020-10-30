@@ -176,16 +176,25 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the digital twin to create or update.
    * @param digitalTwinJson The application/json digital twin to create.
-   * @param enableUpdate If true then update of an existing digital twin is enabled.
+   * @param ifNoneMatch Only perform the operation if the entity does not already exist.
    * @param options The operation options
    * @returns The created application/json digital twin and the http response.
    */
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
+    ifNoneMatch?: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsAddResponse> {
-    const digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = options;
+    var digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = options;
+    if (ifNoneMatch) {
+      digitalTwinsAddOptionalParams = {
+        digitalTwinsAddOptions: {
+          ifNoneMatch: ifNoneMatch,
+        },
+        ...options
+      }
+    }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertDigitalTwin",
       digitalTwinsAddOptionalParams
@@ -214,21 +223,20 @@ export class DigitalTwinsClient {
    * @param jsonPatch An update specification described by JSON Patch. Updates to property values
    * and $model elements may happen in the same request. Operations are limited to add, replace and
    * remove.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
+   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @param options The operation options
    * @returns The http response.
    */
   public updateDigitalTwin(
     digitalTwinId: string,
     jsonPatch: any,
-    etag: string = "*",
+    ifMatch?: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateResponse> {
     var digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = options;
     digitalTwinsUpdateOptionalParams = {
       digitalTwinsUpdateOptions: {
-        ifMatch: etag,
+        ifMatch: ifMatch,
         ...options
       }
     };
@@ -257,20 +265,19 @@ export class DigitalTwinsClient {
    * Delete a digital twin
    *
    * @param digitalTwinId The Id of the digital twin to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
+   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @param options The operation options
    * @returns The http response.
    */
   public deleteDigitalTwin(
     digitalTwinId: string,
-    etag: string = "*",
+    ifMatch?: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     var digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
     digitalTwinsDeleteOptionalParams = {
       digitalTwinsDeleteOptions: {
-        ifMatch: etag,
+        ifMatch: ifMatch,
         ...options
       }
     };
@@ -334,20 +341,20 @@ export class DigitalTwinsClient {
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's component.
    * @param enableUpdate If true then update of an existing digital twin is enabled.
    * @param options The operation options
-   * @param etag The etag of the component to update. Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateComponent(
     digitalTwinId: string,
     componentName: string,
     jsonPatch: any[],
-    etag: string = "*",
+    ifMatch?: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     var digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = options;
     digitalTwinsUpdateComponentOptionalParams = {
       digitalTwinsUpdateComponentOptions: {
-        ifMatch: etag,
+        ifMatch: ifMatch,
         ...options
       }
     };
@@ -414,15 +421,25 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to create.
    * @param relationship: The application/json relationship to be created.
+   * @param ifNoneMatch: Only perform the operation if the entity does not already exist.
    * @param options The operation options
    */
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
     relationship: any,
+    ifNoneMatch?: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
+    var digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
+    if (ifNoneMatch) {
+      digitalTwinsAddRelationshipOptionalParams = {
+        digitalTwinsAddRelationshipOptions: {
+          ifNoneMatch: ifNoneMatch
+        },
+        ...options
+      }
+    }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertRelationship",
       digitalTwinsAddRelationshipOptionalParams
@@ -451,7 +468,7 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the digital twin to delete.
    * @param relationshipId The Id of the relationship to be updated.
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's relationship.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
+   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @param options The operation options
    * provided
    */
@@ -459,13 +476,13 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     relationshipId: string,
     jsonPatch: any[],
-    etag: string = "*",
+    ifMatch?: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     var digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = options;
     digitalTwinsUpdateRelationshipOptionalParams = {
       digitalTwinsUpdateRelationshipOptions: {
-        ifMatch: etag,
+        ifMatch: ifMatch,
         ...options
       }
     };
@@ -496,20 +513,20 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
+   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @param options The operation options
    * @returns The http response.
    */
   public deleteRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    etag: string = "*",
+    ifMatch?: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     var digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = options;
     digitalTwinsDeleteRelationshipOptionalParams = {
       digitalTwinsDeleteRelationshipOptions: {
-        ifMatch: etag,
+        ifMatch: ifMatch,
         ...options
       }
     };
@@ -1031,8 +1048,6 @@ export class DigitalTwinsClient {
    * Delete a model.
    *
    * @param modelId The Id of the model to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
    * @param options The operation options
    * @returns The http response.
    */

@@ -334,10 +334,8 @@ export const tracestate7: OperationParameter = {
 };
 
 export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
+  parameterPath: ["options", "digitalTwinsAddOptions", "ifNoneMatch"],
   mapper: {
-    defaultValue: "*",
-    isConstant: true,
     serializedName: "If-None-Match",
     type: {
       name: "String"
@@ -489,6 +487,20 @@ export const tracestate11: OperationParameter = {
   ],
   mapper: {
     serializedName: "tracestate",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const ifNoneMatch1: OperationParameter = {
+  parameterPath: [
+    "options",
+    "digitalTwinsAddRelationshipOptions",
+    "ifNoneMatch"
+  ],
+  mapper: {
+    serializedName: "If-None-Match",
     type: {
       name: "String"
     }

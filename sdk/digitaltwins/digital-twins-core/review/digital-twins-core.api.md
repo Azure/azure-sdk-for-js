@@ -71,10 +71,10 @@ export class DigitalTwinsClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
     createModels(dtdlModels: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDigitalTwin(digitalTwinId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDigitalTwin(digitalTwinId: string, ifMatch?: string, options?: OperationOptions): Promise<RestResponse>;
     deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteRelationship(digitalTwinId: string, relationshipId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteRelationship(digitalTwinId: string, relationshipId: string, ifMatch?: string, options?: OperationOptions): Promise<RestResponse>;
     getComponent(digitalTwinId: string, componentName: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
     getDigitalTwin(digitalTwinId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     getEventRoute(eventRouteId: string, options?: OperationOptions): Promise<EventRoutesGetByIdResponse>;
@@ -87,12 +87,12 @@ export class DigitalTwinsClient {
     publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     publishTelemetry(digitalTwinId: string, payload: any, messageId: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query: string, resultsPerPage?: number, options?: OperationOptions): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
-    updateDigitalTwin(digitalTwinId: string, jsonPatch: any, etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
-    updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
-    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
+    updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], ifMatch?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
+    updateDigitalTwin(digitalTwinId: string, jsonPatch: any, ifMatch?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
+    updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: any[], ifMatch?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
+    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, ifNoneMatch?: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, ifNoneMatch?: string, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public (undocumented)

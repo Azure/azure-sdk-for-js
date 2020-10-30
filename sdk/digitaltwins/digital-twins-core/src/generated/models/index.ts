@@ -413,6 +413,10 @@ export interface DigitalTwinsAddOptions {
    * Provides vendor-specific trace identification information and is a companion to traceparent.
    */
   tracestate?: string;
+  /**
+   * Only perform the operation if the entity does not already exist.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -477,6 +481,10 @@ export interface DigitalTwinsAddRelationshipOptions {
    * Provides vendor-specific trace identification information and is a companion to traceparent.
    */
   tracestate?: string;
+  /**
+   * Only perform the operation if the entity does not already exist.
+   */
+  ifNoneMatch?: string;
 }
 
 /**

@@ -630,9 +630,9 @@ const addRelationshipOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
     Parameters.contentType,
-    Parameters.ifNoneMatch,
     Parameters.traceparent11,
-    Parameters.tracestate11
+    Parameters.tracestate11,
+    Parameters.ifNoneMatch1
   ],
   mediaType: "json",
   serializer

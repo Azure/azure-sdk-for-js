@@ -1,7 +1,7 @@
 {
   "name": "azure-digital-twins-core-samples-js",
   "private": true,
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0",
   "description": "Samples for the azure/digital-twins-core client library for Javascript",
   "author": "Microsoft Corporation",
   "license": "MIT",

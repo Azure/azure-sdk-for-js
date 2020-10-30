@@ -20,6 +20,7 @@ import {
   DigitalTwinsDeleteRelationshipOptionalParams,
   DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddOptionalParams,
+  DigitalTwinsAddOptionalParams,
   EventRoute,
   EventRoutesAddOptionalParams
 } from "../../src/generated/models";
@@ -42,7 +43,9 @@ describe("DigitalTwinsClient", () => {
   let testEventRouteId: string;
   let testEndpointName: string;
   let testFilter: string;
-  let testEtag: string;
+  let testIfMatch: string;
+  let testIfNoneMatch: string;
+  let testOptions: OperationOptions;
   let testDefaultOperationalResponse: HttpOperationResponse;
   let testDefaultResponse: HttpResponse;
   let testBody: any;
@@ -66,7 +69,13 @@ describe("DigitalTwinsClient", () => {
         })
     };
     testFilter = "*.*";
-    testEtag = "test_etag";
+    testIfMatch = "test_ifmatch";
+    testIfNoneMatch = "test_ifnonmatch";
+    testOptions = {
+      requestOptions: {
+        customHeaders: {"key": "value"}
+      }
+    }
     testEndpointName = "test_endpoint_name";
     testDefaultOperationalResponse = {
       status: 200,
@@ -91,7 +100,7 @@ describe("DigitalTwinsClient", () => {
     testEventRouteId = "test_event_route_id";
     testBody = "test_body";
     testHeaders = {
-      etag: testEtag
+      etag: testIfMatch
     };
     testError = new Error("Promise Rejected");
     decommissionPatch = [{ op: "replace", path: "/decommissioned", value: true }];
@@ -129,18 +138,38 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
+  it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is ifMatch", function() {
+    const stub = sinon.stub(testClient["client"].digitalTwins, "add");
+    const expectedOptions = {
+        digitalTwinsAddOptions: {
+          ifNoneMatch: testIfMatch,
+        }
+    }
+    testClient.upsertDigitalTwin(testTwinId, testJsonString, testIfMatch);
+    assert.isTrue(stub.calledOnce);
+    assert.isTrue(stub.calledWith(testTwinId, testJsonString, expectedOptions));
+  });
+
+  it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is ifMatch and options", function() {
+    const stub = sinon.stub(testClient["client"].digitalTwins, "add");
+    var expectedOptions: DigitalTwinsAddOptionalParams = testOptions;
+    expectedOptions = {
+      digitalTwinsAddOptions: {
+        ifNoneMatch: testIfMatch,
+      },
+      ...testOptions
+    }
+    testClient.upsertDigitalTwin(testTwinId, testJsonString, testIfMatch, testOptions);
+    assert.isTrue(stub.calledOnce);
+    assert.isTrue(stub.calledWith(testTwinId, testJsonString, expectedOptions));
+  });
+
+
   it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is no option defined", function() {
     const stub = sinon.stub(testClient["client"].digitalTwins, "add");
     testClient.upsertDigitalTwin(testTwinId, testJsonString);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testJsonString, {}));
-  });
-
-  it("upsertDigitalTwin calls the add method with twinId, twinJson and options", function() {
-    const stub = sinon.stub(testClient["client"].digitalTwins, "add");
-    testClient.upsertDigitalTwin(testTwinId, testJsonString, operationOptions);
-    assert.isTrue(stub.calledOnce);
-    assert.isTrue(stub.calledWith(testTwinId, testJsonString, operationOptions));
   });
 
   it("upsertDigitalTwin returns a promise of the generated code return value", async () => {
@@ -161,12 +190,12 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsUpdateOptionalParams = operationOptions;
     expectedOptions = {
       digitalTwinsUpdateOptions: {
-        ifMatch: testEtag,
+        ifMatch: testIfMatch,
         ...operationOptions
       }
     };
     const stub = sinon.stub(testClient["client"].digitalTwins, "update");
-    testClient.updateDigitalTwin(testTwinId, testJsonPatch, testEtag, operationOptions);
+    testClient.updateDigitalTwin(testTwinId, testJsonPatch, testIfMatch, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testJsonPatch, expectedOptions));
   });
@@ -189,13 +218,13 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsDeleteOptionalParams = operationOptions;
     expectedOptions = {
       digitalTwinsDeleteOptions: {
-        ifMatch: testEtag,
+        ifMatch: testIfMatch,
         ...operationOptions
       }
     };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "delete");
-    testClient.deleteDigitalTwin(testTwinId, testEtag, operationOptions);
+    testClient.deleteDigitalTwin(testTwinId, testIfMatch, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, expectedOptions));
   });
@@ -241,7 +270,7 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsUpdateComponentOptionalParams = operationOptions;
     expectedOptions = {
       digitalTwinsUpdateComponentOptions: {
-        ifMatch: testEtag,
+        ifMatch: testIfMatch,
         ...operationOptions
       }
     };
@@ -251,7 +280,7 @@ describe("DigitalTwinsClient", () => {
       testTwinId,
       testComponentPath,
       testJsonPatch,
-      testEtag,
+      testIfMatch,
       operationOptions
     );
     assert.isTrue(stub.calledOnce);
@@ -303,9 +332,15 @@ describe("DigitalTwinsClient", () => {
   });
 
   it("upsertRelationship calls the addRelationship method with twinId, relationshipId, relationshipJson and converted options on the generated client", function() {
-    var expectedOptions: DigitalTwinsAddRelationshipOptionalParams = operationOptions;
     const stub = sinon.stub(testClient["client"].digitalTwins, "addRelationship");
-    testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, operationOptions);
+    var expectedOptions: DigitalTwinsAddRelationshipOptionalParams = operationOptions;
+    expectedOptions = {
+      digitalTwinsAddRelationshipOptions: {
+        ifNoneMatch: testIfNoneMatch
+      },
+      ...operationOptions
+    };
+    testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, testIfNoneMatch, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonString, expectedOptions));
   });
@@ -334,7 +369,7 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsUpdateRelationshipOptionalParams = operationOptions;
     expectedOptions = {
       digitalTwinsUpdateRelationshipOptions: {
-        ifMatch: testEtag,
+        ifMatch: testIfMatch,
         ...operationOptions
       }
     };
@@ -344,7 +379,7 @@ describe("DigitalTwinsClient", () => {
       testTwinId,
       testRelationshipId,
       testJsonPatch,
-      testEtag,
+      testIfMatch,
       operationOptions
     );
     assert.isTrue(stub.calledOnce);
@@ -375,13 +410,13 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsDeleteRelationshipOptionalParams = operationOptions;
     expectedOptions = {
       digitalTwinsDeleteRelationshipOptions: {
-        ifMatch: testEtag,
+        ifMatch: testIfMatch,
         ...operationOptions
       }
     };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "deleteRelationship");
-    testClient.deleteRelationship(testTwinId, testRelationshipId, testEtag, operationOptions);
+    testClient.deleteRelationship(testTwinId, testRelationshipId, testIfMatch, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, expectedOptions));
   });
