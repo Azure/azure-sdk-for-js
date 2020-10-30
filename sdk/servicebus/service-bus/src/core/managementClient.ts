@@ -11,10 +11,10 @@ import {
   string_to_uuid,
   types,
   Typed,
-  ReceiverEvents
+  ReceiverEvents,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   ConditionErrorNameMapper,
   Constants,
   MessagingError,
@@ -29,8 +29,8 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage,
-  fromAmqpMessage
+  toRheaMessage,
+  fromRheaMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
@@ -295,10 +295,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   }
 
   private async _makeManagementRequest(
-    request: AmqpMessage,
+    request: RheaMessage,
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
-  ): Promise<AmqpMessage> {
+  ): Promise<RheaMessage> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
@@ -463,7 +463,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != undefined) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -488,7 +488,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromAmqpMessage(decodedMessage as any);
+          const message = fromRheaMessage(decodedMessage as any);
           message.body = this._context.dataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -535,7 +535,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x98,
         undefined
       );
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -585,7 +585,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toAmqpMessage(item);
+      const amqpMessage = toRheaMessage(item);
       amqpMessage.body = this._context.dataTransformer.encode(amqpMessage.body);
 
       try {
@@ -626,7 +626,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
     }
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: { messages: messageBody },
         reply_to: this.replyTo,
         application_properties: {
@@ -691,7 +691,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x81,
         undefined
       );
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -767,7 +767,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -854,7 +854,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -896,7 +896,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -949,7 +949,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
       messageBody["session-state"] = toBuffer(state);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -990,7 +990,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -1052,7 +1052,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       messageBody["last-updated-time"] = lastUpdatedTime;
       messageBody["skip"] = types.wrap_int(skip);
       messageBody["top"] = types.wrap_int(top);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -1087,7 +1087,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           top: types.wrap_int(max32BitNumber),
           skip: types.wrap_int(0)
@@ -1202,7 +1202,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName)
         },
@@ -1291,7 +1291,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           expression: String(sqlRuleActionExpression)
         };
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
           "rule-description": types.wrap_map(ruleDescription)
