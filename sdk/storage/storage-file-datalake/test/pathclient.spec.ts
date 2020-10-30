@@ -362,6 +362,15 @@ describe("DataLakePathClient", () => {
     assert.ok(res2.succeeded);
   });
 
+  it("DataLakePathClient-deleteIfExists when parent not exists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const newFileClient = directoryClient.getFileClient(fileName);
+    const res2 = await newFileClient.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.deepStrictEqual(res2.errorCode, "PathNotFound");
+  });
+
   it("set expiry - NeverExpire", async () => {
     await fileClient.setExpiry("NeverExpire");
     const getRes = await fileClient.getProperties();

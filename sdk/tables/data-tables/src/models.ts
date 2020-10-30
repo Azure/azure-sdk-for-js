@@ -232,6 +232,29 @@ export type ListTableItemsOptions = OperationOptions & {
 };
 
 /**
+ * Output type for query operations
+ */
+export type TableEntityResult<T> = T & {
+  /**
+   * etag property. Always returned by the service
+   */
+  etag: string;
+  /**
+   * Partition key property. Ommited if a select filter is set and this property is not requested
+   */
+  partitionKey?: string;
+  /**
+   * Row key property. Ommited if a select filter is set and this property is not requested
+   */
+  rowKey?: string;
+  /**
+   * Timestamp property. This property is assinged by the service on entity creation
+   * Ommited if a select filter is set and this property is not requested
+   */
+  timestamp?: string;
+};
+
+/**
  * List entities optional parameters.
  */
 export type ListTableEntitiesOptions = OperationOptions & {

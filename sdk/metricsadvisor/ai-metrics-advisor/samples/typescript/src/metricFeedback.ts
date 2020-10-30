@@ -44,7 +44,7 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
     value: "NotAnomaly",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(anomalyFeedback);
 }
@@ -56,7 +56,7 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(periodFeedback);
 }
@@ -68,7 +68,7 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(changePointFeedback);
 }
@@ -78,7 +78,7 @@ async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: st
   const commendFeedback: MetricCommentFeedback = {
     metricId: metricId,
     feedbackType: "Comment",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+    dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
   return await client.createMetricFeedback(commendFeedback);

@@ -38,13 +38,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "3vx9b8g4b0OqOnJKX4ozlg.0",
+      "A8oNtBci20aKVLyOBVGTLQ.0",
       "X-Processing-Time",
-      "574ms",
+      "235ms",
       "X-Azure-Ref",
-      "0YAJ7XwAAAADx7ubmJawrT6lgonp+HaakWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0fil+XwAAAABtktZ5+9zFS5PjMS1QpDkuWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:17 GMT"
+      "Wed, 07 Oct 2020 20:47:57 GMT"
     ]
   );
 
@@ -80,12 +80,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "11tk5qm1CU66iBONzurrPg.0",
+      "mpWK1YyYfUuzIsGu4ysbwA.0",
       "X-Processing-Time",
-      "316ms",
+      "228ms",
       "X-Azure-Ref",
-      "0YQJ7XwAAAADplBhPT9YaS7uuM+vcWgzFWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0fil+XwAAAACyHjEArDXBSY28rLMYbOu4WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:17 GMT"
+      "Wed, 07 Oct 2020 20:47:58 GMT"
     ]
   );

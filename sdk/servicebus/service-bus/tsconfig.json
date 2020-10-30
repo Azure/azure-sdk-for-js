@@ -11,7 +11,7 @@
     "./types/**/*.d.ts",
     "./samples/**/*.ts",
     "test/perf/*",
-    "test/stress/*"
+    "test/stress*"
   ],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

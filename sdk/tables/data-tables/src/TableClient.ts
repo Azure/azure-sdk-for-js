@@ -17,7 +17,8 @@ import {
   CreateTableOptions,
   CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
-  TableBatch
+  TableBatch,
+  TableEntityResult
 } from "./models";
 import {
   DeleteTableOptions,
@@ -212,7 +213,7 @@ export class TableClient {
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetTableEntityOptions = {}
-  ): Promise<GetTableEntityResponse<T>> {
+  ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-getEntity", options);
 
     try {
@@ -245,7 +246,7 @@ export class TableClient {
   public listEntities<T extends object>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>> {
+  ): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
@@ -269,7 +270,7 @@ export class TableClient {
   private async *listEntitiesAll<T extends object>(
     tableName: string,
     options?: ListTableEntitiesOptions
-  ): AsyncIterableIterator<T> {
+  ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
     const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
@@ -288,7 +289,7 @@ export class TableClient {
   private async *listEntitiesPage<T extends object>(
     tableName: string,
     options: InternalListTableEntitiesOptions = {}
-  ): AsyncIterableIterator<ListEntitiesResponse<T>> {
+  ): AsyncIterableIterator<ListEntitiesResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-listEntitiesPage", options);
 
     try {
@@ -319,7 +320,7 @@ export class TableClient {
   private async _listEntities<T extends object>(
     tableName: string,
     options?: ListTableEntitiesOptions
-  ): Promise<ListEntitiesResponse<T>> {
+  ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
     const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,

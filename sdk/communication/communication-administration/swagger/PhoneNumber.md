@@ -19,3 +19,25 @@ payload-flattening-threshold: 10
 use: "@microsoft.azure/autorest.typescript@5.0.1"
 azure-arm: false
 ```
+
+### Rename searchId to reservationId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PhoneNumberSearch.properties.searchId
+    transform: >
+      $["x-ms-client-name"] = "reservationId";
+```
+
+### Rename PhoneNumberSearch to PhoneNumberReservation
+
+```yaml
+custom-types-subpackage: models
+custom-types: PhoneNumberReservation
+required-fields-as-ctor-args: true
+directive:
+  - rename-model:
+      from: PhoneNumberSearch
+      to: PhoneNumberReservation
+```

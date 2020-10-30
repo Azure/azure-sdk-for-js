@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessageHeader as AmqpMessageHeader } from "rhea-promise";
+import { MessageHeader as RheaMessageHeader } from "rhea-promise";
 import { logger } from "./log";
 
 /**
  * Describes the defined set of standard header properties of the message.
  */
-export interface MessageHeader {
+export interface AmqpMessageHeader {
   /**
    * @property {boolean} [firstAcquirer] If this value is true, then this message has not been
    * acquired by any other link. If this value is false, then this message MAY have previously
@@ -20,9 +20,9 @@ export interface MessageHeader {
    */
   deliveryCount?: number;
   /**
-   * @property {number} [ttl] time to live in ms.
+   * @property {number} [timeToLive] time to live in ms.
    */
-  ttl?: number;
+  timeToLive?: number;
   /**
    * @property {boolean} [durable] Specifies durability requirements.
    */
@@ -38,15 +38,15 @@ export interface MessageHeader {
  * Describes the operations that can be performed on the message header.
  * @module MessageHeader
  */
-export const MessageHeader = {
+export const AmqpMessageHeader = {
   /**
-   * Converts MessageHeader to AmqpMessageHeader.
+   * Converts MessageHeader to RheaMessageHeader.
    *
    * @param {MessageHeader} props Message header.
-   * @returns {AmqpMessageHeader} AmqpMessageHeader
+   * @returns {RheaMessageHeader} RheaMessageHeader
    */
-  toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
-    const amqpHeader: AmqpMessageHeader = {};
+  toRheaMessageHeader(props: AmqpMessageHeader): RheaMessageHeader {
+    const amqpHeader: RheaMessageHeader = {};
     if (props.deliveryCount != undefined) {
       amqpHeader.delivery_count = props.deliveryCount;
     }
@@ -57,21 +57,21 @@ export const MessageHeader = {
     if (props.priority != undefined) {
       amqpHeader.priority = props.priority;
     }
-    if (props.ttl != undefined) {
-      amqpHeader.ttl = props.ttl;
+    if (props.timeToLive != undefined) {
+      amqpHeader.ttl = props.timeToLive;
     }
-    logger.verbose("To AmqpMessageHeader: %O", amqpHeader);
+    logger.verbose("To RheaMessageHeader: %O", amqpHeader);
     return amqpHeader;
   },
 
   /**
-   * Converts AmqpMessageHeader to MessageHeader.
+   * Converts RheaMessageHeader to MessageHeader.
    *
-   * @param {AmqpMessageHeader} props Amqp Message Header
-   * @returns {MessageHeader} MessageHeader.
+   * @param {RheaMessageHeader} props Amqp Message Header
+   * @returns {AmqpMessageHeader} MessageHeader.
    */
-  fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
-    const msgHeader: MessageHeader = {};
+  fromRheaMessageHeader(props: RheaMessageHeader): AmqpMessageHeader {
+    const msgHeader: AmqpMessageHeader = {};
     if (props.delivery_count != undefined) {
       msgHeader.deliveryCount = props.delivery_count;
     }
@@ -85,9 +85,9 @@ export const MessageHeader = {
       msgHeader.priority = props.priority;
     }
     if (props.ttl != undefined) {
-      msgHeader.ttl = props.ttl;
+      msgHeader.timeToLive = props.ttl;
     }
-    logger.verbose("From AmqpMessageHeader: %O", msgHeader);
+    logger.verbose("From RheaMessageHeader: %O", msgHeader);
     return msgHeader;
   }
 };
