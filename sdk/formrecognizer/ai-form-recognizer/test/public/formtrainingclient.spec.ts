@@ -6,16 +6,16 @@ import { Context } from "mocha";
 
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { testPollingOptions, createRecorder, makeCredential } from "../../utils/recordedClients";
+import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
 
 import {
   TrainingDocumentInfo,
   FormTrainingClient,
   CustomFormModel,
   FormRecognizerClient
-} from "../../../src";
+} from "../../src";
 
-import { matrix } from "../../utils/matrix";
+import { matrix } from "../utils/matrix";
 
 const endpoint = () => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = () => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
@@ -24,7 +24,7 @@ const containerSasUrl = () => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
  * Run the entire battery of tests using both AAD and API Key.
  */
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] FormTrainingClient NodeJS only`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}] FormTrainingClient`, () => {
     let recorder: Recorder;
 
     beforeEach(function(this: Context) {
