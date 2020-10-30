@@ -212,6 +212,9 @@ export interface DataFeed {
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
+export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">;
+
+// @public
 export type DataFeedDetailStatus = "Active" | "Paused";
 
 // @public
@@ -803,7 +806,7 @@ export type MetricPeriodFeedback = {
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;

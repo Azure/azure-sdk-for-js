@@ -218,12 +218,7 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
   let alerts = [];
-  for await (const alert of client.listAlerts(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
+  for await (const alert of client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")) {
     alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);

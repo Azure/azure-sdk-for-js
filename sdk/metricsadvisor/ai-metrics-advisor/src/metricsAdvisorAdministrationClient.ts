@@ -112,6 +112,14 @@ export type ListDataFeedsOptions = {
 } & OperationOptions;
 
 /**
+ * describes the input to Create Data Feed operation
+ */
+export type DataFeedDescriptor = Omit<
+  DataFeed,
+  "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime"
+>;
+
+/**
  * Options for creating data feed
  */
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
@@ -172,7 +180,7 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async createDataFeed(
-    feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">,
+    feed: DataFeedDescriptor,
     operationOptions: OperationOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
