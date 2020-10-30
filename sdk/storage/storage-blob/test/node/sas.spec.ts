@@ -1296,7 +1296,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 });
 
 describe("Generation for user delegation SAS Node.js only", () => {
-  let recorder: any;
+  let recorder: Recorder;
   let blobServiceClient: BlobServiceClient;
   let userDelegationKey: UserDelegationKey;
   let accountName: string;
