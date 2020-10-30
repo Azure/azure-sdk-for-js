@@ -11,6 +11,14 @@ import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
 
 // @public
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
+
+// @public
 export type AlertQueryTimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
 
 // @public (undocumented)
@@ -18,6 +26,24 @@ export interface AlertSnoozeCondition {
     autoSnooze: number;
     onlyForSuccessive: boolean;
     snoozeScope: SnoozeScope;
+}
+
+// @public
+export interface AlertsPageResponse extends Array<AnomalyAlert> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
+
+// @public
+export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
 }
 
 // @public
@@ -288,6 +314,15 @@ export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & 
     [P in "dataSourceParameter"]?: DataFeedSource[P];
 };
 
+// @public
+export interface DataFeedsPageResponse extends Array<DataFeed> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
+
 // @public (undocumented)
 export type DataFeedStatus = "Paused" | "Active";
 
@@ -318,7 +353,24 @@ export interface DetectionConditionsCommon {
 export type DetectionConditionsOperator = "AND" | "OR";
 
 // @public
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
+
+// @public
 export type DimensionKey = Record<string, string>;
+
+// @public
+export interface DimensionValuesPageResponse extends Array<string> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
 
 // @public
 export type ElasticsearchDataFeedSource = {
@@ -425,25 +477,24 @@ export type GetIncidentRootCauseResponse = {
 export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
 
 // @public
-export type GetMetricEnrichedSeriesDataResponse = {
-    results?: MetricEnrichedSeriesData[];
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
     };
-};
+}
 
 // @public
 export type GetMetricSeriesDataOptions = {} & OperationOptions;
 
 // @public
-export type GetMetricSeriesDataResponse = {
-    metricSeriesDataList?: MetricSeriesData[];
+export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
+    continuationToken?: string;
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
     };
-};
+}
 
 // @public
 export type HardThresholdConditionUnion = {
@@ -460,6 +511,15 @@ export type HardThresholdConditionUnion = {
     anomalyDetectorDirection: "Both";
     suppressCondition: SuppressCondition;
 };
+
+// @public
+export interface HooksPageResponse extends Array<NotificationHookUnion> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
 
 // @public
 export type HttpRequestDataFeedSource = {
@@ -481,6 +541,15 @@ export interface IncidentRootCause {
     path: string[];
     score: number;
     seriesKey: DimensionKey;
+}
+
+// @public
+export interface IncidentsPageResponse extends Array<AnomalyIncident> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
 }
 
 // @public
@@ -506,16 +575,16 @@ export interface IngestionStatus {
 }
 
 // @public
-export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succeeded" | "Failed" | "NoData" | "Error" | "Paused";
-
-// @public
-export type ListAlertsForAlertConfigurationPageResponse = {
-    alerts?: AnomalyAlert[];
+export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
+    continuationToken?: string;
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
     };
-};
+}
+
+// @public
+export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succeeded" | "Failed" | "NoData" | "Error" | "Paused";
 
 // @public
 export type ListAlertsOptions = {
@@ -528,15 +597,6 @@ export type ListAnomaliesForAlertConfigurationOptions = {
 } & OperationOptions;
 
 // @public
-export type ListAnomaliesForAlertPageResponse = {
-    anomalies?: DataPointAnomaly[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type ListAnomaliesForDetectionConfigurationOptions = {
     skip?: number;
     dimensionFilter?: DimensionKey[];
@@ -544,45 +604,9 @@ export type ListAnomaliesForDetectionConfigurationOptions = {
 } & OperationOptions;
 
 // @public
-export type ListAnomaliesForDetectionConfigurationPageResponse = {
-    anomalies?: DataPointAnomaly[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
-export type ListAnomalyAlertConfigurationsPageResponse = {
-    alertConfigurations?: AnomalyAlertConfiguration[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
-export type ListAnomalyDetectionConfigurationsPageResponse = {
-    detectionConfigurations?: AnomalyDetectionConfiguration[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type ListDataFeedIngestionStatusOptions = {
     skip?: number;
 } & OperationOptions;
-
-// @public
-export type ListDataFeedIngestionStatusPageResponse = {
-    statusList?: IngestionStatus[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public
 export type ListDataFeedsOptions = {
@@ -597,28 +621,10 @@ export type ListDataFeedsOptions = {
 } & OperationOptions;
 
 // @public
-export type ListDataFeedsPageResponse = {
-    dataFeeds?: DataFeed[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type ListDimensionValuesForDetectionConfigurationOptions = {
     skip?: number;
     dimensionFilter?: DimensionKey;
 } & OperationOptions;
-
-// @public
-export type ListDimensionValuesForDetectionConfigurationPageResponse = {
-    dimensionValues?: string[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public
 export type ListFeedbacksOptions = {
@@ -639,36 +645,9 @@ export type ListHooksOptions = {
 } & OperationOptions;
 
 // @public
-export type ListHooksPageResponse = {
-    hooks?: NotificationHookUnion[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
-export type ListIncidentsByDetectionConfigurationPageResponse = {
-    incidents?: AnomalyIncident[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type ListIncidentsForAlertOptions = {
     skip?: number;
 } & OperationOptions;
-
-// @public
-export type ListIncidentsForAlertPageResponse = {
-    incidents?: AnomalyIncident[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public
 export type ListIncidentsForDetectionConfigurationOptions = {
@@ -682,51 +661,15 @@ export type ListMetricDimensionValuesOptions = {
 } & OperationOptions;
 
 // @public
-export type ListMetricDimensionValuesPageResponse = {
-    dimensionValues?: string[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type ListMetricEnrichmentStatusOptions = {
     skip?: number;
 } & OperationOptions;
-
-// @public
-export type ListMetricEnrichmentStatusPageResponse = {
-    statusList?: EnrichmentStatus[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
-export type ListMetricFeedbackPageResponse = {
-    feedbacks?: MetricFeedbackUnion[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public
 export type ListMetricSeriesDefinitionsOptions = {
     skip?: number;
     dimensionFilter?: Record<string, string[]>;
 } & OperationOptions;
-
-// @public
-export type ListMetricSeriesPageResponse = {
-    definitions?: MetricSeriesDefinition[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public (undocumented)
 export interface MetricAlertConditions {
@@ -817,12 +760,30 @@ export interface MetricEnrichedSeriesData {
 }
 
 // @public
+export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStatus> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
+
+// @public
 export interface MetricFeedbackCommon {
     readonly createdTime?: Date;
     dimensionKey: DimensionKey;
     readonly id?: string;
     metricId: string;
     readonly userPrincipal?: string;
+}
+
+// @public
+export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
 }
 
 // @public
@@ -852,11 +813,11 @@ export class MetricsAdvisorAdministrationClient {
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GeneratedClientGetIngestionProgressResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     getMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, ListAnomalyAlertConfigurationsPageResponse, undefined>;
-    listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse>;
-    listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, ListDataFeedsPageResponse>;
-    listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, ListHooksPageResponse>;
-    listMetricAnomalyDetectionConfigurations(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, ListAnomalyDetectionConfigurationsPageResponse, undefined>;
+    listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
+    listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
+    listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
+    listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
+    listMetricAnomalyDetectionConfigurations(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
     updateAnomalyAlertConfiguration(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
@@ -877,16 +838,16 @@ export class MetricsAdvisorClient {
     getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
     getMetricFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getMetricSeriesData(metricId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
-    listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse>;
-    listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
-    listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
-    listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
-    listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
-    listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
-    listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, ListMetricDimensionValuesPageResponse>;
-    listMetricEnrichmentStatus(metricId: string, startTime: Date | string, endTime: Date | string, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
-    listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, ListMetricFeedbackPageResponse>;
-    listMetricSeriesDefinitions(metricId: string, activeSince: Date | string, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, ListMetricSeriesPageResponse>;
+    listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse>;
+    listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
+    listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
+    listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
+    listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
+    listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
+    listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
+    listMetricEnrichmentStatus(metricId: string, startTime: Date | string, endTime: Date | string, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, MetricEnrichmentStatusPageResponse>;
+    listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse>;
+    listMetricSeriesDefinitions(metricId: string, activeSince: Date | string, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, MetricSeriesPageResponse>;
     }
 
 // @public
@@ -919,6 +880,15 @@ export interface MetricSeriesDefinition {
 export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
     group: DimensionKey;
 };
+
+// @public
+export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> {
+    continuationToken?: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+}
 
 // @public
 export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {

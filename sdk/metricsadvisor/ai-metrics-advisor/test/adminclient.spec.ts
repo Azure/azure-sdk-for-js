@@ -70,9 +70,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         )
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in first page");
+      assert.equal(result.value.length, 2, "Expecting two entries in first page");
       result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in second page");
+      assert.equal(result.value.length, 2, "Expecting two entries in second page");
     });
 
     it("gets ingestion progress", async function() {
@@ -266,10 +266,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         .listMetricAnomalyDetectionConfigurations(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage();
       const result = await iterator.next();
-      assert.ok(
-        result.value.detectionConfigurations.length > 1,
-        "Expecting more than one entries in page"
-      );
+      assert.ok(result.value.length > 1, "Expecting more than one entries in page");
     });
 
     let expectedAlertConfigName: string;
@@ -373,10 +370,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
           .listAnomalyAlertConfigurations(createdDetectionConfigId)
           .byPage();
         const pageResult = await pageIterator.next();
-        assert.isTrue(
-          pageResult.value.alertConfigurations.length > 1,
-          "Expecting more than one entries in page"
-        );
+        assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
         await client.deleteAnomalyAlertConfiguration(secondAlertConfig.id);
       }

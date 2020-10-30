@@ -432,9 +432,9 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         })
         .byPage({ maxPageSize: 1 });
       let result = await iterator.next();
-      assert.equal(result.value.dataFeeds.length, 1, "Expecting one entry in first page");
+      assert.equal(result.value.length, 1, "Expecting one entry in first page");
       result = await iterator.next();
-      assert.equal(result.value.dataFeeds.length, 1, "Expecting one entry in second page");
+      assert.equal(result.value.length, 1, "Expecting one entry in second page");
     });
 
     it("deletes an Azure Blob datafeed", async function() {

@@ -123,9 +123,9 @@ describe("MetricsAdvisorClient hooks", () => {
       })
       .byPage({ maxPageSize: 1 });
     let result = await iterator.next();
-    assert.equal(result.value.hooks.length, 1, "Expecting one hook in first page");
+    assert.equal(result.value.length, 1, "Expecting one hook in first page");
     result = await iterator.next();
-    assert.equal(result.value.hooks.length, 1, "Expecting one hook in second page");
+    assert.equal(result.value.length, 1, "Expecting one hook in second page");
   });
 
   it("deletes email hook", async () => {
