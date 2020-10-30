@@ -77,9 +77,9 @@ describe("sender unit tests", () => {
 
       try {
         await sender.scheduleMessages(
-          new Date(),
           // @ts-expect-error
-          invalidValue
+          invalidValue,
+          new Date()
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");

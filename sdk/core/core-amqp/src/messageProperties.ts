@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessageProperties as AmqpMessageProperties } from "rhea-promise";
+import { MessageProperties as RheaMessageProperties } from "rhea-promise";
 import { logger } from "./log";
 
 /**
  * Describes the defined set of standard properties of the message.
  */
-export interface MessageProperties {
+export interface AmqpMessageProperties {
   /**
    * @property {string | number | Buffer} [messageId] The application message identifier that uniquely identifies a message.
    * The user is responsible for making sure that this is unique in the given context. Guids usually make a good fit.
@@ -68,16 +68,16 @@ export interface MessageProperties {
 
 /**
  * Describes the operations that can be performed on the amqp message properties.
- * @module MessageProperties
+ * @module AmqpMessageProperties
  */
-export const MessageProperties = {
+export const AmqpMessageProperties = {
   /**
-   * Converts MessageProperties to AmqpMessageProperties.
+   * Converts MessageProperties to RheaMessageProperties.
    * @param {MessageProperties} props Message properties.
-   * @returns {AmqpMessageProperties} AmqpMessageProperties.
+   * @returns {RheaMessageProperties} RheaMessageProperties.
    */
-  toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties {
-    const amqpProperties: AmqpMessageProperties = {};
+  toRheaMessageProperties(props: AmqpMessageProperties): RheaMessageProperties {
+    const amqpProperties: RheaMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
       amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
     }
@@ -118,17 +118,17 @@ export const MessageProperties = {
       amqpProperties.user_id = props.userId;
     }
 
-    logger.verbose("To AmqpMessageProperties: %O", amqpProperties);
+    logger.verbose("To RheaMessageProperties: %O", amqpProperties);
     return amqpProperties;
   },
 
   /**
-   * Converts AmqpMessageProperties to MessageProperties.
-   * @param {AmqpMessageProperties} props Amqp message properties.
-   * @returns {MessageProperties} MessageProperties.
+   * Converts RheaMessageProperties to MessageProperties.
+   * @param {RheaMessageProperties} props Amqp message properties.
+   * @returns {AmqpMessageProperties} MessageProperties.
    */
-  fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties {
-    const msgProperties: MessageProperties = {};
+  fromRheaMessageProperties(props: RheaMessageProperties): AmqpMessageProperties {
+    const msgProperties: AmqpMessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
       msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
     }
@@ -169,7 +169,7 @@ export const MessageProperties = {
       msgProperties.userId = props.user_id;
     }
 
-    logger.verbose("From AmqpMessageProperties: %O", msgProperties);
+    logger.verbose("From RheaMessageProperties: %O", msgProperties);
     return msgProperties;
   }
 };

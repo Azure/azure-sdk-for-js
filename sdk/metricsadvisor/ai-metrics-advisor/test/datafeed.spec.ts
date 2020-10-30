@@ -81,7 +81,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -129,6 +129,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       granularityType: "Daily"
     };
     const options: DataFeedOptions = {
+      description: "Data feed description",
       rollupSettings: {
         rollupType: "AutoRollup",
         rollupMethod: "Sum",
@@ -163,7 +164,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAzureBlobDataFeedId = actual.id;
 
-      assert.equal(actual.metricIds?.length, 2, "Expecting two metrics");
+      assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
@@ -190,6 +191,11 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         "Ingesting settings mismatch!"
       );
       assert.ok(actual.options, "Expecting valid datafeed options");
+      assert.equal(
+        actual.options!.description,
+        options.description,
+        "options.description mismatch"
+      );
       assert.equal(actual.options!.accessMode, options.accessMode, "options.accessMode mismatch");
       assert.ok(
         actual.options!.missingDataPointFillSettings,
@@ -249,7 +255,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       }
 
       const actual = await client.getDataFeed(createdAzureBlobDataFeedId);
-      assert.equal(actual.metricIds?.length, 2, "Expecting two metrics");
+      assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
@@ -300,7 +306,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         },
         ingestionSettings: expectedIngestionSettings,
         options: {
-          dataFeedDescription: "Updated Azure Blob description",
+          description: "Updated Azure Blob description",
           rollupSettings: {
             rollupType: "AlreadyRollup",
             rollupIdentificationValue: "__Existing__"
@@ -320,7 +326,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.deepStrictEqual(updated.source.dataSourceParameter, expectedSourceParameter);
       assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
       assert.ok(updated.options, "Expecting valid updated.options");
-      assert.equal(updated.options!.dataFeedDescription, "Updated Azure Blob description");
+      assert.equal(updated.options!.description, "Updated Azure Blob description");
       assert.ok(updated.options!.rollupSettings, "Expecting valid updated.options.rollupSettings");
       assert.equal(updated.options!.rollupSettings!.rollupType, "AlreadyRollup");
       assert.equal(

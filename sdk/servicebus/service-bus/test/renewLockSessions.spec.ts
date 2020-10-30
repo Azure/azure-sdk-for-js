@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
-import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -14,11 +14,12 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+import { isMessagingError } from "@azure/core-amqp";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver;
   let sessionId: string;
 
   let serviceBusClient: ServiceBusClientForTests;
@@ -33,7 +34,7 @@ describe("Session Lock Renewal", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(maxAutoRenewLockDurationInMs: number): Promise<void> {
+  async function beforeEachTest(maxAutoLockRenewalDurationInMs: number): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
@@ -43,7 +44,7 @@ describe("Session Lock Renewal", () => {
     sessionId = Date.now().toString();
 
     receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, sessionId, {
-      maxAutoRenewLockDurationInMs
+      maxAutoLockRenewalDurationInMs
     });
 
     // Observation -
@@ -133,7 +134,7 @@ describe("Session Lock Renewal", () => {
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
@@ -172,7 +173,7 @@ describe("Session Lock Renewal", () => {
       "After renewlock()"
     );
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
   }
 
   /**
@@ -181,7 +182,7 @@ describe("Session Lock Renewal", () => {
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
@@ -197,7 +198,7 @@ describe("Session Lock Renewal", () => {
     await delay(lockDurationInMilliseconds + 1000);
 
     let errorWasThrown: boolean = false;
-    await msgs[0].complete().catch((err) => {
+    await receiver.completeMessage(msgs[0]).catch((err) => {
       should.equal(err.code, "SessionLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });
@@ -212,7 +213,7 @@ describe("Session Lock Renewal", () => {
 
     const unprocessedMsgsBatch = await receiver.receiveMessages(1);
     should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
-    await unprocessedMsgsBatch[0].complete();
+    await receiver.completeMessage(unprocessedMsgsBatch[0]);
   }
 
   /**
@@ -220,14 +221,14 @@ describe("Session Lock Renewal", () => {
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
+    receiver: ServiceBusSessionReceiver
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await sender.sendMessages(testMessage);
 
-    async function processMessage(brokeredMessage: ServiceBusReceivedMessageWithLock) {
+    async function processMessage(brokeredMessage: ServiceBusReceivedMessage) {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -268,7 +269,7 @@ describe("Session Lock Renewal", () => {
           "After renewlock()"
         );
 
-        await brokeredMessage.complete();
+        await receiver.completeMessage(brokeredMessage);
       }
     }
 
@@ -296,7 +297,7 @@ describe("Session Lock Renewal", () => {
 
   async function testAutoLockRenewalConfigBehavior(
     sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>,
+    receiver: ServiceBusSessionReceiver,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
@@ -305,11 +306,9 @@ describe("Session Lock Renewal", () => {
     await sender.sendMessages(testMessage);
 
     let sessionLockLostErrorThrown = false;
-    const messagesReceived: ServiceBusReceivedMessageWithLock[] = [];
+    const messagesReceived: ServiceBusReceivedMessage[] = [];
 
-    async function processMessage(
-      brokeredMessage: ServiceBusReceivedMessageWithLock
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ServiceBusReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -359,7 +358,7 @@ describe("Session Lock Renewal", () => {
     should.equal(messagesReceived.length, 1, "Mismatch in number of messages received");
 
     let errorWasThrown: boolean = false;
-    await messagesReceived[0].complete().catch((err) => {
+    await receiver.completeMessage(messagesReceived[0]).catch((err) => {
       should.equal(err.code, "SessionLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });

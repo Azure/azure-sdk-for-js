@@ -322,6 +322,14 @@ describe("FileClient", () => {
     assert.ok(res2.succeeded);
   });
 
+  it("deleteIfExists when parent not exists", async () => {
+    const newDirectoryClient = shareClient.getDirectoryClient(recorder.getUniqueName("newdir"));
+    const newFileClient = newDirectoryClient.getFileClient(fileName);
+    const res = await newFileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ParentNotFound");
+  });
+
   it("exists", async () => {
     assert.ok(!(await fileClient.exists()));
     await fileClient.create(content.length);

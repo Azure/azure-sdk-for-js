@@ -33,17 +33,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * @internal
  * @ignore
  */
-export interface CreateStreamingReceiverOptions
+export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
     Pick<OperationOptionsBase, "abortSignal"> {
-  /**
-   * Used for mocking/stubbing in tests.
-   */
-  _createStreamingReceiverStubForTests?: (
-    context: ConnectionContext,
-    options?: ReceiveOptions
-  ) => StreamingReceiver;
-  cachedStreamingReceiver?: StreamingReceiver;
+  onError: OnError;
 }
 
 /**
@@ -76,6 +69,11 @@ export class StreamingReceiver extends MessageReceiver {
   private _retryOptions: RetryOptions;
 
   private _receiverHelper: ReceiverHelper;
+
+  /**
+   * Used so we can stub out retry in tests.
+   */
+  private _retry: typeof retry;
 
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
@@ -131,6 +129,8 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._retryOptions = options?.retryOptions || {};
+    this._retry = retry;
+
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
       logPrefix: this.logPrefix
@@ -187,65 +187,24 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const receiver = this.link || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
-        logger.logError(sbError, `${this.logPrefix} An error occurred for Receiver`);
-        if (!sbError.retryable) {
-          if (receiver && !receiver.isItselfClosed()) {
-            logger.verbose(
-              "%s Since the user did not close the receiver and the error is not " +
-                "retryable, we let the user know about it by calling the user's error handler.",
-              this.logPrefix
-            );
-            this._onError!({
-              error: sbError,
-              errorSource: "receive",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
-          } else {
-            logger.verbose(
-              "%s The received error is not retryable. However, the receiver was " +
-                "closed by the user. Hence not notifying the user's error handler.",
-              this.logPrefix
-            );
-          }
-        } else {
-          logger.verbose(
-            "%s Since received error is retryable, we will NOT notify the user's " +
-              "error handler.",
-            this.logPrefix
-          );
-        }
+        logger.logError(
+          sbError,
+          `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
+        );
       }
     };
 
     this._onSessionError = (context: EventContext) => {
-      const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError) as MessagingError;
         logger.logError(
           sbError,
-          "%s An error occurred on the session for Receiver '%s'",
-          this.logPrefix,
-          this.name
+          `${this.logPrefix} 'session_error' event occurred. The associated error is`
         );
-        if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
-          logger.verbose(
-            "%s Since the user did not close the receiver and the session error is not " +
-              "retryable, we let the user know about it by calling the user's error handler.",
-            this.logPrefix
-          );
-          this._onError!({
-            error: sbError,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
       }
     };
 
@@ -402,9 +361,99 @@ export class StreamingReceiver extends MessageReceiver {
     await this._receiverHelper.suspend();
   }
 
-  async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
-    const options = this._createReceiverOptions(useNewName, this._getHandlers());
-    await this._init(options, abortSignal);
+  /**
+   * Returns a wrapped function that makes any thrown errors retryable (_except_  for AbortError) by
+   * wrapping them in a StreamingReceiverError .
+   */
+  private static wrapRetryOperation(fn: () => Promise<void>) {
+    return async () => {
+      try {
+        await fn();
+      } catch (err) {
+        if (err.name === "AbortError") {
+          throw err;
+        }
+
+        // once we're at this point where we can spin up a connection we're past the point
+        // of fatal errors like the connection string just outright being malformed, for instance.
+        throw new StreamingReceiverError(err);
+      }
+    };
+  }
+
+  /**
+   * Initializes the link. This method will retry infinitely until a connection is established.
+   *
+   * The retries are broken up into cycles. For each cycle we do a set of retries, using the user's
+   * configured retryOptions. If that retry call fails we will report the error and then go into a
+   * new cycle, repeating the retries the same as before.
+   *
+   * It is completely up to the user to break out of this retry cycle in their error handler by either:
+   * 1. closing the receiver
+   * 2. Calling `close` on the subscription instance they received when they initially called subscribe().
+   * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
+   */
+  async init(
+    args: { useNewName: boolean; connectionId: string; onError: OnError } & Pick<
+      OperationOptionsBase,
+      "abortSignal"
+    >
+  ) {
+    let numRetryCycles = 0;
+
+    while (true) {
+      ++numRetryCycles;
+
+      const config: RetryConfig<void> = {
+        operation: StreamingReceiver.wrapRetryOperation(() => this._initOnce(args)),
+        connectionId: args.connectionId,
+        operationType: RetryOperationType.receiverLink,
+        // even though we're going to loop infinitely we allow them to control the pattern we use on each
+        // retry run. This lets them toggle things like exponential retries, etc..
+        retryOptions: this._retryOptions,
+        abortSignal: args.abortSignal
+      };
+
+      try {
+        await this._retry<void>(config);
+        break;
+      } catch (err) {
+        if (StreamingReceiverError.isStreamingReceiverError(err)) {
+          // report the original error to the user
+          err = err.originalError;
+        }
+
+        // we only report the error here - this avoids spamming the user with too many
+        // redundant reports of errors while still providing them incremental status on failures.
+        args.onError({
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+          error: err
+        });
+
+        // if the user aborts the operation we're immediately done.
+        if (err.name === "AbortError") {
+          throw err;
+        }
+
+        logger.logError(
+          err,
+          `${this.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
+          this._retryOptions
+        );
+
+        continue;
+      }
+    }
+  }
+
+  private async _initOnce(args: {
+    useNewName: boolean;
+    abortSignal?: AbortSignalLike;
+  }): Promise<void> {
+    const options = this._createReceiverOptions(args.useNewName, this._getHandlers());
+    await this._init(options, args.abortSignal);
 
     // this might seem odd but in reality this entire class is like one big function call that
     // results in a receive(). Once we're being initialized we should consider ourselves the
@@ -430,17 +479,17 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Will reconnect the receiver link if necessary.
    * @param receiverError The receiver error or connection error, if any.
-   * @param connectionDidDisconnect Whether this method is called as a result of a connection disconnect.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
-    logger.verbose(`${this.logPrefix} Detaching.`);
-
-    const connectionId = this._context.connectionId;
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
+    logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
 
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
     if (this.wasClosedPermanently) {
+      logger.verbose(
+        `${this.logPrefix} onDetached: link has been closed permanently, not reinitializing. `
+      );
       return;
     }
 
@@ -454,145 +503,70 @@ export class StreamingReceiver extends MessageReceiver {
       // These should be ignored until the already running `onDetached` completes
       // its retry attempts or errors.
       logger.verbose(
-        `${this.logPrefix} Call to detached on streaming receiver '${this.name}' is already in progress.`
+        `${this.logPrefix} onDetached: Call to detached on streaming receiver '${this.name}' is already in progress.`
       );
       return;
     }
 
     this._isDetaching = true;
 
+    const translatedError = receiverError ? translate(receiverError) : receiverError;
+    logger.logError(
+      translatedError,
+      `${this.logPrefix} onDetached: Reinitializing receiver because of error`
+    );
+
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();
-
-      const translatedError = receiverError ? translate(receiverError) : receiverError;
-
-      // Track-1
-      //   - We should only attempt to reopen if either no error was present,
-      //     or the error is considered retryable.
-      // Track-2
-      //  Reopen
-      //   - If no error was present
-      //   - If the error is a MessagingError and is considered retryable
-      //   - Any non MessagingError because such errors do not get
-      //     translated by `@azure/core-amqp` to a MessagingError
-      //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      const shouldReopen =
-        translatedError instanceof MessagingError ? translatedError.retryable : true;
-
-      // Non-retryable errors that aren't caused by disconnect
-      // will have already been forwarded to the user's error handler.
-      // Swallow the error and return quickly.
-      if (!shouldReopen && !causedByDisconnect) {
-        logger.logError(
-          translatedError,
-          "%s Encountered a non retryable error on the receiver. Cannot recover receiver. encountered error",
-          this.logPrefix,
-          this.name,
-          this.address
-        );
-        return;
-      }
-
-      // Non-retryable errors that are caused by disconnect
-      // haven't had a chance to show up in the user's error handler.
-      // Rethrow the error so the surrounding try/catch forwards it appropriately.
-      if (!shouldReopen && causedByDisconnect) {
-        logger.logError(
-          translatedError,
-          "%s Encountered a non retryable error on the connection. Cannot recover receiver.",
-          this.logPrefix,
-          this.name,
-          this.address
-        );
-        throw translatedError;
-      }
-
-      // shall retry forever at an interval of 15 seconds if the error is a retryable error
-      // else bail out when the error is not retryable or the operation succeeds.
-      const config: RetryConfig<void> = {
-        operation: () =>
-          this.init(
-            // provide a new name to the link while re-connecting it. This ensures that
-            // the service does not send an error stating that the link is still open.
-            true
-          ).then(() => {
-            this._receiverHelper.addCredit(this.maxConcurrentCalls);
-            return;
-          }),
-        connectionId: connectionId,
-        operationType: RetryOperationType.receiverLink,
-        retryOptions: this._retryOptions,
-        connectionHost: this._context.config.host
-      };
-      // Attempt to reconnect. If a non-retryable error is encountered,
-      // retry will throw and the error will surface to the user's error handler.
-      await retry<void>(config);
     } catch (err) {
-      logger.logError(
-        err,
-        "%s An error occurred while processing detached()",
-        this.logPrefix,
-        this.name,
-        this.address
+      logger.verbose(
+        `${this.logPrefix} onDetached: Encountered an error when closing the previous link: `,
+        err
       );
-      if (typeof this._onError === "function") {
-        logger.verbose(`${this.logPrefix} Unable to automatically reconnect`);
-        try {
-          this._onError({
-            error: err,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        } catch (err) {
-          logger.logError(
-            err,
-            `${this.logPrefix} User-code error in error handler called after disconnect`
-          );
-        } finally {
-          // Once the user's error handler has been called,
-          // close the receiver to prevent future messages/errors from being received.
-          // Swallow errors from the close rather than forwarding to user's error handler
-          // to prevent a never ending loop.
-          await this.close().catch(() => {});
-        }
-      }
+    }
+
+    try {
+      await this.init({
+        // provide a new name to the link while re-connecting it. This ensures that
+        // the service does not send an error stating that the link is still open.
+        useNewName: true,
+        connectionId: this._context.connectionId,
+        onError: (args) => this._onError && this._onError(args)
+      });
+
+      this._receiverHelper.addCredit(this.maxConcurrentCalls);
+      logger.verbose(
+        `${this.logPrefix} onDetached: link has been reestablished, added ${this.maxConcurrentCalls} credits.`
+      );
     } finally {
       this._isDetaching = false;
     }
   }
+}
 
-  static async create(
-    context: ConnectionContext,
-    entityPath: string,
-    options: CreateStreamingReceiverOptions
-  ): Promise<StreamingReceiver> {
-    throwErrorIfConnectionClosed(context);
-    if (options.autoComplete == null) options.autoComplete = true;
+/**
+ * Wraps an error thrown from the operation for retry<>.
+ *
+ * Used so we don't have to worry about modifying the errors that
+ * also might have originated from the user's processMessage handler,
+ * which they rightfully own.
+ *
+ * @internal
+ * @ignore
+ */
+export class StreamingReceiverError extends Error {
+  constructor(public originalError: Error | MessagingError) {
+    super(originalError.message);
+    this.name = "StreamingReceiverError";
+  }
 
-    let sReceiver: StreamingReceiver;
+  retryable: boolean = true;
 
-    if (options.cachedStreamingReceiver) {
-      sReceiver = options.cachedStreamingReceiver;
-    } else if (options?._createStreamingReceiverStubForTests) {
-      sReceiver = options._createStreamingReceiverStubForTests(context, options);
-    } else {
-      sReceiver = new StreamingReceiver(context, entityPath, options);
-    }
-
-    const config: RetryConfig<void> = {
-      operation: () => {
-        return sReceiver.init(false, options?.abortSignal);
-      },
-      connectionId: context.connectionId,
-      operationType: RetryOperationType.receiveMessage,
-      retryOptions: options.retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    await retry<void>(config);
-    context.messageReceivers[sReceiver.name] = sReceiver;
-    return sReceiver;
+  static isStreamingReceiverError(
+    err: Error | StreamingReceiverError
+  ): err is StreamingReceiverError {
+    return err.name === "StreamingReceiverError";
   }
 }

@@ -9,7 +9,7 @@ import { msiGenericGetToken } from "./utils";
 
 const logger = credentialLogger("ManagedIdentityCredential - AppServiceMSI 2019");
 
-function expiresInParser(requestBody: any) {
+function expiresInParser(requestBody: any): number {
   // Parses a string representation of the seconds since epoch into a number value
   return Number(requestBody.expires_on);
 }

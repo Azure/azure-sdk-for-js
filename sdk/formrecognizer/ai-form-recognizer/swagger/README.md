@@ -13,12 +13,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: ./v2.0.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.1/FormRecognizer.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200717.1"
-package-version: "3.0.0"
+  "@autorest/typescript": "6.0.0-dev.20201013.1"
+package-version: "3.1.0-beta.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -117,34 +117,37 @@ directive:
 ```
 
 ### Hide LROs
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["paths"]
-  transform: >
-    for (var path in $) {
-        for (var op of Object.values($[path])) {
-            if (op["x-ms-long-running-operation"]) {
-                delete op["x-ms-long-running-operation"];
-            }
-        }
-    }
+  - from: swagger-document
+    where: $["paths"]
+    transform: >
+      for (var path in $) {
+          for (var op of Object.values($[path])) {
+              if (op["x-ms-long-running-operation"]) {
+                  delete op["x-ms-long-running-operation"];
+              }
+          }
+      }
 ```
 
 ### `documentName` => `name`
+
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.TrainingDocumentInfo.properties.documentName
-  transform: >
-    $["x-ms-client-name"] = "name";
+  - from: swagger-document
+    where: $.definitions.TrainingDocumentInfo.properties.documentName
+    transform: >
+      $["x-ms-client-name"] = "name";
 ```
 
 ### `includeSubFolders` => `includeSubfolders`
+
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.TrainSourceFilter.properties.includeSubFolders
-  transform: >
-    $["x-ms-client-name"] = "includeSubfolders";
+  - from: swagger-document
+    where: $.definitions.TrainSourceFilter.properties.includeSubFolders
+    transform: >
+      $["x-ms-client-name"] = "includeSubfolders";
 ```

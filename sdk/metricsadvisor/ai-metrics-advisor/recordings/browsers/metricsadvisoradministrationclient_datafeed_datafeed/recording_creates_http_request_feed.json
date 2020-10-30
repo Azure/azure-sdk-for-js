@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"HttpRequest\",\"dataFeedName\":\"js-test-httpRequestFeed-160072647330106437\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"url\":\"HttpsUrl\",\"httpHeader\":\"header\",\"httpMethod\":\"POST\",\"payload\":\"{start-time: @start-time}\"}}",
+   "requestBody": "{\"dataSourceType\":\"HttpRequest\",\"dataFeedName\":\"js-test-httpRequestFeed-160323426952301522\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"url\":\"HttpsUrl\",\"httpHeader\":\"header\",\"httpMethod\":\"POST\",\"payload\":\"{start-time: @start-time}\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "b08b787e-872d-4c78-b416-f99ab717dbe5",
+    "apim-request-id": "a96645e6-b9c5-418c-a410-1d84c15e105b",
     "content-length": "0",
-    "date": "Mon, 21 Sep 2020 22:14:57 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8beccd68-9cbd-48bd-a88e-3f0b3011c294",
+    "date": "Tue, 20 Oct 2020 22:51:17 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/3b013768-646b-4f1b-b760-503ac5ca549b",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "331",
-    "x-request-id": "b08b787e-872d-4c78-b416-f99ab717dbe5"
+    "x-envoy-upstream-service-time": "438",
+    "x-request-id": "a96645e6-b9c5-418c-a410-1d84c15e105b"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8beccd68-9cbd-48bd-a88e-3f0b3011c294",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/3b013768-646b-4f1b-b760-503ac5ca549b",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"8beccd68-9cbd-48bd-a88e-3f0b3011c294\",\"dataFeedName\":\"js-test-httpRequestFeed-160072647330106437\",\"metrics\":[{\"metricId\":\"16ac2a2e-c4e2-4fa5-bf43-eef95075d3aa\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"a3b532cc-cc52-4fc7-a801-ec66596bbd3f\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"HttpRequest\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"yumeng@microsoft.com\"],\"viewers\":[],\"creator\":\"yumeng@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-09-21T22:14:57Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"httpHeader\":\"header\",\"payload\":\"{start-time: @start-time}\",\"httpMethod\":\"POST\",\"url\":\"HttpsUrl\"}}",
+   "response": "{\"dataFeedId\":\"3b013768-646b-4f1b-b760-503ac5ca549b\",\"dataFeedName\":\"js-test-httpRequestFeed-160323426952301522\",\"metrics\":[{\"metricId\":\"32d484bf-1a00-4e01-86bf-b6fec39c1bab\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"2611f89e-62ca-43ab-93ed-764ad392b651\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"HttpRequest\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"yumeng@microsoft.com\"],\"viewers\":[],\"creator\":\"yumeng@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-10-20T22:51:17Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"httpHeader\":\"header\",\"payload\":\"{start-time: @start-time}\",\"httpMethod\":\"POST\",\"url\":\"HttpsUrl\"}}",
    "responseHeaders": {
-    "apim-request-id": "9c3205be-9029-4d0d-907b-ad4edfe23351",
-    "content-length": "1306",
+    "apim-request-id": "42c33bd1-3fd2-48b8-9708-3f40e0fdd2c8",
+    "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 21 Sep 2020 22:14:57 GMT",
+    "date": "Tue, 20 Oct 2020 22:51:17 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "143",
-    "x-request-id": "9c3205be-9029-4d0d-907b-ad4edfe23351"
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "42c33bd1-3fd2-48b8-9708-3f40e0fdd2c8"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6c1b1017ccf90be2500b84cfb9e2e3c2"
+ "hash": "2aa49ab505d4c323b8a2656698ebfda8"
 }

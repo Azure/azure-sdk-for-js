@@ -32,7 +32,7 @@ describe("MetricsAdvisorClient", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -259,8 +259,8 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
       [
-        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
-        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
+        { Dim1: "Common Lime", Dim2: "Amphibian" },
+        { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
     assert.ok(
@@ -308,13 +308,13 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 7, 1)),
       new Date(Date.UTC(2020, 7, 27)),
       [
-        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
-        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
+        { Dim1: "Common Lime", Dim2: "Amphibian" },
+        { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
     assert.ok(data.results && data.results!.length === 2, "Expecting data for two time series");
 
-    assert.deepStrictEqual(data.results![0].series.dimension, {
+    assert.deepStrictEqual(data.results![0].series, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
     });
@@ -329,7 +329,7 @@ describe("MetricsAdvisorClient", () => {
       "Expecting enriched data for the first time series"
     );
 
-    assert.deepStrictEqual(data.results![1].series.dimension, {
+    assert.deepStrictEqual(data.results![1].series, {
       Dim1: "Common Beech",
       Dim2: "Ant"
     });
@@ -399,7 +399,7 @@ describe("MetricsAdvisorClient", () => {
         startTime: new Date(Date.UTC(2020, 7, 5)),
         endTime: new Date(Date.UTC(2020, 7, 7)),
         value: "NotAnomaly",
-        dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
       const actual = await client.createMetricFeedback(anomalyFeedback);
 
@@ -417,7 +417,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "ChangePoint",
         startTime: new Date(Date.UTC(2020, 7, 5)),
         value: "ChangePoint",
-        dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
       const actual = await client.createMetricFeedback(changePointFeedback);
 
@@ -435,7 +435,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "Period",
         periodType: "AutoDetect",
         periodValue: 4,
-        dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
       const actual = await client.createMetricFeedback(periodFeedback);
 
@@ -452,7 +452,7 @@ describe("MetricsAdvisorClient", () => {
       const expectedCommentFeedback: MetricCommentFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
         feedbackType: "Comment",
-        dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+        dimensionKey: { Dim1: "Common Lime", Dim2: "Amphibian" },
         comment: "This is a comment"
       };
 
@@ -478,9 +478,11 @@ describe("MetricsAdvisorClient", () => {
     });
 
     // service issue, skipping for now
-    it.skip("lists Anomaly feedbacks", async function() {
+    it("lists Anomaly feedbacks", async function() {
       const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
+          startTime: new Date(Date.UTC(2020, 9, 19)),
+          endTime: new Date(Date.UTC(2020, 9, 20)),
           timeMode: "FeedbackCreatedTime"
         }
       });

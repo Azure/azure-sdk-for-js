@@ -1,25 +1,25 @@
 let nock = require('nock');
 
-module.exports.hash = "f39bc13e3b78f27a32b5acb6689c5012";
+module.exports.hash = "2643f9ec59ca7e6ee6fcef70b7b812cd";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models')
+  .get('/formrecognizer/v2.1-preview.1/custom/models')
   .query(true)
-  .reply(200, {"summary":{"count":69,"limit":5000,"lastUpdatedDateTime":"2020-08-18T18:47:42Z"}}, [
+  .reply(200, {"summary":{"count":85,"limit":5000,"lastUpdatedDateTime":"2020-10-21T18:08:47Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '29',
+  '21',
   'apim-request-id',
-  '64990055-915b-4660-9f89-5d25461db1b2',
+  '6d9808f3-a93b-47d2-a5fc-c8c2a58f6d0c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 Aug 2020 18:47:42 GMT'
+  'Wed, 21 Oct 2020 18:08:47 GMT'
 ]);
