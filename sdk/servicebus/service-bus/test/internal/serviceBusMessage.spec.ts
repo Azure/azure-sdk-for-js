@@ -3,9 +3,15 @@
 
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 import { ConnectionContext } from "../../src/connectionContext";
-import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import {
+  Delivery,
+  uuid_to_string,
+  MessageAnnotations,
+  DeliveryAnnotations,
+  Message as RheaMessage
+} from "rhea-promise";
 import chai from "chai";
-import { AmqpMessage, Constants } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 const assert = chai.assert;
 
 const fakeContext = {
@@ -20,7 +26,7 @@ const fakeDelivery = {} as Delivery;
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
   const message_annotations: MessageAnnotations = {};
   message_annotations[Constants.enqueuedTime] = Date.now();
-  const amqpMessage: AmqpMessage = {
+  const amqpMessage: RheaMessage = {
     body: "hello",
     message_annotations
   };
@@ -71,7 +77,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     delivery_annotations_three: "delivery_annotations_three_value"
   };
 
-  const amqpMessage: AmqpMessage = {
+  const amqpMessage: RheaMessage = {
     body: "hello",
     message_annotations,
     delivery_annotations,
