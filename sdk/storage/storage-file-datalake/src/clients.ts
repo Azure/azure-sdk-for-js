@@ -1539,7 +1539,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     );
     try {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadData(
+      return await this.uploadSeekableInternal(
         (offset: number, size: number) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -1576,17 +1576,30 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
     try {
-      if (isNode && data instanceof Buffer) {
-        return this.uploadData(
+      if (isNode) {
+        let buffer: Buffer;
+        if (data instanceof Buffer) {
+          buffer = data;
+        } else if (data instanceof ArrayBuffer) {
+          buffer = Buffer.from(data);
+        } else {
+          data = data as ArrayBufferView;
+          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+        }
+
+        return this.uploadSeekableInternal(
           (offset: number, size: number): Buffer => {
-            return data.slice(offset, offset + size);
+            return buffer.slice(offset, offset + size);
           },
-          data.length,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          buffer.length,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
         );
       } else {
         const browserBlob = new Blob([data]);
-        return this.uploadData(
+        return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => {
             return browserBlob.slice(offset, offset + size);
           },
@@ -1605,11 +1618,8 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
   }
 
-  private async uploadData(
-    contentFactory:
-      | ((offset: number, size: number) => Buffer)
-      | ((offset: number, size: number) => Blob)
-      | ((offset: number, size: number) => () => NodeJS.ReadableStream),
+  private async uploadSeekableInternal(
+    bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
@@ -1673,7 +1683,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 
       // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
       if (size <= options.singleUploadThreshold) {
-        await this.append(contentFactory(0, size), 0, size, {
+        await this.append(bodyFactory(0, size), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           onProgress: options.onProgress,
@@ -1706,7 +1716,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             const start = options.chunkSize! * i;
             const end = i === numBlocks - 1 ? size : start + options.chunkSize!;
             const contentLength = end - start;
-            await this.append(contentFactory(start, contentLength), start, contentLength, {
+            await this.append(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
