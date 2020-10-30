@@ -15,7 +15,7 @@ npm install @azure/arm-reservations
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get quota as an example written in TypeScript.
+#### nodejs - client creation and get quota as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,12 +26,14 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
-```javascript
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
 const { AzureReservationAPI } = require("@azure/arm-reservations");
-const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-interactiveLogin().then((creds) => {
-  const client = new AzureReservationAPI(creds);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new AzureReservationAPI(creds, subscriptionId);
   const subscriptionId = "testsubscriptionId";
   const providerId = "testproviderId";
   const location = "westus";
@@ -68,6 +70,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-reservations/dist/arm-reservations.js"></script>
     <script type="text/javascript">
+      const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
@@ -77,7 +80,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds);
+        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds, subscriptionId);
         const subscriptionId = "testsubscriptionId";
         const providerId = "testproviderId";
         const location = "westus";

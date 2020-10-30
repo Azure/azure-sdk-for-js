@@ -7,9 +7,18 @@
  */
 
 export {
+  BillingInformation,
   ErrorModel,
+  ExchangeOperationResultResponse,
+  ExchangePolicyError,
+  ExchangePolicyErrors,
+  ExchangePostHeaders,
+  ExchangeRequest,
+  ExchangeRequestProperties,
+  ExchangeResponseProperties,
   ExtendedErrorInfo,
-  OperationDisplay,
-  OperationList,
-  OperationResponse
+  OperationResultError,
+  Price,
+  ReservationToExchange,
+  ReservationToPurchaseExchange
 } from "../models/mappers";
