@@ -739,6 +739,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
 
+    if (sequenceNumbers.length === 0) {
+      throw new TypeError("At least one sequence number must be specified.");
+    }
+
     const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
