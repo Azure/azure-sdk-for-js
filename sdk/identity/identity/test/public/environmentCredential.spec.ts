@@ -156,7 +156,7 @@ describe("EnvironmentCredential", function() {
         ) > -1
     );
 
-    process.env.AZURE_TENANT_ID = "It me";
+    process.env.AZURE_TENANT_ID = "Itme";
 
     const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(

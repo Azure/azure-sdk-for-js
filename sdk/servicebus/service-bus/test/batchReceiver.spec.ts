@@ -912,9 +912,7 @@ describe("Batching Receiver", () => {
 
       let settledMessageCount = 0;
 
-      const messages1 = await receiver.receiveMessages(1, {
-        maxWaitTimeInMs: 5000
-      });
+      const messages1 = await receiver.receiveMessages(1);
       for (const message of messages1) {
         await receiver.completeMessage(message);
         settledMessageCount++;
@@ -937,9 +935,7 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(TestMessage.getSample());
 
       // wait for the 2nd message to be received.
-      const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1, {
-        maxWaitTimeInMs: 5000
-      });
+      const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
       for (const message of messages2) {
         await receiver.completeMessage(message);
         settledMessageCount++;

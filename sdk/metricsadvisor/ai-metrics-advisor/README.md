@@ -158,66 +158,59 @@ async function main() {
 }
 
 async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery) {
-  const metrics = [
-    {
-      name: "revenue",
-      displayName: "revenue",
-      description: "Metric1 description"
-    },
-    {
-      name: "cost",
-      displayName: "cost",
-      description: "Metric2 description"
-    }
-  ];
-  const dimensions = [
-    { name: "city", displayName: "city display" },
-    { name: "category", displayName: "category display" }
-  ];
-  const dataFeedSchema = {
-    metrics,
-    dimensions,
-    timestampColumn: null
-  };
-  const dataFeedIngestion = {
-    ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
-  };
-  const granualarity = {
-    granularityType: "Daily"
-  };
-  const source = {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  };
-  const options = {
-    rollupSettings: {
-      rollupType: "AutoRollup",
-      rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
-    },
-    missingDataPointFillSettings: {
-      fillType: "SmartFilling"
-    },
-    accessMode: "Private",
-    adminEmails: ["xyz@example.com"]
-  };
-
   console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed({
+  const dataFeed = {
     name: "test_datafeed_" + new Date().getTime().toString(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
-  });
+    source: {
+      dataSourceType: "SqlServer",
+      dataSourceParameter: {
+        connectionString: sqlServerConnectionString,
+        query: sqlServerQuery
+      }
+    },
+    granularity: {
+      granularityType: "Daily"
+    },
+    schema: {
+      metrics: [
+        {
+          name: "revenue",
+          displayName: "revenue",
+          description: "Metric1 description"
+        },
+        {
+          name: "cost",
+          displayName: "cost",
+          description: "Metric2 description"
+        }
+      ],
+      dimensions: [
+        { name: "city", displayName: "city display" },
+        { name: "category", displayName: "category display" }
+      ],
+      timestampColumn: null
+    },
+    ingestionSettings: {
+      ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
+    },
+    options: {
+      rollupSettings: {
+        rollupType: "AutoRollup",
+        rollupMethod: "Sum",
+        rollupIdentificationValue: "__CUSTOM_SUM__"
+      },
+      missingDataPointFillSettings: {
+        fillType: "SmartFilling"
+      },
+      accessMode: "Private",
+      adminEmails: ["xyz@example.com"]
+    }
+  };
+  const result = await adminClient.createDataFeed(dataFeed);
 
   return result;
 }
@@ -290,7 +283,7 @@ async function main() {
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration({
+  const anomalyConfig = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
     wholeSeriesDetectionCondition: {
@@ -304,7 +297,8 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
       }
     },
     description: "Detection configuration description"
-  });
+  };
+  return await adminClient.createMetricAnomalyDetectionConfiguration(anomalyConfig);
 }
 ```
 
@@ -375,27 +369,29 @@ async function main() {
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    },
-    alertConditions: {
-      severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
-    },
-    snoozeCondition: {
-      autoSnooze: 0,
-      snoozeScope: "Metric",
-      onlyForSuccessive: true
-    }
-  };
-  return await adminClient.createAnomalyAlertConfiguration({
+  const anomalyAlertConfig = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig],
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        },
+        alertConditions: {
+          severityCondition: { minAlertSeverity: "Medium", maxAlertSeverity: "High" }
+        },
+        snoozeCondition: {
+          autoSnooze: 0,
+          snoozeScope: "Metric",
+          onlyForSuccessive: true
+        }
+      }
+    ],
     hookIds,
     description: "Alerting config description"
-  });
+  };
+  return await adminClient.createAnomalyAlertConfiguration(anomalyAlertConfig);
 }
 ```
 

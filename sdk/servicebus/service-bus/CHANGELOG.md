@@ -46,6 +46,8 @@
 - The raw responses(`_response`) in the returned objects from any of the methods under the `ServiceBusAdministrationClient` have been updated to return only the `{request, status, headers}`, properties such as `parsedHeaders`, `parsedBody` have been removed.
   [PR 12015](https://github.com/Azure/azure-sdk-for-js/pull/12015)
 - `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
+- Removed `AmqpAnnotatedMessage`, `AmqpMessageHeaders`, `AmqpMessageProperties` interfaces in favour of the ones from `@azure/core-amqp`. This is part of the move from `@azure/core-amqp` version update from 1.1.x to 2.0.0-beta.y.
+  [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
 
 ## 7.0.0-preview.7 (2020-10-07)
 

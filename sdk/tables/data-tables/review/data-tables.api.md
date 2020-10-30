@@ -338,8 +338,8 @@ export class TableClient {
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
-    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
+    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
+    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
@@ -398,6 +398,14 @@ export interface TableEntityQueryResponse {
         [propertyName: string]: any;
     }[];
 }
+
+// @public
+export type TableEntityResult<T> = T & {
+    etag: string;
+    partitionKey?: string;
+    rowKey?: string;
+    timestamp?: string;
+};
 
 // @public
 export interface TableGetAccessPolicyHeaders {

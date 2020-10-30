@@ -808,6 +808,34 @@ describe("deserializationPolicy", function() {
       }
     });
 
+    it(`should throw when the response code is not defined in the operationSpec`, async function() {
+      const serializer = new Serializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {}
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders(),
+        bodyAsText: '{"message": "InternalServerError"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail("Expected deserializeResponse to throw an error");
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.statusCode, 500);
+        assert.include(e.message, "InternalServerError");
+      }
+    });
+
     it(`with non default complex error response`, async function() {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",

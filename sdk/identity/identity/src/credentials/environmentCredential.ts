@@ -14,6 +14,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -64,6 +65,10 @@ export class EnvironmentCredential implements TokenCredential {
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
 
     if (tenantId && clientId && clientSecret) {
       logger.info(

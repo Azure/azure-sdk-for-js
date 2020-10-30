@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
-import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
 import {
+  AmqpAnnotatedMessage,
   AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
-  MessageHeader,
-  MessageProperties,
   translate
 } from "@azure/core-amqp";
-import { messageLogger as logger, receiverLogger } from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
+import Long from "long";
+import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
+import { ConnectionContext } from "./connectionContext";
 import { DispositionStatusOptions } from "./core/managementClient";
+import { messageLogger as logger, receiverLogger } from "./log";
 import { ReceiveMode } from "./models";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { reorderLockToken } from "./util/utils";
 
 /**
  * @internal
@@ -213,133 +212,6 @@ export interface ServiceBusMessage {
    * used for custom message metadata.
    */
   applicationProperties?: { [key: string]: number | boolean | string | Date };
-}
-
-/**
- * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
- */
-export interface AmqpAnnotatedMessage {
-  /**
-   * Describes the defined set of standard header properties of the message.
-   */
-  header?: AmqpMessageHeader;
-  /**
-   * Describes set of footer properties of the message.
-   */
-  footer?: { [key: string]: any };
-  /**
-   * A dictionary containing message attributes that will be held in the message header
-   */
-  messageAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary used for delivery-specific
-   * non-standard properties at the head of the message.
-   */
-  deliveryAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary containing application specific message properties.
-   */
-  applicationProperties?: { [key: string]: any };
-  /**
-   *  Describes the defined set of standard properties of the message.
-   */
-  properties?: AmqpMessageProperties;
-  /**
-   * The message body.
-   */
-  body: any;
-}
-
-/**
- * Describes the defined set of standard header properties of the message.
- */
-export interface AmqpMessageHeader {
-  /**
-   * If this value is true, then this message has not been
-   * acquired by any other link. Ifthis value is false, then this message MAY have previously
-   * been acquired by another link or links.
-   */
-  firstAcquirer?: boolean;
-  /**
-   * The number of prior unsuccessful delivery attempts.
-   */
-  deliveryCount?: number;
-  /**
-   * Time to live in milli seconds.
-   */
-  timeToLive?: number;
-  /**
-   * Specifies durability requirements.
-   */
-  durable?: boolean;
-  /**
-   * The relative message priority. Higher numbers indicate higher
-   * priority messages.
-   */
-  priority?: number;
-}
-
-/**
- * Describes the defined set of standard properties of the message.
- */
-export interface AmqpMessageProperties {
-  /**
-   * The application message identifier that uniquely idenitifes a message.
-   * The user is responsible for making sure that this is unique in
-   * the given context. Guids usually make a good fit.
-   */
-  messageId?: string | number | Buffer;
-  /**
-   * The address of the node the message is destined for.
-   */
-  to?: string;
-  /**
-   * The id that can be used to mark or
-   * identify messages between clients.
-   */
-  correlationId?: string | number | Buffer;
-  /**
-   * MIME type for the message.
-   */
-  contentType?: string;
-  /**
-   * The content-encoding property is used as a modifier to the content-type.
-   * When present, its valueindicates what additional content encodings have
-   * been applied to theapplication-data.
-   */
-  contentEncoding?: string;
-  /**
-   * The time when this message is considered expired.
-   */
-  absoluteExpiryTime?: number;
-  /**
-   * The time this message was created.
-   */
-  creationTime?: number;
-  /**
-   * The group this message belongs to.
-   */
-  groupId?: string;
-  /**
-   * The sequence number of this message with its group.
-   */
-  groupSequence?: number;
-  /**
-   * The address of the node to send replies to.
-   */
-  replyTo?: string;
-  /**
-   * The group the reply message belongs to.
-   */
-  replyToGroupId?: string;
-  /**
-   * A common field for summary information about the message content and purpose.
-   */
-  subject?: string;
-  /**
-   * The identity of the user responsible for producing the message.
-   */
-  userId?: string;
 }
 
 /**
@@ -663,7 +535,7 @@ export function fromAmqpMessage(
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
+    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -686,28 +558,6 @@ export function fromAmqpMessage(
 
   logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
-}
-
-/**
- * Takes AmqpMessage(type from "rhea") and returns it in the AmqpAnnotatedMessage format.
- *
- * @export
- * @param {AmqpMessage} msg
- * @returns {AmqpAnnotatedMessage}
- * @internal
- * @ignore
- */
-export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
-  const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);
-  return {
-    header: { ...messageHeader, timeToLive: messageHeader.ttl },
-    footer: (msg as any).footer,
-    messageAnnotations: msg.message_annotations,
-    deliveryAnnotations: msg.delivery_annotations,
-    applicationProperties: msg.application_properties,
-    properties: MessageProperties.fromAmqpMessageProperties(msg),
-    body: msg.body
-  };
 }
 
 /**
@@ -938,7 +788,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
-    this._amqpAnnotatedMessage = toAmqpAnnotatedMessage(msg);
+    // TODO: _amqpAnnotatedMessage is already being populated in fromAmqpMessage(), no need to do it twice
+    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
 

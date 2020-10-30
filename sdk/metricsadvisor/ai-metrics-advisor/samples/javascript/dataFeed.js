@@ -32,7 +32,7 @@ async function listDataFeeds(client) {
   console.log("  using while loop");
   const iter = client.listDataFeeds({
     filter: {
-      // dataFeedName: "js-blob-datafeed"
+      dataFeedName: "js-blob-datafeed"
     }
   });
   let result = await iter.next();
@@ -64,70 +64,65 @@ async function listDataFeeds(client) {
 }
 
 async function createDataFeed(client) {
-  const metrics = [
-    {
-      name: "Metric1",
-      displayName: "Metric1",
-      description: ""
+  console.log("Creating Datafeed...");
+  const feed = {
+    name: "test-datafeed-" + new Date().getTime().toString(),
+    source: {
+      dataSourceType: "AzureBlob",
+      dataSourceParameter: {
+        connectionString:
+          process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
+          "<Azure Blob storage connection string>",
+        container:
+          process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
+        blobTemplate:
+          process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
+      }
     },
-    {
-      name: "Metric2",
-      displayName: "Metric2",
-      description: ""
+    granularity: {
+      granularityType: "Daily"
+    },
+    schema: {
+      metrics: [
+        {
+          name: "Metric1",
+          displayName: "Metric1",
+          description: ""
+        },
+        {
+          name: "Metric2",
+          displayName: "Metric2",
+          description: ""
+        }
+      ],
+      dimensions: [
+        { name: "Dim1", displayName: "Dim1 display" },
+        { name: "Dim2", displayName: "Dim2 display" }
+      ],
+      timestampColumn: null
+    },
+    ingestionSettings: {
+      ingestionStartTime: new Date(Date.UTC(2020, 8, 21)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
+    },
+    options: {
+      rollupSettings: {
+        rollupType: "AutoRollup",
+        rollupMethod: "Sum",
+        rollupIdentificationValue: "__SUM__"
+      },
+      missingDataPointFillSettings: {
+        fillType: "CustomValue",
+        customFillValue: 567
+      },
+      accessMode: "Private"
     }
-  ];
-  const dimensions = [
-    { name: "Dim1", displayName: "Dim1 display" },
-    { name: "Dim2", displayName: "Dim2 display" }
-  ];
-  const dataFeedSchema = {
-    metrics,
-    dimensions,
-    timestampColumn: null
-  };
-  const dataFeedIngestion = {
-    ingestionStartTime: new Date(Date.UTC(2020, 8, 21)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
-  };
-  const granularity = {
-    granularityType: "Daily"
-  };
-  const source = {
-    dataSourceType: "AzureBlob",
-    dataSourceParameter: {
-      connectionString:
-        process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
-        "<Azure Blob storage connection string>",
-      container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
-      blobTemplate:
-        process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
-    }
-  };
-  const options = {
-    rollupSettings: {
-      rollupType: "AutoRollup",
-      rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
-    },
-    missingDataPointFillSettings: {
-      fillType: "CustomValue",
-      customFillValue: 567
-    },
-    accessMode: "Private"
   };
 
-  console.log("Creating Datafeed...");
-  const result = await client.createDataFeed({
-    name: "test-datafeed-" + new Date().getTime().toString(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
-  });
+  const result = await client.createDataFeed(feed);
   console.dir(result);
   return result;
 }
@@ -154,7 +149,7 @@ async function updateDataFeed(client, dataFeedId) {
       ingestionStartOffsetInSeconds: 4444
     },
     options: {
-      dataFeedDescription: "New datafeed description",
+      description: "New datafeed description",
       missingDataPointFillSettings: {
         fillType: "SmartFilling"
       },

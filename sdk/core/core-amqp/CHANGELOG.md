@@ -1,6 +1,11 @@
 # Release History
 
-## 1.1.7 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
+
+- `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
+  [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
+
+## 1.1.7 (2020-10-28)
 
 - Internal improvement - Previously, each `RequestResponseLink.sendRequest` call adds an "onMessage" listener to the `ReceiverEvents.message` event and keeps discarding the responses that did not match the request-id and returns the response if matched. Adding many listeners would also result in a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 message listeners added to [Receiver]. Use emittr.setMaxListeners() to increase limit`.
   This has been improved to reuse a single listener for all the requests by maintaining a map of deferred promises that would be resolved(or rejected) upon receiving a message event.

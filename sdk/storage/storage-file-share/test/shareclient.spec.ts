@@ -246,13 +246,16 @@ describe("ShareClient", () => {
     await newShareClient.delete();
   });
 
-  it("setAccessTier", async () => {
-    await shareClient.setAccessTier("Hot");
+  it("setProperties", async () => {
+    const accessTier = "Hot";
+    const quotaInGB = 20;
+    await shareClient.setProperties({ accessTier, quotaInGB });
     const getRes = await shareClient.getProperties();
 
-    assert.deepStrictEqual(getRes.accessTier, "Hot");
+    assert.deepStrictEqual(getRes.accessTier, accessTier);
     assert.ok(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
+    assert.equal(getRes.quota, quotaInGB);
   });
 });
 

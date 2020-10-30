@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
@@ -24,51 +25,6 @@ import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
-
-// @public
-export interface AmqpAnnotatedMessage {
-    applicationProperties?: {
-        [key: string]: any;
-    };
-    body: any;
-    deliveryAnnotations?: {
-        [key: string]: any;
-    };
-    footer?: {
-        [key: string]: any;
-    };
-    header?: AmqpMessageHeader;
-    messageAnnotations?: {
-        [key: string]: any;
-    };
-    properties?: AmqpMessageProperties;
-}
-
-// @public
-export interface AmqpMessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    timeToLive?: number;
-}
-
-// @public
-export interface AmqpMessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
 
 // @public
 export type AuthorizationRule = {
