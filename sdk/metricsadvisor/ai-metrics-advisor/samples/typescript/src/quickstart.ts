@@ -11,8 +11,7 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  DataFeedMetric,
-  DataFeedDimension,
+  AnomalyAlert,
   GetDataFeedResponse,
   MetricsAdvisorClient,
   WebNotificationHook
@@ -63,16 +62,16 @@ export async function main() {
     console.log(`Alert configuration created: ${alertConfig.id!}`);
 
     // you can use alert configuration created in above step to query the alert.
-    const alertIds = await queryAlerts(
+    const alerts = await queryAlerts(
       client,
       alertConfig.id!,
       new Date(Date.UTC(2020, 8, 1)),
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    if (alertIds.length > 1) {
+    if (alerts.length > 1) {
       // query anomalies using an alert id.
-      await queryAnomaliesByAlert(client, alertConfig.id!, alertIds[0]);
+      await queryAnomaliesByAlert(client, alerts[0]);
     } else {
       console.log("No alerts during the time period");
     }
@@ -245,14 +244,14 @@ async function queryAlerts(
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
-  let alertIds: string[] = [];
+  let alerts: AnomalyAlert[] = [];
   for await (const alert of client.listAlertsForAlertConfiguration(
     alertConfigId,
     startTime,
     endTime,
     "AnomalyTime"
   )) {
-    alertIds.push(alert.id);
+    alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
     console.log(`      timestamp: ${alert.timestamp}`);
@@ -271,18 +270,14 @@ async function queryAlerts(
     result = await iterator.next();
   }
 
-  return alertIds;
+  return alerts;
 }
 
-async function queryAnomaliesByAlert(
-  client: MetricsAdvisorClient,
-  alertConfigId: string,
-  alertId: string
-) {
+async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: AnomalyAlert) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  for await (const anomaly of client.listAnomalies(alert)) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

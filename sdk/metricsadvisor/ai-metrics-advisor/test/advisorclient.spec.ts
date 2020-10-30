@@ -37,7 +37,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("listAnomaliesForDetectionConfiguration()", async function() {
-    const iterator = client.listAnomaliesForDetectionConfiguration(
+    const iterator = client.listAnomalies(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5))
@@ -50,7 +50,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listAnomaliesForDetectionConfiguration() by page", async function() {
     const iterator = client
-      .listAnomaliesForDetectionConfiguration(
+      .listAnomalies(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
         new Date(Date.UTC(2020, 7, 5)),
         new Date(Date.UTC(2020, 8, 5))
@@ -62,8 +62,34 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in second page");
   });
 
+  it("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
+    const iterator = client.listAnomalies(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      "2020-08-05T00:00:00.000Z",
+      "2020-09-05T00:00:00.000Z"
+    );
+    let result = await iterator.next();
+    assert.ok(result.value.seriesKey, "Expecting first anomaly");
+    result = await iterator.next();
+    assert.ok(result.value.seriesKey, "Expecting second anomaly");
+  });
+
+  it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function() {
+    try {
+      const iterator = client.listAnomalies(
+        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+        "startTime",
+        "endTime"
+      );
+      await iterator.next();
+      assert.fail("Error should have been thrown for invalid date strings");
+    } catch (err) {
+      assert.equal(err.message, "Invalid time value");
+    }
+  });
+
   it("listIncidentsForDetectionConfiguration()", async function() {
-    const iterator = client.listIncidentsForDetectionConfiguration(
+    const iterator = client.listIncidents(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5))
@@ -76,7 +102,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listIncidentsForDetectionConfiguration() by page", async function() {
     const iterator = client
-      .listIncidentsForDetectionConfiguration(
+      .listIncidents(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
         new Date(Date.UTC(2020, 7, 5)),
         new Date(Date.UTC(2020, 8, 5))
@@ -86,6 +112,32 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.incidents.length, 2, "Expecting two incidents in first page");
     result = await iterator.next();
     assert.equal(result.value.incidents.length, 2, "Expecting two incidents in second page");
+  });
+
+  it("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
+    const iterator = client.listIncidents(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      "2020-08-05T00:00:00.000Z",
+      "2020-09-05T00:00:00.000Z"
+    );
+    let result = await iterator.next();
+    assert.ok(result.value.rootDimensionKey, "Expecting first incident");
+    result = await iterator.next();
+    assert.ok(result.value.rootDimensionKey, "Expecting second incident");
+  });
+
+  it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function() {
+    try {
+      const iterator = client.listIncidents(
+        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+        "startTime",
+        "endTime"
+      );
+      await iterator.next();
+      assert.fail("Error should have been thrown for invalid date strings");
+    } catch (err) {
+      assert.ok(err.message, "Invalid time value");
+    }
   });
 
   it("listDimensionValuesForDetectionConfiguration()", async function() {
@@ -153,10 +205,10 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists anomalies for alert", async function() {
-    const iterator = client.listAnomaliesForAlert(
-      testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-      testEnv.METRICS_ADVISOR_ALERT_ID
-    );
+    const iterator = client.listAnomalies({
+      alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+      id: testEnv.METRICS_ADVISOR_ALERT_ID
+    });
     let result = await iterator.next();
     assert.ok(result.value.seriesKey, "Expecting first anomaly");
     result = await iterator.next();
@@ -165,10 +217,10 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists anomalies for alert by page", async function() {
     const iterator = client
-      .listAnomaliesForAlert(
-        testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-        testEnv.METRICS_ADVISOR_ALERT_ID
-      )
+      .listAnomalies({
+        alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+        id: testEnv.METRICS_ADVISOR_ALERT_ID
+      })
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
     assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in first page");
@@ -177,10 +229,10 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists incidents for alert", async function() {
-    const iterator = client.listIncidentsForAlert(
-      testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-      testEnv.METRICS_ADVISOR_ALERT_ID
-    );
+    const iterator = client.listIncidents({
+      alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+      id: testEnv.METRICS_ADVISOR_ALERT_ID
+    });
     let result = await iterator.next();
     assert.ok(result.value.id, "Expecting first incident");
     result = await iterator.next();
@@ -189,10 +241,10 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists incidents for alert by page", async function() {
     const iterator = client
-      .listIncidentsForAlert(
-        testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-        testEnv.METRICS_ADVISOR_ALERT_ID
-      )
+      .listIncidents({
+        alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+        id: testEnv.METRICS_ADVISOR_ALERT_ID
+      })
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
     assert.equal(result.value.incidents.length, 2, "Expecting two incidents in first page");
