@@ -10,30 +10,30 @@ import { msiGenericGetToken } from "./utils";
 const logger = credentialLogger("ManagedIdentityCredential - Fabric MSI");
 
 function expiresInParser(requestBody: any) {
-    // Parses a string representation of the seconds since epoch into a number value
-    return Number(requestBody.expires_on);
+  // Parses a string representation of the seconds since epoch into a number value
+  return Number(requestBody.expires_on);
+}
+
+function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+  const queryParameters: any = {
+    resource,
+    "api-version": "2019-07-01"
+  };
+
+  if (clientId) {
+    queryParameters.client_id = clientId;
   }
-  
-  function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
-    const queryParameters: any = {
-      resource,
-      "api-version": "2019-07-01"
-    };
-  
-    if (clientId) {
-      queryParameters.client_id = clientId;
+
+  return {
+    url: process.env.IDENTITY_ENDPOINT,
+    method: "GET",
+    queryParameters,
+    headers: {
+      Accept: "application/json",
+      Secret: process.env.IDENTITY_HEADER
     }
-  
-    return {
-      url: process.env.IDENTITY_ENDPOINT,
-      method: "GET",
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        Secret: process.env.IDENTITY_HEADER
-      }
-    };
-  }
+  };
+}
 
 // This credential can be easily tested by deploying a container to Azure Fabric with the Dockerfile:
 //
@@ -42,13 +42,12 @@ function expiresInParser(requestBody: any) {
 //   CMD ["bash", "bash.sh"]
 //
 // Where the bash script contains:
-// 
+//
 //   curl --insecure $IDENTITY_ENDPOINT'?api-version=2019-07-01-preview&resource=https://vault.azure.net/' -H "Secret: $IDENTITY_HEADER"
 //
 
 export const fabricMsi: MSI = {
-  async isAvailable(
-  ): Promise<boolean> {
+  async isAvailable(): Promise<boolean> {
     const env = process.env;
     return Boolean(env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT);
   },
@@ -58,12 +57,14 @@ export const fabricMsi: MSI = {
     clientId?: string,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    logger.info([
-      "Using the endpoint and the secret coming form the environment variables:",
-      `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
-      "IDENTITY_HEADER=[REDACTED] and",
-      "IDENTITY_SERVER_THUMBPRINT=[REDACTED]."
-    ].join(" "));
+    logger.info(
+      [
+        "Using the endpoint and the secret coming form the environment variables:",
+        `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
+        "IDENTITY_HEADER=[REDACTED] and",
+        "IDENTITY_SERVER_THUMBPRINT=[REDACTED]."
+      ].join(" ")
+    );
 
     return msiGenericGetToken(
       identityClient,

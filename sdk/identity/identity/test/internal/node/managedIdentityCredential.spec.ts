@@ -23,6 +23,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
+    delete process.env.IDENTITY_SERVER_THUMBPRINT;
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -311,6 +312,48 @@ describe("ManagedIdentityCredential", function() {
         Math.floor(authDetails.token.expiresOnTimestamp / 10000),
         Math.floor(Date.now() / 10000)
       );
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an Azure Fabric environment", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+
+    // We're not verifying the certificate yet, but we still check for it:
+    process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: [
+        {
+          status: 200,
+          parsedBody: {
+            token: "token",
+            expires_on: 1
+          }
+        }
+      ]
+    });
+
+    // Authorization request, which comes after validating again, for now at least.
+    const authRequest = authDetails.requests[0];
+    assert.ok(authRequest.query, "No query string parameters on request");
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(authRequest.query!["client_id"], "client");
+    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+
+    assert.equal(authRequest.headers.get("Secret"), process.env.IDENTITY_HEADER);
+
+    if (authDetails.token) {
+      // We use Date.now underneath.
+      assert.equal(authDetails.token.expiresOnTimestamp, 1);
     } else {
       assert.fail("No token was returned!");
     }

@@ -18,7 +18,7 @@ import { MSI } from "./models";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
-import { fabricMsi } from './fabricMsi';
+import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
