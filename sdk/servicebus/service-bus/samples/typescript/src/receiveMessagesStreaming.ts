@@ -31,7 +31,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // - If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // - If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   // - See session.ts for how to receive using sessions.
   const receiver = sbClient.createReceiver(queueName);
@@ -42,8 +42,8 @@ export async function main() {
         console.log(`Received message: ${brokeredMessage.body}`);
 
         // autoComplete, which is enabled by default, will automatically call
-        // receiver.completeMessage() on your message so long as your
-        // processMessage handler does not throw an error.
+        // receiver.completeMessage() on your message after awaiting on your processMessage
+        // handler so long as your handler does not throw an error.
         //
         // If your handler _does_ throw an error then the message will automatically
         // be abandoned using receiver.abandonMessage()
@@ -53,7 +53,7 @@ export async function main() {
       processError: async (args: ProcessErrorArgs) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
-        // the handler will not stop without explicit intervention from you.
+        // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
         if (isMessagingError(args.error)) {
           switch (args.error.code) {
             case "MessagingEntityDisabledError":
