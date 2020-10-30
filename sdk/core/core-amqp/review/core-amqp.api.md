@@ -12,12 +12,12 @@ import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
 import { isAmqpError } from 'rhea-promise';
 import { isTokenCredential } from '@azure/core-auth';
+import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
-import { Message as RheaMessage } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
@@ -47,7 +47,7 @@ export interface AmqpAnnotatedMessage {
 
 // @public
 export const AmqpAnnotatedMessage: {
-    fromRheaMessage(msg: RheaMessage): AmqpAnnotatedMessage;
+    fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
 };
 
 // @public
@@ -621,7 +621,7 @@ export class RequestResponseLink implements ReqResLink {
     remove(): void;
     // (undocumented)
     sender: Sender;
-    sendRequest(request: RheaMessage, options?: SendRequestOptions): Promise<RheaMessage>;
+    sendRequest(request: Message, options?: SendRequestOptions): Promise<Message>;
     // (undocumented)
     session: Session;
 }
@@ -678,8 +678,6 @@ export interface RetryOptions {
     retryDelayInMs?: number;
     timeoutInMs?: number;
 }
-
-export { RheaMessage }
 
 // @public
 export interface SendRequestOptions {

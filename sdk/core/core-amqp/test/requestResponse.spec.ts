@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import {
-  RheaMessage,
   ErrorNameConditionMapper,
   RequestResponseLink,
   RetryConfig,
@@ -11,7 +10,7 @@ import {
   retry,
   Constants
 } from "../src";
-import { Connection, EventContext, generate_uuid, Message } from "rhea-promise";
+import { Connection, EventContext, generate_uuid, Message as RheaMessage } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -335,13 +334,13 @@ describe("RequestResponseLink", function() {
       });
     }, 2000);
 
-    const sendRequestPromise = async (): Promise<Message> => {
+    const sendRequestPromise = async (): Promise<RheaMessage> => {
       return link.sendRequest(request, {
         timeoutInMs: 5000
       });
     };
 
-    const config: RetryConfig<Message> = {
+    const config: RetryConfig<RheaMessage> = {
       operation: sendRequestPromise,
       connectionId: "connection-1",
       operationType: RetryOperationType.management,
@@ -351,7 +350,7 @@ describe("RequestResponseLink", function() {
       }
     };
 
-    const message = await retry<Message>(config);
+    const message = await retry<RheaMessage>(config);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     assert.equal(count, 2, "It should retry twice");
     assert.exists(message, "It should return a valid message");
