@@ -10,7 +10,7 @@ import { TokenCredentialOptions } from "../client/identityClient";
 
 import { DeviceCodeRequest } from "@azure/msal-node";
 import { checkTenantId } from "../util/checkTenantId";
-import { DeveloperSignOnClientId } from '../constants';
+import { DeveloperSignOnClientId } from "../constants";
 
 /**
  * Provides the user code and verification URI where the code must be
