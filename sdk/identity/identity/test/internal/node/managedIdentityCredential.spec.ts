@@ -308,8 +308,8 @@ describe("ManagedIdentityCredential", function() {
     if (authDetails.token) {
       // We use Date.now underneath.
       assert.equal(
-        Math.floor(authDetails.token.expiresOnTimestamp / 10000),
-        Math.floor(Date.now() / 10000)
+        Math.floor(authDetails.token.expiresOnTimestamp / 100000),
+        Math.floor(Date.now() / 100000)
       );
     } else {
       assert.fail("No token was returned!");
