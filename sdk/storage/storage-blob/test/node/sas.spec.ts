@@ -20,11 +20,11 @@ import {
   UserDelegationKey
 } from "../../src";
 import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
-import { delay, record } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
