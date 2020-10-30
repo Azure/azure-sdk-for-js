@@ -22,6 +22,7 @@ export interface AlertSnoozeCondition {
 
 // @public
 export interface AnomalyAlert {
+    alertConfigId: string;
     createdOn?: Date;
     id: string;
     modifiedOn?: Date;
@@ -880,8 +881,10 @@ export class MetricsAdvisorClient {
     listAnomaliesForAlert(alertConfigId: string, alertId: string, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
     listAnomaliesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
     listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
-    listIncidentsForAlert(alertConfigId: string, alertId: string, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
-    listIncidentsForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
+    // (undocumented)
+    listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
+    // (undocumented)
+    listIncidents(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, ListMetricDimensionValuesPageResponse>;
     listMetricEnrichmentStatus(metricId: string, startTime: Date, endTime: Date, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
     listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, ListMetricFeedbackPageResponse>;
