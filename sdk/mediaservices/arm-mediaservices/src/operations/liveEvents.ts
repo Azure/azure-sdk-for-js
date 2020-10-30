@@ -28,8 +28,8 @@ export class LiveEvents {
   }
 
   /**
-   * Lists the Live Events in the account.
-   * @summary List Live Events
+   * Lists all the live events in the account.
+   * @summary List live events
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param [options] The optional parameters
@@ -61,11 +61,11 @@ export class LiveEvents {
   }
 
   /**
-   * Gets a Live Event.
+   * Gets properties of a live event.
    * @summary Get Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsGetResponse>
    */
@@ -73,14 +73,14 @@ export class LiveEvents {
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, liveEventName: string, callback: msRest.ServiceCallback<Models.LiveEvent>): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -98,12 +98,12 @@ export class LiveEvents {
   }
 
   /**
-   * Creates a Live Event.
+   * Creates a new live event.
    * @summary Create Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param parameters Live Event properties needed for creation.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param parameters Live event properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsCreateResponse>
    */
@@ -113,11 +113,11 @@ export class LiveEvents {
   }
 
   /**
-   * Updates a existing Live Event.
+   * Updates settings on an existing live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param parameters Live Event properties needed for creation.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param parameters Live event properties needed for patch.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsUpdateResponse>
    */
@@ -127,11 +127,11 @@ export class LiveEvents {
   }
 
   /**
-   * Deletes a Live Event.
+   * Deletes a live event.
    * @summary Delete Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -141,11 +141,26 @@ export class LiveEvents {
   }
 
   /**
-   * Starts an existing Live Event.
+   * A live event is in StandBy state after allocation completes, and is ready to start.
+   * @summary Allocate resources for a live event
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  allocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginAllocate(resourceGroupName,accountName,liveEventName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * A live event in Stopped or StandBy state will be in Running state after the start operation
+   * completes.
    * @summary Start Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -155,11 +170,11 @@ export class LiveEvents {
   }
 
   /**
-   * Stops an existing Live Event.
+   * Stops a running live event.
    * @summary Stop Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param parameters LiveEvent stop parameters
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -170,11 +185,13 @@ export class LiveEvents {
   }
 
   /**
-   * Resets an existing Live Event.
+   * Resets an existing live event. All live outputs for the live event are deleted and the live
+   * event is stopped and will be started again. All assets used by the live outputs and streaming
+   * locators created on these assets are unaffected.
    * @summary Reset Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -184,12 +201,12 @@ export class LiveEvents {
   }
 
   /**
-   * Creates a Live Event.
+   * Creates a new live event.
    * @summary Create Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param parameters Live Event properties needed for creation.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param parameters Live event properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -207,11 +224,11 @@ export class LiveEvents {
   }
 
   /**
-   * Updates a existing Live Event.
+   * Updates settings on an existing live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param parameters Live Event properties needed for creation.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param parameters Live event properties needed for patch.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -229,11 +246,11 @@ export class LiveEvents {
   }
 
   /**
-   * Deletes a Live Event.
+   * Deletes a live event.
    * @summary Delete Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -250,11 +267,33 @@ export class LiveEvents {
   }
 
   /**
-   * Starts an existing Live Event.
+   * A live event is in StandBy state after allocation completes, and is ready to start.
+   * @summary Allocate resources for a live event
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginAllocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        options
+      },
+      beginAllocateOperationSpec,
+      options);
+  }
+
+  /**
+   * A live event in Stopped or StandBy state will be in Running state after the start operation
+   * completes.
    * @summary Start Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -271,11 +310,11 @@ export class LiveEvents {
   }
 
   /**
-   * Stops an existing Live Event.
+   * Stops a running live event.
    * @summary Stop Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param parameters LiveEvent stop parameters
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -294,11 +333,13 @@ export class LiveEvents {
   }
 
   /**
-   * Resets an existing Live Event.
+   * Resets an existing live event. All live outputs for the live event are deleted and the live
+   * event is stopped and will be started again. All assets used by the live outputs and streaming
+   * locators created on these assets are unaffected.
    * @summary Reset Live Event
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -315,8 +356,8 @@ export class LiveEvents {
   }
 
   /**
-   * Lists the Live Events in the account.
-   * @summary List Live Events
+   * Lists all the live events in the account.
+   * @summary List live events
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsListNextResponse>
@@ -425,7 +466,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LiveEvent
     },
-    202: {
+    201: {
       bodyMapper: Mappers.LiveEvent
     },
     default: {
@@ -490,6 +531,31 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ApiError
+    }
+  },
+  serializer
+};
+
+const beginAllocateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/allocate",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.ApiError
     }

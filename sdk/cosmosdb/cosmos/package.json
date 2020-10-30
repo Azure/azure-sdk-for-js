@@ -17,6 +17,7 @@
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
+  "react-native": "./dist-esm/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",

@@ -179,57 +179,54 @@ Fetching area codes for geographic phone plans will require the the location opt
 Use the `getAreaCodes` method to get the area codes for geographic phone plans.
 
 ```typescript
-const { primaryAreaCodes } = await client.getAreaCodes(
-  {
-    locationType: "selection",
-    countryCode: "US",
-    phonePlanId: "phonePlanId",
-    locationOptionsQueries
-  }
-);
+const { primaryAreaCodes } = await client.getAreaCodes({
+  locationType: "selection",
+  countryCode: "US",
+  phonePlanId: "phonePlanId",
+  locationOptionsQueries
+});
 ```
 
-#### Searching for phone numbers
+#### Reserving phone numbers for purchase
 
-Use the `createSearch` method to search for phone numbers. This method returns a `searchId` which should be used to query the status of the search.
+Use the `beginReservePhoneNumbers` method to search for phone numbers and reserve them. This is a long running operation.
 
 ```typescript
-const { searchId } = await client.createSearch({
+const reservePoller = await client.beginReservePhoneNumbers({
     name: "Phone number search 800",
     description: "Search for 800 phone numbers"
     phonePlanIds: ["phone-plan-id-1"],
     areaCode: "800",
-    quantity: 1
+    quantity: 3
 });
 ```
 
-To get the results of the search use the `searchId` to call the `getSearch` method.
+To get the results of the reservation, use the `pollUntilDone` method on the poller you created.
 
 ```typescript
-const phoneNumberSearch = await client.getSearch(searchId);
+const phoneNumberReservation = await reservePoller.pollUntilDone();
 ```
 
-#### Purchasing phone numbers from a search
-
-Use the `purchaseSearch` method to purchase the phone numbers from your search.
+You can cancel the the polling and reservation by calling the `cancelOperation` method on the poller you created.
 
 ```typescript
-await client.purchaseSearch(searchId);
+await reservePoller.cancelOperation();
 ```
 
-You also need to call the `getSearch` method to get the results of your purchase.
+#### Purchasing phone numbers from a reservation
 
-#### Cancel a phone number search
-
-Phone numbers are reserved for 10 minutes when you create a new search. To cancel a search, and make numbers available to other users, call the `cancelSearch` method with the `searchId` of the search.
+Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from your reservation. The `reservationId` returned from `beginReservePhoneNumbers` is required. `beginPurchasePhoneNumbers` is also a long running operation.
 
 ```typescript
-await client.cancelSearch(searchId);
+const { reservationId } = phoneNumberReservation;
+const purchasePoller = await client.beginPurchasePhoneNumbers(reservationId);
 ```
 
-Call the `getSearch` method to get the results.
+To get the results of the purchase, use the `pollUntilDone` method on the purchase poller you created.
 
-**Currently, you need to implement your own poller with `getSearch` to know when the search, purchase and cancel operations have reached a terminal status.**
+```typescript
+const results = await purchasePoller.pollUntilDone();
+```
 
 ## Troubleshooting
 

@@ -6,6 +6,8 @@
 
 export {
   delay,
+  isMessagingError,
+  MessageErrorCodes,
   MessagingError,
   RetryOptions,
   TokenCredential,
@@ -17,11 +19,12 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  CreateBatchOptions,
-  CreateReceiverOptions,
-  AcceptSessionOptions,
+  CreateMessageBatchOptions,
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
+  ProcessErrorArgs,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
@@ -51,26 +54,18 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  NamespacePropertiesResponse,
-  QueueResponse,
-  QueueRuntimePropertiesResponse,
-  Response,
-  RuleResponse,
-  ServiceBusAdministrationClient,
-  SubscriptionResponse,
-  SubscriptionRuntimePropertiesResponse,
-  TopicResponse,
-  TopicRuntimePropertiesResponse
+  WithResponse,
+  ServiceBusAdministrationClient
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
-  AmqpAnnotatedMessage,
-  AmqpMessageHeader,
-  AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
+export {
+  parseServiceBusConnectionString,
+  ServiceBusConnectionStringProperties
+} from "./util/connectionStringUtils";

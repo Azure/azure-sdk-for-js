@@ -46,37 +46,54 @@ async function main() {
 // create a new alerting configuration
 async function createAlertConfig(adminClient, detectionConfigId) {
   console.log("Creating an alerting configuration...");
-  const metricAlertingConfig = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    }
-  };
-  const result = await adminClient.createAnomalyAlertConfiguration({
+  const alertConfig = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig],
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        }
+      },
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "Dimension",
+          dimensionAnomalyScope: { city: "Manila", category: "Handmade" }
+        }
+      }
+    ],
     hookIds: [],
     description: "alerting config description"
-  });
+  };
+  const result = await adminClient.createAnomalyAlertConfiguration(alertConfig);
   console.log(result);
   return result;
 }
 
 // updating an alerting configuration
 async function updateAlertConfig(adminClient, alertConfigId, detectionConfigId, hookIds) {
-  const metricAlertingConfig = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    }
-  };
   const patch = {
     name: "new Name",
     //description: "new description",
     hookIds,
     crossMetricsOperator: "OR",
-    metricAlertConfigurations: [metricAlertingConfig, metricAlertingConfig]
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        }
+      },
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "Dimension",
+          dimensionAnomalyScope: { city: "Kolkata", category: "Shoes Handbags & Sunglasses" }
+        }
+      }
+    ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAnomalyAlertConfiguration(alertConfigId, patch);

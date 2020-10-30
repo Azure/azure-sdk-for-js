@@ -20,9 +20,13 @@ steps:
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
 
-  - template: ../../../common/pipelines/templates/steps/verify-links.yml
+  - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
-      Directory: sdk/${{ parameters.ServiceDirectory }}
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: ""
+        Urls: (git diff origin/${env:SYSTEM_PULLREQUEST_TARGETBRANCH} HEAD --name-only -- '*.md')
+      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
 
   - script: |

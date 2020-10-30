@@ -25,27 +25,27 @@ import {
   DataFeedOptions,
   DataFeed,
   DataFeedPatch,
-  WebhookHook,
-  EmailHook,
-  WebhookHookPatch,
-  EmailHookPatch,
+  WebNotificationHook,
+  EmailNotificationHook,
+  WebNotificationHookPatch,
+  EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
   AnomalyAlertConfiguration,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
   GetHookResponse,
-  HookUnion,
+  NotificationHookUnion,
   DataFeedRollupMethod,
   ListDataFeedsPageResponse,
   ListDataFeedIngestionStatusPageResponse,
   ListAnomalyAlertConfigurationsPageResponse,
   ListAnomalyDetectionConfigurationsPageResponse,
-  ListHooksPageResponse
+  ListHooksPageResponse,
+  DataFeedStatus
 } from "./models";
 import {
   DataSourceType,
-  EntityStatus,
   GeneratedClientGetIngestionProgressResponse,
   NeedRollupEnum
 } from "./generated/models";
@@ -54,7 +54,11 @@ import {
   fromServiceDataFeedDetailUnion,
   fromServiceHookInfoUnion,
   fromServiceAlertConfiguration,
-  toServiceRollupSettings
+  toServiceRollupSettings,
+  toServiceAnomalyDetectionConfiguration,
+  toServiceAnomalyDetectionConfigurationPatch,
+  toServiceAlertConfiguration,
+  toServiceAlertConfigurationPatch
 } from "./transforms";
 /**
  * Client options used to configure API requests.
@@ -100,7 +104,7 @@ export type ListDataFeedsOptions = {
     /**
      * filter data feed by its status
      */
-    status?: EntityStatus;
+    status?: DataFeedStatus;
     /**
      * filter data feed by its creator
      */
@@ -227,6 +231,9 @@ export class MetricsAdvisorAdministrationClient {
         fillMissingPointType,
         fillMissingPointValue,
         viewMode: options?.accessMode,
+        admins: options?.adminEmails,
+        viewers: options?.viewerEmails,
+        dataFeedDescription: options?.description,
         ...finalOptions
       };
       const result = await this.client.createDataFeed(body, requestOptions);
@@ -441,7 +448,7 @@ export class MetricsAdvisorAdministrationClient {
         dataSourceParameter: patch.source.dataSourceParameter,
         // name and description
         dataFeedName: patch.name,
-        dataFeedDescription: patch.options?.dataFeedDescription,
+        dataFeedDescription: patch.options?.description,
         // schema
         timestampColumn: patch.schema?.timestampColumn,
         // ingestion settings
@@ -460,8 +467,8 @@ export class MetricsAdvisorAdministrationClient {
             : undefined,
         // other options
         viewMode: patch.options?.accessMode,
-        admins: patch.options?.admins,
-        viewers: patch.options?.viewers,
+        admins: patch.options?.adminEmails,
+        viewers: patch.options?.viewerEmails,
         status: patch.options?.status,
         actionLinkTemplate: patch.options?.actionLinkTemplate
       };
@@ -517,26 +524,13 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-createMetricAnomalyDetectionConfiguration",
       options
     );
-    const {
-      name,
-      description,
-      metricId,
-      wholeSeriesDetectionCondition,
-      seriesDetectionConditions,
-      seriesGroupDetectionConditions
-    } = config;
-
     try {
-      const body = {
-        name,
-        description,
-        metricId,
-        wholeMetricConfiguration: wholeSeriesDetectionCondition,
-        dimensionGroupOverrideConfigurations: seriesGroupDetectionConditions,
-        seriesOverrideConfigurations: seriesDetectionConditions
-      };
+      const transformed = toServiceAnomalyDetectionConfiguration(config);
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.createAnomalyDetectionConfiguration(body, requestOptions);
+      const result = await this.client.createAnomalyDetectionConfiguration(
+        transformed,
+        requestOptions
+      );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
@@ -606,16 +600,8 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      await this.client.updateAnomalyDetectionConfiguration(
-        id,
-        {
-          wholeMetricConfiguration: patch.wholeSeriesDetectionCondition,
-          dimensionGroupOverrideConfigurations: patch.seriesGroupDetectionConditions,
-          seriesOverrideConfigurations: patch.seriesDetectionConditions,
-          ...patch
-        },
-        requestOptions
-      );
+      const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
+      await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
       return this.getMetricAnomalyDetectionConfiguration(id);
     } catch (e) {
       span.setStatus({
@@ -669,28 +655,13 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-createAnomalyAlertConfiguration",
       options
     );
-    const { name, description, crossMetricsOperator, hookIds, metricAlertConfigurations } = config;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const transformedConfigurations = metricAlertConfigurations.map((c) => {
-        return {
-          anomalyDetectionConfigurationId: c.detectionConfigurationId,
-          anomalyScopeType: c.alertScope.scopeType,
-          ...c.alertScope,
-          negationOperation: c.negationOperation,
-          severityFilter: c.alertConditions?.severityCondition,
-          snoozeFilter: c.snoozeCondition,
-          valueFilter: c.alertConditions?.metricBoundaryCondition
-        };
-      });
-      const body = {
-        name,
-        crossMetricsOperator,
-        metricAlertingConfigurations: transformedConfigurations,
-        hookIds,
-        description
-      };
-      const result = await this.client.createAnomalyAlertingConfiguration(body, requestOptions);
+      const transformed = toServiceAlertConfiguration(config);
+      const result = await this.client.createAnomalyAlertingConfiguration(
+        transformed,
+        requestOptions
+      );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
@@ -726,28 +697,8 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const serviceMetricAlertingConfigs = patch.metricAlertConfigurations?.map((c) => {
-        return {
-          anomalyDetectionConfigurationId: c.detectionConfigurationId,
-          anomalyScopeType: c.alertScope.scopeType,
-          ...c.alertScope,
-          negationOperation: c.negationOperation,
-          severityFilter: c.alertConditions?.severityCondition,
-          snoozeFilter: c.snoozeCondition,
-          valueFilter: c.alertConditions?.metricBoundaryCondition
-        };
-      });
-      await this.client.updateAnomalyAlertingConfiguration(
-        id,
-        {
-          name: patch.name,
-          description: patch.description,
-          crossMetricsOperator: patch.crossMetricsOperator,
-          hookIds: patch.hookIds,
-          metricAlertingConfigurations: serviceMetricAlertingConfigs
-        },
-        requestOptions
-      );
+      const transformed = toServiceAlertConfigurationPatch(patch);
+      await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
       return this.getAnomalyAlertConfiguration(id);
     } catch (e) {
       span.setStatus({
@@ -947,7 +898,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options The options parameter.
    */
   public async createHook(
-    hookInfo: EmailHook | WebhookHook,
+    hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -999,7 +950,9 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getHook(id, requestOptions);
-      const resultHookResponse: HookUnion = fromServiceHookInfoUnion(result._response.parsedBody);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
+        result._response.parsedBody
+      );
       return { ...resultHookResponse, _response: result._response };
     } catch (e) {
       span.setStatus({
@@ -1051,7 +1004,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
-  ): AsyncIterableIterator<HookUnion> {
+  ): AsyncIterableIterator<NotificationHookUnion> {
     for await (const segment of this.listSegmentOfHooks(undefined, options)) {
       if (segment?.hooks) {
         yield* segment.hooks;
@@ -1111,7 +1064,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public listHooks(
     options: ListHooksOptions = {}
-  ): PagedAsyncIterableIterator<HookUnion, ListHooksPageResponse> {
+  ): PagedAsyncIterableIterator<NotificationHookUnion, ListHooksPageResponse> {
     const iter = this.listItemsOfHooks(options);
     return {
       /**
@@ -1146,7 +1099,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateHook(
     id: string,
-    patch: EmailHookPatch | WebhookHookPatch,
+    patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(

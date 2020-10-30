@@ -14,7 +14,7 @@ import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
-import { ReceiveMode, SubscribeOptions } from "../models";
+import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
@@ -80,7 +80,21 @@ export interface OnMessage {
 export interface OnError {
   /**
    * Handler for any error that occurs while receiving or processing messages.
+   *
+   * NOTE: if this signature changes make sure you reflect those same changes in the
+   * `OnErrorNoContext` definition below.
    */
+  (args: ProcessErrorArgs): void;
+}
+
+/**
+ * An onError method but without the context property. Used when wrapping OnError
+ * with an implicit ProcessErrorContext. Used by LockRenewer.
+ *
+ * @internal
+ * @ignore
+ */
+export interface OnErrorNoContext {
   (error: MessagingError | Error): void;
 }
 
@@ -215,10 +229,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * React to receiver being detached due to given error.
    * You may want to set up retries to recover the broken link and/or report error to user.
    * @param error The error accompanying the receiver/session error or connection disconnected events
-   * @param causedByDisconnect Indicator of whether the error is caused by the connection disconnecting.
-   * In this case, the receiver/session error events do not get fired.
    */
-  abstract async onDetached(error?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void>;
+  abstract onDetached(error?: AmqpError | Error): Promise<void>;
 
   /**
    * Clears lock renewal timers on all active messages, clears token remewal for current receiver,

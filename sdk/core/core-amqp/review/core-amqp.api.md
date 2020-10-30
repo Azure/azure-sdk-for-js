@@ -7,14 +7,14 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import { Message as AmqpMessage } from 'rhea-promise';
-import { MessageHeader as AmqpMessageHeader } from 'rhea-promise';
-import { MessageProperties as AmqpMessageProperties } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
 import { isAmqpError } from 'rhea-promise';
 import { isTokenCredential } from '@azure/core-auth';
+import { Message } from 'rhea-promise';
+import { MessageHeader } from 'rhea-promise';
+import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
@@ -26,11 +26,67 @@ import { WebSocketImpl } from 'rhea-promise';
 
 export { AccessToken }
 
-export { AmqpMessage }
+// @public
+export interface AmqpAnnotatedMessage {
+    applicationProperties?: {
+        [key: string]: any;
+    };
+    body: any;
+    deliveryAnnotations?: {
+        [key: string]: any;
+    };
+    footer?: {
+        [key: string]: any;
+    };
+    header?: AmqpMessageHeader;
+    messageAnnotations?: {
+        [key: string]: any;
+    };
+    properties?: AmqpMessageProperties;
+}
 
-export { AmqpMessageHeader }
+// @public
+export const AmqpAnnotatedMessage: {
+    fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+};
 
-export { AmqpMessageProperties }
+// @public
+export interface AmqpMessageHeader {
+    deliveryCount?: number;
+    durable?: boolean;
+    firstAcquirer?: boolean;
+    priority?: number;
+    timeToLive?: number;
+}
+
+// @public
+export const AmqpMessageHeader: {
+    toRheaMessageHeader(props: AmqpMessageHeader): MessageHeader;
+    fromRheaMessageHeader(props: MessageHeader): AmqpMessageHeader;
+};
+
+// @public
+export interface AmqpMessageProperties {
+    absoluteExpiryTime?: number;
+    contentEncoding?: string;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    creationTime?: number;
+    groupId?: string;
+    groupSequence?: number;
+    messageId?: string | number | Buffer;
+    replyTo?: string;
+    replyToGroupId?: string;
+    subject?: string;
+    to?: string;
+    userId?: string;
+}
+
+// @public
+export const AmqpMessageProperties: {
+    toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
+    fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
+};
 
 export { AsyncLock }
 
@@ -491,6 +547,9 @@ export { isAmqpError }
 export function isIotHubConnectionString(connectionString: string): boolean;
 
 // @public
+export function isMessagingError(error: Error | MessagingError): error is MessagingError;
+
+// @public
 export const isNode: boolean;
 
 // @public
@@ -502,48 +561,13 @@ export { isTokenCredential }
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export interface MessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    ttl?: number;
-}
-
-// @public
-export const MessageHeader: {
-    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-};
-
-// @public
-export interface MessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
-
-// @public
-export const MessageProperties: {
-    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-};
+export type MessageErrorCodes = "AddressAlreadyInUseError" | "ArgumentError" | "ArgumentOutOfRangeError" | "ConnectionForcedError" | "ConnectionRedirectError" | "DecodeError" | "DetachForcedError" | "ErrantLinkError" | "FrameSizeTooSmallError" | "FramingError" | "HandleInUseError" | "IllegalStateError" | "InternalServerError" | "InvalidFieldError" | "InvalidOperationError" | "LinkRedirectError" | "MessageLockLostError" | "MessageNotFoundError" | "MessageTooLargeError" | "MessageWaitTimeout" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessagingEntityNotFoundError" | "NoMatchingSubscriptionError" | "NotImplementedError" | "OperationCancelledError" | "OperationTimeoutError" | "PartitionNotOwnedError" | "PreconditionFailedError" | "PublisherRevokedError" | "QuotaExceededError" | "ReceiverDisconnectedError" | "RelayNotFoundError" | "ResourceDeletedError" | "ResourceLockedError" | "SenderBusyError" | "ServerBusyError" | "ServiceCommunicationError" | "ServiceUnavailableError" | "SessionCannotBeLockedError" | "SessionLockLostError" | "SessionWindowViolationError" | "StoreLockLostError" | "SystemError" | "TransferLimitExceededError" | "UnattachedHandleError" | "UnauthorizedError";
 
 // @public
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: string;
+    code?: MessageErrorCodes | string;
     errno?: number | string;
     info?: any;
     name: string;
@@ -597,7 +621,7 @@ export class RequestResponseLink implements ReqResLink {
     remove(): void;
     // (undocumented)
     sender: Sender;
-    sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage>;
+    sendRequest(request: Message, options?: SendRequestOptions): Promise<Message>;
     // (undocumented)
     session: Session;
 }

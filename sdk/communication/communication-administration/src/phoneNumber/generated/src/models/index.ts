@@ -518,13 +518,53 @@ export interface PhoneNumberEntities {
 }
 
 /**
+ * Represents a search creation option.
+ */
+export interface CreateSearchOptions {
+  /**
+   * Display name of the search.
+   */
+  displayName: string;
+  /**
+   * Description of the search.
+   */
+  description: string;
+  /**
+   * The plan subtype ids from which to create the search.
+   */
+  phonePlanIds: string[];
+  /**
+   * The area code from which to create the search.
+   */
+  areaCode: string;
+  /**
+   * The quantity of phone numbers to request.
+   */
+  quantity?: number;
+  /**
+   * The location options of the search.
+   */
+  locationOptions?: LocationOptionsDetails[];
+}
+
+/**
+ * Represents a search creation response.
+ */
+export interface CreateSearchResponse {
+  /**
+   * The search id of the search that was created.
+   */
+  searchId: string;
+}
+
+/**
  * Represents a phone number search
  */
-export interface PhoneNumberSearch {
+export interface PhoneNumberReservation {
   /**
    * The id of the search.
    */
-  searchId?: string;
+  reservationId?: string;
   /**
    * The name of the search.
    */
@@ -571,46 +611,6 @@ export interface PhoneNumberSearch {
    * The error code of the search.
    */
   errorCode?: number;
-}
-
-/**
- * Represents a search creation option.
- */
-export interface CreateSearchOptions {
-  /**
-   * Display name of the search.
-   */
-  displayName: string;
-  /**
-   * Description of the search.
-   */
-  description: string;
-  /**
-   * The plan subtype ids from which to create the search.
-   */
-  phonePlanIds: string[];
-  /**
-   * The area code from which to create the search.
-   */
-  areaCode: string;
-  /**
-   * The quantity of phone numbers to request.
-   */
-  quantity?: number;
-  /**
-   * The location options of the search.
-   */
-  locationOptions?: LocationOptionsDetails[];
-}
-
-/**
- * Represents a search creation response.
- */
-export interface CreateSearchResponse {
-  /**
-   * The search id of the search that was created.
-   */
-  searchId: string;
 }
 
 /**
@@ -1151,7 +1151,7 @@ export type PhoneNumberAdministrationGetAllReleasesResponse = PhoneNumberEntitie
 /**
  * Contains response data for the getSearchById operation.
  */
-export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberSearch & {
+export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberReservation & {
   /**
    * The underlying HTTP response.
    */
@@ -1164,7 +1164,7 @@ export type PhoneNumberAdministrationGetSearchByIdResponse = PhoneNumberSearch &
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: PhoneNumberSearch;
+    parsedBody: PhoneNumberReservation;
   };
 };
 

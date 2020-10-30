@@ -27,13 +27,10 @@ async function main() {
   // To receive messages from sessions, use createSessionReceiver instead of createReceiver or look at
   // the sample in sessions.ts file
 
-  // controls whether we continue to recover from fatal Receiver failures.
-  let enableReceiverRecovery = true;
-
   do {
     const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-    const receiverPromise = new Promise((resolve, _reject) => {
+    const receiverPromise = new Promise((resolve, reject) => {
       const onMessageHandler = async (brokeredMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
         await brokeredMessage.complete();
@@ -44,7 +41,11 @@ async function main() {
           console.log("Receiver will be recreated. A recoverable error occurred:", err);
           resolve();
         } else {
+          // Break out of the loop for a non-retryable error
+          // since the error might be hinting at a deeper issue such as faulty configuration
+          // or a non-existent queue which requires attention from the user.
           console.log("Error occurred: ", err);
+          reject(err);
         }
       };
 
@@ -61,7 +62,7 @@ async function main() {
 
     // we can close the old receiver and just let the loop start again.
     await receiver.close();
-  } while (enableReceiverRecovery);
+  } while (true);
 
   await queueClient.close();
   await sbClient.close();

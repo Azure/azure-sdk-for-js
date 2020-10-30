@@ -9,10 +9,10 @@ import {
   EventContext,
   OnAmqpEvent,
   message as RheaMessageUtil,
-  messageProperties
+  messageProperties,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
@@ -26,14 +26,14 @@ import {
 import {
   ServiceBusMessage,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage
+  toRheaMessage
 } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateBatchOptions } from "../models";
+import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -354,7 +354,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const amqpMessage = toAmqpMessage(data);
+      const amqpMessage = toRheaMessage(data);
       amqpMessage.body = this._context.dataTransformer.encode(data.body);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
@@ -408,11 +408,11 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.name,
         inputMessages
       );
-      const amqpMessages: AmqpMessage[] = [];
+      const amqpMessages: RheaMessage[] = [];
       const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toAmqpMessage(inputMessages[i]);
+        const amqpMessage = toRheaMessage(inputMessages[i]);
         amqpMessage.body = this._context.dataTransformer.encode(inputMessages[i].body);
         amqpMessages[i] = amqpMessage;
         try {
@@ -426,7 +426,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
 
       // Convert every encoded message to amqp data section
-      const batchMessage: AmqpMessage = {
+      const batchMessage: RheaMessage = {
         body: RheaMessageUtil.data_sections(encodedMessages)
       };
       // Set message_annotations, application_properties and properties of the first message as
@@ -508,7 +508,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     });
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,

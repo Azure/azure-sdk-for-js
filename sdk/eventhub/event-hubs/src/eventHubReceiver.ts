@@ -19,7 +19,7 @@ import {
   RetryOperationType,
   retry
 } from "@azure/core-amqp";
-import { EventDataInternal, ReceivedEventData, fromAmqpMessage } from "./eventData";
+import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -221,7 +221,7 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    const data: EventDataInternal = fromAmqpMessage(context.message);
+    const data: EventDataInternal = fromRheaMessage(context.message);
     const receivedEventData: ReceivedEventData = {
       body: this._context.dataTransformer.decode(context.message.body),
       properties: data.properties,

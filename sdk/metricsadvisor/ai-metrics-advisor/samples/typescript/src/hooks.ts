@@ -3,9 +3,9 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  EmailHook,
-  WebhookHook,
-  EmailHookPatch
+  EmailNotificationHook,
+  WebNotificationHook,
+  EmailNotificationHookPatch
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -33,9 +33,9 @@ export async function main() {
 
 async function createWebHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new web hook...");
-  const hook: WebhookHook = {
+  const hook: WebNotificationHook = {
     hookType: "Webhook",
-    name: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -56,9 +56,9 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
 
 async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
   console.log("Creating a new email hook...");
-  const hook: EmailHook = {
+  const hook: EmailNotificationHook = {
     hookType: "Email",
-    name: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };
@@ -72,12 +72,12 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
   const result = await client.getHook(hookId);
   console.log(result.name);
   console.log(result.description);
-  console.log(result.admins);
+  console.log(result.adminEmails);
 }
 
 async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
   console.log(`Updating hook ${hookId}`);
-  const emailPatch: EmailHookPatch = {
+  const emailPatch: EmailNotificationHookPatch = {
     hookType: "Email",
     hookParameter: {
       toList: ["test2@example.com", "test3@example.com"]
@@ -91,9 +91,10 @@ async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookI
 async function listHooks(client: MetricsAdvisorAdministrationClient) {
   console.log("Listing existing hooks");
   let i = 1;
-  for await (const hook of client.listHooks({
+  const iterator = client.listHooks({
     hookName: "js "
-  })) {
+  });
+  for await (const hook of iterator) {
     console.log(`hook ${i++} - type ${hook.hookType}`);
     console.log(`  description: ${hook.description}`);
     if (hook.hookType === "Email") {

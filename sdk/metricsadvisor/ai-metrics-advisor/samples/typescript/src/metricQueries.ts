@@ -35,7 +35,6 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
   )) {
     console.log(definition);
   }
-
   console.log("  first two pages using byPage()");
   const iterator = client
     .listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))
@@ -61,8 +60,8 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
   console.log("Listing metric enrichment status...");
   for await (const status of client.listMetricEnrichmentStatus(
     metricId,
-    new Date("09/01/2020"),
-    new Date("09/09/2020")
+    new Date("10/22/2020"),
+    new Date("10/24/2020")
   )) {
     console.log("  Enrichment status");
     console.log(status.timestamp);
@@ -73,7 +72,7 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
 
 async function listMetricDimensionValues(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric dimension values...");
-  for await (const dv of client.listMetricDimensionValues(metricId, "Dim1")) {
+  for await (const dv of client.listMetricDimensionValues(metricId, "city")) {
     console.log(`  ${dv}`);
   }
 }

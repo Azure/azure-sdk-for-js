@@ -24,7 +24,7 @@ dotenv.config();
 
 chaiUse(chaiPromises);
 
-const testSchemaObject = {
+const testSchemaObject: avro.schema.RecordType = {
   type: "record",
   name: "AvroUser",
   namespace: "com.azure.schemaregistry.samples",
@@ -45,11 +45,11 @@ const testGroup = "azsdk_js_test_group";
 const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
   "{DC7EF290-CDB1-4245-8EE8-3DD52965866E}"
-].map((x) => x.replace(/[\{\-\}]/g, ""));
+].map((x) => x.replace(/[{\-}]/g, ""));
 
 const testSchema = JSON.stringify(testSchemaObject);
 const testValue = { name: "Nick", favoriteNumber: 42 };
-const testAvroType = avro.Type.forSchema(<any>testSchemaObject);
+const testAvroType = avro.Type.forSchema(testSchemaObject, { omitRecordMethods: true });
 
 describe("SchemaRegistryAvroSerializer", function() {
   it("rejects buffers that are too small", async () => {
@@ -93,10 +93,10 @@ describe("SchemaRegistryAvroSerializer", function() {
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer(false, registry);
     const buffer = await serializer.serialize(testValue, testSchema);
-    assert.equal(0x0, buffer.readUInt32BE(0));
-    assert.equal(schemaId, buffer.toString("utf-8", 4, 36));
+    assert.strictEqual(0x0, buffer.readUInt32BE(0));
+    assert.strictEqual(schemaId, buffer.toString("utf-8", 4, 36));
     const payload = buffer.slice(36);
-    assertSameJsonRepresentation(testAvroType.fromBuffer(payload), testValue);
+    assert.deepStrictEqual(testAvroType.fromBuffer(payload), testValue);
   });
 
   it("deserializes from the expected format", async () => {
@@ -108,21 +108,21 @@ describe("SchemaRegistryAvroSerializer", function() {
 
     buffer.write(schemaId, 4, 32, "utf-8");
     payload.copy(buffer, 36);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
   });
 
   it("serializes and deserializes in round trip", async () => {
     let serializer = await createTestSerializer();
     let buffer = await serializer.serialize(testValue, testSchema);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // again for cache hit coverage on serialize
     buffer = await serializer.serialize(testValue, testSchema);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // throw away serializer for cache miss coverage on deserialize
     serializer = await createTestSerializer(false);
-    assertSameJsonRepresentation(await serializer.deserialize(buffer), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
     // thow away serializer again and cover getSchemaId instead of registerSchema
     serializer = await createTestSerializer(false);
@@ -149,17 +149,9 @@ describe("SchemaRegistryAvroSerializer", function() {
     // Deserialize buffer to value
     const deserializedValue = await serializer.deserialize(buffer);
 
-    assertSameJsonRepresentation(deserializedValue, value);
+    assert.deepStrictEqual(deserializedValue, value);
   });
 });
-
-function assertSameJsonRepresentation(actual: any, expected: any) {
-  // avsc returns objects with different prototype than our plain object literal
-  // so assert.deepEqual fails.
-  //
-  // REVIEW: Is it a problem that this avsc detail leaks?
-  assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
-}
 
 async function createTestSerializer(
   autoRegisterSchemas = true,
@@ -217,7 +209,7 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
     return result;
 
     function newId(): string {
-      if (idCounter == testSchemaIds.length) {
+      if (idCounter === testSchemaIds.length) {
         throw new Error("Out of IDs. Generate more GUIDs and paste them above.");
       }
       const id = testSchemaIds[idCounter];
