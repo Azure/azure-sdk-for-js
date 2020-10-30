@@ -390,7 +390,12 @@ export function toRecognizeFormResultResponseFromReceipt(
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
   const common = {
     ...response.modelInfo,
-    trainingDocuments: response.trainResult?.trainingDocuments,
+    trainingDocuments: response.trainResult?.trainingDocuments.map((d) => {
+      if (!Array.isArray(d.errors)) {
+        d.errors = [];
+      }
+      return d;
+    }),
     errors: response.trainResult?.errors,
     _response: response._response
   };
@@ -433,6 +438,6 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       submodels
     };
   } else {
-    throw new Error("Expecting model(s) from traning result but got none");
+    throw new Error("Expecting model(s) from training result but got none");
   }
 }
