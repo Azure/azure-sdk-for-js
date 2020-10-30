@@ -26,7 +26,11 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
-import { ServiceBusMessageImpl } from "../serviceBusMessage";
+import {
+  createServiceBusMessage,
+  isSettleableMessage,
+  ServiceBusMessageImpl
+} from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
@@ -220,7 +224,7 @@ export class StreamingReceiver extends MessageReceiver {
         return;
       }
 
-      const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
+      const bMessage: ServiceBusMessageImpl = createServiceBusMessage(
         this._context,
         this.entityPath,
         context.message!,
@@ -267,7 +271,8 @@ export class StreamingReceiver extends MessageReceiver {
           !bMessage.delivery.remote_settled &&
           error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
           this.receiveMode === "peekLock" &&
-          this.isOpen() // only try to abandon the messages if the connection is still open
+          this.isOpen() && // only try to abandon the messages if the connection is still open
+          isSettleableMessage(bMessage)
         ) {
           try {
             logger.logError(
@@ -308,7 +313,8 @@ export class StreamingReceiver extends MessageReceiver {
       if (
         this.autoComplete &&
         this.receiveMode === "peekLock" &&
-        !bMessage.delivery.remote_settled
+        !bMessage.delivery.remote_settled &&
+        isSettleableMessage(bMessage)
       ) {
         try {
           logger.verbose(

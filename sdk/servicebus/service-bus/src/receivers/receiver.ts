@@ -10,7 +10,11 @@ import {
   InternalMessageHandlers
 } from "../models";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusReceivedMessage } from "../serviceBusMessage";
+import {
+  isSettleableMessage,
+  ServiceBusReceivedMessage,
+  throwIfNotSettleableMessage
+} from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
@@ -611,38 +615,39 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
   }
 
-  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+    return throwIfNotSettleableMessage(message).complete();
   }
 
-  abandonMessage(
+  async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return throwIfNotSettleableMessage(message).abandon(propertiesToModify);
   }
 
-  deferMessage(
+  async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return throwIfNotSettleableMessage(message).defer(propertiesToModify);
   }
 
-  deadLetterMessage(
+  async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return throwIfNotSettleableMessage(message).deadLetter(options);
   }
 
-  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.renewLock();
+  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+    if (!isSettleableMessage(message)) {
+      throw new Error(
+        `Only messages from a receiver in 'peekLock' mode using receiveMessages(), subscribe() or the getMessageIterator() iterator can have their lock renewed.`
+      );
+    }
+
+    return message.renewLock();
   }
 
   async close(): Promise<void> {

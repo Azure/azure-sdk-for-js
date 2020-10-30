@@ -24,6 +24,7 @@ import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+const assert = chai.assert;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -380,6 +381,43 @@ describe("Batching Receiver", () => {
         await testDeadletter();
       }
     );
+
+    [noSessionTestClientType, withSessionTestClientType].forEach((clientType) => {
+      it(clientType + ": attempt to settle peeked messages", async () => {
+        await beforeEachTest(clientType);
+
+        await sender.sendMessages(TestMessage.getSessionSample());
+
+        try {
+          const peekedMessages = await receiver.peekMessages(1);
+          assert.equal(peekedMessages.length, 1);
+
+          const promises = [
+            receiver.completeMessage(peekedMessages[0]),
+            receiver.deferMessage(peekedMessages[0]),
+            receiver.abandonMessage(peekedMessages[0]),
+            receiver.deadLetterMessage(peekedMessages[0]),
+            // and just for good measure (both session and non-session receivers will fail this, but for different reasons)
+            receiver.renewMessageLock(peekedMessages[0])
+          ];
+
+          for (const promise of promises) {
+            try {
+              await promise;
+              throw new Error("Should have failed");
+            } catch (err) {
+              assert.notEqual("Should have failed", err.message);
+            }
+          }
+        } finally {
+          // purge message we peeked.
+          const messages = await receiver.receiveMessages(1);
+          assert.equal(messages.length, 1);
+          await receiver.completeMessage(messages[0]);
+          await afterEachTest();
+        }
+      });
+    });
   });
 
   describe("Batch Receiver - Settle deadlettered message", function(): void {

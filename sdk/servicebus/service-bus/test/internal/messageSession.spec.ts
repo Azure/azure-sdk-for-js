@@ -327,9 +327,13 @@ describe("Message session unit tests", () => {
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 
-      batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
+      batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (
+        _context,
+        _entityPath,
+        message
+      ) => {
         return {
-          body: eventContext.message?.body
+          body: message.body
         } as ServiceBusMessageImpl;
       };
 

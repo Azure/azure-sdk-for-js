@@ -15,7 +15,12 @@ import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { receiverLogger as logger } from "../log";
-import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
+import {
+  createServiceBusMessage,
+  DispositionType,
+  isSettleableMessage,
+  ServiceBusMessageImpl
+} from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
   calculateRenewAfterDuration,
@@ -618,7 +623,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           return;
         }
 
-        const bMessage = new ServiceBusMessageImpl(
+        const bMessage = createServiceBusMessage(
           this._context,
           this.entityPath,
           context.message!,
@@ -649,7 +654,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           if (
             !bMessage.delivery.remote_settled &&
             this.receiveMode === "peekLock" &&
-            this.isOpen() // only try to abandon the messages if the connection is still open
+            this.isOpen() && // only try to abandon the messages if the connection is still open
+            isSettleableMessage(bMessage)
           ) {
             try {
               logger.logError(
@@ -687,7 +693,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         if (
           this.autoComplete &&
           this.receiveMode === "peekLock" &&
-          !bMessage.delivery.remote_settled
+          !bMessage.delivery.remote_settled &&
+          isSettleableMessage(bMessage)
         ) {
           try {
             logger.verbose(

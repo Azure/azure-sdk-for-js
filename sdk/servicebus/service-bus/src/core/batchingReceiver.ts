@@ -12,7 +12,7 @@ import {
   Receiver,
   Session
 } from "rhea-promise";
-import { ServiceBusMessageImpl } from "../serviceBusMessage";
+import { createServiceBusMessage, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
@@ -213,12 +213,6 @@ export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "add
  * @internal
  * @ignore
  */
-type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
-
-/**
- * @internal
- * @ignore
- */
 interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
   maxWaitTimeInMs: number;
@@ -250,28 +244,16 @@ export class BatchingReceiverLite {
   ) {
     this._createAndEndProcessingSpan = createAndEndProcessingSpan;
 
-    this._createServiceBusMessage = (context: MessageAndDelivery) => {
-      return new ServiceBusMessageImpl(
-        _connectionContext,
-        entityPath,
-        context.message!,
-        context.delivery!,
-        true,
-        this._receiveMode
-      );
-    };
-
     this._getRemainingWaitTimeInMsFn = (
       maxWaitTimeInMs: number,
       maxTimeAfterFirstMessageInMs: number
     ) => getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
 
     this.isReceivingMessages = false;
+    this._createServiceBusMessage = createServiceBusMessage;
   }
 
-  private _createServiceBusMessage: (
-    context: Pick<EventContext, "message" | "delivery">
-  ) => ServiceBusMessageImpl;
+  private _createServiceBusMessage: typeof createServiceBusMessage;
 
   private _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn;
   private _closeHandler: ((connectionError?: AmqpError | Error) => void) | undefined;
@@ -417,7 +399,15 @@ export class BatchingReceiverLite {
         }
 
         try {
-          const data: ServiceBusMessageImpl = this._createServiceBusMessage(context);
+          const data: ServiceBusMessageImpl = this._createServiceBusMessage(
+            this._connectionContext,
+            this.entityPath,
+            context.message!,
+            context.delivery!,
+            true,
+            this._receiveMode
+          );
+
           if (brokeredMessages.length < args.maxMessageCount) {
             brokeredMessages.push(data);
           }

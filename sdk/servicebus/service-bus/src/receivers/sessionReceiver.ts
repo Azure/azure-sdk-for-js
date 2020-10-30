@@ -16,7 +16,11 @@ import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
+import {
+  ServiceBusMessageImpl,
+  DeadLetterOptions,
+  throwIfNotSettleableMessage
+} from "../serviceBusMessage";
 import {
   Constants,
   RetryConfig,
@@ -484,32 +488,28 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+    return throwIfNotSettleableMessage(message).complete();
   }
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return throwIfNotSettleableMessage(message).abandon(propertiesToModify);
   }
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return throwIfNotSettleableMessage(message).defer(propertiesToModify);
   }
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
-    const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return throwIfNotSettleableMessage(message).deadLetter(options);
   }
 
   async renewMessageLock(): Promise<Date> {

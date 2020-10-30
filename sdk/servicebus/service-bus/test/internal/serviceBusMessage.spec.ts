@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+import {
+  createServiceBusMessage,
+  isSettleableMessage,
+  ServiceBusReceivedMessage,
+  throwIfNotSettleableMessage
+} from "../../src/serviceBusMessage";
 import { ConnectionContext } from "../../src/connectionContext";
 import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import chai from "chai";
@@ -17,7 +22,7 @@ const fakeContext = {
 const fakeEntityPath = "dummy";
 const fakeDelivery = {} as Delivery;
 
-describe("ServiceBusMessageImpl LockToken unit tests", () => {
+describe("ServiceBusMessageImpl unit tests", () => {
   const message_annotations: MessageAnnotations = {};
   message_annotations[Constants.enqueuedTime] = Date.now();
   const amqpMessage: AmqpMessage = {
@@ -31,8 +36,8 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
   }
   const expectedLockToken = uuid_to_string(fakeDeliveryTag);
 
-  it("Lock token in peekLock mode", () => {
-    const sbMessage = new ServiceBusMessageImpl(
+  it("peekLock mode with lock tokens and settleable message checks", () => {
+    const sbMessage = createServiceBusMessage(
       fakeContext,
       fakeEntityPath,
       amqpMessage,
@@ -41,11 +46,20 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
       "peekLock"
     );
 
+    assert.isTrue(
+      isSettleableMessage(sbMessage),
+      "Message should be settleable - has a lock token and is in peekLock mode"
+    );
+
     assert.equal(sbMessage.lockToken, expectedLockToken, "Unexpected lock token found");
+
+    assert.doesNotThrow(() => {
+      throwIfNotSettleableMessage(sbMessage);
+    }, "Is a settleable message, should not throw.");
   });
 
-  it("Lock token in receiveAndDelete mode", () => {
-    const sbMessage = new ServiceBusMessageImpl(
+  it("receiveAndDelete mode with lock tokens and settleable message checks", () => {
+    const sbMessage = createServiceBusMessage(
       fakeContext,
       fakeEntityPath,
       amqpMessage,
@@ -54,7 +68,20 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
       "receiveAndDelete"
     );
 
+    assert.isFalse(
+      isSettleableMessage(sbMessage),
+      "Message should NOT be settleable - we're in receiveAndDelete mode"
+    );
+
     assert.equal(!!sbMessage.lockToken, false, "Unexpected lock token found");
+
+    assert.throw(() => {
+      throwIfNotSettleableMessage(sbMessage);
+    }, "Only messages from a receiver in 'peekLock' mode using receiveMessages(), subscribe() or the getMessageIterator() iterator can be settled.");
+  });
+
+  it("basic ServiceBusReceivedMessage will never be settleable", () => {
+    assert.isFalse(isSettleableMessage({} as ServiceBusReceivedMessage));
   });
 });
 
@@ -95,7 +122,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     user_id: "random_user_id"
   };
 
-  const sbMessage = new ServiceBusMessageImpl(
+  const sbMessage = createServiceBusMessage(
     fakeContext,
     fakeEntityPath,
     amqpMessage,

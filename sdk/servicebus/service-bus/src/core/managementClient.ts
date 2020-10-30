@@ -30,7 +30,8 @@ import {
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
   toAmqpMessage,
-  fromAmqpMessage
+  fromAmqpMessage,
+  createServiceBusMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
@@ -795,7 +796,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }[];
       for (const msg of messages) {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
-        const message = new ServiceBusMessageImpl(
+        const message = createServiceBusMessage(
           this._context,
           this.entityPath,
           decodedMessage as any,

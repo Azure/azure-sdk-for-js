@@ -12,7 +12,7 @@ import { ProcessErrorArgs } from "../src/models";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+describe("Smoke tests - basic scenarios", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {
