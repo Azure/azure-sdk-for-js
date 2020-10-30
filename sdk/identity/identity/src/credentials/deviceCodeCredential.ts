@@ -8,7 +8,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TokenCredentialOptions } from "../client/identityClient";
 
-import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
+import { DeviceCodeRequest } from "@azure/msal-node";
 import { checkTenantId } from "../util/checkTenantId";
 import { DeveloperSignOnClientId } from '../constants';
 
@@ -76,12 +76,10 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(
     tenantId: string = "organizations",
-    clientId: string | undefined,
+    clientId: string = DeveloperSignOnClientId,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    this.tenantId = tenantId;
-    this.clientId = clientId || DeveloperSignOnClientId;
     checkTenantId(logger, tenantId);
 
     this.userPromptCallback = userPromptCallback;
