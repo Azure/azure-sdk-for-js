@@ -190,10 +190,10 @@ export class DigitalTwinsClient {
     if (ifNoneMatch) {
       digitalTwinsAddOptionalParams = {
         digitalTwinsAddOptions: {
-          ifNoneMatch: ifNoneMatch,
+          ifNoneMatch: ifNoneMatch
         },
         ...options
-      }
+      };
     }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertDigitalTwin",
@@ -438,7 +438,7 @@ export class DigitalTwinsClient {
           ifNoneMatch: ifNoneMatch
         },
         ...options
-      }
+      };
     }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertRelationship",

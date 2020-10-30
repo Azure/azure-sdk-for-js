@@ -73,9 +73,9 @@ describe("DigitalTwinsClient", () => {
     testIfNoneMatch = "test_ifnonmatch";
     testOptions = {
       requestOptions: {
-        customHeaders: {"key": "value"}
+        customHeaders: { key: "value" }
       }
-    }
+    };
     testEndpointName = "test_endpoint_name";
     testDefaultOperationalResponse = {
       status: 200,
@@ -141,10 +141,10 @@ describe("DigitalTwinsClient", () => {
   it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is ifMatch", function() {
     const stub = sinon.stub(testClient["client"].digitalTwins, "add");
     const expectedOptions = {
-        digitalTwinsAddOptions: {
-          ifNoneMatch: testIfMatch,
-        }
-    }
+      digitalTwinsAddOptions: {
+        ifNoneMatch: testIfMatch
+      }
+    };
     testClient.upsertDigitalTwin(testTwinId, testJsonString, testIfMatch);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testJsonString, expectedOptions));
@@ -155,15 +155,14 @@ describe("DigitalTwinsClient", () => {
     var expectedOptions: DigitalTwinsAddOptionalParams = testOptions;
     expectedOptions = {
       digitalTwinsAddOptions: {
-        ifNoneMatch: testIfMatch,
+        ifNoneMatch: testIfMatch
       },
       ...testOptions
-    }
+    };
     testClient.upsertDigitalTwin(testTwinId, testJsonString, testIfMatch, testOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testJsonString, expectedOptions));
   });
-
 
   it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is no option defined", function() {
     const stub = sinon.stub(testClient["client"].digitalTwins, "add");
@@ -340,7 +339,13 @@ describe("DigitalTwinsClient", () => {
       },
       ...operationOptions
     };
-    testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, testIfNoneMatch, operationOptions);
+    testClient.upsertRelationship(
+      testTwinId,
+      testRelationshipId,
+      testJsonString,
+      testIfNoneMatch,
+      operationOptions
+    );
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonString, expectedOptions));
   });
