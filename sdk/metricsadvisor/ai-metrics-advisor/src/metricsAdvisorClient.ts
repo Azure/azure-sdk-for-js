@@ -696,6 +696,7 @@ export class MetricsAdvisorClient {
    */
   public listIncidents(
     alert: AnomalyAlert,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListIncidentsForAlertOptions
   ): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
   /**
@@ -755,6 +756,7 @@ export class MetricsAdvisorClient {
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListIncidentsForDetectionConfigurationOptions
   ): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
 
@@ -762,6 +764,7 @@ export class MetricsAdvisorClient {
     alertOrDetectionConfigId: AnomalyAlert | string,
     optionsOrStartTime?: ListIncidentsForAlertOptions | Date | string,
     endTime?: Date | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListIncidentsForDetectionConfigurationOptions
   ):
     | PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>
@@ -1071,6 +1074,7 @@ export class MetricsAdvisorClient {
    */
   public listAnomalies(
     alert: AnomalyAlert,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListAnomaliesForAlertConfigurationOptions
   ): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
 
@@ -1131,6 +1135,7 @@ export class MetricsAdvisorClient {
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListAnomaliesForDetectionConfigurationOptions
   ): PagedAsyncIterableIterator<
     DataPointAnomaly,
@@ -1140,6 +1145,7 @@ export class MetricsAdvisorClient {
     alertOrDetectionConfigId: AnomalyAlert | string,
     optionsOrStartTime?: ListAnomaliesForAlertConfigurationOptions | Date | string,
     endTime?: Date | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListAnomaliesForDetectionConfigurationOptions
   ):
     | PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>
