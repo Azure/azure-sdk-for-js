@@ -7,7 +7,6 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import { Message as AmqpMessage } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
@@ -18,6 +17,7 @@ import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
+import { Message as RheaMessage } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
@@ -47,10 +47,8 @@ export interface AmqpAnnotatedMessage {
 
 // @public
 export const AmqpAnnotatedMessage: {
-    fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
+    fromRheaMessage(msg: RheaMessage): AmqpAnnotatedMessage;
 };
-
-export { AmqpMessage }
 
 // @public
 export interface AmqpMessageHeader {
@@ -623,7 +621,7 @@ export class RequestResponseLink implements ReqResLink {
     remove(): void;
     // (undocumented)
     sender: Sender;
-    sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage>;
+    sendRequest(request: RheaMessage, options?: SendRequestOptions): Promise<RheaMessage>;
     // (undocumented)
     session: Session;
 }
@@ -680,6 +678,8 @@ export interface RetryOptions {
     retryDelayInMs?: number;
     timeoutInMs?: number;
 }
+
+export { RheaMessage }
 
 // @public
 export interface SendRequestOptions {

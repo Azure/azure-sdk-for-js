@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import {
-  AmqpMessage,
+  RheaMessage,
   ErrorNameConditionMapper,
   RequestResponseLink,
   RetryConfig,
@@ -66,7 +66,7 @@ describe("RequestResponseLink", function() {
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
-    const request: AmqpMessage = {
+    const request: RheaMessage = {
       body: "Hello World!!"
     };
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -92,14 +92,14 @@ describe("RequestResponseLink", function() {
   it("should send parallel requests and receive responses correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    const reqs: AmqpMessage[] = [];
+    const reqs: RheaMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
       },
       createSender: () => {
         return Promise.resolve({
-          send: (request: AmqpMessage) => {
+          send: (request: RheaMessage) => {
             reqs.push(request);
           }
         });
@@ -113,11 +113,11 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request1: AmqpMessage = {
+    const request1: RheaMessage = {
       body: "Hello World!!",
       message_id: 1
     };
-    const request2: AmqpMessage = {
+    const request2: RheaMessage = {
       body: "Hello again my old friend.",
       message_id: 2
     };
@@ -159,14 +159,14 @@ describe("RequestResponseLink", function() {
   it("request without `message_id` gets a new `message_id`", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    const reqs: AmqpMessage[] = [];
+    const reqs: RheaMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
       },
       createSender: () => {
         return Promise.resolve({
-          send: (request: AmqpMessage) => {
+          send: (request: RheaMessage) => {
             reqs.push(request);
           }
         });
@@ -180,7 +180,7 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request1: AmqpMessage = {
+    const request1: RheaMessage = {
       body: "Hello World!!"
     };
     let errorWasThrown = false;
@@ -203,14 +203,14 @@ describe("RequestResponseLink", function() {
   it("should send parallel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    const reqs: AmqpMessage[] = [];
+    const reqs: RheaMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
       },
       createSender: () => {
         return Promise.resolve({
-          send: (request: AmqpMessage) => {
+          send: (request: RheaMessage) => {
             reqs.push(request);
           }
         });
@@ -224,11 +224,11 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request1: AmqpMessage = {
+    const request1: RheaMessage = {
       body: "Hello World!!",
       message_id: 1
     };
-    const request2: AmqpMessage = {
+    const request2: RheaMessage = {
       body: "Hello again my old friend.",
       message_id: 2
     };
@@ -304,7 +304,7 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request: AmqpMessage = {
+    const request: RheaMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
@@ -382,7 +382,7 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request: AmqpMessage = {
+    const request: RheaMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
@@ -444,7 +444,7 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request: AmqpMessage = {
+    const request: RheaMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
@@ -517,7 +517,7 @@ describe("RequestResponseLink", function() {
     const receiverStub = await sessionStub.createReceiver();
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-    const request: AmqpMessage = {
+    const request: RheaMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
@@ -596,7 +596,7 @@ describe("RequestResponseLink", function() {
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: "Hello World!!"
       };
       const testFailureMessage = "Test failure";
@@ -648,7 +648,7 @@ describe("RequestResponseLink", function() {
       const receiverStub = await sessionStub.createReceiver();
       const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: "Hello World!!"
       };
       setTimeout(() => {

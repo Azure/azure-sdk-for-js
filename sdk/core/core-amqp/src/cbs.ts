@@ -4,7 +4,7 @@
 import { TokenType } from "./auth/token";
 import { AccessToken } from "@azure/core-auth";
 import {
-  Message as AmqpMessage,
+  Message as RheaMessage,
   Connection,
   EventContext,
   ReceiverEvents,
@@ -191,7 +191,7 @@ export class CbsClient {
     tokenType: TokenType
   ): Promise<CbsResponse> {
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: tokenObject.token,
         message_id: generate_uuid(),
         reply_to: this.replyTo,
@@ -204,7 +204,7 @@ export class CbsClient {
       };
       const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
-      return this._fromAmqpMessageResponse(responseMessage);
+      return this._fromRheaMessageResponse(responseMessage);
     } catch (err) {
       logger.warning(
         "[%s] An error occurred while negotiating the cbs claim: %s",
@@ -265,7 +265,7 @@ export class CbsClient {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
   }
 
-  private _fromAmqpMessageResponse(msg: AmqpMessage): CbsResponse {
+  private _fromRheaMessageResponse(msg: RheaMessage): CbsResponse {
     const cbsResponse = {
       correlationId: msg.correlation_id! as string,
       statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
