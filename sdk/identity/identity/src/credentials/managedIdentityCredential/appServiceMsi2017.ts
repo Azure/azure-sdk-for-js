@@ -9,7 +9,7 @@ import { msiGenericGetToken } from "./utils";
 
 const logger = credentialLogger("ManagedIdentityCredential - AppServiceMSI 2017");
 
-function expiresInParser(requestBody: any) {
+function expiresInParser(requestBody: any): number {
   // Parse a date format like "06/20/2019 02:57:58 +00:00" and
   // convert it into a JavaScript-formatted date
   return Date.parse(requestBody.expires_on);
