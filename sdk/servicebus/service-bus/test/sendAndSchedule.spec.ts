@@ -220,7 +220,8 @@ describe("Sender Tests", () => {
     anyRandomTestClientType + ": Schedule with empty input does not throw error",
     async function(): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
-      await sender.scheduleMessages([], new Date());
+      const sequenceNumbers = await sender.scheduleMessages([], new Date());
+      should.equal(sequenceNumbers.length, 0);
     }
   );
 

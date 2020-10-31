@@ -54,12 +54,14 @@ describe("Deferred Messages", () => {
 
   it(noSessionTestClientType + ": Empty array as input", async function(): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
-    await receiver.receiveDeferredMessages([]);
+    const msgs = await receiver.receiveDeferredMessages([]);
+    should.equal(msgs.length, 0);
   });
 
   it(withSessionTestClientType + ": Empty array as input", async function(): Promise<void> {
     await beforeEachTest(withSessionTestClientType);
-    await receiver.receiveDeferredMessages([]);
+    const msgs = await receiver.receiveDeferredMessages([]);
+    should.equal(msgs.length, 0);
   });
 
   /**
