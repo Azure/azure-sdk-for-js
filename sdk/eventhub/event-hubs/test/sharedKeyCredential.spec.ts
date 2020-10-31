@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-chai.should();
-import debugModule from "debug";
-const debug = debugModule("azure:core-amqp:token-spec");
-import { IotSharedKeyCredential, SharedKeyCredential } from "../src";
+const should = chai.should();
+import {
+  SharedKeyCredential,
+  SharedAccessSignatureCredential
+} from "../src/eventhubSharedKeyCredential";
 
 describe("SharedKeyCredential", function(): void {
   it("should work as expected with required parameters", async function(): Promise<void> {
@@ -13,9 +14,7 @@ describe("SharedKeyCredential", function(): void {
     const key = "importantValue";
     const tokenProvider = new SharedKeyCredential(keyName, key);
     const now = Math.floor(Date.now() / 1000) + 3600;
-    debug(">>> now: %d", now);
     const tokenInfo = tokenProvider.getToken("myaudience");
-    debug(">>> Token Info is: %O", tokenInfo);
     tokenInfo.token.should.match(
       /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g
     );
@@ -28,28 +27,32 @@ describe("SharedKeyCredential", function(): void {
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const tokenProvider = SharedKeyCredential.fromConnectionString(cs);
     const now = Math.floor(Date.now() / 1000) + 3600;
-    debug(">>> now: %d", now);
     const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
-    debug(">>> Token Info is: %O", tokenInfo);
     tokenInfo.token.should.match(
       /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g
     );
     tokenInfo.expiresOnTimestamp.should.equal(now);
   });
-});
+  it("SharedAccessSignatureCredential", () => {
+    const sasCred = new SharedAccessSignatureCredential("SharedAccessSignature se=<blah>");
+    const accessToken = sasCred.getToken("audience isn't used");
 
-describe("IotSharedKeyCredential", function(): void {
-  it("should work as expected with required parameters", async function(): Promise<void> {
-    const keyName = "myKeyName";
-    const key = "importantValue";
-    const tokenProvider = new IotSharedKeyCredential(keyName, key);
-    const now = Math.floor(Date.now() / 1000) + 3600;
-    debug(">>> now: %d", now);
-    const tokenInfo = tokenProvider.getToken("myaudience");
-    debug(">>> Token Info is: %O", tokenInfo);
-    tokenInfo.token.should.match(
-      /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g
+    should.equal(
+      accessToken.token,
+      "SharedAccessSignature se=<blah>",
+      "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)"
     );
-    tokenInfo.expiresOnTimestamp.should.equal(now);
+
+    should.equal(
+      accessToken.expiresOnTimestamp,
+      0,
+      "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)"
+    );
+
+    // these just exist because we're a SharedKeyCredential but we don't currently
+    // parse any attributes out (they're available but we've carved out a spot so
+    // they're not needed.)
+    should.equal(sasCred.key, "");
+    should.equal(sasCred.keyName, "");
   });
 });

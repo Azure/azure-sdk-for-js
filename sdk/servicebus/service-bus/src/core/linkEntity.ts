@@ -4,7 +4,6 @@
 import {
   AccessToken,
   Constants,
-  SharedKeyCredential,
   TokenType,
   defaultLock,
   RequestResponseLink,
@@ -22,6 +21,7 @@ import {
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 
 /**
  * @internal

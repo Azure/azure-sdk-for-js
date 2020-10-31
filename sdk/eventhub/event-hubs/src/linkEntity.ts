@@ -2,16 +2,11 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import {
-  AccessToken,
-  Constants,
-  SharedKeyCredential,
-  TokenType,
-  defaultLock
-} from "@azure/core-amqp";
+import { AccessToken, Constants, TokenType, defaultLock } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
+import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 
 /**
  * @ignore

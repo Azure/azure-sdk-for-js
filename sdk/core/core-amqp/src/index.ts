@@ -8,12 +8,8 @@ export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from 
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
 export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-auth";
-export { SharedKeyCredential } from "./auth/sas";
-export { IotSharedKeyCredential } from "./auth/iotSas";
 
 export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
-export { EventHubConnectionConfig } from "./connectionConfig/eventhubConnectionConfig";
-export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfig";
 
 export { CbsClient, CbsResponse } from "./cbs";
 export { Constants } from "./util/constants";
@@ -24,7 +20,6 @@ export {
   ConnectionProperties,
   CreateConnectionContextBaseParameters
 } from "./ConnectionContextBase";
-export { Dictionary, isAmqpError } from "rhea-promise";
 export {
   MessagingError,
   MessageErrorCodes,
@@ -41,18 +36,13 @@ export {
 export {
   delay,
   Timeout,
-  EventHubConnectionStringModel,
   executePromisesSequentially,
   parseConnectionString,
-  IotHubConnectionStringModel,
-  StorageConnectionStringModel,
   defaultLock,
   Func,
   ParsedOutput,
   getNewAsyncLock,
   AsyncLockOptions,
-  ServiceBusConnectionStringModel,
-  isIotHubConnectionString,
   randomNumberFromInterval,
   AsyncLock,
   isNode,

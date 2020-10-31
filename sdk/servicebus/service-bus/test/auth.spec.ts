@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SharedKeyCredential } from "@azure/core-amqp";
+import { SharedKeyCredential } from "../src/servicebusSharedKeyCredential";
 import chai from "chai";
 import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../src";
 import { getEnvVars } from "./utils/envVarUtils";
