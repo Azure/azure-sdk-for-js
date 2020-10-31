@@ -52,6 +52,16 @@ describe("Deferred Messages", () => {
     await serviceBusClient.test.afterEach();
   });
 
+  it(noSessionTestClientType + ": Empty array as input", async function(): Promise<void> {
+    await beforeEachTest(noSessionTestClientType);
+    await receiver.receiveDeferredMessages([]);
+  });
+
+  it(withSessionTestClientType + ": Empty array as input", async function(): Promise<void> {
+    await beforeEachTest(withSessionTestClientType);
+    await receiver.receiveDeferredMessages([]);
+  });
+
   /**
    * Sends, defers, receives and then returns a test message
    * @param testMessage Test message to send, defer, receive and then return

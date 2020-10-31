@@ -580,6 +580,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
+    if (!messages.length) {
+      return [];
+    }
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
@@ -638,7 +641,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       senderLogger.verbose("%s Schedule messages request body: %O.", this.logPrefix, request.body);
+      console.log("Making request");
       const result = await this._makeManagementRequest(request, senderLogger, options);
+      console.log("Got response:", result);
       const sequenceNumbers = result.body[Constants.sequenceNumbers];
       const sequenceNumbersAsLong = [];
       for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -650,6 +655,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       return sequenceNumbersAsLong;
     } catch (err) {
+      console.log("Got error:", err);
       const error = translate(err);
       senderLogger.logError(
         error,
@@ -669,6 +675,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
+    if (!sequenceNumbers.length) {
+      return;
+    }
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -738,6 +747,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
+
+    if (!sequenceNumbers.length) {
+      return [];
+    }
 
     const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};

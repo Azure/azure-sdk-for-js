@@ -216,6 +216,14 @@ describe("Sender Tests", () => {
     await testPeekMsgsLength(receiver, 0);
   }
 
+  it(
+    anyRandomTestClientType + ": Schedule with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await sender.scheduleMessages([], new Date());
+    }
+  );
+
   it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleSingleMessage();
@@ -261,6 +269,14 @@ describe("Sender Tests", () => {
     await delay(30000);
     await testReceivedMsgsLength(receiver, 0);
   }
+
+  it(
+    anyRandomTestClientType + ": Cancel Scheduled message with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await sender.cancelScheduledMessages([]);
+    }
+  );
 
   it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
     void
