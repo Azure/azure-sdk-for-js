@@ -83,7 +83,7 @@ describe("ClientCertificateCredential", function() {
     const clientId = "clientId";
     const mockHttpClient = new MockAuthHttpClient();
     // Enable X5c flag
-    mockHttpClient.tokenCredentialOptions.includeX5c = true;
+    mockHttpClient.tokenCredentialOptions.sendCertificateChain = true;
 
     const credential = new ClientCertificateCredential(
       tenantId,
@@ -129,7 +129,7 @@ describe("ClientCertificateCredential", function() {
     const clientId = "clientId";
     const mockHttpClient = new MockAuthHttpClient();
     // Enable X5c flag
-    mockHttpClient.tokenCredentialOptions.includeX5c = true;
+    mockHttpClient.tokenCredentialOptions.sendCertificateChain = true;
 
     const credential = new ClientCertificateCredential(
       tenantId,

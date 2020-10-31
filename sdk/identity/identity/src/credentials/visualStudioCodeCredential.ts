@@ -17,6 +17,7 @@ try {
 import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { AzureAuthorityHosts } from "../constants";
+import { checkTenantId } from "../util/checkTenantId";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -119,6 +120,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     });
 
     if (options && options.tenantId) {
+      checkTenantId(logger, options.tenantId);
+
       this.tenantId = options.tenantId;
     } else {
       this.tenantId = CommonTenantId;

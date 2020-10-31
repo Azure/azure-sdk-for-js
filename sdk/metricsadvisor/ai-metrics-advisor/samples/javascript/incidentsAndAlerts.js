@@ -35,27 +35,27 @@ async function main() {
 async function listIncidentsForDetectionConfig(client, detectionConfigId) {
   console.log(`Listing incidents for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidentsForDetectionConfiguration(
+  for await (const incident of client.listIncidents(
     detectionConfigId,
-    new Date("09/06/2020"),
-    new Date("09/11/2020")
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
+    {
+      dimensionFilter: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
+    }
   )) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
+    console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccuredTime}`);
+    console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
   console.log(`  by pages`);
   const iterator = client
-    .listIncidentsForDetectionConfiguration(
-      detectionConfigId,
-      new Date("09/06/2020"),
-      new Date("09/11/2020")
-    )
+    .listIncidents(detectionConfigId, new Date("10/22/2020"), new Date("10/24/2020"))
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
 
@@ -65,8 +65,9 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
       "id",
       "severity",
       "status",
+      "rootDimensionKey",
       "startTime",
-      "lastOccuredTime",
+      "lastOccurredTime",
       "detectionConfigurationId"
     ]);
     result = await iterator.next();
@@ -76,36 +77,34 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
 async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomaliesForDetectionConfiguration(
+  for await (const anomaly of client.listAnomalies(
     detectionConfigId,
-    new Date("09/06/2020"),
-    new Date("09/11/2020"),
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
     {
       severityFilter: { min: "Medium", max: "High" }
     }
   )) {
     console.log("    Anomaly");
-    console.log(`      timestamp: ${anomaly.timestamp}`);
+    console.log(`      metric id: ${anomaly.metricId}`);
+    console.log(`      detection config id: ${anomaly.detectionConfigurationId}`);
+    console.log(`      created on: ${anomaly.createdOn}`);
+    console.log(`      modified on: ${anomaly.modifiedOn}`);
     console.log(`      severity: ${anomaly.severity}`);
-    console.log(`      dimension: ${anomaly.dimension}`);
+    console.log(`      status: ${anomaly.status}`);
+    console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
   console.log(`  by pages`);
   const iterator = client
-    .listAnomaliesForDetectionConfiguration(
-      detectionConfigId,
-      new Date("09/06/2020"),
-      new Date("09/11/2020"),
-      {
-        severityFilter: { min: "Medium", max: "High" }
-      }
-    )
+    .listAnomalies(detectionConfigId, new Date("10/22/2020"), new Date("10/24/2020"), {
+      severityFilter: { min: "Medium", max: "High" }
+    })
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "severity", "dimension"]);
+    console.table(result.value.anomalies, ["timestamp", "severity", "seriesKey"]);
     result = await iterator.next();
   }
 }
@@ -113,7 +112,13 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
 async function getRootCauses(client, detectionConfigId, incidentId) {
   console.log("Retrieving root causes...");
   const result = await client.getIncidentRootCauses(detectionConfigId, incidentId);
-  console.table(result.rootCauses, [""]);
+  for (const rootcause of result.rootCauses) {
+    console.log(`Root cause`);
+    console.log(`  Trace the path for the incident root cause ${rootcause.path.join(" => ")}`);
+    console.log(`  Series key: ${rootcause.seriesKey}`);
+    console.log(`  Description: ${rootcause.description}`);
+    console.log(`  ranking score: ${rootcause.score}`);
+  }
 }
 
 async function listAlerts(client, alertConfigId) {
@@ -121,8 +126,8 @@ async function listAlerts(client, alertConfigId) {
   console.log("  using for-await-of syntax");
   for await (const alert of client.listAlertsForAlertConfiguration(
     alertConfigId,
-    new Date("01/01/2020"),
-    new Date("09/09/2020"),
+    new Date("10/22/2020"),
+    new Date("10/24/2020"),
     "AnomalyTime"
   )) {
     console.log("    Alert");
@@ -135,8 +140,8 @@ async function listAlerts(client, alertConfigId) {
   const iterator = client
     .listAlertsForAlertConfiguration(
       alertConfigId,
-      new Date("01/01/2020"),
-      new Date("09/09/2020"),
+      new Date("10/22/2020"),
+      new Date("10/24/2020"),
       "AnomalyTime"
     )
     .byPage({ maxPageSize: 20 });
@@ -154,18 +159,19 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
     `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidentsForAlert(alertConfigId, alertId)) {
+  for await (const incident of client.listIncidents({ alertConfigId, id: alertId })) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
+    console.log(`      startTime: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccuredTime}`);
+    console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
   console.log(`  by pages`);
-  const iterator = client.listIncidentsForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const iterator = client.listIncidents({ alertConfigId, id: alertId }).byPage({ maxPageSize: 20 });
 
   let result = await iterator.next();
   while (!result.done) {
@@ -174,8 +180,9 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
       "id",
       "severity",
       "status",
+      "rootDimensionKey",
       "startTime",
-      "lastOccuredTime",
+      "lastOccurredTime",
       "detectionConfigurationId"
     ]);
     result = await iterator.next();
@@ -187,20 +194,23 @@ async function listAnomaliesForAlert(client, alertConfigId, alertId) {
     `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  for await (const anomaly of client.listAnomalies({ alertConfigId, id: alertId })) {
     console.log("    Anomaly");
-    console.log(`      timestamp: ${anomaly.timestamp}`);
-    console.log(`      dimension: ${anomaly.dimension}`);
+    console.log(`      metric id: ${anomaly.metricId}`);
+    console.log(`      detection config id: ${anomaly.detectionConfigurationId}`);
+    console.log(`      created on: ${anomaly.createdOn}`);
+    console.log(`      modified on: ${anomaly.modifiedOn}`);
+    console.log(`      severity: ${anomaly.severity}`);
     console.log(`      status: ${anomaly.status}`);
+    console.log(`      series key: ${anomaly.seriesKey}`);
   }
-
   console.log(`  by pages`);
-  const iterator = client.listAnomaliesForAlert(alertConfigId, alertId).byPage({ maxPageSize: 20 });
+  const iterator = client.listAnomalies({ alertConfigId, id: alertId }).byPage({ maxPageSize: 20 });
 
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "dimension", "status"]);
+    console.table(result.value.anomalies, ["timestamp", "seriesKey", "status"]);
     result = await iterator.next();
   }
 }

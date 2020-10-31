@@ -53,11 +53,32 @@ async function getDetectionConfig(adminClient, detectionConfigId) {
 
 // create a new detection configuration
 async function createDetectionConfig(adminClient, metricId) {
-  const config = {
-    name: "fresh detection" + new Date().getTime().toString(),
-    description: "fresh detection",
-    metricId,
-    wholeSeriesDetectionCondition: {
+  const wholeSeriesDetectionCondition = {
+    conditionOperator: "AND",
+    smartDetectionCondition: {
+      sensitivity: 50,
+      anomalyDetectorDirection: "Both",
+      suppressCondition: {
+        minNumber: 50,
+        minRatio: 50
+      }
+    },
+    changeThresholdCondition: {
+      anomalyDetectorDirection: "Both",
+      shiftPoint: 1,
+      changePercentage: 33,
+      withinRange: true,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    },
+    hardThresholdCondition: {
+      anomalyDetectorDirection: "Up",
+      upperBound: 400,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    }
+  };
+  const seriesGroupDetectionConditions = [
+    {
+      group: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -65,13 +86,28 @@ async function createDetectionConfig(adminClient, metricId) {
         changePercentage: 33,
         withinRange: true,
         suppressCondition: { minNumber: 2, minRatio: 2 }
-      },
+      }
+    }
+  ];
+  const seriesDetectionConditions = [
+    {
+      series: { city: "Manila", category: "Handmade" },
+      conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 400,
         suppressCondition: { minNumber: 2, minRatio: 2 }
       }
     }
+  ];
+
+  const config = {
+    name: "fresh detection" + new Date().getTime().toString(),
+    description: "fresh detection",
+    metricId,
+    wholeSeriesDetectionCondition,
+    seriesGroupDetectionConditions,
+    seriesDetectionConditions
   };
   console.log("Creating a new anomaly detection configuration...");
   return await adminClient.createMetricAnomalyDetectionConfiguration(config);
@@ -99,7 +135,7 @@ async function updateDetectionConfig(adminClient, configId) {
     },
     seriesGroupDetectionConditions: [
       {
-        group: { dimension: { Dim1: "Common Lime" } },
+        group: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -110,7 +146,7 @@ async function updateDetectionConfig(adminClient, configId) {
     ],
     seriesDetectionConditions: [
       {
-        series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+        series: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",

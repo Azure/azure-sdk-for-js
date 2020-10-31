@@ -17,22 +17,18 @@ export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfi
 
 export { CbsClient, CbsResponse } from "./cbs";
 export { Constants } from "./util/constants";
-export { MessageHeader } from "./messageHeader";
-export { MessageProperties } from "./messageProperties";
+export { AmqpMessageHeader } from "./messageHeader";
+export { AmqpMessageProperties } from "./messageProperties";
 export {
   ConnectionContextBase,
   ConnectionProperties,
   CreateConnectionContextBaseParameters
 } from "./ConnectionContextBase";
-export {
-  Dictionary,
-  Message as AmqpMessage,
-  isAmqpError,
-  MessageHeader as AmqpMessageHeader,
-  MessageProperties as AmqpMessageProperties
-} from "rhea-promise";
+export { Dictionary, isAmqpError } from "rhea-promise";
 export {
   MessagingError,
+  MessageErrorCodes,
+  isMessagingError,
   ErrorNameConditionMapper,
   ConditionStatusMapper,
   ConditionErrorNameMapper,
@@ -62,4 +58,5 @@ export {
   isNode,
   WebSocketOptions
 } from "./util/utils";
+export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";

@@ -37,24 +37,24 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
       new Date("09/01/2020"),
       new Date("09/12/2020"),
       [
-        { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
-        { dimension: { Dim1: "Common Beech", Dim2: "Ant" } }
+        { city: "Manila", category: "Handmade" },
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
       ]
     );
 
     for (const enriched of result.results || []) {
       console.log("enriched series:");
       console.log(enriched.series);
-      if (enriched.timestampList?.length) {
-        for (let i = 0; i < enriched.timestampList!.length; i++) {
+      if (enriched.timestamps && enriched.timestamps.length > 0) {
+        for (let i = 0; i < enriched.timestamps.length; i++) {
           console.log("  ----");
-          console.log(`  timestamp: ${enriched.timestampList![i]}`);
-          console.log(`  is abnormal?: ${enriched.isAnomalyList![i]}`);
-          console.log(`  value: ${enriched.valueList![i]}`);
-          console.log(`  expected value: ${enriched.expectedValueList![i]}`);
-          console.log(`  lower bound: ${enriched.lowerBoundaryList![i]}`);
-          console.log(`  upper bound: ${enriched.upperBoundaryList![i]}`);
-          console.log(`  period: ${enriched.periodList![i]}`);
+          console.log(`  timestamp: ${enriched.timestamps[i]}`);
+          console.log(`  is abnormal?: ${enriched.isAnomaly![i]}`);
+          console.log(`  value: ${enriched.values![i]}`);
+          console.log(`  expected value: ${enriched.expectedValues![i]}`);
+          console.log(`  lower bound: ${enriched.lowerBounds![i]}`);
+          console.log(`  upper bound: ${enriched.upperBounds![i]}`);
+          console.log(`  period: ${enriched.periods![i]}`);
         }
       }
     }
@@ -72,17 +72,17 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
       new Date("09/01/2020"),
       new Date("09/12/2020"),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { city: "Manila", category: "Handmade" },
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
       ]
     );
 
     for (const series of result.metricSeriesDataList || []) {
       console.log(series.definition);
-      if (series.timestampList?.length)
-        for (let i = 0; i < series.timestampList!.length; i++) {
-          console.log(`  ${series.timestampList![i]}`);
-          console.log(`  ${series.valueList![i]}`);
+      if (series.timestamps?.length)
+        for (let i = 0; i < series.timestamps!.length; i++) {
+          console.log(`  ${series.timestamps![i]}`);
+          console.log(`  ${series.values![i]}`);
         }
     }
   } catch (err) {

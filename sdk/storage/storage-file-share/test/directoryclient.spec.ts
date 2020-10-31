@@ -175,6 +175,15 @@ describe("DirectoryClient", () => {
     assert.ok(res2.succeeded);
   });
 
+  it("deleteIfExists when parent not exists ", async () => {
+    const subDirName = recorder.getUniqueName("subdir");
+    const dirClient2 = dirClient.getDirectoryClient(subDirName);
+    const dirClient3 = dirClient2.getDirectoryClient(subDirName);
+    const res = await dirClient3.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ParentNotFound");
+  });
+
   it("exists", async () => {
     assert.ok(await dirClient.exists());
     const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));

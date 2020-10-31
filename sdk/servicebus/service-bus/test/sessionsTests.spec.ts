@@ -6,9 +6,9 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
 
-import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import {
@@ -18,21 +18,19 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
+import { isMessagingError } from "@azure/core-amqp";
 
 let unexpectedError: Error | undefined;
 
-async function processError(err: Error): Promise<void> {
-  if (err) {
-    unexpectedError = err;
-  }
+async function processError(args: ProcessErrorArgs): Promise<void> {
+  unexpectedError = args.error;
 }
 
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver;
   const testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {
@@ -151,7 +149,7 @@ describe("session tests", () => {
         testMessage.messageId,
         "MessageId is different than expected"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
     });
 
@@ -183,14 +181,14 @@ describe("session tests", () => {
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await msg.complete();
+            await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError
@@ -259,7 +257,7 @@ describe("session tests", () => {
       should.equal(testState, "new_state", "SessionState is different than expected");
 
       await receiver.setSessionState(""); // clearing the session-state
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
     });
 
@@ -343,7 +341,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
       entityName.queue!,
       testMessage.sessionId,
       {
-        maxAutoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
       }
     );
     const sender = serviceBusClient.createSender(entityName.queue!);
@@ -368,7 +366,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
         console.log(`Received a message`);
         messageHandlerCount++;
         try {
-          await message.complete();
+          await receiver.completeMessage(message);
           settledMessageCount++;
         } catch (err) {
           receivedErrors.push(err);
