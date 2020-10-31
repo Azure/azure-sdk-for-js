@@ -231,4 +231,14 @@ directive:
       }
 ```
 
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)
