@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
+import chai from "chai";
 const should = chai.should();
 import {
   SharedKeyCredential,

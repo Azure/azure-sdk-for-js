@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EventHubConnectionConfig } from "../src/eventhubConnectionConfig";
-import * as chai from "chai";
+import chai from "chai";
 const should = chai.should();
 
 describe("ConnectionConfig", function() {
