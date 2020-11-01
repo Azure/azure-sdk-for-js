@@ -104,8 +104,8 @@ describe("message", function() {
         reply_to: "",
         reply_to_group_id: "",
         subject: "",
-        to: "",
-        user_id: ""
+        to: ""
+        // user_id: ""
       };
       const amqpMsgProperties: RheaMessageProperties = AmqpMessageProperties.toRheaMessageProperties(
         msgProperties
