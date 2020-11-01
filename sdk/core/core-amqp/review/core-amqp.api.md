@@ -84,14 +84,6 @@ export const AmqpMessageProperties: {
 export { AsyncLock }
 
 // @public
-export interface AsyncLockOptions {
-    domainReentrant?: boolean;
-    maxPending?: number;
-    Promise?: any;
-    timeout?: number;
-}
-
-// @public
 export class CbsClient {
     constructor(connection: Connection, connectionLock: string);
     readonly cbsLock: string;
@@ -454,20 +446,8 @@ export enum ErrorNameConditionMapper {
     UnauthorizedError = "amqp:unauthorized-access"
 }
 
-// @public (undocumented)
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart?: any): Promise<any>;
-
-// @public
-export type Func<T, V> = (a: T) => V;
-
-// @public
-export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock;
-
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
-
-// @public
-export const isNode: boolean;
 
 // @public
 export function isSystemError(err: any): err is NetworkSystemError;
@@ -520,9 +500,6 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 export type ParsedOutput<T> = {
     [P in keyof T]: T[P];
 };
-
-// @public
-export function randomNumberFromInterval(min: number, max: number): number;
 
 // @public
 export class RequestResponseLink implements ReqResLink {
@@ -623,20 +600,6 @@ export enum SystemErrorConditionMapper {
     ENOTFOUND = "amqp:not-found",
     // (undocumented)
     ETIMEDOUT = "com.microsoft:timeout"
-}
-
-// @public
-export class Timeout {
-    // (undocumented)
-    clear(): void;
-    // (undocumented)
-    set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
 }
 
 // @public

@@ -34,17 +34,10 @@ export {
 } from "./errors";
 export {
   delay,
-  Timeout,
-  executePromisesSequentially,
   parseConnectionString,
   defaultLock,
-  Func,
   ParsedOutput,
-  getNewAsyncLock,
-  AsyncLockOptions,
-  randomNumberFromInterval,
   AsyncLock,
-  isNode,
   WebSocketOptions
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
