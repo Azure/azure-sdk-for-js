@@ -16,6 +16,7 @@ try {
 
 import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
 
 const CommonTenantId = "common";
@@ -35,6 +36,15 @@ function checkUnsupportedTenant(tenantId: string): void {
     throw new CredentialUnavailable(unsupportedTenantError);
   }
 }
+
+type VSCodeCloudNames = "AzureCloud" | "AzureChina" | "AzureGermanCloud" | "AzureUSGovernment";
+
+const mapVSCodeAuthorityHosts: Record<VSCodeCloudNames, string> = {
+  AzureCloud: AzureAuthorityHosts.AzurePublicCloud,
+  AzureChina: AzureAuthorityHosts.AzureChina,
+  AzureGermanCloud: AzureAuthorityHosts.AzureGermany,
+  AzureUSGovernment: AzureAuthorityHosts.AzureGovernment
+};
 
 /**
  * Attempts to load a specific property from the VSCode configurations of the current OS.
@@ -89,6 +99,7 @@ export interface VisualStudioCodeCredentialOptions extends TokenCredentialOption
 export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
+  private cloudName: VSCodeCloudNames;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -96,7 +107,18 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(options?: VisualStudioCodeCredentialOptions) {
-    this.identityClient = new IdentityClient(options);
+    // We want to make sure we use the one assigned by the user on the VSCode settings.
+    // Or just `AzureCloud` by default.
+    this.cloudName = (getPropertyFromVSCode("azure.cloud") || "AzureCloud") as VSCodeCloudNames;
+
+    // Picking an authority host based on the cloud name.
+    const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
+
+    this.identityClient = new IdentityClient({
+      authorityHost,
+      ...options
+    });
+
     if (options && options.tenantId) {
       checkTenantId(logger, options.tenantId);
 
@@ -177,13 +199,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     // ]
     const credentials = await keytar.findCredentials(VSCodeUserName);
 
-    // We want to make sure we use the one assigned by the user on the VSCode settings.
-    // Or just `Azure` by default.
-    const cloudName = getPropertyFromVSCode("azure.cloud") || "Azure";
-
     // If we can't find the credential based on the name, we'll pick the first one available.
     const { password } =
-      credentials.find((cred: { account: string }) => cred.account === cloudName) ||
+      credentials.find((cred: { account: string }) => cred.account === this.cloudName) ||
       credentials[0] ||
       {};
 
