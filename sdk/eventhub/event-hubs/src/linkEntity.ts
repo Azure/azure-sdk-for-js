@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { AccessToken, Constants, TokenType, defaultLock } from "@azure/core-amqp";
+import { Constants, TokenType, defaultLock } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
@@ -170,7 +171,7 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
     });
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",

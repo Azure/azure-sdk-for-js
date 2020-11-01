@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ConnectionConfig,
-  RetryOptions,
-  TokenCredential,
-  WebSocketOptions
-} from "@azure/core-amqp";
+import { ConnectionConfig, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";

@@ -5,11 +5,9 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
-import { isTokenCredential } from '@azure/core-auth';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
@@ -19,10 +17,7 @@ import { ReqResLink } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
-import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
-
-export { AccessToken }
 
 // @public
 export interface AmqpAnnotatedMessage {
@@ -105,7 +100,7 @@ export class CbsClient {
     readonly connectionLock: string;
     readonly endpoint: string;
     init(): Promise<void>;
-    negotiateClaim(audience: string, tokenObject: AccessToken, tokenType: TokenType): Promise<CbsResponse>;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }
@@ -477,8 +472,6 @@ export const isNode: boolean;
 // @public
 export function isSystemError(err: any): err is NetworkSystemError;
 
-export { isTokenCredential }
-
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
@@ -645,8 +638,6 @@ export class Timeout {
     // (undocumented)
     static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
 }
-
-export { TokenCredential }
 
 // @public
 export enum TokenType {
