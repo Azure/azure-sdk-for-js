@@ -139,3 +139,32 @@ export function getSASConnectionStringFromEnvironment(): string {
   const env = (window as any).__env__;
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
+
+export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+/**
+ * Compare the content of body from downloading operation methods with a Uint8Array.
+ * Work on both Node.js and browser environment.
+ *
+ * @param response Convenience layer methods response with downloaded body
+ * @param uint8arry
+ */
+export async function compareBodyWithUint8Array(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  uint8arry: Uint8Array
+): Promise<boolean> {
+  const blob = await response.blobBody!;
+  return arraysEqual(uint8arry, new Uint8Array(await blob.arrayBuffer()));
+}

@@ -173,3 +173,34 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".table."
   )}/;SharedAccessSignature=${sas}`;
 }
+
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+    });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream.on("error", reject);
+  });
+}
+
+/**
+ * Compare the content of body from downloading operation methods with a Uint8Array.
+ * Work on both Node.js and browser environment.
+ *
+ * @param response Convenience layer methods response with downloaded body
+ */
+export async function compareBodyWithUint8Array(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  uint8arry: Uint8Array
+): Promise<boolean> {
+  const buf = await streamToBuffer(response.readableStreamBody!);
+  return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));
+}

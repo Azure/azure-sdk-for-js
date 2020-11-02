@@ -4397,9 +4397,7 @@ export class BlockBlobClient extends BlobClient {
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => {
-            return buffer.slice(offset, offset + size);
-          },
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
           buffer.byteLength,
           {
             ...options,
@@ -4409,9 +4407,7 @@ export class BlockBlobClient extends BlobClient {
       } else {
         const browserBlob = new Blob([data]);
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Blob => {
-            return browserBlob.slice(offset, offset + size);
-          },
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
@@ -4455,9 +4451,7 @@ export class BlockBlobClient extends BlobClient {
     try {
       const browserBlob = new Blob([browserData]);
       return await this.uploadSeekableInternal(
-        (offset: number, size: number): Blob => {
-          return browserBlob.slice(offset, offset + size);
-        },
+        (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
         browserBlob.size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );

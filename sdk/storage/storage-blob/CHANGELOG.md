@@ -2,6 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
+- Added `BlockBlobClient.uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options)` for parallel uploading. It's avaiable in both Node.js and browsers.
 
 ## 12.3.0-beta.1 (2020-10-13)
 

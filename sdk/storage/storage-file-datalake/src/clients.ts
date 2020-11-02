@@ -1588,9 +1588,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => {
-            return buffer.slice(offset, offset + size);
-          },
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
           buffer.length,
           {
             ...options,
@@ -1600,9 +1598,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       } else {
         const browserBlob = new Blob([data]);
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Blob => {
-            return browserBlob.slice(offset, offset + size);
-          },
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
