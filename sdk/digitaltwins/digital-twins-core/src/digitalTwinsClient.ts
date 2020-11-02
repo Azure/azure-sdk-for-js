@@ -1284,7 +1284,7 @@ export class DigitalTwinsClient {
       `DigitalTwinsClient ${methodName}`,
       requestOptions && requestOptions.spanOptions
     );
-    span.setAttribute("az.namespace", "Microsoft.DigitalTwinsCore");
+    span.setAttribute("az.namespace", "Microsoft.DigitalTwins");
     return span;
   }
 }
