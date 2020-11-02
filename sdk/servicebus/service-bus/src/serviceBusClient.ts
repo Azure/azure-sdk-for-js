@@ -172,8 +172,8 @@ export class ServiceBusClient {
     );
 
     let entityPathWithSubQueue = entityPath;
-    if (options?.subQueue) {
-      switch (options?.subQueue) {
+    if (options?.subQueueType) {
+      switch (options?.subQueueType) {
         case "deadLetter":
           entityPathWithSubQueue += "/$DeadLetterQueue";
           break;
@@ -182,7 +182,7 @@ export class ServiceBusClient {
           break;
         default:
           throw new Error(
-            `Invalid subQueue '${options?.subQueue}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
+            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
           );
       }
     }

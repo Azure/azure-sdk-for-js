@@ -28,7 +28,6 @@ export {
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SubQueue,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
