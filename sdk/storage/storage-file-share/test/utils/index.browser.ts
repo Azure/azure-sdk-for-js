@@ -49,7 +49,7 @@ export function getSoftDeleteBSU(): ShareServiceClient {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment
@@ -153,7 +153,7 @@ export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
 
 /**
  * Compare the content of body from downloading operation methods with a Uint8Array.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param uint8arry

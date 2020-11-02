@@ -70,7 +70,7 @@ export function getConnectionStringFromEnvironment(): string {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment
@@ -190,7 +190,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
 
 /**
  * Compare the content of body from downloading operation methods with a Uint8Array.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  */
