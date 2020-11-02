@@ -935,6 +935,10 @@ export interface AnomalyAlert {
    */
   id: string;
   /**
+   * id of the alert configuration that triggered this alert
+   */
+  alertConfigId: string;
+  /**
    * anomaly time
    */
   timestamp?: Date; // TODO: why optional?

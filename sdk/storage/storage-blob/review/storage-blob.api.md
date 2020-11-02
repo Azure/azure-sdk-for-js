@@ -999,6 +999,8 @@ export class BlobSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
+    move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     tag: boolean;
@@ -1015,10 +1017,12 @@ export interface BlobSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
@@ -1842,7 +1846,9 @@ export class ContainerSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
     list: boolean;
+    move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;
     tag: boolean;
@@ -2617,16 +2623,19 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -2635,6 +2644,27 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
 }
 
 // @public

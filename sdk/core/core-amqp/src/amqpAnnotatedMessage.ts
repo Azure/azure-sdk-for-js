@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 import { AmqpMessageHeader } from "./messageHeader";
 import { AmqpMessageProperties } from "./messageProperties";
-import { Message as AmqpMessage } from "rhea-promise";
+import { Message as RheaMessage } from "rhea-promise";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
@@ -45,11 +45,11 @@ export interface AmqpAnnotatedMessage {
  */
 export const AmqpAnnotatedMessage = {
   /**
-   * Takes AmqpMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.
+   * Takes RheaMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.
    *
-   * @param {AmqpMessage} msg
+   * @param {RheaMessage} msg
    */
-  fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
+  fromRheaMessage(msg: RheaMessage): AmqpAnnotatedMessage {
     return {
       header: AmqpMessageHeader.fromRheaMessageHeader(msg),
       footer: (msg as any).footer,

@@ -412,40 +412,40 @@ async function main() {
 
   const client = new MetricsAdvisorClient(endpoint, credential);
 
-  const alertIds = await queryAlerts(
+  const alerts = await queryAlerts(
     client,
     alertConfigId,
     new Date(Date.UTC(2020, 8, 1)),
     new Date(Date.UTC(2020, 8, 12))
   );
 
-  if (alertIds.length > 1) {
+  if (alerts.length > 1) {
     // query anomalies using an alert id.
-    await queryAnomaliesByAlert(client, alertConfigId, alertIds[0]);
+    await queryAnomaliesByAlert(client, alerts[0]);
   } else {
     console.log("No alerts during the time period");
   }
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
-  let alertIds = [];
+  let alerts = [];
   for await (const alert of client.listAlertsForAlertConfiguration(
     alertConfigId,
     startTime,
     endTime,
     "AnomalyTime"
   )) {
-    alertIds.push(alert.id);
+    alerts.push(alert);
   }
 
-  return alertIds;
+  return alerts;
 }
 
-async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
+async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  for await (const anomaly of client.listAnomalies(alert)) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

@@ -3,14 +3,19 @@
 
 import {
   AmqpAnnotatedMessage,
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   translate
 } from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
-import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
+import {
+  Delivery,
+  DeliveryAnnotations,
+  MessageAnnotations,
+  uuid_to_string,
+  Message as RheaMessage
+} from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { DispositionStatusOptions } from "./core/managementClient";
 import { messageLogger as logger, receiverLogger } from "./log";
@@ -275,10 +280,10 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 /**
  * @internal
  * @ignore
- * Converts given ServiceBusMessage to AmqpMessage
+ * Converts given ServiceBusMessage to RheaMessage
  */
-export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
-  const amqpMsg: AmqpMessage = {
+export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
+  const amqpMsg: RheaMessage = {
     body: msg.body,
     message_annotations: {}
   };
@@ -351,7 +356,7 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
 
-  logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
+  logger.verbose("SBMessage to RheaMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
@@ -435,7 +440,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
-   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
+   * @property {AmqpAnnotatedMessage} _amqpAnnotatedMessage The underlying raw amqp message.
    * @readonly
    */
   readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
@@ -444,10 +449,10 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 /**
  * @internal
  * @ignore
- * Converts given AmqpMessage to ServiceBusReceivedMessage
+ * Converts given RheaMessage to ServiceBusReceivedMessage
  */
-export function fromAmqpMessage(
-  msg: AmqpMessage,
+export function fromRheaMessage(
+  msg: RheaMessage,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
@@ -556,7 +561,7 @@ export function fromAmqpMessage(
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
   };
 
-  logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
 }
 
@@ -774,12 +779,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   constructor(
     private readonly _context: ConnectionContext,
     private readonly _entityPath: string,
-    msg: AmqpMessage,
+    msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode
   ) {
-    Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
+    Object.assign(this, fromRheaMessage(msg, delivery, shouldReorderLockToken));
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
@@ -788,7 +793,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
-    // TODO: _amqpAnnotatedMessage is already being populated in fromAmqpMessage(), no need to do it twice
+    // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
