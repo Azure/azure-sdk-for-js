@@ -81,7 +81,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecorder(context: Context) {
+export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
 

@@ -17,8 +17,8 @@ import {
 
 import { matrix } from "../utils/matrix";
 
-const endpoint = () => env.FORM_RECOGNIZER_ENDPOINT;
-const containerSasUrl = () => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
+const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
+const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
@@ -28,6 +28,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
 
     beforeEach(function(this: Context) {
+      // eslint-disable-next-line no-invalid-this
       recorder = createRecorder(this);
     });
 
