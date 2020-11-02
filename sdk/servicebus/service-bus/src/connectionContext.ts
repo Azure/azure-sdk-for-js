@@ -193,6 +193,11 @@ export namespace ConnectionContext {
               ` Waiting for the disconnect event before continuing.`
           );
           this.connection.once(ConnectionEvents.disconnected, resolve);
+          console.log(
+            `Inside waitForDisconnectedEvent - ${
+              ConnectionEvents.disconnected
+            } listeners count: ${this.connection.listenerCount(ConnectionEvents.disconnected)}`
+          );
         });
       },
       waitForConnectionReset() {
@@ -446,6 +451,11 @@ export namespace ConnectionContext {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, disconnected);
+      console.log(
+        `Inside addConnectionListeners - ${
+          ConnectionEvents.disconnected
+        } listeners count: ${connection.listenerCount(ConnectionEvents.disconnected)}`
+      );
       connection.on(ConnectionEvents.protocolError, protocolError);
       connection.on(ConnectionEvents.error, error);
     }
@@ -457,6 +467,13 @@ export namespace ConnectionContext {
         onConnectionOpen
       );
       connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
+      console.log(
+        `Inside cleanConnectionContext - ${
+          ConnectionEvents.disconnected
+        } listeners count: ${connectionContext.connection.listenerCount(
+          ConnectionEvents.disconnected
+        )}`
+      );
       connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
       connectionContext.connection.removeListener(ConnectionEvents.error, error);
       // Close the connection

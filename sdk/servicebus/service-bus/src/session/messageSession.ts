@@ -715,6 +715,11 @@ export class MessageSession extends LinkEntity<Receiver> {
       };
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
+      console.log(
+        `Inside subscribe - ${ReceiverEvents.message} listeners count: ${this.link.listenerCount(
+          ReceiverEvents.message
+        )}`
+      );
       // adding credit
       this.receiverHelper.addCredit(this.maxConcurrentCalls);
     } else {
