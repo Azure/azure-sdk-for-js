@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential, ConnectionConfig } from "@azure/core-amqp";
+import { ConnectionConfig } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,

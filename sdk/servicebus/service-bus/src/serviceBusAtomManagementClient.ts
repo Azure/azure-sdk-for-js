@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants as AMQPConstants,
-  isTokenCredential,
-  parseConnectionString,
-  TokenCredential
-} from "@azure/core-amqp";
+import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,

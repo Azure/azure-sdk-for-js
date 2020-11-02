@@ -20,7 +20,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
-import { TokenCredential } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
