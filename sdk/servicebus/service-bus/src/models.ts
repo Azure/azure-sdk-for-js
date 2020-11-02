@@ -71,13 +71,6 @@ export interface InternalMessageHandlers extends MessageHandlers {
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
- * Represents the sub queue that is applicable for any queue or subscription.
- * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
- * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
- */
-export type SubQueue = "deadLetter" | "transferDeadLetter";
-
-/**
  * Options to use when creating a receiver.
  */
 export interface ServiceBusReceiverOptions {
@@ -106,7 +99,7 @@ export interface ServiceBusReceiverOptions {
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
-  subQueueType?: SubQueue;
+  subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed
