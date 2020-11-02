@@ -79,7 +79,6 @@ export interface AmqpMessageProperties {
     replyToGroupId?: string;
     subject?: string;
     to?: string;
-    userId?: string;
 }
 
 // @public

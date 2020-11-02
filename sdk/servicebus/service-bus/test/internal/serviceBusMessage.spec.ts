@@ -196,7 +196,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
       amqpMessage.group_sequence
     );
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, amqpMessage.subject);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.userId, amqpMessage.user_id);
+    // assert.equal(sbMessage._amqpAnnotatedMessage.properties?.userId, amqpMessage.user_id);
 
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.messageId, sbMessage.messageId);
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.replyTo, sbMessage.replyTo);
