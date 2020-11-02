@@ -242,12 +242,7 @@ describe("DigitalTwinsClient", () => {
     };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateComponent");
-    testClient.updateComponent(
-      testTwinId,
-      testComponentPath,
-      testJsonPatch,
-      extendedOptions
-    );
+    testClient.updateComponent(testTwinId, testComponentPath, testJsonPatch, extendedOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testComponentPath, testJsonPatch, extendedOptions));
   });
@@ -305,12 +300,7 @@ describe("DigitalTwinsClient", () => {
       },
       ...operationOptions
     };
-    testClient.upsertRelationship(
-      testTwinId,
-      testRelationshipId,
-      testJsonString,
-      extendedOptions
-    );
+    testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, extendedOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonString, extendedOptions));
   });
@@ -345,12 +335,7 @@ describe("DigitalTwinsClient", () => {
     };
 
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateRelationship");
-    testClient.updateRelationship(
-      testTwinId,
-      testRelationshipId,
-      testJsonPatch,
-      extendedOptions
-    );
+    testClient.updateRelationship(testTwinId, testRelationshipId, testJsonPatch, extendedOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonPatch, extendedOptions));
   });
