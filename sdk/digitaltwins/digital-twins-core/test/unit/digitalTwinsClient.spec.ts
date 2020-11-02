@@ -119,9 +119,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.getDigitalTwin(testTwinId);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testTwinId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testTwinId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -135,9 +133,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.getDigitalTwin(testTwinId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testTwinId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testTwinId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -165,13 +161,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.upsertDigitalTwin(testTwinId, testJsonString);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testJsonString,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testJsonString, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -199,13 +189,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "update");
     testClient.updateDigitalTwin(testTwinId, testJsonPatch, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testJsonPatch,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testJsonPatch, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -233,12 +217,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "delete");
     testClient.deleteDigitalTwin(testTwinId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -268,13 +247,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.getComponent(testTwinId, testComponentPath, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testComponentPath,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testComponentPath, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -302,14 +275,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateComponent");
     testClient.updateComponent(testTwinId, testComponentPath, testJsonPatch, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testComponentPath,
-        testJsonPatch,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testComponentPath, testJsonPatch, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -339,13 +305,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.getRelationship(testTwinId, testRelationshipId);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testRelationshipId,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -359,13 +319,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.getRelationship(testTwinId, testRelationshipId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testRelationshipId,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -393,14 +347,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testRelationshipId,
-        testJsonString,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonString, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -434,14 +381,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "updateRelationship");
     testClient.updateRelationship(testTwinId, testRelationshipId, testJsonPatch, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testRelationshipId,
-        testJsonPatch,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, testJsonPatch, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -475,13 +415,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "deleteRelationship");
     testClient.deleteRelationship(testTwinId, testRelationshipId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testTwinId,
-        testRelationshipId,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -553,9 +487,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "getById");
     testClient.getModel(testModelId, includeModelDefinition, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testModelId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testModelId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -598,13 +530,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.decomissionModel(testModelId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(
-        testModelId,
-        decommissionPatch,
-        updatedOptions
-      )
-    );
+    assert.isTrue(stub.calledWith(testModelId, decommissionPatch, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -634,9 +560,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.deleteModel(testModelId, updatedOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testModelId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testModelId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -672,14 +596,9 @@ describe("DigitalTwinsClient", () => {
       eventRoutesGetByIdOptionalParams
     );
 
-    testClient.getEventRoute(
-      testEventRouteId,
-      updatedOptions
-    );
+    testClient.getEventRoute(testEventRouteId, updatedOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testEventRouteId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testEventRouteId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -713,9 +632,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].eventRoutes, "add");
     testClient.upsertEventRoute(testEventRouteId, testEndpointName, testFilter, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testEventRouteId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testEventRouteId, updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -749,9 +666,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.deleteEventRoute(testEventRouteId, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(
-      stub.calledWith(testEventRouteId, updatedOptions)
-    );
+    assert.isTrue(stub.calledWith(testEventRouteId, updatedOptions));
     console.log(updatedOptions);
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);

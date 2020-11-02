@@ -157,10 +157,7 @@ export class DigitalTwinsClient {
       digitalTwinsGetByIdOptionalParams
     );
     try {
-      return this.client.digitalTwins.getById(
-        digitalTwinId,
-        updatedOptions
-      );
+      return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -192,11 +189,7 @@ export class DigitalTwinsClient {
       digitalTwinsAddOptionalParams
     );
     try {
-      return this.client.digitalTwins.add(
-        digitalTwinId,
-        digitalTwinJson,
-        updatedOptions
-      );
+      return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -230,11 +223,7 @@ export class DigitalTwinsClient {
       digitalTwinsUpdateOptionalParams
     );
     try {
-      return this.client.digitalTwins.update(
-        digitalTwinId,
-        jsonPatch,
-        updatedOptions
-      );
+      return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -264,10 +253,7 @@ export class DigitalTwinsClient {
       digitalTwinsDeleteOptionalParams
     );
     try {
-      return this.client.digitalTwins.delete(
-        digitalTwinId,
-        updatedOptions
-      );
+      return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -298,11 +284,7 @@ export class DigitalTwinsClient {
       digitalTwinsGetComponentOptionalParams
     );
     try {
-      return this.client.digitalTwins.getComponent(
-        digitalTwinId,
-        componentName,
-        updatedOptions
-      );
+      return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -571,10 +553,7 @@ export class DigitalTwinsClient {
       digitalTwinsListRelationshipsOptionalParams
     );
     try {
-      const iter = this.listRelationshipsAll(
-        digitalTwinId,
-        updatedOptions
-      );
+      const iter = this.listRelationshipsAll(digitalTwinId, updatedOptions);
 
       return {
         next() {
@@ -672,10 +651,7 @@ export class DigitalTwinsClient {
       digitalTwinsListIncomingRelationshipsOptionalParams
     );
     try {
-      const iter = this.listIncomingRelationshipsAll(
-        digitalTwinId,
-        updatedOptions
-      );
+      const iter = this.listIncomingRelationshipsAll(digitalTwinId, updatedOptions);
 
       return {
         next() {
@@ -811,10 +787,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsGetByIdOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.getById(
-        modelId,
-        updatedOptions
-      );
+      return this.client.digitalTwinModels.getById(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -949,9 +922,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsAddOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.add(
-        updatedOptions
-      );
+      return this.client.digitalTwinModels.add(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -983,11 +954,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsUpdateOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.update(
-        modelId,
-        jsonPatch,
-        updatedOptions
-      );
+      return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1013,10 +980,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsDeleteOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.delete(
-        modelId,
-        updatedOptions
-      );
+      return this.client.digitalTwinModels.delete(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1045,10 +1009,7 @@ export class DigitalTwinsClient {
       eventRoutesGetByIdOptionalParams
     );
     try {
-      return this.client.eventRoutes.getById(
-        eventRouteId,
-        updatedOptions
-      );
+      return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1186,10 +1147,7 @@ export class DigitalTwinsClient {
       eventRoutesAddOptionalParams
     );
     try {
-      return this.client.eventRoutes.add(
-        eventRouteId,
-        updatedOptions
-      );
+      return this.client.eventRoutes.add(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1218,10 +1176,7 @@ export class DigitalTwinsClient {
       eventRoutesDeleteOptionalParams
     );
     try {
-      return this.client.eventRoutes.delete(
-        eventRouteId,
-        updatedOptions
-      );
+      return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
