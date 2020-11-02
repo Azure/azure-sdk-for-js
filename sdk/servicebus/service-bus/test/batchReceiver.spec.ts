@@ -400,25 +400,25 @@ describe("Batching Receiver", () => {
         await receiver.completeMessage(peekedMsg);
         assert.fail("completeMessage should have failed");
       } catch (error) {
-          should.equal(error.message, expectedErrorMsg);
+        should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.abandonMessage(peekedMsg);
         assert.fail("abandonMessage should have failed");
       } catch (error) {
-          should.equal(error.message, expectedErrorMsg);
+        should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.deferMessage(peekedMsg);
         assert.fail("deferMessage should have failed");
       } catch (error) {
-          should.equal(error.message, expectedErrorMsg);
+        should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.deadLetterMessage(peekedMsg);
         assert.fail("deadLetterMessage should have failed");
       } catch (error) {
-          should.equal(error.message, expectedErrorMsg);
+        should.equal(error.message, expectedErrorMsg);
       }
 
       await testPeekMsgsLength(receiver, 0);
