@@ -580,6 +580,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
+    if (!messages.length) {
+      return [];
+    }
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
@@ -669,6 +672,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
+    if (!sequenceNumbers.length) {
+      return;
+    }
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -738,6 +744,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
+
+    if (!sequenceNumbers.length) {
+      return [];
+    }
 
     const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
