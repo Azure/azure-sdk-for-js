@@ -50,7 +50,7 @@ matrix([[true, false]] as const, async (useAad) => {
      * "describe" block
      */
 
-    describe("model training tests", async function() {
+    describe("model training", async function() {
       const allModels: string[] = [];
 
       let trainingClient: FormTrainingClient;
@@ -161,14 +161,14 @@ matrix([[true, false]] as const, async (useAad) => {
             /**
              * Use the model for some simple recognition
              */
-            describe("recognition using new model", async () => {
+            describe("recognition", async () => {
               let recognizerClient: FormRecognizerClient;
 
               beforeEach(() => {
                 recognizerClient = new FormRecognizerClient(endpoint(), makeCredential(useAad));
               });
 
-              it("recognizes form from url", async () => {
+              it("form from url", async () => {
                 const model = await requireModel();
 
                 const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
@@ -207,7 +207,7 @@ matrix([[true, false]] as const, async (useAad) => {
               });
             });
 
-            it("getModel() returns correct model info", async () => {
+            it("getModel() verification", async () => {
               const model = await requireModel();
 
               const modelInfo = await trainingClient.getCustomModel(model.modelId);
@@ -224,8 +224,8 @@ matrix([[true, false]] as const, async (useAad) => {
       /**
        * Check to make sure account information querying works
        */
-      describe("verify account information", () => {
-        it("getAccountProperties() gets model count and limit for this account", async () => {
+      describe("account properties", () => {
+        it("has trained models and limits", async () => {
           const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
           const properties = await trainingClient.getAccountProperties();
 
@@ -245,8 +245,8 @@ matrix([[true, false]] as const, async (useAad) => {
        * These are tests that check that model querying functions as expected.
        * This section also cleans up the models by deleting them.
        */
-      describe("model information and deletion", async () => {
-        it("listModels() iterates models in this account", async () => {
+      describe("model information", async () => {
+        it("iterate models in account", async () => {
           const modelsInAccount = [];
           for await (const model of trainingClient.listCustomModels()) {
             assert.ok(model.modelId, `Expecting a model but got ${model.modelId}`);
@@ -258,14 +258,14 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("listModels() allows getting next model info", async () => {
+        it("old-style iteration with next model info", async () => {
           const iter = trainingClient.listCustomModels();
           const item = await iter.next();
           assert.ok(item, `Expecting a model but got ${item}`);
           assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
         });
 
-        it("deleteModels() removes all models from the account", async () => {
+        it("delete models from the account", async () => {
           // Delete all of the models
           const results = await Promise.all(
             allModels.map((modelId) => trainingClient.deleteModel(modelId))
