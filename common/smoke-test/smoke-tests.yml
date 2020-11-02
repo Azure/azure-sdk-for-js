@@ -7,36 +7,36 @@ jobs:
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "14.x"
-        Windows Node12 (AzureCloud):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "12.x"
-        Mac Node10 (AzureCloud):
-          OSVmImage: "macOS-10.14"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "10.x"
-        Linux Node10 (AzureUSGovernment):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
-          NodeTestVersion: "10.x"
-        Windows Node14 (AzureUSGovernment):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
-          NodeTestVersion: "14.x"
-        Linux Node12 (AzureChinaCloud):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
-          NodeTestVersion: "12.x"
-        Windows Node10 (AzureChinaCloud):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
-          NodeTestVersion: "10.x"
+        # Windows Node12 (AzureCloud):
+        #   OSVmImage: "windows-2019"
+        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        #   ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+        #   NodeTestVersion: "12.x"
+        # Mac Node10 (AzureCloud):
+        #   OSVmImage: "macOS-10.14"
+        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        #   ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+        #   NodeTestVersion: "10.x"
+        # Linux Node10 (AzureUSGovernment):
+        #   OSVmImage: "ubuntu-18.04"
+        #   SubscriptionConfiguration: $(sub-config-gov-test-resources)
+        #   ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+        #   NodeTestVersion: "10.x"
+        # Windows Node14 (AzureUSGovernment):
+        #   OSVmImage: "windows-2019"
+        #   SubscriptionConfiguration: $(sub-config-gov-test-resources)
+        #   ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+        #   NodeTestVersion: "14.x"
+        # Linux Node12 (AzureChinaCloud):
+        #   OSVmImage: "ubuntu-18.04"
+        #   SubscriptionConfiguration: $(sub-config-cn-test-resources)
+        #   ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+        #   NodeTestVersion: "12.x"
+        # Windows Node10 (AzureChinaCloud):
+        #   OSVmImage: "windows-2019"
+        #   SubscriptionConfiguration: $(sub-config-cn-test-resources)
+        #   ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+        #   NodeTestVersion: "10.x"
 
     pool:
       vmImage: $(OSVmImage)
