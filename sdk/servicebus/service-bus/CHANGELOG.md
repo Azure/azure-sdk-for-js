@@ -23,22 +23,21 @@
 ### Breaking changes
 
 - The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver.
-- The `createBatch` method on the sender is renamed to `createMessageBatch`.
-- The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
-- The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
-- `ServiceBusMessage` interface updates:
-  - "properties" renamed to "applicationProperties".
-  - "label" renamed to "subject".
-- `CorrelationRuleFilter` interface updates:
+- The word "Message" is added to all methods and interfaces related to creating and sending a batch of messages for clarity based on user studies:
+  - The `createBatch` method on the sender is renamed to `createMessageBatch`.
+  - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
+  - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
+- Renames to `ServiceBusMessage` and `CorrelationRuleFilter` fields to better align with the AMQP spec:
   - "properties" renamed to "applicationProperties".
   - "label" renamed to "subject".
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required.
 - The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`.
 - The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
-- The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs`.
-- `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped.
-- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard". [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-- `NamespaceProperties` interface property "namespaceType" has been removed. [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
+- The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs` to be consistent with a similar option for renewing messages.
+- `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped as the messages are the primary object that is being worked with.
+- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard" to reflect the limited types it supports.
+- `NamespaceProperties` interface property "namespaceType" has been removed as it does not provide any value.
+- The property `subQueue` in the options passed to the `createReceiver()` method is renamed to `subQueueType` to reflect that the value is restricted and not meant to contain any queue names.
 - Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
   [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
 - Updated the `update{Entity}` methods under `ServiceBusAdministrationClient` with relevant param names and types, more docs.

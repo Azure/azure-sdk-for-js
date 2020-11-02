@@ -106,7 +106,7 @@ export interface ServiceBusReceiverOptions {
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
-  subQueue?: SubQueue;
+  subQueueType?: SubQueue;
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed
