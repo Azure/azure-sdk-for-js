@@ -7,7 +7,6 @@ import {
   TokenCredential,
   RestResponse,
   OperationOptions,
-  operationOptionsToRequestOptionsBase,
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -160,7 +159,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwins.getById(
         digitalTwinId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -196,7 +195,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.add(
         digitalTwinId,
         digitalTwinJson,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -234,7 +233,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.update(
         digitalTwinId,
         jsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -267,7 +266,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwins.delete(
         digitalTwinId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -302,7 +301,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getComponent(
         digitalTwinId,
         componentName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -342,7 +341,7 @@ export class DigitalTwinsClient {
         digitalTwinId,
         componentName,
         jsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -377,7 +376,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getRelationshipById(
         digitalTwinId,
         relationshipId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -415,7 +414,7 @@ export class DigitalTwinsClient {
         digitalTwinId,
         relationshipId,
         relationship,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -453,7 +452,7 @@ export class DigitalTwinsClient {
         digitalTwinId,
         relationshipId,
         jsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -489,7 +488,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.deleteRelationship(
         digitalTwinId,
         relationshipId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -574,7 +573,7 @@ export class DigitalTwinsClient {
     try {
       const iter = this.listRelationshipsAll(
         digitalTwinId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
 
       return {
@@ -675,7 +674,7 @@ export class DigitalTwinsClient {
     try {
       const iter = this.listIncomingRelationshipsAll(
         digitalTwinId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
 
       return {
@@ -732,7 +731,7 @@ export class DigitalTwinsClient {
         digitalTwinId,
         payload,
         messageId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -779,7 +778,7 @@ export class DigitalTwinsClient {
         componentName,
         payload,
         messageId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -814,7 +813,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwinModels.getById(
         modelId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -909,7 +908,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsListOptionalParams
     );
     try {
-      const iter = this.getModelsAll(operationOptionsToRequestOptionsBase(updatedOptions));
+      const iter = this.getModelsAll(updatedOptions);
 
       return {
         next() {
@@ -951,7 +950,7 @@ export class DigitalTwinsClient {
     );
     try {
       return this.client.digitalTwinModels.add(
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -987,7 +986,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.update(
         modelId,
         jsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1016,7 +1015,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwinModels.delete(
         modelId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1048,7 +1047,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.eventRoutes.getById(
         eventRouteId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1138,7 +1137,7 @@ export class DigitalTwinsClient {
       eventRoutesListOptionalParams
     );
     try {
-      const iter = this.getEventRoutesAll(operationOptionsToRequestOptionsBase(updatedOptions));
+      const iter = this.getEventRoutesAll(updatedOptions);
 
       return {
         next() {
@@ -1189,7 +1188,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.eventRoutes.add(
         eventRouteId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1221,7 +1220,7 @@ export class DigitalTwinsClient {
     try {
       return this.client.eventRoutes.delete(
         eventRouteId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1315,7 +1314,7 @@ export class DigitalTwinsClient {
       queryQueryTwinsOptionalParams
     );
     try {
-      const iter = this.queryTwinsAll(query, operationOptionsToRequestOptionsBase(updatedOptions));
+      const iter = this.queryTwinsAll(query, updatedOptions);
 
       return {
         next() {

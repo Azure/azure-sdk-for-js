@@ -9,8 +9,7 @@ import {
   HttpOperationResponse,
   HttpResponse,
   WebResource,
-  HttpHeaders,
-  operationOptionsToRequestOptionsBase
+  HttpHeaders
 } from "@azure/core-http";
 import {
   DigitalTwinsUpdateOptionalParams,
@@ -121,7 +120,7 @@ describe("DigitalTwinsClient", () => {
     testClient.getDigitalTwin(testTwinId);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testTwinId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testTwinId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -137,7 +136,7 @@ describe("DigitalTwinsClient", () => {
     testClient.getDigitalTwin(testTwinId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testTwinId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testTwinId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -170,7 +169,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testJsonString,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -204,7 +203,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testJsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -235,7 +234,10 @@ describe("DigitalTwinsClient", () => {
     testClient.deleteDigitalTwin(testTwinId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testTwinId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(
+        testTwinId,
+        updatedOptions
+      )
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -270,7 +272,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testComponentPath,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -305,7 +307,7 @@ describe("DigitalTwinsClient", () => {
         testTwinId,
         testComponentPath,
         testJsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -341,7 +343,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testRelationshipId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -361,7 +363,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testRelationshipId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -396,7 +398,7 @@ describe("DigitalTwinsClient", () => {
         testTwinId,
         testRelationshipId,
         testJsonString,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -437,7 +439,7 @@ describe("DigitalTwinsClient", () => {
         testTwinId,
         testRelationshipId,
         testJsonPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -477,7 +479,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testTwinId,
         testRelationshipId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -552,7 +554,7 @@ describe("DigitalTwinsClient", () => {
     testClient.getModel(testModelId, includeModelDefinition, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testModelId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testModelId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -575,7 +577,7 @@ describe("DigitalTwinsClient", () => {
     );
     testClient.createModels(testModels, operationOptions);
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(stub.calledWith(operationOptionsToRequestOptionsBase(updatedOptions)));
+    assert.isTrue(stub.calledWith(updatedOptions));
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });
@@ -600,7 +602,7 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(
         testModelId,
         decommissionPatch,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       )
     );
     assert.isNotNull(updatedOptions);
@@ -630,10 +632,10 @@ describe("DigitalTwinsClient", () => {
       "DigitalTwinsClient-deleteModel",
       digitalTwinModelsDeleteOptionalParams
     );
-    testClient.deleteModel(testModelId, operationOptionsToRequestOptionsBase(updatedOptions));
+    testClient.deleteModel(testModelId, updatedOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testModelId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testModelId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -672,11 +674,11 @@ describe("DigitalTwinsClient", () => {
 
     testClient.getEventRoute(
       testEventRouteId,
-      operationOptionsToRequestOptionsBase(updatedOptions)
+      updatedOptions
     );
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testEventRouteId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testEventRouteId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -712,7 +714,7 @@ describe("DigitalTwinsClient", () => {
     testClient.upsertEventRoute(testEventRouteId, testEndpointName, testFilter, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testEventRouteId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testEventRouteId, updatedOptions)
     );
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
@@ -748,7 +750,7 @@ describe("DigitalTwinsClient", () => {
     testClient.deleteEventRoute(testEventRouteId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testEventRouteId, operationOptionsToRequestOptionsBase(updatedOptions))
+      stub.calledWith(testEventRouteId, updatedOptions)
     );
     console.log(updatedOptions);
     assert.isNotNull(updatedOptions);
