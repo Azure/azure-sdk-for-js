@@ -1,0 +1,63 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 11 Nov 2020 11:49:22 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "62ef029d-b4b5-404c-a403-599c76403b00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkpool_name/sessions/40",
+   "query": {
+    "detailed": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"livyInfo\":{\"notStartedAt\":null,\"startingAt\":null,\"idleAt\":null,\"deadAt\":null,\"shuttingDownAt\":null,\"killedAt\":null,\"recoveringAt\":null,\"busyAt\":null,\"errorAt\":null,\"currentState\":\"not_started\",\"jobCreationRequest\":{\"name\":\"testSession\",\"conf\":{},\"driverMemory\":\"8g\",\"driverCores\":4,\"executorMemory\":\"8g\",\"executorCores\":4,\"numExecutors\":2}},\"name\":\"testSession\",\"workspaceName\":\"workspace_name\",\"computeName\":\"sparkpool_name\",\"sparkPoolName\":\"sparkpool_name\",\"submitterId\":\"bf4f36df-eda0-4fc4-9602-69d6ff714d8c\",\"artifactId\":\"Livy\",\"jobType\":\"SparkSession\",\"result\":\"Uncertain\",\"schedulerInfo\":{\"submittedAt\":\"2020-11-11T11:49:22.1252243+00:00\",\"scheduledAt\":null,\"endedAt\":null,\"cancellationRequestedAt\":null,\"currentState\":\"Queued\"},\"pluginInfo\":{\"preparationStartedAt\":null,\"resourceAcquisitionStartedAt\":null,\"submissionStartedAt\":null,\"monitoringStartedAt\":null,\"cleanupStartedAt\":null,\"currentState\":\"Preparation\"},\"tags\":{},\"id\":40,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 11 Nov 2020 11:49:22 GMT",
+    "server": "Kestrel Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-activity-id": "f6bdb9c2-2b79-4b89-8279-70810edb6e9c",
+    "x-ms-client-request-id": "e2d76f01-9a64-4cc2-b8e5-26c9167fe9e7",
+    "x-ms-job-clusterrequested-on": "1/1/0001 12:00:00 AM +00:00",
+    "x-ms-job-ended-on": "",
+    "x-ms-job-internal-id": "40",
+    "x-ms-job-livysubmission-on": "1/1/0001 12:00:00 AM +00:00",
+    "x-ms-job-queued-on": "1/1/0001 12:00:00 AM +00:00",
+    "x-ms-job-result": "Uncertain",
+    "x-ms-job-scheduled-on": "1/1/0001 12:00:00 AM +00:00",
+    "x-ms-job-scheduler-state": "Queued",
+    "x-ms-job-submitted-by-name": "bf4f36df-eda0-4fc4-9602-69d6ff714d8c",
+    "x-ms-job-submitted-on": "11/11/2020 11:49:22 AM +00:00",
+    "x-ms-job-type": "SparkServiceSession",
+    "x-ms-request-id": "8ba8773a-8aa1-4360-8bf2-3c69fcd86053",
+    "x-ms-response-time-ms": "14"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "86cbba0dd6fae701047385abf158f9a9"
+}

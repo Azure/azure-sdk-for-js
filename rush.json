@@ -581,6 +581,11 @@
       "packageName": "@azure/digital-twins",
       "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-spark",
+      "projectFolder": "sdk/synapse/synapse-spark",
+      "versionPolicyName": "client"
     }
   ]
 }
