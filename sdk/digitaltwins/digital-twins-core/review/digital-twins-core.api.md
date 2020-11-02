@@ -43,8 +43,14 @@ export interface DigitalTwinsAddHeaders {
 
 // @public
 export interface DigitalTwinsAddOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsAddOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsAddOptions?: DigitalTwinsAddOptions;
+}
+
+// @public
+export interface DigitalTwinsAddOptions {
+    ifNoneMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -54,8 +60,14 @@ export interface DigitalTwinsAddRelationshipHeaders {
 
 // @public
 export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsAddRelationshipOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsAddRelationshipOptions?: DigitalTwinsAddRelationshipOptions;
+}
+
+// @public
+export interface DigitalTwinsAddRelationshipOptions {
+    ifNoneMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -114,14 +126,26 @@ export interface DigitalTwinsClientOptions extends PipelineOptions {
 
 // @public
 export interface DigitalTwinsDeleteOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsDeleteOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsDeleteOptions?: DigitalTwinsDeleteOptions;
 }
 
 // @public
+export interface DigitalTwinsDeleteOptions {
+    ifMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
+}
+
+// @public
 export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsDeleteRelationshipOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsDeleteRelationshipOptions?: DigitalTwinsDeleteRelationshipOptions;
+}
+
+// @public
+export interface DigitalTwinsDeleteRelationshipOptions {
+    ifMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -206,8 +230,14 @@ export interface DigitalTwinsUpdateComponentHeaders {
 
 // @public
 export interface DigitalTwinsUpdateComponentOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateComponentOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsUpdateComponentOptions?: DigitalTwinsUpdateComponentOptions;
+}
+
+// @public
+export interface DigitalTwinsUpdateComponentOptions {
+    ifMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -224,8 +254,14 @@ export interface DigitalTwinsUpdateHeaders {
 
 // @public
 export interface DigitalTwinsUpdateOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsUpdateOptions?: DigitalTwinsUpdateOptions;
+}
+
+// @public
+export interface DigitalTwinsUpdateOptions {
+    ifMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
@@ -235,8 +271,14 @@ export interface DigitalTwinsUpdateRelationshipHeaders {
 
 // @public
 export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "DigitalTwinsUpdateRelationshipOptions" needs to be exported by the entry point index.d.ts
     digitalTwinsUpdateRelationshipOptions?: DigitalTwinsUpdateRelationshipOptions;
+}
+
+// @public
+export interface DigitalTwinsUpdateRelationshipOptions {
+    ifMatch?: string;
+    traceparent?: string;
+    tracestate?: string;
 }
 
 // @public
