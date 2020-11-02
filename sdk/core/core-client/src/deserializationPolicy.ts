@@ -242,13 +242,11 @@ function handleErrorResponse(
             valueToDeserialize = parsedBody[elementName];
           }
         }
-        if (error.response) {
-          deserializedError = operationSpec.serializer.deserialize(
-            defaultBodyMapper,
-            valueToDeserialize,
-            "error.response.parsedBody"
-          );
-        }
+        deserializedError = operationSpec.serializer.deserialize(
+          defaultBodyMapper,
+          valueToDeserialize,
+          "error.response.parsedBody"
+        );
       }
 
       const internalError: any = parsedBody.error || deserializedError || parsedBody;
@@ -258,17 +256,13 @@ function handleErrorResponse(
       }
 
       if (defaultBodyMapper) {
-        if (error.response) {
-          const errorResponse: FullOperationResponse = error.response;
-          errorResponse.parsedBody = deserializedError;
-        }
+        (error.response! as FullOperationResponse).parsedBody = deserializedError;
       }
     }
 
     // If error response has headers, try to deserialize it using default header mapper
-    if (parsedResponse.headers && defaultHeadersMapper && error.response) {
-      const errorResponse: FullOperationResponse = error.response;
-      errorResponse.parsedHeaders = operationSpec.serializer.deserialize(
+    if (parsedResponse.headers && defaultHeadersMapper) {
+      (error.response! as FullOperationResponse).parsedHeaders = operationSpec.serializer.deserialize(
         defaultHeadersMapper,
         parsedResponse.headers.toJSON(),
         "operationRes.parsedHeaders"
