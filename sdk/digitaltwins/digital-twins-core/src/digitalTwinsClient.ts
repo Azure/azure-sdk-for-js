@@ -909,9 +909,7 @@ export class DigitalTwinsClient {
       digitalTwinModelsListOptionalParams
     );
     try {
-      const iter = this.getModelsAll(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const iter = this.getModelsAll(operationOptionsToRequestOptionsBase(updatedOptions));
 
       return {
         next() {
@@ -1140,9 +1138,7 @@ export class DigitalTwinsClient {
       eventRoutesListOptionalParams
     );
     try {
-      const iter = this.getEventRoutesAll(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const iter = this.getEventRoutesAll(operationOptionsToRequestOptionsBase(updatedOptions));
 
       return {
         next() {
@@ -1319,10 +1315,7 @@ export class DigitalTwinsClient {
       queryQueryTwinsOptionalParams
     );
     try {
-      const iter = this.queryTwinsAll(
-        query,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const iter = this.queryTwinsAll(query, operationOptionsToRequestOptionsBase(updatedOptions));
 
       return {
         next() {
