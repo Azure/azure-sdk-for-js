@@ -20,7 +20,6 @@ const fakeContext = {
     decode: (data) => data
   }
 } as ConnectionContext;
-const fakeEntityPath = "dummy";
 const fakeDelivery = {} as Delivery;
 
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
@@ -40,7 +39,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
   it("Lock token in peekLock mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
       fakeContext,
-      fakeEntityPath,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -53,7 +51,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
   it("Lock token in receiveAndDelete mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
       fakeContext,
-      fakeEntityPath,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -103,7 +100,6 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
 
   const sbMessage = new ServiceBusMessageImpl(
     fakeContext,
-    fakeEntityPath,
     amqpMessage,
     fakeDelivery,
     false,

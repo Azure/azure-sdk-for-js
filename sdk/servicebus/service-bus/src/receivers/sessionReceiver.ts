@@ -13,7 +13,15 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
-import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
+import {
+  abandonMessage,
+  assertValidMessageHandlers,
+  completeMessage,
+  deadLetterMessage,
+  deferMessage,
+  getMessageIterator,
+  wrapProcessErrorHandler
+} from "./shared";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
@@ -483,33 +491,33 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return getMessageIterator(this, options);
   }
 
-  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+    return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
-  async abandonMessage(
+  abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  async deferMessage(
+  deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  async deadLetterMessage(
+  deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
   async renewMessageLock(): Promise<Date> {
