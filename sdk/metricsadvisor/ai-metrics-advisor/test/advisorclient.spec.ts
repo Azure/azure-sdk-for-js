@@ -153,6 +153,19 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value, "Expecting second dimension value");
   });
 
+  it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
+    const iterator = client.listDimensionValuesForDetectionConfiguration(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      "2020-08-05T00:00:00.000Z",
+      "2020-09-05T00:00:00.000Z",
+      "Dim1"
+    );
+    let result = await iterator.next();
+    assert.ok(result.value, "Expecting first dimension value");
+    result = await iterator.next();
+    assert.ok(result.value, "Expecting second dimension value");
+  });
+
   it("listDimensionValuesForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listDimensionValuesForDetectionConfiguration(
@@ -181,6 +194,19 @@ describe("MetricsAdvisorClient", () => {
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 1)),
       new Date(Date.UTC(2020, 8, 12)),
+      "AnomalyTime"
+    );
+    let result = await iterator.next();
+    assert.ok(result.value.id, "Expecting first alert");
+    result = await iterator.next();
+    assert.ok(result.value.id, "Expecting second alert");
+  });
+
+  it("lists alerts for alert configuration with datetime strings", async function() {
+    const iterator = client.listAlertsForAlertConfiguration(
+      testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+      "2020-01-01T00:00:00.000Z",
+      "2020-09-12T00:00:00.000Z",
       "AnomalyTime"
     );
     let result = await iterator.next();
@@ -256,6 +282,17 @@ describe("MetricsAdvisorClient", () => {
     const iterator = client.listMetricSeriesDefinitions(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
       new Date(Date.UTC(2020, 7, 5))
+    );
+    let result = await iterator.next();
+    assert.ok(result.value.dimension, "Expecting first definition");
+    result = await iterator.next();
+    assert.ok(result.value.dimension, "Expecting second definition");
+  });
+
+  it("listMetricSeriesDefinitions() with datetime string", async function() {
+    const iterator = client.listMetricSeriesDefinitions(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      "2020-08-05T00:00:00.000Z"
     );
     let result = await iterator.next();
     assert.ok(result.value.dimension, "Expecting first definition");
@@ -354,6 +391,38 @@ describe("MetricsAdvisorClient", () => {
     );
   });
 
+  it("lists series data for a metric with datetime strings", async function() {
+    const data = await client.getMetricSeriesData(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      "2020-08-05T00:00:00.000Z",
+      "2020-09-05T00:00:00.000Z",
+      [
+        { Dim1: "Common Lime", Dim2: "Amphibian" },
+        { Dim1: "Common Beech", Dim2: "Ant" }
+      ]
+    );
+    assert.ok(
+      data.metricSeriesDataList && data.metricSeriesDataList!.length === 2,
+      "Expecting data for two time series"
+    );
+    assert.equal(
+      data.metricSeriesDataList![0].definition.metricId,
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
+    );
+    assert.deepStrictEqual(data.metricSeriesDataList![0].definition.dimension, {
+      Dim1: "Common Lime",
+      Dim2: "Amphibian"
+    });
+
+    assert.ok(
+      data.metricSeriesDataList![0].timestamps &&
+        data.metricSeriesDataList![0].timestamps.length > 0 &&
+        data.metricSeriesDataList![0].values &&
+        data.metricSeriesDataList![0].values.length > 0,
+      "Expecting data for the first time series"
+    );
+  });
+
   it("list enriched data for a detection configuration", async function() {
     const data = await client.getMetricEnrichedSeriesData(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
@@ -397,11 +466,41 @@ describe("MetricsAdvisorClient", () => {
     );
   });
 
+  it("list enriched data for a detection configuration with datetime strings", async function() {
+    const data = await client.getMetricEnrichedSeriesData(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      "2020-08-01T00:00:00.000Z",
+      "2020-08-27T00:00:00.000Z",
+      [
+        { Dim1: "Common Lime", Dim2: "Amphibian" },
+        { Dim1: "Common Beech", Dim2: "Ant" }
+      ]
+    );
+    assert.ok(data.results && data.results!.length === 2, "Expecting data for two time series");
+
+    assert.deepStrictEqual(data.results![0].series, {
+      Dim1: "Common Lime",
+      Dim2: "Amphibian"
+    });
+  });
+
   it("list metric enrichment status", async function() {
     const iterator = client.listMetricEnrichmentStatus(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
       new Date(Date.UTC(2020, 0, 1)),
       new Date(Date.UTC(2020, 8, 18))
+    );
+    let result = await iterator.next();
+    assert.ok(result.value.status, "Expecting first status");
+    result = await iterator.next();
+    assert.ok(result.value.status, "Expecting second status");
+  });
+
+  it("list metric enrichment status with datetime strings", async function() {
+    const iterator = client.listMetricEnrichmentStatus(
+      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      "2020-01-01T00:00:00.000Z",
+      "2020-09-18T00:00:00.000Z"
     );
     let result = await iterator.next();
     assert.ok(result.value.status, "Expecting first status");
@@ -535,6 +634,20 @@ describe("MetricsAdvisorClient", () => {
         filter: {
           startTime: new Date(Date.UTC(2020, 9, 19)),
           endTime: new Date(Date.UTC(2020, 9, 20)),
+          timeMode: "FeedbackCreatedTime"
+        }
+      });
+      let result = await iterator.next();
+      assert.ok(result.value.id, "Expecting first status");
+      result = await iterator.next();
+      assert.ok(result.value.id, "Expecting second status");
+    });
+
+    it("lists Anomaly feedbacks with datetime strings", async function() {
+      const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+        filter: {
+          startTime: "2020-10-19T00:00:00.000Z",
+          endTime: "2020-10-20T00:00:00.000Z",
           timeMode: "FeedbackCreatedTime"
         }
       });
