@@ -70,7 +70,7 @@ async function sendMessages() {
 async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription, you can use the createReceiver(topic, subscription) overload
+  // If receiving from a subscription, you can use the createReceiver(topicName, subscriptionName) overload
   let receiver = sbClient.createReceiver(queueName);
 
   const deferredSteps = new Map();

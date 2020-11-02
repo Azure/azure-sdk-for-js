@@ -7,12 +7,12 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import { Message as AmqpMessage } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Dictionary } from 'rhea-promise';
 import { isAmqpError } from 'rhea-promise';
 import { isTokenCredential } from '@azure/core-auth';
+import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
@@ -47,10 +47,8 @@ export interface AmqpAnnotatedMessage {
 
 // @public
 export const AmqpAnnotatedMessage: {
-    fromRheaMessage(msg: AmqpMessage): AmqpAnnotatedMessage;
+    fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
 };
-
-export { AmqpMessage }
 
 // @public
 export interface AmqpMessageHeader {
@@ -81,7 +79,6 @@ export interface AmqpMessageProperties {
     replyToGroupId?: string;
     subject?: string;
     to?: string;
-    userId?: string;
 }
 
 // @public
@@ -623,7 +620,7 @@ export class RequestResponseLink implements ReqResLink {
     remove(): void;
     // (undocumented)
     sender: Sender;
-    sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage>;
+    sendRequest(request: Message, options?: SendRequestOptions): Promise<Message>;
     // (undocumented)
     session: Session;
 }

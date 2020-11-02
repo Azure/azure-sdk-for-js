@@ -89,8 +89,8 @@ describe("message", function() {
         replyTo: "",
         replyToGroupId: "",
         subject: "",
-        to: "",
-        userId: ""
+        to: ""
+        // userId: ""
       };
       const amqpMsgPropertiesExpected: RheaMessageProperties = {
         absolute_expiry_time: 0,
@@ -104,8 +104,8 @@ describe("message", function() {
         reply_to: "",
         reply_to_group_id: "",
         subject: "",
-        to: "",
-        user_id: ""
+        to: ""
+        // user_id: ""
       };
       const amqpMsgProperties: RheaMessageProperties = AmqpMessageProperties.toRheaMessageProperties(
         msgProperties
@@ -136,8 +136,8 @@ describe("message", function() {
         replyTo: "",
         replyToGroupId: "",
         subject: "",
-        to: "",
-        userId: ""
+        to: ""
+        // userId: ""
       };
       const amqpMsgProperties: RheaMessageProperties = {
         absolute_expiry_time: 0,
