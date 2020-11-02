@@ -86,6 +86,11 @@ describe("Deferred Messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
+    should.equal(
+      !!(deferredMsg as any)["delivery"],
+      true,
+      "Deferred msg should have delivery! We use this assumption to differentiate between peeked msg and other messages."
+    );
     should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       deferredMsg.messageId,

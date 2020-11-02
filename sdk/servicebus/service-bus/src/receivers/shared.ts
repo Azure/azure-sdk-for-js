@@ -113,7 +113,7 @@ export function deferMessage(
   });
 }
 
-export async function deadLetterMessage(
+export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
@@ -148,7 +148,7 @@ export async function deadLetterMessage(
   );
 }
 
-async function settleMessage(
+function settleMessage(
   message: ServiceBusMessageImpl,
   operation: DispositionType,
   context: ConnectionContext,
@@ -211,14 +211,13 @@ async function settleMessage(
   // 1. If the received message is deferred as such messages can only be settled using managementLink
   // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
   if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && message.sessionId == undefined)) {
-    await context
+    return context
       .getManagementClient(entityPath)
       .updateDispositionStatus(message.lockToken, operation, {
         ...options,
         associatedLinkName,
         sessionId: message.sessionId
       });
-    return;
   }
 
   return receiver!.settleMessage(message, operation, options);

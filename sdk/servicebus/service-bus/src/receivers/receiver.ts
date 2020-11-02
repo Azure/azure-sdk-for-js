@@ -649,7 +649,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
-  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
     const msgImpl = message as ServiceBusMessageImpl;
     if (!msgImpl.delivery) {
       throw new Error("A peeked message does not have a lock to be renewed.");
@@ -678,10 +678,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
       associatedLinkName = associatedReceiver?.name;
     }
-    message.lockedUntilUtc = await this._context
+    return this._context
       .getManagementClient(this.entityPath)
-      .renewLock(message.lockToken!, { associatedLinkName });
-    return message.lockedUntilUtc;
+      .renewLock(message.lockToken!, { associatedLinkName })
+      .then((lockedUntil) => {
+        message.lockedUntilUtc = lockedUntil;
+        return lockedUntil;
+      });
   }
 
   async close(): Promise<void> {
