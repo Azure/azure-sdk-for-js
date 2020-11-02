@@ -176,34 +176,24 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the digital twin to create or update.
    * @param digitalTwinJson The application/json digital twin to create.
-   * @param ifNoneMatch Only perform the operation if the entity does not already exist.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *  digitalTwinsAddOptions.ifNoneMatch: Only perform the operation if the entity does not already exist.
    * @returns The created application/json digital twin and the http response.
    */
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
-    ifNoneMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsAddOptionalParams = {}
   ): Promise<DigitalTwinsAddResponse> {
-    var digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = options;
-    if (ifNoneMatch) {
-      digitalTwinsAddOptionalParams = {
-        digitalTwinsAddOptions: {
-          ifNoneMatch: ifNoneMatch
-        },
-        ...options
-      };
-    }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertDigitalTwin",
-      digitalTwinsAddOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.add(
         digitalTwinId,
         digitalTwinJson,
-        digitalTwinsAddOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -223,32 +213,24 @@ export class DigitalTwinsClient {
    * @param jsonPatch An update specification described by JSON Patch. Updates to property values
    * and $model elements may happen in the same request. Operations are limited to add, replace and
    * remove.
-   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *   digitalTwinsDeleteOptions.ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateDigitalTwin(
     digitalTwinId: string,
     jsonPatch: any,
-    ifMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
-    var digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = options;
-    digitalTwinsUpdateOptionalParams = {
-      digitalTwinsUpdateOptions: {
-        ifMatch: ifMatch,
-        ...options
-      }
-    };
     const span = this.createSpan(
       "DigitalTwinsClient-updateDigitalTwin",
-      digitalTwinsUpdateOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.update(
         digitalTwinId,
         jsonPatch,
-        digitalTwinsUpdateOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -265,28 +247,20 @@ export class DigitalTwinsClient {
    * Delete a digital twin
    *
    * @param digitalTwinId The Id of the digital twin to delete.
-   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *   digitalTwinsDeleteOptions.ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public deleteDigitalTwin(
     digitalTwinId: string,
-    ifMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsDeleteOptionalParams = {}
   ): Promise<RestResponse> {
-    var digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
-    digitalTwinsDeleteOptionalParams = {
-      digitalTwinsDeleteOptions: {
-        ifMatch: ifMatch,
-        ...options
-      }
-    };
     const span = this.createSpan(
       "DigitalTwinsClient-deleteDigitalTwin",
-      digitalTwinsDeleteOptionalParams
+      options
     );
     try {
-      return this.client.digitalTwins.delete(digitalTwinId, digitalTwinsDeleteOptionalParams);
+      return this.client.digitalTwins.delete(digitalTwinId, options);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -340,34 +314,26 @@ export class DigitalTwinsClient {
    * @param componentName The component being updated.
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's component.
    * @param enableUpdate If true then update of an existing digital twin is enabled.
-   * @param options The operation options
-   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * @param options Extended operation options including
+   *   digitalTwinsUpdateComponentOptions.ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateComponent(
     digitalTwinId: string,
     componentName: string,
     jsonPatch: any[],
-    ifMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    var digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = options;
-    digitalTwinsUpdateComponentOptionalParams = {
-      digitalTwinsUpdateComponentOptions: {
-        ifMatch: ifMatch,
-        ...options
-      }
-    };
     const span = this.createSpan(
       "DigitalTwinsClient-updateComponent",
-      digitalTwinsUpdateComponentOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.updateComponent(
         digitalTwinId,
         componentName,
         jsonPatch,
-        digitalTwinsUpdateComponentOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -421,35 +387,25 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to create.
    * @param relationship: The application/json relationship to be created.
-   * @param ifNoneMatch: Only perform the operation if the entity does not already exist.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *  digitalTwinsAddRelationshipOptions.ifNoneMatch: Only perform the operation if the entity does not already exist.
    */
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
     relationship: any,
-    ifNoneMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    var digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
-    if (ifNoneMatch) {
-      digitalTwinsAddRelationshipOptionalParams = {
-        digitalTwinsAddRelationshipOptions: {
-          ifNoneMatch: ifNoneMatch
-        },
-        ...options
-      };
-    }
     const span = this.createSpan(
       "DigitalTwinsClient-upsertRelationship",
-      digitalTwinsAddRelationshipOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.addRelationship(
         digitalTwinId,
         relationshipId,
         relationship,
-        digitalTwinsAddRelationshipOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -468,34 +424,25 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the digital twin to delete.
    * @param relationshipId The Id of the relationship to be updated.
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's relationship.
-   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @param options The operation options
-   * provided
+   * @param options Extended operation options
+   *   digitalTwinsUpdateRelationshipOptions.ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    */
   public updateRelationship(
     digitalTwinId: string,
     relationshipId: string,
     jsonPatch: any[],
-    ifMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    var digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = options;
-    digitalTwinsUpdateRelationshipOptionalParams = {
-      digitalTwinsUpdateRelationshipOptions: {
-        ifMatch: ifMatch,
-        ...options
-      }
-    };
     const span = this.createSpan(
       "DigitalTwinsClient-updateRelationship",
-      digitalTwinsUpdateRelationshipOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.updateRelationship(
         digitalTwinId,
         relationshipId,
         jsonPatch,
-        digitalTwinsUpdateRelationshipOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -513,32 +460,24 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to delete.
-   * @param ifMatch Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @param options The operation options
+   *   digitalTwinsDeleteRelationshipOptions.ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @returns The http response.
    */
   public deleteRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    ifMatch?: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsDeleteRelationshipOptionalParams = {}
   ): Promise<RestResponse> {
-    var digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = options;
-    digitalTwinsDeleteRelationshipOptionalParams = {
-      digitalTwinsDeleteRelationshipOptions: {
-        ifMatch: ifMatch,
-        ...options
-      }
-    };
     const span = this.createSpan(
       "DigitalTwinsClient-deleteRelationship",
-      digitalTwinsDeleteRelationshipOptionalParams
+      options
     );
     try {
       return this.client.digitalTwins.deleteRelationship(
         digitalTwinId,
         relationshipId,
-        digitalTwinsDeleteRelationshipOptionalParams
+        options
       );
     } catch (e) {
       span.setStatus({
@@ -711,7 +650,7 @@ export class DigitalTwinsClient {
    */
   public listIncomingRelationships(
     digitalTwinId: string,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<
     IncomingRelationship,
     DigitalTwinsListIncomingRelationshipsResponse
@@ -939,7 +878,7 @@ export class DigitalTwinsClient {
     dependeciesFor?: string[],
     includeModelDefinition: boolean = false,
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
     var digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
     digitalTwinModelsListOptionalParams = {
@@ -1161,7 +1100,7 @@ export class DigitalTwinsClient {
    */
   public listEventRoutes(
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
     var eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
@@ -1330,7 +1269,7 @@ export class DigitalTwinsClient {
   public queryTwins(
     query: string,
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
     var queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {

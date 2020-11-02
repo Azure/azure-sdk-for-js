@@ -44,7 +44,7 @@ directive:
       }
 ```
 
-### Expose If-None_match header
+### Expose If-None_Match header
 
 ```yaml
 directive:
