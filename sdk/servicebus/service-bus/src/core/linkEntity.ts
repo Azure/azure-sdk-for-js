@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  AccessToken,
   Constants,
-  SharedKeyCredential,
   TokenType,
   defaultLock,
   RequestResponseLink,
   MessagingError
 } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
   AwaitableSender,
@@ -22,6 +21,7 @@ import {
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 
 /**
  * @internal
@@ -289,12 +289,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Set the flag to indicate that this instance of LinkEntity is not meant to be re-used.
     this._wasClosedPermanently = true;
 
-    this._logger.verbose(
-      "%s Closing the %s for entity '%s'.",
-      this.logPrefix,
-      this._type,
-      this.address
-    );
+    this._logger.verbose(`${this.logPrefix} permanently closing this link.`);
 
     // Remove the underlying AMQP link from the cache
     switch (this._linkType) {
@@ -313,14 +308,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       }
     }
 
-    this._logger.verbose(
-      "%s Deleted the %s '%s' from the client cache.",
-      this.logPrefix,
-      this._type,
-      this.name
-    );
-
     await this.closeLink();
+    this._logger.verbose(`${this.logPrefix} permanently closed this link.`);
   }
 
   /**
@@ -359,7 +348,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         // This should take care of closing the link and it's underlying session. This should also
         // remove them from the internal map.
         await link.close();
-
         this._logger.verbose(`${this._logPrefix} closed.`);
       } catch (err) {
         this._logger.logError(err, `${this._logPrefix} An error occurred while closing the link`);
@@ -456,7 +444,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       this.checkIfConnectionReady();
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
     });
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",

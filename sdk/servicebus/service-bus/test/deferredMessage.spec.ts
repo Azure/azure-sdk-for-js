@@ -52,6 +52,23 @@ describe("Deferred Messages", () => {
     await serviceBusClient.test.afterEach();
   });
 
+  it(noSessionTestClientType + ": Empty array as input throws no error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(noSessionTestClientType);
+    const msgs = await receiver.receiveDeferredMessages([]);
+    should.equal(msgs.length, 0);
+  });
+
+  it(
+    withSessionTestClientType + ": Empty array as input throws no error",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      const msgs = await receiver.receiveDeferredMessages([]);
+      should.equal(msgs.length, 0);
+    }
+  );
+
   /**
    * Sends, defers, receives and then returns a test message
    * @param testMessage Test message to send, defer, receive and then return
@@ -86,6 +103,11 @@ describe("Deferred Messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
+    should.equal(
+      !!(deferredMsg as any)["delivery"],
+      true,
+      "Deferred msg should have delivery! We use this assumption to differentiate between peeked msg and other messages."
+    );
     should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       deferredMsg.messageId,

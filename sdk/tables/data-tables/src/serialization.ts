@@ -5,7 +5,9 @@ import { EdmTypes } from "./models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
-  ["RowKey", "rowKey"]
+  ["RowKey", "rowKey"],
+  ["odata.etag", "etag"],
+  ["Timestamp", "timestamp"]
 ]);
 
 const Edm = {

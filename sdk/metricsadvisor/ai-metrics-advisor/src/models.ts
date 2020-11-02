@@ -205,7 +205,7 @@ export interface DataFeedOptions {
   /**
    * data feed description
    */
-  dataFeedDescription?: string;
+  description?: string;
 
   /**
    * settings on data rollup
@@ -271,10 +271,6 @@ export interface DataFeed {
    * Name of the data feed.
    */
   name: string;
-  /**
-   * Ids of the metrics in the data feed.
-   */
-  metricIds: string[];
   /**
    * Time when the data feed is created
    */
@@ -517,26 +513,10 @@ export interface DetectionConditionsCommon {
  *
  * For a metric with two dimensions: city and category, Examples include
  *
- *   { dimension: { city: "Tokyo", category: "Handmade" } } - identifies one time series
- *   { dimension: { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
+ *   { { city: "Tokyo", category: "Handmade" } } - identifies one time series
+ *   { { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
  */
-export type DimensionKey = {
-  dimension: Record<string, string>;
-};
-
-/*
-export type SeriesIdentity = {
-  dimension: Record<string, string>;
-};
-
-export type DimensionGroupIdentity = {
-  dimension: Record<string, string>;
-};
-
-export type FeedbackDimensionFilter = {
-  dimension: Record<string, string>;
-};
-*/
+export type DimensionKey = Record<string, string>;
 
 /**
  * Detection condition for all time series of a metric.
@@ -631,7 +611,7 @@ export type ChangeThresholdConditionUnion =
       /**
        * detection direction
        */
-      anomalyDetectorDirection: "Up" | "Down";
+      anomalyDetectorDirection: "Up" | "Down" | "Both";
 
       /**
        * suppress condition
@@ -671,7 +651,7 @@ export interface MetricFeedbackCommon {
   /**
    * The dimension key of the time series to which this feedback is made.
    */
-  dimensionFilter: DimensionKey;
+  dimensionKey: DimensionKey;
 }
 
 /**
@@ -700,13 +680,13 @@ export type MetricAnomalyFeedback = {
    *
    * May be available when retrieving feedback from the Metrics Advisor service.
    */
-  anomalyDetectionConfigurationId?: string;
+  readonly anomalyDetectionConfigurationId?: string;
   /**
    * The snapshot of the anomaly detection configuration when feedback was created.
    *
    * May be vailable when retrieving feedback from the Metrics Advisor service.
    */
-  anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
+  readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
 
 /**
@@ -887,7 +867,7 @@ export interface AnomalyIncident {
   /**
    * incident last time
    */
-  lastOccuredTime: Date;
+  lastOccurredTime: Date;
 
   /**
    * incident status
@@ -954,6 +934,10 @@ export interface AnomalyAlert {
    * alert id
    */
   id: string;
+  /**
+   * id of the alert configuration that triggered this alert
+   */
+  alertConfigId: string;
   /**
    * anomaly time
    */
@@ -1261,31 +1245,6 @@ export interface MetricEnrichedSeriesData {
 }
 
 // Response types
-
-/**
- * Contains response data for the getMetricFeedback operation.
- */
-export type GetMetricFeedbackResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: MetricFeedbackUnion;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricFeedbackUnion;
-  };
-};
 
 /**
  * Contains response data for the getDataFeed operation.

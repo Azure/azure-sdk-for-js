@@ -9,6 +9,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -43,6 +44,8 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options?: TokenCredentialOptions
   ) {
+    checkTenantId(logger, tenantIdOrName);
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
     this.clientId = clientId;

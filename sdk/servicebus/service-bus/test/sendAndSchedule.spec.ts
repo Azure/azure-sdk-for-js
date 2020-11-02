@@ -216,6 +216,15 @@ describe("Sender Tests", () => {
     await testPeekMsgsLength(receiver, 0);
   }
 
+  it(
+    anyRandomTestClientType + ": Schedule with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      const sequenceNumbers = await sender.scheduleMessages([], new Date());
+      should.equal(sequenceNumbers.length, 0);
+    }
+  );
+
   it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleSingleMessage();
@@ -261,6 +270,14 @@ describe("Sender Tests", () => {
     await delay(30000);
     await testReceivedMsgsLength(receiver, 0);
   }
+
+  it(
+    anyRandomTestClientType + ": Cancel Scheduled message with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await sender.cancelScheduledMessages([]);
+    }
+  );
 
   it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
     void
@@ -445,12 +462,12 @@ describe("ServiceBusMessage validations", function(): void {
         "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
       title: "partitionKey is longer than 128 characters"
     },
-    {
-      message: { body: "", viaPartitionKey: longString },
-      expectedErrorMessage:
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
-      title: "viaPartitionKey is longer than 128 characters"
-    },
+    // {
+    //   message: { body: "", viaPartitionKey: longString },
+    //   expectedErrorMessage:
+    //     "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+    //   title: "viaPartitionKey is longer than 128 characters"
+    // },
     {
       message: { body: "", sessionId: longString },
       expectedErrorMessage:

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants as AMQPConstants,
-  isTokenCredential,
-  parseConnectionString,
-  TokenCredential
-} from "@azure/core-amqp";
+import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -20,7 +16,8 @@ import {
   stripResponse,
   URLBuilder,
   WebResource,
-  PipelineOptions
+  PipelineOptions,
+  HttpResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
@@ -74,7 +71,12 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
-import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import {
+  formatUserAgentPrefix,
+  getHttpResponseOnly,
+  isAbsoluteUrl,
+  isJSONLikeObject
+} from "./util/utils";
 
 /**
  * Request options for list<entity-type>() operations
@@ -98,7 +100,7 @@ export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpOperationResponse;
+  _response: HttpResponse;
 };
 
 /**
@@ -272,7 +274,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
+        `Performing management operation - createQueue() for "${queueName}" with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.putResource(
         queueName,
@@ -402,7 +405,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getQueues() with options: ${options}`);
+      logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -461,7 +464,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
-    logger.verbose(`Performing management operation - listQueues() with options: ${options}`);
+    logger.verbose(`Performing management operation - listQueues() with options: %j`, options);
     const iter = this.listQueuesAll(options);
     return {
       /**
@@ -510,7 +513,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
+        `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
@@ -572,7 +576,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
     logger.verbose(
-      `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
+      `Performing management operation - listQueuesRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
@@ -604,11 +609,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the queue based on the queue properties provided.
    * All queue properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties,
-   * update as needed and then pass it to `updateQueue()`.
+   * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
+   *
    * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
    *
-   * @param queue Object representing the properties of the queue.
+   * @param queue Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -622,7 +627,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateQueue(
-    queue: QueueProperties,
+    queue: WithResponse<QueueProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
@@ -631,7 +636,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
+        `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
+        queue
       );
 
       if (!isJSONLikeObject(queue) || queue == null) {
@@ -694,7 +700,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -764,7 +770,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
+        `Performing management operation - createTopic() for "${topicName}" with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.putResource(
         topicName,
@@ -894,7 +901,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getTopics() with options: ${options}`);
+      logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -954,7 +961,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    logger.verbose(`Performing management operation - listTopics() with options: ${options}`);
+    logger.verbose(`Performing management operation - listTopics() with options: %j`, options);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1003,7 +1010,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
+        `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
@@ -1066,7 +1074,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
     logger.verbose(
-      `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listTopicsRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
@@ -1098,11 +1107,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the topic based on the topic properties provided.
    * All topic properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties,
-   * update as needed and then pass it to `updateTopic()`.
+   * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
+   *
    * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
    *
-   * @param topic Object representing the properties of the topic.
+   * @param topic Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1116,7 +1125,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateTopic(
-    topic: TopicProperties,
+    topic: WithResponse<TopicProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
@@ -1125,7 +1134,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
+        `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
+        topic
       );
 
       if (!isJSONLikeObject(topic) || topic == null) {
@@ -1188,7 +1198,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1260,7 +1270,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
+        `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
+        options
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
       const response: HttpOperationResponse = await this.putResource(
@@ -1402,7 +1413,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getSubscriptions() with options: ${options}`
+        `Performing management operation - getSubscriptions() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
@@ -1470,7 +1482,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     logger.verbose(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+      `Performing management operation - listSubscriptions() with options: %j`,
+      options
     );
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
@@ -1522,7 +1535,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
+        `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
@@ -1596,7 +1610,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
     logger.verbose(
-      `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listSubscriptionsRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
@@ -1628,10 +1643,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates the subscription based on the subscription properties provided.
    * All subscription properties must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties,
-   * update as needed and then pass it to `updateSubscription()`.
+   * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
-   * @param subscription Object representing the properties of the subscription.
+   * @param subscription Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1645,7 +1659,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateSubscription(
-    subscription: SubscriptionProperties,
+    subscription: WithResponse<SubscriptionProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
@@ -1654,7 +1668,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
+        subscription
       );
 
       if (!isJSONLikeObject(subscription) || subscription == null) {
@@ -1729,7 +1744,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1859,7 +1874,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
+        `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
+        ruleFilter
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.putResource(
@@ -1952,7 +1968,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getRules() with options: ${options}`);
+      logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
@@ -2018,7 +2034,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    logger.verbose(`Performing management operation - listRules() with options: ${options}`);
+    logger.verbose(`Performing management operation - listRules() with options: %j`, options);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
@@ -2049,12 +2065,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Updates properties on the Rule by the given name based on the given options.
    * All rule properties must be set even if one of them is being updated.
-   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties,
-   * update as needed and then pass it to `updateRule()`.
+   * Therefore, the suggested flow is to use the output from `getRule()`, update the desired properties in it, and then pass the modified object to `updateRule()`.
    *
    * @param topicName
    * @param subscriptionName
-   * @param rule Options to configure the Rule being updated.
+   * @param rule Options to configure the Rule being updated and the raw response.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -2070,7 +2085,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleProperties,
+    rule: WithResponse<RuleProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
@@ -2079,7 +2094,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
+        `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
+        rule
       );
 
       if (!isJSONLikeObject(rule) || rule === null) {
@@ -2148,7 +2164,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2431,9 +2447,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<NamespaceProperties> {
     try {
       const namespace = buildNamespace(response.parsedBody);
-      const namespaceResponse: WithResponse<NamespaceProperties> = Object.assign(namespace || {}, {
-        _response: response
-      });
+      const namespaceResponse: WithResponse<NamespaceProperties> = Object.defineProperty(
+        namespace || {},
+        "_response",
+        { value: getHttpResponseOnly(response) }
+      );
       return namespaceResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2463,9 +2481,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: EntitiesResponse<QueueProperties> = Object.assign(queues, {
-        _response: response
-      });
+      const listQueuesResponse: EntitiesResponse<QueueProperties> = Object.defineProperty(
+        queues,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
@@ -2496,9 +2518,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: EntitiesResponse<QueueRuntimeProperties> = Object.assign(queues, {
-        _response: response
-      });
+      const listQueuesResponse: EntitiesResponse<QueueRuntimeProperties> = Object.defineProperty(
+        queues,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
@@ -2516,9 +2542,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private buildQueueResponse(response: HttpOperationResponse): WithResponse<QueueProperties> {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: WithResponse<QueueProperties> = Object.assign(queue || {}, {
-        _response: response
-      });
+      const queueResponse: WithResponse<QueueProperties> = Object.defineProperty(
+        queue || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return queueResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2537,9 +2567,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<QueueRuntimeProperties> {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
-      const queueResponse: WithResponse<QueueRuntimeProperties> = Object.assign(queue || {}, {
-        _response: response
-      });
+      const queueResponse: WithResponse<QueueRuntimeProperties> = Object.defineProperty(
+        queue || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return queueResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2569,9 +2603,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: EntitiesResponse<TopicProperties> = Object.assign(topics, {
-        _response: response
-      });
+      const listTopicsResponse: EntitiesResponse<TopicProperties> = Object.defineProperty(
+        topics,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
@@ -2602,9 +2640,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: EntitiesResponse<TopicRuntimeProperties> = Object.assign(topics, {
-        _response: response
-      });
+      const listTopicsResponse: EntitiesResponse<TopicRuntimeProperties> = Object.defineProperty(
+        topics,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
@@ -2621,9 +2663,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private buildTopicResponse(response: HttpOperationResponse): WithResponse<TopicProperties> {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: WithResponse<TopicProperties> = Object.assign(topic || {}, {
-        _response: response
-      });
+      const topicResponse: WithResponse<TopicProperties> = Object.defineProperty(
+        topic || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return topicResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2642,9 +2688,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<TopicRuntimeProperties> {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
-      const topicResponse: WithResponse<TopicRuntimeProperties> = Object.assign(topic || {}, {
-        _response: response
-      });
+      const topicResponse: WithResponse<TopicRuntimeProperties> = Object.defineProperty(
+        topic || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return topicResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2674,10 +2724,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.defineProperty(
         subscriptions,
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
       listSubscriptionsResponse.continuationToken = nextMarker;
@@ -2710,10 +2761,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
         subscriptions,
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
       listSubscriptionsResponse.continuationToken = nextMarker;
@@ -2735,10 +2787,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<SubscriptionProperties> {
     try {
       const subscription = buildSubscription(response.parsedBody);
-      const subscriptionResponse: WithResponse<SubscriptionProperties> = Object.assign(
+      const subscriptionResponse: WithResponse<SubscriptionProperties> = Object.defineProperty(
         subscription || {},
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
       return subscriptionResponse;
@@ -2759,10 +2812,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
-      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.assign(
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
         subscription || {},
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
       return subscriptionResponse;
@@ -2794,9 +2848,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: EntitiesResponse<RuleProperties> = Object.assign(rules, {
-        _response: response
-      });
+      const listRulesResponse: EntitiesResponse<RuleProperties> = Object.defineProperty(
+        rules,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
@@ -2814,9 +2872,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private buildRuleResponse(response: HttpOperationResponse): WithResponse<RuleProperties> {
     try {
       const rule = buildRule(response.parsedBody);
-      const ruleResponse: WithResponse<RuleProperties> = Object.assign(rule || {}, {
-        _response: response
-      });
+      const ruleResponse: WithResponse<RuleProperties> = Object.defineProperty(
+        rule || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return ruleResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");

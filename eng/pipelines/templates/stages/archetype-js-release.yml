@@ -1,5 +1,6 @@
 parameters:
   Artifacts: []
+  TestPipeline: false
   ArtifactName: 'not-specified'
   DependsOn: Build
   Registry: 'https://registry.npmjs.org/'
@@ -46,7 +47,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -75,7 +76,7 @@ stages:
                     steps:
                       - checkout: self
                       - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.*.tgz`
+                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                         displayName: Detecting package archive
 
@@ -108,7 +109,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -157,7 +158,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}

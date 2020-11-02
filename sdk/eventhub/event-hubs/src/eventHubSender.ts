@@ -9,10 +9,10 @@ import {
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message
+  message,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   RetryConfig,
@@ -22,7 +22,7 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
@@ -318,15 +318,15 @@ export class EventHubSender extends LinkEntity {
           return;
         }
         const partitionKey = (options && options.partitionKey) || undefined;
-        const messages: AmqpMessage[] = [];
-        // Convert EventData to AmqpMessage.
+        const messages: RheaMessage[] = [];
+        // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
-          const message = toAmqpMessage(events[i], partitionKey);
+          const message = toRheaMessage(events[i], partitionKey);
           message.body = this._context.dataTransformer.encode(events[i].body);
           messages[i] = message;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
-        const batchMessage: AmqpMessage = {
+        const batchMessage: RheaMessage = {
           body: message.data_sections(messages.map(message.encode))
         };
 
@@ -394,7 +394,7 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   private _trySendBatch(
-    message: AmqpMessage | Buffer,
+    message: RheaMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;

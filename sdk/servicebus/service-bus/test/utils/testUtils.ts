@@ -33,8 +33,7 @@ export class TestMessage {
         propTwo: "two",
         propThree: true,
         propFour: Date()
-      },
-      userId: `${randomTag} userId`
+      }
     };
   }
 
@@ -57,8 +56,7 @@ export class TestMessage {
         propThree: true
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id",
-      userId: `${randomNumber} userId`
+      replyToSessionId: "some-other-session-id"
     };
   }
 
@@ -130,8 +128,6 @@ export class TestMessage {
         `Unexpected partitionKey in received msg`
       );
     }
-
-    chai.assert.equal(received.userId, sent.userId, "Unexpected userId in received msg");
   }
 }
 

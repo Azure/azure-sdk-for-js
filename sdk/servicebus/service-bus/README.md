@@ -137,20 +137,43 @@ using the [createSender][sbclient_createsender] method which you can use to [sen
 ```javascript
 const sender = serviceBusClient.createSender("my-queue");
 
-// sending a single message
-await sender.sendMessages({
-  body: "my-message-body"
-});
+const messages = [
+  { body: "Albert Einstein" },
+  { body: "Werner Heisenberg" },
+  { body: "Marie Curie" },
+  { body: "Steven Hawking" },
+  { body: "Isaac Newton" },
+  { body: "Niels Bohr" },
+  { body: "Michael Faraday" },
+  { body: "Galileo Galilei" },
+  { body: "Johannes Kepler" },
+  { body: "Nikolaus Kopernikus" }
+];
 
-// sending multiple messages
-await sender.sendMessages([
-  {
-    body: "my-message-body"
-  },
-  {
-    body: "another-message-body"
+// sending a single message
+await sender.sendMessages(messages[0]);
+
+// sending multiple messages in a single call
+// this will fail if the messages cannot fit in a batch
+await sender.sendMessages(messages);
+
+// Sends multiple messages using one or more ServiceBusMessageBatch objects as required
+let batch = await sender.createMessageBatch();
+
+for (let i = 0; i < messages.length; i++) {
+  const message = messages[i];
+  if (!batch.tryAddMessage(message)) {
+    // Send the current batch as it is full and create a new one
+    await sender.sendMessages(batch);
+    batch = await sender.createMessageBatch();
+
+    if (!batch.tryAddMessage(messages[i])) {
+      throw new Error("Message too big to fit in a batch");
+    }
   }
-]);
+}
+// Send the batch
+await sender.sendMessages(batch);
 ```
 
 ### Receive messages
@@ -313,7 +336,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 ## AMQP Dependencies
 
-The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs
 

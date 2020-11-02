@@ -22,27 +22,21 @@ import {
   UpdateCapabilitiesOptions,
   UpdateNumbersCapabilitiesResponse,
   GetCapabilitiesUpdateResponse,
-  ReleasePhoneNumbersResponse,
-  GetReleaseResponse,
   GetAreaCodesRequest,
   GetAreaCodesOptions,
   GetAreaCodesResponse,
-  GetReleaseOptions,
-  ReleasePhoneNumberOptions,
   GetCapabilitiesUpdateOptions,
   UnconfigurePhoneNumberOptions
 } from "../../src";
 import {
   baseHttpClient,
   getAreaCodesHttpClient,
-  getReleaseHttpClient,
   listPhoneNumbersHttpClient,
   listPhonePlanGroupsHttpClient,
   listPhonePlansHttpClient,
   listReleasesOrSearchesHttpClient,
   listSupportedCountriesHttpClient,
-  phoneNumbersCapabilitiesHttpClient,
-  releasePhoneNumbersHttpClient
+  phoneNumbersCapabilitiesHttpClient
 } from "./mockHttpClients";
 
 export class TestPhoneNumberAdministrationClient {
@@ -152,28 +146,6 @@ export class TestPhoneNumberAdministrationClient {
     });
 
     return client.getCapabilitiesUpdate(capabilitiesUpdateId, options);
-  }
-
-  public async releasePhoneNumbersTest(
-    phoneNumbers: string[],
-    options: ReleasePhoneNumberOptions = {}
-  ): Promise<ReleasePhoneNumbersResponse> {
-    const client = new PhoneNumberAdministrationClient(this.connectionString, {
-      httpClient: releasePhoneNumbersHttpClient
-    });
-
-    return client.releasePhoneNumbers(phoneNumbers, options);
-  }
-
-  public async getReleaseTest(
-    releaseId: string,
-    options: GetReleaseOptions = {}
-  ): Promise<GetReleaseResponse> {
-    const client = new PhoneNumberAdministrationClient(this.connectionString, {
-      httpClient: getReleaseHttpClient
-    });
-
-    return client.getRelease(releaseId, options);
   }
 
   public async getAreaCodesTest(

@@ -10,10 +10,10 @@ export {
   MessageErrorCodes,
   MessagingError,
   RetryOptions,
-  TokenCredential,
   TokenType,
   WebSocketOptions
 } from "@azure/core-amqp";
+export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
@@ -28,7 +28,6 @@ export {
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SubQueue,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
@@ -59,9 +58,6 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
-  AmqpAnnotatedMessage,
-  AmqpMessageHeader,
-  AmqpMessageProperties,
   DeadLetterOptions,
   ServiceBusReceivedMessage,
   ServiceBusMessage

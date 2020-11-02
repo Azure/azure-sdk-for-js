@@ -4,7 +4,7 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  Message as AmqpMessage,
+  Message as RheaMessage,
   Connection,
   EventContext,
   Receiver,
@@ -101,11 +101,11 @@ export class RequestResponseLink implements ReqResLink {
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in milliseconds `default: 60000`, then `OperationTimeoutError` is thrown.
    *
-   * @param {Message} request The AMQP (request) message.
+   * @param {RheaMessage} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
+  sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
     const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
@@ -116,7 +116,7 @@ export class RequestResponseLink implements ReqResLink {
       request.message_id = generate_uuid();
     }
 
-    return new Promise<AmqpMessage>((resolve: any, reject: any) => {
+    return new Promise<RheaMessage>((resolve: any, reject: any) => {
       const rejectOnAbort = (): void => {
         this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";

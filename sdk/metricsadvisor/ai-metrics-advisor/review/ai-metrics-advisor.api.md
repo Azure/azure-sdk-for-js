@@ -22,6 +22,7 @@ export interface AlertSnoozeCondition {
 
 // @public
 export interface AnomalyAlert {
+    alertConfigId: string;
     createdOn?: Date;
     id: string;
     modifiedOn?: Date;
@@ -56,7 +57,7 @@ export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 export interface AnomalyIncident {
     detectionConfigurationId: string;
     id: string;
-    lastOccuredTime: Date;
+    lastOccurredTime: Date;
     metricId?: string;
     rootDimensionKey: DimensionKey;
     severity: AnomalySeverity;
@@ -159,7 +160,7 @@ export type ChangeThresholdConditionUnion = {
     changePercentage: number;
     shiftPoint: number;
     withinRange: false;
-    anomalyDetectorDirection: "Up" | "Down";
+    anomalyDetectorDirection: "Up" | "Down" | "Both";
     suppressCondition: SuppressCondition;
 };
 
@@ -174,7 +175,6 @@ export interface DataFeed {
     id: string;
     ingestionSettings: DataFeedIngestionSettings;
     isAdmin: boolean;
-    metricIds: string[];
     name: string;
     options?: DataFeedOptions;
     schema: DataFeedSchema;
@@ -238,7 +238,7 @@ export interface DataFeedOptions {
     accessMode?: DataFeedAccessMode;
     actionLinkTemplate?: string;
     adminEmails?: string[];
-    dataFeedDescription?: string;
+    description?: string;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     rollupSettings?: DataFeedRollupSettings;
     viewerEmails?: string[];
@@ -318,9 +318,7 @@ export interface DetectionConditionsCommon {
 export type DetectionConditionsOperator = "AND" | "OR";
 
 // @public
-export type DimensionKey = {
-    dimension: Record<string, string>;
-};
+export type DimensionKey = Record<string, string>;
 
 // @public
 export type ElasticsearchDataFeedSource = {
@@ -424,9 +422,7 @@ export type GetIncidentRootCauseResponse = {
 };
 
 // @public
-export type GetMetricEnrichedSeriesDataOptions = {
-    skip?: number;
-} & OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
 
 // @public
 export type GetMetricEnrichedSeriesDataResponse = {
@@ -438,18 +434,7 @@ export type GetMetricEnrichedSeriesDataResponse = {
 };
 
 // @public
-export type GetMetricFeedbackResponse = {
-    body: MetricFeedbackUnion;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: MetricFeedbackUnion;
-    };
-};
-
-// @public
-export type GetMetricSeriesDataOptions = {
-    skip?: number;
-} & OperationOptions;
+export type GetMetricSeriesDataOptions = {} & OperationOptions;
 
 // @public
 export type GetMetricSeriesDataResponse = {
@@ -778,8 +763,8 @@ export type MetricAnomalyFeedback = {
     startTime: Date;
     endTime: Date;
     value: "AutoDetect" | "Anomaly" | "NotAnomaly";
-    anomalyDetectionConfigurationId?: string;
-    anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
+    readonly anomalyDetectionConfigurationId?: string;
+    readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
 
 // @public
@@ -834,7 +819,7 @@ export interface MetricEnrichedSeriesData {
 // @public
 export interface MetricFeedbackCommon {
     readonly createdTime?: Date;
-    dimensionFilter: DimensionKey;
+    dimensionKey: DimensionKey;
     readonly id?: string;
     metricId: string;
     readonly userPrincipal?: string;
@@ -893,11 +878,11 @@ export class MetricsAdvisorClient {
     getMetricFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getMetricSeriesData(metricId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
     listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date, endTime: Date, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse>;
-    listAnomaliesForAlert(alertConfigId: string, alertId: string, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
-    listAnomaliesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
+    listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
+    listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
     listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
-    listIncidentsForAlert(alertConfigId: string, alertId: string, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
-    listIncidentsForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
+    listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
+    listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, ListMetricDimensionValuesPageResponse>;
     listMetricEnrichmentStatus(metricId: string, startTime: Date, endTime: Date, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
     listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, ListMetricFeedbackPageResponse>;

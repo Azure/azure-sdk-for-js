@@ -232,13 +232,13 @@ describe("invalid parameters", () => {
       let errorCaught: string = "";
       try {
         // @ts-expect-error
-        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+        sbClient.createReceiver("dummyQueue", { subQueueType: 123 });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        `Invalid subQueue '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
+        `Invalid subQueueType '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
         "Did not throw error if created a client with invalid subQueue."
       );
     });

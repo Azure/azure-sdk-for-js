@@ -11,5 +11,5 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
    * Option to include x5c header for SubjectName and Issuer name authorization.
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
-  includeX5c?: boolean;
+  sendCertificateChain?: boolean;
 }

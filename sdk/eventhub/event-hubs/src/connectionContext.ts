@@ -13,17 +13,15 @@ import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  EventHubConnectionConfig,
-  SharedKeyCredential,
-  TokenCredential,
-  isTokenCredential,
   parseConnectionString,
-  EventHubConnectionStringModel,
   ConnectionConfig
 } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
@@ -37,6 +35,11 @@ export interface ConnectionContext extends ConnectionContextBase {
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
+  /**
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * Default value: SharedKeyCredentials.
+   */
+  tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
@@ -163,7 +166,6 @@ export namespace ConnectionContext {
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenCredential: tokenCredential,
       // re-enabling this will be a post-GA discussion.
       // dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
@@ -175,6 +177,7 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add EventHub specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
+    connectionContext.tokenCredential = tokenCredential;
     connectionContext.wasConnectionCloseCalled = false;
     connectionContext.senders = {};
     connectionContext.receivers = {};
@@ -450,7 +453,7 @@ export function createConnectionContext(
   hostOrConnectionString = String(hostOrConnectionString);
 
   if (!isTokenCredential(credentialOrOptions)) {
-    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
+    const parsedCS = parseConnectionString<{ EntityPath?: string }>(hostOrConnectionString);
     if (
       !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
     ) {

@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  parseConnectionString,
-  ServiceBusConnectionStringModel,
-  SharedKeyCredential
-} from "@azure/core-amqp";
+import { parseConnectionString } from "@azure/core-amqp";
 import { EventHubConsumerClient } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { EventHubProducerClient } from "../src";
+import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -18,7 +15,7 @@ describe("Authentication via SAS", () => {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME],
-    fqdn: parseConnectionString<ServiceBusConnectionStringModel>(
+    fqdn: parseConnectionString<{ Endpoint: string }>(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]
     ).Endpoint.replace(/\/+$/, "")
   };

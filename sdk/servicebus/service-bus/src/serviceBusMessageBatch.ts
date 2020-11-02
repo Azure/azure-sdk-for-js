@@ -3,7 +3,7 @@
 
 import {
   ServiceBusMessage,
-  toAmqpMessage,
+  toRheaMessage,
   isServiceBusMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
@@ -12,9 +12,9 @@ import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
-  message as RheaMessageUtil
+  message as RheaMessageUtil,
+  Message as RheaMessage
 } from "rhea-promise";
-import { AmqpMessage } from "@azure/core-amqp";
 import { SpanContext } from "@opentelemetry/api";
 import {
   instrumentServiceBusMessage,
@@ -182,7 +182,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     applicationProperties?: { [key: string]: any },
     messageProperties?: { [key: string]: string }
   ): Buffer {
-    const batchEnvelope: AmqpMessage = {
+    const batchEnvelope: RheaMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
       message_annotations: annotations,
       application_properties: applicationProperties
@@ -262,7 +262,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     }
 
     // Convert ServiceBusMessage to AmqpMessage.
-    const amqpMessage = toAmqpMessage(message);
+    const amqpMessage = toRheaMessage(message);
     amqpMessage.body = this._context.dataTransformer.encode(message.body);
 
     let encodedMessage: Buffer;
