@@ -626,8 +626,8 @@ export type ListFeedbacksOptions = {
     filter?: {
         dimensionFilter?: DimensionKey;
         feedbackType?: FeedbackType;
-        startTime?: Date;
-        endTime?: Date;
+        startTime?: Date | string;
+        endTime?: Date | string;
         timeMode?: FeedbackQueryTimeMode;
     };
 } & OperationOptions;
@@ -853,11 +853,11 @@ export class MetricsAdvisorAdministrationClient {
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     getMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, ListAnomalyAlertConfigurationsPageResponse, undefined>;
-    listDataFeedIngestionStatus(dataFeedId: string, startTime: Date, endTime: Date, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse>;
+    listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, ListDataFeedsPageResponse>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, ListHooksPageResponse>;
     listMetricAnomalyDetectionConfigurations(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, ListAnomalyDetectionConfigurationsPageResponse, undefined>;
-    refreshDataFeedIngestion(dataFeedId: string, startTime: Date, endTime: Date, options?: OperationOptions): Promise<RestResponse>;
+    refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
     updateAnomalyAlertConfiguration(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
     updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
@@ -874,19 +874,19 @@ export class MetricsAdvisorClient {
     createMetricFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
-    getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
+    getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
     getMetricFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
-    getMetricSeriesData(metricId: string, startTime: Date, endTime: Date, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
-    listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date, endTime: Date, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse>;
+    getMetricSeriesData(metricId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
+    listAlertsForAlertConfiguration(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse>;
     listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForAlertPageResponse>;
     listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, ListAnomaliesForDetectionConfigurationPageResponse>;
-    listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date, endTime: Date, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
+    listDimensionValuesForDetectionConfiguration(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListDimensionValuesForDetectionConfigurationOptions): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse>;
     listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsForAlertPageResponse>;
     listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, ListIncidentsByDetectionConfigurationPageResponse>;
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, ListMetricDimensionValuesPageResponse>;
-    listMetricEnrichmentStatus(metricId: string, startTime: Date, endTime: Date, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
+    listMetricEnrichmentStatus(metricId: string, startTime: Date | string, endTime: Date | string, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse>;
     listMetricFeedbacks(metricId: string, options?: ListFeedbacksOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, ListMetricFeedbackPageResponse>;
-    listMetricSeriesDefinitions(metricId: string, activeSince: Date, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, ListMetricSeriesPageResponse>;
+    listMetricSeriesDefinitions(metricId: string, activeSince: Date | string, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, ListMetricSeriesPageResponse>;
     }
 
 // @public
