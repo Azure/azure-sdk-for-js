@@ -30,7 +30,7 @@ export async function main() {
         "REALLY_DELETE_ALL_MODELS=yes"
       ].join("\n")
     );
-    process.exit(1);
+    return;
   }
 
   console.log("Deleting all models in", endpoint);
