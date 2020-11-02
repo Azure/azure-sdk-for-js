@@ -532,7 +532,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await receiver.completeMessage(deferredMsg);
+      await deadLetterReceiver.completeMessage(deferredMsg);
 
       await testPeekMsgsLength(receiver, 0);
 
