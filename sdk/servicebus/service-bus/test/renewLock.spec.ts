@@ -74,9 +74,12 @@ describe("Message Lock Renewal", () => {
     await sender.sendMessages(testMessage);
 
     const [peekedMsg] = await receiver.peekMessages(1);
-    assert.throws(() => {
-      receiver.renewMessageLock(peekedMsg);
-    }, "A peeked message does not have a lock to be renewed.");
+    try {
+      await receiver.renewMessageLock(peekedMsg);
+      assert.fail("renewMessageLock should have failed");
+    } catch (error) {
+        should.equal(error.message, "A peeked message does not have a lock to be renewed.");
+    }
 
     // Clean up any left over messages
     const [unprocessedMsg] = await receiver.receiveMessages(1);

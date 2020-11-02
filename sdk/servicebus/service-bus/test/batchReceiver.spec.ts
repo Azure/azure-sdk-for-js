@@ -396,18 +396,30 @@ describe("Batching Receiver", () => {
       );
 
       const expectedErrorMsg = "A peeked message cannot be settled.";
-      assert.throws(() => {
-        receiver.completeMessage(peekedMsg);
-      }, expectedErrorMsg);
-      assert.throws(() => {
-        receiver.abandonMessage(peekedMsg);
-      }, expectedErrorMsg);
-      assert.throws(() => {
-        receiver.deferMessage(peekedMsg);
-      }, expectedErrorMsg);
-      assert.throws(() => {
-        receiver.deadLetterMessage(peekedMsg);
-      }, expectedErrorMsg);
+      try {
+        await receiver.completeMessage(peekedMsg);
+        assert.fail("completeMessage should have failed");
+      } catch (error) {
+          should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.abandonMessage(peekedMsg);
+        assert.fail("abandonMessage should have failed");
+      } catch (error) {
+          should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.deferMessage(peekedMsg);
+        assert.fail("deferMessage should have failed");
+      } catch (error) {
+          should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.deadLetterMessage(peekedMsg);
+        assert.fail("deadLetterMessage should have failed");
+      } catch (error) {
+          should.equal(error.message, expectedErrorMsg);
+      }
 
       await testPeekMsgsLength(receiver, 0);
     }

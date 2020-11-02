@@ -620,12 +620,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
   }
 
-  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
     return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
-  abandonMessage(
+  async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -633,7 +633,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deferMessage(
+  async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -641,7 +641,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deadLetterMessage(
+  async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
@@ -649,7 +649,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
-  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
     const msgImpl = message as ServiceBusMessageImpl;
     if (!msgImpl.delivery) {
       throw new Error("A peeked message does not have a lock to be renewed.");

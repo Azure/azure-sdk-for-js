@@ -491,12 +491,12 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return getMessageIterator(this, options);
   }
 
-  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
     return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
-  abandonMessage(
+  async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -504,7 +504,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deferMessage(
+  async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
@@ -512,7 +512,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deadLetterMessage(
+  async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
