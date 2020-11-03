@@ -837,7 +837,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listAnomalyAlertConfigurations(detectionConfigurationId);
+   * let iter = client.listAlertConfigs(detectionConfigurationId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` alert - ${result.value.id}, ${result.value.name}`);
@@ -848,7 +848,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listAnomalyAlertConfigurations(detectionConfigurationId)
+   * const pages = client.listAlertConfigs(detectionConfigurationId)
    *   .byPage();
    * let page = await pages.next();
    * let i = 1;
@@ -867,7 +867,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options The options parameter.
    */
 
-  public listAlertConfigurations(
+  public listAlertConfigs(
     detectionConfigId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
@@ -1207,7 +1207,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```js
    * const client = new MetricsAdvisorAdministrationClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anomalyDetectionList = client.listMetricAnomalyDetectionConfigurations(metricId);
+   * const anomalyDetectionList = client.listDetectionConfigs(metricId);
    * let i = 1;
    * for await (const anomaly of anomalyDetectionList){
    *  console.log(`anomaly ${i++}:`);
@@ -1218,7 +1218,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listMetricAnomalyDetectionConfigurations(metricId);
+   * let iter = client.listDetectionConfigs(metricId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` anomaly - ${result.value.id}, ${result.value.name}`);
@@ -1229,7 +1229,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listMetricAnomalyDetectionConfigurations(metricId)
+   * const pages = client.listDetectionConfigs(metricId)
    *   .byPage();
    * let page = await pages.next();
    * let i = 1;
@@ -1249,7 +1249,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options The options parameter.
    */
 
-  public listMetricAnomalyDetectionConfigurations(
+  public listDetectionConfigs(
     metricId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
