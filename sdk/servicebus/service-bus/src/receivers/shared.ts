@@ -5,7 +5,6 @@ import { MessageHandlers, ProcessErrorArgs } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger, ServiceBusLogger } from "../log";
-import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { translateServiceBusError } from "../serviceBusError";
 import {
   DeadLetterOptions,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
 import {
@@ -12,8 +12,6 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
-import { DispositionStatusOptions } from "./core/managementClient";
-import { translateServiceBusError } from "./serviceBusError";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
 import { reorderLockToken } from "./util/utils";
