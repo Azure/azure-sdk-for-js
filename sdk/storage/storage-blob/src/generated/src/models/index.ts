@@ -487,6 +487,10 @@ export interface RetentionPolicy {
    * All data older than this value will be deleted
    */
   days?: number;
+  /**
+   * Indicates whether permanent delete is allowed on this storage account.
+   */
+  allowPermanentDelete?: boolean;
 }
 
 /**
@@ -1801,6 +1805,11 @@ export interface BlobDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if
+   * blob soft delete is enabled.
+   */
+  blobDeleteType?: string;
   /**
    * Additional parameters for the operation
    */

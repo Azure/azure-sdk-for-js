@@ -377,6 +377,13 @@ export interface BlobDeleteOptions extends CommonOptions {
    * @memberof BlobDeleteOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if
+   * blob soft delete is enabled.
+   * @type {"permanent" | string}
+   * @memberof BlobDeleteOptions
+   */
+  blobDeleteType?: "permanent" | string;
 }
 
 /**
@@ -1540,6 +1547,7 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.deleteMethod({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
+        blobDeleteType: options.blobDeleteType,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,

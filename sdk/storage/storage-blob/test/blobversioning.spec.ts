@@ -380,4 +380,35 @@ describe("Blob versioning", () => {
     await blobClient.undelete();
     assert.ok(await blobVersionClient.exists());
   });
+
+  it.only("permanent delete", async function() {
+    let properties = await blobServiceClient.getProperties();
+    if (
+      !properties.deleteRetentionPolicy!.enabled ||
+      !properties.deleteRetentionPolicy!.allowPermanentDelete
+    ) {
+      await blobServiceClient.setProperties({
+        deleteRetentionPolicy: {
+          days: 7,
+          enabled: true,
+          allowPermanentDelete: true
+        }
+      });
+      await delay(30 * 1000);
+      properties = await blobServiceClient.getProperties();
+      assert.ok(
+        properties.deleteRetentionPolicy!.enabled,
+        "deleteRetentionPolicy should be enabled."
+      );
+      assert.ok(
+        properties.deleteRetentionPolicy!.allowPermanentDelete,
+        "allowPermanentDelete should be true."
+      );
+    }
+
+    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
+    await blobVersionClient.delete();
+
+    await blobVersionClient.delete({ blobDeleteType: "permanent" });
+  });
 });

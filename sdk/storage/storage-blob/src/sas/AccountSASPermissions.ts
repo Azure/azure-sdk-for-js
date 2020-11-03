@@ -39,6 +39,9 @@ export class AccountSASPermissions {
         case "x":
           accountSASPermissions.deleteVersion = true;
           break;
+        case "y":
+          accountSASPermissions.permanentlyDeleteVersionOrSnapshot = true;
+          break;
         case "l":
           accountSASPermissions.list = true;
           break;
@@ -99,6 +102,14 @@ export class AccountSASPermissions {
    * @memberof AccountSASPermissions
    */
   public deleteVersion: boolean = false;
+
+  /**
+   * Indicates that permanently deleting a Blob version or snapshot is permitted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public permanentlyDeleteVersionOrSnapshot: boolean = false;
 
   /**
    * Permission to list blob containers, blobs, shares, directories, and files granted.
@@ -184,6 +195,9 @@ export class AccountSASPermissions {
     }
     if (this.deleteVersion) {
       permissions.push("x");
+    }
+    if (this.permanentlyDeleteVersionOrSnapshot) {
+      permissions.push("y");
     }
     if (this.filter) {
       permissions.push("f");

@@ -142,6 +142,16 @@ export function generateAccountSASQueryParameters(
     throw RangeError("'version' must be >= '2019-12-12' when provided 'f' permission.");
   }
 
+  if (
+    version < "2020-04-08" &&
+    accountSASSignatureValues.permissions &&
+    accountSASSignatureValues.permissions.permanentlyDeleteVersionOrSnapshot
+  ) {
+    throw RangeError(
+      "'version' must be >= '2020-04-08' when providing the permanentlyDeleteVersionOrSnapshot 'y' permission."
+    );
+  }
+
   const parsedPermissions = AccountSASPermissions.parse(
     accountSASSignatureValues.permissions.toString()
   );

@@ -46,6 +46,9 @@ export class BlobSASPermissions {
         case "x":
           blobSASPermissions.deleteVersion = true;
           break;
+        case "y":
+          blobSASPermissions.permanentlyDeleteVersionOrSnapshot = true;
+          break;
         case "t":
           blobSASPermissions.tag = true;
           break;
@@ -112,6 +115,14 @@ export class BlobSASPermissions {
   public deleteVersion: boolean = false;
 
   /**
+   * Indicates that permanently deleting a Blob version or snapshot is permitted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissions
+   */
+  public permanentlyDeleteVersionOrSnapshot: boolean = false;
+
+  /**
    * Specfies Tag access granted.
    *
    * @type {boolean}
@@ -161,6 +172,10 @@ export class BlobSASPermissions {
     }
     if (this.deleteVersion) {
       permissions.push("x");
+    }
+    if (this.permanentlyDeleteVersionOrSnapshot) {
+      // need to be following "x"
+      permissions.push("y");
     }
     if (this.tag) {
       permissions.push("t");

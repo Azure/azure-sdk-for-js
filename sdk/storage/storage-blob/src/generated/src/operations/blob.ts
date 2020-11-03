@@ -815,7 +815,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
+    Parameters.blobDeleteType
   ],
   headerParameters: [
     Parameters.deleteSnapshots,

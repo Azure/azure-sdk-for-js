@@ -1523,6 +1523,13 @@ export const RetentionPolicy: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      allowPermanentDelete: {
+        xmlName: "AllowPermanentDelete",
+        serializedName: "AllowPermanentDelete",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

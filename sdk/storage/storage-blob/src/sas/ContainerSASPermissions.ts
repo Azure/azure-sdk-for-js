@@ -50,6 +50,9 @@ export class ContainerSASPermissions {
         case "x":
           containerSASPermissions.deleteVersion = true;
           break;
+        case "y":
+          containerSASPermissions.permanentlyDeleteVersionOrSnapshot = true;
+          break;
         case "m":
           containerSASPermissions.move = true;
           break;
@@ -113,6 +116,14 @@ export class ContainerSASPermissions {
   public deleteVersion: boolean = false;
 
   /**
+   * Indicates that permanently deleting a Blob version or snapshot is permitted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissions
+   */
+  public permanentlyDeleteVersionOrSnapshot: boolean = false;
+
+  /**
    * Specifies List access granted.
    *
    * @type {boolean}
@@ -173,6 +184,9 @@ export class ContainerSASPermissions {
     }
     if (this.deleteVersion) {
       permissions.push("x");
+    }
+    if (this.permanentlyDeleteVersionOrSnapshot) {
+      permissions.push("y");
     }
     if (this.list) {
       permissions.push("l");

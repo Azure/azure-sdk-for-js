@@ -52,6 +52,7 @@ export class AccountSASPermissions {
     filter: boolean;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
+    permanentlyDeleteVersionOrSnapshot: boolean;
     process: boolean;
     read: boolean;
     tag: boolean;
@@ -484,6 +485,7 @@ export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    blobDeleteType?: "permanent" | string;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     deleteSnapshots?: DeleteSnapshotsOptionType;
@@ -1002,6 +1004,7 @@ export class BlobSASPermissions {
     execute: boolean;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
+    permanentlyDeleteVersionOrSnapshot: boolean;
     read: boolean;
     tag: boolean;
     toString(): string;
@@ -1848,6 +1851,7 @@ export class ContainerSASPermissions {
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
+    permanentlyDeleteVersionOrSnapshot: boolean;
     read: boolean;
     tag: boolean;
     toString(): string;
@@ -2603,6 +2607,7 @@ export { RestError }
 
 // @public
 export interface RetentionPolicy {
+    allowPermanentDelete?: boolean;
     days?: number;
     enabled: boolean;
 }

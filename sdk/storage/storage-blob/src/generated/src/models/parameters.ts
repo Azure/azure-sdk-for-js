@@ -207,6 +207,18 @@ export const blobContentType: coreHttp.OperationParameter = {
     }
   }
 };
+export const blobDeleteType: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "blobDeleteType"
+  ],
+  mapper: {
+    serializedName: "deletetype",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const blobSequenceNumber: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -1680,7 +1692,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2020-02-10',
+    defaultValue: '2020-04-08',
     type: {
       name: "String"
     }

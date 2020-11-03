@@ -1229,6 +1229,44 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it.only("account SAS permission y for blob version permanent delete should work", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: AccountSASPermissions.parse("rwdlacuyp"), // will be reordered inside
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        version: "2020-04-08"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    ).toString();
+
+    // create version
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
+    await blobVersionClient.delete();
+    assert.ok(!(await blobVersionClient.exists()));
+
+    const blobClientWithSAS = new BlobClient(`${blobClient.url}?${sas}`);
+    const blobVersionClientWithSAS = blobClientWithSAS.withVersion(uploadRes.versionId!);
+    await blobVersionClientWithSAS.delete({ blobDeleteType: "permanent" });
+
+    await containerClient.delete();
+  });
+
   it("SAS permission m, e for blob should work", async function() {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server

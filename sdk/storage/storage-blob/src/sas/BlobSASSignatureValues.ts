@@ -856,6 +856,16 @@ function SASSignatureValuesSanityCheckAndAutofill(
     );
   }
 
+  if (
+    version < "2020-04-08" &&
+    blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.permanentlyDeleteVersionOrSnapshot
+  ) {
+    throw RangeError(
+      "'version' must be >= '2020-04-08' when providing the permanentlyDeleteVersionOrSnapshot 'y' permission."
+    );
+  }
+
   blobSASSignatureValues.version = version;
   return blobSASSignatureValues;
 }
