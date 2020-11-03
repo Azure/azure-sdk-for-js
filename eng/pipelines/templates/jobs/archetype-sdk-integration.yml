@@ -53,23 +53,23 @@ parameters:
 - name: Matrix
   type: object
   default:
-    # Windows Node 8:
-    #   OSVmImage: "windows-2019"
-    #   TestType: "node"
-    #   NodeTestVersion: "8.x"
-    #   PublishCodeCoverage: true
-    # Linux Node 10:
-    #   OSVmImage: "ubuntu-18.04"
-    #   TestType: "node"
-    #   NodeTestVersion: "10.x"
+    Windows Node 8:
+      OSVmImage: "windows-2019"
+      TestType: "node"
+      NodeTestVersion: "8.x"
+      PublishCodeCoverage: true
+    Linux Node 10:
+      OSVmImage: "ubuntu-18.04"
+      TestType: "node"
+      NodeTestVersion: "10.x"
     Linux Node 12:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "12.x"
-    # MacOS Node 14:
-    #   OSVmImage: "macOS-10.15"
-    #   TestType: "node"
-    #   NodeTestVersion: "14.x"
+    MacOS Node 14:
+      OSVmImage: "macOS-10.15"
+      TestType: "node"
+      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -100,54 +100,54 @@ jobs:
             # is specified because the template logic above is not running in this
             # context.
 
-        # # Add matrix entry for browser testing
-        # ${{ if eq(parameters.TestBrowser, 'true') }}:
-        #   Windows Browser:
-        #     OSVmImage: "windows-2019"
-        #     TestType: "browser"
-        #     NodeTestVersion: "$(NodeVersion)"
-        #     TestResultsFiles: "**/test-results.browser.xml"
+        # Add matrix entry for browser testing
+        ${{ if eq(parameters.TestBrowser, 'true') }}:
+          Windows Browser:
+            OSVmImage: "windows-2019"
+            TestType: "browser"
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.browser.xml"
 
-        # # Add matrix entry for sample testing
-        # ${{ if eq(parameters.TestSamples, 'true') }}:
-        #   Samples Linux Node 10:
-        #     OSVmImage: "ubuntu-18.04"
-        #     TestType: "sample"
-        #     NodeTestVersion: "10.x"            
+        # Add matrix entry for sample testing
+        ${{ if eq(parameters.TestSamples, 'true') }}:
+          Samples Linux Node 10:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "sample"
+            NodeTestVersion: "10.x"            
         
-        # # Add matrix entry for min-max testing
-        # ${{ if eq(parameters.TestMinMax, 'true') }}:
-        #   MaxVersion_Node:
-        #     OSVmImage: "ubuntu-18.04"
-        #     TestType: "node"
-        #     DependencyVersion: max
-        #     NodeTestVersion: "$(NodeVersion)"
-        #     TestResultsFiles: "**/test-results.xml"            
-        #   MinVersion_Node:
-        #     OSVmImage: "ubuntu-18.04"
-        #     TestType: "node"
-        #     DependencyVersion: min
-        #     NodeTestVersion: "$(NodeVersion)"
-        #     TestResultsFiles: "**/test-results.xml"                  
+        # Add matrix entry for min-max testing
+        ${{ if eq(parameters.TestMinMax, 'true') }}:
+          MaxVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: max
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"            
+          MinVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: min
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"                  
 
-        # # Add matrix entry for same dep testing
-        # ${{ if eq(parameters.TestSame, 'true') }}:
-        #   SameVersion_Node:
-        #     OSVmImage: "ubuntu-18.04"
-        #     TestType: "node"
-        #     DependencyVersion: same
-        #     NodeTestVersion: "$(NodeVersion)"
-        #     TestResultsFiles: "**/test-results.xml"   
+        # Add matrix entry for same dep testing
+        ${{ if eq(parameters.TestSame, 'true') }}:
+          SameVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: same
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"   
 
-        # # Add matrix entry for canary testing
-        # ${{ if eq(parameters.TestCanary, 'true') }}:
-        #   CanaryTest_Node:
-        #     OSVmImage: "ubuntu-18.04"
-        #     TestType: "node"
-        #     NodeTestVersion: "$(NodeVersion)"
-        #     TestResultsFiles: "**/test-results.xml"
-        #     SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-        #     ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}}
+        # Add matrix entry for canary testing
+        ${{ if eq(parameters.TestCanary, 'true') }}:
+          CanaryTest_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+            ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
     pool:
       vmImage: "$(OSVmImage)"
 
