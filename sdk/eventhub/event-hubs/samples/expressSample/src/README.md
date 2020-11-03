@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-event-hubs
-urlFragment: evenlt-hubs-typescript-express-node
+urlFragment: event-hubs-typescript-express-node
 ---
 
 # Azure Event Hubs client library express samples for Typescript
