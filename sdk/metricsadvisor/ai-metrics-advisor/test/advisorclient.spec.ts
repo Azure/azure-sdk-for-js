@@ -494,7 +494,7 @@ describe("MetricsAdvisorClient", () => {
   it("gets root causes of an incident", async function() {
     const result = await client.getIncidentRootCauses(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_INCIDENT_ID
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID
     );
 
     assert.ok(
