@@ -127,7 +127,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TransparentDataEncryption
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer
@@ -164,7 +164,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TransparentDataEncryption
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer

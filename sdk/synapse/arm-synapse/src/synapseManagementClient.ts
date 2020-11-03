@@ -39,9 +39,15 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   sqlPoolVulnerabilityAssessmentScans: operations.SqlPoolVulnerabilityAssessmentScans;
   sqlPoolSecurityAlertPolicies: operations.SqlPoolSecurityAlertPolicies;
   sqlPoolVulnerabilityAssessmentRuleBaselines: operations.SqlPoolVulnerabilityAssessmentRuleBaselines;
+  extendedSqlPoolBlobAuditingPolicies: operations.ExtendedSqlPoolBlobAuditingPolicies;
+  dataMaskingPolicies: operations.DataMaskingPolicies;
+  dataMaskingRules: operations.DataMaskingRules;
+  sqlPoolColumns: operations.SqlPoolColumns;
   workspaces: operations.Workspaces;
   workspaceAadAdmins: operations.WorkspaceAadAdmins;
+  workspaceSqlAadAdmins: operations.WorkspaceSqlAadAdmins;
   workspaceManagedIdentitySqlControlSettings: operations.WorkspaceManagedIdentitySqlControlSettings;
+  restorableDroppedSqlPools: operations.RestorableDroppedSqlPools;
   integrationRuntimes: operations.IntegrationRuntimes;
   integrationRuntimeNodeIpAddress: operations.IntegrationRuntimeNodeIpAddressOperations;
   integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
@@ -54,6 +60,8 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   privateLinkResources: operations.PrivateLinkResources;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkHubs: operations.PrivateLinkHubs;
+  privateEndpointConnectionsPrivateLinkHub: operations.PrivateEndpointConnectionsPrivateLinkHub;
+  keys: operations.Keys;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -86,9 +94,15 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.sqlPoolVulnerabilityAssessmentScans = new operations.SqlPoolVulnerabilityAssessmentScans(this);
     this.sqlPoolSecurityAlertPolicies = new operations.SqlPoolSecurityAlertPolicies(this);
     this.sqlPoolVulnerabilityAssessmentRuleBaselines = new operations.SqlPoolVulnerabilityAssessmentRuleBaselines(this);
+    this.extendedSqlPoolBlobAuditingPolicies = new operations.ExtendedSqlPoolBlobAuditingPolicies(this);
+    this.dataMaskingPolicies = new operations.DataMaskingPolicies(this);
+    this.dataMaskingRules = new operations.DataMaskingRules(this);
+    this.sqlPoolColumns = new operations.SqlPoolColumns(this);
     this.workspaces = new operations.Workspaces(this);
     this.workspaceAadAdmins = new operations.WorkspaceAadAdmins(this);
+    this.workspaceSqlAadAdmins = new operations.WorkspaceSqlAadAdmins(this);
     this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(this);
+    this.restorableDroppedSqlPools = new operations.RestorableDroppedSqlPools(this);
     this.integrationRuntimes = new operations.IntegrationRuntimes(this);
     this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(this);
     this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
@@ -101,6 +115,8 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkHubs = new operations.PrivateLinkHubs(this);
+    this.privateEndpointConnectionsPrivateLinkHub = new operations.PrivateEndpointConnectionsPrivateLinkHub(this);
+    this.keys = new operations.Keys(this);
   }
 }
 
