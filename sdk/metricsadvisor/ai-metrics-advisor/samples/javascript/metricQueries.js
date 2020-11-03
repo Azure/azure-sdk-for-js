@@ -43,13 +43,13 @@ async function listMetricSeriesDefinitions(client, metricId) {
   let result = await iterator.next();
   if (!result.done) {
     console.log("    -- Page --");
-    for (const definition of result.value.definitions || []) {
+    for (const definition of result.value) {
       console.log(definition);
     }
     result = await iterator.next();
     if (!result.done) {
       console.log("    -- Page --");
-      for (const definition of result.value.definitions || []) {
+      for (const definition of result.value) {
         console.log(definition);
       }
     }

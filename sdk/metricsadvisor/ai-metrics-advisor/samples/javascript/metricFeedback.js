@@ -121,11 +121,11 @@ async function listFeedback(client, metricId, startTime, endTime) {
 
   if (!result.done) {
     console.log("first page");
-    console.table(result.value.feedbacks);
+    console.table(result.value);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("second page");
-      console.table(nextPage.value.feedbacks);
+      console.table(nextPage.value);
     }
   }
 }

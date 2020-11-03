@@ -63,9 +63,9 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
   let page = await pages.next();
   let i = 1;
   while (!page.done) {
-    if (page.value.dataFeeds) {
+    if (page.value) {
       console.log(`-- page ${i++}`);
-      for (const feed of page.value.dataFeeds) {
+      for (const feed of page.value) {
         console.log(`  ${feed.id} - ${feed.name}`);
       }
     }

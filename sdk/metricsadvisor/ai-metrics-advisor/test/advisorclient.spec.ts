@@ -57,9 +57,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in first page");
+    assert.equal(result.value.length, 2, "Expecting two anomalies in first page");
     result = await iterator.next();
-    assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in second page");
+    assert.equal(result.value.length, 2, "Expecting two anomalies in second page");
   });
 
   it("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
@@ -109,9 +109,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.incidents.length, 2, "Expecting two incidents in first page");
+    assert.equal(result.value.length, 2, "Expecting two incidents in first page");
     result = await iterator.next();
-    assert.equal(result.value.incidents.length, 2, "Expecting two incidents in second page");
+    assert.equal(result.value.length, 2, "Expecting two incidents in second page");
   });
 
   it("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
@@ -176,17 +176,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(
-      result.value.dimensionValues.length,
-      2,
-      "Expecting two dimension values in first page"
-    );
+    assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
     result = await iterator.next();
-    assert.equal(
-      result.value.dimensionValues.length,
-      2,
-      "Expecting two dimension values in second page"
-    );
+    assert.equal(result.value.length, 2, "Expecting two dimension values in second page");
   });
 
   it("lists alerts for alert configuration", async function() {
@@ -225,9 +217,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.alerts.length, 2, "Expecting two alerts in first page");
+    assert.equal(result.value.length, 2, "Expecting two alerts in first page");
     result = await iterator.next();
-    assert.equal(result.value.alerts.length, 2, "Expecting two alerts in second page");
+    assert.equal(result.value.length, 2, "Expecting two alerts in second page");
   });
 
   it("lists anomalies for alert", async function() {
@@ -249,9 +241,9 @@ describe("MetricsAdvisorClient", () => {
       })
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in first page");
+    assert.equal(result.value.length, 2, "Expecting two anomalies in first page");
     result = await iterator.next();
-    assert.equal(result.value.anomalies.length, 2, "Expecting two anomalies in second page");
+    assert.equal(result.value.length, 2, "Expecting two anomalies in second page");
   });
 
   it("lists incidents for alert", async function() {
@@ -273,9 +265,9 @@ describe("MetricsAdvisorClient", () => {
       })
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.incidents.length, 2, "Expecting two incidents in first page");
+    assert.equal(result.value.length, 2, "Expecting two incidents in first page");
     result = await iterator.next();
-    assert.equal(result.value.incidents.length, 2, "Expecting two incidents in second page");
+    assert.equal(result.value.length, 2, "Expecting two incidents in second page");
   });
 
   it("listMetricSeriesDefinitions()", async function() {
@@ -308,9 +300,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.definitions.length, 2, "Expecting two definitions in first page");
+    assert.equal(result.value.length, 2, "Expecting two definitions in first page");
     result = await iterator.next();
-    assert.equal(result.value.definitions.length, 2, "Expecting two definitions in second page");
+    assert.equal(result.value.length, 2, "Expecting two definitions in second page");
   });
 
   it("listMetricDimensionValues()", async function() {
@@ -329,17 +321,9 @@ describe("MetricsAdvisorClient", () => {
       .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, "Dim1")
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(
-      result.value.dimensionValues.length,
-      2,
-      "Expecting two dimension values in first page"
-    );
+    assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
     result = await iterator.next();
-    assert.equal(
-      result.value.dimensionValues.length,
-      2,
-      "Expecting two dimension values in second page"
-    );
+    assert.equal(result.value.length, 2, "Expecting two dimension values in second page");
   });
 
   it("lists series data for a metric", async function() {
@@ -352,41 +336,32 @@ describe("MetricsAdvisorClient", () => {
         { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
-    assert.ok(
-      data.metricSeriesDataList && data.metricSeriesDataList!.length === 2,
-      "Expecting data for two time series"
-    );
-    assert.equal(
-      data.metricSeriesDataList![0].definition.metricId,
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
-    );
-    assert.deepStrictEqual(data.metricSeriesDataList![0].definition.dimension, {
+    assert.ok(data && data!.length === 2, "Expecting data for two time series");
+    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.deepStrictEqual(data![0].definition.dimension, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
     });
 
     assert.ok(
-      data.metricSeriesDataList![0].timestamps &&
-        data.metricSeriesDataList![0].timestamps.length > 0 &&
-        data.metricSeriesDataList![0].values &&
-        data.metricSeriesDataList![0].values.length > 0,
+      data![0].timestamps &&
+        data![0].timestamps.length > 0 &&
+        data![0].values &&
+        data![0].values.length > 0,
       "Expecting data for the first time series"
     );
 
-    assert.equal(
-      data.metricSeriesDataList![1].definition.metricId,
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
-    );
-    assert.deepStrictEqual(data.metricSeriesDataList![1].definition.dimension, {
+    assert.equal(data![1].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.deepStrictEqual(data![1].definition.dimension, {
       Dim1: "Common Beech",
       Dim2: "Ant"
     });
 
     assert.ok(
-      data.metricSeriesDataList![1].timestamps &&
-        data.metricSeriesDataList![1].timestamps.length > 0 &&
-        data.metricSeriesDataList![1].values &&
-        data.metricSeriesDataList![1].values.length > 0,
+      data![1].timestamps &&
+        data![1].timestamps.length > 0 &&
+        data![1].values &&
+        data![1].values.length > 0,
       "Expecting data for the second time series"
     );
   });
@@ -401,24 +376,18 @@ describe("MetricsAdvisorClient", () => {
         { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
-    assert.ok(
-      data.metricSeriesDataList && data.metricSeriesDataList!.length === 2,
-      "Expecting data for two time series"
-    );
-    assert.equal(
-      data.metricSeriesDataList![0].definition.metricId,
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
-    );
-    assert.deepStrictEqual(data.metricSeriesDataList![0].definition.dimension, {
+    assert.ok(data && data!.length === 2, "Expecting data for two time series");
+    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.deepStrictEqual(data![0].definition.dimension, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
     });
 
     assert.ok(
-      data.metricSeriesDataList![0].timestamps &&
-        data.metricSeriesDataList![0].timestamps.length > 0 &&
-        data.metricSeriesDataList![0].values &&
-        data.metricSeriesDataList![0].values.length > 0,
+      data![0].timestamps &&
+        data![0].timestamps.length > 0 &&
+        data![0].values &&
+        data![0].values.length > 0,
       "Expecting data for the first time series"
     );
   });
@@ -433,35 +402,35 @@ describe("MetricsAdvisorClient", () => {
         { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
-    assert.ok(data.results && data.results!.length === 2, "Expecting data for two time series");
+    assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
-    assert.deepStrictEqual(data.results![0].series, {
+    assert.deepStrictEqual(data![0].series, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
     });
 
     assert.ok(
-      data.results![0].timestamps &&
-        data.results![0].timestamps.length > 0 &&
-        data.results![0].values &&
-        data.results![0].values.length > 0 &&
-        data.results![0].isAnomaly &&
-        data.results![0].isAnomaly.length > 0,
+      data![0].timestamps &&
+        data![0].timestamps.length > 0 &&
+        data![0].values &&
+        data![0].values.length > 0 &&
+        data![0].isAnomaly &&
+        data![0].isAnomaly.length > 0,
       "Expecting enriched data for the first time series"
     );
 
-    assert.deepStrictEqual(data.results![1].series, {
+    assert.deepStrictEqual(data![1].series, {
       Dim1: "Common Beech",
       Dim2: "Ant"
     });
 
     assert.ok(
-      data.results![1].timestamps &&
-        data.results![1].timestamps.length > 0 &&
-        data.results![1].values &&
-        data.results![1].values.length > 0 &&
-        data.results![0].isAnomaly &&
-        data.results![0].isAnomaly.length > 0,
+      data![1].timestamps &&
+        data![1].timestamps.length > 0 &&
+        data![1].values &&
+        data![1].values.length > 0 &&
+        data![0].isAnomaly &&
+        data![0].isAnomaly.length > 0,
       "Expecting enriched data for the second time series"
     );
   });
@@ -476,9 +445,9 @@ describe("MetricsAdvisorClient", () => {
         { Dim1: "Common Beech", Dim2: "Ant" }
       ]
     );
-    assert.ok(data.results && data.results!.length === 2, "Expecting data for two time series");
+    assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
-    assert.deepStrictEqual(data.results![0].series, {
+    assert.deepStrictEqual(data![0].series, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
     });
@@ -517,9 +486,9 @@ describe("MetricsAdvisorClient", () => {
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.statusList.length, 2, "Expecting two results in first page");
+    assert.equal(result.value.length, 2, "Expecting two results in first page");
     result = await iterator.next();
-    assert.equal(result.value.statusList.length, 2, "Expecting two results in second page");
+    assert.equal(result.value.length, 2, "Expecting two results in second page");
   });
 
   it("gets root causes of an incident", async function() {
@@ -662,9 +631,9 @@ describe("MetricsAdvisorClient", () => {
         .listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
-      assert.equal(result.value.feedbacks.length, 2, "Expecting two entries in first page");
+      assert.equal(result.value.length, 2, "Expecting two entries in first page");
       result = await iterator.next();
-      assert.equal(result.value.feedbacks.length, 2, "Expecting two entries in second page");
+      assert.equal(result.value.length, 2, "Expecting two entries in second page");
     });
   });
 }).timeout(60000);
