@@ -48,7 +48,10 @@ npm start
 4. Call local http server
 
 ```bash
-curl http://localhost:8080 -json {'hello': 'world'}
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"hello":"world"}' \
+  http://localhost:8080/ingest
 ```
 
 ## Next Steps
