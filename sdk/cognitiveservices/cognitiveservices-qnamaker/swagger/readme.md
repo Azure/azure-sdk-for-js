@@ -8,7 +8,7 @@ Configuration for generating QnAMaker SDK.
 add-credentials: true
 openapi-type: data-plane
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/QnAMaker/stable/v4.0/QnAMaker.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/QnAMaker/preview/v5.0-preview.1/QnAMaker.json
 ```
 
 ## TypeScript
