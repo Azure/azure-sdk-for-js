@@ -20,7 +20,7 @@ require("dotenv").config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // - If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload

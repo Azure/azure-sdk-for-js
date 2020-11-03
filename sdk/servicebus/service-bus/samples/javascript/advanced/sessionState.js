@@ -31,7 +31,7 @@ const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connecti
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await runScenario();
   } finally {
@@ -135,7 +135,9 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
+        messages[0].body.event_details
+      }'`
     );
     await sessionReceiver.completeMessage(messages[0]);
   } else {

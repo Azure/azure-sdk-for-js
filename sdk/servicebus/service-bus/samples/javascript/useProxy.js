@@ -21,7 +21,7 @@ require("dotenv").config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
 
   if (!proxyInfo) {
