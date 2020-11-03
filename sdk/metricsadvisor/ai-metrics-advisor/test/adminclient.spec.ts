@@ -143,7 +143,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         seriesDetectionConditions: []
       };
 
-      const actual = await client.createDetectionConfiguration(expected);
+      const actual = await client.createDetectionConfig(expected);
 
       assert.ok(actual.id, "Expecting valid detecion config");
       createdDetectionConfigId = actual.id!;
@@ -205,7 +205,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ]
       };
 
-      const actual = await client.updateDetectionConfiguration(
+      const actual = await client.updateDetectionConfig(
         createdDetectionConfigId,
         expected
       );
@@ -244,7 +244,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("retrieves a detection configuration", async function() {
-      const result = await client.getDetectionConfiguration(createdDetectionConfigId);
+      const result = await client.getDetectionConfig(createdDetectionConfigId);
 
       assert.equal(result.name, "new Name");
       assert.equal(result.description, "new description");
@@ -399,7 +399,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       await client.deleteDetectionConfig(createdDetectionConfigId);
       try {
-        await client.getMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+        await client.getDetectionConfig(createdDetectionConfigId);
         assert.fail("Expecting error getting detection config");
       } catch (error) {
         assert.equal((error as any).code, "Not Found");
