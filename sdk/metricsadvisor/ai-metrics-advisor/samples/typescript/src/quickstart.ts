@@ -128,18 +128,16 @@ async function createDataFeed(
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@microsoft.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@microsoft.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 

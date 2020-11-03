@@ -187,35 +187,46 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-createDataFeed",
       operationOptions
     );
-    const { name, granularity, source, schema, ingestionSettings, options } = feed;
+    const {
+      name,
+      granularity,
+      source,
+      schema,
+      ingestionSettings,
+      rollupSettings,
+      missingDataPointFillSettings,
+      accessMode,
+      adminEmails,
+      viewerEmails,
+      description
+    } = feed;
+
     if (source.dataSourceType === "Unknown") {
       throw new Error("Cannot create a data feed with the Unknown source type.");
     }
+
     const needRollup: NeedRollupEnum | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
+      rollupSettings?.rollupType === "AutoRollup"
         ? "NeedRollup"
-        : options?.rollupSettings?.rollupType === "AlreadyRollup"
+        : rollupSettings?.rollupType === "AlreadyRollup"
         ? "AlreadyRollup"
-        : options?.rollupSettings?.rollupType === "NoRollup"
+        : rollupSettings?.rollupType === "NoRollup"
         ? "NoRollup"
         : undefined;
     const rollUpColumns: string[] | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
-        ? options?.rollupSettings.autoRollupGroupByColumnNames
+      rollupSettings?.rollupType === "AutoRollup"
+        ? rollupSettings.autoRollupGroupByColumnNames
         : undefined;
     const allUpIdentification: string | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup" ||
-      options?.rollupSettings?.rollupType === "AlreadyRollup"
-        ? options?.rollupSettings.rollupIdentificationValue
+      rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
+        ? rollupSettings.rollupIdentificationValue
         : undefined;
     const rollUpMethod: DataFeedRollupMethod | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
-        ? options?.rollupSettings.rollupMethod
-        : undefined;
-    const fillMissingPointType = options?.missingDataPointFillSettings?.fillType;
+      rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
+    const fillMissingPointType = missingDataPointFillSettings?.fillType;
     const fillMissingPointValue =
-      options?.missingDataPointFillSettings?.fillType === "CustomValue"
-        ? options?.missingDataPointFillSettings.customFillValue
+      missingDataPointFillSettings?.fillType === "CustomValue"
+        ? missingDataPointFillSettings.customFillValue
         : undefined;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
@@ -237,10 +248,10 @@ export class MetricsAdvisorAdministrationClient {
         rollUpMethod,
         fillMissingPointType,
         fillMissingPointValue,
-        viewMode: options?.accessMode,
-        admins: options?.adminEmails,
-        viewers: options?.viewerEmails,
-        dataFeedDescription: options?.description,
+        viewMode: accessMode,
+        admins: adminEmails,
+        viewers: viewerEmails,
+        dataFeedDescription: description,
         ...finalOptions
       };
       const result = await this.client.createDataFeed(body, requestOptions);
@@ -467,7 +478,7 @@ export class MetricsAdvisorAdministrationClient {
         dataSourceParameter: patch.source.dataSourceParameter,
         // name and description
         dataFeedName: patch.name,
-        dataFeedDescription: patch.options?.description,
+        dataFeedDescription: patch.description,
         // schema
         timestampColumn: patch.schema?.timestampColumn,
         // ingestion settings
@@ -477,19 +488,19 @@ export class MetricsAdvisorAdministrationClient {
         minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
         stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
         // rollup settings
-        ...toServiceRollupSettings(patch.options?.rollupSettings),
+        ...toServiceRollupSettings(patch.rollupSettings),
         // missing point filling settings
-        fillMissingPointType: patch.options?.missingDataPointFillSettings?.fillType,
+        fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
         fillMissingPointValue:
-          patch.options?.missingDataPointFillSettings?.fillType === "CustomValue"
-            ? patch.options.missingDataPointFillSettings.customFillValue
+          patch.missingDataPointFillSettings?.fillType === "CustomValue"
+            ? patch.missingDataPointFillSettings.customFillValue
             : undefined,
         // other options
-        viewMode: patch.options?.accessMode,
-        admins: patch.options?.adminEmails,
-        viewers: patch.options?.viewerEmails,
-        status: patch.options?.status,
-        actionLinkTemplate: patch.options?.actionLinkTemplate
+        viewMode: patch.accessMode,
+        admins: patch.adminEmails,
+        viewers: patch.viewerEmails,
+        status: patch.status,
+        actionLinkTemplate: patch.actionLinkTemplate
       };
       await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
       return this.getDataFeed(dataFeedId);

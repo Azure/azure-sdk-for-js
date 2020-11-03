@@ -159,7 +159,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -191,48 +191,44 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         dataFeedIngestion,
         "Ingesting settings mismatch!"
       );
-      assert.ok(actual.options, "Expecting valid datafeed options");
-      assert.equal(
-        actual.options!.description,
-        options.description,
-        "options.description mismatch"
-      );
-      assert.equal(actual.options!.accessMode, options.accessMode, "options.accessMode mismatch");
+
+      assert.equal(actual.description, options.description, "options.description mismatch");
+      assert.equal(actual.accessMode, options.accessMode, "options.accessMode mismatch");
       assert.ok(
-        actual.options!.missingDataPointFillSettings,
+        actual.missingDataPointFillSettings,
         "Expecting valid options.missingDataPointFillSettings"
       );
       assert.equal(
-        actual.options!.missingDataPointFillSettings!.fillType,
+        actual.missingDataPointFillSettings!.fillType,
         options.missingDataPointFillSettings!.fillType,
         "options.missingDataPointFillSettings.fillType mismatch"
       );
       assert.ok(
-        actual.options!.missingDataPointFillSettings!.fillType,
+        actual.missingDataPointFillSettings!.fillType,
         "Expecting valid options.missingDataPointFillSettings.fillType"
       );
-      if (actual.options!.missingDataPointFillSettings!.fillType! === "CustomValue") {
+      if (actual.missingDataPointFillSettings!.fillType! === "CustomValue") {
         // not sure why TS didn't narrow down the union type for us...so casting to any
         assert.equal(
-          (actual.options!.missingDataPointFillSettings! as any).customFillValue,
+          (actual.missingDataPointFillSettings! as any).customFillValue,
           (options.missingDataPointFillSettings! as any).customFillValue,
           "options.missingDataPointFillSettings.customFillValue mismatch"
         );
       }
-      assert.ok(actual.options!.rollupSettings, "Expecting valid options.rollupSettings");
+      assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
       assert.equal(
-        actual.options!.rollupSettings!.rollupType,
+        actual.rollupSettings!.rollupType,
         options.rollupSettings!.rollupType,
         "options.missingDataPointFillSettings.rollupType mismatch"
       );
       assert.ok(
-        actual.options!.rollupSettings!.rollupType,
+        actual.rollupSettings!.rollupType,
         "Expecting valid options.missingDataPointFillSettings.fillType"
       );
-      if (actual.options!.rollupSettings!.rollupType! === "AutoRollup") {
+      if (actual.rollupSettings!.rollupType! === "AutoRollup") {
         // not sure why TS didn't narrow down the union type for us...so casting to any
         assert.equal(
-          (actual.options!.rollupSettings! as any).rollupIdentificationValue,
+          (actual.rollupSettings! as any).rollupIdentificationValue,
           (options.rollupSettings! as any).rollupIdentificationValue,
           "options.missingDataPointFillSettings.fillType mismatch"
         );
@@ -306,19 +302,17 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           timestampColumn: "UpdatedTimestampeColumn"
         },
         ingestionSettings: expectedIngestionSettings,
-        options: {
-          description: "Updated Azure Blob description",
-          rollupSettings: {
-            rollupType: "AlreadyRollup",
-            rollupIdentificationValue: "__Existing__"
-          },
-          missingDataPointFillSettings: {
-            fillType: "PreviousValue"
-          },
-          accessMode: "Public",
-          viewerEmails: ["viewer1@example.com"],
-          actionLinkTemplate: "Updated Azure Blob action link template"
-        }
+        description: "Updated Azure Blob description",
+        rollupSettings: {
+          rollupType: "AlreadyRollup",
+          rollupIdentificationValue: "__Existing__"
+        },
+        missingDataPointFillSettings: {
+          fillType: "PreviousValue"
+        },
+        accessMode: "Public",
+        viewerEmails: ["viewer1@example.com"],
+        actionLinkTemplate: "Updated Azure Blob action link template"
       };
       const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
 
@@ -326,18 +320,15 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(updated.source.dataSourceType, "AzureBlob");
       assert.deepStrictEqual(updated.source.dataSourceParameter, expectedSourceParameter);
       assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
-      assert.ok(updated.options, "Expecting valid updated.options");
-      assert.equal(updated.options!.description, "Updated Azure Blob description");
-      assert.ok(updated.options!.rollupSettings, "Expecting valid updated.options.rollupSettings");
-      assert.equal(updated.options!.rollupSettings!.rollupType, "AlreadyRollup");
-      assert.equal(
-        (updated.options!.rollupSettings! as any).rollupIdentificationValue,
-        "__Existing__"
-      );
-      assert.equal(updated.options!.missingDataPointFillSettings?.fillType, "PreviousValue");
-      assert.equal(updated.options!.accessMode, "Public");
-      assert.deepStrictEqual(updated.options!.viewerEmails, ["viewer1@example.com"]);
-      assert.equal(updated.options?.actionLinkTemplate, "Updated Azure Blob action link template");
+
+      assert.equal(updated.description, "Updated Azure Blob description");
+      assert.ok(updated.rollupSettings, "Expecting valid updated.options.rollupSettings");
+      assert.equal(updated.rollupSettings!.rollupType, "AlreadyRollup");
+      assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
+      assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
+      assert.equal(updated.accessMode, "Public");
+      assert.deepStrictEqual(updated.viewerEmails, ["viewer1@example.com"]);
+      assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
     });
 
     it("creates an Azure Application Insights feed", async () => {
@@ -357,7 +348,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -394,7 +385,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -466,7 +457,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -504,7 +495,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -541,7 +532,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -577,7 +568,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -612,7 +603,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -649,7 +640,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -686,7 +677,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -722,7 +713,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -778,7 +769,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           granularity,
           schema: dataFeedSchema,
           ingestionSettings: dataFeedIngestion,
-          options
+          ...options
         });
         assert.fail("Test should throw error");
       } catch (error) {
