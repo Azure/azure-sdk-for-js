@@ -15,7 +15,7 @@ export type ServiceBusErrorReason =
    */
   | "MessagingEntityNotFound"
   /**
-   * The lock on the message is lost. Callers should call attempt to receive and process the message again.
+   * The lock on the message is lost. Callers should attempt to receive and process the message again.
    */
   | "MessageLockLost"
   /**
@@ -100,7 +100,7 @@ export class ServiceBusError extends MessagingError {
    *
    * **GeneralError**: The exception was the result of a general error within the client library.
    * **MessagingEntityNotFound**: A Service Bus resource cannot be found by the Service Bus service.
-   * **MessageLockLost**: The lock on the message is lost. Callers should call attempt to receive and process the message again.
+   * **MessageLockLost**: The lock on the message is lost. Callers should attempt to receive and process the message again.
    * **MessageNotFound**: The requested message was not found.
    * **MessageSizeExceeded**: A message is larger than the maximum size allowed for its transport.
    * **MessagingEntityAlreadyExists**: An entity with the same name exists under the same namespace.
