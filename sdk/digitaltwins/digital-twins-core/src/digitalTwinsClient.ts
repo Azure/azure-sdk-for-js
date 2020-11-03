@@ -142,10 +142,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-getDigitalTwin",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getDigitalTwin", options);
     try {
       return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
     } catch (e) {
@@ -173,10 +170,7 @@ export class DigitalTwinsClient {
     digitalTwinJson: string,
     options: DigitalTwinsAddOptionalParams = {}
   ): Promise<DigitalTwinsAddResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-upsertDigitalTwin",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertDigitalTwin", options);
     try {
       return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, updatedOptions);
     } catch (e) {
@@ -206,10 +200,7 @@ export class DigitalTwinsClient {
     jsonPatch: any,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-updateDigitalTwin",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
     try {
       return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
     } catch (e) {
@@ -235,10 +226,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: DigitalTwinsDeleteOptionalParams = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-deleteDigitalTwin",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteDigitalTwin", options);
     try {
       return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
     } catch (e) {
@@ -265,10 +253,7 @@ export class DigitalTwinsClient {
     componentName: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetComponentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-getComponent",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getComponent", options);
     try {
       return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
     } catch (e) {
@@ -299,10 +284,7 @@ export class DigitalTwinsClient {
     jsonPatch: any[],
     options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-updateComponent",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateComponent", options);
     try {
       return this.client.digitalTwins.updateComponent(
         digitalTwinId,
@@ -334,10 +316,7 @@ export class DigitalTwinsClient {
     relationshipId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-getRelationship",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getRelationship", options);
     try {
       return this.client.digitalTwins.getRelationshipById(
         digitalTwinId,
@@ -370,10 +349,7 @@ export class DigitalTwinsClient {
     relationship: any,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-upsertRelationship",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
     try {
       return this.client.digitalTwins.addRelationship(
         digitalTwinId,
@@ -407,10 +383,7 @@ export class DigitalTwinsClient {
     jsonPatch: any[],
     options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-updateRelationship",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateRelationship", options);
     try {
       return this.client.digitalTwins.updateRelationship(
         digitalTwinId,
@@ -443,10 +416,7 @@ export class DigitalTwinsClient {
     relationshipId: string,
     options: DigitalTwinsDeleteRelationshipOptionalParams = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-deleteRelationship",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteRelationship", options);
     try {
       return this.client.digitalTwins.deleteRelationship(
         digitalTwinId,
@@ -528,10 +498,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-listRelationships",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-listRelationships", options);
     try {
       const iter = this.listRelationshipsAll(digitalTwinId, updatedOptions);
 
@@ -543,11 +510,7 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listRelationshipsPage(
-            digitalTwinId,
-            updatedOptions,
-            settings
-          )
+          this.listRelationshipsPage(digitalTwinId, updatedOptions, settings)
       };
     } catch (e) {
       span.setStatus({
@@ -640,11 +603,7 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listIncomingRelationshipsPage(
-            digitalTwinId,
-            updatedOptions,
-            settings
-          )
+          this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings)
       };
     } catch (e) {
       span.setStatus({
@@ -845,9 +804,9 @@ export class DigitalTwinsClient {
   ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
     var digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
     digitalTwinModelsListOptionalParams = {
-        maxItemsPerPage: resultsPerPage,
-        dependenciesFor: dependeciesFor,
-        includeModelDefinition: includeModelDefinition
+      maxItemsPerPage: resultsPerPage,
+      dependenciesFor: dependeciesFor,
+      includeModelDefinition: includeModelDefinition
     };
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-listModels",
@@ -918,16 +877,10 @@ export class DigitalTwinsClient {
    * defined by this model. However, existing digital twins may continue to use this model.
    * Once a model is decomissioned, it may not be recommissioned.
    */
-  public decomissionModel(
-    modelId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-decomissionModel",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-decomissionModel", options);
     try {
       return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
@@ -949,10 +902,7 @@ export class DigitalTwinsClient {
    * @returns The http response.
    */
   public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-deleteModel",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteModel", options);
     try {
       return this.client.digitalTwinModels.delete(modelId, updatedOptions);
     } catch (e) {
@@ -977,10 +927,7 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<EventRoutesGetByIdResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-getEventRoute",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getEventRoute", options);
     try {
       return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
     } catch (e) {
@@ -1057,7 +1004,7 @@ export class DigitalTwinsClient {
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
     var eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
-        maxItemsPerPage: resultsPerPage
+      maxItemsPerPage: resultsPerPage
     };
 
     const { span, updatedOptions } = createSpan(
@@ -1137,10 +1084,7 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-deleteEventRoute",
-      options
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteEventRoute", options);
     try {
       return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
     } catch (e) {
@@ -1224,7 +1168,7 @@ export class DigitalTwinsClient {
   ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
     var queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {
-        maxItemsPerPage: resultsPerPage
+      maxItemsPerPage: resultsPerPage
     };
 
     const { span, updatedOptions } = createSpan(

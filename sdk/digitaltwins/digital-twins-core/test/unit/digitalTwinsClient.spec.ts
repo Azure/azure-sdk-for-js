@@ -485,7 +485,11 @@ describe("DigitalTwinsClient", () => {
     );
 
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "getById");
-    testClient.getModel(testModelId, includeModelDefinition, digitalTwinModelsGetByIdOptionalParams);
+    testClient.getModel(
+      testModelId,
+      includeModelDefinition,
+      digitalTwinModelsGetByIdOptionalParams
+    );
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testModelId, updatedOptions));
     assert.isNotNull(updatedOptions);
