@@ -475,7 +475,7 @@ export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
  */
-export type AlertConfigurationsOperator = "AND" | "OR" | "XOR";
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 
 /**
  * The logical operator to apply across anomaly detection conditions.
@@ -1086,7 +1086,7 @@ export interface MetricAlertConfiguration {
 /**
  * Represents an anomaly alert configuration.
  */
-export interface AlertConfiguration {
+export interface AnomalyAlertConfiguration {
   /**
    * anomaly alerting configuration unique id
    */
@@ -1103,7 +1103,7 @@ export interface AlertConfiguration {
    * logical operator to apply across metric alert configurations in {@link metricAlertConfigurations}
    *
    */
-  crossMetricsOperator?: AlertConfigurationsOperator;
+  crossMetricsOperator?: MetricAnomalyAlertConfigurationsOperator;
   /**
    * unique hook ids
    */
@@ -1285,7 +1285,7 @@ export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfigura
 /**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
-export type GetAnomalyAlertConfigurationResponse = AlertConfiguration & {
+export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -1655,7 +1655,7 @@ export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
 /**
  * Contains response data for the listAnomalyAlertConfigurations operation.
  */
-export interface AlertConfigurationsPageResponse extends Array<AlertConfiguration> {
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
   /**
    * The underlying HTTP response.
    */

@@ -143,7 +143,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         seriesDetectionConditions: []
       };
 
-      const actual = await client.createMetricAnomalyDetectionConfiguration(expected);
+      const actual = await client.createDetectionConfiguration(expected);
 
       assert.ok(actual.id, "Expecting valid detecion config");
       createdDetectionConfigId = actual.id!;
@@ -205,7 +205,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ]
       };
 
-      const actual = await client.updateMetricAnomalyDetectionConfiguration(
+      const actual = await client.updateDetectionConfiguration(
         createdDetectionConfigId,
         expected
       );
@@ -244,7 +244,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("retrieves a detection configuration", async function() {
-      const result = await client.getMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+      const result = await client.getDetectionConfiguration(createdDetectionConfigId);
 
       assert.equal(result.name, "new Name");
       assert.equal(result.description, "new description");
@@ -286,7 +286,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         hookIds: []
       };
 
-      const actual = await client.createAnomalyAlertConfiguration(expectedAlertConfig);
+      const actual = await client.createAlertConfig(expectedAlertConfig);
 
       assert.ok(actual.id, "Expecting valid alert config");
       createdAlertConfigId = actual.id;
@@ -301,7 +301,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("retrieves an alert configuration", async function() {
-      const actual = await client.getAnomalyAlertConfiguration(createdAlertConfigId);
+      const actual = await client.getAlertConfig(createdAlertConfigId);
 
       assert.ok(actual.id, "Expecting valid alert config");
       createdAlertConfigId = actual.id;
@@ -327,7 +327,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
       };
 
-      const actual = await client.updateAnomalyAlertConfiguration(createdAlertConfigId, patch);
+      const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
 
       assert.ok(actual.id, "Expecting valid alerting config");
       assert.equal(actual.name, "new alert config name");
@@ -352,14 +352,14 @@ describe("MetricsAdvisorAdministrationClient", () => {
           scopeType: "All"
         }
       };
-      const secondAlertConfig = await client.createAnomalyAlertConfiguration({
+      const secondAlertConfig = await client.createAlertConfig({
         name: secondAlertConfigName,
         crossMetricsOperator: "OR",
         metricAlertConfigurations: [metricAlertConfig],
         hookIds: []
       });
       try {
-        const iterator = client.listAnomalyAlertConfigurations(createdDetectionConfigId);
+        const iterator = client.listAlertConfigurations(createdDetectionConfigId);
         let result = await iterator.next();
 
         assert.ok(result.value.id, "Expecting first alert config");
@@ -367,12 +367,12 @@ describe("MetricsAdvisorAdministrationClient", () => {
         assert.ok(result.value.id, "Expecting second alert config");
 
         const pageIterator = client
-          .listAnomalyAlertConfigurations(createdDetectionConfigId)
+          .listAlertConfigurations(createdDetectionConfigId)
           .byPage();
         const pageResult = await pageIterator.next();
         assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
-        await client.deleteAnomalyAlertConfiguration(secondAlertConfig.id);
+        await client.deleteAlertConfig(secondAlertConfig.id);
       }
     });
 
@@ -382,9 +382,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         this.skip();
       }
 
-      await client.deleteAnomalyAlertConfiguration(createdAlertConfigId);
+      await client.deleteAlertConfig(createdAlertConfigId);
       try {
-        await client.getAnomalyAlertConfiguration(createdAlertConfigId);
+        await client.getAlertConfig(createdAlertConfigId);
         assert.fail("Expecting error getting alert config");
       } catch (error) {
         assert.equal((error as any).code, "Not Found");
@@ -397,7 +397,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         this.skip();
       }
 
-      await client.deleteMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+      await client.deleteDetectionConfig(createdDetectionConfigId);
       try {
         await client.getMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
         assert.fail("Expecting error getting detection config");
