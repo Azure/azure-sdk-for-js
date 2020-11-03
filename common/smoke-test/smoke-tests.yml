@@ -68,7 +68,7 @@ jobs:
       #   displayName: Install Azure PowerShell module
 
       - pwsh: |
-          eng/common/TestResources/Import-AzModules.ps1
+          $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
           
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
