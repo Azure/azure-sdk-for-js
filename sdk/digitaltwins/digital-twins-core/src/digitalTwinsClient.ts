@@ -1198,21 +1198,4 @@ export class DigitalTwinsClient {
       span.end();
     }
   }
-
-  // /**
-  //  * @internal
-  //  * @ignore
-  //  * Creates a span using the tracer that was set by the user.
-  //  * @param {string} methodName The name of the method creating the span.
-  //  * @param {OperationOptions} [options] The options for the underlying HTTP request.
-  //  */
-  // private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-  //   const tracer = getTracer();
-  //   const span = tracer.startSpan(
-  //     `DigitalTwinsClient ${methodName}`,
-  //     requestOptions && requestOptions.spanOptions
-  //   );
-  //   span.setAttribute("az.namespace", "Microsoft.DigitalTwins");
-  //   return span;
-  // }
 }
