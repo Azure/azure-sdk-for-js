@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AmqpAnnotatedMessage,
-  Constants,
-  ErrorNameConditionMapper,
-  translate
-} from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
 import {
@@ -18,6 +13,7 @@ import {
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { DispositionStatusOptions } from "./core/managementClient";
+import { translateServiceBusError } from "./serviceBusError";
 import { messageLogger as logger, receiverLogger } from "./log";
 import { ReceiveMode } from "./models";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
@@ -881,7 +877,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     let associatedLinkName: string | undefined;
     let error: Error | undefined;
     if (this.sessionId) {
-      error = translate({
+      error = translateServiceBusError({
         description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
         condition: ErrorNameConditionMapper.InvalidOperationError
       });
@@ -984,7 +980,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       if (this.delivery.remote_settled) {
         error = new Error(`Failed to ${operation} the message as this message is already settled.`);
       } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-        error = translate({
+        error = translateServiceBusError({
           description:
             `Failed to ${operation} the message as the AMQP link with which the message was ` +
             `received is no longer alive.`,

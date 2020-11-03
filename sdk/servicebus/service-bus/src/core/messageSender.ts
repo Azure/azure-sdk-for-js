@@ -20,8 +20,7 @@ import {
   RetryOperationType,
   RetryOptions,
   delay,
-  retry,
-  translate
+  retry
 } from "@azure/core-amqp";
 import {
   ServiceBusMessage,
@@ -36,6 +35,7 @@ import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBu
 import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -187,7 +187,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 `to operation timeout.`
             });
           } catch (err) {
-            err = translate(err);
+            err = translateServiceBusError(err);
             logger.logError(
               err,
               "%s An error occurred while creating the sender",
@@ -237,7 +237,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 condition: ErrorNameConditionMapper.ServiceUnavailableError,
                 description: desc
               };
-              return reject(translate(e));
+              return reject(translateServiceBusError(e));
             }
             try {
               this.link.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
@@ -254,7 +254,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
               );
               return resolve();
             } catch (error) {
-              error = translate(error.innerError || error);
+              error = translateServiceBusError(error.innerError || error);
               logger.logError(
                 error,
                 `${this.logPrefix} An error occurred while sending the message`
@@ -271,7 +271,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
               condition: ErrorNameConditionMapper.SenderBusyError,
               description: msg
             };
-            reject(translate(amqpError));
+            reject(translateServiceBusError(amqpError));
           }
         } catch (err) {
           reject(err);
@@ -308,7 +308,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
       await this.initLink(options, abortSignal);
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((err as MessagingError).code === "OperationTimeoutError") {

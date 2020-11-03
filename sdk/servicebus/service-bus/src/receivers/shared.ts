@@ -6,6 +6,7 @@ import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger, ServiceBusLogger } from "../log";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -52,6 +53,7 @@ export function wrapProcessErrorHandler(
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
+      args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
     } catch (err) {
       logger.logError(err, `An error was thrown from the user's processError handler`);

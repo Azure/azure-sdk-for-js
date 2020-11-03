@@ -514,7 +514,7 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
  * UnattachedHandleError: currently in use of an attached link.
  * UnauthorizedError: the connection parameters are wrong and the server refused the connection.
  */
-export type MessageErrorCodes =
+export type MessagingErrorCodes =
   // Error is thrown when the address is already in use.
   | "AddressAlreadyInUseError"
   // Error is thrown when an incorrect argument was received.
@@ -644,7 +644,7 @@ export class MessagingError extends Error {
   /**
    * A string label that identifies the error.
    */
-  code?: MessageErrorCodes | string;
+  code?: MessagingErrorCodes | string;
   /**
    * System-provided error number.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.

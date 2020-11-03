@@ -19,8 +19,7 @@ import {
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions,
-  translate
+  SendRequestOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -47,6 +46,7 @@ import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -225,7 +225,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         name: this.replyTo,
         target: { address: this.replyTo },
         onSessionError: (context: EventContext) => {
-          const sbError = translate(context.session!.error!);
+          const sbError = translateServiceBusError(context.session!.error!);
           managementClientLogger.logError(
             sbError,
             `${this.logPrefix} An error occurred on the session for request/response links for $management`
@@ -235,7 +235,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sropt: SenderOptions = {
         target: { address: this.address },
         onError: (context: EventContext) => {
-          const ehError = translate(context.sender!.error!);
+          const ehError = translateServiceBusError(context.sender!.error!);
           managementClientLogger.logError(
             ehError,
             `${this.logPrefix} An error occurred on the $management sender link`
@@ -253,7 +253,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         abortSignal
       );
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       managementClientLogger.logError(
         err,
         `${this.logPrefix} An error occurred while establishing the $management links`
@@ -276,7 +276,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     // "rhea" doesn't allow setting only the "onError" handler in the options if it is not accompanied by an "onMessage" handler.
     // Hence, not passing onError handler in the receiver options, adding a handler below.
     rheaLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-      const ehError = translate(context.receiver!.error!);
+      const ehError = translateServiceBusError(context.receiver!.error!);
       managementClientLogger.logError(
         ehError,
         `${this.logPrefix} An error occurred on the $management receiver link`
@@ -333,7 +333,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       internalLogger.logError(
         err,
         "%s An error occurred during send on management request-response link with address " +
@@ -495,7 +495,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       }
     } catch (err) {
-      const error = translate(err) as MessagingError;
+      const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to peek messages to $management endpoint`
@@ -558,7 +558,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -617,9 +617,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user-friendly message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = translate(getMessagePropertyTypeMismatchError(item) || err);
+          error = translateServiceBusError(getMessagePropertyTypeMismatchError(item) || err);
         } else {
-          error = translate(err);
+          error = translateServiceBusError(err);
         }
         senderLogger.logError(
           error,
@@ -653,7 +653,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       return sequenceNumbersAsLong;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to schedule messages to $management endpoint`
@@ -682,7 +682,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
-        const error = translate(err);
+        const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
@@ -718,7 +718,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       await this._makeManagementRequest(request, senderLogger, options);
       return;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to cancel the scheduled message to $management endpoint`
@@ -757,7 +757,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
-        const error = translate(err);
+        const error = translateServiceBusError(err);
         receiverLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
@@ -813,7 +813,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       return messageList;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to receive deferred messages to $management endpoint`
@@ -882,7 +882,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, receiverLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to update disposition status to $management endpoint`
@@ -932,7 +932,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       return lockedUntilUtc;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -977,7 +977,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, receiverLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -1021,7 +1021,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         ? this._context.dataTransformer.decode(result.body["session-state"])
         : result.body["session-state"];
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -1079,7 +1079,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -1189,7 +1189,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       return rules;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the get rules request to $management endpoint`
@@ -1230,7 +1230,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, managementClientLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the remove rule request to $management endpoint`
@@ -1316,7 +1316,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
       await this._makeManagementRequest(request, managementClientLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the Add rule request to $management endpoint`

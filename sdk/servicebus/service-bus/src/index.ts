@@ -6,8 +6,7 @@
 
 export {
   delay,
-  isMessagingError,
-  MessageErrorCodes,
+  MessagingErrorCodes,
   MessagingError,
   RetryOptions,
   TokenCredential,
@@ -69,3 +68,4 @@ export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorReason } from "./serviceBusError";
