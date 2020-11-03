@@ -402,7 +402,9 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   subscribe(

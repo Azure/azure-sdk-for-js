@@ -7,9 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
 import {
-  MessagingError,
+  isServiceBusError,
   ProcessErrorArgs,
   ServiceBusClient,
+  ServiceBusError,
   ServiceBusSessionReceiver
 } from "../src";
 import { ServiceBusSender } from "../src/sender";
@@ -26,7 +27,6 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { isMessagingError } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -112,9 +112,9 @@ describe("ServiceBusClient live tests", () => {
       return sbClient.close();
     });
 
-    const testError = (err: Error | MessagingError): void => {
-      if (!isMessagingError(err)) {
-        should.equal(true, false, "Error expected to be instance of MessagingError");
+    const testError = (err: Error | ServiceBusError): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
         if (isNode) {
           should.equal(
@@ -195,13 +195,13 @@ describe("ServiceBusClient live tests", () => {
       await sbClient.test.after();
     });
 
-    const testError = (err: Error | MessagingError, entityPath: string): void => {
-      if (!isMessagingError(err)) {
-        should.equal(true, false, "Error expected to be instance of MessagingError");
+    const testError = (err: Error | ServiceBusError, entityPath: string): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
         should.equal(
-          err.code,
-          "MessagingEntityNotFoundError",
+          err.reason,
+          "MessagingEntityNotFound",
           "Error code is different than expected"
         );
         should.equal(
