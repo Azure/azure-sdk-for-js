@@ -7,6 +7,9 @@
 
 ### Breaking changes
 
+- `satusDescription` in `CbsResponse` which is the output for `CbsClient.negotiateClaim()` is renamed to `statusDescription` to fix the spelling error.
+- The `CbsClient.negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
+
 We are cleaning the public API surface by
 
 - removing exports that are either not used by either `@azure/event-hubs` and `@azure/service-bus` packages (which are the two main consumers of this package)
@@ -19,7 +22,6 @@ We are cleaning the public API surface by
   - Timeout
 - moving the clases/methods/interfaces that are very specific to Event Hubs/Service Bus to their corresponding packages.
   - SharedKeyCredential
-    - As part of this move the `negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
   - EventHubConnectionConfig
 - avoid re-exporting things from `rhea-promise` and `@azure/core-auth`
   - Dictionary
