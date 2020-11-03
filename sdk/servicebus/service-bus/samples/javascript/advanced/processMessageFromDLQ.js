@@ -24,7 +24,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
