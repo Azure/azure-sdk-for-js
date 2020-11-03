@@ -67,7 +67,7 @@ async function createAlertConfig(adminClient, detectionConfigId) {
     hookIds: [],
     description: "alerting config description"
   };
-  const result = await adminClient.createAnomalyAlertConfiguration(alertConfig);
+  const result = await adminClient.createAlertConfig(alertConfig);
   console.log(result);
   return result;
 }
@@ -96,19 +96,19 @@ async function updateAlertConfig(adminClient, alertConfigId, detectionConfigId, 
     ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
-  const updated = await adminClient.updateAnomalyAlertConfiguration(alertConfigId, patch);
+  const updated = await adminClient.updateAlertConfig(alertConfigId, patch);
   return updated;
 }
 
 async function deleteAlertConfig(adminClient, alertConfigId) {
   console.log(`Deleting alerting configuration ${alertConfigId}`);
-  await adminClient.deleteAnomalyAlertConfiguration(alertConfigId);
+  await adminClient.deleteAlertConfig(alertConfigId);
 }
 
 async function listAlertingConfig(adminClient, detectdionConfigId) {
   console.log(`Listing alerting configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
-  for await (const config of adminClient.listAnomalyAlertConfigurations(detectdionConfigId)) {
+  for await (const config of adminClient.listAlertConfigs(detectdionConfigId)) {
     console.log(`Alert configuration ${i++}`);
     console.log(config);
   }

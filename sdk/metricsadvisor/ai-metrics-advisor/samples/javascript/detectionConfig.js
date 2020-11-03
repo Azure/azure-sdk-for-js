@@ -173,7 +173,7 @@ async function deleteDetectionConfig(adminClient, detectionConfigId) {
 async function listDetectionConfig(adminClient, metricId) {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
-  for await (const config of adminClient.listMetricAnomalyDetectionConfigurations(metricId)) {
+  for await (const config of adminClient.listDetectionConfigs(metricId)) {
     console.log(`  detection configuration ${i++}`);
     console.log(config);
   }

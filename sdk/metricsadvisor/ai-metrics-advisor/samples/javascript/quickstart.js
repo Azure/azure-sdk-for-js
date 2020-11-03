@@ -162,7 +162,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(dataFeed);
+  return await adminClient.createDetectionConfig(dataFeed);
 }
 
 async function createWebhookHook(adminClient) {
@@ -210,7 +210,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlert);
+  return await adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
