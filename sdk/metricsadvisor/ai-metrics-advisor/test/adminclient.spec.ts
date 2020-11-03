@@ -248,7 +248,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("lists detection configurations", async function() {
-      const iterator = client.listMetricAnomalyDetectionConfigurations(
+      const iterator = client.listDetectionConfigs(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
       );
       let result = await iterator.next();
@@ -260,7 +260,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("lists detection configurations by page", async function() {
       const iterator = client
-        .listMetricAnomalyDetectionConfigurations(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage();
       const result = await iterator.next();
       assert.ok(result.value.length > 1, "Expecting more than one entries in page");
@@ -356,14 +356,14 @@ describe("MetricsAdvisorAdministrationClient", () => {
         hookIds: []
       });
       try {
-        const iterator = client.listAlertConfigurations(createdDetectionConfigId);
+        const iterator = client.listAlertConfigs(createdDetectionConfigId);
         let result = await iterator.next();
 
         assert.ok(result.value.id, "Expecting first alert config");
         result = await iterator.next();
         assert.ok(result.value.id, "Expecting second alert config");
 
-        const pageIterator = client.listAlertConfigurations(createdDetectionConfigId).byPage();
+        const pageIterator = client.listAlertConfigs(createdDetectionConfigId).byPage();
         const pageResult = await pageIterator.next();
         assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
