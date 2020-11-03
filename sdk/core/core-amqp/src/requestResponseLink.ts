@@ -228,14 +228,26 @@ export class RequestResponseLink implements ReqResLink {
     return new RequestResponseLink(session, sender, receiver);
   }
 }
-
+/**
+ * @internal
+ * @ignore
+ *
+ * Type used in getCodeDescriptionAndError to get the normalized info from the responses emitted by EventHubs and ServiceBus.
+ */
 type NormalizedInfo = {
   statusCode: number;
   statusDescription: string;
   errorCondition: string;
 };
 
-// Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
+/**
+ * @internal
+ * @ignore
+ * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
+ *
+ * @param {*} props
+ * @returns {NormalizedInfo}
+ */
 export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
   if (!props) props = {};
   return {
