@@ -485,7 +485,7 @@ describe("DigitalTwinsClient", () => {
     );
 
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "getById");
-    testClient.getModel(testModelId, includeModelDefinition, operationOptions);
+    testClient.getModel(testModelId, includeModelDefinition, digitalTwinModelsGetByIdOptionalParams);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testModelId, updatedOptions));
     assert.isNotNull(updatedOptions);
@@ -667,7 +667,6 @@ describe("DigitalTwinsClient", () => {
     testClient.deleteEventRoute(testEventRouteId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testEventRouteId, updatedOptions));
-    console.log(updatedOptions);
     assert.isNotNull(updatedOptions);
     assert.isNotNull(span);
   });

@@ -526,7 +526,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent6, Parameters.tracestate6],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const addOperationSpec: coreHttp.OperationSpec = {
@@ -547,8 +547,8 @@ const addOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent7,
-    Parameters.tracestate7,
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.ifNoneMatch
   ],
   mediaType: "json",
@@ -566,8 +566,8 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
-    Parameters.traceparent8,
-    Parameters.tracestate8,
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.ifMatch
   ],
   serializer
@@ -588,10 +588,10 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.contentType1,
-    Parameters.traceparent9,
-    Parameters.tracestate9,
-    Parameters.ifMatch1
+    Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
@@ -610,7 +610,7 @@ const getRelationshipByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [Parameters.traceparent10, Parameters.tracestate10],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const addRelationshipOperationSpec: coreHttp.OperationSpec = {
@@ -630,9 +630,9 @@ const addRelationshipOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent11,
-    Parameters.tracestate11,
-    Parameters.ifNoneMatch1
+    Parameters.traceparent,
+    Parameters.tracestate,
+    Parameters.ifNoneMatch
   ],
   mediaType: "json",
   serializer
@@ -649,9 +649,9 @@ const deleteRelationshipOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
-    Parameters.traceparent12,
-    Parameters.tracestate12,
-    Parameters.ifMatch2
+    Parameters.traceparent,
+    Parameters.tracestate,
+    Parameters.ifMatch
   ],
   serializer
 };
@@ -670,10 +670,10 @@ const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.contentType1,
-    Parameters.traceparent13,
-    Parameters.tracestate13,
-    Parameters.ifMatch3
+    Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
@@ -691,7 +691,7 @@ const listRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent14, Parameters.tracestate14],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
@@ -707,7 +707,7 @@ const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent15, Parameters.tracestate15],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
@@ -724,8 +724,8 @@ const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent16,
-    Parameters.tracestate16,
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.messageId,
     Parameters.telemetrySourceTime
   ],
@@ -746,10 +746,10 @@ const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [
     Parameters.contentType,
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.messageId,
-    Parameters.telemetrySourceTime,
-    Parameters.traceparent17,
-    Parameters.tracestate17
+    Parameters.telemetrySourceTime
   ],
   mediaType: "json",
   serializer
@@ -768,7 +768,7 @@ const getComponentOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
-  headerParameters: [Parameters.traceparent18, Parameters.tracestate18],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const updateComponentOperationSpec: coreHttp.OperationSpec = {
@@ -787,10 +787,10 @@ const updateComponentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [
+    Parameters.traceparent,
+    Parameters.tracestate,
     Parameters.contentType1,
-    Parameters.traceparent19,
-    Parameters.tracestate19,
-    Parameters.ifMatch4
+    Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
@@ -808,7 +808,7 @@ const listRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
-  headerParameters: [Parameters.traceparent14, Parameters.tracestate14],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
@@ -824,6 +824,6 @@ const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
-  headerParameters: [Parameters.traceparent15, Parameters.tracestate15],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };

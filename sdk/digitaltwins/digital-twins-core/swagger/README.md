@@ -52,3 +52,12 @@ directive:
     where: $..[?(@.name=='If-None-Match')]
     transform: delete $.enum;
 ```
+
+### Remove grouping
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters[*]
+    transform: delete $["x-ms-parameter-grouping"];
+```

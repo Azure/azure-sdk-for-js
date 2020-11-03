@@ -57,7 +57,7 @@ export const $host: OperationURLParameter = {
 };
 
 export const traceparent: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsAddOptions", "traceparent"],
+  parameterPath: ["options", "traceparent"],
   mapper: {
     serializedName: "traceparent",
     type: {
@@ -67,7 +67,7 @@ export const traceparent: OperationParameter = {
 };
 
 export const tracestate: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsAddOptions", "tracestate"],
+  parameterPath: ["options", "tracestate"],
   mapper: {
     serializedName: "tracestate",
     type: {
@@ -82,26 +82,6 @@ export const apiVersion: OperationQueryParameter = {
     defaultValue: "2020-10-31",
     isConstant: true,
     serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent1: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsListOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate1: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsListOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
     type: {
       name: "String"
     }
@@ -131,31 +111,11 @@ export const includeModelDefinition: OperationQueryParameter = {
 };
 
 export const maxItemsPerPage: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsListOptions", "maxItemsPerPage"],
+  parameterPath: ["options", "maxItemsPerPage"],
   mapper: {
     serializedName: "max-items-per-page",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const traceparent2: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsGetByIdOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate2: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsGetByIdOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
     }
   }
 };
@@ -195,46 +155,6 @@ export const updateModel: OperationParameter = {
   }
 };
 
-export const traceparent3: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsUpdateOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate3: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsUpdateOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent4: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsDeleteOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate4: OperationParameter = {
-  parameterPath: ["options", "digitalTwinModelsDeleteOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -252,56 +172,6 @@ export const querySpecification: OperationParameter = {
   mapper: QuerySpecificationMapper
 };
 
-export const traceparent5: OperationParameter = {
-  parameterPath: ["options", "queryTwinsOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate5: OperationParameter = {
-  parameterPath: ["options", "queryTwinsOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const maxItemsPerPage1: OperationParameter = {
-  parameterPath: ["options", "queryTwinsOptions", "maxItemsPerPage"],
-  mapper: {
-    serializedName: "max-items-per-page",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const traceparent6: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsGetByIdOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate6: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsGetByIdOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const twin: OperationParameter = {
   parameterPath: "twin",
   mapper: {
@@ -313,28 +183,8 @@ export const twin: OperationParameter = {
   }
 };
 
-export const traceparent7: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsAddOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate7: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsAddOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsAddOptions", "ifNoneMatch"],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -343,28 +193,8 @@ export const ifNoneMatch: OperationParameter = {
   }
 };
 
-export const traceparent8: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsDeleteOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate8: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsDeleteOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsDeleteOptions", "ifMatch"],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -381,64 +211,6 @@ export const patchDocument: OperationParameter = {
     type: {
       name: "Sequence",
       element: { type: { name: "any" } }
-    }
-  }
-};
-
-export const traceparent9: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsUpdateOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate9: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsUpdateOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch1: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsUpdateOptions", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent10: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsGetRelationshipByIdOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate10: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsGetRelationshipByIdOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
     }
   }
 };
@@ -465,192 +237,10 @@ export const relationship: OperationParameter = {
   }
 };
 
-export const traceparent11: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsAddRelationshipOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate11: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsAddRelationshipOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch1: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsAddRelationshipOptions",
-    "ifNoneMatch"
-  ],
-  mapper: {
-    serializedName: "If-None-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent12: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsDeleteRelationshipOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate12: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsDeleteRelationshipOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch2: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsDeleteRelationshipOptions",
-    "ifMatch"
-  ],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent13: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsUpdateRelationshipOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate13: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsUpdateRelationshipOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch3: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsUpdateRelationshipOptions",
-    "ifMatch"
-  ],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent14: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsListRelationshipsOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate14: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsListRelationshipsOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const relationshipName: OperationQueryParameter = {
   parameterPath: ["options", "relationshipName"],
   mapper: {
     serializedName: "relationshipName",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent15: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsListIncomingRelationshipsOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate15: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsListIncomingRelationshipsOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
     type: {
       name: "String"
     }
@@ -664,26 +254,6 @@ export const telemetry: OperationParameter = {
     required: true,
     type: {
       name: "any"
-    }
-  }
-};
-
-export const traceparent16: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsSendTelemetryOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate16: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsSendTelemetryOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
     }
   }
 };
@@ -709,34 +279,6 @@ export const telemetrySourceTime: OperationParameter = {
   }
 };
 
-export const traceparent17: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsSendComponentTelemetryOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate17: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsSendComponentTelemetryOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const componentPath: OperationURLParameter = {
   parameterPath: "componentPath",
   mapper: {
@@ -748,155 +290,7 @@ export const componentPath: OperationURLParameter = {
   }
 };
 
-export const traceparent18: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsGetComponentOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate18: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsGetComponentOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent19: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsUpdateComponentOptions",
-    "traceparent"
-  ],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate19: OperationParameter = {
-  parameterPath: [
-    "options",
-    "digitalTwinsUpdateComponentOptions",
-    "tracestate"
-  ],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch4: OperationParameter = {
-  parameterPath: ["options", "digitalTwinsUpdateComponentOptions", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent20: OperationParameter = {
-  parameterPath: ["options", "eventRoutesListOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate20: OperationParameter = {
-  parameterPath: ["options", "eventRoutesListOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const maxItemsPerPage2: OperationParameter = {
-  parameterPath: ["options", "eventRoutesListOptions", "maxItemsPerPage"],
-  mapper: {
-    serializedName: "max-items-per-page",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const traceparent21: OperationParameter = {
-  parameterPath: ["options", "eventRoutesGetByIdOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate21: OperationParameter = {
-  parameterPath: ["options", "eventRoutesGetByIdOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const eventRoute: OperationParameter = {
   parameterPath: ["options", "eventRoute"],
   mapper: EventRouteMapper
-};
-
-export const traceparent22: OperationParameter = {
-  parameterPath: ["options", "eventRoutesAddOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate22: OperationParameter = {
-  parameterPath: ["options", "eventRoutesAddOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const traceparent23: OperationParameter = {
-  parameterPath: ["options", "eventRoutesDeleteOptions", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate23: OperationParameter = {
-  parameterPath: ["options", "eventRoutesDeleteOptions", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
 };
