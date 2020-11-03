@@ -59,6 +59,8 @@ It provides an opportunity to override default behavior including:
 
 Let's create models using the code below. You need to pass in `any[]` containing list of json models.
 Check out sample models [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/dtdl/models).
+Note: The sample dtdls are using "ts" extension in the Typescript repository. If you want to use the dtdl samples with CLI tools please
+change their extension to "json".
 
 ```JavaScript Snippet:dt_models_lifecycle.js
 const newModels = [temporaryComponent, temporaryModel];
@@ -130,6 +132,9 @@ console.log(`DigitalTwin: ${twin.body}`);
 ### Query digital twins
 
 Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins Query Store lanaguage](https://review.docs.microsoft.com/azure/digital-twins/concepts-query-language). Query calls support paging. Here's an example of how to query for digital twins and how to iterate over the results.
+
+Note that there may be a delay between before changes in your instance are reflected in queries.
+For more details on query limitations, see ("https://docs.microsoft.com/en-us/azure/digital-twins/how-to-query-graph#query-limitations">Query)
 
 ```JavaScript Snippet:dt_digitaltwins_query
 const query = "SELECT * FROM digitaltwins";

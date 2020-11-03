@@ -7,7 +7,6 @@ import {
   TokenCredential,
   RestResponse,
   OperationOptions,
-  RequestOptionsBase,
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -17,14 +16,12 @@ import {
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import {
-  DigitalTwinsGetByIdOptionalParams,
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
   DigitalTwinsAddResponse,
   DigitalTwinsUpdateOptionalParams,
   DigitalTwinsUpdateResponse,
   DigitalTwinsDeleteOptionalParams,
-  DigitalTwinsGetComponentOptionalParams,
   DigitalTwinsGetComponentResponse,
   DigitalTwinsUpdateComponentResponse,
   DigitalTwinsUpdateComponentOptionalParams,
@@ -35,13 +32,10 @@ import {
   DigitalTwinsDeleteRelationshipOptionalParams,
   DigitalTwinsSendTelemetryOptionalParams,
   DigitalTwinsSendComponentTelemetryOptionalParams,
-  DigitalTwinsListRelationshipsOptionalParams,
   DigitalTwinsListRelationshipsResponse,
   IncomingRelationship,
-  DigitalTwinsListIncomingRelationshipsOptionalParams,
   DigitalTwinsListIncomingRelationshipsResponse,
   DigitalTwinsGetRelationshipByIdResponse,
-  DigitalTwinsGetRelationshipByIdOptionalParams,
   DigitalTwinsModelData,
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsGetByIdOptionalParams,
@@ -49,22 +43,17 @@ import {
   DigitalTwinModelsAddOptionalParams,
   DigitalTwinModelsListResponse,
   DigitalTwinModelsListOptionalParams,
-  DigitalTwinModelsUpdateOptionalParams,
-  DigitalTwinModelsDeleteOptionalParams,
-  EventRoutesGetByIdOptionalParams,
   EventRoutesGetByIdResponse,
   EventRoute,
   EventRoutesAddOptionalParams,
-  EventRoutesDeleteOptionalParams,
   EventRoutesListNextResponse,
   EventRoutesListOptionalParams,
   QueryQueryTwinsOptionalParams,
   QueryQueryTwinsResponse,
   QuerySpecification
 } from "./generated/models";
-import { getTracer } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { Span } from "@opentelemetry/api";
 import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.0.0-preview.1";
@@ -153,13 +142,9 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
-    const digitalTwinsGetByIdOptionalParams: DigitalTwinsGetByIdOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-getDigitalTwin",
-      digitalTwinsGetByIdOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getDigitalTwin", options);
     try {
-      return this.client.digitalTwins.getById(digitalTwinId, digitalTwinsGetByIdOptionalParams);
+      return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -176,26 +161,18 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the digital twin to create or update.
    * @param digitalTwinJson The application/json digital twin to create.
-   * @param enableUpdate If true then update of an existing digital twin is enabled.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *  ifNoneMatch: Only perform the operation if the entity does not already exist.
    * @returns The created application/json digital twin and the http response.
    */
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
-    options: OperationOptions = {}
+    options: DigitalTwinsAddOptionalParams = {}
   ): Promise<DigitalTwinsAddResponse> {
-    const digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-upsertDigitalTwin",
-      digitalTwinsAddOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertDigitalTwin", options);
     try {
-      return this.client.digitalTwins.add(
-        digitalTwinId,
-        digitalTwinJson,
-        digitalTwinsAddOptionalParams
-      );
+      return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -214,34 +191,18 @@ export class DigitalTwinsClient {
    * @param jsonPatch An update specification described by JSON Patch. Updates to property values
    * and $model elements may happen in the same request. Operations are limited to add, replace and
    * remove.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
-   * @param options The operation options
+   * @param options Extended operation options including
+   *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateDigitalTwin(
     digitalTwinId: string,
     jsonPatch: any,
-    etag: string = "*",
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
-    var digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = options;
-    digitalTwinsUpdateOptionalParams = {
-      digitalTwinsUpdateOptions: {
-        ifMatch: etag,
-        ...options
-      }
-    };
-    const span = this.createSpan(
-      "DigitalTwinsClient-updateDigitalTwin",
-      digitalTwinsUpdateOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
     try {
-      return this.client.digitalTwins.update(
-        digitalTwinId,
-        jsonPatch,
-        digitalTwinsUpdateOptionalParams
-      );
+      return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -257,29 +218,17 @@ export class DigitalTwinsClient {
    * Delete a digital twin
    *
    * @param digitalTwinId The Id of the digital twin to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
-   * @param options The operation options
+   * @param options Extended operation options including
+   *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public deleteDigitalTwin(
     digitalTwinId: string,
-    etag: string = "*",
-    options: OperationOptions = {}
+    options: DigitalTwinsDeleteOptionalParams = {}
   ): Promise<RestResponse> {
-    var digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = options;
-    digitalTwinsDeleteOptionalParams = {
-      digitalTwinsDeleteOptions: {
-        ifMatch: etag,
-        ...options
-      }
-    };
-    const span = this.createSpan(
-      "DigitalTwinsClient-deleteDigitalTwin",
-      digitalTwinsDeleteOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteDigitalTwin", options);
     try {
-      return this.client.digitalTwins.delete(digitalTwinId, digitalTwinsDeleteOptionalParams);
+      return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -304,17 +253,9 @@ export class DigitalTwinsClient {
     componentName: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetComponentResponse> {
-    const digitalTwinsGetComponentOptionalParams: DigitalTwinsGetComponentOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-getComponent",
-      digitalTwinsGetComponentOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getComponent", options);
     try {
-      return this.client.digitalTwins.getComponent(
-        digitalTwinId,
-        componentName,
-        digitalTwinsGetComponentOptionalParams
-      );
+      return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -333,34 +274,23 @@ export class DigitalTwinsClient {
    * @param componentName The component being updated.
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's component.
    * @param enableUpdate If true then update of an existing digital twin is enabled.
-   * @param options The operation options
-   * @param etag The etag of the component to update. Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * @param options Extended operation options including
+   *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateComponent(
     digitalTwinId: string,
     componentName: string,
     jsonPatch: any[],
-    etag: string = "*",
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    var digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = options;
-    digitalTwinsUpdateComponentOptionalParams = {
-      digitalTwinsUpdateComponentOptions: {
-        ifMatch: etag,
-        ...options
-      }
-    };
-    const span = this.createSpan(
-      "DigitalTwinsClient-updateComponent",
-      digitalTwinsUpdateComponentOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateComponent", options);
     try {
       return this.client.digitalTwins.updateComponent(
         digitalTwinId,
         componentName,
         jsonPatch,
-        digitalTwinsUpdateComponentOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -386,16 +316,12 @@ export class DigitalTwinsClient {
     relationshipId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
-    const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-getRelationship",
-      digitalTwinsGetRelationshipByIdOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getRelationship", options);
     try {
       return this.client.digitalTwins.getRelationshipById(
         digitalTwinId,
         relationshipId,
-        digitalTwinsGetRelationshipByIdOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -414,25 +340,22 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to create.
    * @param relationship: The application/json relationship to be created.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *  ifNoneMatch: Only perform the operation if the entity does not already exist.
    */
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
     relationship: any,
-    options: OperationOptions = {}
+    options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-upsertRelationship",
-      digitalTwinsAddRelationshipOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
     try {
       return this.client.digitalTwins.addRelationship(
         digitalTwinId,
         relationshipId,
         relationship,
-        digitalTwinsAddRelationshipOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -451,34 +374,22 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the digital twin to delete.
    * @param relationshipId The Id of the relationship to be updated.
    * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's relationship.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * @param options The operation options
-   * provided
+   * @param options Extended operation options
+   *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    */
   public updateRelationship(
     digitalTwinId: string,
     relationshipId: string,
     jsonPatch: any[],
-    etag: string = "*",
-    options: OperationOptions = {}
+    options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    var digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = options;
-    digitalTwinsUpdateRelationshipOptionalParams = {
-      digitalTwinsUpdateRelationshipOptions: {
-        ifMatch: etag,
-        ...options
-      }
-    };
-    const span = this.createSpan(
-      "DigitalTwinsClient-updateRelationship",
-      digitalTwinsUpdateRelationshipOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateRelationship", options);
     try {
       return this.client.digitalTwins.updateRelationship(
         digitalTwinId,
         relationshipId,
         jsonPatch,
-        digitalTwinsUpdateRelationshipOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -496,32 +407,21 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId The Id of the source digital twin.
    * @param relationshipId The Id of the relationship to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @param options The operation options
+   *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @returns The http response.
    */
   public deleteRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    etag: string = "*",
-    options: OperationOptions = {}
+    options: DigitalTwinsDeleteRelationshipOptionalParams = {}
   ): Promise<RestResponse> {
-    var digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = options;
-    digitalTwinsDeleteRelationshipOptionalParams = {
-      digitalTwinsDeleteRelationshipOptions: {
-        ifMatch: etag,
-        ...options
-      }
-    };
-    const span = this.createSpan(
-      "DigitalTwinsClient-deleteRelationship",
-      digitalTwinsDeleteRelationshipOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteRelationship", options);
     try {
       return this.client.digitalTwins.deleteRelationship(
         digitalTwinId,
         relationshipId,
-        digitalTwinsDeleteRelationshipOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -598,16 +498,9 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
-    const digitalTwinsListRelationshipsOptionalParams: DigitalTwinsListRelationshipsOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-listRelationships",
-      digitalTwinsListRelationshipsOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-listRelationships", options);
     try {
-      const iter = this.listRelationshipsAll(
-        digitalTwinId,
-        digitalTwinsListRelationshipsOptionalParams
-      );
+      const iter = this.listRelationshipsAll(digitalTwinId, updatedOptions);
 
       return {
         next() {
@@ -617,11 +510,7 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listRelationshipsPage(
-            digitalTwinId,
-            digitalTwinsListRelationshipsOptionalParams,
-            settings
-          )
+          this.listRelationshipsPage(digitalTwinId, updatedOptions, settings)
       };
     } catch (e) {
       span.setStatus({
@@ -694,21 +583,17 @@ export class DigitalTwinsClient {
    */
   public listIncomingRelationships(
     digitalTwinId: string,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<
     IncomingRelationship,
     DigitalTwinsListIncomingRelationshipsResponse
   > {
-    const digitalTwinsListIncomingRelationshipsOptionalParams: DigitalTwinsListIncomingRelationshipsOptionalParams = options;
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-listIncomingRelationships",
-      digitalTwinsListIncomingRelationshipsOptionalParams
+      options
     );
     try {
-      const iter = this.listIncomingRelationshipsAll(
-        digitalTwinId,
-        digitalTwinsListIncomingRelationshipsOptionalParams
-      );
+      const iter = this.listIncomingRelationshipsAll(digitalTwinId, updatedOptions);
 
       return {
         next() {
@@ -718,11 +603,7 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listIncomingRelationshipsPage(
-            digitalTwinId,
-            digitalTwinsListIncomingRelationshipsOptionalParams,
-            settings
-          )
+          this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings)
       };
     } catch (e) {
       span.setStatus({
@@ -755,7 +636,7 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-publishTelemetry",
       digitalTwinsSendTelemetryOptionalParams
     );
@@ -764,7 +645,7 @@ export class DigitalTwinsClient {
         digitalTwinId,
         payload,
         messageId,
-        digitalTwinsSendTelemetryOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -801,7 +682,7 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-publishComponentTelemetry",
       digitalTwinsSendComponentTelemetryOptionalParams
     );
@@ -811,7 +692,7 @@ export class DigitalTwinsClient {
         componentName,
         payload,
         messageId,
-        digitalTwinsSendComponentTelemetryOptionalParams
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -828,23 +709,23 @@ export class DigitalTwinsClient {
    * Get a model, including the model metadata and the model definition.
    *
    * @param modelId The Id of the model.
-   * @param includeModelDefinition When true the model definition will be returned as part of the result. Default value: false.
-   * @param options The operation options
+   * @param options Extended operation options including
+   *  includeModelDefinition: When true the model definition will be returned as part of the result. Default value: false.
    * @returns The application/json model and the http response.
    */
   public getModel(
     modelId: string,
-    includeModelDefinition?: boolean,
+    includeModelDefinition: boolean = false,
     options: OperationOptions = {}
   ): Promise<DigitalTwinModelsGetByIdResponse> {
     const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams = options;
     digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-getModel",
       digitalTwinModelsGetByIdOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.getById(modelId, digitalTwinModelsGetByIdOptionalParams);
+      return this.client.digitalTwinModels.getById(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -870,12 +751,9 @@ export class DigitalTwinsClient {
     continuationState: PageSettings
   ): AsyncIterableIterator<DigitalTwinModelsListResponse> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: DigitalTwinModelsListOptionalParams = {
-        digitalTwinModelsListOptions: {
-          maxItemsPerPage: continuationState.maxPageSize
-        },
-        ...options
-      };
+      const optionsComplete: DigitalTwinModelsListOptionalParams = options;
+      optionsComplete.maxItemsPerPage = continuationState.maxPageSize;
+
       const listResponse = await this.client.digitalTwinModels.list(optionsComplete);
       continuationState.continuationToken = listResponse.nextLink;
       yield listResponse;
@@ -922,23 +800,20 @@ export class DigitalTwinsClient {
     dependeciesFor?: string[],
     includeModelDefinition: boolean = false,
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
     var digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
     digitalTwinModelsListOptionalParams = {
-      digitalTwinModelsListOptions: {
-        maxItemsPerPage: resultsPerPage
-      },
+      maxItemsPerPage: resultsPerPage,
       dependenciesFor: dependeciesFor,
-      includeModelDefinition: includeModelDefinition,
-      ...options
+      includeModelDefinition: includeModelDefinition
     };
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-listModels",
       digitalTwinModelsListOptionalParams
     );
     try {
-      const iter = this.getModelsAll(digitalTwinModelsListOptionalParams);
+      const iter = this.getModelsAll(updatedOptions);
 
       return {
         next() {
@@ -969,17 +844,17 @@ export class DigitalTwinsClient {
    * @returns The created application/json models and the http response.
    */
   public createModels(
-    models: any[],
+    dtdlModels: any[],
     options: OperationOptions = {}
   ): Promise<DigitalTwinModelsAddResponse> {
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
-    digitalTwinModelsAddOptionalParams.models = models;
-    const span = this.createSpan(
+    digitalTwinModelsAddOptionalParams.models = dtdlModels;
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-createModels",
       digitalTwinModelsAddOptionalParams
     );
     try {
-      return this.client.digitalTwinModels.add(digitalTwinModelsAddOptionalParams);
+      return this.client.digitalTwinModels.add(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1005,17 +880,9 @@ export class DigitalTwinsClient {
   public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
-    const digitalTwinModelsUpdateOptionalParams: DigitalTwinModelsUpdateOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-decomissionModel",
-      digitalTwinModelsUpdateOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-decomissionModel", options);
     try {
-      return this.client.digitalTwinModels.update(
-        modelId,
-        jsonPatch,
-        digitalTwinModelsUpdateOptionalParams
-      );
+      return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1031,19 +898,13 @@ export class DigitalTwinsClient {
    * Delete a model.
    *
    * @param modelId The Id of the model to delete.
-   * @param etag Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * provided
    * @param options The operation options
    * @returns The http response.
    */
   public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
-    const digitalTwinModelsDeleteOptionalParams: DigitalTwinModelsDeleteOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-deleteModel",
-      digitalTwinModelsDeleteOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteModel", options);
     try {
-      return this.client.digitalTwinModels.delete(modelId, digitalTwinModelsDeleteOptionalParams);
+      return this.client.digitalTwinModels.delete(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1066,13 +927,9 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<EventRoutesGetByIdResponse> {
-    const eventRoutesGetByIdOptionalParams: EventRoutesGetByIdOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-getEventRoute",
-      eventRoutesGetByIdOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getEventRoute", options);
     try {
-      return this.client.eventRoutes.getById(eventRouteId, eventRoutesGetByIdOptionalParams);
+      return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1098,12 +955,9 @@ export class DigitalTwinsClient {
     continuationState: PageSettings
   ): AsyncIterableIterator<EventRoutesListNextResponse> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: EventRoutesListOptionalParams = {
-        eventRoutesListOptions: {
-          maxItemsPerPage: continuationState.maxPageSize
-        },
-        ...options
-      };
+      const optionsComplete: EventRoutesListOptionalParams = options;
+      optionsComplete.maxItemsPerPage = continuationState.maxPageSize;
+
       const listResponse = await this.client.eventRoutes.list(optionsComplete);
       continuationState.continuationToken = listResponse.nextLink;
       yield listResponse;
@@ -1146,22 +1000,19 @@ export class DigitalTwinsClient {
    */
   public listEventRoutes(
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
     var eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
-      eventRoutesListOptions: {
-        maxItemsPerPage: resultsPerPage
-      },
-      ...options
+      maxItemsPerPage: resultsPerPage
     };
 
-    const span = this.createSpan(
+    const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-listEventRoutes",
       eventRoutesListOptionalParams
     );
     try {
-      const iter = this.getEventRoutesAll(eventRoutesListOptionalParams);
+      const iter = this.getEventRoutesAll(updatedOptions);
 
       return {
         next() {
@@ -1205,10 +1056,12 @@ export class DigitalTwinsClient {
       filter: filter
     };
     eventRoutesAddOptionalParams.eventRoute = eventRoute;
-
-    const span = this.createSpan("DigitalTwinsClient-getEventRoute", eventRoutesAddOptionalParams);
+    const { span, updatedOptions } = createSpan(
+      "DigitalTwinsClient-upsertEventRoute",
+      eventRoutesAddOptionalParams
+    );
     try {
-      return this.client.eventRoutes.add(eventRouteId, eventRoutesAddOptionalParams);
+      return this.client.eventRoutes.add(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1223,7 +1076,7 @@ export class DigitalTwinsClient {
   /**
    * Delete an event route.
    *
-   * @param eventRouteId The Id of the model to delete.
+   * @param eventRouteId The Id of the eventRoute to delete.
    * @param options The operation options
    * @returns The http response.
    */
@@ -1231,13 +1084,9 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const eventRoutesDeleteOptionalParams: EventRoutesDeleteOptionalParams = options;
-    const span = this.createSpan(
-      "DigitalTwinsClient-getEventRoute",
-      eventRoutesDeleteOptionalParams
-    );
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteEventRoute", options);
     try {
-      return this.client.eventRoutes.delete(eventRouteId, eventRoutesDeleteOptionalParams);
+      return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1315,19 +1164,19 @@ export class DigitalTwinsClient {
   public queryTwins(
     query: string,
     resultsPerPage?: number,
-    options: OperationOptions = {}
+    options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
     var queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {
-      queryTwinsOptions: {
-        maxItemsPerPage: resultsPerPage
-      },
-      ...options
+      maxItemsPerPage: resultsPerPage
     };
 
-    const span = this.createSpan("DigitalTwinsClient-queryTwins", queryQueryTwinsOptionalParams);
+    const { span, updatedOptions } = createSpan(
+      "DigitalTwinsClient-queryTwins",
+      queryQueryTwinsOptionalParams
+    );
     try {
-      const iter = this.queryTwinsAll(query, queryQueryTwinsOptionalParams);
+      const iter = this.queryTwinsAll(query, updatedOptions);
 
       return {
         next() {
@@ -1348,22 +1197,5 @@ export class DigitalTwinsClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Creates a span using the tracer that was set by the user.
-   * @param {string} methodName The name of the method creating the span.
-   * @param {OperationOptions} [options] The options for the underlying HTTP request.
-   */
-  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(
-      `DigitalTwinsClient ${methodName}`,
-      requestOptions && requestOptions.spanOptions
-    );
-    span.setAttribute("az.namespace", "Microsoft.DigitalTwinsCore");
-    return span;
   }
 }
