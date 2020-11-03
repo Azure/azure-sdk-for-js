@@ -60,7 +60,7 @@ import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePo
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
-import { XML_ATTRKEY, XML_CHARKEY } from "./util/xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./util/xml.common";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -304,6 +304,7 @@ export class ServiceClient {
       operationArguments.options = undefined;
     }
 
+    const xmlOptions = operationArguments.options?.xmlOptions;
     const httpRequest: WebResourceLike = new WebResource();
 
     let result: Promise<RestResponse>;
@@ -334,7 +335,7 @@ export class ServiceClient {
             urlParameter.mapper,
             urlParameterValue,
             getPathStringFromParameter(urlParameter),
-            { xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey }
+            xmlOptions
           );
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
@@ -358,7 +359,7 @@ export class ServiceClient {
               queryParameter.mapper,
               queryParameterValue,
               getPathStringFromParameter(queryParameter),
-              { xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey }
+              xmlOptions
             );
             if (
               queryParameter.collectionFormat !== undefined &&
@@ -431,7 +432,7 @@ export class ServiceClient {
               headerParameter.mapper,
               headerValue,
               getPathStringFromParameter(headerParameter),
-              { xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey }
+              xmlOptions
             );
             const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
               .headerCollectionPrefix;
@@ -534,6 +535,8 @@ export function serializeRequestBody(
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
 ): void {
+  const xmlOptions = operationArguments.options?.xmlOptions ?? {};
+  const xmlCharKey = xmlOptions?.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     httpRequest.body = getOperationArgumentValueFromParameter(
       serviceClient,
@@ -562,7 +565,7 @@ export function serializeRequestBody(
           bodyMapper,
           httpRequest.body,
           requestBodyParameterPathString,
-          { xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey }
+          xmlOptions
         );
 
         const isStream = typeName === MapperType.Stream;
@@ -573,7 +576,8 @@ export function serializeRequestBody(
             xmlNamespace,
             xmlnsKey,
             typeName,
-            httpRequest.body
+            httpRequest.body,
+            xmlOptions
           );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -585,13 +589,13 @@ export function serializeRequestBody(
               ),
               {
                 rootName: xmlName || serializedName,
-                xmlCharKey: operationArguments?.options?.xmlCharKey
+                xmlCharKey
               }
             );
           } else if (!isStream) {
             httpRequest.body = stringifyXML(value, {
               rootName: xmlName || serializedName,
-              xmlCharKey: operationArguments?.options?.xmlCharKey
+              xmlCharKey
             });
           }
         } else if (
@@ -626,13 +630,11 @@ export function serializeRequestBody(
       if (formDataParameterValue !== undefined && formDataParameterValue !== null) {
         const formDataParameterPropertyName: string =
           formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
-        httpRequest.formData[
-          formDataParameterPropertyName
-        ] = operationSpec.serializer.serialize(
+        httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
           formDataParameter.mapper,
           formDataParameterValue,
           getPathStringFromParameter(formDataParameter),
-          { xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey }
+          xmlOptions
         );
       }
     }
@@ -647,7 +649,7 @@ function getXmlValueWithNamespace(
   xmlnsKey: string,
   typeName: string,
   serializedValue: any,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
@@ -856,6 +858,7 @@ export function getOperationArgumentValueFromParameterPath(
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
+  const xmlOptions = operationArguments.options?.xmlOptions;
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
       if (parameterMapper.isConstant) {
@@ -883,9 +886,7 @@ export function getOperationArgumentValueFromParameterPath(
         parameterPath,
         parameterMapper
       );
-      serializer.serialize(parameterMapper, value, parameterPathString, {
-        xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey
-      });
+      serializer.serialize(parameterMapper, value, parameterPathString, xmlOptions);
     }
   } else {
     if (parameterMapper.required) {
@@ -909,9 +910,7 @@ export function getOperationArgumentValueFromParameterPath(
         propertyPath,
         propertyMapper
       );
-      serializer.serialize(propertyMapper, propertyValue, propertyPathString, {
-        xmlCharKey: operationArguments.options?.parsingOptions?.xmlCharKey
-      });
+      serializer.serialize(propertyMapper, propertyValue, propertyPathString, xmlOptions);
       if (propertyValue !== undefined && propertyValue !== null) {
         if (!value) {
           value = {};

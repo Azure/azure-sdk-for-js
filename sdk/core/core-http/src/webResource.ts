@@ -10,6 +10,7 @@ import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
+import { XmlOptions } from "./util/xml.common";
 
 export type HttpMethods =
   | "GET"
@@ -669,12 +670,7 @@ export interface RequestOptionsBase {
   [key: string]: any;
 
   /**
-   * Options to override parsing behavior.
+   * Options to override XML parsing/building behavior.
    */
-  parsingOptions?: {
-    /**
-     * Options to override the default xml parser CHARKEY.
-     */
-    xmlCharKey?: string;
-  };
+  xmlOptions?: XmlOptions;
 }

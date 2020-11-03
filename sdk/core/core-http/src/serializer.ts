@@ -4,7 +4,7 @@
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
-import { XML_ATTRKEY, XML_CHARKEY } from "./util/xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./util/xml.common";
 
 export class Serializer {
   constructor(
@@ -90,12 +90,7 @@ export class Serializer {
    *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
    */
-  serialize(
-    mapper: Mapper,
-    object: any,
-    objectName?: string,
-    options?: { xmlCharKey?: string }
-  ): any {
+  serialize(mapper: Mapper, object: any, objectName?: string, options: XmlOptions = {}): any {
     let payload: any = {};
     const mapperType = mapper.type.name as string;
     if (!objectName) {
@@ -192,7 +187,7 @@ export class Serializer {
    *
    * @param {string} objectName Name of the deserialized object
    *
-   * @param options
+   * @param options Controls behavior of XML parser and builder.
    *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
@@ -200,7 +195,7 @@ export class Serializer {
     mapper: Mapper,
     responseBody: any,
     objectName: string,
-    options?: { xmlCharKey?: string }
+    options: XmlOptions = {}
   ): any {
     if (responseBody == undefined) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -232,16 +227,14 @@ export class Serializer {
       );
     } else {
       if (this.isXML) {
+        const xmlCharKey = options?.xmlCharKey ?? XML_CHARKEY;
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
          * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
          * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
-        if (
-          responseBody[XML_ATTRKEY] != undefined &&
-          responseBody[options?.xmlCharKey ?? XML_CHARKEY] != undefined
-        ) {
-          responseBody = responseBody[options?.xmlCharKey ?? XML_CHARKEY];
+        if (responseBody[XML_ATTRKEY] != undefined && responseBody[xmlCharKey] != undefined) {
+          responseBody = responseBody[xmlCharKey];
         }
       }
 
@@ -517,7 +510,7 @@ function serializeSequenceType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): any[] {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
@@ -558,7 +551,7 @@ function serializeDictionaryType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -574,7 +567,7 @@ function serializeDictionaryType(
   for (const key of Object.keys(object)) {
     const serializedValue = serializer.serialize(valueType, object[key], objectName, options);
     // If the element needs an XML namespace we need to add it within the $ property
-    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml);
+    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml, options);
   }
 
   // Add the namespace to the root element if needed
@@ -669,7 +662,7 @@ function serializeCompositeType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
@@ -741,7 +734,7 @@ function serializeCompositeType(
         );
 
         if (serializedValue !== undefined && propName != undefined) {
-          const value = getXmlObjectValue(propertyMapper, serializedValue, isXml);
+          const value = getXmlObjectValue(propertyMapper, serializedValue, isXml, options);
           if (isXml && propertyMapper.xmlIsAttribute) {
             // XML_ATTRKEY, i.e., $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
@@ -782,7 +775,7 @@ function getXmlObjectValue(
   propertyMapper: Mapper,
   serializedValue: any,
   isXml: boolean,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ) {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
@@ -808,8 +801,8 @@ function getXmlObjectValue(
   return result;
 }
 
-function isSpecialXmlProperty(propertyName: string, options?: { xmlCharKey?: string }): boolean {
-  return [XML_ATTRKEY, options?.xmlCharKey ?? XML_CHARKEY].includes(propertyName);
+function isSpecialXmlProperty(propertyName: string, options: XmlOptions): boolean {
+  return [XML_ATTRKEY, options.xmlCharKey ?? XML_CHARKEY].includes(propertyName);
 }
 
 function deserializeCompositeType(
@@ -817,7 +810,7 @@ function deserializeCompositeType(
   mapper: CompositeMapper,
   responseBody: any,
   objectName: string,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
@@ -988,7 +981,7 @@ function deserializeDictionaryType(
   mapper: DictionaryMapper,
   responseBody: any,
   objectName: string,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): { [key: string]: any } {
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
@@ -1012,7 +1005,7 @@ function deserializeSequenceType(
   mapper: SequenceMapper,
   responseBody: any,
   objectName: string,
-  options?: { xmlCharKey?: string }
+  options: XmlOptions
 ): any[] {
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {

@@ -1269,7 +1269,9 @@ describe("ServiceClient", function() {
             "#": "pound value"
           },
           options: {
-            xmlCharKey: "#"
+            xmlOptions: {
+              xmlCharKey: "#"
+            }
           }
         },
         {

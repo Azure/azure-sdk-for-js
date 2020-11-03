@@ -14,7 +14,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { XML_CHARKEY } from "../util/xml.common";
+import { XML_CHARKEY, XmlOptions } from "../util/xml.common";
 
 /**
  * Options to configure API response deserialization.
@@ -51,15 +51,15 @@ export interface DeserializationContentTypes {
  */
 export function deserializationPolicy(
   deserializationContentTypes?: DeserializationContentTypes,
-  parsingOptions?: { xmlCharKey?: string }
+  parsingOptions?: XmlOptions
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new DeserializationPolicy(
         nextPolicy,
+        options,
         deserializationContentTypes,
-        parsingOptions,
-        options
+        parsingOptions
       );
     }
   };
@@ -86,17 +86,17 @@ export class DeserializationPolicy extends BaseRequestPolicy {
 
   constructor(
     nextPolicy: RequestPolicy,
-    deserializationContentTypes: DeserializationContentTypes | undefined,
-    parsingOptions: { xmlCharKey?: string } | undefined,
-    options: RequestPolicyOptions
+    requestPolicyOptions: RequestPolicyOptions,
+    deserializationContentTypes?: DeserializationContentTypes,
+    parsingOptions: XmlOptions = {}
   ) {
-    super(nextPolicy, options);
+    super(nextPolicy, requestPolicyOptions);
 
     this.jsonContentTypes =
       (deserializationContentTypes && deserializationContentTypes.json) || defaultJsonContentTypes;
     this.xmlContentTypes =
       (deserializationContentTypes && deserializationContentTypes.xml) || defaultXmlContentTypes;
-    this.xmlCharKey = parsingOptions?.xmlCharKey || XML_CHARKEY;
+    this.xmlCharKey = parsingOptions.xmlCharKey ?? XML_CHARKEY;
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
@@ -148,7 +148,7 @@ export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: HttpOperationResponse,
-  options?: { xmlCharKey?: string }
+  options?: XmlOptions
 ): Promise<HttpOperationResponse> {
   return parse(jsonContentTypes, xmlContentTypes, response, options).then((parsedResponse) => {
     if (!shouldDeserializeResponse(parsedResponse)) {

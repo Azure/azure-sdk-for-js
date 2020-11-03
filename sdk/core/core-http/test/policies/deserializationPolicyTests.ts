@@ -27,12 +27,7 @@ describe("deserializationPolicy", function() {
   };
 
   it(`should not modify a request that has no request body mapper`, async function() {
-    const deserializationPolicy = new DeserializationPolicy(
-      mockPolicy,
-      {},
-      undefined,
-      new RequestPolicyOptions()
-    );
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, new RequestPolicyOptions());
 
     const request = createRequest();
     request.body = "hello there!";
@@ -54,9 +49,9 @@ describe("deserializationPolicy", function() {
     };
     const deserializationPolicy = new DeserializationPolicy(
       mockClient,
+      new RequestPolicyOptions(),
       {},
-      { xmlCharKey: "#" },
-      new RequestPolicyOptions()
+      { xmlCharKey: "#" }
     );
 
     const response = await deserializationPolicy.sendRequest(request);

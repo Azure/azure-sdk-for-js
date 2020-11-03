@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { XML_ATTRKEY, XML_CHARKEY } from "./xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
-export function parseXML(
-  str: string,
-  opts?: { includeRoot?: boolean; xmlCharKey?: string }
-): Promise<any> {
+export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
   try {
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
@@ -57,7 +54,7 @@ function asElementWithAttributes(node: Node): Element | undefined {
   return isElement(node) && node.hasAttributes() ? node : undefined;
 }
 
-function domToObject(node: Node, options?: { xmlCharKey?: string }): any {
+function domToObject(node: Node, options: XmlOptions): any {
   let result: any = {};
 
   const childNodeCount: number = node.childNodes.length;
@@ -110,10 +107,7 @@ function domToObject(node: Node, options?: { xmlCharKey?: string }): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(
-  content: any,
-  opts?: { rootName?: string; xmlCharKey?: string }
-): string {
+export function stringifyXML(content: any, opts: XmlOptions = {}): string {
   const rootName = (opts && opts.rootName) || "root";
   const dom = buildNode(content, rootName, opts)[0];
   return (
@@ -131,7 +125,7 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
   return result;
 }
 
-function buildNode(obj: any, elementName: string, options?: { xmlCharKey?: string }): Node[] {
+function buildNode(obj: any, elementName: string, options: XmlOptions): Node[] {
   if (
     obj === undefined ||
     obj === null ||
@@ -157,7 +151,7 @@ function buildNode(obj: any, elementName: string, options?: { xmlCharKey?: strin
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
-      } else if (key === (options?.xmlCharKey ?? XML_CHARKEY)) {
+      } else if (key === (options.xmlCharKey ?? XML_CHARKEY)) {
         elem.textContent = obj[key].toString();
       } else {
         for (const child of buildNode(obj[key], key, options)) {
