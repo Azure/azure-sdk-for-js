@@ -198,7 +198,7 @@ describe("ManagedIdentityCredential", function() {
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async () => {
-    // Trigger App Service behavior by setting environment variables
+    // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
 

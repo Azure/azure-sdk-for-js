@@ -17,7 +17,7 @@ function expiresInParser(requestBody: any): number {
 function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
   const queryParameters: any = {
     resource,
-    "api-version": "2019-07-01"
+    "api-version": "2019-07-01-preview"
   };
 
   if (clientId) {
@@ -35,7 +35,7 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
   };
 }
 
-// This credential can be easily tested by deploying a container to Azure Fabric with the Dockerfile:
+// This credential can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:
 //
 //   FROM node:12
 //   RUN wget https://host.any/path/bash.sh
@@ -59,7 +59,7 @@ export const fabricMsi: MSI = {
   ): Promise<AccessToken | null> {
     logger.info(
       [
-        "Using the endpoint and the secret coming form the environment variables:",
+        "Using the endpoint and the secret coming from the environment variables:",
         `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
         "IDENTITY_HEADER=[REDACTED] and",
         "IDENTITY_SERVER_THUMBPRINT=[REDACTED]."
