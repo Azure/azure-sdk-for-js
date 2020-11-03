@@ -14,7 +14,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { XML_CHARKEY, XmlOptions } from "../util/xml.common";
+import { XML_CHARKEY, SerializerOptions } from "../util/serializer.common";
 
 /**
  * Options to configure API response deserialization.
@@ -51,7 +51,7 @@ export interface DeserializationContentTypes {
  */
 export function deserializationPolicy(
   deserializationContentTypes?: DeserializationContentTypes,
-  parsingOptions?: XmlOptions
+  parsingOptions?: SerializerOptions
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -88,7 +88,7 @@ export class DeserializationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     requestPolicyOptions: RequestPolicyOptions,
     deserializationContentTypes?: DeserializationContentTypes,
-    parsingOptions: XmlOptions = {}
+    parsingOptions: SerializerOptions = {}
   ) {
     super(nextPolicy, requestPolicyOptions);
 
@@ -148,7 +148,7 @@ export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: HttpOperationResponse,
-  options?: XmlOptions
+  options?: SerializerOptions
 ): Promise<HttpOperationResponse> {
   return parse(jsonContentTypes, xmlContentTypes, response, options).then((parsedResponse) => {
     if (!shouldDeserializeResponse(parsedResponse)) {

@@ -10,7 +10,7 @@ import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
-import { XmlOptions } from "./util/xml.common";
+import { SerializerOptions } from "./util/serializer.common";
 
 export type HttpMethods =
   | "GET"
@@ -672,5 +672,5 @@ export interface RequestOptionsBase {
   /**
    * Options to override XML parsing/building behavior.
    */
-  xmlOptions?: XmlOptions;
+  serializerOptions?: SerializerOptions;
 }

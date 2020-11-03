@@ -4,7 +4,7 @@
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
-import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./util/xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
 export class Serializer {
   constructor(
@@ -90,7 +90,13 @@ export class Serializer {
    *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
    */
-  serialize(mapper: Mapper, object: any, objectName?: string, options: XmlOptions = {}): any {
+  serialize(
+    mapper: Mapper,
+    object: any,
+    objectName?: string,
+    options: SerializerOptions = {}
+  ): any {
+    const updatedOptions = options.xmlCharKey ? options : { ...options, xmlCharKey: XML_CHARKEY };
     let payload: any = {};
     const mapperType = mapper.type.name as string;
     if (!objectName) {
@@ -153,7 +159,7 @@ export class Serializer {
           object,
           objectName,
           Boolean(this.isXML),
-          options
+          updatedOptions
         );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = serializeDictionaryType(
@@ -162,7 +168,7 @@ export class Serializer {
           object,
           objectName,
           Boolean(this.isXML),
-          options
+          updatedOptions
         );
       } else if (mapperType.match(/^Composite$/i) !== null) {
         payload = serializeCompositeType(
@@ -171,7 +177,7 @@ export class Serializer {
           object,
           objectName,
           Boolean(this.isXML),
-          options
+          updatedOptions
         );
       }
     }
@@ -195,7 +201,7 @@ export class Serializer {
     mapper: Mapper,
     responseBody: any,
     objectName: string,
-    options: XmlOptions = {}
+    options: SerializerOptions = {}
   ): any {
     if (responseBody == undefined) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -510,7 +516,7 @@ function serializeSequenceType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: XmlOptions
+  options: SerializerOptions
 ): any[] {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
@@ -551,7 +557,7 @@ function serializeDictionaryType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: XmlOptions
+  options: SerializerOptions
 ): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -662,7 +668,7 @@ function serializeCompositeType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: XmlOptions
+  options: SerializerOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
@@ -775,7 +781,7 @@ function getXmlObjectValue(
   propertyMapper: Mapper,
   serializedValue: any,
   isXml: boolean,
-  options: XmlOptions
+  options: SerializerOptions
 ) {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
@@ -801,7 +807,7 @@ function getXmlObjectValue(
   return result;
 }
 
-function isSpecialXmlProperty(propertyName: string, options: XmlOptions): boolean {
+function isSpecialXmlProperty(propertyName: string, options: SerializerOptions): boolean {
   return [XML_ATTRKEY, options.xmlCharKey ?? XML_CHARKEY].includes(propertyName);
 }
 
@@ -810,7 +816,7 @@ function deserializeCompositeType(
   mapper: CompositeMapper,
   responseBody: any,
   objectName: string,
-  options: XmlOptions
+  options: SerializerOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
@@ -981,7 +987,7 @@ function deserializeDictionaryType(
   mapper: DictionaryMapper,
   responseBody: any,
   objectName: string,
-  options: XmlOptions
+  options: SerializerOptions
 ): { [key: string]: any } {
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
@@ -1005,7 +1011,7 @@ function deserializeSequenceType(
   mapper: SequenceMapper,
   responseBody: any,
   objectName: string,
-  options: XmlOptions
+  options: SerializerOptions
 ): any[] {
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {

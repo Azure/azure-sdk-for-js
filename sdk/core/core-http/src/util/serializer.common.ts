@@ -9,10 +9,11 @@ export const XML_ATTRKEY = "$";
  * Default key used to access the XML value content.
  */
 export const XML_CHARKEY = "_";
+
 /**
  * Options to govern behavior of xml parser and builder.
  */
-export interface XmlOptions {
+export interface SerializerOptions {
   /**
    * indicates the name of the root element in the resulting XML when building XML.
    */

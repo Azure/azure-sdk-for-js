@@ -1269,7 +1269,7 @@ describe("ServiceClient", function() {
             "#": "pound value"
           },
           options: {
-            xmlOptions: {
+            serializerOptions: {
               xmlCharKey: "#"
             }
           }
