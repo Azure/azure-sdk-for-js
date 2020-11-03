@@ -15,7 +15,7 @@ import {
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../util/errors";
-import { ErrorNameConditionMapper, translate } from "@azure/core-amqp";
+import { ErrorNameConditionMapper } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -191,7 +191,7 @@ function settleMessage(
     if (message.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
     } else if ((!receiver || !receiver.isOpen()) && message.sessionId != undefined) {
-      error = translate({
+      error = translateServiceBusError({
         description:
           `Failed to ${operation} the message as the AMQP link with which the message was ` +
           `received is no longer alive.`,
@@ -219,8 +219,13 @@ function settleMessage(
         ...options,
         associatedLinkName,
         sessionId: message.sessionId
+      })
+      .catch((err) => {
+        throw translateServiceBusError(err);
       });
   }
 
-  return receiver!.settleMessage(message, operation, options);
+  return receiver!.settleMessage(message, operation, options).catch((err) => {
+    throw translateServiceBusError(err);
+  });
 }

@@ -2,22 +2,7 @@ import { isMessagingError, MessagingErrorCodes, MessagingError, translate } from
 import { AmqpError } from "rhea-promise";
 
 /**
- * Service Bus failure reasons:
- *
- * **GeneralError**: The exception was the result of a general error within the client library.
- * **MessagingEntityNotFound**: A Service Bus resource cannot be found by the Service Bus service.
- * **MessageLockLost**: The lock on the message is lost. Callers should call attempt to receive and process the message again.
- * **MessageNotFound**: The requested message was not found.
- * **MessageSizeExceeded**: A message is larger than the maximum size allowed for its transport.
- * **MessagingEntityAlreadyExists**: An entity with the same name exists under the same namespace.
- * **MessagingEntityDisabled**: The Messaging Entity is disabled. Enable the entity again using Portal.
- * **QuotaExceeded**: The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
- * **ServiceBusy**: The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
- * **ServiceTimeout**: An operation or other request timed out while interacting with the Azure Service Bus service.
- * **ServiceCommunicationProblem**: There was a general communications error encountered when interacting with the Azure Service Bus service.
- * **SessionCannotBeLocked**:  The requested session cannot be locked.
- * **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
- * **Unauthorized**: The user doesn't have access to the entity.
+ * Service Bus failure reasons.
  */
 export type ServiceBusErrorReason =
   // note: This list is intended to mirror https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Primitives/ServiceBusFailureReason.cs

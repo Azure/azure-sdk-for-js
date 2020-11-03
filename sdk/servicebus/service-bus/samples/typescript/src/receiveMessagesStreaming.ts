@@ -63,7 +63,7 @@ export async function main() {
               // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
               // what is considered fatal for your program.
               console.log(
-                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                `An unrecoverable error occurred. Stopping processing. ${args.error.reason}`,
                 args.error
               );
               await subscription.close();
