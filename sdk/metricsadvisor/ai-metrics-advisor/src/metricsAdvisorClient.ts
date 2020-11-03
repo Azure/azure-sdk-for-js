@@ -121,11 +121,11 @@ export type ListFeedbacksOptions = {
     /**
      * start time filter under chosen time mode
      */
-    startTime?: Date;
+    startTime?: Date | string;
     /**
      * end time filter under chosen time mode
      */
-    endTime?: Date;
+    endTime?: Date | string;
     /**
      * time mode to filter feedback
      */
@@ -380,15 +380,15 @@ export class MetricsAdvisorClient {
 
   public listAlertsForAlertConfiguration(
     alertConfigId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions = {}
   ): PagedAsyncIterableIterator<AnomalyAlert, ListAlertsForAlertConfigurationPageResponse> {
     const iter = this.listItemsOfAlertsForAlertingConfig(
       alertConfigId,
-      startTime,
-      endTime,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
       timeMode,
       options
     );
@@ -411,8 +411,8 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfAlertsForAlertingConfig(
           alertConfigId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           timeMode,
           settings.continuationToken,
           {
@@ -838,14 +838,14 @@ export class MetricsAdvisorClient {
    */
   public async getMetricEnrichedSeriesData(
     detectionConfigId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     seriesToFilter: DimensionKey[],
     options: GetMetricEnrichedSeriesDataOptions = {}
   ): Promise<GetMetricEnrichedSeriesDataResponse> {
     const optionsBody = {
-      startTime: startTime,
-      endTime: endTime,
+      startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+      endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
       series: seriesToFilter.map((s) => {
         return { dimension: s };
       })
@@ -1303,15 +1303,15 @@ export class MetricsAdvisorClient {
    */
   public listDimensionValuesForDetectionConfiguration(
     detectionConfigId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     dimensionName: string,
     options: ListDimensionValuesForDetectionConfigurationOptions = {}
   ): PagedAsyncIterableIterator<string, ListDimensionValuesForDetectionConfigurationPageResponse> {
     const iter = this.listItemsOfDimensionValues(
       detectionConfigId,
-      startTime,
-      endTime,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
       dimensionName,
       options
     );
@@ -1334,8 +1334,8 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfDimensionValuesForDetectionConfig(
           detectionConfigId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           dimensionName,
           settings.continuationToken,
           {
@@ -1609,14 +1609,22 @@ export class MetricsAdvisorClient {
     options: ListFeedbacksOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<ListMetricFeedbackPageResponse> {
     let segmentResponse;
+    const startTime =
+      typeof options.filter?.startTime === "string"
+        ? new Date(options.filter?.startTime)
+        : options.filter?.startTime;
+    const endTime =
+      typeof options.filter?.endTime === "string"
+        ? new Date(options.filter.endTime)
+        : options.filter?.endTime;
     const optionsBody = {
       metricId,
       dimensionFilter: options.filter?.dimensionFilter
         ? { dimension: options.filter?.dimensionFilter }
         : undefined,
       feedbackType: options.filter?.feedbackType,
-      startTime: options.filter?.startTime,
-      endTime: options.filter?.endTime,
+      startTime,
+      endTime,
       timeMode: options.filter?.timeMode
     };
     if (continuationToken === undefined) {
@@ -1754,14 +1762,14 @@ export class MetricsAdvisorClient {
    */
   public async getMetricSeriesData(
     metricId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     seriesToFilter: DimensionKey[],
     options: GetMetricSeriesDataOptions = {}
   ): Promise<GetMetricSeriesDataResponse> {
     const optionsBody = {
-      startTime: startTime,
-      endTime: endTime,
+      startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+      endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
       series: seriesToFilter
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
@@ -1897,10 +1905,14 @@ export class MetricsAdvisorClient {
    */
   public listMetricSeriesDefinitions(
     metricId: string,
-    activeSince: Date,
+    activeSince: Date | string,
     options: ListMetricSeriesDefinitionsOptions = {}
   ): PagedAsyncIterableIterator<MetricSeriesDefinition, ListMetricSeriesPageResponse> {
-    const iter = this.listItemsOfMetricSeriesDefinitions(metricId, activeSince, options);
+    const iter = this.listItemsOfMetricSeriesDefinitions(
+      metricId,
+      typeof activeSince === "string" ? new Date(activeSince) : activeSince,
+      options
+    );
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1920,7 +1932,7 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfMetricSeriesDefinitions(
           metricId,
-          activeSince,
+          typeof activeSince === "string" ? new Date(activeSince) : activeSince,
           {
             ...options,
             maxPageSize: settings.maxPageSize
@@ -2180,11 +2192,16 @@ export class MetricsAdvisorClient {
    */
   public listMetricEnrichmentStatus(
     metricId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListMetricEnrichmentStatusOptions = {}
   ): PagedAsyncIterableIterator<EnrichmentStatus, ListMetricEnrichmentStatusPageResponse> {
-    const iter = this.listItemsOfMetricEnrichmentStatus(metricId, startTime, endTime, options);
+    const iter = this.listItemsOfMetricEnrichmentStatus(
+      metricId,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
+      options
+    );
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -2204,8 +2221,8 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfMetricEnrichmentStatus(
           metricId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           settings.continuationToken,
           {
             ...options,

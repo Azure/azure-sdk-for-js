@@ -138,7 +138,7 @@ function calculateQueryParameters(
           });
         }
         if (queryParameter.collectionFormat === "Multi" && queryParameterValue.length === 0) {
-          queryParameterValue = "";
+          continue;
         } else if (
           Array.isArray(queryParameterValue) &&
           (queryParameter.collectionFormat === "SSV" || queryParameter.collectionFormat === "TSV")
@@ -205,7 +205,6 @@ function appendQueryParams(url: string, queryParams: Map<string, string | string
   }
 
   // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
-  parsedUrl.search = `?${searchPieces.join("&")}`;
-
+  parsedUrl.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
   return parsedUrl.toString();
 }

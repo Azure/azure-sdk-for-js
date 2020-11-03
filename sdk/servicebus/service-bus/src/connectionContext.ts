@@ -8,10 +8,9 @@ import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  SharedKeyCredential,
-  TokenCredential,
   delay
 } from "@azure/core-amqp";
+import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
@@ -20,6 +19,7 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
+import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 
 /**
  * @internal
@@ -28,6 +28,11 @@ import { getRuntimeInfo } from "./util/runtimeInfo";
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
+  /**
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * Default value: SharedKeyCredentials.
+   */
+  tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property A map of active Service Bus Senders with sender name as key.
    */
@@ -141,7 +146,6 @@ export namespace ConnectionContext {
     )} ${getRuntimeInfo()}`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenCredential: tokenCredential,
       // re-enabling this will be a post-GA discussion similar to event-hubs.
       // dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
@@ -153,6 +157,7 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
+    connectionContext.tokenCredential = tokenCredential;
     connectionContext.senders = {};
     connectionContext.messageReceivers = {};
     connectionContext.messageSessions = {};

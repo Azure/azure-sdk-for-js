@@ -49,6 +49,18 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.value.status, "Expecting second status");
     });
 
+    it("lists ingestion status with datetime strings", async function() {
+      const iterator = client.listDataFeedIngestionStatus(
+        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        "2020-08-01T00:00:00.000Z",
+        "2020-09-01T00:00:00.000Z"
+      );
+      let result = await iterator.next();
+      assert.ok(result.value.status, "Expecting first status");
+      result = await iterator.next();
+      assert.ok(result.value.status, "Expecting second status");
+    });
+
     it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(

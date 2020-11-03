@@ -363,7 +363,8 @@ export class ServiceClient {
             ) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
-                  queryParameterValue = "";
+                  // The collection is empty, no need to try serializing the current queryParam
+                  continue;
                 } else {
                   for (const index in queryParameterValue) {
                     const item = queryParameterValue[index];

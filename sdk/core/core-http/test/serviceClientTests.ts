@@ -224,6 +224,10 @@ describe("ServiceClient", function() {
     );
   });
 
+  it("should serialize collection with empty multi query parameter", async function() {
+    await testSendOperationRequest([], QueryCollectionFormat.Multi, true, "httpbin.org");
+  });
+
   it("should apply withCredentials to requests", async function() {
     let request: WebResource;
     const httpClient: HttpClient = {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";

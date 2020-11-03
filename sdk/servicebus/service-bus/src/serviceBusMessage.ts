@@ -14,9 +14,8 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { DispositionStatusOptions } from "./core/managementClient";
 import { translateServiceBusError } from "./serviceBusError";
-import { messageLogger as logger, receiverLogger } from "./log";
+import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -774,7 +773,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   constructor(
     private readonly _context: ConnectionContext,
-    private readonly _entityPath: string,
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
@@ -792,120 +790,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.complete().
-   */
-  async complete(): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Completing the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.complete);
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.abandon().
-   */
-  async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    receiverLogger.verbose(
-      "[%s] Abandoning the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.abandon, {
-      propertiesToModify: propertiesToModify
-    });
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.defer().
-   */
-  async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Deferring the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.defer, {
-      propertiesToModify: propertiesToModify
-    });
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.deadLetter().
-   */
-  async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Deadlettering the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-
-    const actualPropertiesToModify: Partial<DeadLetterOptions> = {
-      ...propertiesToModify
-    };
-
-    // these two fields are handled specially and don't need to be in here.
-    delete actualPropertiesToModify.deadLetterErrorDescription;
-    delete actualPropertiesToModify.deadLetterReason;
-
-    const dispositionStatusOptions: DispositionStatusOptions = {
-      propertiesToModify: actualPropertiesToModify,
-      deadLetterReason: propertiesToModify?.deadLetterReason,
-      deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
-    };
-    return this.settleMessage(DispositionType.deadletter, dispositionStatusOptions);
-  }
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  async renewLock(): Promise<Date> {
-    let associatedLinkName: string | undefined;
-    let error: Error | undefined;
-    if (this.sessionId) {
-      error = translateServiceBusError({
-        description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
-        condition: ErrorNameConditionMapper.InvalidOperationError
-      });
-    } else if (!this.lockToken) {
-      error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
-      );
-    } else if (this.delivery.remote_settled) {
-      error = new Error(`Failed to renew the lock as this message is already settled.`);
-    }
-    if (error) {
-      logger.logError(
-        error,
-        "[%s] An error occurred when renewing the lock on the message with id '%s'",
-        this._context.connectionId,
-        this.messageId
-      );
-      throw error;
-    }
-
-    if (this.delivery.link) {
-      const associatedReceiver = this._context.getReceiverFromCache(this.delivery.link.name);
-      associatedLinkName = associatedReceiver?.name;
-    }
-    this.lockedUntilUtc = await this._context
-      .getManagementClient(this._entityPath)
-      .renewLock(this.lockToken!, { associatedLinkName });
-    return this.lockedUntilUtc;
   }
 
   /**
@@ -933,85 +817,5 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     };
 
     return clone;
-  }
-
-  /**
-   * Helper method to settle the message.
-   * @ignore
-   * @internal
-   *
-   * @private
-   * @param {DispositionStatus} operation
-   * @param {DispositionStatusOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof ServiceBusMessageImpl
-   */
-  private async settleMessage(
-    operation: DispositionType,
-    options?: DispositionStatusOptions
-  ): Promise<void> {
-    if (!this.lockToken) {
-      const error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-      );
-      logger.logError(
-        error,
-        "[%s] An error occurred when settling a message with id '%s'",
-        this._context.connectionId,
-        this.messageId
-      );
-      throw error;
-    }
-    const isDeferredMessage = !this.delivery.link;
-    const receiver = isDeferredMessage
-      ? undefined
-      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
-    const associatedLinkName = receiver?.name;
-
-    if (!isDeferredMessage) {
-      // In case the message wasn't from a deferred queue,
-      //   1. We can verify the remote_settled flag on the delivery
-      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
-      //      - If the flag is false, we can't say that the message has not been settled
-      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-      //   2. If the message has a session-id and if the associated receiver link is unavailable,
-      //      then throw an error since we need a lock on the session to settle the message.
-      let error: Error | undefined;
-      if (this.delivery.remote_settled) {
-        error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-      } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-        error = translateServiceBusError({
-          description:
-            `Failed to ${operation} the message as the AMQP link with which the message was ` +
-            `received is no longer alive.`,
-          condition: ErrorNameConditionMapper.SessionLockLostError
-        });
-      }
-      if (error) {
-        logger.logError(
-          error,
-          "[%s] An error occurred when settling a message with id '%s'",
-          this._context.connectionId,
-          this.messageId
-        );
-        throw error;
-      }
-    }
-
-    // Message Settlement with managementLink
-    // 1. If the received message is deferred as such messages can only be settled using managementLink
-    // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
-    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
-      await this._context
-        .getManagementClient(this._entityPath)
-        .updateDispositionStatus(this.lockToken, operation, {
-          ...options,
-          associatedLinkName,
-          sessionId: this.sessionId
-        });
-      return;
-    }
-
-    return receiver!.settleMessage(this, operation, options);
   }
 }

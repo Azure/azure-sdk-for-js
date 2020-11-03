@@ -18,7 +18,7 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { isNode } from "@azure/core-amqp";
+import { isNode } from "../src/util/utils";
 import { verifyMessageCount } from "./utils/managementUtils";
 import sinon from "sinon";
 

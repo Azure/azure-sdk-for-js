@@ -58,49 +58,6 @@ export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
- * Describes the servicebus connection string model.
- */
-export interface ServiceBusConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the eventhub connection string model.
- */
-export interface EventHubConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the storage connection string model.
- */
-export interface StorageConnectionStringModel {
-  DefaultEndpointsProtocol: string;
-  AccountName: string;
-  AccountKey: string;
-  EndpointSuffix: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the iothub connection string model.
- */
-export interface IotHubConnectionStringModel {
-  HostName: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  DeviceId?: string;
-}
-
-/**
  * Defines an object with possible properties defined in T.
  * @type ParsedOutput<T>
  */

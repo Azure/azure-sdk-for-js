@@ -1424,11 +1424,16 @@ export class MetricsAdvisorAdministrationClient {
 
   public listDataFeedIngestionStatus(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListDataFeedIngestionStatusOptions = {}
   ): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse> {
-    const iter = this.listItemsOfIngestionStatus(dataFeedId, startTime, endTime, options);
+    const iter = this.listItemsOfIngestionStatus(
+      dataFeedId,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
+      options
+    );
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1448,8 +1453,8 @@ export class MetricsAdvisorAdministrationClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfIngestionStatus(
           dataFeedId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           settings.continuationToken,
           {
             ...options,
@@ -1470,8 +1475,8 @@ export class MetricsAdvisorAdministrationClient {
 
   public async refreshDataFeedIngestion(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1484,8 +1489,8 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.resetDataFeedIngestionStatus(
         dataFeedId,
         {
-          startTime,
-          endTime
+          startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+          endTime: typeof endTime === "string" ? new Date(endTime) : endTime
         },
         requestOptions
       );

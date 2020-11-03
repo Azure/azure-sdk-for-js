@@ -5,13 +5,9 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
-import { Dictionary } from 'rhea-promise';
-import { isAmqpError } from 'rhea-promise';
-import { isTokenCredential } from '@azure/core-auth';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
@@ -21,10 +17,7 @@ import { ReqResLink } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
-import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
-
-export { AccessToken }
 
 // @public
 export interface AmqpAnnotatedMessage {
@@ -90,14 +83,6 @@ export const AmqpMessageProperties: {
 export { AsyncLock }
 
 // @public
-export interface AsyncLockOptions {
-    domainReentrant?: boolean;
-    maxPending?: number;
-    Promise?: any;
-    timeout?: number;
-}
-
-// @public
 export class CbsClient {
     constructor(connection: Connection, connectionLock: string);
     readonly cbsLock: string;
@@ -106,7 +91,7 @@ export class CbsClient {
     readonly connectionLock: string;
     readonly endpoint: string;
     init(): Promise<void>;
-    negotiateClaim(audience: string, tokenObject: AccessToken, tokenType: TokenType): Promise<CbsResponse>;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }
@@ -250,7 +235,6 @@ export interface ConnectionContextBase {
     dataTransformer: DataTransformer;
     negotiateClaimLock: string;
     refreshConnection: () => void;
-    readonly tokenCredential: SharedKeyCredential | TokenCredential;
     wasConnectionCloseCalled: boolean;
 }
 
@@ -392,7 +376,6 @@ export interface CreateConnectionContextBaseParameters {
     dataTransformer?: DataTransformer;
     isEntityPathRequired?: boolean;
     operationTimeoutInMs?: number;
-    tokenCredential?: SharedKeyCredential | TokenCredential;
 }
 
 // @public
@@ -412,8 +395,6 @@ export const defaultLock: AsyncLock;
 
 // @public
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T>;
-
-export { Dictionary }
 
 // @public
 export enum ErrorNameConditionMapper {
@@ -465,96 +446,10 @@ export enum ErrorNameConditionMapper {
 }
 
 // @public
-export interface EventHubConnectionConfig extends ConnectionConfig {
-    entityPath: string;
-    getManagementAddress(): string;
-    getManagementAudience(): string;
-    getReceiverAddress(partitionId: string | number, consumergroup?: string): string;
-    getReceiverAudience(partitionId: string | number, consumergroup?: string): string;
-    getSenderAddress(partitionId?: string | number): string;
-    getSenderAudience(partitionId?: string | number): string;
-}
-
-// @public
-export const EventHubConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): EventHubConnectionConfig;
-    createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig;
-    validate(config: EventHubConnectionConfig): void;
-};
-
-// @public
-export interface EventHubConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    Endpoint: string;
-    // (undocumented)
-    EntityPath?: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public (undocumented)
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart?: any): Promise<any>;
-
-// @public
-export type Func<T, V> = (a: T) => V;
-
-// @public
-export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock;
-
-// @public (undocumented)
-export interface IotHubConnectionConfig {
-    connectionString: string;
-    deviceId?: string;
-    entityPath: string;
-    host: string;
-    hostName: string;
-    sharedAccessKey: string;
-    sharedAccessKeyName: string;
-}
-
-// @public
-export const IotHubConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): IotHubConnectionConfig;
-    validate(config: IotHubConnectionConfig): void;
-    convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig;
-};
-
-// @public
-export interface IotHubConnectionStringModel {
-    // (undocumented)
-    DeviceId?: string;
-    // (undocumented)
-    HostName: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public
-export class IotSharedKeyCredential extends SharedKeyCredential {
-    getToken(audience: string): AccessToken;
-}
-
-export { isAmqpError }
-
-// @public
-export function isIotHubConnectionString(connectionString: string): boolean;
-
-// @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
-export const isNode: boolean;
-
-// @public
 export function isSystemError(err: any): err is NetworkSystemError;
-
-export { isTokenCredential }
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -604,9 +499,6 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 export type ParsedOutput<T> = {
     [P in keyof T]: T[P];
 };
-
-// @public
-export function randomNumberFromInterval(min: number, max: number): number;
 
 // @public
 export class RequestResponseLink implements ReqResLink {
@@ -686,44 +578,6 @@ export interface SendRequestOptions {
 }
 
 // @public
-export interface ServiceBusConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    Endpoint: string;
-    // (undocumented)
-    EntityPath?: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public
-export class SharedKeyCredential {
-    constructor(keyName: string, key: string);
-    protected _createToken(expiry: number, audience: string, hashInput?: string | Buffer): AccessToken;
-    static fromConnectionString(connectionString: string): SharedKeyCredential;
-    getToken(audience: string): AccessToken;
-    key: string;
-    keyName: string;
-}
-
-// @public
-export interface StorageConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    AccountKey: string;
-    // (undocumented)
-    AccountName: string;
-    // (undocumented)
-    DefaultEndpointsProtocol: string;
-    // (undocumented)
-    EndpointSuffix: string;
-}
-
-// @public
 export enum SystemErrorConditionMapper {
     // (undocumented)
     EBUSY = "com.microsoft:server-busy",
@@ -746,22 +600,6 @@ export enum SystemErrorConditionMapper {
     // (undocumented)
     ETIMEDOUT = "com.microsoft:timeout"
 }
-
-// @public
-export class Timeout {
-    // (undocumented)
-    clear(): void;
-    // (undocumented)
-    set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
-}
-
-export { TokenCredential }
 
 // @public
 export enum TokenType {
