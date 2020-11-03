@@ -12,10 +12,10 @@ urlFragment: event-hubs-typescript-express-node
 
 This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send events in the node express framework. Classical scenairo is building an async web service to server http payload and ingest event into downstream eventHub.
 
-| **File Name**                  | **Description**                                                                                                                |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| [eventProducer.ts][sendevents] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
-| [index.ts][app]                | Express Http server entry point. Receive http payload and use eventProducer to ingest payload to eventHub.                     |
+| **File Name**                     | **Description**                                                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [eventProducer.ts][eventproducer] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
+| [index.ts][index]                 | Express Http server entry point. Receive http payload and use eventProducer to ingest payload to eventHub.                     |
 
 ## Prerequisites
 
@@ -48,13 +48,12 @@ npm start
 4. Call local http server
 
 ```bash
-curl http://localhost:8080 -json {payload: 'xx'}
+curl http://localhost:8080 -json {'hello': 'world'}
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
-[azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
-[aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
+[eventproducer]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/expressSample/src/eventProducer.ts
+[index]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/expressSample/src/index.ts
