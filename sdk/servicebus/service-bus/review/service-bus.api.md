@@ -320,7 +320,7 @@ export type ServiceBusErrorReason =
  */
  | "MessagingEntityNotFound"
 /**
- * The lock on the message is lost. Callers should call attempt to receive and process the message again.
+ * The lock on the message is lost. Callers should attempt to receive and process the message again.
  */
  | "MessageLockLost"
 /**
