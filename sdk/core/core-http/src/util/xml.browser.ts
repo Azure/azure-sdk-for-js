@@ -9,14 +9,19 @@ const doc = document.implementation.createDocument(null, null, null);
 const parser = new DOMParser();
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
   try {
+    const updatedOptions: Required<SerializerOptions> = {
+      rootName: opts.rootName ?? "",
+      includeRoot: opts.includeRoot ?? false,
+      xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+    };
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
     let obj;
-    if (opts && opts.includeRoot) {
-      obj = domToObject(dom, opts);
+    if (updatedOptions.includeRoot) {
+      obj = domToObject(dom, updatedOptions);
     } else {
-      obj = domToObject(dom.childNodes[0], opts);
+      obj = domToObject(dom.childNodes[0], updatedOptions);
     }
 
     return Promise.resolve(obj);
@@ -54,7 +59,7 @@ function asElementWithAttributes(node: Node): Element | undefined {
   return isElement(node) && node.hasAttributes() ? node : undefined;
 }
 
-function domToObject(node: Node, options: SerializerOptions): any {
+function domToObject(node: Node, options: Required<SerializerOptions>): any {
   let result: any = {};
 
   const childNodeCount: number = node.childNodes.length;
@@ -77,7 +82,7 @@ function domToObject(node: Node, options: SerializerOptions): any {
     }
 
     if (onlyChildTextValue) {
-      result[options?.xmlCharKey ?? XML_CHARKEY] = onlyChildTextValue;
+      result[options.xmlCharKey] = onlyChildTextValue;
     }
   } else if (childNodeCount === 0) {
     result = "";
@@ -108,8 +113,12 @@ function domToObject(node: Node, options: SerializerOptions): any {
 const serializer = new XMLSerializer();
 
 export function stringifyXML(content: any, opts: SerializerOptions = {}): string {
-  const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(content, rootName, opts)[0];
+  const updatedOptions: Required<SerializerOptions> = {
+    rootName: opts.rootName ?? "root",
+    includeRoot: opts.includeRoot ?? false,
+    xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+  };
+  const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
@@ -125,7 +134,7 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
   return result;
 }
 
-function buildNode(obj: any, elementName: string, options: SerializerOptions): Node[] {
+function buildNode(obj: any, elementName: string, options: Required<SerializerOptions>): Node[] {
   if (
     obj === undefined ||
     obj === null ||
@@ -151,7 +160,7 @@ function buildNode(obj: any, elementName: string, options: SerializerOptions): N
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
-      } else if (key === (options.xmlCharKey ?? XML_CHARKEY)) {
+      } else if (key === options.xmlCharKey) {
         elem.textContent = obj[key].toString();
       } else {
         for (const child of buildNode(obj[key], key, options)) {

@@ -60,7 +60,7 @@ import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePo
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
-import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
+import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -536,6 +536,12 @@ export function serializeRequestBody(
   operationSpec: OperationSpec
 ): void {
   const serializerOptions = operationArguments.options?.serializerOptions ?? {};
+  const updatedOptions: Required<SerializerOptions> = {
+    rootName: serializerOptions.rootName ?? "",
+    includeRoot: serializerOptions.includeRoot ?? false,
+    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY
+  };
+
   const xmlCharKey = serializerOptions.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     httpRequest.body = getOperationArgumentValueFromParameter(
@@ -565,7 +571,7 @@ export function serializeRequestBody(
           bodyMapper,
           httpRequest.body,
           requestBodyParameterPathString,
-          serializerOptions
+          updatedOptions
         );
 
         const isStream = typeName === MapperType.Stream;
@@ -577,7 +583,7 @@ export function serializeRequestBody(
             xmlnsKey,
             typeName,
             httpRequest.body,
-            serializerOptions
+            updatedOptions
           );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -634,7 +640,7 @@ export function serializeRequestBody(
           formDataParameter.mapper,
           formDataParameterValue,
           getPathStringFromParameter(formDataParameter),
-          serializerOptions
+          updatedOptions
         );
       }
     }
@@ -649,13 +655,13 @@ function getXmlValueWithNamespace(
   xmlnsKey: string,
   typeName: string,
   serializedValue: any,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
   if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
     const result: any = {};
-    result[options?.xmlCharKey ?? XML_CHARKEY] = serializedValue;
+    result[options.xmlCharKey] = serializedValue;
     result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
     return result;
   }

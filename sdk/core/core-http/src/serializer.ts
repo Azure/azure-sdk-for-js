@@ -96,7 +96,11 @@ export class Serializer {
     objectName?: string,
     options: SerializerOptions = {}
   ): any {
-    const updatedOptions = options.xmlCharKey ? options : { ...options, xmlCharKey: XML_CHARKEY };
+    const updatedOptions: Required<SerializerOptions> = {
+      rootName: options.rootName ?? "",
+      includeRoot: options.includeRoot ?? false,
+      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    };
     let payload: any = {};
     const mapperType = mapper.type.name as string;
     if (!objectName) {
@@ -203,6 +207,11 @@ export class Serializer {
     objectName: string,
     options: SerializerOptions = {}
   ): any {
+    const updatedOptions: Required<SerializerOptions> = {
+      rootName: options.rootName ?? "",
+      includeRoot: options.includeRoot ?? false,
+      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    };
     if (responseBody == undefined) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
         // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
@@ -229,11 +238,11 @@ export class Serializer {
         mapper as CompositeMapper,
         responseBody,
         objectName,
-        options
+        updatedOptions
       );
     } else {
       if (this.isXML) {
-        const xmlCharKey = options?.xmlCharKey ?? XML_CHARKEY;
+        const xmlCharKey = updatedOptions.xmlCharKey;
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
          * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
@@ -273,7 +282,7 @@ export class Serializer {
           mapper as SequenceMapper,
           responseBody,
           objectName,
-          options
+          updatedOptions
         );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = deserializeDictionaryType(
@@ -281,7 +290,7 @@ export class Serializer {
           mapper as DictionaryMapper,
           responseBody,
           objectName,
-          options
+          updatedOptions
         );
       }
     }
@@ -516,7 +525,7 @@ function serializeSequenceType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): any[] {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
@@ -541,7 +550,7 @@ function serializeSequenceType(
         tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       } else {
         tempArray[i] = {};
-        tempArray[i][options?.xmlCharKey ?? XML_CHARKEY] = serializedValue;
+        tempArray[i][options.xmlCharKey] = serializedValue;
         tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       }
     } else {
@@ -557,7 +566,7 @@ function serializeDictionaryType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -668,7 +677,7 @@ function serializeCompositeType(
   object: any,
   objectName: string,
   isXml: boolean,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
@@ -781,7 +790,7 @@ function getXmlObjectValue(
   propertyMapper: Mapper,
   serializedValue: any,
   isXml: boolean,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ) {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
@@ -802,13 +811,13 @@ function getXmlObjectValue(
     }
   }
   const result: any = {};
-  result[options?.xmlCharKey ?? XML_CHARKEY] = serializedValue;
+  result[options.xmlCharKey] = serializedValue;
   result[XML_ATTRKEY] = xmlNamespace;
   return result;
 }
 
-function isSpecialXmlProperty(propertyName: string, options: SerializerOptions): boolean {
-  return [XML_ATTRKEY, options.xmlCharKey ?? XML_CHARKEY].includes(propertyName);
+function isSpecialXmlProperty(propertyName: string, options: Required<SerializerOptions>): boolean {
+  return [XML_ATTRKEY, options.xmlCharKey].includes(propertyName);
 }
 
 function deserializeCompositeType(
@@ -816,7 +825,7 @@ function deserializeCompositeType(
   mapper: CompositeMapper,
   responseBody: any,
   objectName: string,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
@@ -987,7 +996,7 @@ function deserializeDictionaryType(
   mapper: DictionaryMapper,
   responseBody: any,
   objectName: string,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): { [key: string]: any } {
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
@@ -1011,7 +1020,7 @@ function deserializeSequenceType(
   mapper: SequenceMapper,
   responseBody: any,
   objectName: string,
-  options: SerializerOptions
+  options: Required<SerializerOptions>
 ): any[] {
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
