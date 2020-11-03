@@ -298,7 +298,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(anomalyConfig);
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 ```
 
@@ -391,7 +391,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlertConfig);
+  return await adminClient.createAlertConfig(anomalyAlertConfig);
 }
 ```
 
