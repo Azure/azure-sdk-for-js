@@ -243,6 +243,7 @@ type NormalizedInfo = {
 /**
  * @internal
  * @ignore
+ *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
  *
  * @param {*} props
