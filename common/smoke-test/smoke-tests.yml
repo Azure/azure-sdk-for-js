@@ -63,11 +63,9 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
-      # New-TestResources command requires Az module
-      - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
-        displayName: Install Azure PowerShell module
-
       - pwsh: |
+          $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+          
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
