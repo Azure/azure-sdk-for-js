@@ -205,10 +205,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ]
       };
 
-      const actual = await client.updateDetectionConfig(
-        createdDetectionConfigId,
-        expected
-      );
+      const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
 
       assert.ok(actual.id, "Expecting valid detecion config");
       createdDetectionConfigId = actual.id!;
@@ -366,9 +363,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         result = await iterator.next();
         assert.ok(result.value.id, "Expecting second alert config");
 
-        const pageIterator = client
-          .listAlertConfigurations(createdDetectionConfigId)
-          .byPage();
+        const pageIterator = client.listAlertConfigurations(createdDetectionConfigId).byPage();
         const pageResult = await pageIterator.next();
         assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
