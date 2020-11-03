@@ -17,7 +17,7 @@ These settings apply only when `--typescript` is specified on the command line.
 
 ```yaml $(typescript)
 typescript:
-  package-version: 3.1.0
+  package-version: 4.0.0
   package-name: "@azure/cognitiveservices-qnamaker"
   output-folder: ..
   azure-arm: false
