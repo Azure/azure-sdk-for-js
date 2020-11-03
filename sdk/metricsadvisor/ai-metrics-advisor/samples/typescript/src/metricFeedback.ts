@@ -102,7 +102,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   });
   for await (const feedback of listIterator) {
     console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
-    console.log(`      created time: ${feedback.createdTime}`);
+    console.log(`      created time: ${feedback.createdOn}`);
     console.log(`      metric id: ${feedback.metricId}`);
     console.log(`      user principal: ${feedback.userPrincipal}`);
     if (feedback.feedbackType === "Anomaly") {

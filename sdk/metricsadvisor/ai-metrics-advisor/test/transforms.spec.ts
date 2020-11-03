@@ -92,7 +92,7 @@ describe("Transforms", () => {
     const actual = fromServiceMetricFeedbackUnion(anomalyFeedback);
 
     assert.equal(actual.id, feedbackCommon.feedbackId);
-    assert.equal(actual.createdTime, feedbackCommon.createdTime);
+    assert.equal(actual.createdOn, feedbackCommon.createdTime);
     assert.equal(actual.userPrincipal, feedbackCommon.userPrincipal);
     assert.equal(actual.dimensionKey, feedbackCommon.dimensionFilter.dimension);
     assert.equal(actual.feedbackType, "Anomaly");
