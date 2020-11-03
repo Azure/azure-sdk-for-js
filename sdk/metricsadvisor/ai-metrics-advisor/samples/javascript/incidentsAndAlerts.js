@@ -47,7 +47,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
-    console.log(`      startTime: ${incident.rootDimensionKey}`);
+    console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
     console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
@@ -61,7 +61,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.incidents, [
+    console.table(result.value, [
       "id",
       "severity",
       "status",
@@ -104,7 +104,7 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "severity", "seriesKey"]);
+    console.table(result.value, ["timestamp", "severity", "seriesKey"]);
     result = await iterator.next();
   }
 }
@@ -149,7 +149,7 @@ async function listAlerts(client, alertConfigId) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.alerts, ["id", "timestamp", "createdOn"]);
+    console.table(result.value, ["id", "timestamp", "createdOn"]);
     result = await iterator.next();
   }
 }
@@ -164,7 +164,7 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
-    console.log(`      startTime: ${incident.rootDimensionKey}`);
+    console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
     console.log(`      last occured: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
@@ -176,7 +176,7 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("  Page");
-    console.table(result.value.incidents, [
+    console.table(result.value, [
       "id",
       "severity",
       "status",
@@ -210,7 +210,7 @@ async function listAnomaliesForAlert(client, alertConfigId, alertId) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "seriesKey", "status"]);
+    console.table(result.value, ["timestamp", "seriesKey", "status"]);
     result = await iterator.next();
   }
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenType } from "./auth/token";
-import { AccessToken } from "@azure/core-auth";
 import {
   Message as RheaMessage,
   Connection,
@@ -25,7 +24,7 @@ import { RequestResponseLink } from "./requestResponseLink";
 export interface CbsResponse {
   correlationId: string;
   statusCode: string;
-  satusDescription: string;
+  statusDescription: string;
 }
 
 /**
@@ -181,18 +180,18 @@ export class CbsClient {
    *
    *     - **ManagementClient**
    *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
-   * @param {TokenInfo} tokenObject The token object that needs to be sent in the put-token request.
+   * @param {string} token The token that needs to be sent in the put-token request.
    * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
   async negotiateClaim(
     audience: string,
-    tokenObject: AccessToken,
+    token: string,
     tokenType: TokenType
   ): Promise<CbsResponse> {
     try {
       const request: RheaMessage = {
-        body: tokenObject.token,
+        body: token,
         message_id: generate_uuid(),
         reply_to: this.replyTo,
         to: this.endpoint,
@@ -269,7 +268,7 @@ export class CbsClient {
     const cbsResponse = {
       correlationId: msg.correlation_id! as string,
       statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
-      satusDescription: msg.application_properties
+      statusDescription: msg.application_properties
         ? msg.application_properties["status-description"]
         : ""
     };

@@ -38,7 +38,7 @@ const tenantId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 
-export async function main() {
+async function main() {
   if (
     tenantId === "<azure tenant id>" ||
     clientSecret === "<azure client secret>" ||

@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  AccessToken,
   Constants,
-  SharedKeyCredential,
   TokenType,
   defaultLock,
   RequestResponseLink,
   MessagingError
 } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
   AwaitableSender,
@@ -22,6 +21,7 @@ import {
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 
 /**
  * @internal
@@ -444,7 +444,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       this.checkIfConnectionReady();
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
     });
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",

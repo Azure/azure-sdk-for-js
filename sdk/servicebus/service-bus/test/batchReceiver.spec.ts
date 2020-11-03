@@ -24,6 +24,7 @@ import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+const assert = chai.assert;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -380,6 +381,60 @@ describe("Batching Receiver", () => {
         await testDeadletter();
       }
     );
+
+    async function testPeek(): Promise<void> {
+      const testMessages = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
+      await sender.sendMessages(testMessages);
+
+      const [peekedMsg] = await receiver.peekMessages(1);
+      should.equal(
+        !(peekedMsg as any)["delivery"],
+        true,
+        "Peeked msg was not meant to have delivery! We use this assumption to differentiate between peeked msg and other messages."
+      );
+
+      const expectedErrorMsg = "A peeked message cannot be settled.";
+      try {
+        await receiver.completeMessage(peekedMsg);
+        assert.fail("completeMessage should have failed");
+      } catch (error) {
+        should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.abandonMessage(peekedMsg);
+        assert.fail("abandonMessage should have failed");
+      } catch (error) {
+        should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.deferMessage(peekedMsg);
+        assert.fail("deferMessage should have failed");
+      } catch (error) {
+        should.equal(error.message, expectedErrorMsg);
+      }
+      try {
+        await receiver.deadLetterMessage(peekedMsg);
+        assert.fail("deadLetterMessage should have failed");
+      } catch (error) {
+        should.equal(error.message, expectedErrorMsg);
+      }
+
+      await testPeekMsgsLength(receiver, 0);
+    }
+
+    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testPeek();
+    });
+
+    it(withSessionTestClientType + ": cannot settle peeked message", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(withSessionTestClientType);
+      await testPeek();
+    });
   });
 
   describe("Batch Receiver - Settle deadlettered message", function(): void {
@@ -532,7 +587,7 @@ describe("Batching Receiver", () => {
         "MessageId is different than expected"
       );
 
-      await receiver.completeMessage(deferredMsg);
+      await deadLetterReceiver.completeMessage(deferredMsg);
 
       await testPeekMsgsLength(receiver, 0);
 

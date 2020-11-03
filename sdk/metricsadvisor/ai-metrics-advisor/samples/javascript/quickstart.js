@@ -239,7 +239,7 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.table(result.value.alerts);
+    console.table(result.value);
     result = await iterator.next();
   }
 

@@ -1329,8 +1329,7 @@ export type GetHookResponse = NotificationHookUnion & {
 /**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
-export type GetMetricEnrichedSeriesDataResponse = {
-  results?: MetricEnrichedSeriesData[];
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
   /**
    * The underlying HTTP response.
    */
@@ -1345,7 +1344,7 @@ export type GetMetricEnrichedSeriesDataResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the getIncidentRootCause operation.
@@ -1391,8 +1390,11 @@ export type GetFeedbackResponse = MetricFeedbackUnion & {
 /**
  * Contains response data for the listAlertsForAlertConfiguration operation.
  */
-export type ListAlertsForAlertConfigurationPageResponse = {
-  alerts?: AnomalyAlert[];
+export interface AlertsPageResponse extends Array<AnomalyAlert> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1407,13 +1409,16 @@ export type ListAlertsForAlertConfigurationPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listAnomaliesForAlert operation.
+ * Contains response data for the listAnomalies operation.
  */
-export type ListAnomaliesForAlertPageResponse = {
-  anomalies?: DataPointAnomaly[];
+export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1428,13 +1433,16 @@ export type ListAnomaliesForAlertPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listIncidentsForAlert operation.
+ * Contains response data for the listDimensionValues operation.
  */
-export type ListIncidentsForAlertPageResponse = {
-  incidents?: AnomalyIncident[];
+export interface DimensionValuesPageResponse extends Array<string> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1449,13 +1457,16 @@ export type ListIncidentsForAlertPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listAnomaliesForDetectionConfiguration operation.
+ * Contains response data for the listIncidents operation.
  */
-export type ListAnomaliesForDetectionConfigurationPageResponse = {
-  anomalies?: DataPointAnomaly[];
+export interface IncidentsPageResponse extends Array<AnomalyIncident> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1470,55 +1481,16 @@ export type ListAnomaliesForDetectionConfigurationPageResponse = {
      */
     parsedBody: any;
   };
-};
-
-/**
- * Contains response data for the listDimensionValuesForDetectionConfiguration operation.
- */
-export type ListDimensionValuesForDetectionConfigurationPageResponse = {
-  dimensionValues?: string[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the listIncidentsByDetectionConfiguration operation.
- */
-export type ListIncidentsByDetectionConfigurationPageResponse = {
-  incidents?: AnomalyIncident[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+}
 
 /**
  * Contains response data for the listMetricSeries operation.
  */
-export type ListMetricSeriesPageResponse = {
-  definitions?: MetricSeriesDefinition[];
+export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1533,34 +1505,16 @@ export type ListMetricSeriesPageResponse = {
      */
     parsedBody: any;
   };
-};
-
-/**
- * Contains response data for the listMetricDimensionValues operation.
- */
-export type ListMetricDimensionValuesPageResponse = {
-  dimensionValues?: string[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+}
 
 /**
  * Contains response data for the listMetricEnrichmentStatus operation.
  */
-export type ListMetricEnrichmentStatusPageResponse = {
-  statusList?: EnrichmentStatus[];
+export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStatus> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1575,13 +1529,16 @@ export type ListMetricEnrichmentStatusPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export type ListDataFeedsPageResponse = {
-  dataFeeds?: DataFeed[];
+export interface DataFeedsPageResponse extends Array<DataFeed> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1596,13 +1553,16 @@ export type ListDataFeedsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the getMetricSeriesData operation.
  */
-export type GetMetricSeriesDataResponse = {
-  metricSeriesDataList?: MetricSeriesData[];
+export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1617,13 +1577,16 @@ export type GetMetricSeriesDataResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the ListDataFeedIngestionStatus operation.
  */
-export type ListDataFeedIngestionStatusPageResponse = {
-  statusList?: IngestionStatus[];
+export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1638,13 +1601,16 @@ export type ListDataFeedIngestionStatusPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listMetricFeedbacks operation.
  */
-export type ListMetricFeedbackPageResponse = {
-  feedbacks?: MetricFeedbackUnion[];
+export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1659,13 +1625,12 @@ export type ListMetricFeedbackPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listAnomalyAlertConfigurations operation.
  */
-export type ListAnomalyAlertConfigurationsPageResponse = {
-  alertConfigurations?: AnomalyAlertConfiguration[];
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
   /**
    * The underlying HTTP response.
    */
@@ -1680,12 +1645,11 @@ export type ListAnomalyAlertConfigurationsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 /**
  * Contains response data for the listAnomalyDetectionConfigurations operation.
  */
-export type ListAnomalyDetectionConfigurationsPageResponse = {
-  detectionConfigurations?: AnomalyDetectionConfiguration[];
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
   /**
    * The underlying HTTP response.
    */
@@ -1700,13 +1664,16 @@ export type ListAnomalyDetectionConfigurationsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listHooks operation.
  */
-export type ListHooksPageResponse = {
-  hooks?: NotificationHookUnion[];
+export interface HooksPageResponse extends Array<NotificationHookUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1721,4 +1688,4 @@ export type ListHooksPageResponse = {
      */
     parsedBody: any;
   };
-};
+}

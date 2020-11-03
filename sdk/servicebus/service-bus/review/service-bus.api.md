@@ -20,7 +20,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
-import { TokenCredential } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
@@ -378,7 +378,7 @@ export interface ServiceBusReceiver {
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveMode;
-    subQueue?: SubQueue;
+    subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
 // @public
@@ -426,9 +426,6 @@ export interface SqlRuleFilter {
         [key: string]: string | number | boolean;
     };
 }
-
-// @public
-export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase {

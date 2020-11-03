@@ -792,7 +792,7 @@ describe("ServiceBusClient live tests", () => {
 
     it("Entity Path on Queue deadletter Receiver", () => {
       const dummyQueueName = "dummy";
-      const receiver = sbClient.createReceiver(dummyQueueName, { subQueue: "deadLetter" });
+      const receiver = sbClient.createReceiver(dummyQueueName, { subQueueType: "deadLetter" });
       should.equal(
         receiver.entityPath,
         `${dummyQueueName}/$DeadLetterQueue`,
@@ -815,7 +815,7 @@ describe("ServiceBusClient live tests", () => {
       const dummyTopicName = "dummyTopicName";
       const dummySubscriptionName = "dummySubscriptionName";
       const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
-        subQueue: "deadLetter"
+        subQueueType: "deadLetter"
       });
       should.equal(
         receiver.entityPath,

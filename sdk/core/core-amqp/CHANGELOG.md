@@ -1,11 +1,44 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
+## 2.0.0-beta.1 (2020-11-03)
 
 - `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
-- `Message` from "rhea" library which was being exported as `AmqpMessage` is removed.
-  [PR 12169](https://github.com/Azure/azure-sdk-for-js/pull/12169)
+
+### Breaking changes
+
+- `satusDescription` in `CbsResponse` which is the output for `CbsClient.negotiateClaim()` is renamed to `statusDescription` to fix the spelling error.
+- The `CbsClient.negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
+
+We are cleaning the public API surface by
+
+- removing exports that are either not used by either `@azure/event-hubs` and `@azure/service-bus` packages (which are the two main consumers of this package)
+  - AsyncLockOptions
+  - executePromisesSequentially
+  - Func
+  - getNewAsyncLock
+  - isNode
+  - randomNumberFromInterval
+  - Timeout
+- moving the clases/methods/interfaces that are very specific to Event Hubs/Service Bus to their corresponding packages.
+  - SharedKeyCredential
+  - EventHubConnectionConfig
+- avoid re-exporting things from `rhea-promise` and `@azure/core-auth`
+  - Dictionary
+  - isAmqpError
+  - Message
+  - TokenCredential
+  - isTokenCredential
+  - AccessToken
+- removing all IotHub related artifacts. These existed to support the IotHub support we had in Event Hubs v2 which has since been removed in Event Hubs v5 for a better separation of concerns
+  - IotHubConnectionConfig
+  - IotHubConnectionStringModel
+  - IotSharedKeyCredential
+  - isIotHubConnectionString
+- removing all Event Hubs, Storage and Service Bus interfaces meant to be used with the `parseConnectionString()` method
+  - ServiceBusConnectionStringModel
+  - StorageConnectionStringModel
+  - EventHubsConnectionStringModel
 
 ## 1.1.7 (2020-10-28)
 

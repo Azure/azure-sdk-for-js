@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { ConnectionConfig } from "./connectionConfig";
+import { ConnectionConfig } from "@azure/core-amqp";
 
 /**
  * Describes the connection config object that is created after parsing an EventHub connection

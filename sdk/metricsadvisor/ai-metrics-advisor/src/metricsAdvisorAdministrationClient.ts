@@ -37,11 +37,11 @@ import {
   GetHookResponse,
   NotificationHookUnion,
   DataFeedRollupMethod,
-  ListDataFeedsPageResponse,
-  ListDataFeedIngestionStatusPageResponse,
-  ListAnomalyAlertConfigurationsPageResponse,
-  ListAnomalyDetectionConfigurationsPageResponse,
-  ListHooksPageResponse,
+  DataFeedsPageResponse,
+  IngestionStatusPageResponse,
+  AlertConfigurationsPageResponse,
+  DetectionConfigurationsPageResponse,
+  HooksPageResponse,
   DataFeedStatus
 } from "./models";
 import {
@@ -60,6 +60,7 @@ import {
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch
 } from "./transforms";
+
 /**
  * Client options used to configure API requests.
  */
@@ -325,9 +326,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.dataFeeds) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const feed of page.value.dataFeeds) {
+   *    for (const feed of page.value) {
    *      console.log(`  ${feed.id} - ${feed.name}`);
    *    }
    *  }
@@ -340,7 +341,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public listDataFeeds(
     options: ListDataFeedsOptions = {}
-  ): PagedAsyncIterableIterator<DataFeed, ListDataFeedsPageResponse> {
+  ): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse> {
     const iter = this.listItemsOfDataFeeds(options);
     return {
       /**
@@ -374,8 +375,8 @@ export class MetricsAdvisorAdministrationClient {
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
     for await (const segment of this.listSegmentsOfDataFeeds(options)) {
-      if (segment?.dataFeeds) {
-        yield* segment.dataFeeds;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -386,7 +387,7 @@ export class MetricsAdvisorAdministrationClient {
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
-  ): AsyncIterableIterator<ListDataFeedsPageResponse> {
+  ): AsyncIterableIterator<DataFeedsPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
@@ -397,10 +398,15 @@ export class MetricsAdvisorAdministrationClient {
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
-      yield {
-        dataFeeds,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -415,10 +421,15 @@ export class MetricsAdvisorAdministrationClient {
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
-      yield {
-        dataFeeds,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -777,16 +788,18 @@ export class MetricsAdvisorAdministrationClient {
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListAnomalyAlertConfigurationsPageResponse> {
+  ): AsyncIterableIterator<AlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
       detectionConfigId,
       options
     );
-    yield {
-      alertConfigurations: segment.value.map((c) => fromServiceAlertConfiguration(c)),
-      _response: segment._response
-    };
+
+    const alertConfigurations = segment.value.map((c) => fromServiceAlertConfiguration(c));
+    yield Object.defineProperty(alertConfigurations, "_response", {
+      enumerable: false,
+      value: segment._response
+    });
   }
 
   /**
@@ -801,8 +814,8 @@ export class MetricsAdvisorAdministrationClient {
       detectionConfigId,
       options
     )) {
-      if (segment.alertConfigurations) {
-        yield* segment.alertConfigurations;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -846,7 +859,7 @@ export class MetricsAdvisorAdministrationClient {
    * while (!page.done) {
    *  if (page.value.alertConfigurations) {
    *    console.log(`-- page ${i++}`);
-   *    for (const alert of page.value.alertConfigurations) {
+   *    for (const alert of page.value) {
    *      console.log(`${alert}`);
    *    }
    *  }
@@ -863,7 +876,7 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
     AnomalyAlertConfiguration,
-    ListAnomalyAlertConfigurationsPageResponse,
+    AlertConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
     const iter = this.listItemsOfAlertingConfigurations(detectionConfigId, options);
@@ -971,18 +984,24 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
-    options: ListHooksOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListHooksPageResponse> {
+    maxPageSize?: number,
+    options: ListHooksOptions = {}
+  ): AsyncIterableIterator<HooksPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        top: options?.maxPageSize
+        top: maxPageSize
       });
-      yield {
-        hooks: segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)),
-        _response: segmentResponse._response
-      };
+      const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
+      const resultArray = Object.defineProperty(hooks, "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -990,10 +1009,15 @@ export class MetricsAdvisorAdministrationClient {
     delete options.skip;
     while (continuationToken) {
       segmentResponse = await this.client.listHooksNext(continuationToken, options);
-      yield {
-        hooks: segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)),
-        _response: segmentResponse._response
-      };
+      const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
+      const resultArray = Object.defineProperty(hooks, "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -1005,10 +1029,8 @@ export class MetricsAdvisorAdministrationClient {
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
   ): AsyncIterableIterator<NotificationHookUnion> {
-    for await (const segment of this.listSegmentOfHooks(undefined, options)) {
-      if (segment?.hooks) {
-        yield* segment.hooks;
-      }
+    for await (const segment of this.listSegmentOfHooks(undefined, undefined, options)) {
+      yield* segment;
     }
   }
 
@@ -1048,9 +1070,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.hooks) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const hook of page.value.hooks) {
+   *    for (const hook of page.value) {
    *      console.log("hook-");
    *      console.dir(hook);
    *    }
@@ -1064,7 +1086,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public listHooks(
     options: ListHooksOptions = {}
-  ): PagedAsyncIterableIterator<NotificationHookUnion, ListHooksPageResponse> {
+  ): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse> {
     const iter = this.listItemsOfHooks(options);
     return {
       /**
@@ -1083,10 +1105,7 @@ export class MetricsAdvisorAdministrationClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentOfHooks(settings.continuationToken, {
-          ...options,
-          maxPageSize: settings.maxPageSize
-        });
+        return this.listSegmentOfHooks(settings.continuationToken, settings.maxPageSize, options);
       }
     };
   }
@@ -1153,15 +1172,15 @@ export class MetricsAdvisorAdministrationClient {
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListAnomalyDetectionConfigurationsPageResponse> {
+  ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
-    yield {
-      detectionConfigurations: segment.value.map((c) =>
-        fromServiceAnomalyDetectionConfiguration(c)
-      ),
-      _response: segment._response
-    };
+    const configs = segment.value.map((c) => fromServiceAnomalyDetectionConfiguration(c));
+    const resultArray = Object.defineProperty(configs, "_response", {
+      enumerable: false,
+      value: segment._response
+    });
+    yield resultArray;
   }
 
   /**
@@ -1176,8 +1195,8 @@ export class MetricsAdvisorAdministrationClient {
       detectionConfigId,
       options
     )) {
-      if (segment.detectionConfigurations) {
-        yield* segment.detectionConfigurations;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -1219,9 +1238,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.detectionConfigurations) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const detectionConfiguration of page.value.detectionConfigurations) {
+   *    for (const detectionConfiguration of page.value) {
    *      console.log("detection configuration-");
    *      console.dir(detectionConfiguration);
    *    }
@@ -1239,7 +1258,7 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
     AnomalyDetectionConfiguration,
-    ListAnomalyDetectionConfigurationsPageResponse,
+    DetectionConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
     const iter = this.listItemsOfDetectionConfigurations(metricId, options);
@@ -1306,7 +1325,7 @@ export class MetricsAdvisorAdministrationClient {
     endTime: Date,
     continuationToken?: string,
     options: ListDataFeedIngestionStatusOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListDataFeedIngestionStatusPageResponse> {
+  ): AsyncIterableIterator<IngestionStatusPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getDataFeedIngestionStatus(
@@ -1320,10 +1339,15 @@ export class MetricsAdvisorAdministrationClient {
           top: options?.maxPageSize
         }
       );
-      yield {
-        statusList: segmentResponse.value,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -1339,10 +1363,15 @@ export class MetricsAdvisorAdministrationClient {
         options
       );
 
-      yield {
-        statusList: segmentResponse.value,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -1363,8 +1392,8 @@ export class MetricsAdvisorAdministrationClient {
       undefined,
       options
     )) {
-      if (segment?.statusList) {
-        yield* segment.statusList;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -1405,9 +1434,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.statusList) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const status of page.value.statusList) {
+   *    for (const status of page.value) {
    *      console.log("ingestion status-");
    *      console.dir(status);
    *    }
@@ -1424,11 +1453,16 @@ export class MetricsAdvisorAdministrationClient {
 
   public listDataFeedIngestionStatus(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListDataFeedIngestionStatusOptions = {}
-  ): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse> {
-    const iter = this.listItemsOfIngestionStatus(dataFeedId, startTime, endTime, options);
+  ): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse> {
+    const iter = this.listItemsOfIngestionStatus(
+      dataFeedId,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
+      options
+    );
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1448,8 +1482,8 @@ export class MetricsAdvisorAdministrationClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfIngestionStatus(
           dataFeedId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           settings.continuationToken,
           {
             ...options,
@@ -1470,8 +1504,8 @@ export class MetricsAdvisorAdministrationClient {
 
   public async refreshDataFeedIngestion(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1484,8 +1518,8 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.resetDataFeedIngestionStatus(
         dataFeedId,
         {
-          startTime,
-          endTime
+          startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+          endTime: typeof endTime === "string" ? new Date(endTime) : endTime
         },
         requestOptions
       );

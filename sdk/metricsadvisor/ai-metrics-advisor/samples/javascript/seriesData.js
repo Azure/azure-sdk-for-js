@@ -41,7 +41,7 @@ async function getEnrichedSeriesData(client, detectionConfigId) {
       ]
     );
 
-    for (const enriched of result.results || []) {
+    for (const enriched of result) {
       console.log("enriched series:");
       console.log(enriched.series);
       if (enriched.timestamps && enriched.timestamps.length > 0) {
@@ -76,7 +76,7 @@ async function getMetricSeriesData(client, metricId) {
       ]
     );
 
-    for (const series of result.metricSeriesDataList || []) {
+    for (const series of result) {
       console.log(series.definition);
       if (series.timestamps && series.timestamps.length > 0)
         for (let i = 0; i < series.timestamps.length; i++) {

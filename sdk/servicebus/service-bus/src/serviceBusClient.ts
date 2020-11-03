@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential, ConnectionConfig } from "@azure/core-amqp";
+import { ConnectionConfig } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
@@ -172,8 +173,8 @@ export class ServiceBusClient {
     );
 
     let entityPathWithSubQueue = entityPath;
-    if (options?.subQueue) {
-      switch (options?.subQueue) {
+    if (options?.subQueueType) {
+      switch (options?.subQueueType) {
         case "deadLetter":
           entityPathWithSubQueue += "/$DeadLetterQueue";
           break;
@@ -182,7 +183,7 @@ export class ServiceBusClient {
           break;
         default:
           throw new Error(
-            `Invalid subQueue '${options?.subQueue}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
+            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
           );
       }
     }

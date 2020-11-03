@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
+import { parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**
@@ -83,7 +83,12 @@ export const ConnectionConfig = {
   create(connectionString: string, path?: string): ConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+    const parsedCS = parseConnectionString<{
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+      EntityPath?: string;
+    }>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
     }

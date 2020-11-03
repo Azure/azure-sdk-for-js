@@ -33,6 +33,7 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -620,7 +621,6 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         const bMessage = new ServiceBusMessageImpl(
           this._context,
-          this.entityPath,
           context.message!,
           context.delivery!,
           true,
@@ -658,7 +658,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 this.logPrefix,
                 bMessage.messageId
               );
-              await bMessage.abandon();
+              await abandonMessage(bMessage, this._context, this.entityPath);
             } catch (abandonError) {
               const translatedError = translate(abandonError);
               logger.logError(
@@ -695,7 +695,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            await bMessage.complete();
+            await completeMessage(bMessage, this._context, this.entityPath);
           } catch (completeError) {
             const translatedError = translate(completeError);
             logger.logError(
