@@ -30,7 +30,7 @@ import {
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
-  AnomalyAlertConfiguration,
+  AlertConfiguration,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -607,23 +607,9 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-<<<<<<< HEAD
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
       await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
-      return this.getMetricAnomalyDetectionConfiguration(id);
-=======
-      await this.client.updateAnomalyDetectionConfiguration(
-        id,
-        {
-          wholeMetricConfiguration: patch.wholeSeriesDetectionCondition,
-          dimensionGroupOverrideConfigurations: patch.seriesGroupDetectionConditions,
-          seriesOverrideConfigurations: patch.seriesDetectionConditions,
-          ...patch
-        },
-        requestOptions
-      );
       return this.getDetectionConfig(id);
->>>>>>> a335cd8a4... rename methods
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -669,7 +655,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param config the alert configuration object to create
    */
   public async createAlertConfig(
-    config: Omit<AnomalyAlertConfiguration, "id">,
+    config: Omit<AlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -708,7 +694,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateAlertConfig(
     id: string,
-    patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
+    patch: Partial<Omit<AlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -718,35 +704,9 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-<<<<<<< HEAD
       const transformed = toServiceAlertConfigurationPatch(patch);
       await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
-      return this.getAnomalyAlertConfiguration(id);
-=======
-      const serviceMetricAlertingConfigs = patch.metricAlertConfigurations?.map((c) => {
-        return {
-          anomalyDetectionConfigurationId: c.detectionConfigurationId,
-          anomalyScopeType: c.alertScope.scopeType,
-          ...c.alertScope,
-          negationOperation: c.negationOperation,
-          severityFilter: c.alertConditions?.severityCondition,
-          snoozeFilter: c.snoozeCondition,
-          valueFilter: c.alertConditions?.metricBoundaryCondition
-        };
-      });
-      await this.client.updateAnomalyAlertingConfiguration(
-        id,
-        {
-          name: patch.name,
-          description: patch.description,
-          crossMetricsOperator: patch.crossMetricsOperator,
-          hookIds: patch.hookIds,
-          metricAlertingConfigurations: serviceMetricAlertingConfigs
-        },
-        requestOptions
-      );
       return this.getAlertConfig(id);
->>>>>>> a335cd8a4... rename methods
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -845,7 +805,7 @@ export class MetricsAdvisorAdministrationClient {
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions = {}
-  ): AsyncIterableIterator<AnomalyAlertConfiguration> {
+  ): AsyncIterableIterator<AlertConfiguration> {
     for await (const segment of this.listSegmentsOfAlertingConfigurations(
       detectionConfigId,
       options
@@ -907,11 +867,11 @@ export class MetricsAdvisorAdministrationClient {
    * @param options The options parameter.
    */
 
-  public listAnomalyAlertConfigurations(
+  public listAlertConfigurations(
     detectionConfigId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
-    AnomalyAlertConfiguration,
+    AlertConfiguration,
     AlertConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
