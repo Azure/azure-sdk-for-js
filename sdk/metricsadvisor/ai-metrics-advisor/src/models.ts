@@ -50,7 +50,6 @@ export {
 export {
   AnomalyValue,
   DataFeedIngestionProgress,
-  GeneratedClientGetIngestionProgressResponse,
   IngestionStatusType,
   DataSourceType,
   SeverityFilterCondition,
@@ -1714,7 +1713,7 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the getDataFeedIngestionProgress operation.

@@ -42,7 +42,8 @@ import {
   AlertConfigurationsPageResponse,
   DetectionConfigurationsPageResponse,
   HooksPageResponse,
-  DataFeedStatus
+  DataFeedStatus,
+  GetIngestionProgressResponse
 } from "./models";
 import { DataSourceType, NeedRollupEnum } from "./generated/models";
 import {
@@ -1339,16 +1340,20 @@ export class MetricsAdvisorAdministrationClient {
           top: options?.maxPageSize
         }
       );
-      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
-        return {
-          timestamp: s.timestamp?.getTime(),
-          status: s.status,
-          message: s.message
-        };
-      }) || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response
@@ -1369,16 +1374,20 @@ export class MetricsAdvisorAdministrationClient {
         options
       );
 
-      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
-        return {
-          timestamp: s.timestamp?.getTime(),
-          status: s.status,
-          message: s.message
-        };
-      }) || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response

@@ -417,14 +417,6 @@ export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 
 // @public
-export type GeneratedClientGetIngestionProgressResponse = DataFeedIngestionProgress & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFeedIngestionProgress;
-    };
-};
-
-// @public
 export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;

@@ -2174,16 +2174,20 @@ export class MetricsAdvisorClient {
         ...options,
         top: maxPageSize
       });
-      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
-        return {
-          timestamp: s.timestamp?.getTime(),
-          status: s.status,
-          message: s.message
-        };
-      }) || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response
@@ -2199,16 +2203,20 @@ export class MetricsAdvisorClient {
         optionsBody,
         options
       );
-      const resultArray = Object.defineProperty(segmentResponse.value?.map((s) => {
-        return {
-          timestamp: s.timestamp?.getTime(),
-          status: s.status,
-          message: s.message
-        };
-      }) || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response
