@@ -11,7 +11,6 @@ import { AuthenticationError } from "../../client/errors";
 import { readFile } from "fs";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
-const defaultArcMsiEndpoint = "http://localhost:40342/metadata/identity/oauth2/token";
 
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
@@ -27,7 +26,8 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: process.env.IMDS_ENDPOINT || defaultArcMsiEndpoint,
+    // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
+    url: process.env.IDENTITY_ENDPOINT,
     method: "GET",
     queryParameters,
     headers: {
@@ -70,7 +70,7 @@ async function filePathRequest(
 
 export const arcMsi: MSI = {
   async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.IMDS_ENDPOINT);
+    return Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
   },
   async getToken(
     identityClient: IdentityClient,

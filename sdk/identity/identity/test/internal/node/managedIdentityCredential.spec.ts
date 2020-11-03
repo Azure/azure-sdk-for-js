@@ -201,6 +201,7 @@ describe("ManagedIdentityCredential", function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
     const mockFs = require("mock-fs");
     const filePath = "path/to/file";
@@ -237,7 +238,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
 
     assert.ok(
-      validationRequest.url.startsWith(process.env.IMDS_ENDPOINT),
+      validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
@@ -250,7 +251,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
 
     assert.ok(
-      authRequest.url.startsWith(process.env.IMDS_ENDPOINT),
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
