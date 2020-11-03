@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-qnamaker";
-const packageVersion = "3.1.1";
+const packageVersion = "4.0.0";
 
 export class QnAMakerClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -19,8 +19,8 @@ export class QnAMakerClientContext extends msRest.ServiceClient {
 
   /**
    * Initializes a new instance of the QnAMakerClientContext class.
-   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
-   * https://westus.api.cognitive.microsoft.com).
+   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name
+   * >.api.cognitiveservices.azure.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
@@ -43,7 +43,7 @@ export class QnAMakerClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/qnamaker/v4.0";
+    this.baseUri = "{Endpoint}/qnamaker/v5.0-preview.1";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
