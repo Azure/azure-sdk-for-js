@@ -20,6 +20,7 @@
 - [Breaking] `IncidentRootCause` property `dimensionKey` is renamed to `seriesKey`. `AnomalyIncident.dimensionKey` is renamed to `rootDimensionKey`
 - [Breaking] The `-List` suffix is removed from Array properties in `MetricSeriesData` and `MetricsEnrichedSeriesData`. Plural form is used instead.
 - [Breaking] `*PageResponse` types now extends from `Array<ItemType>` instead of wrapping an array of `ItemType`. Their types names are also shortened.
+- [Breaking] Data feed ingestion granularity now has `"PerMinute"` and `"PerSecond"` instead of `"Minutely"` and `"Secondly"`.
 - Parameters of `Date` type now also accept strings. No validation is done for the strings. The SDK calls `new Date()` to convert them to `Date`.
 
 ## 1.0.0-beta.1 (2020-10-07)
