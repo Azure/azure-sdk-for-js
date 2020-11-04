@@ -422,6 +422,12 @@ export interface CustomFormModelInfo {
    */
   modelId: string;
   /**
+   * The name of the model that was provided during model training.
+   *
+   * Model names are not guaranteed to be unique.
+   */
+  modelName?: string;
+  /**
    * Status of the model.
    */
   status: CustomFormModelStatus;
@@ -471,23 +477,7 @@ export interface CustomFormSubmodel {
 /**
  * Represents a model from training.
  */
-export interface CustomFormModel {
-  /**
-   * Model identifier.
-   */
-  modelId: string;
-  /**
-   * Status of the model.
-   */
-  status: CustomFormModelStatus;
-  /**
-   * Date and time (UTC) when the custom model training started.
-   */
-  trainingStartedOn: Date;
-  /**
-   * Date and time (UTC) when the training operation completed.
-   */
-  trainingCompletedOn: Date;
+export interface CustomFormModel extends CustomFormModelInfo {
   /**
    * List of document used to train the model and any errors reported for each document.
    */

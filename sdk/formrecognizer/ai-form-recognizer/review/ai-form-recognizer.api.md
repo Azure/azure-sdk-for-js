@@ -54,6 +54,7 @@ export type BeginTrainingOptions = TrainingFileFilter & {
     updateIntervalInMs?: number;
     onProgress?: (state: TrainingOperationState) => void;
     resumeFrom?: string;
+    modelName?: string;
 };
 
 // @public
@@ -86,14 +87,10 @@ export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export interface CustomFormModel {
+export interface CustomFormModel extends CustomFormModelInfo {
     errors?: FormRecognizerError[];
-    modelId: string;
-    status: ModelStatus;
     submodels?: CustomFormSubmodel[];
-    trainingCompletedOn: Date;
     trainingDocuments?: TrainingDocumentInfo[];
-    trainingStartedOn: Date;
 }
 
 // @public (undocumented)
@@ -106,6 +103,7 @@ export interface CustomFormModelField {
 // @public
 export interface CustomFormModelInfo {
     modelId: string;
+    modelName?: string;
     status: ModelStatus;
     trainingCompletedOn: Date;
     trainingStartedOn: Date;

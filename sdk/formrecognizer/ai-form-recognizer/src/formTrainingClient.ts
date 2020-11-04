@@ -130,6 +130,10 @@ export type BeginTrainingOptions = TrainingFileFilter & {
   updateIntervalInMs?: number;
   onProgress?: (state: TrainingOperationState) => void;
   resumeFrom?: string;
+  /**
+   * An optional name to associate with the model
+   */
+  modelName?: string;
 };
 
 /**
@@ -497,7 +501,7 @@ export class FormTrainingClient {
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
-        options?: TrainingFileFilter
+        options?: BeginTrainingOptions
       ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
     };
 
@@ -681,7 +685,7 @@ async function trainCustomModelInternal(
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
-  options?: TrainingFileFilter
+  options?: BeginTrainingOptions
 ): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
@@ -690,9 +694,10 @@ async function trainCustomModelInternal(
   );
 
   try {
-    return await client.trainCustomModelAsync(
+    return client.trainCustomModelAsync(
       {
         source: source,
+        modelName: options?.modelName,
         sourceFilter: {
           prefix: realOptions.prefix,
           includeSubfolders: realOptions.includeSubfolders
