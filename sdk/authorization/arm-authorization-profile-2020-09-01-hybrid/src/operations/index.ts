@@ -8,4 +8,8 @@
  * regenerated.
  */
 
+export * from "./permissions";
+export * from "./roleDefinitions";
+export * from "./providerOperationsMetadataOperations";
+export * from "./globalAdministrator";
 export * from "./roleAssignments";

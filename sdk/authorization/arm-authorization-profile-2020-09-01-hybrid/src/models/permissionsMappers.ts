@@ -8,9 +8,6 @@
 
 export {
   CloudError,
-  RoleAssignment,
-  RoleAssignmentCreateParameters,
-  RoleAssignmentListResult,
-  RoleAssignmentProperties,
-  RoleAssignmentPropertiesWithScope
+  Permission,
+  PermissionGetResult
 } from "../models/mappers";

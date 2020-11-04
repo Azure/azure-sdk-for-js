@@ -30,6 +30,19 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    defaultValue: 'resourceTypes',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -105,6 +118,17 @@ export const resourceType: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const roleAssignmentId: msRest.OperationURLParameter = {
+  parameterPath: "roleAssignmentId",
+  mapper: {
+    required: true,
+    serializedName: "roleAssignmentId",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const roleAssignmentName: msRest.OperationURLParameter = {
   parameterPath: "roleAssignmentName",
   mapper: {
@@ -115,11 +139,21 @@ export const roleAssignmentName: msRest.OperationURLParameter = {
     }
   }
 };
-export const roleId: msRest.OperationURLParameter = {
-  parameterPath: "roleId",
+export const roleDefinitionId0: msRest.OperationURLParameter = {
+  parameterPath: "roleDefinitionId",
   mapper: {
     required: true,
-    serializedName: "roleId",
+    serializedName: "roleDefinitionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleDefinitionId1: msRest.OperationURLParameter = {
+  parameterPath: "roleDefinitionId",
+  mapper: {
+    required: true,
+    serializedName: "roleDefinitionId",
     type: {
       name: "String"
     }

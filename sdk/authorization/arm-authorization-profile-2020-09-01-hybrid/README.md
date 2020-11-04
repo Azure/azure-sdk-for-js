@@ -15,7 +15,7 @@ npm install @azure/arm-authorization-profile-2020-09-01-hybrid
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listForResource roleAssignments as an example written in TypeScript.
+#### nodejs - Authentication, client creation and listForResourceGroup permissions as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -36,12 +36,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new AuthorizationManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  const resourceProviderNamespace = "testresourceProviderNamespace";
-  const parentResourcePath = "testparentResourcePath";
-  const resourceType = "testresourceType";
-  const resourceName = "testresourceName";
-  const filter = "testfilter";
-  client.roleAssignments.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).then((result) => {
+  client.permissions.listForResourceGroup(resourceGroupName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -50,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listForResource roleAssignments as an example written in JavaScript.
+#### browser - Authentication, client creation and listForResourceGroup permissions as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -85,12 +80,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmAuthorizationProfile20200901Hybrid.AuthorizationManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        const resourceProviderNamespace = "testresourceProviderNamespace";
-        const parentResourcePath = "testparentResourcePath";
-        const resourceType = "testresourceType";
-        const resourceName = "testresourceName";
-        const filter = "testfilter";
-        client.roleAssignments.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).then((result) => {
+        client.permissions.listForResourceGroup(resourceGroupName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

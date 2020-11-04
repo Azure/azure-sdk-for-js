@@ -139,11 +139,11 @@ export class RoleAssignments {
    * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    * for a resource.
    * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-   * @param parameters Parameters for the role assignment.
+   * @param properties Role assignment properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.RoleAssignmentsCreateResponse>
    */
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateResponse>;
+  create(scope: string, roleAssignmentName: string, properties: Models.RoleAssignmentProperties, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateResponse>;
   /**
    * @param scope The scope of the role assignment to create. The scope can be any REST resource
    * instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
@@ -152,10 +152,10 @@ export class RoleAssignments {
    * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    * for a resource.
    * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-   * @param parameters Parameters for the role assignment.
+   * @param properties Role assignment properties.
    * @param callback The callback
    */
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  create(scope: string, roleAssignmentName: string, properties: Models.RoleAssignmentProperties, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   /**
    * @param scope The scope of the role assignment to create. The scope can be any REST resource
    * instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
@@ -164,17 +164,17 @@ export class RoleAssignments {
    * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    * for a resource.
    * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-   * @param parameters Parameters for the role assignment.
+   * @param properties Role assignment properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateResponse> {
+  create(scope: string, roleAssignmentName: string, properties: Models.RoleAssignmentProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  create(scope: string, roleAssignmentName: string, properties: Models.RoleAssignmentProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         roleAssignmentName,
-        parameters,
+        properties,
         options
       },
       createOperationSpec,
@@ -215,26 +215,35 @@ export class RoleAssignments {
 
   /**
    * Deletes a role assignment.
-   * @param roleId The ID of the role assignment to delete.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param [options] The optional parameters
    * @returns Promise<Models.RoleAssignmentsDeleteByIdResponse>
    */
-  deleteById(roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteByIdResponse>;
+  deleteById(roleAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteByIdResponse>;
   /**
-   * @param roleId The ID of the role assignment to delete.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param callback The callback
    */
-  deleteById(roleId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  deleteById(roleAssignmentId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   /**
-   * @param roleId The ID of the role assignment to delete.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
-  deleteById(roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsDeleteByIdResponse> {
+  deleteById(roleAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  deleteById(roleAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
       {
-        roleId,
+        roleAssignmentId,
         options
       },
       deleteByIdOperationSpec,
@@ -243,30 +252,39 @@ export class RoleAssignments {
 
   /**
    * Creates a role assignment by ID.
-   * @param roleId The ID of the role assignment to create.
-   * @param parameters Parameters for the role assignment.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
+   * @param properties Role assignment properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.RoleAssignmentsCreateByIdResponse>
    */
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateByIdResponse>;
+  createById(roleAssignmentId: string, properties: Models.RoleAssignmentProperties, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateByIdResponse>;
   /**
-   * @param roleId The ID of the role assignment to create.
-   * @param parameters Parameters for the role assignment.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
+   * @param properties Role assignment properties.
    * @param callback The callback
    */
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  createById(roleAssignmentId: string, properties: Models.RoleAssignmentProperties, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   /**
-   * @param roleId The ID of the role assignment to create.
-   * @param parameters Parameters for the role assignment.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
+   * @param properties Role assignment properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateByIdResponse> {
+  createById(roleAssignmentId: string, properties: Models.RoleAssignmentProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  createById(roleAssignmentId: string, properties: Models.RoleAssignmentProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       {
-        roleId,
-        parameters,
+        roleAssignmentId,
+        properties,
         options
       },
       createByIdOperationSpec,
@@ -275,26 +293,35 @@ export class RoleAssignments {
 
   /**
    * Gets a role assignment by ID.
-   * @param roleId The ID of the role assignment to get.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param [options] The optional parameters
    * @returns Promise<Models.RoleAssignmentsGetByIdResponse>
    */
-  getById(roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetByIdResponse>;
+  getById(roleAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetByIdResponse>;
   /**
-   * @param roleId The ID of the role assignment to get.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param callback The callback
    */
-  getById(roleId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  getById(roleAssignmentId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   /**
-   * @param roleId The ID of the role assignment to get.
+   * @param roleAssignmentId The fully qualified ID of the role assignment, including the scope,
+   * resource name and resource type. Use the format,
+   * /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   * /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
-  getById(roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsGetByIdResponse> {
+  getById(roleAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  getById(roleAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignment>, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
-        roleId,
+        roleAssignmentId,
         options
       },
       getByIdOperationSpec,
@@ -560,7 +587,9 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: {
+      properties: "properties"
+    },
     mapper: {
       ...Mappers.RoleAssignmentCreateParameters,
       required: true
@@ -603,9 +632,9 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{roleId}",
+  path: "{roleAssignmentId}",
   urlParameters: [
-    Parameters.roleId
+    Parameters.roleAssignmentId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -626,9 +655,9 @@ const deleteByIdOperationSpec: msRest.OperationSpec = {
 
 const createByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "{roleId}",
+  path: "{roleAssignmentId}",
   urlParameters: [
-    Parameters.roleId
+    Parameters.roleAssignmentId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -637,7 +666,9 @@ const createByIdOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: {
+      properties: "properties"
+    },
     mapper: {
       ...Mappers.RoleAssignmentCreateParameters,
       required: true
@@ -656,9 +687,9 @@ const createByIdOperationSpec: msRest.OperationSpec = {
 
 const getByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{roleId}",
+  path: "{roleAssignmentId}",
   urlParameters: [
-    Parameters.roleId
+    Parameters.roleAssignmentId
   ],
   queryParameters: [
     Parameters.apiVersion

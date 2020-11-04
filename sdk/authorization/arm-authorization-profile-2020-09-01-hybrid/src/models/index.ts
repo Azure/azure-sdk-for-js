@@ -12,6 +12,145 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Role Definitions filter
+ */
+export interface RoleDefinitionFilter {
+  /**
+   * Returns role definition with the specific name.
+   */
+  roleName?: string;
+}
+
+/**
+ * Role definition permissions.
+ */
+export interface Permission {
+  /**
+   * Allowed actions.
+   */
+  actions?: string[];
+  /**
+   * Denied actions.
+   */
+  notActions?: string[];
+}
+
+/**
+ * Role definition.
+ */
+export interface RoleDefinition {
+  /**
+   * The role definition ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The role definition name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The role definition type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The role name.
+   */
+  roleName?: string;
+  /**
+   * The role definition description.
+   */
+  description?: string;
+  /**
+   * The role type.
+   */
+  roleType?: string;
+  /**
+   * Role definition permissions.
+   */
+  permissions?: Permission[];
+  /**
+   * Role definition assignable scopes.
+   */
+  assignableScopes?: string[];
+}
+
+/**
+ * Operation
+ */
+export interface ProviderOperation {
+  /**
+   * The operation name.
+   */
+  name?: string;
+  /**
+   * The operation display name.
+   */
+  displayName?: string;
+  /**
+   * The operation description.
+   */
+  description?: string;
+  /**
+   * The operation origin.
+   */
+  origin?: string;
+  /**
+   * The operation properties.
+   */
+  properties?: any;
+}
+
+/**
+ * Resource Type
+ */
+export interface ResourceType {
+  /**
+   * The resource type name.
+   */
+  name?: string;
+  /**
+   * The resource type display name.
+   */
+  displayName?: string;
+  /**
+   * The resource type operations.
+   */
+  operations?: ProviderOperation[];
+}
+
+/**
+ * Provider Operations metadata
+ */
+export interface ProviderOperationsMetadata {
+  /**
+   * The provider id.
+   */
+  id?: string;
+  /**
+   * The provider name.
+   */
+  name?: string;
+  /**
+   * The provider type.
+   */
+  type?: string;
+  /**
+   * The provider display name.
+   */
+  displayName?: string;
+  /**
+   * The provider resource types
+   */
+  resourceTypes?: ResourceType[];
+  /**
+   * The provider operations.
+   */
+  operations?: ProviderOperation[];
+}
+
+/**
  * Role Assignments filter
  */
 export interface RoleAssignmentFilter {
@@ -19,10 +158,24 @@ export interface RoleAssignmentFilter {
    * Returns role assignment of the specific principal.
    */
   principalId?: string;
+}
+
+/**
+ * Role assignment properties with scope.
+ */
+export interface RoleAssignmentPropertiesWithScope {
   /**
-   * The Delegation flag for the role assignment
+   * The role assignment scope.
    */
-  canDelegate?: boolean;
+  scope?: string;
+  /**
+   * The role definition ID.
+   */
+  roleDefinitionId?: string;
+  /**
+   * The principal ID.
+   */
+  principalId?: string;
 }
 
 /**
@@ -45,47 +198,15 @@ export interface RoleAssignment {
    */
   readonly type?: string;
   /**
-   * The role assignment scope.
+   * Role assignment properties.
    */
-  scope?: string;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId?: string;
-  /**
-   * The principal ID.
-   */
-  principalId?: string;
-  /**
-   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-   * 'DirectoryObjectOrGroup', 'Everyone'
-   */
-  principalType?: PrincipalType;
-  /**
-   * The Delegation flag for the role assignment
-   */
-  canDelegate?: boolean;
-  /**
-   * Description of role assignment
-   */
-  description?: string;
-  /**
-   * The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-   * @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-   * StringEqualsIgnoreCase 'foo_storage_container'
-   */
-  condition?: string;
-  /**
-   * Version of the condition. Currently accepted value is '2.0'
-   */
-  conditionVersion?: string;
+  properties?: RoleAssignmentPropertiesWithScope;
 }
 
 /**
- * Role assignment create parameters.
+ * Role assignment properties.
  */
-export interface RoleAssignmentCreateParameters {
+export interface RoleAssignmentProperties {
   /**
    * The role definition ID used in the role assignment.
    */
@@ -95,30 +216,47 @@ export interface RoleAssignmentCreateParameters {
    * point to a user, service principal, or security group.
    */
   principalId: string;
+}
+
+/**
+ * Role assignment create parameters.
+ */
+export interface RoleAssignmentCreateParameters {
   /**
-   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-   * 'DirectoryObjectOrGroup', 'Everyone'
+   * Role assignment properties.
    */
-  principalType?: PrincipalType;
+  properties: RoleAssignmentProperties;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RoleDefinitionsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The delegation flag used for creating a role assignment
+   * The filter to apply on the operation. Use atScopeAndBelow filter to search below the given
+   * scope as well.
    */
-  canDelegate?: boolean;
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderOperationsMetadataGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Description of role assignment
+   * Specifies whether to expand the values. Default value: 'resourceTypes'.
    */
-  description?: string;
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderOperationsMetadataListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-   * @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-   * StringEqualsIgnoreCase 'foo_storage_container'
+   * Specifies whether to expand the values. Default value: 'resourceTypes'.
    */
-  condition?: string;
-  /**
-   * Version of the condition. Currently accepted value is '2.0'
-   */
-  conditionVersion?: string;
+  expand?: string;
 }
 
 /**
@@ -178,6 +316,42 @@ export interface AuthorizationManagementClientOptions extends AzureServiceClient
 
 /**
  * @interface
+ * Permissions information.
+ * @extends Array<Permission>
+ */
+export interface PermissionGetResult extends Array<Permission> {
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Role definition list operation result.
+ * @extends Array<RoleDefinition>
+ */
+export interface RoleDefinitionListResult extends Array<RoleDefinition> {
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Provider operations metadata list
+ * @extends Array<ProviderOperationsMetadata>
+ */
+export interface ProviderOperationsMetadataListResult extends Array<ProviderOperationsMetadata> {
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Role assignment list operation result.
  * @extends Array<RoleAssignment>
  */
@@ -189,14 +363,264 @@ export interface RoleAssignmentListResult extends Array<RoleAssignment> {
 }
 
 /**
- * Defines values for PrincipalType.
- * Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown',
- * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI', 'DirectoryObjectOrGroup',
- * 'Everyone'
- * @readonly
- * @enum {string}
+ * Contains response data for the listForResourceGroup operation.
  */
-export type PrincipalType = 'User' | 'Group' | 'ServicePrincipal' | 'Unknown' | 'DirectoryRoleTemplate' | 'ForeignGroup' | 'Application' | 'MSI' | 'DirectoryObjectOrGroup' | 'Everyone';
+export type PermissionsListForResourceGroupResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type PermissionsListForResourceResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type PermissionsListForResourceGroupNextResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type PermissionsListForResourceNextResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type RoleDefinitionsDeleteMethodResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RoleDefinitionsGetResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RoleDefinitionsListResponse = RoleDefinitionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the getById operation.
+ */
+export type RoleDefinitionsGetByIdResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RoleDefinitionsListNextResponse = RoleDefinitionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderOperationsMetadata;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderOperationsMetadataListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderOperationsMetadataListResult;
+    };
+};
 
 /**
  * Contains response data for the listForResource operation.

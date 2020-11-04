@@ -44,7 +44,7 @@ export class AuthorizationManagementClientContext extends msRestAzure.AzureServi
 
     super(credentials, options);
 
-    this.apiVersion = '2020-04-01-preview';
+    this.apiVersion = '2015-07-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

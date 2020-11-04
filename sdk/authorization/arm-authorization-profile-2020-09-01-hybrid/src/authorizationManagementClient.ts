@@ -17,6 +17,10 @@ import { AuthorizationManagementClientContext } from "./authorizationManagementC
 
 class AuthorizationManagementClient extends AuthorizationManagementClientContext {
   // Operation groups
+  permissions: operations.Permissions;
+  roleDefinitions: operations.RoleDefinitions;
+  providerOperationsMetadata: operations.ProviderOperationsMetadataOperations;
+  globalAdministrator: operations.GlobalAdministrator;
   roleAssignments: operations.RoleAssignments;
 
   /**
@@ -27,6 +31,10 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AuthorizationManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.permissions = new operations.Permissions(this);
+    this.roleDefinitions = new operations.RoleDefinitions(this);
+    this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);
+    this.globalAdministrator = new operations.GlobalAdministrator(this);
     this.roleAssignments = new operations.RoleAssignments(this);
   }
 }

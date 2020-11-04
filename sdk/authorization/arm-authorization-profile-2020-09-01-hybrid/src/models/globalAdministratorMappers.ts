@@ -7,10 +7,5 @@
  */
 
 export {
-  CloudError,
-  RoleAssignment,
-  RoleAssignmentCreateParameters,
-  RoleAssignmentListResult,
-  RoleAssignmentProperties,
-  RoleAssignmentPropertiesWithScope
+  CloudError
 } from "../models/mappers";
