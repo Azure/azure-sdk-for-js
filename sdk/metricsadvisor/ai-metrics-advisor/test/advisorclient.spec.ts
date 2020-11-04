@@ -599,7 +599,7 @@ describe("MetricsAdvisorClient", () => {
 
     // service issue, skipping for now
     it("lists Anomaly feedbacks", async function() {
-      const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
           startTime: new Date(Date.UTC(2020, 9, 19)),
           endTime: new Date(Date.UTC(2020, 9, 20)),
@@ -613,7 +613,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     it("lists Anomaly feedbacks with datetime strings", async function() {
-      const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
           startTime: "2020-10-19T00:00:00.000Z",
           endTime: "2020-10-20T00:00:00.000Z",
@@ -628,7 +628,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("lists Anomaly feedbacks by page", async function() {
       const iterator = client
-        .listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
       assert.equal(result.value.length, 2, "Expecting two entries in first page");
