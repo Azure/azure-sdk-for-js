@@ -10,9 +10,9 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - New Releases](#Client-New-Releases)
-- [Client - Previous Versions](#Client-Previous-Versions)
-- [Management](#Management)
+- [Client - New Releases](#client-new-releases)
+- [Client - Previous Versions](#client-previous-versions)
+- [Management](#management)
 
 ### Client: New Releases
 

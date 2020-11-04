@@ -76,7 +76,7 @@ There are differences between Node.js and browsers runtime. When getting started
 - Shared Access Signature(SAS) generation
   - `generateAccountSASQueryParameters()`
   - `generateFileSASQueryParameters()`
-- Parallel uploading and downloading
+- Parallel uploading and downloading. Note that `ShareFileClient.uploadData()` is available in both Node.js and browsers.
   - `ShareFileClient.uploadFile()`
   - `ShareFileClient.uploadStream()`
   - `ShareFileClient.downloadToBuffer()`
@@ -84,8 +84,7 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
-- Parallel uploading and downloading
-  - `ShareFileClient.uploadBrowserData()`
+N/A
 
 ### JavaScript Bundle
 

@@ -4,7 +4,11 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../src/session/messageSession";
-import { createConnectionContextForTests, defer } from "./unittestUtils";
+import {
+  createConnectionContextForTests,
+  createConnectionContextForTestsWithSessionId,
+  defer
+} from "./unittestUtils";
 import sinon from "sinon";
 import { EventEmitter } from "events";
 import {
@@ -16,7 +20,8 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ReceiveMode } from "../../src";
+import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { Constants } from "@azure/core-amqp";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -60,7 +65,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
-          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, bigTimeout, bigTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -89,7 +94,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
-          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout);
+          const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout, {});
 
           await receiveIsReady;
 
@@ -118,7 +123,7 @@ describe("Message session unit tests", () => {
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
 
             // batch fulfillment is checked when we receive a message...
@@ -163,7 +168,7 @@ describe("Message session unit tests", () => {
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-          const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout);
+          const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -234,7 +239,7 @@ describe("Message session unit tests", () => {
               };
             };
 
-            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2);
+            const receivePromise = receiver.receiveMessages(3, bigTimeout + 1, bigTimeout + 2, {});
             await receiveIsReady;
 
             emitter.emit(ReceiverEvents.message, {
@@ -334,5 +339,72 @@ describe("Message session unit tests", () => {
         remainingRegisteredListeners
       };
     }
+  });
+
+  describe("errorSource", () => {
+    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
+      const messageSession = await MessageSession.create(
+        createConnectionContextForTestsWithSessionId("session id"),
+        "entity path",
+        "session id",
+        {
+          receiveMode: "receiveAndDelete"
+        }
+      );
+
+      try {
+        let errorArgs: ProcessErrorArgs | undefined;
+
+        let eventContext = {
+          delivery: {},
+          message: {
+            message_annotations: {
+              [Constants.enqueuedTime]: new Date()
+            }
+          }
+        };
+
+        const subscribePromise = new Promise<void>((resolve) => {
+          messageSession.subscribe(
+            async (_message) => {
+              throw new Error("Error thrown from the user's processMessage callback");
+            },
+            async (args) => {
+              errorArgs = args;
+              resolve();
+            },
+            {}
+          );
+        });
+
+        messageSession["_link"]?.emit(
+          ReceiverEvents.message,
+          (eventContext as any) as EventContext
+        );
+
+        // once we emit the event we need to wait for it to be processed (and then in turn
+        // generate an error)
+        await subscribePromise;
+
+        assert.exists(errorArgs, "We should have triggered processError.");
+
+        assert.deepEqual(
+          {
+            message: errorArgs!.error.message,
+            errorSource: errorArgs!.errorSource,
+            entityPath: errorArgs!.entityPath,
+            fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+          },
+          {
+            message: "Error thrown from the user's processMessage callback",
+            errorSource: "processMessageCallback",
+            entityPath: "entity path",
+            fullyQualifiedNamespace: "fakeHost"
+          }
+        );
+      } finally {
+        await messageSession.close();
+      }
+    });
   });
 });

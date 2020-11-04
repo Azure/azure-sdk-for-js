@@ -4,24 +4,22 @@
 import Long from "long";
 import {
   EventContext,
-  ReceiverEvents,
   ReceiverOptions,
   message as RheaMessageUtil,
-  SenderEvents,
   SenderOptions,
   generate_uuid,
   string_to_uuid,
   types,
-  Typed
+  Typed,
+  ReceiverEvents,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   ConditionErrorNameMapper,
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions,
-  translate
+  SendRequestOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -30,8 +28,8 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage,
-  fromAmqpMessage
+  toRheaMessage,
+  fromRheaMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
@@ -48,6 +46,7 @@ import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -107,9 +106,9 @@ export interface CorrelationRuleFilter {
    */
   replyTo?: string;
   /**
-   * Value to be matched with the `label` property of the incoming message.
+   * Value to be matched with the `subject` property of the incoming message.
    */
-  label?: string;
+  subject?: string;
   /**
    * Value to be matched with the `sessionId` property of the incoming message.
    */
@@ -125,7 +124,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  properties?: { [key: string]: string | number | boolean | Date };
+  applicationProperties?: { [key: string]: string | number | boolean | Date };
 }
 
 /**
@@ -137,11 +136,11 @@ const correlationProperties = [
   "messageId",
   "to",
   "replyTo",
-  "label",
+  "subject",
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "properties"
+  "applicationProperties"
 ];
 
 /**
@@ -226,15 +225,26 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         name: this.replyTo,
         target: { address: this.replyTo },
         onSessionError: (context: EventContext) => {
-          const ehError = translate(context.session!.error!);
+          const sbError = translateServiceBusError(context.session!.error!);
           managementClientLogger.logError(
-            ehError,
+            sbError,
             `${this.logPrefix} An error occurred on the session for request/response links for $management`
           );
         }
       };
-      const sropt: SenderOptions = { target: { address: this.address } };
+      const sropt: SenderOptions = {
+        target: { address: this.address },
+        onError: (context: EventContext) => {
+          const ehError = translateServiceBusError(context.sender!.error!);
+          managementClientLogger.logError(
+            ehError,
+            `${this.logPrefix} An error occurred on the $management sender link`
+          );
+        }
+      };
 
+      // Even if multiple parallel requests reach here, the initLink secures a lock
+      // to ensure there won't be multiple initializations
       await this.initLink(
         {
           senderOptions: sropt,
@@ -242,37 +252,37 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
         abortSignal
       );
-
-      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
-        const ehError = translate(context.sender!.error!);
-        managementClientLogger.logError(
-          ehError,
-          `${this.logPrefix} An error occurred on the $management sender link`
-        );
-      });
-      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-        const ehError = translate(context.receiver!.error!);
-        managementClientLogger.logError(
-          ehError,
-          `${this.logPrefix} An error occurred on the $management receiver link`
-        );
-      });
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       managementClientLogger.logError(
         err,
-        `${this.logPrefix} An error occured while establishing the $management links`
+        `${this.logPrefix} An error occurred while establishing the $management links`
       );
       throw err;
     }
   }
 
-  protected createRheaLink(options: RequestResponseLinkOptions): Promise<RequestResponseLink> {
-    return RequestResponseLink.create(
+  protected async createRheaLink(
+    options: RequestResponseLinkOptions
+  ): Promise<RequestResponseLink> {
+    const rheaLink = await RequestResponseLink.create(
       this._context.connection,
       options.senderOptions,
       options.receiverOptions
     );
+    // Attach listener for the `receiver_error` events to log the errors.
+
+    // "message" event listener is added in core-amqp.
+    // "rhea" doesn't allow setting only the "onError" handler in the options if it is not accompanied by an "onMessage" handler.
+    // Hence, not passing onError handler in the receiver options, adding a handler below.
+    rheaLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+      const ehError = translateServiceBusError(context.receiver!.error!);
+      managementClientLogger.logError(
+        ehError,
+        `${this.logPrefix} An error occurred on the $management receiver link`
+      );
+    });
+    return rheaLink;
   }
 
   /**
@@ -285,10 +295,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   }
 
   private async _makeManagementRequest(
-    request: AmqpMessage,
+    request: RheaMessage,
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
-  ): Promise<AmqpMessage> {
+  ): Promise<RheaMessage> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
@@ -323,7 +333,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       internalLogger.logError(
         err,
         "%s An error occurred during send on management request-response link with address " +
@@ -453,7 +463,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != undefined) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -478,14 +488,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromAmqpMessage(decodedMessage as any);
+          const message = fromRheaMessage(decodedMessage as any);
           message.body = this._context.dataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
       }
     } catch (err) {
-      const error = translate(err) as MessagingError;
+      const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to peek messages to $management endpoint`
@@ -525,7 +535,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x98,
         undefined
       );
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -548,7 +558,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -570,12 +580,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
+    if (!messages.length) {
+      return [];
+    }
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toAmqpMessage(item);
+      const amqpMessage = toRheaMessage(item);
       amqpMessage.body = this._context.dataTransformer.encode(amqpMessage.body);
 
       try {
@@ -589,9 +602,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         if (item.partitionKey) {
           entry["partition-key"] = item.partitionKey;
         }
-        if (item.viaPartitionKey) {
-          entry["via-partition-key"] = item.viaPartitionKey;
-        }
+
+        // Will be required later for implementing Transactions
+        // if (item.viaPartitionKey) {
+        //   entry["via-partition-key"] = item.viaPartitionKey;
+        // }
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
@@ -602,9 +617,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user-friendly message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = translate(getMessagePropertyTypeMismatchError(item) || err);
+          error = translateServiceBusError(getMessagePropertyTypeMismatchError(item) || err);
         } else {
-          error = translate(err);
+          error = translateServiceBusError(err);
         }
         senderLogger.logError(
           error,
@@ -614,7 +629,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
     }
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: { messages: messageBody },
         reply_to: this.replyTo,
         application_properties: {
@@ -638,7 +653,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       return sequenceNumbersAsLong;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to schedule messages to $management endpoint`
@@ -657,6 +672,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
+    if (!sequenceNumbers.length) {
+      return;
+    }
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -664,7 +682,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
-        const error = translate(err);
+        const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
@@ -679,7 +697,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x81,
         undefined
       );
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -700,7 +718,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       await this._makeManagementRequest(request, senderLogger, options);
       return;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to cancel the scheduled message to $management endpoint`
@@ -727,6 +745,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
 
+    if (!sequenceNumbers.length) {
+      return [];
+    }
+
     const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -735,7 +757,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
-        const error = translate(err);
+        const error = translateServiceBusError(err);
         receiverLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the sequenceNumbers array`
@@ -755,7 +777,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -781,7 +803,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
         const message = new ServiceBusMessageImpl(
           this._context,
-          this.entityPath,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
           false,
@@ -791,7 +812,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       return messageList;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to receive deferred messages to $management endpoint`
@@ -842,7 +863,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -860,7 +881,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, receiverLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the request to update disposition status to $management endpoint`
@@ -884,7 +905,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -910,7 +931,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       return lockedUntilUtc;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -937,7 +958,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
       messageBody["session-state"] = toBuffer(state);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -955,7 +976,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, receiverLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -978,7 +999,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -999,7 +1020,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         ? this._context.dataTransformer.decode(result.body["session-state"])
         : result.body["session-state"];
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -1040,7 +1061,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       messageBody["last-updated-time"] = lastUpdatedTime;
       messageBody["skip"] = types.wrap_int(skip);
       messageBody["top"] = types.wrap_int(top);
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
@@ -1057,7 +1078,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
@@ -1075,7 +1096,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           top: types.wrap_int(max32BitNumber),
           skip: types.wrap_int(0)
@@ -1140,11 +1161,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
               to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
               replyTo: this._safelyGetTypedValueFromArray(filtersRawData.value, 3),
-              label: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
+              subject: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1167,7 +1188,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       return rules;
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the get rules request to $management endpoint`
@@ -1190,7 +1211,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     try {
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName)
         },
@@ -1208,7 +1229,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       await this._makeManagementRequest(request, managementClientLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the remove rule request to $management endpoint`
@@ -1265,11 +1286,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             "message-id": filter.messageId,
             to: filter.to,
             "reply-to": filter.replyTo,
-            label: filter.label,
+            subject: filter.subject,
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.properties
+            applicationProperties: filter.applicationProperties
           };
           break;
       }
@@ -1279,7 +1300,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           expression: String(sqlRuleActionExpression)
         };
       }
-      const request: AmqpMessage = {
+      const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
           "rule-description": types.wrap_map(ruleDescription)
@@ -1294,7 +1315,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
       await this._makeManagementRequest(request, managementClientLogger, options);
     } catch (err) {
-      const error = translate(err);
+      const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the Add rule request to $management endpoint`

@@ -99,8 +99,6 @@ describe("SearchIndexClient", function() {
         ];
         assert.include(synonyms, synonymMap.synonyms[0]);
         assert.include(synonyms, synonymMap.synonyms[1]);
-      } catch (ex) {
-        throw ex;
       } finally {
         await indexClient.deleteSynonymMap(synonymMap);
       }
@@ -207,8 +205,6 @@ describe("SearchIndexClient", function() {
         index = await indexClient.getIndex(indexName);
         assert.equal(index.name, indexName);
         assert.equal(index.fields.length, 5);
-      } catch (ex) {
-        throw ex;
       } finally {
         await indexClient.deleteIndex(index);
       }

@@ -36,7 +36,7 @@ async function provideAnomalyFeedback(client, metricId) {
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
     value: "NotAnomaly",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(anomalyFeedback);
 }
@@ -48,7 +48,7 @@ async function providePeriodFeedback(client, metricId) {
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(periodFeedback);
 }
@@ -60,7 +60,7 @@ async function provideChangePointFeedback(client, metricId) {
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
   return await client.createMetricFeedback(changePointFeedback);
 }
@@ -70,7 +70,7 @@ async function provideCommentFeedback(client, metricId) {
   const commendFeedback = {
     metricId,
     feedbackType: "Comment",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+    dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
   return await client.createMetricFeedback(commendFeedback);
@@ -88,7 +88,7 @@ async function listFeedback(client, metricId, startTime, endTime) {
   for await (const feedback of client.listMetricFeedbacks(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
-      endTime: new Date("08/11/2020"),
+      endTime: new Date("08/03/2020"),
       timeMode: "MetricTimestamp"
     }
   })) {
@@ -121,11 +121,11 @@ async function listFeedback(client, metricId, startTime, endTime) {
 
   if (!result.done) {
     console.log("first page");
-    console.table(result.value.feedbacks);
+    console.table(result.value);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("second page");
-      console.table(nextPage.value.feedbacks);
+      console.table(nextPage.value);
     }
   }
 }

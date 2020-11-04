@@ -5,14 +5,15 @@ export default [
     external: [
       "tslib",
       "universal-user-agent",
-      "uuid/v4",
+      "uuid",
       "debug",
       "node-abort-controller",
       "node-fetch",
       "priorityqueuejs",
       "semaphore",
       "crypto",
-      "fast-json-stable-stringify"
+      "fast-json-stable-stringify",
+      "jsbi"
     ],
     output: {
       file: "dist/index.js",
@@ -22,14 +23,15 @@ export default [
       globals: {
         "universal-user-agent": "universalUserAgent",
         "fast-json-stable-stringify": "stableStringify",
-        "uuid/v4": "uuid",
+        uuid: "uuid",
         "node-abort-controller": "AbortController",
         "node-fetch": "fetch",
         crypto: "crypto",
         tslib: "tslib_1",
         debug: "debugLib",
         priorityqueuejs: "PriorityQueue",
-        semaphore: "semaphore"
+        semaphore: "semaphore",
+        jsbi: "jsbi"
       }
     },
     plugins: [resolve()],

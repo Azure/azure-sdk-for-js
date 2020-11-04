@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SDK_VERSION } from "./constants";
-import { SearchIndexer, SearchIndexerStatus } from "./generated/service/models";
+import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -30,6 +30,7 @@ import {
   ResetIndexerOptions,
   RunIndexerOptions,
   ListDataSourceConnectionsOptions,
+  SearchIndexer,
   SearchIndexerDataSourceConnection,
   CreateDataSourceConnectionOptions,
   DeleteDataSourceConnectionOptions,
@@ -140,7 +141,7 @@ export class SearchIndexerClient {
       const result = await this.client.indexers.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.indexers;
+      return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -292,7 +293,7 @@ export class SearchIndexerClient {
         indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -373,10 +374,10 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createIndexer", options);
     try {
       const result = await this.client.indexers.create(
-        indexer,
+        utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -403,12 +404,7 @@ export class SearchIndexerClient {
     );
     try {
       const result = await this.client.dataSources.create(
-        {
-          ...dataSourceConnection,
-          credentials: {
-            connectionString: dataSourceConnection.connectionString
-          }
-        },
+        utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -466,11 +462,15 @@ export class SearchIndexerClient {
     try {
       const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
 
-      const result = await this.client.indexers.createOrUpdate(indexer.name, indexer, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
-        ifMatch: etag
-      });
-      return result;
+      const result = await this.client.indexers.createOrUpdate(
+        indexer.name,
+        utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          ifMatch: etag
+        }
+      );
+      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -500,12 +500,7 @@ export class SearchIndexerClient {
 
       const result = await this.client.dataSources.createOrUpdate(
         dataSourceConnection.name,
-        {
-          ...dataSourceConnection,
-          credentials: {
-            connectionString: dataSourceConnection.connectionString ?? "<unchanged>"
-          }
-        },
+        utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
           ifMatch: etag

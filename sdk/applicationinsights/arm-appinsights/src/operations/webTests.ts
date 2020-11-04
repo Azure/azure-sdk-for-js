@@ -28,18 +28,18 @@ export class WebTests {
 
   /**
    * Get all Application Insights web tests defined within a specified resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -56,20 +56,20 @@ export class WebTests {
 
   /**
    * Get a specific Application Insights web test definition.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsGetResponse>
    */
   get(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, webTestName: string, callback: msRest.ServiceCallback<Models.WebTest>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -88,7 +88,7 @@ export class WebTests {
 
   /**
    * Creates or updates an Application Insights web test definition.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    * Insights web test definition.
@@ -97,7 +97,7 @@ export class WebTests {
    */
   createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsCreateOrUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    * Insights web test definition.
@@ -105,7 +105,7 @@ export class WebTests {
    */
   createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, callback: msRest.ServiceCallback<Models.WebTest>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    * Insights web test definition.
@@ -127,7 +127,7 @@ export class WebTests {
 
   /**
    * Creates or updates an Application Insights web test definition.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestTags Updated tag information to set into the web test instance.
    * @param [options] The optional parameters
@@ -135,14 +135,14 @@ export class WebTests {
    */
   updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsUpdateTagsResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestTags Updated tag information to set into the web test instance.
    * @param callback The callback
    */
   updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, callback: msRest.ServiceCallback<Models.WebTest>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestTags Updated tag information to set into the web test instance.
    * @param options The optional parameters
@@ -163,20 +163,20 @@ export class WebTests {
 
   /**
    * Deletes an Application Insights web test.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, webTestName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -194,7 +194,7 @@ export class WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitioned within a subscription.
+   * Get all Application Insights web test alerts definitions within a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListResponse>
    */
@@ -220,20 +220,20 @@ export class WebTests {
   /**
    * Get all Application Insights web tests defined for the specified component.
    * @param componentName The name of the Application Insights component resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByComponentResponse>
    */
   listByComponent(componentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByComponentResponse>;
   /**
    * @param componentName The name of the Application Insights component resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByComponent(componentName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
   /**
    * @param componentName The name of the Application Insights component resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -278,7 +278,7 @@ export class WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitioned within a subscription.
+   * Get all Application Insights web test alerts definitions within a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListNextResponse>
@@ -344,7 +344,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -369,7 +369,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.webTestName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -394,7 +394,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.webTestName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -426,7 +426,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
     Parameters.webTestName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -458,7 +458,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.webTestName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -480,7 +480,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -505,7 +505,7 @@ const listByComponentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, ErrorNameConditionMapper, MessagingError, translate } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
-  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
@@ -27,7 +26,15 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { AcceptSessionOptions, ReceiveMode, SubscribeOptions } from "../models";
+import {
+  ServiceBusSessionReceiverOptions,
+  ProcessErrorArgs,
+  ReceiveMode,
+  SubscribeOptions
+} from "../models";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { translateServiceBusError } from "../serviceBusError";
+import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -49,8 +56,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
-  AcceptSessionOptions<"receiveAndDelete">,
-  "maxAutoRenewLockDurationInMs" | "abortSignal"
+  ServiceBusSessionReceiverOptions,
+  "maxAutoLockRenewalDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
 };
@@ -271,7 +278,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       }
 
       if (errorMessage) {
-        const error = translate({
+        const error = translateServiceBusError({
           description: errorMessage,
           condition: ErrorNameConditionMapper.SessionCannotBeLockedError
         });
@@ -295,7 +302,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
       this._ensureSessionLockRenewal();
     } catch (err) {
-      const errObj = translate(err);
+      const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
@@ -369,8 +376,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
-      options.maxAutoRenewLockDurationInMs != null
-        ? options.maxAutoRenewLockDurationInMs
+      options.maxAutoLockRenewalDurationInMs != null
+        ? options.maxAutoLockRenewalDurationInMs
         : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";
@@ -392,9 +399,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (error: MessagingError | Error) => {
+    this._notifyError = (args: ProcessErrorArgs) => {
       if (this._onError) {
-        this._onError(error);
+        this._onError(args);
         logger.verbose(
           "%s Notified the user's error handler about the error received by the Receiver",
           this.logPrefix
@@ -405,12 +412,17 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._onAmqpError = (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError) as MessagingError;
+        const sbError = translateServiceBusError(receiverError) as MessagingError;
         if (sbError.code === "SessionLockLostError") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
-        this._notifyError(sbError);
+        this._notifyError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -418,7 +430,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const connectionId = this._context.connectionId;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError);
+        const sbError = translateServiceBusError(sessionError);
         logger.logError(
           sbError,
           "[%s] An error occurred on the session for Receiver '%s': %O.",
@@ -426,7 +438,12 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.name,
           sbError
         );
-        this._notifyError(sbError);
+        this._notifyError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       }
     };
 
@@ -435,7 +452,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
       if (receiverError) {
-        const sbError = translate(receiverError) as MessagingError;
+        const sbError = translateServiceBusError(receiverError) as MessagingError;
         logger.logError(
           sbError,
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
@@ -479,7 +496,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError);
+        const sbError = translateServiceBusError(sessionError);
         logger.logError(
           sbError,
           "%s 'session_close' event occurred for receiver for sessionId '%s'. " +
@@ -573,7 +590,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    *
    * @returns void
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options?: SubscribeOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
@@ -605,7 +622,6 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         const bMessage = new ServiceBusMessageImpl(
           this._context,
-          this.entityPath,
           context.message!,
           context.delivery!,
           true,
@@ -615,19 +631,21 @@ export class MessageSession extends LinkEntity<Receiver> {
         try {
           await this._onMessage(bMessage);
         } catch (err) {
-          // This ensures we call users' error handler when users' message handler throws.
-          if (!isAmqpError(err)) {
-            logger.logError(
-              err,
-              "%s An error occurred while running user's message handler for the message " +
-                "with id '%s' on the receiver",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            this._onError!(err);
-          }
+          logger.logError(
+            err,
+            "%s An error occurred while running user's message handler for the message " +
+              "with id '%s' on the receiver",
+            this.logPrefix,
+            bMessage.messageId
+          );
+          this._onError!({
+            error: err,
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
 
-          const error = translate(err);
+          const error = translateServiceBusError(err);
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
           if (
             !bMessage.delivery.remote_settled &&
@@ -641,9 +659,9 @@ export class MessageSession extends LinkEntity<Receiver> {
                 this.logPrefix,
                 bMessage.messageId
               );
-              await bMessage.abandon();
+              await abandonMessage(bMessage, this._context, this.entityPath);
             } catch (abandonError) {
-              const translatedError = translate(abandonError);
+              const translatedError = translateServiceBusError(abandonError);
               logger.logError(
                 translatedError,
                 "%s An error occurred while abandoning the message with id '%s' on the " +
@@ -652,7 +670,12 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError(translatedError);
+              this._notifyError({
+                error: translatedError,
+                errorSource: "abandon",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host
+              });
             }
           }
           return;
@@ -673,16 +696,21 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            await bMessage.complete();
+            await completeMessage(bMessage, this._context, this.entityPath);
           } catch (completeError) {
-            const translatedError = translate(completeError);
+            const translatedError = translateServiceBusError(completeError);
             logger.logError(
               translatedError,
               "%s An error occurred while completing the message with id '%s' on the " + "receiver",
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError(translatedError);
+            this._notifyError({
+              error: translatedError,
+              errorSource: "complete",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           }
         }
       };
@@ -696,7 +724,20 @@ export class MessageSession extends LinkEntity<Receiver> {
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
       logger.verbose("[%s] %s", this._context.connectionId, msg);
-      this._notifyError(new Error(msg));
+      this._notifyError({
+        error: new Error(msg),
+        // This is _probably_ the right error code since we require that
+        // the message session is created before we even give back the receiver. So it not
+        // being open at this point is either:
+        //
+        // 1. we didn't acquire the lock
+        // 2. the connection was broken (we don't reconnect)
+        //
+        // If any of these becomes untrue you'll probably want to re-evaluate this classification.
+        errorSource: "receive",
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host
+      });
     }
   }
 
@@ -713,14 +754,14 @@ export class MessageSession extends LinkEntity<Receiver> {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    userAbortSignal?: AbortSignalLike
+    options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     try {
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        userAbortSignal
+        ...options
       });
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
@@ -761,7 +802,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             "Operation to settle the message has timed out. The disposition of the " +
             "message may or may not be successful"
         };
-        return reject(translate(e));
+        return reject(translateServiceBusError(e));
       }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,

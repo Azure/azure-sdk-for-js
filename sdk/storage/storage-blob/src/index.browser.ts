@@ -11,7 +11,7 @@ export * from "./BatchResponse";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export { SasIPRange } from "./SasIPRange";
+export { SasIPRange } from "./sas/SasIPRange";
 export { Range } from "./Range";
 export {
   BlockBlobTier,

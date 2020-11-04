@@ -14,6 +14,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -60,6 +61,8 @@ export class ClientCertificateCredential implements TokenCredential {
     certificatePath: string,
     options?: ClientCertificateCredentialOptions
   ) {
+    checkTenantId(logger, tenantId);
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
@@ -92,7 +95,7 @@ export class ClientCertificateCredential implements TokenCredential {
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
-    if (options && options.includeX5c) {
+    if (options && options.sendCertificateChain) {
       this.certificateX5c = publicKeys;
     }
   }

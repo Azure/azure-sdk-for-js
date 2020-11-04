@@ -7,6 +7,8 @@
  */
 
 export {
+  AnswerSpanRequestDTO,
+  AnswerSpanResponseDTO,
   ContextDTO,
   CreateKbDTO,
   CreateKbInputDTO,
@@ -14,6 +16,8 @@ export {
   ErrorModel,
   ErrorResponse,
   ErrorResponseError,
+  FeedbackRecordDTO,
+  FeedbackRecordsDTO,
   FileDTO,
   InnerErrorModel,
   KnowledgebaseDTO,
@@ -26,6 +30,14 @@ export {
   QnADocumentsDTO,
   QnADTO,
   QnADTOContext,
+  QnASearchResult,
+  QnASearchResultAnswerSpan,
+  QnASearchResultContext,
+  QnASearchResultList,
+  QueryContextDTO,
+  QueryDTO,
+  QueryDTOAnswerSpanRequest,
+  QueryDTOContext,
   ReplaceKbDTO,
   UpdateContextDTO,
   UpdateKbContentsDTO,

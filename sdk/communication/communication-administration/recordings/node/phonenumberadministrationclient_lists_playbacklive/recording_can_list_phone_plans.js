@@ -4,7 +4,7 @@ module.exports.hash = "3cdc938169a6df415554f9d5e6aef39b";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true })
+nock("https://endpoint", { encodedQueryParams: false })
   .get("/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans")
   .query(true)
   .reply(
@@ -36,12 +36,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "dBoCEDukuEOYgrlJiZt+hQ.0",
+      "/Oq7aEkBT0+/O4drUfYgIQ.0",
       "X-Processing-Time",
-      "591ms",
+      "322ms",
       "X-Azure-Ref",
-      "0XwJ7XwAAAACmAAAStS0+RL34KH7QHdEyWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Zil+XwAAAACC1JPnxeZLT4lWoSlfRexhWVZSMzBFREdFMDQxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:15 GMT"
+      "Wed, 07 Oct 2020 20:47:34 GMT"
     ]
   );

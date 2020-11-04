@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SearchClient } from "./searchClient";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
@@ -244,7 +247,9 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     if (this.batchObject.actions.length > 0) {
       await this.internalFlush(true);
     }
-    this.cleanupTimer && this.cleanupTimer();
+    if (this.cleanupTimer) {
+      this.cleanupTimer();
+    }
   }
 
   /**

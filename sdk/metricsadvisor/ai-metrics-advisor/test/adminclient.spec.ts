@@ -32,7 +32,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -49,6 +49,18 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.value.status, "Expecting second status");
     });
 
+    it("lists ingestion status with datetime strings", async function() {
+      const iterator = client.listDataFeedIngestionStatus(
+        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        "2020-08-01T00:00:00.000Z",
+        "2020-09-01T00:00:00.000Z"
+      );
+      let result = await iterator.next();
+      assert.ok(result.value.status, "Expecting first status");
+      result = await iterator.next();
+      assert.ok(result.value.status, "Expecting second status");
+    });
+
     it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(
@@ -58,9 +70,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         )
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in first page");
+      assert.equal(result.value.length, 2, "Expecting two entries in first page");
       result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in second page");
+      assert.equal(result.value.length, 2, "Expecting two entries in second page");
     });
 
     it("gets ingestion progress", async function() {
@@ -171,7 +183,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         },
         seriesGroupDetectionConditions: [
           {
-            group: { dimension: { Dim1: "Common Lime" } },
+            group: { Dim1: "Common Lime" },
             hardThresholdCondition: {
               anomalyDetectorDirection: "Up",
               upperBound: 400,
@@ -181,7 +193,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+            series: { Dim1: "Common Beech", Dim2: "Ant" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,
@@ -207,12 +219,28 @@ describe("MetricsAdvisorAdministrationClient", () => {
         actual.wholeSeriesDetectionCondition,
         expected.wholeSeriesDetectionCondition
       );
-      assert.deepStrictEqual(
+      assert.ok(
         actual.seriesGroupDetectionConditions,
-        expected.seriesGroupDetectionConditions
+        "Expecting valid seriesGroupDetectionConditions"
       );
+      assert.deepStrictEqual(
+        actual.seriesGroupDetectionConditions![0].group,
+        expected.seriesGroupDetectionConditions![0].group
+      );
+      assert.deepStrictEqual(
+        actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
+        expected.seriesGroupDetectionConditions![0].hardThresholdCondition
+      );
+      assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
       delete (actual.seriesDetectionConditions![0].series as any).seriesId; // workaround service issue
-      assert.deepStrictEqual(actual.seriesDetectionConditions, expected.seriesDetectionConditions);
+      assert.deepStrictEqual(
+        actual.seriesDetectionConditions![0].series,
+        expected.seriesDetectionConditions![0].series
+      );
+      assert.deepStrictEqual(
+        actual.seriesDetectionConditions![0].changeThresholdCondition,
+        expected.seriesDetectionConditions![0].changeThresholdCondition
+      );
     });
 
     it("retrieves a detection configuration", async function() {
@@ -238,10 +266,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         .listMetricAnomalyDetectionConfigurations(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage();
       const result = await iterator.next();
-      assert.ok(
-        result.value.detectionConfigurations.length > 1,
-        "Expecting more than one entries in page"
-      );
+      assert.ok(result.value.length > 1, "Expecting more than one entries in page");
     });
 
     let expectedAlertConfigName: string;
@@ -345,10 +370,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
           .listAnomalyAlertConfigurations(createdDetectionConfigId)
           .byPage();
         const pageResult = await pageIterator.next();
-        assert.isTrue(
-          pageResult.value.alertConfigurations.length > 1,
-          "Expecting more than one entries in page"
-        );
+        assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
         await client.deleteAnomalyAlertConfiguration(secondAlertConfig.id);
       }

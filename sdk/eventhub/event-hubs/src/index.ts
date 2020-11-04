@@ -35,5 +35,6 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 export { CloseReason } from "./models/public";
-export { MessagingError, RetryOptions, TokenCredential, WebSocketOptions } from "@azure/core-amqp";
+export { MessagingError, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+export { TokenCredential } from "@azure/core-auth";
 export { logger } from "./log";

@@ -2,34 +2,41 @@ jobs:
   - job: SmokeTest
     strategy:
       matrix:
-        Linux (AzureCloud):
+        Linux Node14 (AzureCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        Windows (AzureCloud):
+          NodeTestVersion: "14.x"
+        Windows Node12 (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        Mac (AzureCloud):
+          NodeTestVersion: "12.x"
+        Mac Node10 (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        Linux (AzureUSGovernment):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
-        Windows (AzureUSGovernment):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
-        Linux (AzureChinaCloud):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
-        Windows (AzureChinaCloud):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+          NodeTestVersion: "10.x"
+#        Linux Node10 (AzureUSGovernment):
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "10.x"
+#        Windows Node14 (AzureUSGovernment):
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "14.x"
+#        Linux Node12 (AzureChinaCloud):
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "12.x"
+#        Windows Node10 (AzureChinaCloud):
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "10.x"
 
     pool:
       vmImage: $(OSVmImage)
@@ -48,20 +55,17 @@ jobs:
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
-      - task: NodeTool@0
-        displayName: Use Node $(NodeVersion)
-        inputs:
-          versionSpec: $(NodeVersion)
+      - template: ../../eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
 
       - pwsh: npm install -g
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
-      # New-TestResources command requires Az module
-      - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
-        displayName: Install Azure PowerShell module
-
       - pwsh: |
+          $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+          
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
@@ -69,6 +73,7 @@ jobs:
           ./Initialize-SmokeTests.ps1 `
             -CI `
             -Verbose `
+            -Location '$(Location)' `
             @subscriptionConfiguration `
             -AdditionalParameters $(ArmTemplateParameters)
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test

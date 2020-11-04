@@ -51,11 +51,11 @@ async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) 
 
   if (!result.done) {
     console.log("  -- Page --");
-    console.table(result.value.statusList, ["timestamp", "status", "message"]);
+    console.table(result.value, ["timestamp", "status", "message"]);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("  -- Page --");
-      console.table(result.value.statusList, ["timestamp", "status", "message"]);
+      console.table(result.value, ["timestamp", "status", "message"]);
     }
   }
 }
