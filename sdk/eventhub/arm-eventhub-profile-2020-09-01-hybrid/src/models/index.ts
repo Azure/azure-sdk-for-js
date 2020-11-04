@@ -142,24 +142,6 @@ export interface EHNamespaceIdListResult {
 }
 
 /**
- * Single item in a List or Get IpFilterRules operation
- */
-export interface IpFilterRule extends Resource {
-  /**
-   * IP Mask
-   */
-  ipMask?: string;
-  /**
-   * The IP Filter Action. Possible values include: 'Accept', 'Reject'
-   */
-  action?: IPAction;
-  /**
-   * IP Filter name
-   */
-  filterName?: string;
-}
-
-/**
  * SKU parameters supplied to the create namespace operation
  */
 export interface Sku {
@@ -380,87 +362,6 @@ export interface PrivateLinkResourcesListResult {
    * A link for the next page of private link resources.
    */
   nextLink?: string;
-}
-
-/**
- * Contains all settings for the cluster.
- */
-export interface ClusterQuotaConfigurationProperties {
-  /**
-   * All possible Cluster settings - a collection of key/value paired settings which apply to
-   * quotas and configurations imposed on the cluster.
-   */
-  settings?: { [propertyName: string]: string };
-}
-
-/**
- * Single item in a List or Get VirtualNetworkRules operation
- */
-export interface VirtualNetworkRule extends Resource {
-  /**
-   * ARM ID of Virtual Network Subnet
-   */
-  virtualNetworkSubnetId?: string;
-}
-
-/**
- * Properties supplied for Subnet
- */
-export interface Subnet {
-  /**
-   * Resource ID of Virtual Network Subnet
-   */
-  id?: string;
-}
-
-/**
- * The response from the List namespace operation.
- */
-export interface NWRuleSetIpRules {
-  /**
-   * IP Mask
-   */
-  ipMask?: string;
-  /**
-   * The IP Filter Action. Possible values include: 'Allow'
-   */
-  action?: NetworkRuleIPAction;
-}
-
-/**
- * The response from the List namespace operation.
- */
-export interface NWRuleSetVirtualNetworkRules {
-  /**
-   * Subnet properties
-   */
-  subnet?: Subnet;
-  /**
-   * Value that indicates whether to ignore missing Vnet Service Endpoint
-   */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-}
-
-/**
- * Description of topic resource.
- */
-export interface NetworkRuleSet extends Resource {
-  /**
-   * Value that indicates whether Trusted Service Access is Enabled or not.
-   */
-  trustedServiceAccessEnabled?: boolean;
-  /**
-   * Default Action for Network Rule Set. Possible values include: 'Allow', 'Deny'
-   */
-  defaultAction?: DefaultAction;
-  /**
-   * List VirtualNetwork Rules
-   */
-  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
-  /**
-   * List of IpRules
-   */
-  ipRules?: NWRuleSetIpRules[];
 }
 
 /**
@@ -828,38 +729,12 @@ export interface ClusterListResult extends Array<Cluster> {
 
 /**
  * @interface
- * The response from the List namespace operation.
- * @extends Array<IpFilterRule>
- */
-export interface IpFilterRuleListResult extends Array<IpFilterRule> {
-  /**
-   * Link to the next set of results. Not empty if Value contains an incomplete list of IpFilter
-   * Rules
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * The response of the List Namespace operation
  * @extends Array<EHNamespace>
  */
 export interface EHNamespaceListResult extends Array<EHNamespace> {
   /**
    * Link to the next set of results. Not empty if Value contains incomplete list of namespaces.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * The response from the List namespace operation.
- * @extends Array<VirtualNetworkRule>
- */
-export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
-  /**
-   * Link to the next set of results. Not empty if Value contains an incomplete list of
-   * VirtualNetwork Rules
    */
   nextLink?: string;
 }
@@ -956,14 +831,6 @@ export interface MessagingRegionsListResult extends Array<MessagingRegions> {
 }
 
 /**
- * Defines values for IPAction.
- * Possible values include: 'Accept', 'Reject'
- * @readonly
- * @enum {string}
- */
-export type IPAction = 'Accept' | 'Reject';
-
-/**
  * Defines values for SkuName.
  * Possible values include: 'Basic', 'Standard'
  * @readonly
@@ -1010,22 +877,6 @@ export type PrivateLinkConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 
  * @enum {string}
  */
 export type EndPointProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for NetworkRuleIPAction.
- * Possible values include: 'Allow'
- * @readonly
- * @enum {string}
- */
-export type NetworkRuleIPAction = 'Allow';
-
-/**
- * Defines values for DefaultAction.
- * Possible values include: 'Allow', 'Deny'
- * @readonly
- * @enum {string}
- */
-export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for AccessRights.
@@ -1266,66 +1117,6 @@ export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
 };
 
 /**
- * Contains response data for the listIPFilterRules operation.
- */
-export type NamespacesListIPFilterRulesResponse = IpFilterRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFilterRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateIpFilterRule operation.
- */
-export type NamespacesCreateOrUpdateIpFilterRuleResponse = IpFilterRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFilterRule;
-    };
-};
-
-/**
- * Contains response data for the getIpFilterRule operation.
- */
-export type NamespacesGetIpFilterRuleResponse = IpFilterRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFilterRule;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type NamespacesListResponse = EHNamespaceListResult & {
@@ -1422,106 +1213,6 @@ export type NamespacesUpdateResponse = EHNamespace & {
        * The response body as parsed JSON or XML
        */
       parsedBody: EHNamespace;
-    };
-};
-
-/**
- * Contains response data for the listVirtualNetworkRules operation.
- */
-export type NamespacesListVirtualNetworkRulesResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateVirtualNetworkRule operation.
- */
-export type NamespacesCreateOrUpdateVirtualNetworkRuleResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the getVirtualNetworkRule operation.
- */
-export type NamespacesGetVirtualNetworkRuleResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateNetworkRuleSet operation.
- */
-export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkRuleSet;
-    };
-};
-
-/**
- * Contains response data for the getNetworkRuleSet operation.
- */
-export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkRuleSet;
     };
 };
 
@@ -1666,26 +1357,6 @@ export type NamespacesBeginCreateOrUpdateResponse = EHNamespace & {
 };
 
 /**
- * Contains response data for the listIPFilterRulesNext operation.
- */
-export type NamespacesListIPFilterRulesNextResponse = IpFilterRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFilterRuleListResult;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
 export type NamespacesListNextResponse = EHNamespaceListResult & {
@@ -1722,26 +1393,6 @@ export type NamespacesListByResourceGroupNextResponse = EHNamespaceListResult & 
        * The response body as parsed JSON or XML
        */
       parsedBody: EHNamespaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualNetworkRulesNext operation.
- */
-export type NamespacesListVirtualNetworkRulesNextResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 
@@ -1862,46 +1513,6 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the patch operation.
- */
-export type ConfigurationPatchResponse = ClusterQuotaConfigurationProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterQuotaConfigurationProperties;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ConfigurationGetResponse = ClusterQuotaConfigurationProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterQuotaConfigurationProperties;
     };
 };
 

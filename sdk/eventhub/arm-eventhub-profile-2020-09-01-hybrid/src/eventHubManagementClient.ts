@@ -21,7 +21,6 @@ class EventHubManagementClient extends EventHubManagementClientContext {
   namespaces: operations.Namespaces;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
-  configuration: operations.Configuration;
   disasterRecoveryConfigs: operations.DisasterRecoveryConfigs;
   eventHubs: operations.EventHubs;
   consumerGroups: operations.ConsumerGroups;
@@ -41,7 +40,6 @@ class EventHubManagementClient extends EventHubManagementClientContext {
     this.namespaces = new operations.Namespaces(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
-    this.configuration = new operations.Configuration(this);
     this.disasterRecoveryConfigs = new operations.DisasterRecoveryConfigs(this);
     this.eventHubs = new operations.EventHubs(this);
     this.consumerGroups = new operations.ConsumerGroups(this);

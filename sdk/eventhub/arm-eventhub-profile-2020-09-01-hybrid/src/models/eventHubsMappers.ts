@@ -24,19 +24,13 @@ export {
   Eventhub,
   EventHubListResult,
   Identity,
-  IpFilterRule,
   KeyVaultProperties,
   MessagingRegions,
   MessagingRegionsProperties,
-  NetworkRuleSet,
-  NWRuleSetIpRules,
-  NWRuleSetVirtualNetworkRules,
   PrivateEndpoint,
   PrivateEndpointConnection,
   RegenerateAccessKeyParameters,
   Resource,
   Sku,
-  Subnet,
-  TrackedResource,
-  VirtualNetworkRule
+  TrackedResource
 } from "../models/mappers";

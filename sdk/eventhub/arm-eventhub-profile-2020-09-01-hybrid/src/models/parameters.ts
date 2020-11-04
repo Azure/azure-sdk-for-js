@@ -113,19 +113,6 @@ export const eventHubName: msRest.OperationURLParameter = {
     }
   }
 };
-export const ipFilterRuleName: msRest.OperationURLParameter = {
-  parameterPath: "ipFilterRuleName",
-  mapper: {
-    required: true,
-    serializedName: "ipFilterRuleName",
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const namespaceName: msRest.OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
@@ -228,19 +215,6 @@ export const top: msRest.OperationQueryParameter = {
     },
     type: {
       name: "Number"
-    }
-  }
-};
-export const virtualNetworkRuleName: msRest.OperationURLParameter = {
-  parameterPath: "virtualNetworkRuleName",
-  mapper: {
-    required: true,
-    serializedName: "virtualNetworkRuleName",
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
     }
   }
 };

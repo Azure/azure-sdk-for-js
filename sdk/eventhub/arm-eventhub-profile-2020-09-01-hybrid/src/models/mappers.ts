@@ -244,35 +244,6 @@ export const EHNamespaceIdListResult: msRest.CompositeMapper = {
   }
 };
 
-export const IpFilterRule: msRest.CompositeMapper = {
-  serializedName: "IpFilterRule",
-  type: {
-    name: "Composite",
-    className: "IpFilterRule",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      ipMask: {
-        serializedName: "properties.ipMask",
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        serializedName: "properties.action",
-        type: {
-          name: "String"
-        }
-      },
-      filterName: {
-        serializedName: "properties.filterName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Sku: msRest.CompositeMapper = {
   serializedName: "Sku",
   type: {
@@ -646,152 +617,6 @@ export const PrivateLinkResourcesListResult: msRest.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ClusterQuotaConfigurationProperties: msRest.CompositeMapper = {
-  serializedName: "ClusterQuotaConfigurationProperties",
-  type: {
-    name: "Composite",
-    className: "ClusterQuotaConfigurationProperties",
-    modelProperties: {
-      settings: {
-        serializedName: "settings",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const VirtualNetworkRule: msRest.CompositeMapper = {
-  serializedName: "VirtualNetworkRule",
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkRule",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      virtualNetworkSubnetId: {
-        serializedName: "properties.virtualNetworkSubnetId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Subnet: msRest.CompositeMapper = {
-  serializedName: "Subnet",
-  type: {
-    name: "Composite",
-    className: "Subnet",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NWRuleSetIpRules: msRest.CompositeMapper = {
-  serializedName: "NWRuleSetIpRules",
-  type: {
-    name: "Composite",
-    className: "NWRuleSetIpRules",
-    modelProperties: {
-      ipMask: {
-        serializedName: "ipMask",
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        serializedName: "action",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NWRuleSetVirtualNetworkRules: msRest.CompositeMapper = {
-  serializedName: "NWRuleSetVirtualNetworkRules",
-  type: {
-    name: "Composite",
-    className: "NWRuleSetVirtualNetworkRules",
-    modelProperties: {
-      subnet: {
-        serializedName: "subnet",
-        type: {
-          name: "Composite",
-          className: "Subnet"
-        }
-      },
-      ignoreMissingVnetServiceEndpoint: {
-        serializedName: "ignoreMissingVnetServiceEndpoint",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkRuleSet: msRest.CompositeMapper = {
-  serializedName: "NetworkRuleSet",
-  type: {
-    name: "Composite",
-    className: "NetworkRuleSet",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      trustedServiceAccessEnabled: {
-        serializedName: "properties.trustedServiceAccessEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      defaultAction: {
-        serializedName: "properties.defaultAction",
-        type: {
-          name: "String"
-        }
-      },
-      virtualNetworkRules: {
-        serializedName: "properties.virtualNetworkRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NWRuleSetVirtualNetworkRules"
-            }
-          }
-        }
-      },
-      ipRules: {
-        serializedName: "properties.ipRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NWRuleSetIpRules"
-            }
-          }
         }
       }
     }
@@ -1343,34 +1168,6 @@ export const ClusterListResult: msRest.CompositeMapper = {
   }
 };
 
-export const IpFilterRuleListResult: msRest.CompositeMapper = {
-  serializedName: "IpFilterRuleListResult",
-  type: {
-    name: "Composite",
-    className: "IpFilterRuleListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IpFilterRule"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const EHNamespaceListResult: msRest.CompositeMapper = {
   serializedName: "EHNamespaceListResult",
   type: {
@@ -1385,34 +1182,6 @@ export const EHNamespaceListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "EHNamespace"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
-  serializedName: "VirtualNetworkRuleListResult",
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkRuleListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualNetworkRule"
             }
           }
         }

@@ -26,21 +26,13 @@ export {
   ErrorResponse,
   Eventhub,
   Identity,
-  IpFilterRule,
-  IpFilterRuleListResult,
   KeyVaultProperties,
   MessagingRegions,
   MessagingRegionsProperties,
-  NetworkRuleSet,
-  NWRuleSetIpRules,
-  NWRuleSetVirtualNetworkRules,
   PrivateEndpoint,
   PrivateEndpointConnection,
   RegenerateAccessKeyParameters,
   Resource,
   Sku,
-  Subnet,
-  TrackedResource,
-  VirtualNetworkRule,
-  VirtualNetworkRuleListResult
+  TrackedResource
 } from "../models/mappers";
