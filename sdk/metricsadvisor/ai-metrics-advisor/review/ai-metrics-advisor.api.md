@@ -222,7 +222,7 @@ export interface DataFeedDimension {
 
 // @public
 export type DataFeedGranularity = {
-    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "Minutely" | "Secondly";
+    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond";
 } | {
     granularityType: "Custom";
     customGranularityValue: number;

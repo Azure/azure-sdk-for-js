@@ -58,7 +58,8 @@ import {
   toServiceAnomalyDetectionConfiguration,
   toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
-  toServiceAlertConfigurationPatch
+  toServiceAlertConfigurationPatch,
+  toServiceGranularity
 } from "./transforms";
 
 /**
@@ -213,9 +214,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const body = {
         dataFeedName: name,
-        granularityName: granularity.granularityType,
-        granularityAmount:
-          granularity.granularityType === "Custom" ? granularity.customGranularityValue : undefined,
+        ...toServiceGranularity(granularity),
         ...source,
         metrics: schema.metrics,
         dimension: schema.dimensions,
