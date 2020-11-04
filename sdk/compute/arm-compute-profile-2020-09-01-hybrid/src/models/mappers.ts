@@ -1216,6 +1216,93 @@ export const VirtualMachineExtension: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetVMExtension: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMExtension",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMExtension",
+    modelProperties: {
+      ...SubResourceReadOnly.type.modelProperties,
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      forceUpdateTag: {
+        serializedName: "properties.forceUpdateTag",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      type1: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      typeHandlerVersion: {
+        serializedName: "properties.typeHandlerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      autoUpgradeMinorVersion: {
+        serializedName: "properties.autoUpgradeMinorVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAutomaticUpgrade: {
+        serializedName: "properties.enableAutomaticUpgrade",
+        type: {
+          name: "Boolean"
+        }
+      },
+      settings: {
+        serializedName: "properties.settings",
+        type: {
+          name: "Object"
+        }
+      },
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
+        type: {
+          name: "Object"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineExtensionInstanceView"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
   serializedName: "VirtualMachineExtensionUpdate",
   type: {
@@ -1275,6 +1362,79 @@ export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetVMExtensionUpdate: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMExtensionUpdate",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMExtensionUpdate",
+    modelProperties: {
+      ...SubResourceReadOnly.type.modelProperties,
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      forceUpdateTag: {
+        serializedName: "properties.forceUpdateTag",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      type1: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      typeHandlerVersion: {
+        serializedName: "properties.typeHandlerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      autoUpgradeMinorVersion: {
+        serializedName: "properties.autoUpgradeMinorVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAutomaticUpgrade: {
+        serializedName: "properties.enableAutomaticUpgrade",
+        type: {
+          name: "Boolean"
+        }
+      },
+      settings: {
+        serializedName: "properties.settings",
+        type: {
+          name: "Object"
+        }
+      },
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtensionsListResult: msRest.CompositeMapper = {
   serializedName: "VirtualMachineExtensionsListResult",
   type: {
@@ -1289,6 +1449,28 @@ export const VirtualMachineExtensionsListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualMachineExtension"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMExtensionsListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMExtensionsListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMExtensionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSetVMExtension"
             }
           }
         }

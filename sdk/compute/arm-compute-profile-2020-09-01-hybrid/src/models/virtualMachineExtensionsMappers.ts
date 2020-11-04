@@ -147,6 +147,8 @@ export {
   VirtualMachineScaleSetUpdateStorageProfile,
   VirtualMachineScaleSetUpdateVMProfile,
   VirtualMachineScaleSetVM,
+  VirtualMachineScaleSetVMExtension,
+  VirtualMachineScaleSetVMExtensionUpdate,
   VirtualMachineScaleSetVMInstanceView,
   VirtualMachineScaleSetVMNetworkProfileConfiguration,
   VirtualMachineScaleSetVMProfile,

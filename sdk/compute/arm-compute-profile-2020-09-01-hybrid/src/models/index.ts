@@ -747,6 +747,68 @@ export interface VirtualMachineExtension extends Resource {
 }
 
 /**
+ * Describes a VMSS VM Extension.
+ */
+export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * How the extension handler should be forced to update even if the extension configuration has
+   * not changed.
+   */
+  forceUpdateTag?: string;
+  /**
+   * The name of the extension handler publisher.
+   */
+  publisher?: string;
+  /**
+   * Specifies the type of the extension; an example is "CustomScriptExtension".
+   */
+  type1?: string;
+  /**
+   * Specifies the version of the script handler.
+   */
+  typeHandlerVersion?: string;
+  /**
+   * Indicates whether the extension should use a newer minor version if one is available at
+   * deployment time. Once deployed, however, the extension will not upgrade minor versions unless
+   * redeployed, even with this property set to true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * Indicates whether the extension should be automatically upgraded by the platform if there is a
+   * newer version of the extension available.
+   */
+  enableAutomaticUpgrade?: boolean;
+  /**
+   * Json formatted public settings for the extension.
+   */
+  settings?: any;
+  /**
+   * The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no
+   * protected settings at all.
+   */
+  protectedSettings?: any;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The virtual machine extension instance view.
+   */
+  instanceView?: VirtualMachineExtensionInstanceView;
+}
+
+/**
  * Describes a Virtual Machine Extension.
  */
 export interface VirtualMachineExtensionUpdate extends UpdateResource {
@@ -790,6 +852,59 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
 }
 
 /**
+ * Describes a VMSS VM Extension.
+ */
+export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * How the extension handler should be forced to update even if the extension configuration has
+   * not changed.
+   */
+  forceUpdateTag?: string;
+  /**
+   * The name of the extension handler publisher.
+   */
+  publisher?: string;
+  /**
+   * Specifies the type of the extension; an example is "CustomScriptExtension".
+   */
+  type1?: string;
+  /**
+   * Specifies the version of the script handler.
+   */
+  typeHandlerVersion?: string;
+  /**
+   * Indicates whether the extension should use a newer minor version if one is available at
+   * deployment time. Once deployed, however, the extension will not upgrade minor versions unless
+   * redeployed, even with this property set to true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * Indicates whether the extension should be automatically upgraded by the platform if there is a
+   * newer version of the extension available.
+   */
+  enableAutomaticUpgrade?: boolean;
+  /**
+   * Json formatted public settings for the extension.
+   */
+  settings?: any;
+  /**
+   * The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no
+   * protected settings at all.
+   */
+  protectedSettings?: any;
+}
+
+/**
  * The List Extension operation response
  */
 export interface VirtualMachineExtensionsListResult {
@@ -797,6 +912,16 @@ export interface VirtualMachineExtensionsListResult {
    * The list of extensions
    */
   value?: VirtualMachineExtension[];
+}
+
+/**
+ * The List VMSS VM Extension operation response
+ */
+export interface VirtualMachineScaleSetVMExtensionsListResult {
+  /**
+   * The list of VMSS VM extensions
+   */
+  value?: VirtualMachineScaleSetVMExtension[];
 }
 
 /**
@@ -8319,7 +8444,7 @@ export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgr
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineExtension & {
+export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetVMExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -8332,14 +8457,14 @@ export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMa
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtension;
+      parsedBody: VirtualMachineScaleSetVMExtension;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineExtension & {
+export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineScaleSetVMExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -8352,14 +8477,14 @@ export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineExt
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtension;
+      parsedBody: VirtualMachineScaleSetVMExtension;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineExtension & {
+export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineScaleSetVMExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -8372,14 +8497,14 @@ export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineExtens
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtension;
+      parsedBody: VirtualMachineScaleSetVMExtension;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineExtensionsListResult & {
+export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineScaleSetVMExtensionsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -8392,14 +8517,14 @@ export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineExten
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtensionsListResult;
+      parsedBody: VirtualMachineScaleSetVMExtensionsListResult;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type VirtualMachineScaleSetVMExtensionsBeginCreateOrUpdateResponse = VirtualMachineExtension & {
+export type VirtualMachineScaleSetVMExtensionsBeginCreateOrUpdateResponse = VirtualMachineScaleSetVMExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -8412,14 +8537,14 @@ export type VirtualMachineScaleSetVMExtensionsBeginCreateOrUpdateResponse = Virt
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtension;
+      parsedBody: VirtualMachineScaleSetVMExtension;
     };
 };
 
 /**
  * Contains response data for the beginUpdate operation.
  */
-export type VirtualMachineScaleSetVMExtensionsBeginUpdateResponse = VirtualMachineExtension & {
+export type VirtualMachineScaleSetVMExtensionsBeginUpdateResponse = VirtualMachineScaleSetVMExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -8432,7 +8557,7 @@ export type VirtualMachineScaleSetVMExtensionsBeginUpdateResponse = VirtualMachi
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualMachineExtension;
+      parsedBody: VirtualMachineScaleSetVMExtension;
     };
 };
 

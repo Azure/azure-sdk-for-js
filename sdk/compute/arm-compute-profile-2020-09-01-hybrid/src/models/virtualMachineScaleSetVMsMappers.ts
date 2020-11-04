@@ -135,6 +135,8 @@ export {
   VirtualMachineScaleSetUpdateNetworkConfiguration,
   VirtualMachineScaleSetUpdatePublicIPAddressConfiguration,
   VirtualMachineScaleSetVM,
+  VirtualMachineScaleSetVMExtension,
+  VirtualMachineScaleSetVMExtensionUpdate,
   VirtualMachineScaleSetVMInstanceView,
   VirtualMachineScaleSetVMListResult,
   VirtualMachineScaleSetVMNetworkProfileConfiguration,
