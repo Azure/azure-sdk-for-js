@@ -381,7 +381,7 @@ export class MetricsAdvisorClient {
    * @param options The options parameter.
    */
 
-  public listAlertsForAlertConfiguration(
+  public listAlerts(
     alertConfigId: string,
     startTime: Date | string,
     endTime: Date | string,

@@ -429,7 +429,7 @@ async function main() {
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
   let alerts = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
+  for await (const alert of client.listAlerts(
     alertConfigId,
     startTime,
     endTime,
