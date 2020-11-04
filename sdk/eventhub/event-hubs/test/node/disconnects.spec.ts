@@ -49,7 +49,7 @@ describe("disconnected", function() {
       await client.close();
     });
 
-    it("should receive after a disconnect", async () => {
+    it.only("should receive after a disconnect", async () => {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
@@ -103,6 +103,8 @@ describe("disconnected", function() {
                   true,
                   "Expected elapsed time between first and second processEvents invocations to be >= maxWaitTimeInSeconds."
                 );
+                const newConnectionId = clientConnectionContext.connectionId;
+                should.not.equal(originalConnectionId, newConnectionId);
                 // Send a new event that will be immediately receivable.
                 await producer.sendBatch([eventsToSend[1]], { partitionId });
               } else if (processEventsInvocationCount === 3) {
