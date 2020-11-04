@@ -581,6 +581,11 @@
       "packageName": "@azure/digital-twins",
       "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-artifacts",
+      "projectFolder": "sdk/synapse/synapse-artifacts",
+      "versionPolicyName": "client"
     }
   ]
 }
