@@ -13,5 +13,3 @@ export * from "./iotHubResource";
 export * from "./resourceProviderCommon";
 export * from "./certificates";
 export * from "./iotHub";
-export * from "./privateLinkResourcesOperations";
-export * from "./privateEndpointConnections";

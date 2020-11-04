@@ -311,38 +311,34 @@ export class IotHubResource {
    * @param resourceName The name of the IoT hub.
    * @param eventHubEndpointName The name of the Event Hub-compatible endpoint in the IoT hub.
    * @param name The name of the consumer group to add.
-   * @param consumerGroupBody The consumer group to add.
    * @param [options] The optional parameters
    * @returns Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>
    */
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: Models.EventHubConsumerGroupBodyDescription, options?: msRest.RequestOptionsBase): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>;
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param eventHubEndpointName The name of the Event Hub-compatible endpoint in the IoT hub.
    * @param name The name of the consumer group to add.
-   * @param consumerGroupBody The consumer group to add.
    * @param callback The callback
    */
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: Models.EventHubConsumerGroupBodyDescription, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param eventHubEndpointName The name of the Event Hub-compatible endpoint in the IoT hub.
    * @param name The name of the consumer group to add.
-   * @param consumerGroupBody The consumer group to add.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: Models.EventHubConsumerGroupBodyDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: Models.EventHubConsumerGroupBodyDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         eventHubEndpointName,
         name,
-        consumerGroupBody,
         options
       },
       createEventHubConsumerGroupOperationSpec,
@@ -1287,13 +1283,6 @@ const createEventHubConsumerGroupOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "consumerGroupBody",
-    mapper: {
-      ...Mappers.EventHubConsumerGroupBodyDescription,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.EventHubConsumerGroupInfo

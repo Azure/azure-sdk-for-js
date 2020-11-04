@@ -8,6 +8,7 @@
 
 export {
   BaseResource,
+  CertificateBodyDescription,
   CertificateDescription,
   CertificateListDescription,
   CertificateProperties,
@@ -24,13 +25,10 @@ export {
   IotHubDescription,
   IotHubLocationDescription,
   IotHubProperties,
+  IotHubPropertiesDeviceStreams,
   IotHubSkuInfo,
   IpFilterRule,
   MessagingEndpointProperties,
-  PrivateEndpoint,
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionProperties,
-  PrivateLinkServiceConnectionState,
   Resource,
   RouteProperties,
   RoutingEndpoints,

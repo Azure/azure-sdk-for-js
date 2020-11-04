@@ -106,7 +106,7 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateDescription, options?: Models.CertificatesCreateOrUpdateOptionalParams): Promise<Models.CertificatesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.CertificatesCreateOrUpdateOptionalParams): Promise<Models.CertificatesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -114,7 +114,7 @@ export class Certificates {
    * @param certificateDescription The certificate body.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateDescription, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
+  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -123,8 +123,8 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateDescription, options: Models.CertificatesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateDescription, options?: Models.CertificatesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options: Models.CertificatesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
+  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.CertificatesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -339,7 +339,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "certificateDescription",
     mapper: {
-      ...Mappers.CertificateDescription,
+      ...Mappers.CertificateBodyDescription,
       required: true
     }
   },

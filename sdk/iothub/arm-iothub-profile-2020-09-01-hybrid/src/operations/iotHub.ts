@@ -28,14 +28,11 @@ export class IotHub {
   }
 
   /**
-   * Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see
-   * https://aka.ms/manualfailover
-   * @summary Manually initiate a failover for the IoT Hub to its secondary region
-   * @param iotHubName Name of the IoT hub to failover
-   * @param failoverInput Region to failover to. Must be the Azure paired region. Get the value from
-   * the secondary location in the locations property. To learn more, see
-   * https://aka.ms/manualfailover/region
-   * @param resourceGroupName Name of the resource group containing the IoT hub resource
+   * Perform manual fail over of given hub
+   * @summary Manual Failover Fail over
+   * @param iotHubName IotHub to fail over
+   * @param failoverInput Region to failover to. Must be a azure DR pair
+   * @param resourceGroupName resource group which Iot Hub belongs to
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -45,14 +42,11 @@ export class IotHub {
   }
 
   /**
-   * Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see
-   * https://aka.ms/manualfailover
-   * @summary Manually initiate a failover for the IoT Hub to its secondary region
-   * @param iotHubName Name of the IoT hub to failover
-   * @param failoverInput Region to failover to. Must be the Azure paired region. Get the value from
-   * the secondary location in the locations property. To learn more, see
-   * https://aka.ms/manualfailover/region
-   * @param resourceGroupName Name of the resource group containing the IoT hub resource
+   * Perform manual fail over of given hub
+   * @summary Manual Failover Fail over
+   * @param iotHubName IotHub to fail over
+   * @param failoverInput Region to failover to. Must be a azure DR pair
+   * @param resourceGroupName resource group which Iot Hub belongs to
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
