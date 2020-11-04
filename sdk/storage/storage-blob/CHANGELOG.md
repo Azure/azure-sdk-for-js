@@ -2,6 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
+- Added `BlockBlobClient.uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options)` for parallel uploading. It's avaiable in both Node.js and browsers.
 - Added new SAS permissions Move(m) and Execute(e) for Blob and Container. Also supports specifying an authorized object ID via `saoid` and a correlation ID via `scid` for user delegation SAS.
 
 ## 12.3.0-beta.1 (2020-10-13)

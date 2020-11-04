@@ -78,7 +78,7 @@ There are differences between Node.js and browsers runtime. When getting started
 - Shared Access Signature(SAS) generation
   - `generateAccountSASQueryParameters()`
   - `generateBlobSASQueryParameters()`
-- Parallel uploading and downloading
+- Parallel uploading and downloading. Note that `BlockBlobClient.uploadData()` is available in both Node.js and browsers.
   - `BlockBlobClient.uploadFile()`
   - `BlockBlobClient.uploadStream()`
   - `BlobClient.downloadToBuffer()`
