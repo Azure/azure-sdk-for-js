@@ -107,6 +107,10 @@ directive:
     where: $.parameters.VisibilityTimeoutRequired
     transform: >
       $["x-ms-client-name"] = "visibilityTimeout";
+  - from: swagger-document
+    where: $.parameters.VisibilityTimeoutForEnqueue
+    transform: >
+      $["x-ms-client-name"] = "visibilityTimeout";
 ```
 
 ### Rename permission -> permissions
