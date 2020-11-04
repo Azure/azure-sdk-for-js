@@ -45,6 +45,7 @@
   - `EnrichmentStatus.timestamp`
   - `IngestionStatus.timestamp`
   - `latestSuccessTimestamp` and `latestActiveTimestamp` in the return type of `getDataFeedIngestionProgress()`.
+- [Breaking] property `createdTime` on `DataFeed` and `MetricFeedbackCommon` to `createdOn`.
 - Parameters of `Date` type now also accept strings. No validation is done for the strings. The SDK calls `new Date()` to convert them to `Date`.
 - Handle potential new data feed source types gracefully
 
