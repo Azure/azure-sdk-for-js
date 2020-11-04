@@ -49,7 +49,7 @@ describe("disconnected", function() {
       await client.close();
     });
 
-    it.only("should receive after a disconnect", async () => {
+    it("should receive after a disconnect", async () => {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
