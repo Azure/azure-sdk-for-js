@@ -151,7 +151,7 @@ import {
   readStreamToLocalFile,
   streamToBuffer
 } from "./utils/utils.node";
-import { BlobDeleteType } from './generated/src/models';
+import { BlobDeleteType } from "./generated/src/models";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
