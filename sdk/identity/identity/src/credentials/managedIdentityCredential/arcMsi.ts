@@ -58,9 +58,13 @@ async function filePathRequest(
   );
 
   if (response.status !== 401) {
+    let message = "";
+    if (response.bodyAsText) {
+      message = ` Response: ${response.bodyAsText}`
+    }
     throw new AuthenticationError(
       response.status,
-      "To authenticate with Azure Arc MSI, status code 401 is expected on the first request."
+      `To authenticate with Azure Arc MSI, status code 401 is expected on the first request.${message}`
     );
   }
 
