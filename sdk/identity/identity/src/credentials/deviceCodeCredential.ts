@@ -113,7 +113,10 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const { span } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
@@ -131,7 +134,13 @@ export class DeviceCodeCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         try {
           const token = await this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
-          logger.info(formatSuccess(`DeviceCodeCredential successfully retrieved the access token. Scopes: ${scopeArray.join(", ")}. Expires on timestamp: ${token?.expiresOnTimestamp}`));
+          logger.info(
+            formatSuccess(
+              `DeviceCodeCredential successfully retrieved the access token. Scopes: ${scopeArray.join(
+                ", "
+              )}. Expires on timestamp: ${token?.expiresOnTimestamp}`
+            )
+          );
           return token;
         } catch (err) {
           const code =
@@ -142,7 +151,13 @@ export class DeviceCodeCredential implements TokenCredential {
             code,
             message: err.message
           });
-          logger.getToken.info(formatError(`DeviceCodeCredential was unable to retrieve an access token. Scopes: ${scopeArray.join(", ")}. Error: ${err.message}`));
+          logger.getToken.info(
+            formatError(
+              `DeviceCodeCredential was unable to retrieve an access token. Scopes: ${scopeArray.join(
+                ", "
+              )}. Error: ${err.message}`
+            )
+          );
           throw err;
         } finally {
           span.end();
