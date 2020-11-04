@@ -151,6 +151,7 @@ import {
   readStreamToLocalFile,
   streamToBuffer
 } from "./utils/utils.node";
+import { BlobDeleteType } from './generated/src/models';
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -380,10 +381,10 @@ export interface BlobDeleteOptions extends CommonOptions {
   /**
    * Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if
    * blob soft delete is enabled.
-   * @type {"permanent" | string}
+   * @type {BlobDeleteType}
    * @memberof BlobDeleteOptions
    */
-  blobDeleteType?: "permanent" | string;
+  blobDeleteType?: BlobDeleteType;
 }
 
 /**

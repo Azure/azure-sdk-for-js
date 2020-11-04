@@ -215,7 +215,10 @@ export const blobDeleteType: coreHttp.OperationQueryParameter = {
   mapper: {
     serializedName: "deletetype",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "permanent"
+      ]
     }
   }
 };

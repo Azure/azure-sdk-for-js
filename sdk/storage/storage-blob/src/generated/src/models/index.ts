@@ -1807,9 +1807,9 @@ export interface BlobDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
   requestId?: string;
   /**
    * Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if
-   * blob soft delete is enabled.
+   * blob soft delete is enabled. Possible values include: 'permanent'
    */
-  blobDeleteType?: string;
+  blobDeleteType?: BlobDeleteType;
   /**
    * Additional parameters for the operation
    */
@@ -6976,6 +6976,14 @@ export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
  * @enum {string}
  */
 export type QueryFormatType = 'delimited' | 'json' | 'arrow';
+
+/**
+ * Defines values for BlobDeleteType.
+ * Possible values include: 'Permanent'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobDeleteType = 'permanent';
 
 /**
  * Defines values for BlobExpiryOptions.
