@@ -23,6 +23,7 @@ parameters:
     - AddTag
     - RemoveTag
     - DeprecatePackage
+    - Unpublish
 
   - name: PackageName
     displayName: Package Name (e.g. @azure/template)

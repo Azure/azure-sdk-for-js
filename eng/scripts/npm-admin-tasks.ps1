@@ -47,6 +47,12 @@ try {
       npm deprecate $nameAndVersion $reason
     }
 
+     "Unpublish" {
+      Write-Host "Unpublish package $nameAndVersion"
+      Write-Host "npm unpublish $($nameAndVersion)"
+      npm unpublish $nameAndVersion
+    }
+
     default {
       Write-Host "Invalid taskType to run npm admin job."
       exit 1
