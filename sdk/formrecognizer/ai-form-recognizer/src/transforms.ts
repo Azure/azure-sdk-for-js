@@ -84,6 +84,9 @@ export function toFormContent(element: string, readResults: FormPage[]): FormEle
 
   const readIndex = Number.parseInt(result[1]);
   const lineIndex = Number.parseInt(result[2]);
+  console.log("toFormContent");
+  console.dir(readResults);
+  console.dir(result);
   if (result[3]) {
     const wordIndex = Number.parseInt(result[3]);
     return readResults[readIndex].lines![lineIndex].words[wordIndex];

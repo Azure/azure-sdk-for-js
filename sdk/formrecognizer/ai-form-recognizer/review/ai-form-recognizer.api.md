@@ -408,11 +408,6 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
-export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
-    status: OperationStatus;
-};
-
-// @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeFieldElements?: boolean;
 };
@@ -449,6 +444,10 @@ export interface TrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/formRecognizerClient.ts:131:3 - (ae-forgotten-export) The symbol "RecognizeFormsOperationState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -7,7 +7,8 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  AbortSignalLike
+  AbortSignalLike,
+  OperationOptions
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
@@ -32,8 +33,6 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  GeneratedClientAnalyzeBusinessCardAsyncResponse as AnalyzeBusinessCardAsyncResponseModel,
   SourcePath,
   OperationStatus
 } from "./generated/models";
@@ -46,22 +45,10 @@ import {
   RecognizeCustomFormPollerClient,
   BeginRecognizeCustomFormPoller
 } from "./lro/analyze/customFormPoller";
-import {
-  RecognizeReceiptPollerClient,
-  BeginRecognizeReceiptPoller
-} from "./lro/analyze/receiptPoller";
-import {
-  RecognizeBusinessCardPollerClient,
-  BeginRecognizeBusinessCardPoller
-} from "./lro/analyze/businessCardPoller";
+import { RecognizeFormsOperationState, FormRecognitionPoller } from "./lro/analyze/analyzePoller";
 import { FormRecognizerRequestBody, RecognizedFormArray, FormPageArray } from "./models";
 import { RecognizeContentResultResponse, RecognizeFormResultResponse } from "./internalModels";
-import {
-  toRecognizeFormResultResponse,
-  toRecognizeContentResultResponse,
-  toRecognizeFormResultResponseFromReceipt,
-  toRecognizeFormResultResponseFromBusinessCard
-} from "./transforms";
+import { toRecognizeFormResultResponse, toRecognizeContentResultResponse } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 /**
@@ -122,16 +109,6 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * The status of a form recognition operation
- */
-export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
-  /**
-   * A string representing the current status of the operation.
-   */
-  status: OperationStatus;
-};
-
-/**
  * Options for starting the analyze form operation
  */
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
@@ -162,16 +139,6 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
  * Options for retrieving result of form recognition operation
  */
 type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for retrieving recognized receipt data
- */
-type GetReceiptsOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for retrieving recognized business card data
- */
-type GetBusinessCardsOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for starting the receipt recognition operation
@@ -517,16 +484,39 @@ export class FormRecognizerClient {
 
   public async beginRecognizeBusinessCards(
     businessCard: FormRecognizerRequestBody,
-    options: BeginRecognizeBusinessCardsOptions = {}
+    options: BeginRecognizeBusinessCardsOptions = { includeFieldElements: false }
   ): Promise<FormPollerLike> {
-    const analyzePollerClient: RecognizeBusinessCardPollerClient = {
-      beginRecognize: (...args) => recognizeBusinessCardInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getBusinessCards(...args)
-    };
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeBusinessCards", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
 
-    const poller = new BeginRecognizeBusinessCardPoller({
-      client: analyzePollerClient,
-      source: businessCard,
+    const poller = new FormRecognitionPoller({
+      modelId: "prebuilt:businessCard",
+      createOperation: span("businessCardsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(businessCard);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        const { operationLocation } = await this.client.analyzeBusinessCardAsync(
+          contentType!,
+          requestBody as Blob | ArrayBuffer | ArrayBufferView,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        );
+
+        if (!operationLocation) {
+          throw new Error(
+            "The service did not respond with an 'operationLocation' to retrieve results."
+          );
+        } else {
+          const lastSlashIndex = operationLocation.lastIndexOf("/");
+          return operationLocation.substring(lastSlashIndex + 1);
+        }
+      }),
+      getResult: span("getBusinessCards", async (finalOptions, resultId) =>
+        this.client.getAnalyzeBusinessCardResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
       ...options
     });
 
@@ -535,23 +525,48 @@ export class FormRecognizerClient {
   }
 
   public async beginRecognizeBusinessCardsFromUrl(
-    receiptUrl: string,
-    options: BeginRecognizeBusinessCardsOptions = {}
+    businessCardUrl: string,
+    options: BeginRecognizeBusinessCardsOptions = { includeFieldElements: false }
   ): Promise<FormPollerLike> {
-    const analyzePollerClient: RecognizeBusinessCardPollerClient = {
-      beginRecognize: (...args) => recognizeBusinessCardInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getBusinessCards(...args)
-    };
-
     if (options.contentType) {
       logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
     }
 
-    const poller = new BeginRecognizeBusinessCardPoller({
-      client: analyzePollerClient,
-      source: receiptUrl,
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeBusinessCardsFromUrl", {
       ...options,
-      contentType: undefined
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      modelId: "prebuilt:businessCard",
+      createOperation: span("businessCardsInternal", async (finalOptions) => {
+        const { operationLocation } = await this.client.analyzeBusinessCardAsync(
+          "application/json",
+          {
+            fileStream: {
+              source: businessCardUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          }
+        );
+
+        if (!operationLocation) {
+          throw new Error(
+            "The service did not respond with an 'operationLocation' to retrieve results."
+          );
+        } else {
+          const lastSlashIndex = operationLocation.lastIndexOf("/");
+          return operationLocation.substring(lastSlashIndex + 1);
+        }
+      }),
+      getResult: span("getBusinessCards", async (finalOptions, resultId) =>
+        this.client.getAnalyzeBusinessCardResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
     });
 
     await poller.poll();
@@ -624,14 +639,37 @@ export class FormRecognizerClient {
     receipt: FormRecognizerRequestBody,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
-    const analyzePollerClient: RecognizeReceiptPollerClient = {
-      beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getReceipts(...args)
-    };
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeReceipts", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
 
-    const poller = new BeginRecognizeReceiptPoller({
-      client: analyzePollerClient,
-      source: receipt,
+    const poller = new FormRecognitionPoller({
+      modelId: "prebuilt:receipt",
+      createOperation: span("receiptsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(receipt);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        const { operationLocation } = await this.client.analyzeReceiptAsync(
+          contentType!,
+          requestBody as Blob | ArrayBuffer | ArrayBufferView,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        );
+
+        if (!operationLocation) {
+          throw new Error(
+            "The service did not respond with an 'operationLocation' to retrieve results."
+          );
+        } else {
+          const lastSlashIndex = operationLocation.lastIndexOf("/");
+          return operationLocation.substring(lastSlashIndex + 1);
+        }
+      }),
+      getResult: span("getReceipts", async (finalOptions, resultId) =>
+        this.client.getAnalyzeReceiptResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
       ...options
     });
 
@@ -702,86 +740,102 @@ export class FormRecognizerClient {
     receiptUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
-    const analyzePollerClient: RecognizeReceiptPollerClient = {
-      beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getReceipts(...args)
-    };
-
     if (options.contentType) {
       logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
     }
 
-    const poller = new BeginRecognizeReceiptPoller({
-      client: analyzePollerClient,
-      source: receiptUrl,
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeReceiptsFromUrl", {
       ...options,
-      contentType: undefined
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      modelId: "prebuilt:receipt",
+      createOperation: span("receiptsInternal", async (finalOptions) => {
+        const { operationLocation } = await this.client.analyzeReceiptAsync("application/json", {
+          fileStream: {
+            source: receiptUrl
+          },
+          ...operationOptionsToRequestOptionsBase(finalOptions)
+        });
+
+        if (!operationLocation) {
+          throw new Error(
+            "The service did not respond with an 'operationLocation' to retrieve results."
+          );
+        } else {
+          const lastSlashIndex = operationLocation.lastIndexOf("/");
+          return operationLocation.substring(lastSlashIndex + 1);
+        }
+      }),
+      getResult: span("getReceipts", async (finalOptions, resultId) =>
+        this.client.getAnalyzeReceiptResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
     });
 
     await poller.poll();
     return poller;
   }
+}
 
-  /**
-   * Retrieves result of a receipt recognition operation.
-   * @private
-   */
-  private async getReceipts(
-    resultId: string,
-    options?: GetReceiptsOptions
-  ): Promise<RecognizeFormResultResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getRecognizedReceipt",
-      realOptions
-    );
+/**
+ * Type of the auto-spanner function returned by `makeSpanner`
+ *
+ * @internal
+ */
+type Spanner<Options> = {
+  span<Result, Args extends unknown[]>(
+    name: string,
+    handler: (updatedOptions: Options, ...rest: Args) => Promise<Result>
+  ): (...args: Args) => Promise<Result>;
+};
 
-    try {
-      const result = await this.client.getAnalyzeReceiptResult(
-        resultId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-      return toRecognizeFormResultResponseFromReceipt(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+/**
+ * Helper function to create spans for internal polling handlers
+ *
+ * The argument is a handler function that will be wrapped in a tracing
+ * span, where tracing-updated options will be inserted as its first parameter.
+ *
+ * @example
+ * ```typescript
+ * const spanned = makeSpanner("FormRecognizerClient-beginRecognizeReceipts", {
+ *   ...options,
+ *   // Override any options you need here
+ * });
+ *
+ * const autoSpannedFunction = spanner("autoSpannedFunction", (updatedOptions) => {
+ *  // ...
+ * });
+ * ```
+ *
+ * @internal
+ */
+function makeSpanner<Options extends OperationOptions>(
+  prefix: string,
+  options: Options
+): Spanner<Options> {
+  return {
+    span: (name, handler) => async (...args) => {
+      const { span, updatedOptions } = createSpan(`${prefix}-${name}`, options);
+
+      try {
+        return handler(updatedOptions, ...args);
+      } catch (e) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: e.message
+        });
+        throw e;
+      } finally {
+        span.end();
+      }
     }
-  }
-
-  /**
-   * Retrieves the result of a business card recognition operation.
-   */
-  private async getBusinessCards(
-    resultId: string,
-    options?: GetBusinessCardsOptions
-  ): Promise<RecognizeFormResultResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getBusinessCards",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.getAnalyzeBusinessCardResult(
-        resultId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-      return toRecognizeFormResultResponseFromBusinessCard(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
+  };
 }
 
 /**
@@ -851,90 +905,6 @@ async function recognizeCustomFormInternal(
       );
     }
     return await client.analyzeWithCustomModel(modelId!, "application/json", {
-      fileStream: requestBody as SourcePath,
-      ...operationOptionsToRequestOptionsBase(finalOptions)
-    });
-  } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
-}
-
-/**
- * @internal
- */
-async function recognizeReceiptInternal(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  client: GeneratedClient,
-  body: FormRecognizerRequestBody | string,
-  contentType?: FormContentType,
-  options?: RecognizeFormsOptions,
-  _modelId?: string
-): Promise<AnalyzeReceiptAsyncResponseModel> {
-  const realOptions = options || { includeFieldElements: false };
-  const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", {
-    ...realOptions,
-    includeTextDetails: realOptions.includeFieldElements
-  });
-  const requestBody = await toRequestBody(body);
-  const requestContentType = contentType ?? (await getContentType(requestBody));
-
-  try {
-    if (requestContentType) {
-      return await client.analyzeReceiptAsync(
-        requestContentType,
-        requestBody as Blob | ArrayBuffer | ArrayBufferView,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-    }
-    return await client.analyzeReceiptAsync("application/json", {
-      fileStream: requestBody as SourcePath,
-      ...operationOptionsToRequestOptionsBase(finalOptions)
-    });
-  } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
-}
-
-/**
- * @internal
- */
-async function recognizeBusinessCardInternal(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  client: GeneratedClient,
-  body: FormRecognizerRequestBody | string,
-  contentType?: FormContentType,
-  options?: RecognizeFormsOptions,
-  _modelId?: string
-): Promise<AnalyzeBusinessCardAsyncResponseModel> {
-  const realOptions = options || { includeFieldElements: false };
-  const { span, updatedOptions: finalOptions } = createSpan("analyzeBusinessCardInternal", {
-    ...realOptions,
-    includeTextDetails: realOptions.includeFieldElements
-  });
-  const requestBody = await toRequestBody(body);
-  const requestContentType = contentType ?? (await getContentType(requestBody));
-
-  try {
-    if (requestContentType) {
-      return await client.analyzeBusinessCardAsync(
-        requestContentType,
-        requestBody as Blob | ArrayBuffer | ArrayBufferView,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-    }
-    return await client.analyzeBusinessCardAsync("application/json", {
       fileStream: requestBody as SourcePath,
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });
