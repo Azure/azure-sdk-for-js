@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
-import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
+import { EventData, EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
 const env = getEnvVars();
 
 describe("disconnected", function() {
@@ -55,25 +55,63 @@ describe("disconnected", function() {
         service.connectionString,
         service.path
       );
+
+      const producer = new EventHubProducerClient(service.connectionString, service.path);
+      const eventsToSend: EventData[] = [{ body: "the first event" }, { body: "the second event" }];
+
+      const maxWaitTimeInSeconds = 10;
       const partitionId = "0";
       const partitionProperties = await client.getPartitionProperties(partitionId);
       const clientConnectionContext = client["_context"];
 
+      // Send the first event after getting partition properties so that we can expect to receive it.
+      await producer.sendBatch([eventsToSend[0]], { partitionId });
+
       let subscription: Subscription | undefined;
       let originalConnectionId: string;
 
+      let processEventsInvocationCount = 0;
+      let firstInvocationEndTime = 0;
       await new Promise((resolve, reject) => {
         subscription = client.subscribe(
           partitionId,
           {
             processEvents: async (data) => {
+              processEventsInvocationCount++;
               should.exist(data);
-              should.equal(data.length, 0);
-              if (!originalConnectionId) {
+              if (processEventsInvocationCount === 1) {
+                should.equal(
+                  data.length,
+                  1,
+                  "Expected to receive 1 event in first processEvents invocation."
+                );
+                should.equal(data[0].body, eventsToSend[0].body);
                 originalConnectionId = clientConnectionContext.connectionId;
                 // Trigger a disconnect on the underlying connection.
                 clientConnectionContext.connection["_connection"].idle();
-              } else {
+                firstInvocationEndTime = Date.now();
+              } else if (processEventsInvocationCount === 2) {
+                // No new events should have been received at this point.
+                should.equal(
+                  data.length,
+                  0,
+                  "Expected to receive 0 events in second processEvents invocation."
+                );
+                // The elapsed time since the last processEvents invocation should be >= maxWaitTimeInSeconds
+                should.equal(
+                  Date.now() - firstInvocationEndTime >= maxWaitTimeInSeconds,
+                  true,
+                  "Expected elapsed time between first and second processEvents invocations to be >= maxWaitTimeInSeconds."
+                );
+                // Send a new event that will be immediately receivable.
+                await producer.sendBatch([eventsToSend[1]], { partitionId });
+              } else if (processEventsInvocationCount === 3) {
+                should.equal(
+                  data.length,
+                  1,
+                  "Expected to receive 1 event in third processEvents invocation."
+                );
+                should.equal(data[0].body, eventsToSend[1].body);
                 const newConnectionId = clientConnectionContext.connectionId;
                 should.not.equal(originalConnectionId, newConnectionId);
                 resolve();
@@ -84,13 +122,16 @@ describe("disconnected", function() {
             }
           },
           {
-            startPosition: { sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber },
-            maxWaitTimeInSeconds: 2
+            startPosition: {
+              sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber
+            },
+            maxWaitTimeInSeconds
           }
         );
       });
       await subscription!.close();
       await client.close();
+      await producer.close();
     });
   });
 
