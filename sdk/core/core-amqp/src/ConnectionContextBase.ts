@@ -4,9 +4,7 @@
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-import { TokenCredential } from "@azure/core-auth";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
-import { SharedKeyCredential } from "./auth/sas";
 
 import { Constants } from "./util/constants";
 import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
@@ -32,11 +30,6 @@ export interface ConnectionContextBase {
    * acquire the lock for negotiating cbs claim by an entity on that connection.
    */
   negotiateClaimLock: string;
-  /**
-   * @property {SharedKeyCredential | TokenCredential} tokenCredential The credential to be used for getting tokens
-   * for authentication for the EventHub client.
-   */
-  readonly tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property {Connection} connection The underlying AMQP connection.
    */
@@ -102,11 +95,6 @@ export interface CreateConnectionContextBaseParameters {
    * the AMQP connection.
    */
   connectionProperties: ConnectionProperties;
-  /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
-   * Default value: SharedKeyCredentials.
-   */
-  tokenCredential?: SharedKeyCredential | TokenCredential;
   /**
    * @property {DataTransformer} [dataTransformer] The datatransformer to be used for encoding and
    * decoding messages. Default value: DefaultDataTransformer
@@ -190,12 +178,6 @@ export const ConnectionContextBase = {
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
-      tokenCredential:
-        parameters.tokenCredential ||
-        new SharedKeyCredential(
-          parameters.config.sharedAccessKeyName,
-          parameters.config.sharedAccessKey
-        ),
       dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
       refreshConnection() {
         const connection = new Connection(connectionOptions);

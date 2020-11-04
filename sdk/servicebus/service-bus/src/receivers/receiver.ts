@@ -14,6 +14,7 @@ import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
+  getErrorMessageNotSupportedInReceiveAndDeleteMode,
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
@@ -22,7 +23,15 @@ import {
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
-import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
+import {
+  abandonMessage,
+  assertValidMessageHandlers,
+  completeMessage,
+  deadLetterMessage,
+  deferMessage,
+  getMessageIterator,
+  wrapProcessErrorHandler
+} from "./shared";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
@@ -30,6 +39,7 @@ import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * A receiver that does not handle sessions.
@@ -483,7 +493,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       abortSignal: options?.abortSignal,
       retryOptions: this._retryOptions
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   getMessageIterator(
@@ -611,38 +623,71 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
   }
 
-  completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+    return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
-  abandonMessage(
+  async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deferMessage(
+  async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
-  deadLetterMessage(
+  async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
-  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.renewLock();
+    if (!msgImpl.delivery) {
+      throw new Error("A peeked message does not have a lock to be renewed.");
+    }
+
+    let associatedLinkName: string | undefined;
+    let error: Error | undefined;
+    if (!message.lockToken) {
+      error = new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
+      );
+    } else if (msgImpl.delivery.remote_settled) {
+      error = new Error(`Failed to renew the lock as this message is already settled.`);
+    }
+    if (error) {
+      logger.logError(
+        error,
+        "[%s] An error occurred when renewing the lock on the message with id '%s'",
+        this._context.connectionId,
+        message.messageId
+      );
+      throw error;
+    }
+
+    if (msgImpl.delivery.link) {
+      const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
+      associatedLinkName = associatedReceiver?.name;
+    }
+    return this._context
+      .getManagementClient(this.entityPath)
+      .renewLock(message.lockToken!, { associatedLinkName })
+      .then((lockedUntil) => {
+        message.lockedUntilUtc = lockedUntil;
+        return lockedUntil;
+      });
   }
 
   async close(): Promise<void> {

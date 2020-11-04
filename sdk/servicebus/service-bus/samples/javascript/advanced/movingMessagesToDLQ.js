@@ -23,7 +23,7 @@ const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connecti
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();

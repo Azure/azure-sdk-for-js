@@ -19,7 +19,7 @@ require("dotenv").config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
-export async function main() {
+async function main() {
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
   const baseQueueName = "random-queue";
   const numberOfQueues = 7;

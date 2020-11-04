@@ -5,10 +5,10 @@
 ```ts
 
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { AmqpError } from 'rhea-promise';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
-import { isMessagingError } from '@azure/core-amqp';
 import Long from 'long';
 import { MessageErrorCodes } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
@@ -20,7 +20,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
-import { TokenCredential } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
@@ -135,7 +135,8 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
-export { isMessagingError }
+// @public
+export function isServiceBusError(err: Error | AmqpError | ServiceBusError): err is ServiceBusError;
 
 export { MessageErrorCodes }
 
@@ -172,7 +173,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 // @public
 export interface ProcessErrorArgs {
     entityPath: string;
-    error: Error | MessagingError;
+    error: Error | ServiceBusError;
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
 }
@@ -303,6 +304,71 @@ export interface ServiceBusConnectionStringProperties {
 }
 
 // @public
+export class ServiceBusError extends MessagingError {
+    constructor(messagingError: MessagingError);
+    reason: ServiceBusErrorReason;
+}
+
+// @public
+export type ServiceBusErrorReason =
+/**
+ * The exception was the result of a general error within the client library.
+ */
+"GeneralError"
+/**
+ * A Service Bus resource cannot be found by the Service Bus service.
+ */
+ | "MessagingEntityNotFound"
+/**
+ * The lock on the message is lost. Callers should attempt to receive and process the message again.
+ */
+ | "MessageLockLost"
+/**
+ * The requested message was not found.
+ */
+ | "MessageNotFound"
+/**
+ * A message is larger than the maximum size allowed for its transport.
+ */
+ | "MessageSizeExceeded"
+/**
+ * An entity with the same name exists under the same namespace.
+ */
+ | "MessagingEntityAlreadyExists"
+/**
+ * The Messaging Entity is disabled. Enable the entity again using Portal.
+ */
+ | "MessagingEntityDisabled"
+/**
+ * The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
+ */
+ | "QuotaExceeded"
+/**
+ * The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
+ */
+ | "ServiceBusy"
+/**
+ * An operation or other request timed out while interacting with the Azure Service Bus service.
+ */
+ | "ServiceTimeout"
+/**
+ * There was a general communications error encountered when interacting with the Azure Service Bus service.
+ */
+ | "ServiceCommunicationProblem"
+/**
+ * The requested session cannot be locked.
+ */
+ | "SessionCannotBeLocked"
+/**
+ * The lock on the session has expired. Callers should request the session again.
+ */
+ | "SessionLockLost"
+/**
+ * The user doesn't have access to the entity.
+ */
+ | "Unauthorized";
+
+// @public
 export interface ServiceBusMessage {
     applicationProperties?: {
         [key: string]: number | boolean | string | Date;
@@ -378,7 +444,7 @@ export interface ServiceBusReceiver {
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: ReceiveMode;
-    subQueue?: SubQueue;
+    subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
 // @public
@@ -426,9 +492,6 @@ export interface SqlRuleFilter {
         [key: string]: string | number | boolean;
     };
 }
-
-// @public
-export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase {

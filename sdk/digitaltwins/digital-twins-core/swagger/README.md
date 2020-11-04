@@ -43,3 +43,21 @@ directive:
         $["x-ms-client-name"] = "timestamp";
       }
 ```
+
+### Expose If-None_Match header
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $..[?(@.name=='If-None-Match')]
+    transform: delete $.enum;
+```
+
+### Remove grouping
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters[*]
+    transform: delete $["x-ms-parameter-grouping"];
+```

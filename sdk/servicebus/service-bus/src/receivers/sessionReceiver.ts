@@ -13,7 +13,15 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
-import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
+import {
+  abandonMessage,
+  assertValidMessageHandlers,
+  completeMessage,
+  deadLetterMessage,
+  deferMessage,
+  getMessageIterator,
+  wrapProcessErrorHandler
+} from "./shared";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
@@ -23,14 +31,14 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  ErrorNameConditionMapper,
-  translate
+  ErrorNameConditionMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -146,7 +154,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         condition: ErrorNameConditionMapper.SessionLockLostError,
         description: `The session lock has expired on the session with id ${this.sessionId}`
       };
-      throw translate(amqpError);
+      throw translateServiceBusError(amqpError);
     }
   }
 
@@ -394,7 +402,9 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   subscribe(
@@ -485,7 +495,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+    return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
   async abandonMessage(
@@ -493,7 +503,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
   async deferMessage(
@@ -501,7 +511,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
   async deadLetterMessage(
@@ -509,7 +519,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
   async renewMessageLock(): Promise<Date> {

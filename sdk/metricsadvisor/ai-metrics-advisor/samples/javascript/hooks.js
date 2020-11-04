@@ -86,6 +86,7 @@ async function updateEmailHook(client, hookId) {
 
 async function listHooks(client) {
   console.log("Listing existing hooks");
+  console.log("  using for-await-of syntax");
   let i = 1;
   const iterator = client.listHooks({
     hookName: "js "
@@ -105,6 +106,45 @@ async function listHooks(client) {
         }
       }
       console.log(`  certificate key: ${hook.hookParameter.certificateKey}`);
+    }
+  }
+  console.log("  by pages");
+  i = 1;
+  const pages = client.listHooks({ hookName: "js " }).byPage({ maxPageSize: 5 });
+  let page = await pages.next();
+  while (!(page.done === true)) {
+    for (const hook of page.value) {
+      console.log(`    hook ${i++} - type ${hook.hookType}`);
+      console.log(`      id: ${hook.id}`);
+      console.log(`      description: ${hook.description}`);
+      if (hook.hookType === "Email") {
+        console.log(`      TO: list ${hook.hookParameter.toList}`);
+      } else {
+        console.log(`      endpoint: ${hook.hookParameter.endpoint}`);
+        console.log(`      username: ${hook.hookParameter.username}`);
+        if (hook.hookParameter.headers) {
+          console.log(`      headers:`);
+          for (const key of Object.keys(hook.hookParameter.headers)) {
+            console.log(`        ${key}: ${hook.hookParameter.headers[key]}`);
+          }
+        }
+        console.log(`      certificate key: ${hook.hookParameter.certificateKey}`);
+      }
+    }
+    console.log(`    next: ${page.value.continuationToken}`);
+    page = await pages.next();
+  }
+  console.log("  resume paging using continuation token");
+  const pageIterator = client.listHooks({ hookName: "js " }).byPage({ maxPageSize: 5 });
+  const firstPage = await pageIterator.next();
+  if (firstPage.done !== true) {
+    const newIterator = client
+      .listHooks({ hookName: "js " })
+      .byPage({ continuationToken: firstPage.value.continuationToken });
+    const secondPage = await newIterator.next();
+    console.log("    Second page:");
+    for (const hook of secondPage.value) {
+      console.log(`    id: ${hook.id}`);
     }
   }
 }

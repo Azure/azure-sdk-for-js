@@ -36,7 +36,7 @@ const messages = [
   { body: "Nikolaus Kopernikus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // createSender() can also be used to create a sender for a topic.

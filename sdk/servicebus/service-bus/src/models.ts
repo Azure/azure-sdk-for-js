@@ -4,7 +4,7 @@
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "./serviceBusMessage";
-import { MessagingError } from "@azure/core-amqp";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * Arguments to the `processError` callback.
@@ -13,7 +13,7 @@ export interface ProcessErrorArgs {
   /**
    * The error.
    */
-  error: Error | MessagingError;
+  error: Error | ServiceBusError;
   /**
    * The operation where the error originated.
    *
@@ -71,13 +71,6 @@ export interface InternalMessageHandlers extends MessageHandlers {
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
- * Represents the sub queue that is applicable for any queue or subscription.
- * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
- * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
- */
-export type SubQueue = "deadLetter" | "transferDeadLetter";
-
-/**
  * Options to use when creating a receiver.
  */
 export interface ServiceBusReceiverOptions {
@@ -106,7 +99,7 @@ export interface ServiceBusReceiverOptions {
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
-  subQueue?: SubQueue;
+  subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed

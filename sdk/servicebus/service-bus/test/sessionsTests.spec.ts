@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { ServiceBusSender } from "../src/sender";
@@ -19,7 +19,6 @@ import {
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
-import { isMessagingError } from "@azure/core-amqp";
 
 let unexpectedError: Error | undefined;
 
@@ -80,8 +79,8 @@ describe("session tests", () => {
       } catch (error) {
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why we get two different errors.
         if (
-          isMessagingError(error) &&
-          (error.code === "OperationTimeoutError" || error.code === "SessionCannotBeLockedError")
+          isServiceBusError(error) &&
+          (error.reason === "ServiceTimeout" || error.reason === "SessionCannotBeLocked")
         ) {
           expectedErrorThrown = true;
         } else {
@@ -91,7 +90,7 @@ describe("session tests", () => {
       should.equal(
         expectedErrorThrown,
         true,
-        `Instead of OperationTimeoutError or SessionCannotBeLockedError, found ${unexpectedError}`
+        `Instead of ServiceTimeout or SessionCannotBeLocked, found ${unexpectedError}`
       );
       await serviceBusClient.close();
     });
@@ -108,7 +107,7 @@ describe("session tests", () => {
           "boo"
         );
       } catch (error) {
-        if (isMessagingError(error) && error.code === "SessionCannotBeLockedError") {
+        if (isServiceBusError(error) && error.reason === "SessionCannotBeLocked") {
           expectedErrorThrown = true;
         } else {
           unexpectedError = error;

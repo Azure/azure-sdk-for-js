@@ -12,6 +12,7 @@ import {
   DataFeedDetailUnion as ServiceDataFeedDetailUnion,
   AnomalyScope as ServiceAnomalyScope,
   HookInfoUnion as ServiceHookInfoUnion,
+  Granularity as ServiceGranularity,
   WebhookHookInfo,
   EmailHookInfo,
   NeedRollupEnum,
@@ -47,7 +48,8 @@ import {
   MetricAnomalyAlertScope,
   MetricBoundaryCondition,
   HardThresholdConditionUnion,
-  ChangeThresholdConditionUnion
+  ChangeThresholdConditionUnion,
+  DataFeedGranularity
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -299,6 +301,37 @@ export function toServiceRollupSettings(
   }
 }
 
+function fromServiceGranularity(original: ServiceGranularity, value?: number): DataFeedGranularity {
+  switch (original) {
+    case "Minutely":
+      return { granularityType: "PerMinute" };
+    case "Secondly":
+      return { granularityType: "PerSecond" };
+    case "Custom":
+      return { granularityType: "Custom", customGranularityValue: value! };
+    default:
+      return { granularityType: original };
+  }
+}
+
+export function toServiceGranularity(
+  model: DataFeedGranularity
+): {
+  granularityName: ServiceGranularity;
+  granularityAmount?: number;
+} {
+  switch (model.granularityType) {
+    case "Custom":
+      return { granularityName: "Custom", granularityAmount: model.customGranularityValue };
+    case "PerMinute":
+      return { granularityName: "Minutely" };
+    case "PerSecond":
+      return { granularityName: "Secondly" };
+    default:
+      return { granularityName: model.granularityType };
+  }
+}
+
 export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
   const common = {
     id: original.dataFeedId!,
@@ -313,13 +346,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       dimensions: original.dimension,
       timestampColumn: original.timestampColumn
     },
-    granularity:
-      original.granularityName === "Custom"
-        ? {
-            granularityType: original.granularityName,
-            customGranularityValue: original.granularityAmount!
-          }
-        : { granularityType: original.granularityName },
+    granularity: fromServiceGranularity(original.granularityName, original.granularityAmount),
     ingestionSettings: {
       ingestionStartTime: original.dataStartFrom,
       ingestionStartOffsetInSeconds: original.startOffsetInSeconds,

@@ -3,7 +3,7 @@
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { EventHubConnectionConfig } from "@azure/core-amqp";
+import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 
 /**
  * @internal
