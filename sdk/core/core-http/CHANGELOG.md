@@ -3,7 +3,8 @@
 ## 1.2.0 (2020-10-19)
 
 - Explicitly set `manual` redirect handling for node fetch. And fixing redirectPipeline [PR 11863](https://github.com/Azure/azure-sdk-for-js/pull/11863)
-- Add support for multiple error response codes.[PR 11841](https://github.com/Azure/azure-sdk-for-js/)
+- Add support for multiple error response codes. [PR 11841](https://github.com/Azure/azure-sdk-for-js/)
+- Allow customizing serializer behavior via optional `SerialzierOptions` parameters. Particularly allow using a different `XML_CHARKEY` than the default `_` when parsing XML [PR 12065](https://github.com/Azure/azure-sdk-for-js/pull/12065)
 
 ## 1.1.9 (2020-09-30)
 
