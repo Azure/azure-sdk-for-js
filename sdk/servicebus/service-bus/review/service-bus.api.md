@@ -10,8 +10,8 @@ import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
 import Long from 'long';
+import { MessageErrorCodes } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { MessagingErrorCodes } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -138,6 +138,8 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 // @public
 export function isServiceBusError(err: Error | AmqpError | ServiceBusError): err is ServiceBusError;
 
+export { MessageErrorCodes }
+
 // @public
 export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
@@ -145,8 +147,6 @@ export interface MessageHandlers {
 }
 
 export { MessagingError }
-
-export { MessagingErrorCodes }
 
 // @public
 export interface NamespaceProperties {

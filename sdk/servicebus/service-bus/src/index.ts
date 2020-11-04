@@ -6,7 +6,7 @@
 
 export {
   delay,
-  MessagingErrorCodes,
+  MessageErrorCodes,
   MessagingError,
   RetryOptions,
   TokenType,
