@@ -444,7 +444,7 @@ export interface CorsRule {
 export interface FilterBlobItem {
   name: string;
   containerName: string;
-  tagValue: string;
+  tags?: BlobTags;
 }
 
 /**
@@ -2482,6 +2482,10 @@ export interface BlobGetTagsOptionalParams extends coreHttp.RequestOptionsBase {
    * Additional parameters for the operation
    */
   modifiedAccessConditions?: ModifiedAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -2520,6 +2524,10 @@ export interface BlobSetTagsOptionalParams extends coreHttp.RequestOptionsBase {
    * Additional parameters for the operation
    */
   modifiedAccessConditions?: ModifiedAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**

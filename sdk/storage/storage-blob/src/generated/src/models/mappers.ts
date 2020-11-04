@@ -1411,12 +1411,12 @@ export const FilterBlobItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      tagValue: {
-        xmlName: "TagValue",
-        required: true,
-        serializedName: "TagValue",
+      tags: {
+        xmlName: "Tags",
+        serializedName: "Tags",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "BlobTags"
         }
       }
     }
