@@ -70,6 +70,14 @@ export function wrapProcessErrorHandler(
   };
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ */
 export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -83,6 +91,15 @@ export function completeMessage(
   return settleMessage(message, DispositionType.complete, context, entityPath);
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {{ [key: string]: any }} [propertiesToModify]
+ */
 export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -99,6 +116,15 @@ export function abandonMessage(
   });
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {{ [key: string]: any }} [propertiesToModify]
+ */
 export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -115,6 +141,15 @@ export function deferMessage(
   });
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {(DeadLetterOptions & { [key: string]: any })} [propertiesToModify]
+ */
 export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -150,6 +185,16 @@ export function deadLetterMessage(
   );
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {DispositionType} operation
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {DispositionStatusOptions} [options]
+ */
 function settleMessage(
   message: ServiceBusMessageImpl,
   operation: DispositionType,
