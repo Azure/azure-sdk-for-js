@@ -85,25 +85,13 @@ export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
 
-/*
-class TestCredential implements TokenCredential {
-  public async getToken(..._: any[]): Promise<AccessToken> {
-    return {
-      token: "",
-      expiresOnTimestamp: Date.now() + 100000
-    };
-  }
-}
-*/
-
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
 export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCredential {
-  //  if (isPlaybackMode()) {
-  //    return new TestCredential();
-  // } else {
   return useAad
     ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
     : new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY);
-  //  }
 }
 
 export function createRecordedTrainingClient(

@@ -45,7 +45,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
     // #region Model Training
 
-    /**
+    /*
      * All test steps that are related to training and validating
      * models from source documents are encapsulated in this
      * "describe" block
@@ -89,7 +89,7 @@ matrix([[true, false]] as const, async (useAad) => {
             return;
           }
 
-          /**
+          /*
            * This defines the suite of tests related to a particular model
            *
            * The model will be trained, then all of the tests within the model will run
@@ -122,7 +122,7 @@ matrix([[true, false]] as const, async (useAad) => {
               return _model;
             }
 
-            /**
+            /*
              * Make sure the model training API returns correct information
              * for the model.
              */
@@ -159,7 +159,7 @@ matrix([[true, false]] as const, async (useAad) => {
               assert.deepStrictEqual(model.trainingDocuments?.[0], expectedDocumentInfo);
             });
 
-            /**
+            /*
              * Use the model for some simple recognition
              */
             describe("recognition", async () => {
@@ -222,7 +222,7 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       );
 
-      /**
+      /*
        * Check to make sure account information querying works
        */
       describe("account properties", () => {
@@ -242,7 +242,7 @@ matrix([[true, false]] as const, async (useAad) => {
         });
       });
 
-      /**
+      /*
        * These are tests that check that model querying functions as expected.
        * This section also cleans up the models by deleting them.
        */
