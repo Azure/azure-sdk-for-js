@@ -1,6 +1,6 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.7
+# Guide to migrate from @azure/service-bus v1 to v7.preview.8
 
-This document is intended for users that would like to try out preview 7
+This document is intended for users that would like to try out preview 8
 for @azure/service-bus. As the package is in preview, these details might
 change as the package is developed before its final release.
 

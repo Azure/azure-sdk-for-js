@@ -116,6 +116,28 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-8l7xMoyH0/emc1Y1p9I6jVggIBGVgTeKR2KUHWZAlXpBhagglabb6pZLQtCaCATasd8dSoCqwOOxfe/DVSE+kQ==
+  /@azure/core-amqp/2.0.0-beta.1:
+    dependencies:
+      '@azure/abort-controller': 1.0.1
+      '@azure/logger': 1.0.0
+      '@types/async-lock': 1.1.2
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.4
+      buffer: 5.6.0
+      events: 3.2.0
+      is-buffer: 2.0.4
+      jssha: 3.1.2
+      process: 0.11.10
+      rhea: 1.0.24
+      rhea-promise: 1.0.0
+      tslib: 2.0.1
+      url: 0.11.0
+      util: 0.12.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-4H8qzvORiVsajBpzaTCHEP+2h2D4x+bsFU1c67cKzs03LWujCUz68uJ8FX5YGr6u/abHpZwxbyJsZ+tmAdY5oA==
   /@azure/core-asynciterator-polyfill/1.0.0:
     dev: false
     resolution:
@@ -9534,7 +9556,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-tQdNsinTu23gyHdTxAtlQDidDfjTKrJyg6utTFIExsgIu55Byf5hNYQL98q3PhDU/evb9rwnhUu32MO29QOmtw==
+      integrity: sha512-Nk2z5Ms2pZsaLcHWcB13/dcFCR3RS5/OWFSMM0hh/heqOxKhog9RJXWnP1DGXhLLp9vibitt7XHBDXZkajra3g==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10231,6 +10253,7 @@ packages:
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
+      '@azure/core-amqp': 2.0.0-beta.1
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/identity': 1.1.0
       '@microsoft/api-extractor': 7.7.11
@@ -10269,6 +10292,8 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       esm: 3.2.25
+      is-buffer: 2.0.4
+      jssha: 3.1.2
       karma: 5.1.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -10301,7 +10326,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-JqCjIOawpToXBJIv67KpVhJq5ODgj35EnNKOBPIUgpNlBaAq1N+W2CXKEFri2H7qVc5aKahCP1VcqAYwAI70xg==
+      integrity: sha512-ULvDOj0ReZbE5TXzESvryoDyHGbatat+qiW4fnfMvLPdvpSvuWBg4GmOIgj8kkzPkV4HoJmUE3BTSoANzGRSXA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10526,6 +10551,7 @@ packages:
       karma-remap-istanbul: 0.6.0_karma@5.1.1
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mock-fs: 4.13.0
       msal: 1.4.0
       open: 7.2.1
       prettier: 1.19.1
@@ -10546,7 +10572,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-FXApLdJ6zRiOWZXipguxlziRepBo+o0/4WufSeuij6gZQetNQqxMFl+iC75rCSH+ADs1PZTrtty7HHNx2W3pow==
+      integrity: sha512-gseNXUeda2sUuauEvkd4xVPlQXbvk3j3ZJTi6FWfC/RgSC3Nw2j26xdxV3lQqTTwipmrOJonnwbQvkvP91nbkQ==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -11089,6 +11115,7 @@ packages:
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
+      '@azure/core-amqp': 2.0.0-beta.1
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/identity': 1.1.0
       '@microsoft/api-extractor': 7.7.11
@@ -11131,6 +11158,7 @@ packages:
       glob: 7.1.6
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.4
+      jssha: 3.1.2
       karma: 5.1.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -11165,7 +11193,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-QbKRKDH7KyHKVjrRKdjqGYcjlsiaYZBgon2T7JyzC6/MDvmoONFyRXudkmPCqXUL+4zD19Iq2yLa43TXbh9AVA==
+      integrity: sha512-GttMlKcf8CpDHVSSRODp/uuKowhaJNnglA4vKroX+wY0pirghFzT800NUDOCBLv08Uzpcu0q+gac5CKwHI/0xg==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob-changefeed.tgz':

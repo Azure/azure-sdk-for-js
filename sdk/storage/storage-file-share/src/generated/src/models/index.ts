@@ -317,6 +317,7 @@ export interface ShareFileRangeList {
  */
 export interface StorageError {
   message?: string;
+  code?: string;
 }
 
 /**

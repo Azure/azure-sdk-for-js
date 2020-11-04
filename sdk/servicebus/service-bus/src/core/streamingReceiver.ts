@@ -19,7 +19,6 @@ import {
   RetryConfig,
   retry,
   MessagingError,
-  translate,
   RetryOptions,
   ConditionErrorNameMapper
 } from "@azure/core-amqp";
@@ -28,6 +27,7 @@ import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
@@ -190,7 +190,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onAmqpError = (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError) as MessagingError;
+        const sbError = translateServiceBusError(receiverError) as MessagingError;
         logger.logError(
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
@@ -201,7 +201,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onSessionError = (context: EventContext) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError) as MessagingError;
+        const sbError = translateServiceBusError(sessionError) as MessagingError;
         logger.logError(
           sbError,
           `${this.logPrefix} 'session_error' event occurred. The associated error is`
@@ -261,7 +261,7 @@ export class StreamingReceiver extends MessageReceiver {
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
         this._lockRenewer?.stop(this, bMessage);
-        const error = translate(err) as MessagingError;
+        const error = translateServiceBusError(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
@@ -281,7 +281,7 @@ export class StreamingReceiver extends MessageReceiver {
             );
             await abandonMessage(bMessage, this._context, entityPath);
           } catch (abandonError) {
-            const translatedError = translate(abandonError);
+            const translatedError = translateServiceBusError(abandonError);
             logger.logError(
               translatedError,
               "%s An error occurred while abandoning the message with id '%s' on the " +
@@ -318,7 +318,7 @@ export class StreamingReceiver extends MessageReceiver {
           );
           await completeMessage(bMessage, this._context, entityPath);
         } catch (completeError) {
-          const translatedError = translate(completeError);
+          const translatedError = translateServiceBusError(completeError);
           logger.logError(
             translatedError,
             "%s An error occurred while completing the message with id '%s' on the " +
@@ -510,7 +510,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._isDetaching = true;
 
-    const translatedError = receiverError ? translate(receiverError) : receiverError;
+    const translatedError = receiverError ? translateServiceBusError(receiverError) : receiverError;
     logger.logError(
       translatedError,
       `${this.logPrefix} onDetached: Reinitializing receiver because of error`

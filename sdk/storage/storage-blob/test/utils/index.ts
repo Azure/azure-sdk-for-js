@@ -139,7 +139,7 @@ export function getConnectionStringFromEnvironment(): string {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment

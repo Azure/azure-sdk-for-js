@@ -1562,6 +1562,50 @@ export interface SoftDeleteColumnDeletionDetectionPolicy {
 }
 
 /**
+ * Credentials of a registered application created for your search service, used for authenticated
+ * access to the encryption keys stored in Azure Key Vault.
+ */
+export interface AzureActiveDirectoryApplicationCredentials {
+  /**
+   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
+   * that is to be used when encrypting your data at rest. The Application ID should not be
+   * confused with the Object ID for your AAD Application.
+   */
+  applicationId: string;
+  /**
+   * The authentication key of the specified AAD application.
+   */
+  applicationSecret?: string;
+}
+
+/**
+ * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
+ * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
+ * maps.
+ */
+export interface SearchResourceEncryptionKey {
+  /**
+   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyName: string;
+  /**
+   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyVersion: string;
+  /**
+   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
+   * used to encrypt your data at rest. An example URI might be
+   * https://my-keyvault-name.vault.azure.net.
+   */
+  vaultUri: string;
+  /**
+   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
+   * required if using managed identity instead.
+   */
+  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+}
+
+/**
  * Represents a datasource definition, which can be used to configure an indexer.
  */
 export interface SearchIndexerDataSource {
@@ -1598,6 +1642,18 @@ export interface SearchIndexerDataSource {
    * The ETag of the data source.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your datasource definition when you want
+   * full assurance that no one, not even Microsoft, can decrypt your data source definition in
+   * Azure Cognitive Search. Once you have encrypted your data source definition, it will always
+   * remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null.
+   * You can change this property as needed if you want to rotate your encryption key; Your
+   * datasource definition will be unaffected. Encryption with customer-managed keys is not
+   * available for free search services, and is only available for paid services created on or
+   * after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -1826,6 +1882,18 @@ export interface SearchIndexer {
    * The ETag of the indexer.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your indexer definition (as well as
+   * indexer execution status) when you want full assurance that no one, not even Microsoft, can
+   * decrypt them in Azure Cognitive Search. Once you have encrypted your indexer definition, it
+   * will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property
+   * to null. You can change this property as needed if you want to rotate your encryption key;
+   * Your indexer definition (and indexer execution status) will be unaffected. Encryption with
+   * customer-managed keys is not available for free search services, and is only available for
+   * paid services created on or after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -2441,50 +2509,6 @@ export interface Suggester {
 }
 
 /**
- * Credentials of a registered application created for your search service, used for authenticated
- * access to the encryption keys stored in Azure Key Vault.
- */
-export interface AzureActiveDirectoryApplicationCredentials {
-  /**
-   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
-   * that is to be used when encrypting your data at rest. The Application ID should not be
-   * confused with the Object ID for your AAD Application.
-   */
-  applicationId: string;
-  /**
-   * The authentication key of the specified AAD application.
-   */
-  applicationSecret?: string;
-}
-
-/**
- * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
- * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
- * maps.
- */
-export interface SearchResourceEncryptionKey {
-  /**
-   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
-   */
-  keyName: string;
-  /**
-   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
-   */
-  keyVersion: string;
-  /**
-   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
-   * used to encrypt your data at rest. An example URI might be
-   * https://my-keyvault-name.vault.azure.net.
-   */
-  vaultUri: string;
-  /**
-   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
-   * required if using managed identity instead.
-   */
-  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-}
-
-/**
  * Represents a search index definition, which describes the fields and search behavior of an
  * index.
  */
@@ -2702,6 +2726,17 @@ export interface SearchIndexerSkillset {
    * The ETag of the skillset.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your skillset definition when you want
+   * full assurance that no one, not even Microsoft, can decrypt your skillset definition in Azure
+   * Cognitive Search. Once you have encrypted your skillset definition, it will always remain
+   * encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can
+   * change this property as needed if you want to rotate your encryption key; Your skillset
+   * definition will be unaffected. Encryption with customer-managed keys is not available for free
+   * search services, and is only available for paid services created on or after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**

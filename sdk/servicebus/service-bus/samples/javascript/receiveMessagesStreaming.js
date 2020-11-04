@@ -12,7 +12,7 @@ For samples using the current stable version (v1) of the package, please use the
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-const { delay, isMessagingError, ServiceBusClient } = require("@azure/service-bus");
+const { delay, isServiceBusError, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -46,24 +46,24 @@ async function main() {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
         // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
-        if (isMessagingError(args.error)) {
-          switch (args.error.code) {
-            case "MessagingEntityDisabledError":
-            case "MessagingEntityNotFoundError":
-            case "UnauthorizedError":
+        if (isServiceBusError(args.error)) {
+          switch (args.error.reason) {
+            case "MessagingEntityDisabled":
+            case "MessagingEntityNotFound":
+            case "Unauthorized":
               // It's possible you have a temporary infrastructure change (for instance, the entity being
               // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
               // what is considered fatal for your program.
               console.log(
-                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                `An unrecoverable error occurred. Stopping processing. ${args.error.reason}`,
                 args.error
               );
               await subscription.close();
               break;
-            case "MessageLockLostError":
+            case "MessageLockLost":
               console.log(`Message lock lost for message`, args.error);
               break;
-            case "ServerBusyError":
+            case "ServiceBusy":
               // choosing an arbitrary amount of time to wait.
               await delay(1000);
               break;

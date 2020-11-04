@@ -25,26 +25,22 @@ async function main() {
     `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models`
   );
 
-  // Next, we get a paged async iterator of all of our custom models
-  const result = client.listCustomModels();
+  // We get a paged async iterator of all of our custom models and request the
+  // first page using the `next()` method.
+  const firstPage = await client
+    .listCustomModels()
+    .byPage()
+    .next();
 
-  // We can iterate over all the models and print their ID
-  // We'll also save the first model to get some detailed information
-  // in the next step;
-  let firstModel = undefined;
-  for await (const model of result) {
-    console.log(`- Model:`, model.modelId);
-    if (firstModel === undefined) {
-      firstModel = model;
-    }
-  }
-
-  if (!firstModel) {
-    // See trainModels.ts and trainModelWithLabels.ts for creating and training models.
+  // If we didn't get any items, then there is nothing to do! See trainModels.ts
+  // and trainModelWithLabels.ts for creating and training models.
+  if (firstPage.done || !firstPage.value.modelList) {
     throw new Error(
       "There are no custom models in this account. Please ensure to create and train models first."
     );
   }
+
+  const firstModel = firstPage.value.modelList[0];
 
   // Now we'll get the first custom model in the paged list
   const model = await client.getCustomModel(firstModel.modelId);

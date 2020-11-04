@@ -4,7 +4,6 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  IngestionStatus,
   SqlSourceParameter,
   SuppressCondition,
   SmartDetectionCondition,
@@ -22,8 +21,8 @@ import {
   TopNGroupScope,
   SeverityCondition,
   AlertSnoozeCondition,
-  EnrichmentStatus,
-  DataFeedDetailStatus
+  DataFeedDetailStatus,
+  IngestionStatusType
 } from "./generated/models";
 
 export {
@@ -31,8 +30,6 @@ export {
   AlertSnoozeCondition,
   SmartDetectionCondition,
   TopNGroupScope,
-  EnrichmentStatus,
-  IngestionStatus,
   AzureApplicationInsightsParameter,
   AzureBlobParameter,
   AzureCosmosDBParameter,
@@ -53,7 +50,6 @@ export {
 export {
   AnomalyValue,
   DataFeedIngestionProgress,
-  GeneratedClientGetIngestionProgressResponse,
   IngestionStatusType,
   DataSourceType,
   SeverityFilterCondition,
@@ -249,8 +245,8 @@ export type DataFeedGranularity =
         | "Weekly"
         | "Daily"
         | "Hourly"
-        | "Minutely"
-        | "Secondly";
+        | "PerMinute"
+        | "PerSecond";
     }
   | {
       granularityType: "Custom";
@@ -897,7 +893,7 @@ export interface DataPointAnomaly {
   /**
    * anomaly time
    */
-  timestamp: Date;
+  timestamp: number;
   /**
    * created time
    *
@@ -941,7 +937,7 @@ export interface AnomalyAlert {
   /**
    * anomaly time
    */
-  timestamp?: Date; // TODO: why optional?
+  timestamp?: number; // TODO: why optional?
   /**
    * created time
    */
@@ -1507,6 +1503,21 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
   };
 }
 
+export interface EnrichmentStatus {
+  /**
+   * data slice timestamp.
+   */
+  readonly timestamp?: number;
+  /**
+   * latest enrichment status for this data slice.
+   */
+  readonly status?: string;
+  /**
+   * the trimmed message describes details of the enrichment status.
+   */
+  readonly message?: string;
+}
+
 /**
  * Contains response data for the listMetricEnrichmentStatus operation.
  */
@@ -1579,6 +1590,20 @@ export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
   };
 }
 
+export interface IngestionStatus {
+  /**
+   * data slice timestamp.
+   */
+  readonly timestamp?: number;
+  /**
+   * latest ingestion task status for this data slice.
+   */
+  readonly status?: IngestionStatusType;
+  /**
+   * the trimmed message of last ingestion job.
+   */
+  readonly message?: string;
+}
 /**
  * Contains response data for the ListDataFeedIngestionStatus operation.
  */
@@ -1689,3 +1714,34 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
     parsedBody: any;
   };
 }
+
+/**
+ * Contains response data for the getDataFeedIngestionProgress operation.
+ */
+export type GetIngestionProgressResponse = {
+  /**
+   * the timestamp of lastest success ingestion job.
+   * null indicates not available
+   */
+  readonly latestSuccessTimestamp?: number;
+  /**
+   * the timestamp of lastest ingestion job with status update.
+   * null indicates not available
+   */
+  readonly latestActiveTimestamp?: number;
+} & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+};

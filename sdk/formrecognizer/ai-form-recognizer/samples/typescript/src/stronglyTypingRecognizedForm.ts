@@ -29,7 +29,10 @@ dotenv.config();
  * A `FormField` that is an object with a specific shape (defined by the type
  * parameter T).
  */
-type StrongObjectField<T> = Extract<FormField, { valueType?: "object" }> & {
+type StrongObjectField<T> = Omit<
+  Extract<FormField, { valueType?: "object" }>,
+  "value" | "valueType"
+> & {
   valueType: "object";
   value: T;
 };
@@ -37,7 +40,10 @@ type StrongObjectField<T> = Extract<FormField, { valueType?: "object" }> & {
 /**
  * A `FormField` that is an array with a specific value type.
  */
-type StrongArrayField<T> = Extract<FormField, { valueType?: "array" }> & {
+type StrongArrayField<T> = Omit<
+  Extract<FormField, { valueType?: "array" }>,
+  "value" | "valueType"
+> & {
   valueType: "array";
   value: T[];
 };
@@ -108,7 +114,7 @@ export async function main() {
   // the first one (we only sent one receipt to the service)
   const [receipt] = receiptResponse as USReceipt[];
 
-  // NOTE: Not all fields will be present on every fields. It is important
+  // NOTE: Not all fields will be present on every entry. It is important
   // to check which fields were identified. In this example, we will simply
   // print "undefined" for any fields that are not present.
 

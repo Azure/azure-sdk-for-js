@@ -42,13 +42,10 @@ import {
   AlertConfigurationsPageResponse,
   DetectionConfigurationsPageResponse,
   HooksPageResponse,
-  DataFeedStatus
+  DataFeedStatus,
+  GetIngestionProgressResponse
 } from "./models";
-import {
-  DataSourceType,
-  GeneratedClientGetIngestionProgressResponse,
-  NeedRollupEnum
-} from "./generated/models";
+import { DataSourceType, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -58,7 +55,8 @@ import {
   toServiceAnomalyDetectionConfiguration,
   toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
-  toServiceAlertConfigurationPatch
+  toServiceAlertConfigurationPatch,
+  toServiceGranularity
 } from "./transforms";
 
 /**
@@ -213,9 +211,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const body = {
         dataFeedName: name,
-        granularityName: granularity.granularityType,
-        granularityAmount:
-          granularity.granularityType === "Custom" ? granularity.customGranularityValue : undefined,
+        ...toServiceGranularity(granularity),
         ...source,
         metrics: schema.metrics,
         dimension: schema.dimensions,
@@ -1296,7 +1292,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDataFeedIngestionProgress(
     dataFeedId: string,
     options = {}
-  ): Promise<GeneratedClientGetIngestionProgressResponse> {
+  ): Promise<GetIngestionProgressResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
       options
@@ -1304,7 +1300,12 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      return {
+        latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
+        _response: response._response
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1339,10 +1340,20 @@ export class MetricsAdvisorAdministrationClient {
           top: options?.maxPageSize
         }
       );
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response
@@ -1363,10 +1374,20 @@ export class MetricsAdvisorAdministrationClient {
         options
       );
 
-      const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
-        enumerable: true,
-        value: segmentResponse.nextLink
-      });
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
       yield Object.defineProperty(resultArray, "_response", {
         enumerable: false,
         value: segmentResponse._response

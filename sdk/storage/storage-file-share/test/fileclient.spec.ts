@@ -11,7 +11,7 @@ import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
+import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { isIE } from "./utils/index.browser";
@@ -475,6 +475,34 @@ describe("FileClient", () => {
     await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
     const response = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
+  it("uploadData should work with ArrayBuffer and ArrayBufferView", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    await fileClient.uploadData(arrayBuf);
+    const res = await fileClient.download();
+    assert.ok(compareBodyWithUint8Array(res, uint8Array));
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await fileClient.uploadData(uint8ArrayPartial);
+    const res1 = await fileClient.download();
+    assert.ok(compareBodyWithUint8Array(res1, uint8ArrayPartial));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await fileClient.uploadData(uint16Array);
+    const res2 = await fileClient.download();
+    assert.ok(
+      compareBodyWithUint8Array(
+        res2,
+        new Uint8Array(arrayBuf, uint16Array.byteOffset, uint16Array.byteLength)
+      )
+    );
   });
 
   it("uploadRange", async () => {
