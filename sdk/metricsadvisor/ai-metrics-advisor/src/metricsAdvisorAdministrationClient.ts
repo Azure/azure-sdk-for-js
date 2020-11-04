@@ -42,7 +42,8 @@ import {
   DetectionConfigurationsPageResponse,
   HooksPageResponse,
   DataFeedStatus,
-  GetIngestionProgressResponse
+  GetIngestionProgressResponse,
+  AnomalyAlertConfiguration
 } from "./models";
 import { DataSourceType, NeedRollupEnum } from "./generated/models";
 import {
@@ -654,7 +655,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param config the alert configuration object to create
    */
   public async createAlertConfig(
-    config: Omit<AlertConfiguration, "id">,
+    config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -693,7 +694,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateAlertConfig(
     id: string,
-    patch: Partial<Omit<AlertConfiguration, "id">>,
+    patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -804,7 +805,7 @@ export class MetricsAdvisorAdministrationClient {
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions = {}
-  ): AsyncIterableIterator<AlertConfiguration> {
+  ): AsyncIterableIterator<AnomalyAlertConfiguration> {
     for await (const segment of this.listSegmentsOfAlertingConfigurations(
       detectionConfigId,
       options
@@ -870,7 +871,7 @@ export class MetricsAdvisorAdministrationClient {
     detectionConfigId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
-    AlertConfiguration,
+    AnomalyAlertConfiguration,
     AlertConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {

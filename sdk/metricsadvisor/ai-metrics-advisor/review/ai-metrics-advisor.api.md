@@ -802,30 +802,30 @@ export type MetricPeriodFeedback = {
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAnomalyAlertConfiguration(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
-    createMetricAnomalyDetectionConfiguration(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    deleteAnomalyAlertConfiguration(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getAnomalyAlertConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    getAlertConfig(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
+    getDetectionConfig(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
-    getMetricAnomalyDetectionConfiguration(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    listAnomalyAlertConfigurations(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
+    listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
+    listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
-    listMetricAnomalyDetectionConfigurations(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
-    updateAnomalyAlertConfiguration(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
+    updateDetectionConfig(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
-    updateMetricAnomalyDetectionConfiguration(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
 }
 
 // @public
