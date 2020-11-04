@@ -39,6 +39,7 @@ import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * A receiver that does not handle sessions.
@@ -492,7 +493,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       abortSignal: options?.abortSignal,
       retryOptions: this._retryOptions
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   getMessageIterator(

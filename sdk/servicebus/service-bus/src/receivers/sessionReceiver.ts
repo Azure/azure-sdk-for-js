@@ -31,14 +31,14 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  ErrorNameConditionMapper,
-  translate
+  ErrorNameConditionMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -154,7 +154,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         condition: ErrorNameConditionMapper.SessionLockLostError,
         description: `The session lock has expired on the session with id ${this.sessionId}`
       };
-      throw translate(amqpError);
+      throw translateServiceBusError(amqpError);
     }
   }
 
@@ -402,7 +402,9 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   subscribe(
