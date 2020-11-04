@@ -2,6 +2,9 @@
 
 ## 1.2.0-beta.3 (Unreleased)
 
+- `ManagedIdentityCredential` now only checks for available MSIs once per class instance.
+- `ManagedIdentityCredential` now supports Azure Arc environments.
+- `ManagedIdentityCredential` now supports Azure Service Fabric environments.
 - Added authority host for multiple clouds on `VisualStudioCodeCredential`, and specified `AzureCloud` as the default cloud name.
 - `DeviceCodeCredential` now has both of its constructor parameters, `tenantId` and `clientId`, as optional parameters. The default value of `tenantId` is "organizations", and the Azure CLI's client ID is the default value of `clientId`.
 

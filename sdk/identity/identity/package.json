@@ -9,7 +9,7 @@
   "browser": {
     "./dist-esm/src/credentials/azureCliCredential.js": "./dist-esm/src/credentials/azureCliCredential.browser.js",
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
-    "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
+    "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
@@ -136,6 +136,7 @@
     "typescript": "~3.9.3",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
-    "@types/sinon": "^9.0.4"
+    "@types/sinon": "^9.0.4",
+    "mock-fs": "^4.10.4"
   }
 }
