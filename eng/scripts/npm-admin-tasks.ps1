@@ -37,7 +37,7 @@ try {
       npm dist-tag rm $nameAndVersion $tagName
     }
 
-    "DeprecatePackage" {
+    "Deprecate" {
       if ($reason -eq '') {
         Write-Host "Reason cannot be empty to deprecate package version"
         exit 1
