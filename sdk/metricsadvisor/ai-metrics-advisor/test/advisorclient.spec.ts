@@ -182,7 +182,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists alerts for alert configuration", async function() {
-    const iterator = client.listAlertsForAlertConfiguration(
+    const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 1)),
       new Date(Date.UTC(2020, 8, 12)),
@@ -195,7 +195,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists alerts for alert configuration with datetime strings", async function() {
-    const iterator = client.listAlertsForAlertConfiguration(
+    const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
       "2020-01-01T00:00:00.000Z",
       "2020-09-12T00:00:00.000Z",
@@ -209,7 +209,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists alerts for alert configuration by page", async function() {
     const iterator = client
-      .listAlertsForAlertConfiguration(
+      .listAlerts(
         testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
         new Date(Date.UTC(2020, 0, 1)),
         new Date(Date.UTC(2020, 8, 12)),

@@ -93,7 +93,7 @@ async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
 async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
-  for await (const feedback of client.listMetricFeedbacks(metricId, {
+  for await (const feedback of client.listFeedback(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
       endTime: new Date("08/03/2020"),
@@ -119,7 +119,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
 
   console.log("  first two pages using iterator");
   const iterator = client
-    .listMetricFeedbacks(metricId, {
+    .listFeedback(metricId, {
       filter: {
         timeMode: "FeedbackCreatedTime"
       }

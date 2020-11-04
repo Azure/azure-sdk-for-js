@@ -100,7 +100,7 @@ export type ListDimensionValuesForDetectionConfigurationOptions = {
  * Options for listing feedbacks
  */
 
-export type ListFeedbacksOptions = {
+export type ListFeedbackOptions = {
   skip?: number;
   /**
    * filter when listing feedbacks
@@ -1632,11 +1632,11 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private async *listSegmentsOfMetricFeedbacks(
+  private async *listSegmentsOfFeedback(
     metricId: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): AsyncIterableIterator<MetricFeedbackPageResponse> {
     let segmentResponse;
     const startTime =
@@ -1699,11 +1699,11 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private async *listItemsOfMetricFeedback(
+  private async *listItemsOfFeedback(
     metricId: string,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): AsyncIterableIterator<MetricFeedbackUnion> {
-    for await (const segment of this.listSegmentsOfMetricFeedbacks(
+    for await (const segment of this.listSegmentsOfFeedback(
       metricId,
       undefined,
       undefined,
@@ -1725,7 +1725,7 @@ export class MetricsAdvisorClient {
    * ```js
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const feedbacks = client.listMetricFeedbacks(metricId);
+   * const feedbacks = client.listFeedback(metricId);
    * let i = 1;
    * for await (const f of feedbacks){
    *  console.log(`feedback ${i++}:`);
@@ -1736,7 +1736,7 @@ export class MetricsAdvisorClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listMetricFeedbacks(metricId);
+   * let iter = client.listFeedback(metricId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` feedback - ${result.value.id}`);
@@ -1748,7 +1748,7 @@ export class MetricsAdvisorClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listMetricFeedbacks(metricId)
+   * const pages = client.listFeedback(metricId)
    *   .byPage({ maxPageSize: 10 });
    * let page = await pages.next();
    * let i = 1;
@@ -1765,11 +1765,11 @@ export class MetricsAdvisorClient {
    * @param metricId Metric id
    * @param options The options parameter
    */
-  public listMetricFeedbacks(
+  public listFeedback(
     metricId: string,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse> {
-    const iter = this.listItemsOfMetricFeedback(metricId, options);
+    const iter = this.listItemsOfFeedback(metricId, options);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1787,7 +1787,7 @@ export class MetricsAdvisorClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentsOfMetricFeedbacks(
+        return this.listSegmentsOfFeedback(
           metricId,
           settings.continuationToken,
           settings.maxPageSize,
