@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-commerce-profile-hybrid-2020-09-01",
+  "name": "@azure/arm-commerce-profile-2020-09-01-hybrid",
   "author": "Microsoft Corporation",
   "description": "UsageManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-commerce-profile-hybrid-2020-09-01.js",
+  "main": "./dist/arm-commerce-profile-2020-09-01-hybrid.js",
   "module": "./esm/usageManagementClient.js",
   "types": "./esm/usageManagementClient.d.ts",
   "devDependencies": {
@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/commerce/arm-commerce-profile-hybrid-2020-09-01",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/commerce/arm-commerce-profile-2020-09-01-hybrid",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -50,7 +50,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-commerce-profile-hybrid-2020-09-01.js.map'\" -o ./dist/arm-commerce-profile-hybrid-2020-09-01.min.js ./dist/arm-commerce-profile-hybrid-2020-09-01.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-commerce-profile-2020-09-01-hybrid.js.map'\" -o ./dist/arm-commerce-profile-2020-09-01-hybrid.min.js ./dist/arm-commerce-profile-2020-09-01-hybrid.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,

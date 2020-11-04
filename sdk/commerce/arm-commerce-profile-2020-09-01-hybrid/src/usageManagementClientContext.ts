@@ -12,7 +12,7 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-commerce-profile-hybrid-2020-09-01";
+const packageName = "@azure/arm-commerce-profile-2020-09-01-hybrid";
 const packageVersion = "1.0.0";
 
 export class UsageManagementClientContext extends msRestAzure.AzureServiceClient {
