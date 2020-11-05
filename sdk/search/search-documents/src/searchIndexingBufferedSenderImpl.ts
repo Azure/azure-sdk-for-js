@@ -382,8 +382,11 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
       if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetries) {
-        const timeToWait = Math.min(Math.pow(2, retryAttempt * this.retryDelayInMs), this.maxRetryDelayInMs);
-        const jitterValue = Math.floor(Math.random() * 1000) + 1;
+        const jitterValue = Math.floor(Math.random() * 10) + 1;
+        const timeToWait = Math.min(
+          Math.pow(2, (retryAttempt * this.retryDelayInMs) + jitterValue),
+          this.maxRetryDelayInMs
+        );
         await delay(timeToWait + jitterValue);
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
