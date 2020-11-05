@@ -18,7 +18,7 @@ npm install --save @azure/identity
 
 - Node.js 8 LTS or higher
 - An Azure subscription.
-    - You can sign up for a [free account](https://azure.microsoft.com/free/).
+  - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
 
 ### Authenticate the client
@@ -69,28 +69,32 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 
 ## Environment Variables
-[`DefaultAzureCredential`][ref_DefaultAzureCredential] and [`EnvironmentCredential`][ref_EnvironmentCredential] can be configured with environment variables. Each type of authentication requires values for specific variables:
+
+[`DefaultAzureCredential`][ref_defaultazurecredential] and [`EnvironmentCredential`][ref_environmentcredential] can be configured with environment variables. Each type of authentication requires values for specific variables:
 
 #### Service principal with secret
-|variable name|value
-|-|-
-|`AZURE_CLIENT_ID`|id of an Azure Active Directory application
-|`AZURE_TENANT_ID`|id of the application's Azure Active Directory tenant
-|`AZURE_CLIENT_SECRET`|one of the application's client secrets
+
+| variable name         | value                                                 |
+| --------------------- | ----------------------------------------------------- |
+| `AZURE_CLIENT_ID`     | id of an Azure Active Directory application           |
+| `AZURE_TENANT_ID`     | id of the application's Azure Active Directory tenant |
+| `AZURE_CLIENT_SECRET` | one of the application's client secrets               |
 
 #### Service principal with certificate
-|variable name|value
-|-|-
-|`AZURE_CLIENT_ID`|id of an Azure Active Directory application
-|`AZURE_TENANT_ID`|id of the application's Azure Active Directory tenant
-|`AZURE_CLIENT_CERTIFICATE_PATH`|path to a PEM-encoded certificate file including private key (without password protection)
+
+| variable name                   | value                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------ |
+| `AZURE_CLIENT_ID`               | id of an Azure Active Directory application                                                |
+| `AZURE_TENANT_ID`               | id of the application's Azure Active Directory tenant                                      |
+| `AZURE_CLIENT_CERTIFICATE_PATH` | path to a PEM-encoded certificate file including private key (without password protection) |
 
 #### Username and password
-|variable name|value
-|-|-
-|`AZURE_CLIENT_ID`|id of an Azure Active Directory application
-|`AZURE_USERNAME`|a username (usually an email address)
-|`AZURE_PASSWORD`|that user's password
+
+| variable name     | value                                       |
+| ----------------- | ------------------------------------------- |
+| `AZURE_CLIENT_ID` | id of an Azure Active Directory application |
+| `AZURE_USERNAME`  | a username (usually an email address)       |
+| `AZURE_PASSWORD`  | that user's password                        |
 
 Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
 
@@ -148,36 +152,35 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 ### Authenticating Azure Hosted Applications
 
-|credential  | usage
-|-|-
-|`DefaultAzureCredential`|provides a simplified authentication experience to quickly start developing applications run in the Azure cloud
-|`ChainedTokenCredential`|allows users to define custom authentication flows composing multiple credentials
-|`EnvironmentCredential`|authenticates a service principal or user via credential information specified in environment variables
-|`ManagedIdentityCredential`|authenticates the managed identity of an azure resource
+| credential                  | usage                                                                                                           |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `DefaultAzureCredential`    | provides a simplified authentication experience to quickly start developing applications run in the Azure cloud |
+| `ChainedTokenCredential`    | allows users to define custom authentication flows composing multiple credentials                               |
+| `EnvironmentCredential`     | authenticates a service principal or user via credential information specified in environment variables         |
+| `ManagedIdentityCredential` | authenticates the managed identity of an azure resource                                                         |
 
 ### Authenticating Service Principals
 
-|credential  | usage
-|-|-
-|`ClientSecretCredential`|authenticates a service principal using a secret
-|`ClientCertificateCredential`|authenticates a service principal using a certificate
+| credential                    | usage                                                 |
+| ----------------------------- | ----------------------------------------------------- |
+| `ClientSecretCredential`      | authenticates a service principal using a secret      |
+| `ClientCertificateCredential` | authenticates a service principal using a certificate |
 
 ### Authenticating Users
 
-|credential  | usage
-|-|-
-|`InteractiveBrowserCredential`|interactively authenticates a user with the default system browser
-|`DeviceCodeCredential`|interactively authenticates a user on devices with limited UI
-|`UserPasswordCredential`|authenticates a user with a username and password
-|`AuthorizationCodeCredential`|authenticate a user with a previously obtained authorization code
+| credential                     | usage                                                              |
+| ------------------------------ | ------------------------------------------------------------------ |
+| `InteractiveBrowserCredential` | interactively authenticates a user with the default system browser |
+| `DeviceCodeCredential`         | interactively authenticates a user on devices with limited UI      |
+| `UserPasswordCredential`       | authenticates a user with a username and password                  |
+| `AuthorizationCodeCredential`  | authenticate a user with a previously obtained authorization code  |
 
 ### Authenticating via Development Tools
 
-
-|credential  | usage
-|-|-
-|`AzureCliCredential`|authenticate in a development environment with the Azure CLI
-|`VisualStudioCodeCredential`|authenticate in a development environment with Visual Studio Code
+| credential                   | usage                                                             |
+| ---------------------------- | ----------------------------------------------------------------- |
+| `AzureCliCredential`         | authenticate in a development environment with the Azure CLI      |
+| `VisualStudioCodeCredential` | authenticate in a development environment with Visual Studio Code |
 
 ## Troubleshooting
 
