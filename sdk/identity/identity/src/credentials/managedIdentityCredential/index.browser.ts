@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
-import { credentialLogger, formatError } from "../util/logging";
+import { TokenCredentialOptions } from "../../client/identityClient";
+import { credentialLogger, formatError } from "../../util/logging";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."
