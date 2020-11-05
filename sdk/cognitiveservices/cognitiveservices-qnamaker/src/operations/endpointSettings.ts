@@ -54,28 +54,28 @@ export class EndpointSettings {
    * @summary Updates endpoint settings for an endpoint.
    * @param endpointSettingsPayload Post body of the request.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.EndpointSettingsUpdateSettingsResponse>
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase): Promise<Models.EndpointSettingsUpdateSettingsResponse>;
   /**
    * @param endpointSettingsPayload Post body of the request.
    * @param callback The callback
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, callback: msRest.ServiceCallback<void>): void;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param endpointSettingsPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.EndpointSettingsUpdateSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         endpointSettingsPayload,
         options
       },
       updateSettingsOperationSpec,
-      callback);
+      callback) as Promise<Models.EndpointSettingsUpdateSettingsResponse>;
   }
 }
 
@@ -112,7 +112,14 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

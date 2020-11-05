@@ -10,18 +10,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-export const changedSince: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "changedSince"
-  ],
-  mapper: {
-    serializedName: "changedSince",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -69,18 +57,6 @@ export const operationId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "operationId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const source: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "source"
-  ],
-  mapper: {
-    serializedName: "source",
     type: {
       name: "String"
     }
