@@ -18,6 +18,7 @@ import EventEmitter from "events";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+import { delay } from "@azure/core-http";
 
 /**
  * Default Batch Size
@@ -28,9 +29,17 @@ export const DEFAULT_BATCH_SIZE: number = 1000;
  */
 export const DEFAULT_FLUSH_WINDOW: number = 60000;
 /**
- * Default number of times to retry
+ * Default number of times to retry.
  */
 export const DEFAULT_RETRY_COUNT: number = 3;
+/**
+ * Default retry delay.
+ */
+export const DEFAULT_RETRY_DELAY: number = 30000;
+/**
+ * Default Max Delay between retries.
+ */
+export const DEFAULT_MAX_RETRY_DELAY: number = 600000;
 
 /**
  * Class used to perform buffered operations against a search index,
@@ -50,9 +59,21 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
    */
   private flushWindowInMs: number;
   /**
+   * Delay between retries
+   */
+  private retryDelay: number;
+  /**
+   * Maximum number of Retries
+   */
+  private maxRetries: number;
+  /**
+   * Max Delay between retries
+   */
+  private maxRetryDelay: number;
+  /**
    * Size of the batch.
    */
-  private batchSize: number;
+  private batchDocumentCount: number;
   /**
    * Batch object used to complete the service call.
    */
@@ -75,9 +96,15 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
    */
   constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
+    // General Configuration properties
     this.autoFlush = options.autoFlush ?? false;
-    this.flushWindowInMs = DEFAULT_FLUSH_WINDOW;
-    this.batchSize = DEFAULT_BATCH_SIZE;
+    this.batchDocumentCount = options.initialBatchDocumentCount ?? DEFAULT_BATCH_SIZE;
+    this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
+    // Retry specific configuration properties
+    this.retryDelay = options.retryDelay ?? DEFAULT_FLUSH_WINDOW;
+    this.maxRetries = options.maxRetries ?? DEFAULT_RETRY_COUNT;
+    this.maxRetryDelay = options.maxRetryDelay ?? DEFAULT_MAX_RETRY_DELAY;
+
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
@@ -323,7 +350,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   }
 
   private isBatchReady(): boolean {
-    return this.batchObject.actions.length >= this.batchSize;
+    return this.batchObject.actions.length >= this.batchDocumentCount;
   }
 
   private async internalFlush(force: boolean, options: OperationOptions = {}): Promise<void> {
@@ -332,7 +359,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       const actions: IndexDocumentsAction<T>[] = this.batchObject.actions;
       this.batchObject = new IndexDocumentsBatch<T>();
       while (actions.length > 0) {
-        const actionsToSend = actions.splice(0, this.batchSize);
+        const actionsToSend = actions.splice(0, this.batchDocumentCount);
         await this.submitDocuments(actionsToSend, options);
       }
     }
@@ -341,7 +368,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   private async submitDocuments(
     actionsToSend: IndexDocumentsAction<T>[],
     options: OperationOptions,
-    retryAttempt: number = 0
+    retryAttempt: number = 1
   ): Promise<void> {
     try {
       for (const action of actionsToSend) {
@@ -354,7 +381,12 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       // raise success event
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
-      if (this.isRetryAbleError(e) && retryAttempt < DEFAULT_RETRY_COUNT) {
+      if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetries) {
+        const timeToWait =
+          retryAttempt * this.retryDelay <= this.maxRetryDelay
+            ? retryAttempt * this.retryDelay
+            : this.maxRetryDelay;
+        await delay(timeToWait);
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
         this.emitter.emit("batchFailed", e);

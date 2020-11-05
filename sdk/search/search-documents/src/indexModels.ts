@@ -37,6 +37,26 @@ export interface SearchIndexingBufferedSenderOptions {
    * Indicates if autoFlush is enabled.
    */
   autoFlush?: boolean;
+  /**
+   * Initial Batch Document Count
+   */
+  initialBatchDocumentCount?: number;
+  /**
+   * Flush Window
+   */
+  flushWindowInMs?: number;
+  /**
+   * Maximum number of Retries
+   */
+  maxRetries?: number;
+  /**
+   * Delay between retries
+   */
+  retryDelay?: number;
+  /**
+   * Max Delay between retries
+   */
+  maxRetryDelay?: number;
 }
 
 /**
