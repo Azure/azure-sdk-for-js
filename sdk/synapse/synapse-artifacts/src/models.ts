@@ -3,7 +3,7 @@
 
 import { PipelineOptions } from "@azure/core-http";
 
-export * from "./generated/models"
+export * from "./generated/models";
 // /**
 //  * Represents an object with a non-enumerable _response property which provides
 //  */
@@ -18,7 +18,6 @@ export interface ArtifactsClientOptions extends PipelineOptions {
    */
   endpoint?: string;
 }
-
 
 export interface ListPageSettings {
   /**

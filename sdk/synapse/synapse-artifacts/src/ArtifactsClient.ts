@@ -9,7 +9,7 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 
-import { 
+import {
   ArtifactsClientOptions,
   TriggerRunQueryTriggerRunsByWorkspaceResponse,
   BigDataPoolsListResponse,
@@ -346,7 +346,9 @@ export class ArtifactsClient {
   ): AsyncIterableIterator<SqlScriptResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(requestOptions);
+      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value;
@@ -402,7 +404,6 @@ export class ArtifactsClient {
       span.end();
     }
   }
-
 
   public async createOrUpdateSqlScript(
     sqlScriptName: string,
@@ -474,7 +475,7 @@ export class ArtifactsClient {
       span.end();
     }
   }
-  
+
   public async rerunTriggerInstance(
     triggerName: string,
     runId: string,
@@ -547,5 +548,4 @@ export class ArtifactsClient {
       span.end();
     }
   }
-
 }
