@@ -521,7 +521,7 @@ describe("MetricsAdvisorClient", () => {
         value: "NotAnomaly",
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(anomalyFeedback);
+      const actual = await client.createFeedback(anomalyFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -539,7 +539,7 @@ describe("MetricsAdvisorClient", () => {
         value: "ChangePoint",
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(changePointFeedback);
+      const actual = await client.createFeedback(changePointFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -557,7 +557,7 @@ describe("MetricsAdvisorClient", () => {
         periodValue: 4,
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(periodFeedback);
+      const actual = await client.createFeedback(periodFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -576,7 +576,7 @@ describe("MetricsAdvisorClient", () => {
         comment: "This is a comment"
       };
 
-      const actual = await client.createMetricFeedback(expectedCommentFeedback);
+      const actual = await client.createFeedback(expectedCommentFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -587,7 +587,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     it("retrieves Anomaly feedback", async function() {
-      const actual = await client.getMetricFeedback(createdFeedbackId);
+      const actual = await client.getFeedback(createdFeedbackId);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
