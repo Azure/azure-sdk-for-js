@@ -38,11 +38,17 @@ export interface SearchIndexingBufferedSenderOptions {
    */
   autoFlush?: boolean;
   /**
-   * Initial Batch Document Count
+   * Initial Batch Document Count.
+   *
+   * A batch request will be sent once the number of documents
+   * reach the initialBatchDocumentCount.
    */
   initialBatchDocumentCount?: number;
   /**
-   * Flush Window
+   * Flush Window.
+   *
+   * A batch request will be sent after flushWindowInMs is
+   * reached.
    */
   flushWindowInMs?: number;
   /**
@@ -52,11 +58,11 @@ export interface SearchIndexingBufferedSenderOptions {
   /**
    * Delay between retries
    */
-  retryDelay?: number;
+  retryDelayInMs?: number;
   /**
    * Max Delay between retries
    */
-  maxRetryDelay?: number;
+  maxRetryDelayInMs?: number;
 }
 
 /**

@@ -61,7 +61,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Delay between retries
    */
-  private retryDelay: number;
+  private retryDelayInMs: number;
   /**
    * Maximum number of Retries
    */
@@ -69,7 +69,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Max Delay between retries
    */
-  private maxRetryDelay: number;
+  private maxRetryDelayInMs: number;
   /**
    * Size of the batch.
    */
@@ -101,9 +101,9 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     this.batchDocumentCount = options.initialBatchDocumentCount ?? DEFAULT_BATCH_SIZE;
     this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
     // Retry specific configuration properties
-    this.retryDelay = options.retryDelay ?? DEFAULT_FLUSH_WINDOW;
+    this.retryDelayInMs = options.retryDelayInMs ?? DEFAULT_FLUSH_WINDOW;
     this.maxRetries = options.maxRetries ?? DEFAULT_RETRY_COUNT;
-    this.maxRetryDelay = options.maxRetryDelay ?? DEFAULT_MAX_RETRY_DELAY;
+    this.maxRetryDelayInMs = options.maxRetryDelayInMs ?? DEFAULT_MAX_RETRY_DELAY;
 
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
@@ -382,10 +382,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
       if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetries) {
-        const timeToWait =
-          retryAttempt * this.retryDelay <= this.maxRetryDelay
-            ? retryAttempt * this.retryDelay
-            : this.maxRetryDelay;
+        const timeToWait = Math.min(retryAttempt * this.retryDelayInMs, this.maxRetryDelayInMs);
         await delay(timeToWait);
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
