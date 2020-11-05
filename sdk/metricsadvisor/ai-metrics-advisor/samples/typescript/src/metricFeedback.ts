@@ -46,7 +46,7 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     value: "NotAnomaly",
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(anomalyFeedback);
+  return await client.createFeedback(anomalyFeedback);
 }
 
 async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -58,7 +58,7 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
     periodValue: 4,
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(periodFeedback);
+  return await client.createFeedback(periodFeedback);
 }
 
 async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -70,7 +70,7 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
     value: "ChangePoint",
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(changePointFeedback);
+  return await client.createFeedback(changePointFeedback);
 }
 
 async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -81,12 +81,12 @@ async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: st
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
-  return await client.createMetricFeedback(commendFeedback);
+  return await client.createFeedback(commendFeedback);
 }
 
 async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
-  const feedback = await client.getMetricFeedback(feedbackId);
+  const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 

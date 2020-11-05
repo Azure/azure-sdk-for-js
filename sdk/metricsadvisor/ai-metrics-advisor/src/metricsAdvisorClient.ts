@@ -225,7 +225,7 @@ export class MetricsAdvisorClient {
    * @private
    * List alert segments for alerting configuration
    */
-  private async *listSegmentOfAlertsForAlertingConfig(
+  private async *listSegmentOfAlerts(
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
@@ -302,14 +302,14 @@ export class MetricsAdvisorClient {
    * @private
    * List alert items for alerting configuration
    */
-  private async *listItemsOfAlertsForAlertingConfig(
+  private async *listItemsOfAlerts(
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
     timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions
   ): AsyncIterableIterator<AnomalyAlert> {
-    for await (const segment of this.listSegmentOfAlertsForAlertingConfig(
+    for await (const segment of this.listSegmentOfAlerts(
       alertConfigId,
       startTime,
       endTime,
@@ -335,7 +335,7 @@ export class MetricsAdvisorClient {
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey)
    * );
-   * const alerts = client.listAlertsForAlertConfiguration(alertConfigId,
+   * const alerts = client.listAlerts(alertConfigId,
    *   startTime, endTime, timeMode
    * );
    * let i = 1;
@@ -348,7 +348,7 @@ export class MetricsAdvisorClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, timeMode);
+   * let iter = client.listAlerts(alertConfigId, startTime, endTime, timeMode);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` alert - ${result.value.id}`);
@@ -359,7 +359,7 @@ export class MetricsAdvisorClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, timeMode)
+   * const pages = client.listAlerts(alertConfigId, startTime, endTime, timeMode)
    *   .byPage({ maxPageSize: 10 });
    * let page = await pages.next();
    * let i = 1;
@@ -388,7 +388,7 @@ export class MetricsAdvisorClient {
     timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions = {}
   ): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse> {
-    const iter = this.listItemsOfAlertsForAlertingConfig(
+    const iter = this.listItemsOfAlerts(
       alertConfigId,
       typeof startTime === "string" ? new Date(startTime) : startTime,
       typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -412,7 +412,7 @@ export class MetricsAdvisorClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentOfAlertsForAlertingConfig(
+        return this.listSegmentOfAlerts(
           alertConfigId,
           typeof startTime === "string" ? new Date(startTime) : startTime,
           typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1570,12 +1570,12 @@ export class MetricsAdvisorClient {
    * @param feedback content of the feedback
    * @param options The options parameter
    */
-  public async createMetricFeedback(
+  public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createMetricFeedback",
+      "MetricsAdvisorAdministrationClient-createFeedback",
       options
     );
 
@@ -1588,7 +1588,7 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return this.getMetricFeedback(feedbackId);
+      return this.getFeedback(feedbackId);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1605,12 +1605,12 @@ export class MetricsAdvisorClient {
    * @param id Id of the feedback to retrieve
    * @param options The options parameter
    */
-  public async getMetricFeedback(
+  public async getFeedback(
     id: string,
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getMetricFeedback",
+      "MetricsAdvisorAdministrationClient-getFeedback",
       options
     );
 
