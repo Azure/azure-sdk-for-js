@@ -3,6 +3,7 @@
 
 import { PipelineOptions } from "@azure/core-http";
 
+export * from "./generated/models"
 // /**
 //  * Represents an object with a non-enumerable _response property which provides
 //  */
@@ -16,4 +17,13 @@ export interface ArtifactsClientOptions extends PipelineOptions {
    * Overrides client endpoint.
    */
   endpoint?: string;
+}
+
+
+export interface ListPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
 }
