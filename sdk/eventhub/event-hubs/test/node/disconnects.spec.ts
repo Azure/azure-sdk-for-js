@@ -69,8 +69,8 @@ describe("disconnected", function() {
       );
 
       const producer = new EventHubProducerClient(service.connectionString, service.path);
-      const event1 = { body: "the first event" };
-      const event2 = { body: "the second event" };
+      const eventSentBeforeDisconnect = { body: "the first event" };
+      const eventSentAfterDisconnect = { body: "the second event" };
 
       const maxWaitTimeInSeconds = 10;
       const partitionId = "0";
@@ -78,7 +78,7 @@ describe("disconnected", function() {
       const clientConnectionContext = consumer["_context"];
 
       // Send the first event after getting partition properties so that we can expect to receive it.
-      await producer.sendBatch([event1], { partitionId });
+      await producer.sendBatch([eventSentBeforeDisconnect], { partitionId });
 
       let subscription: Subscription | undefined;
       let originalConnectionId: string;
@@ -99,7 +99,7 @@ describe("disconnected", function() {
                   1,
                   "Expected to receive 1 event in first processEvents invocation."
                 );
-                should.equal(data[0].body, event1.body);
+                should.equal(data[0].body, eventSentBeforeDisconnect.body);
                 originalConnectionId = clientConnectionContext.connectionId;
                 // Trigger a disconnect on the underlying connection.
                 clientConnectionContext.connection["_connection"].idle();
@@ -121,7 +121,7 @@ describe("disconnected", function() {
                 const newConnectionId = clientConnectionContext.connectionId;
                 should.not.equal(originalConnectionId, newConnectionId);
                 // Send a new event that will be immediately receivable.
-                await producer.sendBatch([event2], { partitionId });
+                await producer.sendBatch([eventSentAfterDisconnect], { partitionId });
               } else if (processEventsInvocationCount === 3) {
                 // 3. Ensure that events can be received normally after the `disconnected` event.
                 should.equal(
@@ -129,7 +129,7 @@ describe("disconnected", function() {
                   1,
                   "Expected to receive 1 event in third processEvents invocation."
                 );
-                should.equal(data[0].body, event2.body);
+                should.equal(data[0].body, eventSentAfterDisconnect.body);
                 const newConnectionId = clientConnectionContext.connectionId;
                 should.not.equal(originalConnectionId, newConnectionId);
                 resolve();
