@@ -1,4 +1,4 @@
-import { isMessagingError, MessageErrorCodes, MessagingError, translate } from "@azure/core-amqp";
+import { isMessagingError, MessagingErrorCodes, MessagingError, translate } from "@azure/core-amqp";
 import { AmqpError } from "rhea-promise";
 
 /**
@@ -64,13 +64,13 @@ export type ServiceBusErrorReason =
   | "Unauthorized";
 
 /**
- * Translation between the MessageErrorCodes into a ServiceBusReason
+ * Translation between the MessagingErrorCodes into a ServiceBusReason
  *
  * @internal
  * @ignore
  */
 export const wellKnownMessageCodesToServiceBusReasons: Map<
-  MessageErrorCodes,
+  MessagingErrorCodes,
   ServiceBusErrorReason
 > = new Map([
   ["MessagingEntityNotFoundError", "MessagingEntityNotFound"],
@@ -133,7 +133,7 @@ export class ServiceBusError extends MessagingError {
   }
 
   private static convertMessagingCodeToReason(oldCode?: string): ServiceBusErrorReason {
-    const code = oldCode as MessageErrorCodes | undefined;
+    const code = oldCode as MessagingErrorCodes | undefined;
 
     if (code == null || !wellKnownMessageCodesToServiceBusReasons.has(code)) {
       return "GeneralError";
