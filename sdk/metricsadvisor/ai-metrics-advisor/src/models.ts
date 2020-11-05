@@ -1653,7 +1653,7 @@ export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
 }
 
 /**
- * Contains response data for the listAnomalyAlertConfigurations operation.
+ * Contains response data for the listAlertConfigs operation.
  */
 export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
   /**

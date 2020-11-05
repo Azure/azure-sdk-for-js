@@ -91,7 +91,7 @@ export type ListIncidentsForAlertOptions = {
  * Options for listing dimension values for detection configurations
  */
 
-export type ListDimensionValuesForDetectionConfigurationOptions = {
+export type ListDimensionValuesForDetectionConfigOptions = {
   skip?: number;
   dimensionFilter?: DimensionKey;
 } & OperationOptions;
@@ -100,7 +100,7 @@ export type ListDimensionValuesForDetectionConfigurationOptions = {
  * Options for listing feedbacks
  */
 
-export type ListFeedbacksOptions = {
+export type ListFeedbackOptions = {
   skip?: number;
   /**
    * filter when listing feedbacks
@@ -225,7 +225,7 @@ export class MetricsAdvisorClient {
    * @private
    * List alert segments for alerting configuration
    */
-  private async *listSegmentOfAlertsForAlertingConfig(
+  private async *listSegmentOfAlerts(
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
@@ -302,14 +302,14 @@ export class MetricsAdvisorClient {
    * @private
    * List alert items for alerting configuration
    */
-  private async *listItemsOfAlertsForAlertingConfig(
+  private async *listItemsOfAlerts(
     alertConfigId: string,
     startTime: Date,
     endTime: Date,
     timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions
   ): AsyncIterableIterator<AnomalyAlert> {
-    for await (const segment of this.listSegmentOfAlertsForAlertingConfig(
+    for await (const segment of this.listSegmentOfAlerts(
       alertConfigId,
       startTime,
       endTime,
@@ -335,7 +335,7 @@ export class MetricsAdvisorClient {
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey)
    * );
-   * const alerts = client.listAlertsForAlertConfiguration(alertConfigId,
+   * const alerts = client.listAlerts(alertConfigId,
    *   startTime, endTime, timeMode
    * );
    * let i = 1;
@@ -348,7 +348,7 @@ export class MetricsAdvisorClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, timeMode);
+   * let iter = client.listAlerts(alertConfigId, startTime, endTime, timeMode);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` alert - ${result.value.id}`);
@@ -359,7 +359,7 @@ export class MetricsAdvisorClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, timeMode)
+   * const pages = client.listAlerts(alertConfigId, startTime, endTime, timeMode)
    *   .byPage({ maxPageSize: 10 });
    * let page = await pages.next();
    * let i = 1;
@@ -381,14 +381,14 @@ export class MetricsAdvisorClient {
    * @param options The options parameter.
    */
 
-  public listAlertsForAlertConfiguration(
+  public listAlerts(
     alertConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
     timeMode: AlertQueryTimeMode,
     options: ListAlertsOptions = {}
   ): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse> {
-    const iter = this.listItemsOfAlertsForAlertingConfig(
+    const iter = this.listItemsOfAlerts(
       alertConfigId,
       typeof startTime === "string" ? new Date(startTime) : startTime,
       typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -412,7 +412,7 @@ export class MetricsAdvisorClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentOfAlertsForAlertingConfig(
+        return this.listSegmentOfAlerts(
           alertConfigId,
           typeof startTime === "string" ? new Date(startTime) : startTime,
           typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1192,7 +1192,7 @@ export class MetricsAdvisorClient {
     dimensionName: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListDimensionValuesForDetectionConfigurationOptions = {}
+    options: ListDimensionValuesForDetectionConfigOptions = {}
   ): AsyncIterableIterator<DimensionValuesPageResponse> {
     let segmentResponse;
     const optionsBody = {
@@ -1250,7 +1250,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigurationOptions
+    options: ListDimensionValuesForDetectionConfigOptions
   ): AsyncIterableIterator<string> {
     for await (const segment of this.listSegmentsOfDimensionValuesForDetectionConfig(
       detectionConfigId,
@@ -1324,12 +1324,12 @@ export class MetricsAdvisorClient {
    * @param endTime The end of time range to query anomalies
    * @param options The options parameter.
    */
-  public listDimensionValuesForDetectionConfiguration(
+  public listDimensionValuesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigurationOptions = {}
+    options: ListDimensionValuesForDetectionConfigOptions = {}
   ): PagedAsyncIterableIterator<string, DimensionValuesPageResponse> {
     const iter = this.listItemsOfDimensionValues(
       detectionConfigId,
@@ -1570,12 +1570,12 @@ export class MetricsAdvisorClient {
    * @param feedback content of the feedback
    * @param options The options parameter
    */
-  public async createMetricFeedback(
+  public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createMetricFeedback",
+      "MetricsAdvisorAdministrationClient-createFeedback",
       options
     );
 
@@ -1588,7 +1588,7 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return this.getMetricFeedback(feedbackId);
+      return this.getFeedback(feedbackId);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1605,12 +1605,12 @@ export class MetricsAdvisorClient {
    * @param id Id of the feedback to retrieve
    * @param options The options parameter
    */
-  public async getMetricFeedback(
+  public async getFeedback(
     id: string,
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getMetricFeedback",
+      "MetricsAdvisorAdministrationClient-getFeedback",
       options
     );
 
@@ -1632,11 +1632,11 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private async *listSegmentsOfMetricFeedbacks(
+  private async *listSegmentsOfFeedback(
     metricId: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): AsyncIterableIterator<MetricFeedbackPageResponse> {
     let segmentResponse;
     const startTime =
@@ -1699,11 +1699,11 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private async *listItemsOfMetricFeedback(
+  private async *listItemsOfFeedback(
     metricId: string,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): AsyncIterableIterator<MetricFeedbackUnion> {
-    for await (const segment of this.listSegmentsOfMetricFeedbacks(
+    for await (const segment of this.listSegmentsOfFeedback(
       metricId,
       undefined,
       undefined,
@@ -1725,7 +1725,7 @@ export class MetricsAdvisorClient {
    * ```js
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const feedbacks = client.listMetricFeedbacks(metricId);
+   * const feedbacks = client.listFeedback(metricId);
    * let i = 1;
    * for await (const f of feedbacks){
    *  console.log(`feedback ${i++}:`);
@@ -1736,7 +1736,7 @@ export class MetricsAdvisorClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listMetricFeedbacks(metricId);
+   * let iter = client.listFeedback(metricId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` feedback - ${result.value.id}`);
@@ -1748,7 +1748,7 @@ export class MetricsAdvisorClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listMetricFeedbacks(metricId)
+   * const pages = client.listFeedback(metricId)
    *   .byPage({ maxPageSize: 10 });
    * let page = await pages.next();
    * let i = 1;
@@ -1765,11 +1765,11 @@ export class MetricsAdvisorClient {
    * @param metricId Metric id
    * @param options The options parameter
    */
-  public listMetricFeedbacks(
+  public listFeedback(
     metricId: string,
-    options: ListFeedbacksOptions = {}
+    options: ListFeedbackOptions = {}
   ): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse> {
-    const iter = this.listItemsOfMetricFeedback(metricId, options);
+    const iter = this.listItemsOfFeedback(metricId, options);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1787,7 +1787,7 @@ export class MetricsAdvisorClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentsOfMetricFeedbacks(
+        return this.listSegmentsOfFeedback(
           metricId,
           settings.continuationToken,
           settings.maxPageSize,
