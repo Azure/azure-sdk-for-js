@@ -19,6 +19,7 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 import { delay } from "@azure/core-http";
+import { getRandomIntegerInclusive } from "./serviceUtils";
 
 /**
  * Default Batch Size
@@ -382,12 +383,15 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
       if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetries) {
-        const jitterValue = Math.floor(Math.random() * 1000) + 1;
-        const timeToWait = Math.min(
-          Math.pow(2, retryAttempt * this.retryDelayInMs + jitterValue),
-          this.maxRetryDelayInMs
-        );
-        await delay(timeToWait + jitterValue);
+        // Exponentially increase the delay each time
+        const exponentialDelay = this.retryDelayInMs * Math.pow(2, retryAttempt);
+        // Don't let the delay exceed the maximum
+        const clampedExponentialDelay = Math.min(this.maxRetryDelayInMs, exponentialDelay);
+        // Allow the final value to have some "jitter" (within 50% of the delay size) so
+        // that retries across multiple clients don't occur simultaneously.
+        const delayWithJitter =
+          clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
+        await delay(delayWithJitter);
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
         this.emitter.emit("batchFailed", e);
