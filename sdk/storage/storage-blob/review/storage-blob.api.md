@@ -1289,6 +1289,7 @@ export class BlockBlobClient extends BlobClient {
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadFromURL(sourceURL: string, options?: BlockBlobUploadFromURLOptions): Promise<BlockBlobPutBlobFromUrlResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
@@ -1377,6 +1378,30 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 }
 
 // @public
+export interface BlockBlobPutBlobFromUrlHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    versionId?: string;
+}
+
+// @public
+export type BlockBlobPutBlobFromUrlResponse = BlockBlobPutBlobFromUrlHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlockBlobPutBlobFromUrlHeaders;
+    };
+};
+
+// @public
 export interface BlockBlobQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
@@ -1458,6 +1483,20 @@ export enum BlockBlobTier {
     Archive = "Archive",
     Cool = "Cool",
     Hot = "Hot"
+}
+
+// @public
+export interface BlockBlobUploadFromURLOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    conditions?: BlobRequestConditions;
+    copySourceBlobProperties?: boolean;
+    customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
+    metadata?: Metadata;
+    sourceConditions?: ModifiedAccessConditions;
+    tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -1974,7 +2013,7 @@ export interface FilterBlobItem {
     // (undocumented)
     name: string;
     // (undocumented)
-    tagValue: string;
+    tags?: BlobTags;
 }
 
 // @public
@@ -2603,6 +2642,7 @@ export { RestError }
 
 // @public
 export interface RetentionPolicy {
+    allowPermanentDelete?: boolean;
     days?: number;
     enabled: boolean;
 }
