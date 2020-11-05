@@ -70,7 +70,7 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 
 ## Environment Variables
 
-[`DefaultAzureCredential`][ref_defaultazurecredential] and [`EnvironmentCredential`][ref_environmentcredential] can be configured with environment variables. Each type of authentication requires values for specific variables:
+`DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables:
 
 #### Service principal with secret
 
