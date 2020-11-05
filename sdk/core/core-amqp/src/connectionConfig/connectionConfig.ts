@@ -134,7 +134,8 @@ export const ConnectionConfig = {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
-    config.entityPath = String(config.entityPath);
+    config.entityPath =
+      config.entityPath == undefined ? config.entityPath : String(config.entityPath);
 
     if (!isSharedAccessSignature(config.connectionString)) {
       if (!config.sharedAccessKeyName) {
