@@ -14,7 +14,10 @@ import {
   AnomalyAlert,
   GetDataFeedResponse,
   MetricsAdvisorClient,
-  WebNotificationHook
+  WebNotificationHook,
+  DataFeedDescriptor,
+  AnomalyAlertConfiguration,
+  AnomalyDetectionConfiguration
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -87,7 +90,7 @@ async function createDataFeed(
   sqlServerQuery: string
 ): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
-  const dataFeed = {
+  const dataFeed: DataFeedDescriptor = {
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
       dataSourceType: "SqlServer",
@@ -165,7 +168,7 @@ async function configureAnomalyDetectionConfiguration(
   metricId: string
 ) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  const anomalyConfig = {
+  const anomalyConfig: Omit<AnomalyDetectionConfiguration, "id"> = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
     wholeSeriesDetectionCondition: {
@@ -207,7 +210,7 @@ async function configureAlertConfiguration(
   hookIds: string[]
 ) {
   console.log("Creating a new alerting configuration...");
-  const anomalyAlert = {
+  const anomalyAlert: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [
@@ -245,12 +248,7 @@ async function queryAlerts(
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
   let alerts: AnomalyAlert[] = [];
-  for await (const alert of client.listAlerts(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
+  for await (const alert of client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")) {
     alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
