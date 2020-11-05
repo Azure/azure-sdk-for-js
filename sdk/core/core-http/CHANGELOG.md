@@ -1,10 +1,14 @@
 # Release History
 
-## 1.2.0 (2020-10-19)
+## 1.2.0 (2020-11-05)
 
 - Explicitly set `manual` redirect handling for node fetch. And fixing redirectPipeline [PR 11863](https://github.com/Azure/azure-sdk-for-js/pull/11863)
 - Add support for multiple error response codes. [PR 11841](https://github.com/Azure/azure-sdk-for-js/)
 - Allow customizing serializer behavior via optional `SerialzierOptions` parameters. Particularly allow using a different `XML_CHARKEY` than the default `_` when parsing XML [PR 12065](https://github.com/Azure/azure-sdk-for-js/pull/12065)
+- Unexpected status code is now handled as an error if a mapper is not provided for it [PR 12153](https://github.com/Azure/azure-sdk-for-js/pull/12153)
+- Empty collection is now serialized correctly for `multi` format query parameters [PR 12090](https://github.com/Azure/azure-sdk-for-js/pull/12090)
+- De-serialize error from parsed object before trying to use its `code` and `message` properties [PR 12150](https://github.com/Azure/azure-sdk-for-js/pull/12150)
+- Fix an error thrown on older versions of Safari [PR 11759](https://github.com/Azure/azure-sdk-for-js/pull/11759)
 
 ## 1.1.9 (2020-09-30)
 
