@@ -1278,8 +1278,8 @@ export interface SearchIndexingBufferedSenderOptions {
     flushWindowInMs?: number;
     initialBatchDocumentCount?: number;
     maxRetries?: number;
-    maxRetryDelay?: number;
-    retryDelay?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public
