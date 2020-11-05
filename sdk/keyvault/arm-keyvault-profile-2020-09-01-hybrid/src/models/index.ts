@@ -665,6 +665,126 @@ export interface Operation {
 }
 
 /**
+ * The object attributes managed by the KeyVault service.
+ */
+export interface Attributes {
+  /**
+   * Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * Not before date in seconds since 1970-01-01T00:00:00Z.
+   */
+  notBefore?: Date;
+  /**
+   * Expiry date in seconds since 1970-01-01T00:00:00Z.
+   */
+  expires?: Date;
+  /**
+   * Creation time in seconds since 1970-01-01T00:00:00Z.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * Last updated time in seconds since 1970-01-01T00:00:00Z.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updated?: Date;
+}
+
+/**
+ * The secret management attributes.
+ */
+export interface SecretAttributes extends Attributes {
+}
+
+/**
+ * Properties of the secret
+ */
+export interface SecretProperties {
+  /**
+   * The value of the secret. NOTE: 'value' will never be returned from the service, as APIs using
+   * this model are is intended for internal use in ARM deployments. Users should use the
+   * data-plane REST service for interaction with vault secrets.
+   */
+  value?: string;
+  /**
+   * The content type of the secret.
+   */
+  contentType?: string;
+  /**
+   * The attributes of the secret.
+   */
+  attributes?: SecretAttributes;
+  /**
+   * The URI to retrieve the current version of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly secretUri?: string;
+  /**
+   * The URI to retrieve the specific version of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly secretUriWithVersion?: string;
+}
+
+/**
+ * Properties of the secret
+ */
+export interface SecretPatchProperties {
+  /**
+   * The value of the secret.
+   */
+  value?: string;
+  /**
+   * The content type of the secret.
+   */
+  contentType?: string;
+  /**
+   * The attributes of the secret.
+   */
+  attributes?: SecretAttributes;
+}
+
+/**
+ * Parameters for creating or updating a secret
+ */
+export interface SecretCreateOrUpdateParameters extends BaseResource {
+  /**
+   * The tags that will be assigned to the secret.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Properties of the secret
+   */
+  properties: SecretProperties;
+}
+
+/**
+ * Parameters for patching a secret
+ */
+export interface SecretPatchParameters extends BaseResource {
+  /**
+   * The tags that will be assigned to the secret.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Properties of the secret
+   */
+  properties?: SecretPatchProperties;
+}
+
+/**
+ * Resource information with extended details.
+ */
+export interface Secret extends Resource {
+  /**
+   * Properties of the secret
+   */
+  properties: SecretProperties;
+}
+
+/**
  * Optional Parameters.
  */
 export interface VaultsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
@@ -688,6 +808,16 @@ export interface VaultsListBySubscriptionOptionalParams extends msRest.RequestOp
  * Optional Parameters.
  */
 export interface VaultsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Maximum number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SecretsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Maximum number of results to return.
    */
@@ -777,6 +907,18 @@ export interface ResourceListResult extends Array<Resource> {
 export interface OperationListResult extends Array<Operation> {
   /**
    * The URL to get the next set of operations.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of secrets
+ * @extends Array<Secret>
+ */
+export interface SecretListResult extends Array<Secret> {
+  /**
+   * The URL to get the next set of secrets.
    */
   nextLink?: string;
 }
@@ -1310,5 +1452,105 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SecretsCreateOrUpdateResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SecretsUpdateResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecretsGetResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecretsListResponse = SecretListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecretsListNextResponse = SecretListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
     };
 };

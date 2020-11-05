@@ -8,6 +8,7 @@
 
 export {
   AccessPolicyEntry,
+  Attributes,
   BaseResource,
   CheckNameAvailabilityResult,
   CloudError,
@@ -24,6 +25,12 @@ export {
   PrivateLinkServiceConnectionState,
   Resource,
   ResourceListResult,
+  Secret,
+  SecretAttributes,
+  SecretCreateOrUpdateParameters,
+  SecretPatchParameters,
+  SecretPatchProperties,
+  SecretProperties,
   Sku,
   Vault,
   VaultAccessPolicyParameters,

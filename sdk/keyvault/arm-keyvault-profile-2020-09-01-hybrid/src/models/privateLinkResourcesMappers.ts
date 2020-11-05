@@ -8,6 +8,7 @@
 
 export {
   AccessPolicyEntry,
+  Attributes,
   BaseResource,
   CloudError,
   IPRule,
@@ -20,6 +21,12 @@ export {
   PrivateLinkResourceListResult,
   PrivateLinkServiceConnectionState,
   Resource,
+  Secret,
+  SecretAttributes,
+  SecretCreateOrUpdateParameters,
+  SecretPatchParameters,
+  SecretPatchProperties,
+  SecretProperties,
   Sku,
   Vault,
   VaultAccessPolicyParameters,
