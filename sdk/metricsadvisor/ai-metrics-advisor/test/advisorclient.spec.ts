@@ -141,7 +141,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("listDimensionValuesForDetectionConfiguration()", async function() {
-    const iterator = client.listDimensionValuesForDetectionConfiguration(
+    const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
@@ -154,7 +154,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
-    const iterator = client.listDimensionValuesForDetectionConfiguration(
+    const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       "2020-08-05T00:00:00.000Z",
       "2020-09-05T00:00:00.000Z",
@@ -168,7 +168,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listDimensionValuesForDetectionConfiguration() by page", async function() {
     const iterator = client
-      .listDimensionValuesForDetectionConfiguration(
+      .listDimensionValuesForDetectionConfig(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
         new Date(Date.UTC(2020, 7, 5)),
         new Date(Date.UTC(2020, 8, 5)),
