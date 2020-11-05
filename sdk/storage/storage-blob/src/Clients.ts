@@ -493,10 +493,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {BlobRequestConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobSetTagsOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
@@ -517,10 +517,10 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {BlobRequestConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobGetTagsOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
