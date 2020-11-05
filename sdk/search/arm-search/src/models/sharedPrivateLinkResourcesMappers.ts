@@ -9,8 +9,6 @@
 export {
   AzureEntityResource,
   BaseResource,
-  CheckNameAvailabilityInput,
-  CheckNameAvailabilityOutput,
   CloudError,
   Identity,
   IpRule,
@@ -24,11 +22,11 @@ export {
   ProxyResource,
   Resource,
   SearchService,
-  SearchServiceListResult,
   SearchServiceUpdate,
   ShareablePrivateLinkResourceProperties,
   ShareablePrivateLinkResourceType,
   SharedPrivateLinkResource,
+  SharedPrivateLinkResourceListResult,
   SharedPrivateLinkResourceProperties,
   Sku,
   TrackedResource
