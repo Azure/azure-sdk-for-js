@@ -3,9 +3,10 @@
 
 import * as chai from "chai";
 const should = chai.should();
-import { CbsClient, ConnectionConfig, ConnectionContextBase, DefaultDataTransformer } from "../src";
+import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
 import { isNode } from "../src/util/utils";
+import { DefaultDataTransformer } from "../src/dataTransformer";
 
 describe("ConnectionContextBase", function() {
   it("should be created with required parameters", function(done) {

@@ -5,7 +5,7 @@
 
 export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
 export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry";
-export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
+export { DataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
 
 export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
