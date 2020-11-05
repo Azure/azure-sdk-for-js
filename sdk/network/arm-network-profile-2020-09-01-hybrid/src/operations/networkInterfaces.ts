@@ -92,32 +92,9 @@ export class NetworkInterfaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfacesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param parameters Parameters supplied to update network interface tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param parameters Parameters supplied to update network interface tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterface>, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkInterfaceName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,networkInterfaceName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkInterfacesUpdateTagsResponse>;
   }
 
   /**
@@ -197,199 +174,6 @@ export class NetworkInterfaces {
   }
 
   /**
-   * Gets information about all network interfaces in a virtual machine in a virtual machine scale
-   * set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse>
-   */
-  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        options
-      },
-      listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse>;
-  }
-
-  /**
-   * Gets all network interfaces in a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse>
-   */
-  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        options
-      },
-      listVirtualMachineScaleSetNetworkInterfacesOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse>;
-  }
-
-  /**
-   * Get the specified network interface in a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse>
-   */
-  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams | msRest.ServiceCallback<Models.NetworkInterface>, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        options
-      },
-      getVirtualMachineScaleSetNetworkInterfaceOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse>;
-  }
-
-  /**
-   * Get the specified network interface ip configuration in a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse>
-   */
-  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        options
-      },
-      listVirtualMachineScaleSetIpConfigurationsOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse>;
-  }
-
-  /**
-   * Get the specified network interface ip configuration in a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the ip configuration.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse>
-   */
-  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the ip configuration.
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the ip configuration.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): void;
-  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams | msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        options
-      },
-      getVirtualMachineScaleSetIpConfigurationOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse>;
-  }
-
-  /**
    * Deletes the specified network interface.
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
@@ -424,6 +208,26 @@ export class NetworkInterfaces {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates a network interface tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkInterfaceName The name of the network interface.
+   * @param parameters Parameters supplied to update network interface tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        networkInterfaceName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -518,93 +322,6 @@ export class NetworkInterfaces {
       listNextOperationSpec,
       callback) as Promise<Models.NetworkInterfacesListNextResponse>;
   }
-
-  /**
-   * Gets information about all network interfaces in a virtual machine in a virtual machine scale
-   * set.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse>
-   */
-  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse>;
-  }
-
-  /**
-   * Gets all network interfaces in a virtual machine scale set.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse>
-   */
-  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse>;
-  }
-
-  /**
-   * Get the specified network interface ip configuration in a virtual machine scale set.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse>
-   */
-  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listVirtualMachineScaleSetIpConfigurationsNextOperationSpec,
-      callback) as Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -618,44 +335,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.expand
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterface
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterface
@@ -674,7 +359,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -698,7 +383,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -706,142 +391,6 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetNetworkInterfacesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getVirtualMachineScaleSetNetworkInterfaceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.networkInterfaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterface
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetIpConfigurationsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.networkInterfaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getVirtualMachineScaleSetIpConfigurationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfiguration
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -859,7 +408,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -884,7 +433,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -910,6 +459,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginGetEffectiveRouteTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
@@ -919,7 +500,7 @@ const beginGetEffectiveRouteTableOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -945,7 +526,7 @@ const beginListEffectiveNetworkSecurityGroupsOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -996,69 +577,6 @@ const listNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetIpConfigurationsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

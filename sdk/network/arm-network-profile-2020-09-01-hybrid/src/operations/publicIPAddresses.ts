@@ -92,32 +92,9 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the public IP address.
-   * @param parameters Parameters supplied to update public IP address tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the public IP address.
-   * @param parameters Parameters supplied to update public IP address tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        publicIpAddressName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,publicIpAddressName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPAddressesUpdateTagsResponse>;
   }
 
   /**
@@ -173,131 +150,6 @@ export class PublicIPAddresses {
   }
 
   /**
-   * Gets information about all public IP addresses on a virtual machine scale set level.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>
-   */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        options
-      },
-      listVirtualMachineScaleSetPublicIPAddressesOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>;
-  }
-
-  /**
-   * Gets information about all public IP addresses in a virtual machine IP configuration in a
-   * virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The network interface name.
-   * @param ipConfigurationName The IP configuration name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>
-   */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The network interface name.
-   * @param ipConfigurationName The IP configuration name.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The network interface name.
-   * @param ipConfigurationName The IP configuration name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        options
-      },
-      listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>;
-  }
-
-  /**
-   * Get the specified public IP address in a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the IP configuration.
-   * @param publicIpAddressName The name of the public IP Address.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>
-   */
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the IP configuration.
-   * @param publicIpAddressName The name of the public IP Address.
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-   * @param virtualmachineIndex The virtual machine index.
-   * @param networkInterfaceName The name of the network interface.
-   * @param ipConfigurationName The name of the IP configuration.
-   * @param publicIpAddressName The name of the public IP Address.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        publicIpAddressName,
-        options
-      },
-      getVirtualMachineScaleSetPublicIPAddressOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>;
-  }
-
-  /**
    * Deletes the specified public IP address.
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
@@ -332,6 +184,26 @@ export class PublicIPAddresses {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates public IP address tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameters supplied to update public IP address tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        publicIpAddressName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -390,65 +262,6 @@ export class PublicIPAddresses {
       listNextOperationSpec,
       callback) as Promise<Models.PublicIPAddressesListNextResponse>;
   }
-
-  /**
-   * Gets information about all public IP addresses on a virtual machine scale set level.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>
-   */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>;
-  }
-
-  /**
-   * Gets information about all public IP addresses in a virtual machine IP configuration in a
-   * virtual machine scale set.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>
-   */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -462,44 +275,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.expand
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddress
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.publicIpAddressName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddress
@@ -518,7 +299,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -542,7 +323,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -550,89 +331,6 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddressListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getVirtualMachineScaleSetPublicIPAddressOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName,
-    Parameters.publicIpAddressName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddress
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -650,7 +348,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,7 +373,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -692,6 +390,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PublicIPAddress
     },
     201: {
+      bodyMapper: Mappers.PublicIPAddress
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.publicIpAddressName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.PublicIPAddress
     },
     default: {
@@ -723,48 +453,6 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
 };
 
 const listNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

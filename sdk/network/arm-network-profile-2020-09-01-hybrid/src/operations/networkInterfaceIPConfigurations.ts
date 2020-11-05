@@ -27,7 +27,7 @@ export class NetworkInterfaceIPConfigurations {
   }
 
   /**
-   * Get all ip configurations in a network interface.
+   * Get all ip configurations in a network interface
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param [options] The optional parameters
@@ -95,7 +95,7 @@ export class NetworkInterfaceIPConfigurations {
   }
 
   /**
-   * Get all ip configurations in a network interface.
+   * Get all ip configurations in a network interface
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>
@@ -134,7 +134,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -160,7 +160,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

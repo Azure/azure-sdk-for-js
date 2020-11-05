@@ -92,32 +92,9 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param loadBalancerName The name of the load balancer.
-   * @param parameters Parameters supplied to update load balancer tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.LoadBalancer>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param loadBalancerName The name of the load balancer.
-   * @param parameters Parameters supplied to update load balancer tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancer>): void;
-  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancer>, callback?: msRest.ServiceCallback<Models.LoadBalancer>): Promise<Models.LoadBalancersUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        loadBalancerName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.LoadBalancersUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,loadBalancerName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LoadBalancersUpdateTagsResponse>;
   }
 
   /**
@@ -211,6 +188,26 @@ export class LoadBalancers {
   }
 
   /**
+   * Updates a load balancer tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param parameters Parameters supplied to update load balancer tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        loadBalancerName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
+      options);
+  }
+
+  /**
    * Gets all the load balancers in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -278,44 +275,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.expand
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.LoadBalancer
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.loadBalancerName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.LoadBalancer
@@ -334,7 +299,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -358,7 +323,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -383,7 +348,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -408,7 +373,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -425,6 +390,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LoadBalancer
     },
     201: {
+      bodyMapper: Mappers.LoadBalancer
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.loadBalancerName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.LoadBalancer
     },
     default: {

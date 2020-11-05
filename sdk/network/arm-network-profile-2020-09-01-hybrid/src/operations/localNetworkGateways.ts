@@ -92,32 +92,9 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param localNetworkGatewayName The name of the local network gateway.
-   * @param parameters Parameters supplied to update local network gateway tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.LocalNetworkGateway>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param localNetworkGatewayName The name of the local network gateway.
-   * @param parameters Parameters supplied to update local network gateway tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGateway>): void;
-  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGateway>, callback?: msRest.ServiceCallback<Models.LocalNetworkGateway>): Promise<Models.LocalNetworkGatewaysUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        localNetworkGatewayName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,localNetworkGatewayName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>;
   }
 
   /**
@@ -187,6 +164,26 @@ export class LocalNetworkGateways {
   }
 
   /**
+   * Updates a local network gateway tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param localNetworkGatewayName The name of the local network gateway.
+   * @param parameters Parameters supplied to update local network gateway tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        localNetworkGatewayName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
+      options);
+  }
+
+  /**
    * Gets all the local network gateways in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -226,43 +223,11 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.LocalNetworkGateway
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.localNetworkGatewayName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.LocalNetworkGateway
@@ -282,7 +247,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -307,7 +272,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -342,7 +307,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -351,6 +316,38 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.localNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocalNetworkGateway
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
