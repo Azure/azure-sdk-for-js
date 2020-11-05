@@ -41,11 +41,6 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    /**
-     * Temporary workaround to release service-bus v7 preview.8.
-     * Supposed to be reverted after the release.
-     */
-    "@azure/core-http": ["^1.1.9"],
     "@azure/ms-rest-js": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
