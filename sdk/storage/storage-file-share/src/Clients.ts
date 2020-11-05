@@ -49,7 +49,8 @@ import {
   SignedIdentifierModel,
   SourceModifiedAccessConditions,
   ShareAccessTier,
-  ShareSetPropertiesResponse
+  ShareSetPropertiesResponse,
+  ShareRootSquash
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -103,6 +104,30 @@ import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
 
 /**
+ * Protocols to enable on the share.
+ * @export
+ * @interface ShareEnabledProtocols
+ */
+export interface ShareEnabledProtocols {
+  /**
+   * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
+   *
+   * @type {boolean}
+   * @memberof ShareEnabledProtocols
+   */
+  SMB: boolean;
+  /**
+   * The share can be accessed by NFSv4.1.
+   *
+   * @type {boolean}
+   * @memberof ShareEnabledProtocols
+   */
+  NFS: boolean;
+}
+
+type ShareEnabledProtocolsItem = "SMB" | "NFS";
+
+/**
  * Options to configure the {@link ShareClient.create} operation.
  *
  * @export
@@ -141,6 +166,20 @@ export interface ShareCreateOptions extends CommonOptions {
    * @memberof ShareCreateOptions
    */
   accessTier?: ShareAccessTier;
+
+  /**
+   * Supported in version 2020-02-10 and above. Specifies the enabled protocols on the share. If not specified, the default is SMB.
+   * @type {ShareEnabledProtocols}
+   * @memberof ShareCreateOptions
+   */
+  enabledProtocols?: ShareEnabledProtocols;
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'.
+   * @type {ShareRootSquash}
+   * @memberof ShareCreateOptions
+   */
+  rootSquash?: ShareRootSquash;
 }
 
 /**
@@ -351,6 +390,14 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * @memberof ShareSetPropertiesOptions
    */
   quotaInGB?: number;
+
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'.
+   * @type {ShareRootSquash}
+   * @memberof ShareSetPropertiesOptions
+   */
+  rootSquash?: ShareRootSquash;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
    *
@@ -698,8 +745,22 @@ export class ShareClient extends StorageClient {
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
+      const enabledProtocolsArray: ShareEnabledProtocolsItem[] = [];
+      if (options.enabledProtocols?.SMB) {
+        enabledProtocolsArray.push("SMB");
+      } else if (options.enabledProtocols?.NFS) {
+        // FUTURE: remove "else". For now, only support "SMB" or "NFS" but can support both in the future.
+        enabledProtocolsArray.push("NFS");
+      }
+
+      let enabledProtocols: string | undefined = undefined;
+      if (enabledProtocolsArray.length !== 0) {
+        enabledProtocols = enabledProtocolsArray.join(";");
+      }
+
       return await this.context.create({
         ...options,
+        enabledProtocols,
         spanOptions
       });
     } catch (e) {

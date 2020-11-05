@@ -190,6 +190,11 @@ export interface ShareProperties {
    * Possible values include: 'infinite', 'fixed'
    */
   leaseDuration?: LeaseDurationType;
+  enabledProtocols?: string;
+  /**
+   * Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: ShareRootSquash;
 }
 
 /**
@@ -548,6 +553,15 @@ export interface ShareCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * 'Hot', 'Cool'
    */
   accessTier?: ShareAccessTier;
+  /**
+   * Protocols to enable on the share.
+   */
+  enabledProtocols?: string;
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: ShareRootSquash;
 }
 
 /**
@@ -798,6 +812,11 @@ export interface ShareSetPropertiesOptionalParams extends coreHttp.RequestOption
    * 'Hot', 'Cool'
    */
   accessTier?: ShareAccessTier;
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: ShareRootSquash;
   /**
    * Additional parameters for the operation
    */
@@ -1689,6 +1708,14 @@ export interface ShareGetPropertiesHeaders {
    * Returns the transition state betweeen access tiers, when present.
    */
   accessTierTransitionState?: string;
+  /**
+   * The protocols that have been enabled on the share.
+   */
+  enabledProtocols?: string;
+  /**
+   * Valid for NFS shares only. Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: ShareRootSquash;
   errorCode?: string;
 }
 
@@ -3458,6 +3485,14 @@ export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | '
  * @enum {string}
  */
 export type LeaseStatusType = 'locked' | 'unlocked';
+
+/**
+ * Defines values for ShareRootSquash.
+ * Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+ * @readonly
+ * @enum {string}
+ */
+export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 /**
  * Defines values for ShareAccessTier.

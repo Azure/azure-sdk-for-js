@@ -1382,10 +1382,12 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    enabledProtocols?: ShareEnabledProtocols;
     metadata?: {
         [propertyName: string]: string;
     };
     quota?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
@@ -1510,6 +1512,12 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
 // @public
+export interface ShareEnabledProtocols {
+    NFS: boolean;
+    SMB: boolean;
+}
+
+// @public
 export interface ShareExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1619,6 +1627,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
     date?: Date;
+    enabledProtocols?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1636,6 +1645,7 @@ export interface ShareGetPropertiesHeaders {
     provisionedIops?: number;
     quota?: number;
     requestId?: string;
+    rootSquash?: ShareRootSquash;
     version?: string;
 }
 
@@ -1729,6 +1739,8 @@ export interface ShareProperties {
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)
+    enabledProtocols?: string;
+    // (undocumented)
     etag: string;
     // (undocumented)
     lastModified: Date;
@@ -1747,12 +1759,16 @@ export interface ShareProperties {
     quota: number;
     // (undocumented)
     remainingRetentionDays?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
 export interface ShareProtocolSettings {
     smb?: ShareSmbSettings;
 }
+
+// @public
+export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 // @public
 export class ShareSASPermissions {
@@ -1847,6 +1863,7 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
     accessTier?: ShareAccessTier;
     leaseAccessConditions?: LeaseAccessConditions;
     quotaInGB?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
