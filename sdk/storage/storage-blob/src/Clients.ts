@@ -494,10 +494,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobSetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -518,14 +518,14 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobGetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
- * Contains response data for the {@link ContainerClient.getTags} operation.
+ * Contains response data for the {@link BlobClient.getTags} operation.
  */
 export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
     /**
@@ -1738,6 +1738,7 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -1768,6 +1769,7 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.blobContext.getTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions

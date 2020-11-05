@@ -709,7 +709,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions;
+    conditions?: BlobRequestConditions;
 }
 
 // @public
@@ -1148,7 +1148,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions;
+    conditions?: BlobRequestConditions;
 }
 
 // @public
@@ -2008,6 +2008,13 @@ export type EncryptionAlgorithmType = 'AES256';
 
 // @public
 export interface FilterBlobItem {
+    containerName: string;
+    name: string;
+    tags?: Tags;
+}
+
+// @public
+export interface FilterBlobItemModel {
     // (undocumented)
     containerName: string;
     // (undocumented)
@@ -2019,7 +2026,7 @@ export interface FilterBlobItem {
 // @public
 export interface FilterBlobSegment {
     // (undocumented)
-    blobs: FilterBlobItem[];
+    blobs: FilterBlobItemModel[];
     // (undocumented)
     continuationToken?: string;
     // (undocumented)
@@ -2726,17 +2733,22 @@ export interface ServiceFilterBlobsHeaders {
 }
 
 // @public
-export interface ServiceFindBlobByTagsOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
+export type ServiceFilterBlobsResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ServiceFilterBlobsHeaders;
         bodyAsText: string;
         parsedBody: FilterBlobSegment;
     };
+};
+
+// @public
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
+    blobs: FilterBlobItem[];
 };
 
 // @public

@@ -22,14 +22,12 @@ import {
   ContainerItem,
   ListContainersIncludeType,
   UserDelegationKeyModel,
-  ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem,
   ContainerUndeleteResponse
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts, toTags } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
@@ -38,6 +36,8 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
+import { Tags } from "./models";
+import { ServiceFilterBlobsResponse } from "./generated/src/models";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -188,6 +188,42 @@ interface ServiceFindBlobsByTagsSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
 }
+
+/**
+ * Blob info from a {@link BlobServiceClient.findBlobsByTags}
+ */
+export interface FilterBlobItem {
+  /**
+   * Blob Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  name: string;
+
+  /**
+   * Container Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  containerName: string;
+
+  /**
+   * Blob Tags.
+   *
+   * @type {Tags}
+   * @memberof FilterBlobItem
+   */
+  tags?: Tags;
+}
+
+/**
+ * Contains response data for the {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
+  blobs: FilterBlobItem[];
+};
 
 /**
  * Options to configure the {@link BlobServiceClient.listContainers} operation.
@@ -826,13 +862,22 @@ export class BlobServiceClient extends StorageClient {
     );
 
     try {
-      return await this.serviceContext.filterBlobs({
+      const response = await this.serviceContext.filterBlobs({
         abortSignal: options.abortSignal,
         where: tagFilterSqlExpression,
         marker,
         maxPageSize: options.maxPageSize,
         spanOptions
       });
+
+      const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        blobs: response.blobs.map((blob) => {
+          return { ...blob, tags: toTags(blob.tags) };
+        })
+      };
+      return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
