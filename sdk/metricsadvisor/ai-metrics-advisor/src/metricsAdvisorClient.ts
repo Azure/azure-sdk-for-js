@@ -91,7 +91,7 @@ export type ListIncidentsForAlertOptions = {
  * Options for listing dimension values for detection configurations
  */
 
-export type ListDimensionValuesForDetectionConfigurationOptions = {
+export type ListDimensionValuesForDetectionConfigOptions = {
   skip?: number;
   dimensionFilter?: DimensionKey;
 } & OperationOptions;
@@ -1192,7 +1192,7 @@ export class MetricsAdvisorClient {
     dimensionName: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListDimensionValuesForDetectionConfigurationOptions = {}
+    options: ListDimensionValuesForDetectionConfigOptions = {}
   ): AsyncIterableIterator<DimensionValuesPageResponse> {
     let segmentResponse;
     const optionsBody = {
@@ -1250,7 +1250,7 @@ export class MetricsAdvisorClient {
     startTime: Date,
     endTime: Date,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigurationOptions
+    options: ListDimensionValuesForDetectionConfigOptions
   ): AsyncIterableIterator<string> {
     for await (const segment of this.listSegmentsOfDimensionValuesForDetectionConfig(
       detectionConfigId,
@@ -1324,12 +1324,12 @@ export class MetricsAdvisorClient {
    * @param endTime The end of time range to query anomalies
    * @param options The options parameter.
    */
-  public listDimensionValuesForDetectionConfiguration(
+  public listDimensionValuesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigurationOptions = {}
+    options: ListDimensionValuesForDetectionConfigOptions = {}
   ): PagedAsyncIterableIterator<string, DimensionValuesPageResponse> {
     const iter = this.listItemsOfDimensionValues(
       detectionConfigId,

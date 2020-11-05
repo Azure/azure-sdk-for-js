@@ -826,7 +826,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```js
    * const client = new MetricsAdvisorAdministrationClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const alertConfigurations = client.listAnomalyAlertConfigurations(detectionConfigurationId);
+   * const alertConfigurations = client.listAlertConfigs(detectionConfigurationId);
    * let i = 1;
    * for await (const alertConfiguration of alertConfigurations){
    *  console.log(`alertConfiguration ${i++}:`);
