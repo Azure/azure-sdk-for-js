@@ -26,14 +26,6 @@ class StorageManagementClient extends StorageManagementClientContext {
   privateLinkResources: operations.PrivateLinkResources;
   objectReplicationPolicies: operations.ObjectReplicationPoliciesOperations;
   encryptionScopes: operations.EncryptionScopes;
-  blobServices: operations.BlobServices;
-  blobContainers: operations.BlobContainers;
-  fileServices: operations.FileServices;
-  fileShares: operations.FileShares;
-  queueServices: operations.QueueServices;
-  queue: operations.Queue;
-  tableServices: operations.TableServices;
-  table: operations.TableOperations;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.
@@ -52,14 +44,6 @@ class StorageManagementClient extends StorageManagementClientContext {
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.objectReplicationPolicies = new operations.ObjectReplicationPoliciesOperations(this);
     this.encryptionScopes = new operations.EncryptionScopes(this);
-    this.blobServices = new operations.BlobServices(this);
-    this.blobContainers = new operations.BlobContainers(this);
-    this.fileServices = new operations.FileServices(this);
-    this.fileShares = new operations.FileShares(this);
-    this.queueServices = new operations.QueueServices(this);
-    this.queue = new operations.Queue(this);
-    this.tableServices = new operations.TableServices(this);
-    this.table = new operations.TableOperations(this);
   }
 }
 
