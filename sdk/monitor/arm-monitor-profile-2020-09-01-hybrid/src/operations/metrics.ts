@@ -70,9 +70,9 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.aggregation,
     Parameters.top,
     Parameters.orderby,
-    Parameters.filter1,
+    Parameters.filter,
     Parameters.resultType,
-    Parameters.apiVersion5,
+    Parameters.apiVersion0,
     Parameters.metricnamespace
   ],
   headerParameters: [

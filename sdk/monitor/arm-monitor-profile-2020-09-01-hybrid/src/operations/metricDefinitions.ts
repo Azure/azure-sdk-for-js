@@ -64,7 +64,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceUri
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion0,
     Parameters.metricnamespace
   ],
   headerParameters: [

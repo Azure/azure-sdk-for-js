@@ -7,7 +7,6 @@
  */
 
 export {
-  discriminators,
   ErrorResponse,
   EventCategoryCollection,
   LocalizableString

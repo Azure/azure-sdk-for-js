@@ -15,7 +15,7 @@ npm install @azure/arm-monitor-profile-2020-09-01-hybrid
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list metricDefinitions as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -35,8 +35,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new MonitorManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+  const resourceUri = "testresourceUri";
+  const metricnamespace = "testmetricnamespace";
+  client.metricDefinitions.list(resourceUri, metricnamespace).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +46,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in JavaScript.
+#### browser - Authentication, client creation and list metricDefinitions as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -79,8 +80,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmMonitorProfile20200901Hybrid.MonitorManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+        const resourceUri = "testresourceUri";
+        const metricnamespace = "testmetricnamespace";
+        client.metricDefinitions.list(resourceUri, metricnamespace).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

@@ -17,20 +17,15 @@ const packageVersion = "1.0.0";
 
 export class MonitorManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
 
   /**
    * Initializes a new instance of the MonitorManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The Azure subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MonitorManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.MonitorManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
-    }
-    if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -48,7 +43,6 @@ export class MonitorManagementClientContext extends msRestAzure.AzureServiceClie
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-    this.subscriptionId = subscriptionId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

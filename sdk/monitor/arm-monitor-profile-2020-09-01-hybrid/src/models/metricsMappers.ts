@@ -7,7 +7,6 @@
  */
 
 export {
-  discriminators,
   ErrorResponse,
   LocalizableString,
   MetadataValue,

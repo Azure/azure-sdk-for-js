@@ -7,7 +7,6 @@
  */
 
 export {
-  discriminators,
   CloudError,
   Operation,
   OperationDisplay,
