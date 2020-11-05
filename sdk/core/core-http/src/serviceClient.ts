@@ -60,6 +60,7 @@ import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePo
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
+import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -303,6 +304,7 @@ export class ServiceClient {
       operationArguments.options = undefined;
     }
 
+    const serializerOptions = operationArguments.options?.serializerOptions;
     const httpRequest: WebResourceLike = new WebResource();
 
     let result: Promise<RestResponse>;
@@ -332,7 +334,8 @@ export class ServiceClient {
           urlParameterValue = operationSpec.serializer.serialize(
             urlParameter.mapper,
             urlParameterValue,
-            getPathStringFromParameter(urlParameter)
+            getPathStringFromParameter(urlParameter),
+            serializerOptions
           );
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
@@ -355,7 +358,8 @@ export class ServiceClient {
             queryParameterValue = operationSpec.serializer.serialize(
               queryParameter.mapper,
               queryParameterValue,
-              getPathStringFromParameter(queryParameter)
+              getPathStringFromParameter(queryParameter),
+              serializerOptions
             );
             if (
               queryParameter.collectionFormat !== undefined &&
@@ -428,7 +432,8 @@ export class ServiceClient {
             headerValue = operationSpec.serializer.serialize(
               headerParameter.mapper,
               headerValue,
-              getPathStringFromParameter(headerParameter)
+              getPathStringFromParameter(headerParameter),
+              serializerOptions
             );
             const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
               .headerCollectionPrefix;
@@ -531,6 +536,14 @@ export function serializeRequestBody(
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
 ): void {
+  const serializerOptions = operationArguments.options?.serializerOptions ?? {};
+  const updatedOptions: Required<SerializerOptions> = {
+    rootName: serializerOptions.rootName ?? "",
+    includeRoot: serializerOptions.includeRoot ?? false,
+    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY
+  };
+
+  const xmlCharKey = serializerOptions.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     httpRequest.body = getOperationArgumentValueFromParameter(
       serviceClient,
@@ -558,7 +571,8 @@ export function serializeRequestBody(
         httpRequest.body = operationSpec.serializer.serialize(
           bodyMapper,
           httpRequest.body,
-          requestBodyParameterPathString
+          requestBodyParameterPathString,
+          updatedOptions
         );
 
         const isStream = typeName === MapperType.Stream;
@@ -569,7 +583,8 @@ export function serializeRequestBody(
             xmlNamespace,
             xmlnsKey,
             typeName,
-            httpRequest.body
+            httpRequest.body,
+            updatedOptions
           );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -579,11 +594,15 @@ export function serializeRequestBody(
                 xmlnsKey,
                 xmlNamespace
               ),
-              { rootName: xmlName || serializedName }
+              {
+                rootName: xmlName || serializedName,
+                xmlCharKey
+              }
             );
           } else if (!isStream) {
             httpRequest.body = stringifyXML(value, {
-              rootName: xmlName || serializedName
+              rootName: xmlName || serializedName,
+              xmlCharKey
             });
           }
         } else if (
@@ -621,7 +640,8 @@ export function serializeRequestBody(
         httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
           formDataParameter.mapper,
           formDataParameterValue,
-          getPathStringFromParameter(formDataParameter)
+          getPathStringFromParameter(formDataParameter),
+          updatedOptions
         );
       }
     }
@@ -635,12 +655,16 @@ function getXmlValueWithNamespace(
   xmlNamespace: string | undefined,
   xmlnsKey: string,
   typeName: string,
-  serializedValue: any
+  serializedValue: any,
+  options: Required<SerializerOptions>
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
   if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
-    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+    const result: any = {};
+    result[options.xmlCharKey] = serializedValue;
+    result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
+    return result;
   }
 
   return serializedValue;
@@ -841,6 +865,7 @@ export function getOperationArgumentValueFromParameterPath(
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
+  const serializerOptions = operationArguments.options?.serializerOptions;
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
       if (parameterMapper.isConstant) {
@@ -868,7 +893,7 @@ export function getOperationArgumentValueFromParameterPath(
         parameterPath,
         parameterMapper
       );
-      serializer.serialize(parameterMapper, value, parameterPathString);
+      serializer.serialize(parameterMapper, value, parameterPathString, serializerOptions);
     }
   } else {
     if (parameterMapper.required) {
@@ -892,7 +917,7 @@ export function getOperationArgumentValueFromParameterPath(
         propertyPath,
         propertyMapper
       );
-      serializer.serialize(propertyMapper, propertyValue, propertyPathString);
+      serializer.serialize(propertyMapper, propertyValue, propertyPathString, serializerOptions);
       if (propertyValue !== undefined && propertyValue !== null) {
         if (!value) {
           value = {};

@@ -245,7 +245,7 @@ async function queryAlerts(
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
   let alerts: AnomalyAlert[] = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
+  for await (const alert of client.listAlerts(
     alertConfigId,
     startTime,
     endTime,
@@ -260,7 +260,7 @@ async function queryAlerts(
   // alternatively we could list results by pages
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
+    .listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();

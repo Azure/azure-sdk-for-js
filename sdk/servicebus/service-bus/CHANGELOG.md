@@ -1,5 +1,7 @@
 # Release History
 
+## 7.0.0 (Unreleased)
+
 ## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:
@@ -21,6 +23,7 @@
   [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
 - The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver. With this, we now have additional validation to ensure that a peeked message cannot be used with these methods.
 - Method and interface renames based on user studies and internal reviews:
+
   - The word "Message" is added to all methods and interfaces related to creating and sending a batch of messages for clarity based on user studies:
     - The `createBatch` method on the sender is renamed to `createMessageBatch`.
     - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.

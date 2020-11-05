@@ -141,7 +141,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("listDimensionValuesForDetectionConfiguration()", async function() {
-    const iterator = client.listDimensionValuesForDetectionConfiguration(
+    const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
@@ -154,7 +154,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
-    const iterator = client.listDimensionValuesForDetectionConfiguration(
+    const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
       "2020-08-05T00:00:00.000Z",
       "2020-09-05T00:00:00.000Z",
@@ -168,7 +168,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listDimensionValuesForDetectionConfiguration() by page", async function() {
     const iterator = client
-      .listDimensionValuesForDetectionConfiguration(
+      .listDimensionValuesForDetectionConfig(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
         new Date(Date.UTC(2020, 7, 5)),
         new Date(Date.UTC(2020, 8, 5)),
@@ -182,7 +182,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists alerts for alert configuration", async function() {
-    const iterator = client.listAlertsForAlertConfiguration(
+    const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 1)),
       new Date(Date.UTC(2020, 8, 12)),
@@ -195,7 +195,7 @@ describe("MetricsAdvisorClient", () => {
   });
 
   it("lists alerts for alert configuration with datetime strings", async function() {
-    const iterator = client.listAlertsForAlertConfiguration(
+    const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
       "2020-01-01T00:00:00.000Z",
       "2020-09-12T00:00:00.000Z",
@@ -209,7 +209,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists alerts for alert configuration by page", async function() {
     const iterator = client
-      .listAlertsForAlertConfiguration(
+      .listAlerts(
         testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
         new Date(Date.UTC(2020, 0, 1)),
         new Date(Date.UTC(2020, 8, 12)),
@@ -521,7 +521,7 @@ describe("MetricsAdvisorClient", () => {
         value: "NotAnomaly",
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(anomalyFeedback);
+      const actual = await client.createFeedback(anomalyFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -539,7 +539,7 @@ describe("MetricsAdvisorClient", () => {
         value: "ChangePoint",
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(changePointFeedback);
+      const actual = await client.createFeedback(changePointFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -557,7 +557,7 @@ describe("MetricsAdvisorClient", () => {
         periodValue: 4,
         dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
       };
-      const actual = await client.createMetricFeedback(periodFeedback);
+      const actual = await client.createFeedback(periodFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -576,7 +576,7 @@ describe("MetricsAdvisorClient", () => {
         comment: "This is a comment"
       };
 
-      const actual = await client.createMetricFeedback(expectedCommentFeedback);
+      const actual = await client.createFeedback(expectedCommentFeedback);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -587,7 +587,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     it("retrieves Anomaly feedback", async function() {
-      const actual = await client.getMetricFeedback(createdFeedbackId);
+      const actual = await client.getFeedback(createdFeedbackId);
 
       assert.ok(actual.id, "Expecting valid feedback");
       createdFeedbackId = actual.id!;
@@ -599,7 +599,7 @@ describe("MetricsAdvisorClient", () => {
 
     // service issue, skipping for now
     it("lists Anomaly feedbacks", async function() {
-      const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
           startTime: new Date(Date.UTC(2020, 9, 19)),
           endTime: new Date(Date.UTC(2020, 9, 20)),
@@ -613,7 +613,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     it("lists Anomaly feedbacks with datetime strings", async function() {
-      const iterator = client.listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
           startTime: "2020-10-19T00:00:00.000Z",
           endTime: "2020-10-20T00:00:00.000Z",
@@ -628,7 +628,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("lists Anomaly feedbacks by page", async function() {
       const iterator = client
-        .listMetricFeedbacks(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
       assert.equal(result.value.length, 2, "Expecting two entries in first page");
