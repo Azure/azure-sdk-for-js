@@ -479,7 +479,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.metadata,
     Parameters.quota,
     Parameters.accessTier,
-    Parameters.version
+    Parameters.version,
+    Parameters.enabledProtocols,
+    Parameters.rootSquash
   ],
   responses: {
     201: {
@@ -768,7 +770,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareCreatePermissionHeaders
     }
   },
-  isXML: false,
+  isXML: true,
   serializer
 };
 
@@ -816,6 +818,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.quota,
     Parameters.accessTier,
+    Parameters.rootSquash,
     Parameters.leaseId0
   ],
   responses: {
