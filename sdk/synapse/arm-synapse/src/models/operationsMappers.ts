@@ -12,7 +12,6 @@ export {
   AvailableRpOperationDisplayInfo,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
-  CloudError,
   ErrorAdditionalInfo,
   ErrorContract,
   ErrorDetail,

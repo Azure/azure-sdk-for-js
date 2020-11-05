@@ -10,16 +10,16 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/workspaceAadAdminsMappers";
+import * as Mappers from "../models/workspaceSqlAadAdminsMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
-/** Class representing a WorkspaceAadAdmins. */
-export class WorkspaceAadAdmins {
+/** Class representing a WorkspaceSqlAadAdmins. */
+export class WorkspaceSqlAadAdmins {
   private readonly client: SynapseManagementClientContext;
 
   /**
-   * Create a WorkspaceAadAdmins.
+   * Create a WorkspaceSqlAadAdmins.
    * @param {SynapseManagementClientContext} client Reference to the service client.
    */
   constructor(client: SynapseManagementClientContext) {
@@ -27,13 +27,13 @@ export class WorkspaceAadAdmins {
   }
 
   /**
-   * Gets a workspace active directory admin
+   * Gets a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspaceAadAdminsGetResponse>
+   * @returns Promise<Models.WorkspaceSqlAadAdminsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAadAdminsGetResponse>;
+  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSqlAadAdminsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -47,7 +47,7 @@ export class WorkspaceAadAdmins {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>, callback?: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): Promise<Models.WorkspaceAadAdminsGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>, callback?: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): Promise<Models.WorkspaceSqlAadAdminsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,24 +55,24 @@ export class WorkspaceAadAdmins {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkspaceAadAdminsGetResponse>;
+      callback) as Promise<Models.WorkspaceSqlAadAdminsGetResponse>;
   }
 
   /**
-   * Creates or updates a workspace active directory admin
+   * Creates or updates a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param aadAdminInfo Workspace active directory administrator properties
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse>
+   * @returns Promise<Models.WorkspaceSqlAadAdminsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: Models.WorkspaceAadAdminInfo, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: Models.WorkspaceAadAdminInfo, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSqlAadAdminsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,workspaceName,aadAdminInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkspaceSqlAadAdminsCreateOrUpdateResponse>;
   }
 
   /**
-   * Deletes a workspace active directory admin
+   * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
@@ -84,7 +84,7 @@ export class WorkspaceAadAdmins {
   }
 
   /**
-   * Creates or updates a workspace active directory admin
+   * Creates or updates a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param aadAdminInfo Workspace active directory administrator properties
@@ -104,7 +104,7 @@ export class WorkspaceAadAdmins {
   }
 
   /**
-   * Deletes a workspace active directory admin
+   * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
@@ -126,7 +126,7 @@ export class WorkspaceAadAdmins {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlAdministrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -151,7 +151,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlAdministrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -186,7 +186,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlAdministrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
