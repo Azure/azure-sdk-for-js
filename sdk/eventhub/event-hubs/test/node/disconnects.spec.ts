@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
-import { EventData, EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
+import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
 const env = getEnvVars();
 
 describe("disconnected", function() {
@@ -50,22 +50,35 @@ describe("disconnected", function() {
     });
 
     it("should receive after a disconnect", async () => {
-      const client = new EventHubConsumerClient(
+      /**
+       * This test validates that an `EventHubConsumerClient.subscribe()` call continues
+       * receiving events after a `disconnected` event occurs on the underlying connection.
+       *
+       * https://github.com/Azure/azure-sdk-for-js/pull/12280 describes an issue where `processEvents`
+       * would be invoked with 0 events and ignoring the `maxWaitTimeInSeconds` after a `disconnected` event.
+       *
+       * For a single `subscribe()` call, this test does the following:
+       * 1. Ensure events can be received normally before the `disconnected` event.
+       * 2. Ensure that the `maxWaitTimeInSeconds` is honoured after a `disconnected` event.
+       * 3. Ensure that events can be received normally after the `disconnected` event.
+       */
+      const consumer = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
       );
 
       const producer = new EventHubProducerClient(service.connectionString, service.path);
-      const eventsToSend: EventData[] = [{ body: "the first event" }, { body: "the second event" }];
+      const event1 = { body: "the first event" };
+      const event2 = { body: "the second event" };
 
       const maxWaitTimeInSeconds = 10;
       const partitionId = "0";
-      const partitionProperties = await client.getPartitionProperties(partitionId);
-      const clientConnectionContext = client["_context"];
+      const partitionProperties = await consumer.getPartitionProperties(partitionId);
+      const clientConnectionContext = consumer["_context"];
 
       // Send the first event after getting partition properties so that we can expect to receive it.
-      await producer.sendBatch([eventsToSend[0]], { partitionId });
+      await producer.sendBatch([event1], { partitionId });
 
       let subscription: Subscription | undefined;
       let originalConnectionId: string;
@@ -73,25 +86,27 @@ describe("disconnected", function() {
       let processEventsInvocationCount = 0;
       let firstInvocationEndTime = 0;
       await new Promise((resolve, reject) => {
-        subscription = client.subscribe(
+        subscription = consumer.subscribe(
           partitionId,
           {
             processEvents: async (data) => {
               processEventsInvocationCount++;
               should.exist(data);
               if (processEventsInvocationCount === 1) {
+                // 1. Ensure events can be received normally before the `disconnected` event.
                 should.equal(
                   data.length,
                   1,
                   "Expected to receive 1 event in first processEvents invocation."
                 );
-                should.equal(data[0].body, eventsToSend[0].body);
+                should.equal(data[0].body, event1.body);
                 originalConnectionId = clientConnectionContext.connectionId;
                 // Trigger a disconnect on the underlying connection.
                 clientConnectionContext.connection["_connection"].idle();
                 firstInvocationEndTime = Date.now();
               } else if (processEventsInvocationCount === 2) {
-                // No new events should have been received at this point.
+                // 2. Ensure that the `maxWaitTimeInSeconds` is honoured after a `disconnected` event.
+                // No new events should have been received at this point since we received the last event in the previous invocation.
                 should.equal(
                   data.length,
                   0,
@@ -106,14 +121,15 @@ describe("disconnected", function() {
                 const newConnectionId = clientConnectionContext.connectionId;
                 should.not.equal(originalConnectionId, newConnectionId);
                 // Send a new event that will be immediately receivable.
-                await producer.sendBatch([eventsToSend[1]], { partitionId });
+                await producer.sendBatch([event2], { partitionId });
               } else if (processEventsInvocationCount === 3) {
+                // 3. Ensure that events can be received normally after the `disconnected` event.
                 should.equal(
                   data.length,
                   1,
                   "Expected to receive 1 event in third processEvents invocation."
                 );
-                should.equal(data[0].body, eventsToSend[1].body);
+                should.equal(data[0].body, event2.body);
                 const newConnectionId = clientConnectionContext.connectionId;
                 should.not.equal(originalConnectionId, newConnectionId);
                 resolve();
@@ -132,7 +148,7 @@ describe("disconnected", function() {
         );
       });
       await subscription!.close();
-      await client.close();
+      await consumer.close();
       await producer.close();
     });
   });
