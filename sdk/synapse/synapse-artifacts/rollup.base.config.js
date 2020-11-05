@@ -12,7 +12,7 @@ const pkg = require("./package.json");
 const version = pkg.version;
 const depNames = Object.keys(pkg.dependencies);
 const devDepNames = Object.keys(pkg.devDependencies);
-const input = "dist-esm/src/index.js";
+const input = "dist-esm/index.js";
 const production = process.env.NODE_ENV === "production";
 const banner = [
   "/*!",
