@@ -107,7 +107,8 @@ export {
   FileGetRangeListResponse as FileGetRangeListDiffResponse,
   ShareFileRangeList,
   ClearRange,
-  ShareAccessTier
+  ShareAccessTier,
+  ShareRootSquash
 } from "./generated/src/models";
 
 import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";
