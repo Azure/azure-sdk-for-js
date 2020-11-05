@@ -709,7 +709,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: TagConditions & LeaseAccessConditions;
 }
 
 // @public
@@ -1148,7 +1148,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: TagConditions & LeaseAccessConditions;
 }
 
 // @public
