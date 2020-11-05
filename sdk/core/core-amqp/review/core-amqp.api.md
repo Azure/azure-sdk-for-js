@@ -385,12 +385,6 @@ export interface DataTransformer {
 }
 
 // @public
-export class DefaultDataTransformer implements DataTransformer {
-    decode(body: any): any;
-    encode(body: any): any;
-}
-
-// @public
 export const defaultLock: AsyncLock;
 
 // @public
