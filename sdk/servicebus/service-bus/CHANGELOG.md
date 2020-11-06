@@ -2,11 +2,13 @@
 
 ## 7.0.0 (Unreleased)
 
+- Log message for the `actionAfterWaitTimeout`(gets triggered for receiveMessages API) has been updated to reflect the cause of termination.
+
 ## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:
 
-- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entitypath details from the connection string.
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entityPath details from the connection string.
   [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 - All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
 - Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
