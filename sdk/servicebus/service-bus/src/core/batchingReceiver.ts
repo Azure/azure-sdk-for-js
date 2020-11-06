@@ -411,8 +411,12 @@ export class BatchingReceiverLite {
             // a chance to have fewer messages internally that could get lost if the user's
             // app crashes in receiveAndDelete mode.
             if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
+            const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
+            totalWaitTimer = setTimeout(() => {
+              actionAfterWaitTimeout(
+                `Batching, wait time in milliseconds ${remainingWaitTimeInMs} over after receiving the first message.`
+              );
+            }, remainingWaitTimeInMs);
           }
         }
 
@@ -487,11 +491,9 @@ export class BatchingReceiverLite {
         reject(err);
       }, args.abortSignal);
 
-      // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout = (): void => {
-        logger.verbose(
-          `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
-        );
+      // Action to be performed after the wait time is over.
+      const actionAfterWaitTimeout = (logMessage: string): void => {
+        logger.verbose(`${loggingPrefix} ${logMessage}`);
         return finalAction();
       };
 
@@ -509,7 +511,11 @@ export class BatchingReceiverLite {
         `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
       );
 
-      totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
+      totalWaitTimer = setTimeout(() => {
+        actionAfterWaitTimeout(
+          `Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
+        );
+      }, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
       receiver.on(ReceiverEvents.receiverError, onError);
