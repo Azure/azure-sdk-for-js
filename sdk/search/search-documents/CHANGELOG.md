@@ -1,6 +1,7 @@
 # Release History
 
 ## 11.1.0-beta.2 (2020-11-10)
+
 - [Breaking] Hidden the constructor of `SearchIndexingBufferedSender` and made it to an interface. Please refer [#11785](https://github.com/Azure/azure-sdk-for-js/pull/11785) for further details.
 - Added `encryptionKey` property to `SearchIndexerDataSource`, `SearchIndexer` and `SearchIndexerSkillSet` objects. Please refer [#12275](https://github.com/Azure/azure-sdk-for-js/pull/12275) for further details.
 - Added user configurable properties such as `flushWindowInMs`, `initialBatchActionCount`, `maxRetries`, etc to the `SearchIndexingBufferedSenderOptions` object. Please refer [#12297](https://github.com/Azure/azure-sdk-for-js/pull/12297) for further details.
