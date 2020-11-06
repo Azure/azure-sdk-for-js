@@ -2,7 +2,6 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   CreateDataFlowDebugSessionRequest,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
@@ -34,38 +33,17 @@ export class DataFlowDebugSession {
    * @param request Data flow debug session definition
    * @param options The options parameters.
    */
-  async createDataFlowDebugSession(
+  createDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<
-    LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>
-  > {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      request,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        DataFlowDebugSessionCreateDataFlowDebugSessionResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { request, options: operationOptions },
       createDataFlowDebugSessionOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: createDataFlowDebugSessionOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>;
   }
 
   /**
@@ -129,36 +107,17 @@ export class DataFlowDebugSession {
    * @param request Data flow debug command definition.
    * @param options The options parameters.
    */
-  async executeCommand(
+  executeCommand(
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<DataFlowDebugSessionExecuteCommandResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      request,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        DataFlowDebugSessionExecuteCommandResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { request, options: operationOptions },
       executeCommandOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: executeCommandOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<DataFlowDebugSessionExecuteCommandResponse>;
   }
 
   /**
@@ -183,18 +142,6 @@ export class DataFlowDebugSession {
       DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
     >;
   }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
-  }
 }
 // Operation Specifications
 
@@ -207,14 +154,9 @@ const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.CreateDataFlowDebugSessionResponse
     },
-    201: {
-      bodyMapper: Mappers.CreateDataFlowDebugSessionResponse
-    },
     202: {
-      bodyMapper: Mappers.CreateDataFlowDebugSessionResponse
-    },
-    204: {
-      bodyMapper: Mappers.CreateDataFlowDebugSessionResponse
+      headersMapper:
+        Mappers.DataFlowDebugSessionCreateDataFlowDebugSessionHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -284,14 +226,8 @@ const executeCommandOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.DataFlowDebugCommandResponse
     },
-    201: {
-      bodyMapper: Mappers.DataFlowDebugCommandResponse
-    },
     202: {
-      bodyMapper: Mappers.DataFlowDebugCommandResponse
-    },
-    204: {
-      bodyMapper: Mappers.DataFlowDebugCommandResponse
+      headersMapper: Mappers.DataFlowDebugSessionExecuteCommandHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError

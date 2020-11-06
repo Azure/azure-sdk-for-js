@@ -2,7 +2,6 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   LinkedServiceGetLinkedServicesByWorkspaceResponse,
   LinkedServiceResource,
@@ -49,38 +48,18 @@ export class LinkedService {
    * @param linkedService Linked service resource definition.
    * @param options The options parameters.
    */
-  async createOrUpdateLinkedService(
+  createOrUpdateLinkedService(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
     options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
-  ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      linkedServiceName,
-      linkedService,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        LinkedServiceCreateOrUpdateLinkedServiceResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { linkedServiceName, linkedService, options: operationOptions },
       createOrUpdateLinkedServiceOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: createOrUpdateLinkedServiceOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse>;
   }
 
   /**
@@ -106,36 +85,17 @@ export class LinkedService {
    * @param linkedServiceName The linked service name.
    * @param options The options parameters.
    */
-  async deleteLinkedService(
+  deleteLinkedService(
     linkedServiceName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      linkedServiceName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { linkedServiceName, options: operationOptions },
       deleteLinkedServiceOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: deleteLinkedServiceOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -155,18 +115,6 @@ export class LinkedService {
       { nextLink, options: operationOptions },
       getLinkedServicesByWorkspaceNextOperationSpec
     ) as Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse>;
-  }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
   }
 }
 // Operation Specifications
@@ -196,15 +144,7 @@ const createOrUpdateLinkedServiceOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.LinkedServiceResource
     },
-    201: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -242,7 +182,6 @@ const deleteLinkedServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
     202: {},
     204: {},
     default: {

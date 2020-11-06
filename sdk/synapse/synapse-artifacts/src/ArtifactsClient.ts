@@ -340,7 +340,7 @@ export class ArtifactsClient {
     }
   }
 
-  private async *listRoleDefinitionsPage(
+  private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}
   ): AsyncIterableIterator<SqlScriptResource[]> {
@@ -372,7 +372,7 @@ export class ArtifactsClient {
   private async *listSqlScriptsAll(
     options: coreHttp.OperationOptions = {}
   ): AsyncIterableIterator<SqlScriptResource> {
-    for await (const page of this.listRoleDefinitionsPage({}, options)) {
+    for await (const page of this.listSqlScriptsPage({}, options)) {
       yield* page;
     }
   }
@@ -391,7 +391,7 @@ export class ArtifactsClient {
           return this;
         },
         byPage: (settings: ListPageSettings = {}) => {
-          return this.listRoleDefinitionsPage(settings, updatedOptions);
+          return this.listSqlScriptsPage(settings, updatedOptions);
         }
       };
     } catch (e) {
@@ -548,4 +548,70 @@ export class ArtifactsClient {
       span.end();
     }
   }
+
+  private async *listDataFlowsPage(
+    continuationState: ListPageSettings,
+    options: coreHttp.OperationOptions = {}
+  ): AsyncIterableIterator<SqlScriptResource[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    if (!continuationState.continuationToken) {
+      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspaceNext(
+        continuationState.continuationToken,
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listDataFlowssAll(
+    options: coreHttp.OperationOptions = {}
+  ): AsyncIterableIterator<SqlScriptResource> {
+    for await (const page of this.listDataFlowsPage({}, options)) {
+      yield* page;
+    }
+  }
+
+  public listDataFlows(
+    options: coreHttp.OperationOptions = {}
+  ): PagedAsyncIterableIterator<SqlScriptResource> {
+    const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+    try {
+      const iter = this.listDataFlowssAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listDataFlowsPage(settings, updatedOptions);
+        }
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
 }

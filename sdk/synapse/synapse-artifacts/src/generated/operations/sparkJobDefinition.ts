@@ -2,7 +2,6 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse,
   SparkJobDefinitionResource,
@@ -106,38 +105,17 @@ export class SparkJobDefinition {
    * @param sparkJobDefinitionName The spark job definition name.
    * @param options The options parameters.
    */
-  async executeSparkJobDefinition(
+  executeSparkJobDefinition(
     sparkJobDefinitionName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options,
-      "location"
+  ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      sparkJobDefinitionName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        SparkJobDefinitionExecuteSparkJobDefinitionResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { sparkJobDefinitionName, options: operationOptions },
       executeSparkJobDefinitionOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: executeSparkJobDefinitionOperationSpec,
-      initialOperationResult,
-      sendOperation,
-      finalStateVia: "location"
-    });
+    ) as Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
   }
 
   /**
@@ -145,38 +123,17 @@ export class SparkJobDefinition {
    * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
    * @param options The options parameters.
    */
-  async debugSparkJobDefinition(
+  debugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options,
-      "location"
+  ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      sparkJobDefinitionAzureResource,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        SparkJobDefinitionDebugSparkJobDefinitionResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { sparkJobDefinitionAzureResource, options: operationOptions },
       debugSparkJobDefinitionOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: debugSparkJobDefinitionOperationSpec,
-      initialOperationResult,
-      sendOperation,
-      finalStateVia: "location"
-    });
+    ) as Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
   }
 
   /**
@@ -198,18 +155,6 @@ export class SparkJobDefinition {
     ) as Promise<
       SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
     >;
-  }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
   }
 }
 // Operation Specifications
@@ -293,13 +238,7 @@ const executeSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SparkBatchJob
     },
-    201: {
-      bodyMapper: Mappers.SparkBatchJob
-    },
     202: {
-      bodyMapper: Mappers.SparkBatchJob
-    },
-    204: {
       bodyMapper: Mappers.SparkBatchJob
     },
     default: {
@@ -318,13 +257,7 @@ const debugSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SparkBatchJob
     },
-    201: {
-      bodyMapper: Mappers.SparkBatchJob
-    },
     202: {
-      bodyMapper: Mappers.SparkBatchJob
-    },
-    204: {
       bodyMapper: Mappers.SparkBatchJob
     },
     default: {

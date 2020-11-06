@@ -2,7 +2,6 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   TriggerGetTriggersByWorkspaceResponse,
   TriggerResource,
@@ -52,38 +51,18 @@ export class Trigger {
    * @param trigger Trigger resource definition.
    * @param options The options parameters.
    */
-  async createOrUpdateTrigger(
+  createOrUpdateTrigger(
     triggerName: string,
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams
-  ): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<TriggerCreateOrUpdateTriggerResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      trigger,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        TriggerCreateOrUpdateTriggerResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, trigger, options: operationOptions },
       createOrUpdateTriggerOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: createOrUpdateTriggerOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<TriggerCreateOrUpdateTriggerResponse>;
   }
 
   /**
@@ -109,36 +88,17 @@ export class Trigger {
    * @param triggerName The trigger name.
    * @param options The options parameters.
    */
-  async deleteTrigger(
+  deleteTrigger(
     triggerName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, options: operationOptions },
       deleteTriggerOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: deleteTriggerOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -146,36 +106,17 @@ export class Trigger {
    * @param triggerName The trigger name.
    * @param options The options parameters.
    */
-  async subscribeTriggerToEvents(
+  subscribeTriggerToEvents(
     triggerName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<TriggerSubscribeTriggerToEventsResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        TriggerSubscribeTriggerToEventsResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, options: operationOptions },
       subscribeTriggerToEventsOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: subscribeTriggerToEventsOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<TriggerSubscribeTriggerToEventsResponse>;
   }
 
   /**
@@ -201,36 +142,17 @@ export class Trigger {
    * @param triggerName The trigger name.
    * @param options The options parameters.
    */
-  async unsubscribeTriggerFromEvents(
+  unsubscribeTriggerFromEvents(
     triggerName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<TriggerUnsubscribeTriggerFromEventsResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        TriggerUnsubscribeTriggerFromEventsResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, options: operationOptions },
       unsubscribeTriggerFromEventsOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: unsubscribeTriggerFromEventsOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<TriggerUnsubscribeTriggerFromEventsResponse>;
   }
 
   /**
@@ -238,36 +160,17 @@ export class Trigger {
    * @param triggerName The trigger name.
    * @param options The options parameters.
    */
-  async startTrigger(
+  startTrigger(
     triggerName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, options: operationOptions },
       startTriggerOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: startTriggerOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -275,36 +178,17 @@ export class Trigger {
    * @param triggerName The trigger name.
    * @param options The options parameters.
    */
-  async stopTrigger(
+  stopTrigger(
     triggerName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      triggerName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { triggerName, options: operationOptions },
       stopTriggerOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: stopTriggerOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -323,18 +207,6 @@ export class Trigger {
       { nextLink, options: operationOptions },
       getTriggersByWorkspaceNextOperationSpec
     ) as Promise<TriggerGetTriggersByWorkspaceNextResponse>;
-  }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
   }
 }
 // Operation Specifications
@@ -364,15 +236,7 @@ const createOrUpdateTriggerOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.TriggerResource
     },
-    201: {
-      bodyMapper: Mappers.TriggerResource
-    },
-    202: {
-      bodyMapper: Mappers.TriggerResource
-    },
-    204: {
-      bodyMapper: Mappers.TriggerResource
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -410,7 +274,6 @@ const deleteTriggerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
     202: {},
     204: {},
     default: {
@@ -429,15 +292,7 @@ const subscribeTriggerToEventsOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
-    201: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
-    202: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
-    204: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -470,15 +325,7 @@ const unsubscribeTriggerFromEventsOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
-    201: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
-    202: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
-    204: {
-      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -493,9 +340,6 @@ const startTriggerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -510,9 +354,6 @@ const stopTriggerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

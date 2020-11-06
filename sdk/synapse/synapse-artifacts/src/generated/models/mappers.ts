@@ -11,7 +11,10 @@ export const LinkedServiceListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceResource" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceResource"
+            }
           }
         }
       },
@@ -70,7 +73,11 @@ export const LinkedService: coreHttp.CompositeMapper = {
         serializedName: "annotations",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       }
     }
@@ -188,7 +195,12 @@ export const CloudError: coreHttp.CompositeMapper = {
         serializedName: "error.details",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "CloudError" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudError"
+            }
+          }
         }
       }
     }
@@ -205,7 +217,12 @@ export const DatasetListResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DatasetResource" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatasetResource"
+            }
+          }
         }
       },
       nextLink: {
@@ -275,7 +292,11 @@ export const Dataset: coreHttp.CompositeMapper = {
         serializedName: "annotations",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       folder: {
@@ -345,7 +366,10 @@ export const PipelineListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "PipelineResource" }
+            type: {
+              name: "Composite",
+              className: "PipelineResource"
+            }
           }
         }
       },
@@ -396,7 +420,10 @@ export const Activity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ActivityDependency" }
+            type: {
+              name: "Composite",
+              className: "ActivityDependency"
+            }
           }
         }
       },
@@ -404,7 +431,12 @@ export const Activity: coreHttp.CompositeMapper = {
         serializedName: "userProperties",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "UserProperty" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserProperty"
+            }
+          }
         }
       }
     }
@@ -429,7 +461,11 @@ export const ActivityDependency: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -541,14 +577,24 @@ export const RunFilterParameters: coreHttp.CompositeMapper = {
         serializedName: "filters",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "RunQueryFilter" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "RunQueryFilter"
+            }
+          }
         }
       },
       orderBy: {
         serializedName: "orderBy",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "RunQueryOrderBy" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "RunQueryOrderBy"
+            }
+          }
         }
       }
     }
@@ -579,7 +625,11 @@ export const RunQueryFilter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -619,7 +669,12 @@ export const PipelineRunsQueryResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "PipelineRun" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "PipelineRun"
+            }
+          }
         }
       },
       continuationToken: {
@@ -767,7 +822,12 @@ export const ActivityRunsQueryResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ActivityRun" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ActivityRun"
+            }
+          }
         }
       },
       continuationToken: {
@@ -891,7 +951,12 @@ export const TriggerListResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "TriggerResource" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerResource"
+            }
+          }
         }
       },
       nextLink: {
@@ -940,7 +1005,11 @@ export const Trigger: coreHttp.CompositeMapper = {
         serializedName: "annotations",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       }
     }
@@ -980,7 +1049,12 @@ export const TriggerRunsQueryResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "TriggerRun" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerRun"
+            }
+          }
         }
       },
       continuationToken: {
@@ -1088,7 +1162,11 @@ export const DataFlow: coreHttp.CompositeMapper = {
         serializedName: "annotations",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       folder: {
@@ -1128,7 +1206,10 @@ export const DataFlowListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DataFlowResource" }
+            type: {
+              name: "Composite",
+              className: "DataFlowResource"
+            }
           }
         }
       },
@@ -1213,7 +1294,10 @@ export const QueryDataFlowDebugSessionsResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DataFlowDebugSessionInfo" }
+            type: {
+              name: "Composite",
+              className: "DataFlowDebugSessionInfo"
+            }
           }
         }
       },
@@ -1315,7 +1399,10 @@ export const DataFlowDebugPackage: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DatasetDebugResource" }
+            type: {
+              name: "Composite",
+              className: "DatasetDebugResource"
+            }
           }
         }
       },
@@ -1324,7 +1411,10 @@ export const DataFlowDebugPackage: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceDebugResource" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceDebugResource"
+            }
           }
         }
       },
@@ -1393,7 +1483,10 @@ export const DataFlowDebugPackageDebugSettings: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DataFlowSourceSetting" }
+            type: {
+              name: "Composite",
+              className: "DataFlowSourceSetting"
+            }
           }
         }
       },
@@ -1539,7 +1632,10 @@ export const SqlScriptsListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SqlScriptResource" }
+            type: {
+              name: "Composite",
+              className: "SqlScriptResource"
+            }
           }
         }
       },
@@ -1664,7 +1760,10 @@ export const SparkJobDefinitionsListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SparkJobDefinitionResource" }
+            type: {
+              name: "Composite",
+              className: "SparkJobDefinitionResource"
+            }
           }
         }
       },
@@ -1778,28 +1877,44 @@ export const SparkJobProperties: coreHttp.CompositeMapper = {
         serializedName: "args",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       jars: {
         serializedName: "jars",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       files: {
         serializedName: "files",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       archives: {
         serializedName: "archives",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       driverMemory: {
@@ -1920,7 +2035,10 @@ export const SparkBatchJob: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SparkServiceError" }
+            type: {
+              name: "Composite",
+              className: "SparkServiceError"
+            }
           }
         }
       },
@@ -1961,7 +2079,11 @@ export const SparkBatchJob: coreHttp.CompositeMapper = {
         serializedName: "log",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2059,35 +2181,55 @@ export const SparkRequest: coreHttp.CompositeMapper = {
         serializedName: "args",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       jars: {
         serializedName: "jars",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       pythonFiles: {
         serializedName: "pyFiles",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       files: {
         serializedName: "files",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       archives: {
         serializedName: "archives",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       configuration: {
@@ -2253,7 +2395,10 @@ export const NotebookListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "NotebookResource" }
+            type: {
+              name: "Composite",
+              className: "NotebookResource"
+            }
           }
         }
       },
@@ -2319,7 +2464,12 @@ export const Notebook: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "NotebookCell" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "NotebookCell"
+            }
+          }
         }
       }
     }
@@ -2466,7 +2616,11 @@ export const NotebookCell: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       attachments: {
@@ -2480,7 +2634,10 @@ export const NotebookCell: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "NotebookCellOutputItem" }
+            type: {
+              name: "Composite",
+              className: "NotebookCellOutputItem"
+            }
           }
         }
       }
@@ -2635,7 +2792,11 @@ export const ManagedVirtualNetworkSettings: coreHttp.CompositeMapper = {
         serializedName: "allowedAadTenantIdsForLinking",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2719,7 +2880,12 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ErrorResponse" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorResponse"
+            }
+          }
         }
       },
       additionalInfo: {
@@ -2728,7 +2894,10 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ErrorAdditionalInfo" }
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
           }
         }
       }
@@ -2774,7 +2943,12 @@ export const SqlPoolInfoListResult: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SqlPool" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SqlPool"
+            }
+          }
         }
       }
     }
@@ -2824,7 +2998,10 @@ export const BigDataPoolResourceInfoListResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "BigDataPoolResourceInfo" }
+            type: {
+              name: "Composite",
+              className: "BigDataPoolResourceInfo"
+            }
           }
         }
       }
@@ -2919,7 +3096,10 @@ export const IntegrationRuntimeListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "IntegrationRuntimeResource" }
+            type: {
+              name: "Composite",
+              className: "IntegrationRuntimeResource"
+            }
           }
         }
       },
@@ -3028,7 +3208,12 @@ export const StartDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
         serializedName: "datasets",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DatasetResource" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatasetResource"
+            }
+          }
         }
       },
       linkedServices: {
@@ -3036,7 +3221,10 @@ export const StartDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceResource" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceResource"
+            }
           }
         }
       },
@@ -3137,7 +3325,11 @@ export const DataFlowDebugStatisticsRequest: coreHttp.CompositeMapper = {
         serializedName: "columns",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3453,7 +3645,10 @@ export const RerunTriggerListResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "RerunTriggerResource" }
+            type: {
+              name: "Composite",
+              className: "RerunTriggerResource"
+            }
           }
         }
       },
@@ -4437,7 +4632,10 @@ export const DWCopyCommandSettings: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DWCopyCommandDefaultValue" }
+            type: {
+              name: "Composite",
+              className: "DWCopyCommandDefaultValue"
+            }
           }
         }
       },
@@ -4579,7 +4777,10 @@ export const SsisPackageLocation: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SsisChildPackage" }
+            type: {
+              name: "Composite",
+              className: "SsisChildPackage"
+            }
           }
         }
       }
@@ -4766,7 +4967,10 @@ export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -4775,7 +4979,10 @@ export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DatasetReference" }
+            type: {
+              name: "Composite",
+              className: "DatasetReference"
+            }
           }
         }
       }
@@ -4840,7 +5047,12 @@ export const SwitchCase: coreHttp.CompositeMapper = {
         serializedName: "activities",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       }
     }
@@ -4948,14 +5160,22 @@ export const RecurrenceSchedule: coreHttp.CompositeMapper = {
         serializedName: "minutes",
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       hours: {
         serializedName: "hours",
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       weekDays: {
@@ -4982,7 +5202,11 @@ export const RecurrenceSchedule: coreHttp.CompositeMapper = {
         serializedName: "monthDays",
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       monthlyOccurrences: {
@@ -5208,7 +5432,11 @@ export const IntegrationRuntimeVNetProperties: coreHttp.CompositeMapper = {
         serializedName: "publicIPs",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -5258,7 +5486,12 @@ export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
         serializedName: "expressCustomSetupProperties",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "CustomSetupBase" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomSetupBase"
+            }
+          }
         }
       }
     }
@@ -10201,7 +10434,10 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -10300,7 +10536,12 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.scriptActions",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ScriptAction" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScriptAction"
+            }
+          }
         }
       },
       virtualNetworkId: {
@@ -13157,14 +13398,24 @@ export const IfConditionActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.ifTrueActivities",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       },
       ifFalseActivities: {
         serializedName: "typeProperties.ifFalseActivities",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       }
     }
@@ -13192,14 +13443,24 @@ export const SwitchActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.cases",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SwitchCase" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SwitchCase"
+            }
+          }
         }
       },
       defaultActivities: {
         serializedName: "typeProperties.defaultActivities",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       }
     }
@@ -13243,7 +13504,12 @@ export const ForEachActivity: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       }
     }
@@ -13299,7 +13565,12 @@ export const UntilActivity: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       }
     }
@@ -13639,7 +13910,10 @@ export const MultiplePipelineTrigger: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "TriggerPipelineReference" }
+            type: {
+              name: "Composite",
+              className: "TriggerPipelineReference"
+            }
           }
         }
       }
@@ -13720,7 +13994,10 @@ export const TumblingWindowTrigger: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DependencyReference" }
+            type: {
+              name: "Composite",
+              className: "DependencyReference"
+            }
           }
         }
       }
@@ -13751,7 +14028,10 @@ export const ChainingTrigger: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "PipelineReference" }
+            type: {
+              name: "Composite",
+              className: "PipelineReference"
+            }
           }
         }
       },
@@ -13779,21 +14059,36 @@ export const MappingDataFlow: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.sources",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DataFlowSource" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSource"
+            }
+          }
         }
       },
       sinks: {
         serializedName: "typeProperties.sinks",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DataFlowSink" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSink"
+            }
+          }
         }
       },
       transformations: {
         serializedName: "typeProperties.transformations",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Transformation" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Transformation"
+            }
+          }
         }
       },
       script: {
@@ -17214,7 +17509,12 @@ export const PipelineResource: coreHttp.CompositeMapper = {
         serializedName: "properties.activities",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Activity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Activity"
+            }
+          }
         }
       },
       parameters: {
@@ -17248,7 +17548,11 @@ export const PipelineResource: coreHttp.CompositeMapper = {
         serializedName: "properties.annotations",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       runDimensions: {
@@ -17468,7 +17772,10 @@ export const Workspace: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "PrivateEndpointConnection" }
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
           }
         }
       },
@@ -17669,7 +17976,10 @@ export const CopyActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DatasetReference" }
+            type: {
+              name: "Composite",
+              className: "DatasetReference"
+            }
           }
         }
       },
@@ -17678,7 +17988,10 @@ export const CopyActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DatasetReference" }
+            type: {
+              name: "Composite",
+              className: "DatasetReference"
+            }
           }
         }
       },
@@ -17744,14 +18057,22 @@ export const CopyActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.preserveRules",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       preserve: {
         serializedName: "typeProperties.preserve",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       }
     }
@@ -17773,7 +18094,10 @@ export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -17781,7 +18105,11 @@ export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.arguments",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       getDebugInfo: {
@@ -17814,7 +18142,11 @@ export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.variables",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       queryTimeout: {
@@ -17842,7 +18174,10 @@ export const HDInsightPigActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -17897,7 +18232,10 @@ export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -17905,7 +18243,11 @@ export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.arguments",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       getDebugInfo: {
@@ -17939,7 +18281,11 @@ export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.jarLibs",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       defines: {
@@ -17968,7 +18314,10 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -17976,7 +18325,11 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.arguments",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       getDebugInfo: {
@@ -18018,7 +18371,11 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       fileLinkedService: {
@@ -18038,7 +18395,11 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.commandEnvironment",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       defines: {
@@ -18080,7 +18441,11 @@ export const HDInsightSparkActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.arguments",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       getDebugInfo: {
@@ -18462,7 +18827,10 @@ export const WebActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DatasetReference" }
+            type: {
+              name: "Composite",
+              className: "DatasetReference"
+            }
           }
         }
       },
@@ -18471,7 +18839,10 @@ export const WebActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "LinkedServiceReference" }
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
           }
         }
       },
@@ -18507,7 +18878,11 @@ export const GetMetadataActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.fieldList",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       }
     }
@@ -18721,7 +19096,10 @@ export const DatabricksNotebookActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
           }
         }
       }
@@ -18750,7 +19128,11 @@ export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.parameters",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       libraries: {
@@ -18758,7 +19140,10 @@ export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
           }
         }
       }
@@ -18787,7 +19172,11 @@ export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.parameters",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "any"
+            }
+          }
         }
       },
       libraries: {
@@ -18795,7 +19184,10 @@ export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
           }
         }
       }
@@ -18974,7 +19366,11 @@ export const BlobEventsTrigger: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       scope: {

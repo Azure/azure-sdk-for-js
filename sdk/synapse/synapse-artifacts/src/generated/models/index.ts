@@ -1,7 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 
 export type LinkedServiceUnion =
-  | LinkedService
   | AzureStorageLinkedService
   | AzureBlobStorageLinkedService
   | AzureTableStorageLinkedService
@@ -97,7 +96,6 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService;
 export type DatasetUnion =
-  | Dataset
   | AvroDataset
   | ParquetDataset
   | DelimitedTextDataset
@@ -180,7 +178,6 @@ export type DatasetUnion =
   | AzureDataExplorerTableDataset
   | GoogleAdWordsObjectDataset;
 export type ActivityUnion =
-  | Activity
   | ControlActivity
   | ExecutionActivityUnion
   | ExecutePipelineActivity
@@ -198,22 +195,16 @@ export type ActivityUnion =
   | SynapseSparkJobDefinitionActivity
   | SqlPoolStoredProcedureActivity;
 export type TriggerUnion =
-  | Trigger
   | RerunTumblingWindowTrigger
   | MultiplePipelineTriggerUnion
   | TumblingWindowTrigger
   | ChainingTrigger;
-export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type DataFlowUnion = MappingDataFlow;
 export type IntegrationRuntimeUnion =
-  | IntegrationRuntime
   | ManagedIntegrationRuntime
   | SelfHostedIntegrationRuntime;
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
+export type SecretBaseUnion = SecureString | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
-  | DatasetLocation
   | AzureBlobStorageLocation
   | AzureBlobFSLocation
   | AzureDataLakeStoreLocation
@@ -226,25 +217,21 @@ export type DatasetLocationUnion =
   | HttpServerLocation
   | HdfsLocation;
 export type DatasetStorageFormatUnion =
-  | DatasetStorageFormat
   | TextFormat
   | JsonFormat
   | AvroFormat
   | OrcFormat
   | ParquetFormat;
 export type DatasetCompressionUnion =
-  | DatasetCompression
   | DatasetBZip2Compression
   | DatasetGZipCompression
   | DatasetDeflateCompression
   | DatasetZipDeflateCompression;
 export type WebLinkedServiceTypePropertiesUnion =
-  | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
   | WebBasicAuthentication
   | WebClientCertificateAuthentication;
 export type StoreReadSettingsUnion =
-  | StoreReadSettings
   | AzureBlobStorageReadSettings
   | AzureBlobFSReadSettings
   | AzureDataLakeStoreReadSettings
@@ -257,22 +244,17 @@ export type StoreReadSettingsUnion =
   | HttpReadSettings
   | HdfsReadSettings;
 export type StoreWriteSettingsUnion =
-  | StoreWriteSettings
   | SftpWriteSettings
   | AzureBlobStorageWriteSettings
   | AzureBlobFSWriteSettings
   | AzureDataLakeStoreWriteSettings
   | FileServerWriteSettings;
-export type FormatReadSettingsUnion =
-  | FormatReadSettings
-  | DelimitedTextReadSettings;
+export type FormatReadSettingsUnion = DelimitedTextReadSettings;
 export type FormatWriteSettingsUnion =
-  | FormatWriteSettings
   | AvroWriteSettings
   | DelimitedTextWriteSettings
   | JsonWriteSettings;
 export type CopySourceUnion =
-  | CopySource
   | AvroSource
   | ParquetSource
   | DelimitedTextSource
@@ -304,7 +286,6 @@ export type CopySourceUnion =
   | AzureBlobFSSource
   | HttpSource;
 export type CopySinkUnion =
-  | CopySink
   | DelimitedTextSink
   | JsonSink
   | OrcSink
@@ -339,17 +320,14 @@ export type CopySinkUnion =
   | SalesforceSink
   | SalesforceServiceCloudSink
   | CosmosDbMongoDbApiSink;
-export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
+export type CopyTranslatorUnion = TabularTranslator;
 export type DependencyReferenceUnion =
-  | DependencyReference
   | TriggerDependencyReferenceUnion
   | SelfDependencyTumblingWindowTriggerReference;
 export type LinkedIntegrationRuntimeTypeUnion =
-  | LinkedIntegrationRuntimeType
   | LinkedIntegrationRuntimeKeyAuthorization
   | LinkedIntegrationRuntimeRbacAuthorization;
 export type ExecutionActivityUnion =
-  | ExecutionActivity
   | CopyActivity
   | HDInsightHiveActivity
   | HDInsightPigActivity
@@ -374,12 +352,10 @@ export type ExecutionActivityUnion =
   | AzureFunctionActivity
   | ExecuteDataFlowActivity;
 export type MultiplePipelineTriggerUnion =
-  | MultiplePipelineTrigger
   | ScheduleTrigger
   | BlobTrigger
   | BlobEventsTrigger;
 export type TabularSourceUnion =
-  | TabularSource
   | AzureTableSource
   | InformixSource
   | Db2Source
@@ -437,9 +413,7 @@ export type TabularSourceUnion =
   | OracleServiceCloudSource
   | GoogleAdWordsSource
   | AmazonRedshiftSource;
-export type TriggerDependencyReferenceUnion =
-  | TriggerDependencyReference
-  | TumblingWindowTriggerDependencyReference;
+export type TriggerDependencyReferenceUnion = TumblingWindowTriggerDependencyReference;
 
 /**
  * A list of linked service resources.
@@ -614,14 +588,17 @@ export interface ParameterSpecification {
 export interface Resource {
   /**
    * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
@@ -1044,50 +1021,62 @@ export interface PipelineRun {
   [property: string]: any;
   /**
    * Identifier of a run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runId?: string;
   /**
    * Identifier that correlates all the recovery runs of a pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runGroupId?: string;
   /**
    * Indicates if the recovered pipeline run is the latest in its group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isLatest?: boolean;
   /**
    * The pipeline name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pipelineName?: string;
   /**
    * The full or partial list of parameter name, value pair used in the pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly parameters?: { [propertyName: string]: string };
   /**
    * Entity that started the pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invokedBy?: PipelineRunInvokedBy;
   /**
    * The last updated timestamp for the pipeline run event in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdated?: Date;
   /**
    * The start time of a pipeline run in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runStart?: Date;
   /**
    * The end time of a pipeline run in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runEnd?: Date;
   /**
    * The duration of a pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly durationInMs?: number;
   /**
    * The status of a pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
   /**
    * The message from a pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
 }
@@ -1098,14 +1087,17 @@ export interface PipelineRun {
 export interface PipelineRunInvokedBy {
   /**
    * Name of the entity that started the pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The ID of the entity that started the run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The type of the entity that started the run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invokedByType?: string;
 }
@@ -1134,54 +1126,67 @@ export interface ActivityRun {
   [property: string]: any;
   /**
    * The name of the pipeline.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pipelineName?: string;
   /**
    * The id of the pipeline run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pipelineRunId?: string;
   /**
    * The name of the activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activityName?: string;
   /**
    * The type of the activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activityType?: string;
   /**
    * The id of the activity run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activityRunId?: string;
   /**
    * The name of the compute linked service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly linkedServiceName?: string;
   /**
    * The status of the activity run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
   /**
    * The start time of the activity run in 'ISO 8601' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activityRunStart?: Date;
   /**
    * The end time of the activity run in 'ISO 8601' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activityRunEnd?: Date;
   /**
    * The duration of the activity run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly durationInMs?: number;
   /**
    * The input for the activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly input?: any;
   /**
    * The output for the activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: any;
   /**
    * The error if any from the activity run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: any;
 }
@@ -1225,6 +1230,7 @@ export interface Trigger {
   description?: string;
   /**
    * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runtimeState?: TriggerRuntimeState;
   /**
@@ -1239,10 +1245,12 @@ export interface Trigger {
 export interface TriggerSubscriptionOperationStatus {
   /**
    * Trigger name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggerName?: string;
   /**
    * Event Subscription Status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: EventSubscriptionStatus;
 }
@@ -1271,34 +1279,42 @@ export interface TriggerRun {
   [property: string]: any;
   /**
    * Trigger run id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggerRunId?: string;
   /**
    * Trigger name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggerName?: string;
   /**
    * Trigger type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggerType?: string;
   /**
    * Trigger run start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggerRunTimestamp?: Date;
   /**
    * Trigger run status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: TriggerRunStatus;
   /**
    * Trigger error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * List of property name and value related to trigger run. Name, value pair depends on type of trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: { [propertyName: string]: string };
   /**
    * List of pipeline name and run Id triggered by the trigger run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggeredPipelines?: { [propertyName: string]: string };
 }
@@ -2186,6 +2202,7 @@ export interface VirtualNetworkProfile {
 export interface PrivateEndpoint {
   /**
    * Resource id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
 }
@@ -2204,6 +2221,7 @@ export interface PrivateLinkServiceConnectionState {
   description?: string;
   /**
    * The actions required for private link service connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionsRequired?: string;
 }
@@ -2232,10 +2250,12 @@ export interface ManagedVirtualNetworkSettings {
 export interface ManagedIdentity {
   /**
    * The principal ID of the workspace managed identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
    * The tenant ID of the workspace managed identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
   /**
@@ -2260,22 +2280,27 @@ export interface ErrorContract {
 export interface ErrorResponse {
   /**
    * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorResponse[];
   /**
    * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
@@ -2286,10 +2311,12 @@ export interface ErrorResponse {
 export interface ErrorAdditionalInfo {
   /**
    * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
    * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: any;
 }
@@ -2378,6 +2405,7 @@ export interface AutoPauseProperties {
 export interface LibraryRequirements {
   /**
    * The last update time of the library requirements file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly time?: Date;
   /**
@@ -2654,10 +2682,12 @@ export interface WorkspaceIdentity {
   type: "SystemAssigned";
   /**
    * The principal id of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
    * The client tenant id of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
 }
@@ -2730,6 +2760,7 @@ export interface RerunTriggerListResponse {
   value: RerunTriggerResource[];
   /**
    * The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
@@ -2786,10 +2817,12 @@ export interface ExposureControlRequest {
 export interface ExposureControlResponse {
   /**
    * The feature name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly featureName?: string;
   /**
    * The feature value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: string;
 }
@@ -7328,6 +7361,7 @@ export type AzureFunctionLinkedService = LinkedService & {
 export type AzureEntityResource = Resource & {
   /**
    * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
 };
@@ -7346,6 +7380,7 @@ export type PrivateEndpointConnection = Resource & {
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /**
    * Provisioning state of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
 };
@@ -8842,6 +8877,7 @@ export type LinkedServiceDebugResource = SubResourceDebugResource & {
 export type ManagedIntegrationRuntime = IntegrationRuntime & {
   /**
    * Integration runtime state, only valid for managed dedicated integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: IntegrationRuntimeState;
   /**
@@ -10752,6 +10788,7 @@ export type Workspace = TrackedResource & {
   managedResourceGroupName?: string;
   /**
    * Resource provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
   /**
@@ -10776,6 +10813,7 @@ export type Workspace = TrackedResource & {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Workspace level configs and feature flags
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly extraProperties?: { [propertyName: string]: any };
   /**

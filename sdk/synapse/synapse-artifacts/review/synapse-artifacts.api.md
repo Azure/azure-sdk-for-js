@@ -61,7 +61,7 @@ export interface ActivityRunsQueryResponse {
 }
 
 // @public (undocumented)
-export type ActivityUnion = Activity | ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity | SqlPoolStoredProcedureActivity;
+export type ActivityUnion = ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity | SqlPoolStoredProcedureActivity;
 
 // @public
 export interface AddDataFlowToDebugSessionResponse {
@@ -171,6 +171,8 @@ export class ArtifactsClient {
     GetWorkspace(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
     // (undocumented)
     ListBigDataPools(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+    // (undocumented)
+    listDataFlows(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
     // (undocumented)
     ListIntegrationRuntimes(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
     // (undocumented)
@@ -972,7 +974,7 @@ export interface CopySink {
 }
 
 // @public (undocumented)
-export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | AzurePostgreSqlSink | AzureMySqlSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | CosmosDbMongoDbApiSink;
+export type CopySinkUnion = DelimitedTextSink | JsonSink | OrcSink | AzurePostgreSqlSink | AzureMySqlSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | CosmosDbMongoDbApiSink;
 
 // @public
 export interface CopySource {
@@ -984,7 +986,7 @@ export interface CopySource {
 }
 
 // @public (undocumented)
-export type CopySourceUnion = CopySource | AvroSource | ParquetSource | DelimitedTextSource | JsonSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | WebSource | MongoDbSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource;
+export type CopySourceUnion = AvroSource | ParquetSource | DelimitedTextSource | JsonSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | WebSource | MongoDbSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource;
 
 // @public
 export interface CopyTranslator {
@@ -993,7 +995,7 @@ export interface CopyTranslator {
 }
 
 // @public (undocumented)
-export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
+export type CopyTranslatorUnion = TabularTranslator;
 
 // @public
 export type CosmosDbLinkedService = LinkedService & {
@@ -1378,7 +1380,7 @@ export interface DataFlowStagingInfo {
 }
 
 // @public (undocumented)
-export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type DataFlowUnion = MappingDataFlow;
 
 // @public
 export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
@@ -1427,7 +1429,7 @@ export interface DatasetCompression {
 export type DatasetCompressionLevel = "Optimal" | "Fastest" | string;
 
 // @public (undocumented)
-export type DatasetCompressionUnion = DatasetCompression | DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression;
+export type DatasetCompressionUnion = DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression;
 
 // @public
 export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
@@ -1512,7 +1514,7 @@ export interface DatasetLocation {
 }
 
 // @public (undocumented)
-export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation;
+export type DatasetLocationUnion = AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation;
 
 // @public
 export interface DatasetReference {
@@ -1547,10 +1549,10 @@ export interface DatasetStorageFormat {
 }
 
 // @public (undocumented)
-export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
+export type DatasetStorageFormatUnion = TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 
 // @public (undocumented)
-export type DatasetUnion = Dataset | AvroDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | OrcDataset | BinaryDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | Office365Dataset | MongoDbCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset;
+export type DatasetUnion = AvroDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | OrcDataset | BinaryDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | Office365Dataset | MongoDbCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset;
 
 // @public
 export type DatasetZipDeflateCompression = DatasetCompression & {
@@ -1651,7 +1653,7 @@ export interface DependencyReference {
 }
 
 // @public (undocumented)
-export type DependencyReferenceUnion = DependencyReference | TriggerDependencyReferenceUnion | SelfDependencyTumblingWindowTriggerReference;
+export type DependencyReferenceUnion = TriggerDependencyReferenceUnion | SelfDependencyTumblingWindowTriggerReference;
 
 // @public
 export interface DistcpSettings {
@@ -1924,7 +1926,7 @@ export type ExecutionActivity = Activity & {
 };
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
+export type ExecutionActivityUnion = CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
 
 // @public
 export interface ExposureControlRequest {
@@ -2002,7 +2004,7 @@ export interface FormatReadSettings {
 }
 
 // @public (undocumented)
-export type FormatReadSettingsUnion = FormatReadSettings | DelimitedTextReadSettings;
+export type FormatReadSettingsUnion = DelimitedTextReadSettings;
 
 // @public
 export interface FormatWriteSettings {
@@ -2011,7 +2013,7 @@ export interface FormatWriteSettings {
 }
 
 // @public (undocumented)
-export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings;
+export type FormatWriteSettingsUnion = AvroWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings;
 
 // @public
 export type FtpAuthenticationType = "Basic" | "Anonymous" | string;
@@ -2613,7 +2615,7 @@ export type IntegrationRuntimeState = "Initial" | "Stopped" | "Started" | "Start
 export type IntegrationRuntimeType = "Managed" | "SelfHosted" | string;
 
 // @public (undocumented)
-export type IntegrationRuntimeUnion = IntegrationRuntime | ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
+export type IntegrationRuntimeUnion = ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
 
 // @public
 export interface IntegrationRuntimeVNetProperties {
@@ -2706,7 +2708,7 @@ export interface LinkedIntegrationRuntimeType {
 }
 
 // @public (undocumented)
-export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
+export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
 
 // @public
 export interface LinkedService {
@@ -2788,7 +2790,7 @@ export type LinkedServiceResource = AzureEntityResource & {
 };
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService;
+export type LinkedServiceUnion = AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService;
 
 // @public (undocumented)
 export interface ListPageSettings {
@@ -2982,7 +2984,7 @@ export type MultiplePipelineTrigger = Trigger & {
 };
 
 // @public (undocumented)
-export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger;
+export type MultiplePipelineTriggerUnion = ScheduleTrigger | BlobTrigger | BlobEventsTrigger;
 
 // @public
 export type MySqlLinkedService = LinkedService & {
@@ -4158,7 +4160,7 @@ export interface SecretBase {
 }
 
 // @public (undocumented)
-export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
+export type SecretBaseUnion = SecureString | AzureKeyVaultSecretReference;
 
 // @public
 export type SecureString = SecretBase & {
@@ -4911,7 +4913,7 @@ export interface StoreReadSettings {
 }
 
 // @public (undocumented)
-export type StoreReadSettingsUnion = StoreReadSettings | AzureBlobStorageReadSettings | AzureBlobFSReadSettings | AzureDataLakeStoreReadSettings | AmazonS3ReadSettings | FileServerReadSettings | AzureFileStorageReadSettings | GoogleCloudStorageReadSettings | FtpReadSettings | SftpReadSettings | HttpReadSettings | HdfsReadSettings;
+export type StoreReadSettingsUnion = AzureBlobStorageReadSettings | AzureBlobFSReadSettings | AzureDataLakeStoreReadSettings | AmazonS3ReadSettings | FileServerReadSettings | AzureFileStorageReadSettings | GoogleCloudStorageReadSettings | FtpReadSettings | SftpReadSettings | HttpReadSettings | HdfsReadSettings;
 
 // @public
 export interface StoreWriteSettings {
@@ -4922,7 +4924,7 @@ export interface StoreWriteSettings {
 }
 
 // @public (undocumented)
-export type StoreWriteSettingsUnion = StoreWriteSettings | SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings;
+export type StoreWriteSettingsUnion = SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings;
 
 // @public
 export type SubResource = AzureEntityResource & {};
@@ -5006,7 +5008,7 @@ export type TabularSource = CopySource & {
 };
 
 // @public (undocumented)
-export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapTableSource | SqlSource | SqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource;
+export type TabularSourceUnion = AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapTableSource | SqlSource | SqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource;
 
 // @public
 export type TabularTranslator = CopyTranslator & {
@@ -5114,7 +5116,7 @@ export type TriggerDependencyReference = DependencyReference & {
 };
 
 // @public (undocumented)
-export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
+export type TriggerDependencyReferenceUnion = TumblingWindowTriggerDependencyReference;
 
 // @public
 export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus & {
@@ -5233,7 +5235,7 @@ export interface TriggerSubscriptionOperationStatus {
 }
 
 // @public (undocumented)
-export type TriggerUnion = Trigger | RerunTumblingWindowTrigger | MultiplePipelineTriggerUnion | TumblingWindowTrigger | ChainingTrigger;
+export type TriggerUnion = RerunTumblingWindowTrigger | MultiplePipelineTriggerUnion | TumblingWindowTrigger | ChainingTrigger;
 
 // @public
 export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus & {
@@ -5396,7 +5398,7 @@ export interface WebLinkedServiceTypeProperties {
 }
 
 // @public (undocumented)
-export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties | WebAnonymousAuthentication | WebBasicAuthentication | WebClientCertificateAuthentication;
+export type WebLinkedServiceTypePropertiesUnion = WebAnonymousAuthentication | WebBasicAuthentication | WebClientCertificateAuthentication;
 
 // @public
 export type WebSource = CopySource & {};

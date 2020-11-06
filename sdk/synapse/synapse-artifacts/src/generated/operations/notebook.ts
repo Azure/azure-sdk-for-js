@@ -2,7 +2,6 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   NotebookGetNotebooksByWorkspaceResponse,
   NotebookGetNotebookSummaryByWorkSpaceResponse,
@@ -67,38 +66,18 @@ export class Notebook {
    * @param notebook Note book resource definition.
    * @param options The options parameters.
    */
-  async createOrUpdateNotebook(
+  createOrUpdateNotebook(
     notebookName: string,
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams
-  ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<NotebookCreateOrUpdateNotebookResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      notebookName,
-      notebook,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        NotebookCreateOrUpdateNotebookResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { notebookName, notebook, options: operationOptions },
       createOrUpdateNotebookOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: createOrUpdateNotebookOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<NotebookCreateOrUpdateNotebookResponse>;
   }
 
   /**
@@ -124,36 +103,17 @@ export class Notebook {
    * @param notebookName The notebook name.
    * @param options The options parameters.
    */
-  async deleteNotebook(
+  deleteNotebook(
     notebookName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      notebookName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.client.sendOperationRequest(
+      { notebookName, options: operationOptions },
       deleteNotebookOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: deleteNotebookOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -192,18 +152,6 @@ export class Notebook {
       { nextLink, options: operationOptions },
       getNotebookSummaryByWorkSpaceNextOperationSpec
     ) as Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse>;
-  }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
   }
 }
 // Operation Specifications
@@ -249,15 +197,7 @@ const createOrUpdateNotebookOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.NotebookResource
     },
-    201: {
-      bodyMapper: Mappers.NotebookResource
-    },
-    202: {
-      bodyMapper: Mappers.NotebookResource
-    },
-    204: {
-      bodyMapper: Mappers.NotebookResource
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -295,7 +235,6 @@ const deleteNotebookOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
     202: {},
     204: {},
     default: {
