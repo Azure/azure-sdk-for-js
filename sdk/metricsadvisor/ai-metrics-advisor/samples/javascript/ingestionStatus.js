@@ -36,11 +36,7 @@ async function main() {
 async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
-  const listIterator =  adminClient.listDataFeedIngestionStatus(
-    dataFeedId,
-    startTime,
-    endTime
-  );
+  const listIterator = adminClient.listDataFeedIngestionStatus(dataFeedId, startTime, endTime);
   for await (const ingestion of listIterator) {
     console.log(`  ${ingestion.timestamp} ${ingestion.status}  ${ingestion.message}`);
   }

@@ -154,11 +154,7 @@ async function checkIngestionStatus(
 ) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  const listIterator = adminClient.listDataFeedIngestionStatus(
-    datafeedId,
-    startTime,
-    endTime
-  );
+  const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
   for await (const status of listIterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }

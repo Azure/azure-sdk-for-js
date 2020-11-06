@@ -28,10 +28,7 @@ async function main() {
 async function listMetricSeriesDefinitions(client, metricId) {
   console.log("Listing metric series definitions...");
   console.log("  with for-await-of loop");
-  const listIterator = client.listMetricSeriesDefinitions(
-    metricId,
-    new Date("08/05/2020")
-  );
+  const listIterator = client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"));
   for await (const definition of listIterator) {
     console.log(definition);
   }

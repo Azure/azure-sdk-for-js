@@ -29,10 +29,7 @@ export async function main() {
 async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric series definitions...");
   console.log("  with for-await-of loop");
-  const listIterator = client.listMetricSeriesDefinitions(
-    metricId,
-    new Date("08/05/2020")
-  );
+  const listIterator = client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"));
   for await (const definition of listIterator) {
     console.log(definition);
   }
@@ -74,7 +71,7 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
 
 async function listMetricDimensionValues(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric dimension values...");
-  const listIterator =  client.listMetricDimensionValues(metricId, "city");
+  const listIterator = client.listMetricDimensionValues(metricId, "city");
   for await (const dv of listIterator) {
     console.log(`  ${dv}`);
   }
