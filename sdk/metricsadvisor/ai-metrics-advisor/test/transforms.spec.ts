@@ -92,7 +92,7 @@ describe("Transforms", () => {
     const actual = fromServiceMetricFeedbackUnion(anomalyFeedback);
 
     assert.equal(actual.id, feedbackCommon.feedbackId);
-    assert.equal(actual.createdTime, feedbackCommon.createdTime);
+    assert.equal(actual.createdOn, feedbackCommon.createdTime);
     assert.equal(actual.userPrincipal, feedbackCommon.userPrincipal);
     assert.equal(actual.dimensionKey, feedbackCommon.dimensionFilter.dimension);
     assert.equal(actual.feedbackType, "Anomaly");
@@ -181,6 +181,22 @@ describe("Transforms", () => {
     assert.deepStrictEqual(actual.schema.dimensions, serviceDataFeed.dimension);
     assert.deepStrictEqual(actual.schema.metrics, serviceDataFeed.metrics);
     assert.strictEqual(actual.source.dataSourceType, serviceDataFeed.dataSourceType);
+  });
+
+  it("fromServiceDataFeedDetailUnion() for future data source types", () => {
+    const serviceDataFeed: ServiceDataFeedDetailUnion = {
+      dataSourceType: "Future Source" as any,
+      dataSourceParameter: { futureConnectionString: "xyz", futureQuery: "someQuery" } as any,
+      dataFeedName: "name",
+      metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
+      dimension: [{ name: "d1", displayName: "d1 display" }],
+      granularityName: "Daily",
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+    };
+
+    const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
+    assert.strictEqual(actual.source.dataSourceType, "Unknown");
+    assert.deepStrictEqual(actual.source.dataSourceParameter, serviceDataFeed.dataSourceParameter);
   });
 
   [

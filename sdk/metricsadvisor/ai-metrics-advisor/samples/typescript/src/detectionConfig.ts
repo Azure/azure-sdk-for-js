@@ -193,7 +193,8 @@ async function listDetectionConfig(
 ) {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
-  for await (const config of adminClient.listDetectionConfigs(metricId)) {
+  const iterator = adminClient.listDetectionConfigs(metricId);
+  for await (const config of iterator) {
     console.log(`  detection configuration ${i++}`);
     console.log(config);
   }

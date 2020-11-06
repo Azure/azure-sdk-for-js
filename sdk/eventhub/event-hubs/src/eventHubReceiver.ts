@@ -177,6 +177,13 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
+   * Indicates if the receiver has been closed.
+   */
+  get isClosed(): boolean {
+    return this._isClosed;
+  }
+
+  /**
    * @property The last enqueued event information. This property will only
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
    * @readonly

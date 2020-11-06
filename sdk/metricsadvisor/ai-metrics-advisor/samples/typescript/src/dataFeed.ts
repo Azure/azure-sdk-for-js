@@ -10,15 +10,9 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  DataFeedSchema,
-  DataFeedMetric,
-  DataFeedDimension,
-  DataFeedIngestionSettings,
-  DataFeedGranularity,
-  DataFeedSource,
-  DataFeedOptions,
   GetDataFeedResponse,
-  DataFeedPatch
+  DataFeedPatch,
+  DataFeedDescriptor
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -53,7 +47,8 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 
   // second approach
   console.log("  using for-await-of loop");
-  for await (const datatFeed of client.listDataFeeds()) {
+  const iterator = client.listDataFeeds();
+  for await (const datatFeed of iterator) {
     console.log(`id :${datatFeed.id}, name: ${datatFeed.name}`);
   }
 
@@ -77,7 +72,7 @@ async function createDataFeed(
   client: MetricsAdvisorAdministrationClient
 ): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
-  const feed = {
+  const feed: DataFeedDescriptor = {
     name: "test-datafeed-" + new Date().getTime().toString(),
     source: {
       dataSourceType: "AzureBlob",

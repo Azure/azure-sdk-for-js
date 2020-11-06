@@ -11,7 +11,6 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  MetricAlertConfiguration,
   AnomalyAlertConfiguration
 } from "@azure/ai-metrics-advisor";
 
@@ -51,7 +50,7 @@ async function createAlertConfig(
   detectionConfigId: string
 ) {
   console.log("Creating a new alerting configuration...");
-  const alertConfig = {
+  const alertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [
@@ -100,7 +99,10 @@ async function updateAlertConfig(
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          dimensionAnomalyScope: { city: "Kolkata", category: "Shoes Handbags & Sunglasses" }
+          dimensionAnomalyScope: {
+            city: "Kolkata",
+            category: "Shoes Handbags & Sunglasses"
+          }
         }
       }
     ]
@@ -124,7 +126,8 @@ async function listAlertConfig(
 ) {
   console.log(`Listing alert configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
-  for await (const config of adminClient.listAlertConfigs(detectdionConfigId)) {
+  const iterator = adminClient.listAlertConfigs(detectdionConfigId);
+  for await (const config of iterator) {
     console.log(`Alert configuration ${i++}`);
     console.log(config);
   }

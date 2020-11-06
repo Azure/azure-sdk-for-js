@@ -16,7 +16,8 @@ import {
   DataFeedDimension,
   DataFeedMetric,
   MetricsAdvisorAdministrationClient,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorKeyCredential,
+  UnknownDataFeedSource
 } from "../src";
 import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -168,7 +169,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -259,7 +260,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -760,6 +761,54 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
 
     it("deletes PostgreSQL data feed", async function() {
       await verifyDataFeedDeletion(client, createdPostGreSqlId);
+    });
+
+    it("creates Unknown data feed", async () => {
+      const expectedSource: UnknownDataFeedSource = {
+        dataSourceType: "Unknown",
+        dataSourceParameter: {
+          connectionString: "https://connect-to-postgresql",
+          query: "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
+        }
+      };
+      try {
+        await client.createDataFeed({
+          name: postgreSqlFeedName,
+          source: expectedSource,
+          granularity,
+          schema: dataFeedSchema,
+          ingestionSettings: dataFeedIngestion,
+          options
+        });
+        assert.fail("Test should throw error");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot create a data feed with the Unknown source type."
+        );
+      }
+    });
+
+    it("updates data feed to have an unknown data source type", async function() {
+      const patch: DataFeedPatch = {
+        source: {
+          dataSourceType: "Unknown",
+          dataSourceParameter: {
+            connectionString: "https://connect-to-mongodb-patch",
+            database: "data-feed-mongodb-patch",
+            command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+          }
+        }
+      };
+      try {
+        await client.updateDataFeed(createdPostGreSqlId, patch);
+        assert.fail("Test should throw error");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot update a data feed to have the Unknown source type."
+        );
+      }
     });
   });
 }).timeout(60000);

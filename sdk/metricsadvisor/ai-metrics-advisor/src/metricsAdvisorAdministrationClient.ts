@@ -112,6 +112,14 @@ export type ListDataFeedsOptions = {
 } & OperationOptions;
 
 /**
+ * describes the input to Create Data Feed operation
+ */
+export type DataFeedDescriptor = Omit<
+  DataFeed,
+  "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn"
+>;
+
+/**
  * Options for creating data feed
  */
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
@@ -172,7 +180,7 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async createDataFeed(
-    feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">,
+    feed: DataFeedDescriptor,
     operationOptions: OperationOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -180,7 +188,9 @@ export class MetricsAdvisorAdministrationClient {
       operationOptions
     );
     const { name, granularity, source, schema, ingestionSettings, options } = feed;
-
+    if (source.dataSourceType === "Unknown") {
+      throw new Error("Cannot create a data feed with the Unknown source type.");
+    }
     const needRollup: NeedRollupEnum | undefined =
       options?.rollupSettings?.rollupType === "AutoRollup"
         ? "NeedRollup"
@@ -446,7 +456,9 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
     );
-
+    if (patch.source.dataSourceType === "Unknown") {
+      throw new Error("Cannot update a data feed to have the Unknown source type.");
+    }
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {

@@ -195,7 +195,7 @@ export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 
 // @public
 export interface DataFeed {
-    createdTime: Date;
+    createdOn: Date;
     creator: string;
     granularity: DataFeedGranularity;
     id: string;
@@ -210,6 +210,9 @@ export interface DataFeed {
 
 // @public
 export type DataFeedAccessMode = "Private" | "Public";
+
+// @public
+export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
 export type DataFeedDetailStatus = "Active" | "Paused";
@@ -307,7 +310,7 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource;
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
 
 // @public
 export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
@@ -773,7 +776,7 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
 
 // @public
 export interface MetricFeedbackCommon {
-    readonly createdTime?: Date;
+    readonly createdOn?: Date;
     dimensionKey: DimensionKey;
     readonly id?: string;
     metricId: string;
@@ -803,7 +806,7 @@ export type MetricPeriodFeedback = {
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
@@ -990,6 +993,12 @@ export interface TopNGroupScope {
     period: number;
     top: number;
 }
+
+// @public
+export type UnknownDataFeedSource = {
+    dataSourceType: "Unknown";
+    dataSourceParameter: unknown;
+};
 
 // @public (undocumented)
 export interface WebhookHookParameter {
