@@ -2,7 +2,7 @@
 
 ## 7.0.0 (Unreleased)
 
-- Log message for the `actionAfterWaitTimeout`(gets triggered for receiveMessages API) has been updated to reflect the cause of termination.
+- Log message for the `actionAfterWaitTimeout`(gets triggered for receiveMessages API) has been updated to reflect the proper cause of batch receive termination.
   [PR 12322](https://github.com/Azure/azure-sdk-for-js/pull/12322)
 
 ## 7.0.0-preview.8 (2020-11-04)
