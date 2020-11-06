@@ -1497,6 +1497,7 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
     sourceConditions?: ModifiedAccessConditions;
     tags?: Tags;
     tier?: BlockBlobTier | string;
+    timeoutInSeconds?: number;
 }
 
 // @public

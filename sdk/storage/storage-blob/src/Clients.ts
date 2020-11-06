@@ -3208,6 +3208,13 @@ export interface BlockBlobUploadOptions extends CommonOptions {
  */
 export interface BlockBlobUploadFromURLOptions extends CommonOptions {
   /**
+   * Server timeout in seconds.
+   * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
+   * @type {number}
+   * @memberof BlockBlobUploadFromURLOptions
+   */
+  timeoutInSeconds?: number;
+  /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
