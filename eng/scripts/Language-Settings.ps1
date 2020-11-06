@@ -3,6 +3,7 @@ $LanguageShort = "js"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
@@ -104,4 +105,15 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
       Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
     }
   }
+}
+
+function Get-javascript-GithubIoDocIndex() {
+  # Fetch out all package metadata from csv file.
+  $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
+  # Get the artifacts name from blob storage
+  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/azure-(.*)/$" -blobArtifactsReplacement "@azure/`${1}"
+  # Build up the artifact to service name mapping for GithubIo toc.
+  $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
+  # Generate yml/md toc files and build site.
+  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
 }
