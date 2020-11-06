@@ -126,7 +126,8 @@ async function listAlertConfig(
 ) {
   console.log(`Listing alert configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
-  for await (const config of adminClient.listAlertConfigs(detectdionConfigId)) {
+  const iterator = adminClient.listAlertConfigs(detectdionConfigId);
+  for await (const config of iterator) {
     console.log(`Alert configuration ${i++}`);
     console.log(config);
   }

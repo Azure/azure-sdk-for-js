@@ -108,7 +108,8 @@ async function deleteAlertConfig(adminClient, alertConfigId) {
 async function listAlertingConfig(adminClient, detectdionConfigId) {
   console.log(`Listing alerting configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
-  for await (const config of adminClient.listAlertConfigs(detectdionConfigId)) {
+  const iterator = adminClient.listAlertConfigs(detectdionConfigId);
+  for await (const config of iterator) {
     console.log(`Alert configuration ${i++}`);
     console.log(config);
   }

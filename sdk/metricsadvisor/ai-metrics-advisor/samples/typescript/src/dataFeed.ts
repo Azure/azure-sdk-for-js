@@ -47,7 +47,8 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 
   // second approach
   console.log("  using for-await-of loop");
-  for await (const datatFeed of client.listDataFeeds()) {
+  const iterator = client.listDataFeeds();
+  for await (const datatFeed of iterator) {
     console.log(`id :${datatFeed.id}, name: ${datatFeed.name}`);
   }
 
