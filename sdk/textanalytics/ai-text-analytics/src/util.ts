@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RestError } from "@azure/core-http";
 import { StringIndexType } from "./generated/models";
 import { logger } from "./logger";
 
@@ -32,7 +33,14 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
     );
   }
 
-  return sortedArray.map((item) => unsortedMap.get(item.id)!);
+  let result: U[] = [];
+  for (const sortedItem of sortedArray) {
+    const item = unsortedMap.get(sortedItem.id);
+    if (item) {
+      result.push(item);
+    }
+  }
+  return result;
 }
 
 export interface OpinionIndex {
@@ -56,6 +64,66 @@ export function findOpinionIndex(pointer: string): OpinionIndex {
   }
 }
 
+const jsEncodingUnit = "Utf16CodeUnit";
+
 export function addStrEncodingParam<T>(options: T): T & { stringIndexType: StringIndexType } {
-  return { ...options, stringIndexType: "Utf16CodeUnit" };
+  return { ...options, stringIndexType: jsEncodingUnit };
+}
+
+export function addEncodingParamToTask<X, Y>(
+  task: X & { parameters?: Y & { stringIndexType?: StringIndexType } }
+): X & { parameters?: Y & { stringIndexType?: StringIndexType } } {
+  if (task.parameters) {
+    task.parameters.stringIndexType = jsEncodingUnit;
+  }
+  return task;
+}
+
+export interface PageParam {
+  top: number;
+  skip: number;
+}
+
+function findParamValue(matches: RegExpMatchArray, param: string): number {
+  for (let i = 0; i < matches.length; i += 2) {
+    if (matches[i] === `\$${param}`) {
+      return parseInt(matches[i + 1]);
+    }
+  }
+  throw new Error(`The parameter \$${param} was not found in nextLink`);
+}
+
+export function nextLinkToTopAndSkip(nextLink: string): PageParam {
+  let regExp = /(?:\?|\&)([^=]+)\=([^\&]+)/g,
+    match,
+    matches: string[] = [];
+  while ((match = regExp.exec(nextLink))) {
+    matches.push(match[1], match[2]);
+  }
+  if (matches) {
+    return {
+      skip: findParamValue(matches, "skip"),
+      top: findParamValue(matches, "top")
+    };
+  } else {
+    throw new Error(`Malformed URL or a URL without parameters found`);
+  }
+}
+
+export function getJobID(operationLocation: string): string {
+  const lastSlashIndex = operationLocation.lastIndexOf("/");
+  return operationLocation.substring(lastSlashIndex + 1);
+}
+
+/**
+ * parses incoming errors from the service and if the inner error code is
+ * InvalidDocumentBatch, it exposes that as the statusCode instead.
+ * @param error the incoming error
+ */
+export function handleInvalidDocumentBatch(error: any) {
+  const innerCode = error.response?.parsedBody?.error?.innererror?.code;
+  const innerMessage = error.response?.parsedBody?.error?.innererror?.message;
+  return innerCode === "InvalidDocumentBatch"
+    ? new RestError(innerMessage, innerCode, error.statusCode)
+    : error;
 }

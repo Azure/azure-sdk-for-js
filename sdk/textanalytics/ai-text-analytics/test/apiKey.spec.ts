@@ -8,7 +8,7 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
-import { TextAnalyticsClient, AzureKeyCredential } from "../src/index";
+import { TextAnalyticsClient, AzureKeyCredential, TextDocumentInput } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
@@ -76,5 +76,450 @@ describe("[API Key] TextAnalyticsClient", function() {
     ]);
     assert.equal(results.length, 1);
     assertAllSuccess(results);
+  });
+
+  describe("#health", () => {
+    it("input strings", async () => {
+      const poller = await client.beginAnalyzeHealthcare([
+        "Patient does not suffer from high blood pressure.",
+        "Prescribed 100mg ibuprofen, taken twice daily."
+      ]);
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        if (!doc.error) {
+          assert.ok(doc.id);
+          assert.ok(doc.statistics);
+          assert.ok(doc.entities);
+          assert.ok(doc.relations);
+        }
+      }
+    }).timeout(1000000);
+
+    it("input documents", async () => {
+      const poller = await client.beginAnalyzeHealthcare([
+        { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+        { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+      ]);
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        if (!doc.error) {
+          assert.ok(doc.id);
+          assert.ok(doc.statistics);
+          assert.ok(doc.entities);
+          assert.ok(doc.relations);
+        }
+      }
+    });
+
+    it("some inputs with errors", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "" },
+        { id: "2", language: "english", text: "Patient does not suffer from high blood pressure." },
+        { id: "3", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      const result1 = (await result.next()).value;
+      const result2 = (await result.next()).value;
+      const result3 = (await result.next()).value;
+      if (!result3.error) {
+        assert.ok(result3.id);
+        assert.ok(result3.statistics);
+        assert.ok(result3.entities);
+        assert.ok(result3.relations);
+      }
+      assert.ok(result1.error);
+      assert.ok(result2.error);
+    }).timeout(1000000);
+
+    it("all inputs with errors", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "" },
+        { id: "2", language: "english", text: "Patient does not suffer from high blood pressure." },
+        { id: "3", language: "en", text: "" }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      const result1 = (await result.next()).value;
+      const result2 = (await result.next()).value;
+      const result3 = (await result.next()).value;
+      assert.ok(result1.error);
+      assert.ok(result2.error);
+      assert.ok(result3.error);
+    }).timeout(1000000);
+
+    it("too many documents", async () => {
+      const docs = Array(1001).fill("random text");
+      try {
+        await client.beginAnalyzeHealthcare(docs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+        assert.equal(e.code, "InvalidDocumentBatch");
+        assert.equal(
+          e.message,
+          "Batch request contains too many records. Max 1000 records are permitted."
+        );
+      }
+    }).timeout(1000000);
+
+    /**
+     * The service returns status code 413 which is not included in the swagger.
+     */
+    it.skip("payload too large", async () => {
+      const large_doc =
+        "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
+            CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
+            Report Status: Signed Discharge Date: 4/24/2001 ADMISSION DIAGNOSIS: \
+            CORONARY ARTERY DISEASE. HISTORY OF PRESENT ILLNESS: \
+            The patient is a 54-year-old gentleman with a history of progressive angina over the past several months. \
+            The patient had a cardiac catheterization in July of this year revealing total occlusion of the RCA and \
+            50% left main disease , with a strong family history of coronary artery disease with a brother dying at \
+            the age of 52 from a myocardial infarction and another brother who is status post coronary artery bypass grafting. \
+            The patient had a stress echocardiogram done on July , 2001 , which showed no wall motion abnormalities ,\
+            but this was a difficult study due to body habitus. The patient went for six minutes with minimal ST depressions \
+            in the anterior lateral leads , thought due to fatigue and wrist pain , his anginal equivalent. Due to the patient's \
+            increased symptoms and family history and history left main disease with total occasional of his RCA was referred \
+            for revascularization with open heart surgery.";
+      const docs = Array(500).fill(large_doc);
+      try {
+        await client.beginAnalyzeHealthcare(docs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 413);
+        assert.equal(e.code, "BodyTooLarge");
+        assert.equal(
+          e.message,
+          "Request Payload sent is too large to be processed. Limit request size to: 524288."
+        );
+      }
+    });
+
+    /**
+     * The service does not return warnings.
+     */
+    it.skip("document warnings", async () => {
+      const docs = [{ id: "1", text: "This won't actually create a warning :'(" }];
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        if (!doc.error) {
+          assert.equal(doc.warnings.length, 0);
+        }
+      }
+    });
+
+    it("output has the same order as input", async () => {
+      const docs = [
+        { id: "1", text: "one" },
+        { id: "2", text: "two" },
+        { id: "3", text: "three" },
+        { id: "4", text: "four" },
+        { id: "5", text: "five" }
+      ];
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      let i = 0;
+      for await (const doc of result) {
+        assert.equal(parseInt(doc.id), ++i);
+      }
+    });
+
+    it("output has the same order as input with out of order IDs", async () => {
+      const docs = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      const in_order = [56, 0, 22, 19, 1];
+      let i = 0;
+      for await (const doc of result) {
+        assert.equal(parseInt(doc.id), in_order[i++]);
+      }
+    }).timeout(1000000);
+
+    it("show stats and model version", async () => {
+      const docs: TextDocumentInput[] = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        health: {
+          modelVersion: "latest",
+          includeStatistics: true
+        }
+      });
+      const result = await poller.pollUntilDone();
+      assert.ok(result);
+      assert.ok(result.modelVersion);
+      assert.equal(result.statistics?.documentCount, 5);
+      assert.equal(result.statistics?.transactionCount, 4);
+      assert.equal(result.statistics?.validDocumentCount, 4);
+      assert.equal(result.statistics?.erroneousDocumentCount, 1);
+    });
+
+    it("whole batch language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs, "en");
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        assert.isUndefined(doc.error);
+      }
+    }).timeout(1000000);
+
+    it("whole batch empty language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs, "");
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        assert.isUndefined(doc.error);
+      }
+    });
+
+    it("whole batch empty language hint per doc", async () => {
+      const docs = [
+        { id: "1", language: "", text: "I will go to the park." },
+        { id: "2", language: "", text: "I did not like the hotel we stayed at." },
+        { id: "3", text: "The restaurant had really good food." }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        assert.isUndefined(doc.error);
+      }
+    }).timeout(1000000);
+
+    it("whole batch with multiple languages", async () => {
+      const docs = [
+        { id: "1", text: "I should take my cat to the veterinarian." },
+        { id: "2", text: "Este es un document escrito en Español." },
+        { id: "3", text: "猫は幸せ" }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        assert.isUndefined(doc.error);
+      }
+    }).timeout(1000000);
+
+    it("invalid language hint", async () => {
+      const docs = ["This should fail because we're passing in an invalid language hint"];
+
+      const poller = await client.beginAnalyzeHealthcare(docs, "notalanguage");
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
+    });
+
+    it("invalid language hint in doc", async () => {
+      const docs = [
+        {
+          id: "1",
+          language: "notalanguage",
+          text: "This should fail because we're passing in an invalid language hint"
+        }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
+    });
+
+    /**
+     * The service accepts bad model names
+     */
+    it.skip("bad model", async () => {
+      const docs = [
+        {
+          id: "1",
+          language: "en",
+          text: "This should fail because we're passing in an invalid language hint"
+        }
+      ];
+
+      try {
+        await client.beginAnalyzeHealthcare(docs, { health: { modelVersion: "bad" } });
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.code, "ModelVersionIncorrect");
+      }
+    });
+
+    it("all documents have errors", async () => {
+      let text = "";
+      for (let i = 0; i < 5121; ++i) {
+        text = text + "x";
+      }
+      const docs = [
+        { id: "1", text: "" },
+        { id: "2", language: "english", text: "I did not like the hotel we stayed at." },
+        { id: "3", text: text }
+      ];
+
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const doc_errors = await poller.pollUntilDone();
+      assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
+      assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
+      assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
+    });
+
+    it("documents with duplicate IDs", async () => {
+      const docs = [
+        { id: "1", text: "hello world" },
+        { id: "1", text: "I did not like the hotel we stayed at." }
+      ];
+
+      try {
+        await client.beginAnalyzeHealthcare(docs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.code, "InvalidRequest");
+      }
+    });
+
+    /**
+     * the service by default returns pages of 20 documents each and this test
+     * makes sure we get all the results and not just the first page.
+     */
+    it("paged results one loop", async () => {
+      const docs = Array(40).fill("random text");
+      docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      let count = 0;
+      for await (const doc of result) {
+        assert.isUndefined(doc.error);
+        ++count;
+        if (!doc.error) {
+          if (count === 41) {
+            assert.equal(doc.entities.length, 3);
+          } else {
+            assert.equal(doc.entities.length, 0);
+          }
+        }
+      }
+      assert.equal(docs.length, count);
+    }).timeout(1000000);
+
+    it("paged results nested loop", async () => {
+      const docs = Array(40).fill("random text");
+      docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      let docCount = 0,
+        pageCount = 0;
+      for await (const docs of result.byPage()) {
+        ++pageCount;
+        for (const doc of docs) {
+          assert.isUndefined(doc.error);
+          ++docCount;
+          if (!doc.error) {
+            if (docCount === 41) {
+              assert.equal(doc.entities.length, 3);
+            } else {
+              assert.equal(doc.entities.length, 0);
+            }
+          }
+        }
+      }
+      assert.equal(docs.length, docCount);
+      assert.equal(Math.ceil(docs.length / 20), pageCount);
+    }).timeout(1000000);
+
+    it("paged results with custom page size", async () => {
+      const docs = Array(40).fill("random text");
+      docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
+      const poller = await client.beginAnalyzeHealthcare(docs);
+      const result = await poller.pollUntilDone();
+      let docCount = 0,
+        pageCount = 0,
+        pageSize = 10;
+      for await (const docs of result.byPage({ maxPageSize: pageSize })) {
+        ++pageCount;
+        for (const doc of docs) {
+          assert.isUndefined(doc.error);
+          ++docCount;
+          if (!doc.error) {
+            if (docCount === 41) {
+              assert.equal(doc.entities.length, 3);
+            } else {
+              assert.equal(doc.entities.length, 0);
+            }
+          }
+        }
+      }
+      assert.equal(docs.length, docCount);
+      assert.equal(Math.ceil(docs.length / pageSize), pageCount);
+    }).timeout(1000000);
+
+    it("cancelled", async () => {
+      const poller = await client.beginAnalyzeHealthcare([
+        { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+        { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+      ]);
+      await poller.cancelOperation();
+      assert.ok(poller.getOperationState().isCancelled);
+    });
+  });
+
+  describe("#analyze", () => {
+    it.only("input strings", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen." },
+        {
+          id: "2",
+          language: "en",
+          text: "I did not like the hotel we stayed at. It was too expensive."
+        },
+        {
+          id: "3",
+          language: "en",
+          text: "The restaurant had really good food. I recommend you try it."
+        }
+      ];
+
+      const poller = await client.beginAnalyze(docs, {
+        entityRecognitionTasks: [{ parameters: { modelVersion: "latest" } }]
+      });
+      const result = await poller.pollUntilDone();
+      for await (const doc of result) {
+        switch (doc.type) {
+          case "Entities": {
+            assert.ok(doc.id);
+            assert.ok(doc.entities);
+            break;
+          }
+          case "Error": {
+            assert.fail("Unexpected failure");
+          }
+          case "KeyPhrases":
+          case "PiiEntities": {
+            assert.fail("Unexpected task results");
+          }
+        }
+      }
+    }).timeout(1000000);
   });
 });

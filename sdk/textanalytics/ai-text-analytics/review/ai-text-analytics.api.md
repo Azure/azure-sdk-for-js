@@ -7,8 +7,49 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AnalyzeEntitiesResult extends RecognizeCategorizedEntitiesSuccessResult {
+    // (undocumented)
+    type: "Entities";
+}
+
+// @public
+export interface AnalyzeErrorResult extends TextAnalyticsErrorResult {
+    // (undocumented)
+    type: "Error";
+}
+
+// @public
+export interface AnalyzeJobOptions extends TextAnalyticsOperationOptions {
+}
+
+// @public (undocumented)
+export interface AnalyzeKeyPhrasesResult extends ExtractKeyPhrasesSuccessResult {
+    // (undocumented)
+    type: "KeyPhrases";
+}
+
+// @public (undocumented)
+export interface AnalyzePiiEntitiesResult extends RecognizePiiEntitiesSuccessResult {
+    // (undocumented)
+    type: "PiiEntities";
+}
+
+// @public
+export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
+
+// @public
+export type AnalyzeResult = AnalyzeEntitiesResult | AnalyzePiiEntitiesResult | AnalyzeKeyPhrasesResult | AnalyzeErrorResult;
+
+// @public
+export interface AnalyzeResultsArray extends Array<AnalyzeResult> {
+}
 
 // @public
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
@@ -53,6 +94,28 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
+export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedHealthcareEntities>;
+
+// @public
+export interface BeginAnalyzeHealthcareOptions {
+    // (undocumented)
+    health?: HealthcareJobOptions;
+    // (undocumented)
+    polling?: PollingOptions;
+}
+
+// @public
+export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResults>;
+
+// @public
+export interface BeginAnalyzeOptions {
+    // (undocumented)
+    analyze?: AnalyzeJobOptions;
+    // (undocumented)
+    polling?: PollingOptions;
+}
+
+// @public
 export interface CategorizedEntity extends Entity {
 }
 
@@ -95,6 +158,17 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
+// @public (undocumented)
+export type EntitiesTask = {
+    parameters?: EntitiesTaskParameters;
+};
+
+// @public (undocumented)
+export interface EntitiesTaskParameters {
+    // (undocumented)
+    modelVersion?: string;
+}
+
 // @public
 export interface Entity {
     category: string;
@@ -108,7 +182,7 @@ export interface Entity {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable";
+export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "NotFound";
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -131,7 +205,72 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
+export interface HealthcareEntitiesArray extends Array<HealthcareResult> {
+}
+
+// @public (undocumented)
+export type HealthcareEntity = Entity & {
+    isNegated: boolean;
+    links?: HealthcareEntityLink[];
+};
+
+// @public (undocumented)
+export interface HealthcareEntityLink {
+    dataSource: string;
+    id: string;
+}
+
+// @public
+export type HealthcareErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {
+}
+
+// @public (undocumented)
+export interface HealthcareRelation {
+    bidirectional: boolean;
+    relationType: string;
+    source: string;
+    target: string;
+}
+
+// @public
+export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+// @public
+export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
+    entities: HealthcareEntity[];
+    relations: HealthcareRelation[];
+}
+
+// @public
+export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PaginatedHealthcareEntities>;
+
+// @public
+export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
+
+// @public (undocumented)
+export interface JobManifestTasks {
+    // (undocumented)
+    entityRecognitionPiiTasks?: PiiTask[];
+    // (undocumented)
+    entityRecognitionTasks?: EntitiesTask[];
+    // (undocumented)
+    keyPhraseExtractionTasks?: KeyPhrasesTask[];
+}
+
+// @public (undocumented)
+export interface KeyPhrasesTask {
+    // (undocumented)
+    parameters?: KeyPhrasesTaskParameters;
+}
+
+// @public (undocumented)
+export interface KeyPhrasesTaskParameters {
+    // (undocumented)
+    modelVersion?: string;
+}
 
 // @public
 export interface LinkedEntity {
@@ -162,12 +301,51 @@ export interface OpinionSentiment extends SentenceOpinion {
 }
 
 // @public
+export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResultsArray>;
+
+// @public
+export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
+
+// @public
+export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthEntities {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
 export interface PiiEntity extends Entity {
 }
 
 // @public
 export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
+}
+
+// @public (undocumented)
+export type PiiTask = {
+    parameters?: PiiTaskParameters;
+};
+
+// @public (undocumented)
+export interface PiiTaskParameters {
+    // (undocumented)
+    domain?: PiiTaskParametersDomain;
+    // (undocumented)
+    modelVersion?: string;
+}
+
+// @public
+export type PiiTaskParametersDomain = "phi" | "none" | string;
+
+// @public
+export interface PollingOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -269,6 +447,10 @@ export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
+    beginAnalyze(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
+    beginAnalyze(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
+    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
+    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
@@ -351,7 +533,7 @@ export interface TextDocumentStatistics {
 export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
-export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated" | string;
 
 
 // (No @packageDocumentation comment for this package)
