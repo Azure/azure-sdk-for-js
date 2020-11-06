@@ -136,7 +136,7 @@ async function getRootCauses(
 async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const alert of client.listAlertsForAlertConfiguration(
+  for await (const alert of client.listAlerts(
     alertConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
@@ -150,7 +150,7 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
 
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(
+    .listAlerts(
       alertConfigId,
       new Date("10/22/2020"),
       new Date("10/24/2020"),
