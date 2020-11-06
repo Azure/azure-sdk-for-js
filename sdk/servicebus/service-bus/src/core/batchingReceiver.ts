@@ -414,7 +414,7 @@ export class BatchingReceiverLite {
             const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
             totalWaitTimer = setTimeout(() => {
               actionAfterWaitTimeout(
-                `Batching, wait time in milliseconds ${remainingWaitTimeInMs} over after receiving the first message.`
+                `Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
               );
             }, remainingWaitTimeInMs);
           }
@@ -513,7 +513,7 @@ export class BatchingReceiverLite {
 
       totalWaitTimer = setTimeout(() => {
         actionAfterWaitTimeout(
-          `Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
+          `Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
         );
       }, args.maxWaitTimeInMs);
 
