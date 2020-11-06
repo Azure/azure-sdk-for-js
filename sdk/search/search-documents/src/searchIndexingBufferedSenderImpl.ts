@@ -24,7 +24,7 @@ import { getRandomIntegerInclusive } from "./serviceUtils";
 /**
  * Default Batch Size
  */
-export const DEFAULT_BATCH_SIZE: number = 1000;
+export const DEFAULT_BATCH_SIZE: number = 512;
 /**
  * Default window flush interval
  */
@@ -36,11 +36,11 @@ export const DEFAULT_RETRY_COUNT: number = 3;
 /**
  * Default retry delay.
  */
-export const DEFAULT_RETRY_DELAY: number = 30000;
+export const DEFAULT_RETRY_DELAY: number = 800;
 /**
  * Default Max Delay between retries.
  */
-export const DEFAULT_MAX_RETRY_DELAY: number = 600000;
+export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
 
 /**
  * Class used to perform buffered operations against a search index,
@@ -74,7 +74,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Size of the batch.
    */
-  private batchDocumentCount: number;
+  private initialBatchActionCount: number;
   /**
    * Batch object used to complete the service call.
    */
@@ -99,7 +99,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     this.client = client;
     // General Configuration properties
     this.autoFlush = options.autoFlush ?? false;
-    this.batchDocumentCount = options.initialBatchDocumentCount ?? DEFAULT_BATCH_SIZE;
+    this.initialBatchActionCount = options.initialBatchActionCount ?? DEFAULT_BATCH_SIZE;
     this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
     // Retry specific configuration properties
     this.retryDelayInMs = options.retryDelayInMs ?? DEFAULT_FLUSH_WINDOW;
@@ -351,7 +351,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   }
 
   private isBatchReady(): boolean {
-    return this.batchObject.actions.length >= this.batchDocumentCount;
+    return this.batchObject.actions.length >= this.initialBatchActionCount;
   }
 
   private async internalFlush(force: boolean, options: OperationOptions = {}): Promise<void> {
@@ -360,7 +360,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       const actions: IndexDocumentsAction<T>[] = this.batchObject.actions;
       this.batchObject = new IndexDocumentsBatch<T>();
       while (actions.length > 0) {
-        const actionsToSend = actions.splice(0, this.batchDocumentCount);
+        const actionsToSend = actions.splice(0, this.initialBatchActionCount);
         await this.submitDocuments(actionsToSend, options);
       }
     }

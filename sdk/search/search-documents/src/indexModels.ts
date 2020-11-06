@@ -38,12 +38,12 @@ export interface SearchIndexingBufferedSenderOptions {
    */
   autoFlush?: boolean;
   /**
-   * Initial Batch Document Count.
+   * Initial Batch Action Count.
    *
-   * A batch request will be sent once the number of documents
-   * reach the initialBatchDocumentCount.
+   * A batch request will be sent once the documents
+   * reach the initialBatchActionCount.
    */
-  initialBatchDocumentCount?: number;
+  initialBatchActionCount?: number;
   /**
    * Flush Window.
    *
