@@ -90,6 +90,28 @@ export const connectionPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const dataMaskingPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "dataMaskingPolicyName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "dataMaskingPolicyName",
+    defaultValue: 'Default',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataMaskingRuleName: msRest.OperationURLParameter = {
+  parameterPath: "dataMaskingRuleName",
+  mapper: {
+    required: true,
+    serializedName: "dataMaskingRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const dataWarehouseUserActivityName: msRest.OperationURLParameter = {
   parameterPath: "dataWarehouseUserActivityName",
   mapper: {
@@ -185,6 +207,26 @@ export const integrationRuntimeName: msRest.OperationURLParameter = {
     }
   }
 };
+export const keyName: msRest.OperationURLParameter = {
+  parameterPath: "keyName",
+  mapper: {
+    required: true,
+    serializedName: "keyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const linkId: msRest.OperationURLParameter = {
+  parameterPath: "linkId",
+  mapper: {
+    required: true,
+    serializedName: "linkId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -261,6 +303,26 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const restorableDroppedSqlPoolId: msRest.OperationURLParameter = {
+  parameterPath: "restorableDroppedSqlPoolId",
+  mapper: {
+    required: true,
+    serializedName: "restorableDroppedSqlPoolId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const restorePointName: msRest.OperationURLParameter = {
+  parameterPath: "restorePointName",
+  mapper: {
+    required: true,
+    serializedName: "restorePointName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ruleId: msRest.OperationURLParameter = {
   parameterPath: "ruleId",
   mapper: {
@@ -326,6 +388,20 @@ export const sensitivityLabelSource0: msRest.OperationURLParameter = {
   }
 };
 export const sensitivityLabelSource1: msRest.OperationURLParameter = {
+  parameterPath: "sensitivityLabelSource",
+  mapper: {
+    required: true,
+    serializedName: "sensitivityLabelSource",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "current",
+        "recommended"
+      ]
+    }
+  }
+};
+export const sensitivityLabelSource2: msRest.OperationURLParameter = {
   parameterPath: "sensitivityLabelSource",
   mapper: {
     required: true,
@@ -401,6 +477,26 @@ export const vulnerabilityAssessmentName: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "vulnerabilityAssessmentName",
     defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const workloadClassifierName: msRest.OperationURLParameter = {
+  parameterPath: "workloadClassifierName",
+  mapper: {
+    required: true,
+    serializedName: "workloadClassifierName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const workloadGroupName: msRest.OperationURLParameter = {
+  parameterPath: "workloadGroupName",
+  mapper: {
+    required: true,
+    serializedName: "workloadGroupName",
     type: {
       name: "String"
     }
