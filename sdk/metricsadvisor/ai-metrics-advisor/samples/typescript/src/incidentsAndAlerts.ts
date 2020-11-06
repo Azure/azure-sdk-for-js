@@ -138,8 +138,8 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   console.log("  using for-await-of syntax");
   for await (const alert of client.listAlerts(
     alertConfigId,
-    new Date("10/22/2020"),
-    new Date("10/24/2020"),
+    new Date("11/01/2020"),
+    new Date("11/05/2020"),
     "AnomalyTime"
   )) {
     console.log("    Alert");
@@ -152,8 +152,8 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   const iterator = client
     .listAlerts(
       alertConfigId,
-      new Date("10/22/2020"),
-      new Date("10/24/2020"),
+      new Date("11/01/2020"),
+      new Date("11/05/2020"),
       "AnomalyTime"
     )
     .byPage({ maxPageSize: 20 });
