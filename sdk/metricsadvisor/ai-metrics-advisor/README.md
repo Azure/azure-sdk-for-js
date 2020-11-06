@@ -197,18 +197,16 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__CUSTOM_SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@example.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__CUSTOM_SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@example.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 

@@ -354,23 +354,21 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       ingestionRetryDelayInSeconds: original.minRetryIntervalInSeconds,
       stopRetryAfterInSeconds: original.stopRetryAfterInSeconds
     },
-    options: {
-      description: original.dataFeedDescription,
-      actionLinkTemplate: original.actionLinkTemplate,
-      rollupSettings: toRollupSettings(original),
-      missingDataPointFillSettings:
-        original.fillMissingPointType === "CustomValue"
-          ? {
-              fillType: original.fillMissingPointType!,
-              customFillValue: original.fillMissingPointValue!
-            }
-          : {
-              fillType: original.fillMissingPointType!
-            },
-      accessMode: original.viewMode,
-      adminEmails: original.admins,
-      viewerEmails: original.viewers
-    }
+    description: original.dataFeedDescription,
+    actionLinkTemplate: original.actionLinkTemplate,
+    rollupSettings: toRollupSettings(original),
+    missingDataPointFillSettings:
+      original.fillMissingPointType === "CustomValue"
+        ? {
+            fillType: original.fillMissingPointType!,
+            customFillValue: original.fillMissingPointValue!
+          }
+        : {
+            fillType: original.fillMissingPointType!
+          },
+    accessMode: original.viewMode,
+    adminEmails: original.admins,
+    viewerEmails: original.viewers
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {

@@ -194,19 +194,18 @@ export type ChangeThresholdConditionUnion = {
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 
 // @public
-export interface DataFeed {
-    createdOn: Date;
-    creator: string;
-    granularity: DataFeedGranularity;
+export type DataFeed = {
     id: string;
-    ingestionSettings: DataFeedIngestionSettings;
-    isAdmin: boolean;
     name: string;
-    options?: DataFeedOptions;
-    schema: DataFeedSchema;
-    source: DataFeedSource;
+    createdOn: Date;
     status: DataFeedStatus;
-}
+    isAdmin: boolean;
+    creator: string;
+    source: DataFeedSource;
+    schema: DataFeedSchema;
+    granularity: DataFeedGranularity;
+    ingestionSettings: DataFeedIngestionSettings;
+} & DataFeedOptions;
 
 // @public
 export type DataFeedAccessMode = "Private" | "Public";
@@ -274,17 +273,16 @@ export interface DataFeedOptions {
 }
 
 // @public
-export interface DataFeedPatch {
-    ingestionSettings?: DataFeedIngestionSettings;
+export type DataFeedPatch = {
     name?: string;
-    options?: DataFeedOptions & {
-        status?: DataFeedDetailStatus;
-    };
+    source: DataFeedSourcePatch;
     schema?: {
         timestampColumn?: string;
     };
-    source: DataFeedSourcePatch;
-}
+    ingestionSettings?: DataFeedIngestionSettings;
+} & DataFeedOptions & {
+    status?: DataFeedDetailStatus;
+};
 
 // @public
 export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";

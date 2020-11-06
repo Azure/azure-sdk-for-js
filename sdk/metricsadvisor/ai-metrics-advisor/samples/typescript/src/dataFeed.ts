@@ -115,18 +115,16 @@ async function createDataFeed(
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__CUSTOM_SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "CustomValue",
-        customFillValue: 567
-      },
-      accessMode: "Private"
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__CUSTOM_SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "CustomValue",
+      customFillValue: 567
+    },
+    accessMode: "Private"
   };
   const result = await client.createDataFeed(feed);
 
@@ -155,13 +153,11 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
       stopRetryAfterInSeconds: 667777,
       ingestionStartOffsetInSeconds: 4444
     },
-    options: {
-      description: "New datafeed description",
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      status: "Paused"
-    }
+    description: "New datafeed description",
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    status: "Paused"
   };
 
   try {
