@@ -1275,6 +1275,11 @@ export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = Operatio
 // @public
 export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
+    flushWindowInMs?: number;
+    initialBatchActionCount?: number;
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public
