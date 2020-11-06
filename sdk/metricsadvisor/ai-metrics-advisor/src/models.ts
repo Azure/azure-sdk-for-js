@@ -209,7 +209,7 @@ export interface DataFeedOptions {
   rollupSettings?: DataFeedRollupSettings;
 
   /**
-   * settings to control how missing data apoints are filled
+   * settings to control how missing data points are filled
    */
   missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
 
@@ -276,7 +276,7 @@ export interface DataFeed {
    */
   status: DataFeedStatus;
   /**
-   * Indicates whether the current user is an aministrator of the data feed.
+   * Indicates whether the current user is an administrator of the data feed.
    */
   isAdmin: boolean;
   /**
@@ -539,7 +539,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
 };
 
 /**
- * Detection condidtion for a specific time series.
+ * Detection condition for a specific time series.
  */
 export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
@@ -583,7 +583,7 @@ export type HardThresholdConditionUnion =
        */
       anomalyDetectorDirection: "Both";
       /**
-       * supress condition
+       * suppress condition
        */
       suppressCondition: SuppressCondition;
     };

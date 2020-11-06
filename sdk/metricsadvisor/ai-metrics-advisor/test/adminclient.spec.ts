@@ -145,7 +145,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       const actual = await client.createDetectionConfig(expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);
@@ -207,7 +207,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);

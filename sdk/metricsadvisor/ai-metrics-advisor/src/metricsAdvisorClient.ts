@@ -133,7 +133,7 @@ export type ListFeedbackOptions = {
 export type ListMetricSeriesDefinitionsOptions = {
   skip?: number;
   /**
-   * filter specfic dimension name and values
+   * filter specific dimension name and values
    */
   dimensionFilter?: Record<string, string[]>;
 } & OperationOptions;
@@ -1805,7 +1805,7 @@ export class MetricsAdvisorClient {
    * @param startTime The start of the time range to retrieve series data
    * @param endTime The end of the time range to retrieve series data
    * @param seriesToFilter A list of time series to retrieve their data
-   * @param options The optiosn parameter
+   * @param options The options parameter
    */
   public async getMetricSeriesData(
     metricId: string,

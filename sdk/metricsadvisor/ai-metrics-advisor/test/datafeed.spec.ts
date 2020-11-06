@@ -169,7 +169,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -260,7 +260,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
