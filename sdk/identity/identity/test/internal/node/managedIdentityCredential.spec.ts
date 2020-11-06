@@ -211,7 +211,7 @@ describe("ManagedIdentityCredential", function() {
       [`${filePath}`]: key
     });
 
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
       authResponse: [
         {
           status: 401,
@@ -234,7 +234,6 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(validationRequest.query, "No query string parameters on request");
 
     assert.equal(validationRequest.method, "GET");
-    assert.equal(validationRequest.query!["client_id"], "client");
     assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
 
     assert.ok(
@@ -247,7 +246,6 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(authRequest.query, "No query string parameters on request");
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(authRequest.query!["client_id"], "client");
     assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
 
     assert.ok(
@@ -267,7 +265,10 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Fabric environment", async () => {
+  // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
+  // because our HTTPs pipeline doesn't allow skipping the SSL verification step,
+  // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
+  it.skip("sends an authorization request correctly in an Azure Fabric environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_HEADER = "secret";
