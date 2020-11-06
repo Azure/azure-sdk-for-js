@@ -787,7 +787,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       }
     });
 
-    it("updates data feed to have a different data source type", async function() {
+    it("updates data feed to have an unknown data source type", async function() {
       const patch: DataFeedPatch = {
         source: {
           dataSourceType: "Unknown",
