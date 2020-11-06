@@ -310,7 +310,7 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource;
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
 
 // @public
 export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
@@ -993,6 +993,12 @@ export interface TopNGroupScope {
     period: number;
     top: number;
 }
+
+// @public
+export type UnknownDataFeedSource = {
+    dataSourceType: "Unknown";
+    dataSourceParameter: unknown;
+};
 
 // @public (undocumented)
 export interface WebhookHookParameter {

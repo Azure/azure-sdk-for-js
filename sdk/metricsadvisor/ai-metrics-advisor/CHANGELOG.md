@@ -46,6 +46,7 @@
   - `IngestionStatus.timestamp`
   - `latestSuccessTimestamp` and `latestActiveTimestamp` in the return type of `getDataFeedIngestionProgress()`.
 - Parameters of `Date` type now also accept strings. No validation is done for the strings. The SDK calls `new Date()` to convert them to `Date`.
+- Handle potential new data feed source types gracefully
 
 ## 1.0.0-beta.1 (2020-10-07)
 

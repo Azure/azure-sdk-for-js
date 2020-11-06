@@ -183,6 +183,22 @@ describe("Transforms", () => {
     assert.strictEqual(actual.source.dataSourceType, serviceDataFeed.dataSourceType);
   });
 
+  it("fromServiceDataFeedDetailUnion() for future data source types", () => {
+    const serviceDataFeed: ServiceDataFeedDetailUnion = {
+      dataSourceType: "Future Source" as any,
+      dataSourceParameter: {futureConnectionString: "xyz", futureQuery: "someQuery"} as any,
+      dataFeedName: "name",
+      metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
+      dimension: [{ name: "d1", displayName: "d1 display" }],
+      granularityName: "Daily",
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+    };
+
+    const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
+    assert.strictEqual(actual.source.dataSourceType, "Unknown");
+    assert.deepStrictEqual(actual.source.dataSourceParameter, serviceDataFeed.dataSourceParameter);
+  });
+
   [
     { original: "Yearly", expected: "Yearly" },
     { original: "Daily", expected: "Daily" },

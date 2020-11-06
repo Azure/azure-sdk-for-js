@@ -402,6 +402,14 @@ export type MongoDBDataFeedSource = {
 };
 
 /**
+ * Represents an Unknown data source.
+ */
+export type UnknownDataFeedSource = {
+  dataSourceType: "Unknown";
+  dataSourceParameter: unknown;
+};
+
+/**
  * Represents a SQL Server data source.
  */
 export type SQLServerDataFeedSource = {
@@ -425,7 +433,8 @@ export type DataFeedSource =
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
   | SQLServerDataFeedSource
-  | MongoDBDataFeedSource;
+  | MongoDBDataFeedSource
+  | UnknownDataFeedSource;
 
 /**
  * Represents the input type to the Update Data Feed operation.

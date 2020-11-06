@@ -124,10 +124,10 @@ async function getRootCauses(client, detectionConfigId, incidentId) {
 async function listAlerts(client, alertConfigId) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const alert of client.listAlertsForAlertConfiguration(
+  for await (const alert of client.listAlerts(
     alertConfigId,
-    new Date("10/22/2020"),
-    new Date("10/24/2020"),
+    new Date("11/01/2020"),
+    new Date("11/05/2020"),
     "AnomalyTime"
   )) {
     console.log("    Alert");
@@ -138,10 +138,10 @@ async function listAlerts(client, alertConfigId) {
 
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(
+    .listAlerts(
       alertConfigId,
-      new Date("10/22/2020"),
-      new Date("10/24/2020"),
+      new Date("11/01/2020"),
+      new Date("11/05/2020"),
       "AnomalyTime"
     )
     .byPage({ maxPageSize: 20 });
