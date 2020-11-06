@@ -270,7 +270,7 @@ export interface DataFeed {
   /**
    * Time when the data feed is created
    */
-  createdTime: Date;
+  createdOn: Date;
   /**
    * Status of the data feed.
    */
@@ -644,7 +644,7 @@ export interface MetricFeedbackCommon {
   /**
    * feedback created time
    */
-  readonly createdTime?: Date;
+  readonly createdOn?: Date;
   /**
    * user who gives this feedback
    */

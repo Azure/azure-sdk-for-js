@@ -116,7 +116,7 @@ export type ListDataFeedsOptions = {
  */
 export type DataFeedDescriptor = Omit<
   DataFeed,
-  "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime"
+  "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn"
 >;
 
 /**

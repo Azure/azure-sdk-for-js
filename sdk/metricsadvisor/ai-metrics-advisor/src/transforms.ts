@@ -188,7 +188,7 @@ export function fromServiceMetricFeedbackUnion(
 ): MetricFeedbackUnion {
   const common: MetricFeedbackCommon = {
     id: original.feedbackId,
-    createdTime: original.createdTime,
+    createdOn: original.createdTime,
     userPrincipal: original.userPrincipal,
     metricId: original.metricId,
     dimensionKey: original.dimensionFilter.dimension
@@ -337,7 +337,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     id: original.dataFeedId!,
     name: original.dataFeedName,
     metricIds: original.metrics.map((c) => c.id!),
-    createdTime: original.createdTime!,
+    createdOn: original.createdTime!,
     status: original.status!,
     isAdmin: original.isAdmin!,
     creator: original.creator!,

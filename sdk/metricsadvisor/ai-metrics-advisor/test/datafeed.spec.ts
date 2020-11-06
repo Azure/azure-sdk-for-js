@@ -764,15 +764,15 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
     });
 
     it("creates Unknown data feed", async () => {
-      const expectedSource : UnknownDataFeedSource = {
+      const expectedSource: UnknownDataFeedSource = {
         dataSourceType: "Unknown",
         dataSourceParameter: {
           connectionString: "https://connect-to-postgresql",
           query: "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
         }
       };
-      try{
-         await client.createDataFeed({
+      try {
+        await client.createDataFeed({
           name: postgreSqlFeedName,
           source: expectedSource,
           granularity,
@@ -781,9 +781,11 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           options
         });
         assert.fail("Test should throw error");
-      }
-      catch(error){
-        assert.equal((error as any).message, "Cannot create a data feed with the Unknown source type.");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot create a data feed with the Unknown source type."
+        );
       }
     });
 
@@ -798,15 +800,16 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           }
         }
       };
-      try{
+      try {
         await client.updateDataFeed(createdPostGreSqlId, patch);
         assert.fail("Test should throw error");
-      }
-      catch(error){
-        assert.equal((error as any).message, "Cannot update a data feed to have the Unknown source type.");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot update a data feed to have the Unknown source type."
+        );
       }
     });
-    
   });
 }).timeout(60000);
 

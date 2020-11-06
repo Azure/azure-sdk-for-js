@@ -195,7 +195,7 @@ export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 
 // @public
 export interface DataFeed {
-    createdTime: Date;
+    createdOn: Date;
     creator: string;
     granularity: DataFeedGranularity;
     id: string;
@@ -212,7 +212,7 @@ export interface DataFeed {
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
-export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">;
+export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
 export type DataFeedDetailStatus = "Active" | "Paused";
@@ -776,7 +776,7 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
 
 // @public
 export interface MetricFeedbackCommon {
-    readonly createdTime?: Date;
+    readonly createdOn?: Date;
     dimensionKey: DimensionKey;
     readonly id?: string;
     metricId: string;
