@@ -140,8 +140,8 @@ async function listAlerts(client, alertConfigId) {
   const iterator = client
     .listAlerts(
       alertConfigId,
-      new Date("10/22/2020"),
-      new Date("10/24/2020"),
+      new Date("11/01/2020"),
+      new Date("11/05/2020"),
       "AnomalyTime"
     )
     .byPage({ maxPageSize: 20 });
