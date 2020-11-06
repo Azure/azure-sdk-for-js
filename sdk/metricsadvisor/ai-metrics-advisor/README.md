@@ -246,11 +246,12 @@ async function main() {
 async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  for await (const status of adminClient.listDataFeedIngestionStatus(
+  const iterator = adminClient.listDataFeedIngestionStatus(
     datafeedId,
     startTime,
     endTime
-  )) {
+  );
+  for await (const status of iterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }
 }
@@ -429,12 +430,13 @@ async function main() {
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
   let alerts = [];
-  for await (const alert of client.listAlerts(
+  const iterator = client.listAlerts(
     alertConfigId,
     startTime,
     endTime,
     "AnomalyTime"
-  )) {
+  );
+  for await (const alert of iterator) {
     alerts.push(alert);
   }
 
@@ -445,7 +447,8 @@ async function queryAnomaliesByAlert(client, alert) {
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomalies(alert)) {
+  const iterator = client.listAnomalies(alert);
+  for await (const anomaly of iterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

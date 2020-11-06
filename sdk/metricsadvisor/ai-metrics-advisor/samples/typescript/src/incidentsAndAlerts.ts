@@ -39,14 +39,15 @@ async function listIncidentsForDetectionConfig(
 ) {
   console.log(`Listing incidents for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidents(
+  const listIterator = client.listIncidents(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
       dimensionFilter: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
     }
-  )) {
+  );
+  for await (const incident of listIterator) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
@@ -83,15 +84,16 @@ async function listAnomaliesForDetectionConfig(
   detectionConfigId: string
 ) {
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
-  console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomalies(
+  const listIterator = client.listAnomalies(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
       severityFilter: { min: "Medium", max: "High" }
     }
-  )) {
+  );
+  console.log("  using for-await-of syntax");
+  for await (const anomaly of listIterator) {
     console.log("    Anomaly");
     console.log(`      metric id: ${anomaly.metricId}`);
     console.log(`      detection config id: ${anomaly.detectionConfigurationId}`);
@@ -136,12 +138,13 @@ async function getRootCauses(
 async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const alert of client.listAlerts(
+  const listIterator = client.listAlerts(
     alertConfigId,
     new Date("11/01/2020"),
     new Date("11/05/2020"),
     "AnomalyTime"
-  )) {
+  );
+  for await (const alert of listIterator) {
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
     console.log(`      timestamp: ${alert.timestamp}`);
@@ -175,7 +178,8 @@ async function listIncidentsForAlert(
     `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidents({ alertConfigId, id: alertId })) {
+  const listIterator = client.listIncidents({ alertConfigId, id: alertId });
+  for await (const incident of listIterator) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
@@ -214,7 +218,8 @@ async function listAnomaliesForAlert(
     `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomalies({ alertConfigId, id: alertId })) {
+  const listIterator = client.listAnomalies({ alertConfigId, id: alertId });
+  for await (const anomaly of listIterator) {
     console.log("    Anomaly");
     console.log(`      timestamp: ${anomaly.timestamp}`);
     console.log(`      dimension: ${anomaly.seriesKey}`);
