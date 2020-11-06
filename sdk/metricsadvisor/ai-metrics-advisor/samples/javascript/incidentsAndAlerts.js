@@ -7,7 +7,7 @@
 // Load the .env file if it exists
 require("dotenv").config();
 
-const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("../../");
+const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
 
 async function main() {
   // You will need to set these environment variables or edit the following values
