@@ -186,7 +186,7 @@ describe("Transforms", () => {
   it("fromServiceDataFeedDetailUnion() for future data source types", () => {
     const serviceDataFeed: ServiceDataFeedDetailUnion = {
       dataSourceType: "Future Source" as any,
-      dataSourceParameter: {futureConnectionString: "xyz", futureQuery: "someQuery"} as any,
+      dataSourceParameter: { futureConnectionString: "xyz", futureQuery: "someQuery" } as any,
       dataFeedName: "name",
       metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
       dimension: [{ name: "d1", displayName: "d1 display" }],
