@@ -317,16 +317,6 @@ describe("serviceBusClient unit tests", () => {
         });
         validateWebsocketInfo(connectionContext, options);
       });
-
-      it("undefined entity path is translated to ''", () => {
-        const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
-        const connectionContext = createConnectionContextForConnectionString(connString, {});
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
-      });
     });
 
     describe("createConnectionContextForTokenCredential", () => {
@@ -344,19 +334,6 @@ describe("serviceBusClient unit tests", () => {
           { webSocketOptions: { webSocketConstructorOptions: options } }
         );
         validateWebsocketInfo(connectionContext, options);
-      });
-
-      it("undefined entity path is translated to ''", () => {
-        const connectionContext = createConnectionContextForTokenCredential(
-          pseudoTokenCred,
-          endpoint,
-          {}
-        );
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
       });
     });
   });
