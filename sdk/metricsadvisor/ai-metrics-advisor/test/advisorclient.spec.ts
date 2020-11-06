@@ -481,8 +481,8 @@ describe("MetricsAdvisorClient", () => {
     const iterator = client
       .listMetricEnrichmentStatus(
         testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
-        new Date(Date.UTC(2020, 0, 1)),
-        new Date(Date.UTC(2020, 8, 18))
+        new Date(Date.UTC(2020, 10, 1)),
+        new Date(Date.UTC(2020, 10, 5))
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
@@ -506,7 +506,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(first.score, "Expecting score");
     assert.equal(
       first.description,
-      "Decrease on category = Home & Garden | city = Karachi contributes the most to current incident."
+      "Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident."
     );
   });
 
