@@ -27,7 +27,7 @@ export class Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @summary Get available application frameworks and their versions
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksResponse>
@@ -52,8 +52,8 @@ export class Provider {
   }
 
   /**
-   * Description for Gets all available operations for the Microsoft.Web resource provider. Also
-   * exposes resource metric definitions
+   * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource
+   * metric definitions
    * @summary Gets all available operations for the Microsoft.Web resource provider. Also exposes
    * resource metric definitions
    * @param [options] The optional parameters
@@ -79,7 +79,7 @@ export class Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @summary Get available application frameworks and their versions
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksOnPremResponse>
@@ -104,7 +104,7 @@ export class Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @summary Get available application frameworks and their versions
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -133,8 +133,8 @@ export class Provider {
   }
 
   /**
-   * Description for Gets all available operations for the Microsoft.Web resource provider. Also
-   * exposes resource metric definitions
+   * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource
+   * metric definitions
    * @summary Gets all available operations for the Microsoft.Web resource provider. Also exposes
    * resource metric definitions
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -164,7 +164,7 @@ export class Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @summary Get available application frameworks and their versions
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters

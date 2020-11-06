@@ -27,7 +27,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Get all certificates for a subscription.
+   * Get all certificates for a subscription.
    * @summary Get all certificates for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListResponse>
@@ -52,7 +52,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Get all certificates in a resource group.
+   * Get all certificates in a resource group.
    * @summary Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -81,7 +81,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Get a certificate.
+   * Get a certificate.
    * @summary Get a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -114,7 +114,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @summary Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -151,7 +151,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Delete a certificate.
+   * Delete a certificate.
    * @summary Delete a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -184,7 +184,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @summary Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -221,7 +221,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Get all certificates for a subscription.
+   * Get all certificates for a subscription.
    * @summary Get all certificates for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -250,7 +250,7 @@ export class Certificates {
   }
 
   /**
-   * Description for Get all certificates in a resource group.
+   * Get all certificates in a resource group.
    * @summary Get all certificates in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -403,7 +403,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

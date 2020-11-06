@@ -15,7 +15,7 @@ npm install @azure/arm-appservice-profile-2020-09-01-hybrid
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list appServiceCertificateOrders as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list certificates as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -35,7 +35,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new WebSiteManagementClient(creds, subscriptionId);
-  client.appServiceCertificateOrders.list().then((result) => {
+  client.certificates.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -44,7 +44,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list appServiceCertificateOrders as an example written in JavaScript.
+#### browser - Authentication, client creation and list certificates as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -78,7 +78,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmAppserviceProfile20200901Hybrid.WebSiteManagementClient(res.creds, subscriptionId);
-        client.appServiceCertificateOrders.list().then((result) => {
+        client.certificates.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

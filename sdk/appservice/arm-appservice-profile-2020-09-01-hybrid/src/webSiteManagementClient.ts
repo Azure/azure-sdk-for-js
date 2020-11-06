@@ -18,21 +18,11 @@ import { WebSiteManagementClientContext } from "./webSiteManagementClientContext
 
 class WebSiteManagementClient extends WebSiteManagementClientContext {
   // Operation groups
-  appServiceCertificateOrders: operations.AppServiceCertificateOrders;
-  certificateRegistrationProvider: operations.CertificateRegistrationProvider;
-  domains: operations.Domains;
-  topLevelDomains: operations.TopLevelDomains;
-  domainRegistrationProvider: operations.DomainRegistrationProvider;
   certificates: operations.Certificates;
-  deletedWebApps: operations.DeletedWebApps;
-  diagnostics: operations.Diagnostics;
+  webApps: operations.WebApps;
+  appServicePlans: operations.AppServicePlans;
   provider: operations.Provider;
   recommendations: operations.Recommendations;
-  webApps: operations.WebApps;
-  staticSites: operations.StaticSites;
-  appServiceEnvironments: operations.AppServiceEnvironments;
-  appServicePlans: operations.AppServicePlans;
-  resourceHealthMetadata: operations.ResourceHealthMetadataOperations;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
@@ -43,25 +33,15 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.WebSiteManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.appServiceCertificateOrders = new operations.AppServiceCertificateOrders(this);
-    this.certificateRegistrationProvider = new operations.CertificateRegistrationProvider(this);
-    this.domains = new operations.Domains(this);
-    this.topLevelDomains = new operations.TopLevelDomains(this);
-    this.domainRegistrationProvider = new operations.DomainRegistrationProvider(this);
     this.certificates = new operations.Certificates(this);
-    this.deletedWebApps = new operations.DeletedWebApps(this);
-    this.diagnostics = new operations.Diagnostics(this);
+    this.webApps = new operations.WebApps(this);
+    this.appServicePlans = new operations.AppServicePlans(this);
     this.provider = new operations.Provider(this);
     this.recommendations = new operations.Recommendations(this);
-    this.webApps = new operations.WebApps(this);
-    this.staticSites = new operations.StaticSites(this);
-    this.appServiceEnvironments = new operations.AppServiceEnvironments(this);
-    this.appServicePlans = new operations.AppServicePlans(this);
-    this.resourceHealthMetadata = new operations.ResourceHealthMetadataOperations(this);
   }
 
   /**
-   * Description for Gets publishing user
+   * Gets publishing user
    * @summary Gets publishing user
    * @param [options] The optional parameters
    * @returns Promise<Models.GetPublishingUserResponse>
@@ -86,7 +66,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Updates publishing user
+   * Updates publishing user
    * @summary Updates publishing user
    * @param userDetails Details of publishing user
    * @param [options] The optional parameters
@@ -115,7 +95,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets the source controls available for Azure websites.
+   * Gets the source controls available for Azure websites.
    * @summary Gets the source controls available for Azure websites.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSourceControlsResponse>
@@ -140,7 +120,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets source control token
+   * Gets source control token
    * @summary Gets source control token
    * @param sourceControlType Type of source control
    * @param [options] The optional parameters
@@ -169,7 +149,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Updates source control token
+   * Updates source control token
    * @summary Updates source control token
    * @param sourceControlType Type of source control
    * @param requestMessage Source control token information
@@ -202,7 +182,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets a list of meters for a given location.
+   * Gets a list of meters for a given location.
    * @summary Gets a list of meters for a given location.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListBillingMetersResponse>
@@ -227,7 +207,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Check if a resource name is available.
+   * Check if a resource name is available.
    * @summary Check if a resource name is available.
    * @param name Resource name to verify.
    * @param type Resource type used for verification. Possible values include: 'Site', 'Slot',
@@ -266,7 +246,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets list of available geo regions plus ministamps
+   * Gets list of available geo regions plus ministamps
    * @summary Gets list of available geo regions plus ministamps
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSubscriptionDeploymentLocationsResponse>
@@ -291,7 +271,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Get a list of available geographical regions.
+   * Get a list of available geographical regions.
    * @summary Get a list of available geographical regions.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListGeoRegionsResponse>
@@ -316,7 +296,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for List all apps that are assigned to a hostname.
+   * List all apps that are assigned to a hostname.
    * @summary List all apps that are assigned to a hostname.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>
@@ -341,7 +321,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for List all premier add-on offers.
+   * List all premier add-on offers.
    * @summary List all premier add-on offers.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListPremierAddOnOffersResponse>
@@ -366,7 +346,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for List all SKUs.
+   * List all SKUs.
    * @summary List all SKUs.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSkusResponse>
@@ -391,8 +371,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing
-   * the Network Security Group rules.
+   * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network
+   * Security Group rules.
    * @summary Verifies if this VNET is compatible with an App Service Environment by analyzing the
    * Network Security Group rules.
    * @param parameters VNET information
@@ -422,7 +402,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Move resources between resource groups.
+   * Move resources between resource groups.
    * @summary Move resources between resource groups.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
@@ -455,7 +435,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Validate if a resource can be created.
+   * Validate if a resource can be created.
    * @summary Validate if a resource can be created.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param validateRequest Request with the resources to validate.
@@ -488,7 +468,40 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Validate whether a resource can be moved.
+   * Validate if the container settings are correct.
+   * @summary Validate if the container settings are correct.
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ValidateContainerSettingsResponse>
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ValidateContainerSettingsResponse>;
+  /**
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param callback The callback
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ValidateContainerSettingsResponse> {
+    return this.sendOperationRequest(
+      {
+        validateContainerSettingsRequest,
+        resourceGroupName,
+        options
+      },
+      validateContainerSettingsOperationSpec,
+      callback) as Promise<Models.ValidateContainerSettingsResponse>;
+  }
+
+  /**
+   * Validate whether a resource can be moved.
    * @summary Validate whether a resource can be moved.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
@@ -521,7 +534,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets the source controls available for Azure websites.
+   * Gets the source controls available for Azure websites.
    * @summary Gets the source controls available for Azure websites.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -550,7 +563,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Gets a list of meters for a given location.
+   * Gets a list of meters for a given location.
    * @summary Gets a list of meters for a given location.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -579,7 +592,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for Get a list of available geographical regions.
+   * Get a list of available geographical regions.
    * @summary Get a list of available geographical regions.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -608,7 +621,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for List all apps that are assigned to a hostname.
+   * List all apps that are assigned to a hostname.
    * @summary List all apps that are assigned to a hostname.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -637,7 +650,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
-   * Description for List all premier add-on offers.
+   * List all premier add-on offers.
    * @summary List all premier add-on offers.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1034,7 +1047,7 @@ const moveOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1071,6 +1084,42 @@ const validateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const validateContainerSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validateContainerSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "validateContainerSettingsRequest",
+    mapper: {
+      ...Mappers.ValidateContainerSettingsRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const validateMoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
@@ -1094,7 +1143,7 @@ const validateMoveOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
