@@ -162,6 +162,79 @@ export interface CloseHandlesInfo {
   closeFailureCount?: number;
 }
 
+/**
+ * Protocols to enable on the share. For now, only support SMB or NFS.
+ * @export
+ * @interface ShareEnabledProtocols
+ */
+export interface ShareEnabledProtocols {
+  /**
+   * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
+   *
+   * @type {boolean}
+   * @memberof ShareEnabledProtocols
+   */
+  SMB?: boolean;
+  /**
+   * The share can be accessed by NFSv4.1.
+   *
+   * @type {boolean}
+   * @memberof ShareEnabledProtocols
+   */
+  NFS?: boolean;
+}
+
+/**
+ * Protocols to enable on the share in string.
+ * @interface shareEnabledProtocolsItems
+ */
+let shareEnabledProtocolsItems = ["SMB", "NFS"];
+
+/**
+ * Convert enabledProtocols from joined string to ShareEnabledProtocols.
+ *
+ * @export
+ * @param {string} enabledProtocolsString
+ * @returns {ShareEnabledProtocols}
+ */
+export function toShareEnabledProtocols(
+  enabledProtocolsString?: string
+): ShareEnabledProtocols | undefined {
+  if (enabledProtocolsString === undefined) {
+    return undefined;
+  }
+
+  const protocolStrArray = enabledProtocolsString.split(";");
+  let enabledProtocols = {};
+  for (const str of protocolStrArray) {
+    (enabledProtocols as any)[str] = true;
+  }
+  return enabledProtocols as ShareEnabledProtocols;
+}
+
+/**
+ * Convert ShareEnabledProtocols to joined string.
+ *
+ * @export
+ * @param {ShareEnabledProtocols} enabledProtocols
+ * @returns {string | undefined}
+ */
+export function toShareEnabledProtocolsString(
+  enabledProtocols: ShareEnabledProtocols = {}
+): string | undefined {
+  const protocolStrArray: string[] = [];
+  for (const item of shareEnabledProtocolsItems) {
+    if ((enabledProtocols as any)[item] === true) {
+      protocolStrArray.push(item);
+    }
+  }
+
+  if (protocolStrArray.length === 0) {
+    return undefined;
+  }
+  return protocolStrArray.join(";");
+}
+
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {
   if (filePermission && filePermissionKey) {
     throw new RangeError("Only one of filePermission or filePermissionKey can be specified.");

@@ -88,7 +88,9 @@ import {
   fileLastWriteTimeToString,
   Metadata,
   validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
-  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  ShareEnabledProtocols,
+  toShareEnabledProtocolsString
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -102,30 +104,6 @@ import {
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
-
-/**
- * Protocols to enable on the share.
- * @export
- * @interface ShareEnabledProtocols
- */
-export interface ShareEnabledProtocols {
-  /**
-   * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
-   *
-   * @type {boolean}
-   * @memberof ShareEnabledProtocols
-   */
-  SMB: boolean;
-  /**
-   * The share can be accessed by NFSv4.1.
-   *
-   * @type {boolean}
-   * @memberof ShareEnabledProtocols
-   */
-  NFS: boolean;
-}
-
-type ShareEnabledProtocolsItem = "SMB" | "NFS";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -745,22 +723,9 @@ export class ShareClient extends StorageClient {
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
-      const enabledProtocolsArray: ShareEnabledProtocolsItem[] = [];
-      if (options.enabledProtocols?.SMB) {
-        enabledProtocolsArray.push("SMB");
-      } else if (options.enabledProtocols?.NFS) {
-        // FUTURE: remove "else". For now, only support "SMB" or "NFS" but can support both in the future.
-        enabledProtocolsArray.push("NFS");
-      }
-
-      let enabledProtocols: string | undefined = undefined;
-      if (enabledProtocolsArray.length !== 0) {
-        enabledProtocols = enabledProtocolsArray.join(";");
-      }
-
       return await this.context.create({
         ...options,
-        enabledProtocols,
+        enabledProtocols: toShareEnabledProtocolsString(options.enabledProtocols),
         spanOptions
       });
     } catch (e) {

@@ -9,8 +9,9 @@ import {
   ShareDeleteResponse,
   ServiceGetPropertiesResponse,
   ServiceSetPropertiesResponse,
-  ServiceListSharesSegmentResponse,
-  ShareItem
+  ServiceListSharesSegmentResponseModel,
+  ShareItemModel,
+  SharePropertiesModel
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -26,6 +27,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
+import { ShareEnabledProtocols, toShareEnabledProtocols } from "./models";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -173,6 +175,35 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
 }
+
+/**
+ * Properties of a share.
+ *
+ * @export
+ * @interface ShareProperties
+ */
+export type ShareProperties = Omit<SharePropertiesModel, "enabledProtocols"> & {
+  enabledProtocols?: ShareEnabledProtocols;
+};
+
+/**
+ * A listed Azure Storage share item.
+ *
+ * @export
+ * @interface ShareItem
+ */
+export type ShareItem = Omit<ShareItemModel, "properties"> & { properties: ShareProperties };
+
+/**
+ * Contains response data for the {@link ShareServiceClient.listShares} operation.
+ *
+ * @export
+ * @interface ServiceListSharesSegmentResponse
+ */
+export type ServiceListSharesSegmentResponse = Omit<
+  ServiceListSharesSegmentResponseModel,
+  "shareItems"
+> & { shareItems?: ShareItem[] };
 
 /**
  * A ShareServiceClient represents a URL to the Azure Storage File service allowing you
@@ -633,11 +664,23 @@ export class ShareServiceClient extends StorageClient {
     }
 
     try {
-      return await this.serviceContext.listSharesSegment({
+      const res = await this.serviceContext.listSharesSegment({
         marker,
         ...options,
         spanOptions
       });
+
+      // parse enabledProtocols
+      if (res.shareItems) {
+        for (let i = 0; i < res.shareItems.length; i++) {
+          const enabledProtocolsStr = res.shareItems[i].properties.enabledProtocols;
+          (res.shareItems[i].properties.enabledProtocols as any) = toShareEnabledProtocols(
+            enabledProtocolsStr
+          );
+        }
+      }
+
+      return res;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

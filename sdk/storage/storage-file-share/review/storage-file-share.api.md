@@ -1146,7 +1146,7 @@ export interface ListSharesResponse {
     // (undocumented)
     serviceEndpoint: string;
     // (undocumented)
-    shareItems?: ShareItem[];
+    shareItems?: ShareItemModel[];
 }
 
 // @public
@@ -1283,7 +1283,12 @@ export interface ServiceListSharesSegmentHeaders {
 }
 
 // @public
-export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
+export type ServiceListSharesSegmentResponse = Omit<ServiceListSharesSegmentResponseModel, "shareItems"> & {
+    shareItems?: ShareItem[];
+};
+
+// @public
+export type ServiceListSharesSegmentResponseModel = ListSharesResponse & ServiceListSharesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ServiceListSharesSegmentHeaders;
         bodyAsText: string;
@@ -1513,8 +1518,8 @@ export class ShareDirectoryClient extends StorageClient {
 
 // @public
 export interface ShareEnabledProtocols {
-    NFS: boolean;
-    SMB: boolean;
+    NFS?: boolean;
+    SMB?: boolean;
 }
 
 // @public
@@ -1694,7 +1699,12 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 };
 
 // @public
-export interface ShareItem {
+export type ShareItem = Omit<ShareItemModel, "properties"> & {
+    properties: ShareProperties;
+};
+
+// @public
+export interface ShareItemModel {
     // (undocumented)
     deleted?: boolean;
     // (undocumented)
@@ -1704,7 +1714,7 @@ export interface ShareItem {
     // (undocumented)
     name: string;
     // (undocumented)
-    properties: ShareProperties;
+    properties: SharePropertiesModel;
     // (undocumented)
     snapshot?: string;
     // (undocumented)
@@ -1729,7 +1739,12 @@ export interface SharePermission {
 }
 
 // @public
-export interface ShareProperties {
+export type ShareProperties = Omit<SharePropertiesModel, "enabledProtocols"> & {
+    enabledProtocols?: ShareEnabledProtocols;
+};
+
+// @public
+export interface SharePropertiesModel {
     // (undocumented)
     accessTier?: string;
     // (undocumented)
