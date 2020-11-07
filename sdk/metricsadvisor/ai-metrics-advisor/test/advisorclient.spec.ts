@@ -184,8 +184,8 @@ describe("MetricsAdvisorClient", () => {
   it("lists alerts for alert configuration", async function() {
     const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-      new Date(Date.UTC(2020, 0, 1)),
-      new Date(Date.UTC(2020, 8, 12)),
+      new Date(Date.UTC(2020, 10, 1)),
+      new Date(Date.UTC(2020, 10, 5)),
       "AnomalyTime"
     );
     let result = await iterator.next();
@@ -197,8 +197,8 @@ describe("MetricsAdvisorClient", () => {
   it("lists alerts for alert configuration with datetime strings", async function() {
     const iterator = client.listAlerts(
       testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-      "2020-01-01T00:00:00.000Z",
-      "2020-09-12T00:00:00.000Z",
+      "2020-11-01T00:00:00.000Z",
+      "2020-11-05T00:00:00.000Z",
       "AnomalyTime"
     );
     let result = await iterator.next();
@@ -263,11 +263,11 @@ describe("MetricsAdvisorClient", () => {
         alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
         id: testEnv.METRICS_ADVISOR_ALERT_ID
       })
-      .byPage({ maxPageSize: 2 });
+      .byPage({ maxPageSize: 1 });
     let result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two incidents in first page");
+    assert.equal(result.value.length, 1, "Expecting one incident in first page");
     result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two incidents in second page");
+    assert.equal(result.value.length, 1, "Expecting one incident in second page");
   });
 
   it("listMetricSeriesDefinitions()", async function() {
