@@ -252,24 +252,25 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * @internal
  * @ignore
  */
-const TypeMapForRequestSerialization: Record<string, string> = {
-  int: "l28:int",
-  string: "l28:string",
-  long: "l28:long",
-  date: "l28:dateTime",
-  boolean: "l28:boolean"
-};
+enum TypeMapForRequestSerialization {
+  double = "l28:double",
+  string = "l28:string",
+  long = "l28:long",
+  date = "l28:dateTime",
+  boolean = "l28:boolean"
+}
 
 /**
  * @internal
  * @ignore
  */
-const TypeMapForResponseDeserialization: Record<string, string> = {
-  number: "int",
-  string: "string",
-  boolean: "boolean",
-  date: "dateTime"
-};
+enum TypeMapForResponseDeserialization {
+  int = "int",
+  double = "double",
+  string = "string",
+  boolean = "boolean",
+  date = "dateTime"
+}
 
 /**
  * @internal
@@ -328,7 +329,10 @@ function getKeyValuePairsOrUndefined(
       const key = rawProperty.Key;
       const value = rawProperty.Value["_"];
       const encodedValueType = rawProperty.Value["$"]["i:type"].toString().substring(5);
-      if (encodedValueType === TypeMapForResponseDeserialization.number) {
+      if (
+        encodedValueType === TypeMapForResponseDeserialization.int ||
+        encodedValueType === TypeMapForResponseDeserialization.double
+      ) {
         properties[key] = Number(value);
       } else if (encodedValueType === TypeMapForResponseDeserialization.string) {
         properties[key] = value;
@@ -382,7 +386,7 @@ export function buildInternalRawKeyValuePairs(
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
     if (typeof value === "number") {
-      type = TypeMapForRequestSerialization.int;
+      type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {
       type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {
