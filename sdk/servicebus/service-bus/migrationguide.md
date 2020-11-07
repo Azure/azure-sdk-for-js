@@ -161,10 +161,10 @@ const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.n
 
 ### Settling messages
 
-  Previously, the methods to settle messages (`complete()`, `abandon()`, `defer()` and `deadLetter()`) were on the messages themselves.
-  These have been moved to the receiver in the new version, take the message as input and have the `Message` suffix in their name.
-  The idea is to have the message represents just the data and not have the responsibility of any operation on the service side.
-  Additionally, since a message cannot be settled if the receiver that was used to receive it is not alive, tying these operations to the receiver drives the message home better.
+Previously, the methods to settle messages (`complete()`, `abandon()`, `defer()` and `deadLetter()`) were on the messages themselves.
+These have been moved to the receiver in the new version, take the message as input and have the `Message` suffix in their name.
+The idea is to have the message represents just the data and not have the responsibility of any operation on the service side.
+Additionally, since a message cannot be settled if the receiver that was used to receive it is not alive, tying these operations to the receiver drives the message home better.
 
 ### Rule management
 
