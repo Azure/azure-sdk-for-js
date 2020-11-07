@@ -181,7 +181,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
       const error = new Error("Invalid scope was specified by the user or calling client");
-      logger.getToken.info(formatError(error));
+      logger.getToken.info(formatError(scopes, error));
       throw error;
     }
 
@@ -218,20 +218,20 @@ export class VisualStudioCodeCredential implements TokenCredential {
       );
 
       if (tokenResponse) {
-        logger.getToken.info(formatSuccess(scopes));
+        logger.getToken.info(formatSuccess(scopes, tokenResponse.accessToken.expiresOnTimestamp));
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailable(
           "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
         );
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailable(
         "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
       );
-      logger.getToken.info(formatError(error));
+      logger.getToken.info(formatError(scopes, error));
       throw error;
     }
   }

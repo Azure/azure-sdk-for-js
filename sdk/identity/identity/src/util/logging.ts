@@ -47,15 +47,23 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 /**
  * Formatting the success event on the credentials
  */
-export function formatSuccess(scope: string | string[]): string {
-  return `SUCCESS: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+export function formatSuccess(scope: string | string[], timestamp?: number): string {
+  let message = `SUCCESS! Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
+  if (timestamp) {
+    message += ` Expires on: ${timestamp}`;
+  }
+  return message;
 }
 
 /**
  * Formatting the success event on the credentials
  */
-export function formatError(error: Error | string): string {
-  return `ERROR: ${typeof error === "string" ? error : error.message}`;
+export function formatError(scope: string | string[] | undefined, error: Error | string): string {
+  let message = "";
+  if (scope?.length) {
+    message += `Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}. `;
+  }
+  return `${message}ERROR: ${typeof error === "string" ? error : error.message}.`;
 }
 
 /**

@@ -126,7 +126,7 @@ export class EnvironmentCredential implements TokenCredential {
     if (this._credential) {
       try {
         const result = await this._credential.getToken(scopes, newOptions);
-        logger.getToken.info(formatSuccess(scopes));
+        logger.getToken.info(formatSuccess(scopes, result?.expiresOnTimestamp));
         return result;
       } catch (err) {
         const code =
@@ -144,7 +144,7 @@ export class EnvironmentCredential implements TokenCredential {
             .split("More details:")
             .join("")
         });
-        logger.getToken.info(formatError(authenticationError));
+        logger.getToken.info(formatError(scopes, authenticationError));
         throw authenticationError;
       } finally {
         span.end();
@@ -158,7 +158,7 @@ export class EnvironmentCredential implements TokenCredential {
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."
     );
-    logger.getToken.info(formatError(error));
+    logger.getToken.info(formatError(scopes, error));
     throw error;
   }
 }

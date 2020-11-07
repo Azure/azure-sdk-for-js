@@ -186,7 +186,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
-      logger.getToken.info(formatSuccess(scopes));
+      logger.getToken.info(formatSuccess(scopes, tokenResponse?.accessToken.expiresOnTimestamp));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -197,7 +197,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

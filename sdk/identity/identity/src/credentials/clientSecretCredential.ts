@@ -7,7 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -86,7 +86,7 @@ export class ClientSecretCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.info(formatSuccess(scopes));
+      logger.getToken.info(formatSuccess(scopes, tokenResponse?.accessToken.expiresOnTimestamp));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -97,7 +97,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(err);
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

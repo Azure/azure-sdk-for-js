@@ -67,7 +67,7 @@ export class ChainedTokenCredential implements TokenCredential {
         if (err instanceof CredentialUnavailable) {
           errors.push(err);
         } else {
-          logger.getToken.info(formatError(err));
+          logger.getToken.info(formatError(scopes, err));
           throw err;
         }
       }
@@ -79,13 +79,13 @@ export class ChainedTokenCredential implements TokenCredential {
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     }
 
     span.end();
 
-    logger.getToken.info(formatSuccess(scopes));
+    logger.getToken.info(formatSuccess(scopes, token?.expiresOnTimestamp));
     return token;
   }
 }

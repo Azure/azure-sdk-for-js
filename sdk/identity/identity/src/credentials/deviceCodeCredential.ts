@@ -134,13 +134,7 @@ export class DeviceCodeCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         try {
           const token = await this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
-          logger.info(
-            formatSuccess(
-              `DeviceCodeCredential successfully retrieved the access token. Scopes: ${scopeArray.join(
-                ", "
-              )}. Expires on timestamp: ${token?.expiresOnTimestamp}`
-            )
-          );
+          logger.getToken.info(formatSuccess(scopeArray, token?.expiresOnTimestamp));
           return token;
         } catch (err) {
           const code =
@@ -151,13 +145,7 @@ export class DeviceCodeCredential implements TokenCredential {
             code,
             message: err.message
           });
-          logger.getToken.info(
-            formatError(
-              `DeviceCodeCredential was unable to retrieve an access token. Scopes: ${scopeArray.join(
-                ", "
-              )}. Error: ${err.message}`
-            )
-          );
+          logger.getToken.info(formatError(scopeArray, err));
           throw err;
         } finally {
           span.end();
@@ -174,9 +162,10 @@ export class DeviceCodeCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.msalClient.acquireTokenByDeviceCode(deviceCodeRequest);
-      logger.getToken.info(formatSuccess(scopes));
+      const expiresOnTimestamp = deviceResponse.expiresOn.getTime();
+      logger.getToken.info(formatSuccess(scopes, expiresOnTimestamp));
       return {
-        expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
+        expiresOnTimestamp,
         token: deviceResponse.accessToken
       };
     } catch (error) {

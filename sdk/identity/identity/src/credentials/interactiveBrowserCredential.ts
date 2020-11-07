@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
@@ -92,7 +92,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         return this.acquireTokenFromBrowser(scopeArray);
       } else {
-        logger.getToken.info(formatError(e));
+        logger.getToken.info(formatError(scopes, e));
         throw e;
       }
     });
@@ -136,11 +136,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
         try {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
-          const successMessage = formatSuccess(
-            `Authentication Complete. You can close the browser and return to the application. Scopes: ${scopeArray.join(
-              ", "
-            )}. Expires on timestamp: ${authResponse?.expiresOn.valueOf()}`
-          );
+          const successMessage = `Authentication Complete. You can close the browser and return to the application. Scopes: ${scopeArray.join(
+            ", "
+          )}. Expires on timestamp: ${authResponse?.expiresOn.valueOf()}`;
           res.status(200).send(successMessage);
           logger.getToken.info(successMessage);
 
@@ -149,11 +147,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
             token: authResponse.accessToken
           });
         } catch (error) {
-          const errorMessage = `Authentication Error "${req.query["error"]}":\n\n${
-            req.query["error_description"]
-          }. Scopes: ${scopeArray.join(", ")}.`;
-          res.status(500).send(formatError(errorMessage));
-          logger.getToken.info(formatError(errorMessage));
+          const errorMessage = formatError(
+            scopeArray,
+            `${req.query["error"]}. ${req.query["error_description"]}`
+          );
+          res.status(500).send(errorMessage);
+          logger.getToken.info(errorMessage);
           reject(new Error(errorMessage));
         } finally {
           cleanup();

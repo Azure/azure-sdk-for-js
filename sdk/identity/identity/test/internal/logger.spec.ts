@@ -30,7 +30,7 @@ describe("Identity logging utilities", function() {
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess("scope"));
-      assert.equal(allParams[0].join(" "), "title => SUCCESS: scope");
+      assert.equal(allParams[0].join(" "), "title => SUCCESS! Scopes: scope.");
     });
 
     it("success with multiple scopes", async function() {
@@ -40,7 +40,7 @@ describe("Identity logging utilities", function() {
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess(["scope 1", "scope 2"]));
-      assert.equal(allParams[0].join(" "), "title => SUCCESS: scope 1, scope 2");
+      assert.equal(allParams[0].join(" "), "title => SUCCESS! Scopes: scope 1, scope 2.");
     });
 
     it("error (with formatError)", async function() {
@@ -49,8 +49,8 @@ describe("Identity logging utilities", function() {
         info: (...params: any) => allParams.push(params)
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.info(formatError(new Error("message")));
-      assert.equal(allParams[0].join(" "), "title => ERROR: message");
+      logger.info(formatError("scope", new Error("message")));
+      assert.equal(allParams[0].join(" "), "title => Scopes: scope. ERROR: message.");
     });
   });
 
@@ -99,7 +99,7 @@ describe("Identity logging utilities", function() {
           return null;
         }
         const error = new Error("test getToken error");
-        this.logger.getToken.info(formatError(error));
+        this.logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     }
@@ -110,7 +110,7 @@ describe("Identity logging utilities", function() {
     await fakeCredential.getToken(["Scope 1", "Scope 2"]);
     assert.equal(
       allInfoParams[1].join(" "),
-      "FakeCredential => getToken() => SUCCESS: Scope 1, Scope 2"
+      "FakeCredential => getToken() => SUCCESS! Scopes: Scope 1, Scope 2."
     );
 
     try {
@@ -121,7 +121,7 @@ describe("Identity logging utilities", function() {
 
     assert.equal(
       allInfoParams[2].join(" "),
-      "FakeCredential => getToken() => ERROR: test getToken error"
+      "FakeCredential => getToken() => ERROR: test getToken error."
     );
   });
 });
