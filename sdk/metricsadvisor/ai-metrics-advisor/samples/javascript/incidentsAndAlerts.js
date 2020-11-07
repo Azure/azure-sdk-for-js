@@ -50,7 +50,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     console.log(`      status: ${incident.status}`);
     console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccurredTime}`);
+    console.log(`      last occurred: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
@@ -141,12 +141,7 @@ async function listAlerts(client, alertConfigId) {
 
   console.log(`  by pages`);
   const iterator = client
-    .listAlerts(
-      alertConfigId,
-      new Date("11/01/2020"),
-      new Date("11/05/2020"),
-      "AnomalyTime"
-    )
+    .listAlerts(alertConfigId, new Date("11/01/2020"), new Date("11/05/2020"), "AnomalyTime")
     .byPage({ maxPageSize: 20 });
 
   let result = await iterator.next();
@@ -170,7 +165,7 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
     console.log(`      status: ${incident.status}`);
     console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccurredTime}`);
+    console.log(`      last occurred: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
