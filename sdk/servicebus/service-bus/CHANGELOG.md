@@ -2,6 +2,9 @@
 
 ## 7.0.0 (Unreleased)
 
+- "number"s set as values in the key-value pairs of properties under correlation rule filter would get serialized as "double"(used to be "int") while sending the requests, "double" and "int" values get deserialized as "number"("double" wasn't supported before) in the responses.
+  [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
+
 ## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:
