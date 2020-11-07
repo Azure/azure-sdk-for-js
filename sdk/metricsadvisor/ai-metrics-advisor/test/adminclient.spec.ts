@@ -39,7 +39,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
   describe("Ingestion", function() {
     it("lists ingestion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 1)),
         new Date(Date.UTC(2020, 8, 1))
       );
@@ -51,7 +51,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("lists ingestion status with datetime strings", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         "2020-08-01T00:00:00.000Z",
         "2020-09-01T00:00:00.000Z"
       );
@@ -64,7 +64,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 1)),
           new Date(Date.UTC(2020, 8, 1))
         )
@@ -77,7 +77,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("gets ingestion progress", async function() {
       const result = await client.getDataFeedIngestionProgress(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
       );
 
       assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
@@ -86,7 +86,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("refreshes ingesetion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 22)),
         new Date(Date.UTC(2020, 7, 23))
       );
@@ -94,13 +94,13 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       if (result.value.status === "Succeeded") {
         await client.refreshDataFeedIngestion(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
 
         const iterator2 = client.listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
