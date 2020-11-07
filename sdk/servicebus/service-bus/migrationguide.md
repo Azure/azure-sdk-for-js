@@ -1,6 +1,6 @@
 # Guide to migrate from @azure/service-bus v1 to v7
 
-This guide is intended to assist in the migration from version 1 of the Service Bus client library `@azure/service-bus` to version 7 of the same library. It will focus on side-by-side comparisons for similar operations between the two packages. 
+This guide is intended to assist in the migration from version 1 of the Service Bus client library `@azure/service-bus` to version 7 of the same library. It will focus on side-by-side comparisons for similar operations between the two packages.
 
 Familiarity with the version 1 of the `@azure/service-bus` library is assumed. For those new to the Service Bus client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/README.md) and [Service Bus samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples) for the `@azure/service-bus` library rather than this guide.
 
@@ -14,7 +14,6 @@ To try and improve the development experience across Azure services, including S
 
 The new version 7 of the Service Bus library provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as using the new `@azure/identity` library to share a single authentication between clients and a unified diagnostics pipeline offering a common view of the activities across each of the client libraries.
 
-
 ## Changes in version 7 of the Service Bus library
 
 ### Client hierarchy
@@ -22,9 +21,11 @@ The new version 7 of the Service Bus library provides the ability to share in so
 In the interest of simplifying the API surface we've made a single top level client called `ServiceBusClient`, rather than one for each of queue, topic, and subscription. This acts as the single entry point in contrast with multiple entry points from before. You can create senders and receivers from this client to the queue/topic/subscription/session of your choice and start sending/receiving messages.
 
 #### Approachability
+
 By having a single entry point, the `ServiceBusClient` helps with the discoverability of the API as you can explore all available features through methods from a single client, as opposed to searching through documentation or exploring namespace for the types that you can instantiate. Whether sending or receiving, using sessions or not, you will start your applications by constructing the same client.
- 
+
 #### Consistency
+
 We now have methods with similar names, signature and location to create senders and receivers. This provides consistency and predictability on the various features of the library.
 
 ### New features
@@ -39,43 +40,45 @@ We have a variety of new features in the version 7 of the Service Bus library.
 
 While previously, you would use the static method `createFromConnectionString` on the client to create it using connection string, now you can use the client constructor directly.
 
-  In V1:
+In V1:
 
-  ```javascript
-  const serviceBusClient = ServiceBusClient.createFromConnectionString("connection string");
-  ```
+```javascript
+const serviceBusClient = ServiceBusClient.createFromConnectionString("connection string");
+```
 
-  In V7:
+In V7:
 
-  ```javascript
-  const serviceBusClient = new ServiceBusClient("connection string");
-  ```
+```javascript
+const serviceBusClient = new ServiceBusClient("connection string");
+```
 
-While previously, you would use the static method `createFromAadTokenCredentials` on the client to create it using Azure Active Directory, now you can use the new [@azure/identity](https://www.npmjs.com/package/@azure/identity) library to share a single authentication solution between clients of different Azure services. 
+While previously, you would use the static method `createFromAadTokenCredentials` on the client to create it using Azure Active Directory, now you can use the new [@azure/identity](https://www.npmjs.com/package/@azure/identity) library to share a single authentication solution between clients of different Azure services.
 
+In V1:
 
-  In V1:
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
-  ```javascript
-  const { ServiceBusClient } = require("@azure/service-bus");
-  const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
+const credential = await interactiveLogin({
+  tokenAudience: "https://servicebus.azure.net/"
+});
 
-  const credential = await interactiveLogin({
-      tokenAudience: "https://servicebus.azure.net/"
-    });
+const serviceBusClient = ServiceBusClient.createFromAadTokenCredentials(
+  "my-namespace.servicebus.windows.net",
+  credential
+);
+```
 
-  const serviceBusClient = ServiceBusClient.createFromAadTokenCredentials("my-namespace.servicebus.windows.net", credential);
-  ```
+In V7:
 
-  In V7:
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-  ```javascript
-  const { ServiceBusClient } = require("@azure/service-bus");
-  const { DefaultAzureCredential } = require("@azure/identity");
-
-  const credential = new DefaultAzureCredential();
-  const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.net", credential);
-  ```
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.net", credential);
+```
 
 ### Creating senders and receivers
 
@@ -155,6 +158,13 @@ While previously, you would use the static method `createFromAadTokenCredentials
     }
   });
   ```
+
+### Settling messages
+
+  Previously, the methods to settle messages (`complete()`, `abandon()`, `defer()` and `deadLetter()`) were on the messages themselves.
+  These have been moved to the receiver in the new version, take the message as input and have the `Message` suffix in their name.
+  The idea is to have the message represents just the data and not have the responsibility of any operation on the service side.
+  Additionally, since a message cannot be settled if the receiver that was used to receive it is not alive, tying these operations to the receiver drives the message home better.
 
 ### Rule management
 
