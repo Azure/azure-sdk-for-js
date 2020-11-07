@@ -3,6 +3,7 @@ const path = require('path');
 const process = require('process');
 const { spawnSync } = require('child_process');
 
+
 const parseArgs = () => {
   if (process.argv.length < 3 || process.argv.some(a => ['-h', '--help'].includes(a.toLowerCase()))) {
     console.error('Usage: rush-runner.js <action> [<servicename>...] [args...]');
@@ -14,8 +15,13 @@ const parseArgs = () => {
   const services = [], flags = [];
   const [scriptPath, action, ...givenArgs] = process.argv.slice(1);
   const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
+  let buildTransitiveDep = false;
 
   for (const arg of givenArgs) {
+    if (arg == '--TransitiveDep') {
+      buildTransitiveDep = true;
+      continue;
+    }
     if (!inFlags && arg.startsWith('-')) {
       inFlags = true;
     }
@@ -28,7 +34,78 @@ const parseArgs = () => {
       }
     }
   }
-  return [baseDir, action, services, flags];
+  return [baseDir, action, services, flags, buildTransitiveDep];
+};
+
+const getAllPackageJsonPaths = (baseDir) => {
+  // Find and return path to all packages in repo
+  const packagePaths = [];
+  const serviceDirs = fs.readdirSync(path.resolve(path.join(baseDir, 'sdk')))
+    .filter(f => !f.startsWith('.'))
+    .map(f => path.resolve(path.join(baseDir, 'sdk', f)));
+
+  for (const serviceDir of serviceDirs) {
+    for (const pkgPath of getPackageJsons(serviceDir))
+      packagePaths.push(pkgPath);
+  }
+  return packagePaths;
+};
+
+const getPackageGraph = (baseDir) => {
+  // Create a graph of packages with edges to packages that are dependent
+  // for e.g.  C requires A and B and D requires A and C
+  // Graph is as follows
+  // { A: [C, D], B: [C], C: [D]}
+  let packageGraph = new Map();
+  const packageJsons = getAllPackageJsonPaths(baseDir);
+
+  for (const filePath of packageJsons) {
+    const contents = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const pkgName = contents["name"];
+    if (!contents.hasOwnProperty('dependencies'))
+      continue;
+
+    const dependencies = Object.keys(contents['dependencies']).filter(f => f.startsWith("@azure"));
+    // Process each package dependency and build dependency graph that links all packages that are dependent on current package
+    for (let dependentPkg of dependencies) {
+      if (!packageGraph.has(dependentPkg)) {
+        packageGraph.set(dependentPkg, new Set());
+      }
+      packageGraph.get(dependentPkg).add(pkgName);
+    }
+  }
+  return packageGraph;
+};
+
+const getLeafPackages = (packageGraph, packageNames) => {
+  // Return a set of packages that are dependent on other packages but not a dependency for any package
+  // Addign these leaf packages with --to <package-name> ensures to build all required packages
+  let leafPackages = new Set();
+  for (let pkgName of packageNames) {
+    // if current pacakge is added as dependent by other packages then find leaf packages recursively
+    if (packageGraph.has(pkgName)) {
+      for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
+        leafPackages.add(dependentPackage);
+      }
+    }
+    else {
+      // Current package has no further dependents. Add them to final list
+      leafPackages.add(pkgName);
+    }
+  }
+  return leafPackages;
+};
+
+const getPackagesToBuild = (packageNames, packageGraph) => {
+  // Find all packages that takes current pacakge as dependency  recursively and add leaf packages into list to build
+  // This will ensure all transitive dependencies are built
+  // A -> D, C -> D. When A is built, it will build D and C also just by adding --to D
+  for (const dependentPackage of getLeafPackages(packageGraph, packageNames)) {
+    if (!packageNames.includes(dependentPackage))
+      packageNames.push(dependentPackage);
+  }
+  console.log(`Packages to build: ${packageNames}`);
+  return packageNames;
 };
 
 const getPackageJsons = (searchDir) => {
@@ -58,7 +135,7 @@ const getServicePackages = (baseDir, serviceDirs) => {
 const spawnNode = (cwd, ...args) => {
   console.log(`Executing: "node ${args.join(' ')}" in ${cwd}\n\n`);
   const proc = spawnSync('node', args, { cwd, stdio: 'inherit' });
-  console.log(`\n\nNode process exited with code ${proc.status}`);
+  console.log(`\n\nNode process exited with code ${proc.status} `);
 
   if (proc.status !== 0) {
     // proc.status will be null if the subprocess terminated due to a signal, which I don't think
@@ -72,7 +149,9 @@ const flatMap = (arr, f) => {
   return [].concat(...result);
 }
 
-const [baseDir, action, serviceDirs, rushParams] = parseArgs();
+const [baseDir, action, serviceDirs, rushParams, buildTransitiveDep] = parseArgs();
+const pkgGraph = getPackageGraph(baseDir);
+
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
 
 if (serviceDirs.length === 0) {
@@ -99,7 +178,11 @@ if (serviceDirs.length === 0) {
       break;
 
     default:
-      params = flatMap(packageNames, (p) => [`--to`, p]);
+      let requiredPackageNames = packageNames;
+      if (buildTransitiveDep) {
+        requiredPackageNames = getPackagesToBuild(packageNames, pkgGraph);
+      }
+      params = flatMap(requiredPackageNames, (p) => [`--to`, p]);
       spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
       break;
   }
