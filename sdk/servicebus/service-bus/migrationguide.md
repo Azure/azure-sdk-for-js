@@ -126,7 +126,7 @@ const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.n
 
 - The `createReceiver()` overload that took session options is replaced by two async methods `acceptSession()` and `acceptNextSession()`
   - The promise returned by these methods is resolved when a receiver link has been initialized with a session in the service.
-  - Prior to v7 `createReceiver()` worked using lazy-initialization, where the
+  - Prior to v7, `createReceiver()` worked using lazy-initialization, where the
     receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`
     were first called.
 
