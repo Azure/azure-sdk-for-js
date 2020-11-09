@@ -5,7 +5,7 @@ import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
-import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -390,12 +390,12 @@ describe("Batching Receiver", () => {
 
       const [peekedMsg] = await receiver.peekMessages(1);
       should.equal(
-        !(peekedMsg as any)["delivery"],
+        !peekedMsg.lockToken,
         true,
-        "Peeked msg was not meant to have delivery! We use this assumption to differentiate between peeked msg and other messages."
+        "Peeked msg was not meant to have lockToken! We use this assumption to differentiate between peeked msg and other messages."
       );
 
-      const expectedErrorMsg = "A peeked message cannot be settled.";
+      const expectedErrorMsg = MessageAlreadySettled;
       try {
         await receiver.completeMessage(peekedMsg);
         assert.fail("completeMessage should have failed");

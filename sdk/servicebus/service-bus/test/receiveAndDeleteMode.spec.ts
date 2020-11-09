@@ -15,7 +15,7 @@ import {
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
+import { InvalidOperationInReceiveAndDeleteMode } from "../src/util/errors";
 import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
@@ -320,7 +320,7 @@ describe("receive and delete", () => {
       await receiver.renewMessageLock(msg).catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
+          InvalidOperationInReceiveAndDeleteMode,
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;
@@ -521,7 +521,7 @@ describe("receive and delete", () => {
       await receiver.renewMessageLock(deferredMsg).catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
+          InvalidOperationInReceiveAndDeleteMode,
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;

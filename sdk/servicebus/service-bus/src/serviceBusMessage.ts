@@ -759,14 +759,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly deadLetterErrorDescription?: string;
   /**
-   * @property Boolean denoting if the message has already been settled.
-   * @readonly
-   */
-  public get isSettled(): boolean {
-    return this.delivery.remote_settled;
-  }
-
-  /**
    * @internal
    */
   constructor(
