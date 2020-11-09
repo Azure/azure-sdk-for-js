@@ -116,7 +116,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js --timeout 1200000",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"

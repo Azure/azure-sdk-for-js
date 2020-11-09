@@ -1,6 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 import { SynapseArtifactsOptionalParams } from "./models";
-import { lroPolicy } from "./lro";
+import { lroPolicy } from "./generated/lro";
 
 const packageName = "@azure/synapse-artifacts";
 const packageVersion = "1.0.0";
@@ -38,10 +38,10 @@ export class SynapseArtifactsContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    const defaultPipelines = coreHttp.createPipelineFromOptions(options)
-      .requestPolicyFactories as coreHttp.RequestPolicyFactory[];
+    // const defaultPipelines = coreHttp.createPipelineFromOptions(options)
+    //   .requestPolicyFactories as coreHttp.RequestPolicyFactory[];
 
-    // const defaultPipelines = options.requestPolicyFactories as coreHttp.RequestPolicyFactory[];
+    const defaultPipelines = options.requestPolicyFactories as coreHttp.RequestPolicyFactory[];
 
     options = {
       ...options,

@@ -1,4 +1,5 @@
 import * as coreHttp from "@azure/core-http";
+import { LROSYM, LROResponseInfo } from "../lro/models";
 
 export type LinkedServiceUnion =
   | AzureStorageLinkedService
@@ -13097,6 +13098,10 @@ export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceReso
      * The response body as parsed JSON or XML
      */
     parsedBody: LinkedServiceResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13199,6 +13204,10 @@ export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
      * The response body as parsed JSON or XML
      */
     parsedBody: DatasetResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13301,6 +13310,10 @@ export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
      * The response body as parsed JSON or XML
      */
     parsedBody: PipelineResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13517,6 +13530,10 @@ export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
      * The response body as parsed JSON or XML
      */
     parsedBody: TriggerResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13568,6 +13585,10 @@ export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperati
      * The response body as parsed JSON or XML
      */
     parsedBody: TriggerSubscriptionOperationStatus;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13608,6 +13629,10 @@ export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOpe
      * The response body as parsed JSON or XML
      */
     parsedBody: TriggerSubscriptionOperationStatus;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13679,6 +13704,10 @@ export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
      * The response body as parsed JSON or XML
      */
     parsedBody: DataFlowResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13770,6 +13799,10 @@ export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataF
      * The response body as parsed JSON or XML
      */
     parsedBody: CreateDataFlowDebugSessionResponse;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -13830,6 +13863,10 @@ export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandRes
      * The response body as parsed JSON or XML
      */
     parsedBody: DataFlowDebugCommandResponse;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -14054,6 +14091,10 @@ export type SparkJobDefinitionExecuteSparkJobDefinitionResponse = SparkBatchJob 
      * The response body as parsed JSON or XML
      */
     parsedBody: SparkBatchJob;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -14074,6 +14115,10 @@ export type SparkJobDefinitionDebugSparkJobDefinitionResponse = SparkBatchJob & 
      * The response body as parsed JSON or XML
      */
     parsedBody: SparkBatchJob;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 
@@ -14165,6 +14210,10 @@ export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
      * The response body as parsed JSON or XML
      */
     parsedBody: NotebookResource;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
   };
 };
 

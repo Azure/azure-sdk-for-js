@@ -54,6 +54,7 @@ module.exports = function(config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "WORKSPACE_NAME",
+      "SPARKPOOL_NAME",
       "TEST_MODE"
     ],
 

@@ -5,8 +5,15 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { HttpMethods } from '@azure/core-http';
+import { HttpOperationResponse } from '@azure/core-http';
+import { OperationArguments } from '@azure/core-http';
+import { OperationSpec } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { Poller } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -149,6 +156,10 @@ export type AppendVariableActivity = Activity & {
 // @public (undocumented)
 export class ArtifactsClient {
     constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: ArtifactsClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "LROPoller" needs to be exported by the entry point index.d.ts
+    beginCreateOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
+    // (undocumented)
+    beginDeleteDataFlow(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
     cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
     // (undocumented)
@@ -157,8 +168,14 @@ export class ArtifactsClient {
     createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
     // (undocumented)
     deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SynapseArtifacts" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getArtifactsClient(): SynapseArtifacts;
     // (undocumented)
     GetBigDataPool(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
+    // (undocumented)
+    getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
     // (undocumented)
     GetIntegrationRuntime(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
     // (undocumented)
@@ -1154,6 +1171,26 @@ export interface DataFlow {
     type: "MappingDataFlow";
 }
 
+// @public (undocumented)
+export class DataFlowClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: DataflowClientOptions);
+    // (undocumented)
+    beginDelete(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
+    // (undocumented)
+    get(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface DataflowClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimized" | string;
 
@@ -1167,6 +1204,7 @@ export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: DataFlowResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -1246,6 +1284,7 @@ export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataF
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: CreateDataFlowDebugSessionResponse;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -1259,6 +1298,7 @@ export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandRes
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: DataFlowDebugCommandResponse;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -1419,6 +1459,26 @@ export interface Dataset {
 // @public
 export type DatasetBZip2Compression = DatasetCompression & {};
 
+// @public (undocumented)
+export class DataSetClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: DatasetClientOptions);
+    // (undocumented)
+    beginDelete(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
+    // (undocumented)
+    get(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface DatasetClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface DatasetCompression {
     [property: string]: any;
@@ -1441,6 +1501,7 @@ export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: DatasetResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -2722,6 +2783,26 @@ export interface LinkedService {
     type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "GoogleCloudStorage" | "Oracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction";
 }
 
+// @public (undocumented)
+export class LinkedServiceClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: LinkedServiceClientOptions);
+    // (undocumented)
+    beginDelete(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
+    // (undocumented)
+    get(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface LinkedServiceClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
@@ -2732,6 +2813,7 @@ export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceReso
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: LinkedServiceResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -3072,6 +3154,26 @@ export interface NotebookCellOutputItem {
     text?: any;
 }
 
+// @public (undocumented)
+export class NotebookClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: NotebookClientOptions);
+    // (undocumented)
+    beginDelete(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
+    // (undocumented)
+    get(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface NotebookClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
@@ -3082,6 +3184,7 @@ export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: NotebookResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -3420,6 +3523,26 @@ export type PhoenixSource = TabularSource & {
     query?: any;
 };
 
+// @public (undocumented)
+export class PipelineClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: PipelineClientOptions);
+    // (undocumented)
+    beginDelete(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
+    // (undocumented)
+    get(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface PipelineClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
@@ -3430,6 +3553,7 @@ export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: PipelineResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -4351,6 +4475,7 @@ export type SparkJobDefinitionDebugSparkJobDefinitionResponse = SparkBatchJob & 
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: SparkBatchJob;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -4359,6 +4484,7 @@ export type SparkJobDefinitionExecuteSparkJobDefinitionResponse = SparkBatchJob 
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: SparkBatchJob;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -5091,6 +5217,26 @@ export interface Trigger {
     type: "RerunTumblingWindowTrigger" | "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "TumblingWindowTrigger" | "ChainingTrigger";
 }
 
+// @public (undocumented)
+export class TriggerClient {
+    constructor(workspaceEndpoint: string, credential: TokenCredential, triggerOptions?: TriggerClientOptions);
+    // (undocumented)
+    beginDelete(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // (undocumented)
+    beginUpsert(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
+    // (undocumented)
+    get(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
+    // (undocumented)
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
+    readonly workspaceEndpoint: string;
+}
+
+// @public (undocumented)
+export interface TriggerClientOptions extends PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
@@ -5101,6 +5247,7 @@ export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: TriggerResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -5225,6 +5372,7 @@ export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperati
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: TriggerSubscriptionOperationStatus;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -5242,6 +5390,7 @@ export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOpe
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: TriggerSubscriptionOperationStatus;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -5493,6 +5642,10 @@ export type ZohoSource = TabularSource & {
     query?: any;
 };
 
+
+// Warnings were encountered during analysis:
+//
+// src/generated/models/index.ts:13710:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

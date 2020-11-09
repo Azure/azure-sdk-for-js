@@ -2,6 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
+import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   PipelineGetPipelinesByWorkspaceResponse,
   PipelineResource,
@@ -50,18 +51,38 @@ export class Pipeline {
    * @param pipeline Pipeline resource definition.
    * @param options The options parameters.
    */
-  createOrUpdatePipeline(
+  async createOrUpdatePipeline(
     pipelineName: string,
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
-  ): Promise<PipelineCreateOrUpdatePipelineResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { pipelineName, pipeline, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      pipelineName,
+      pipeline,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        PipelineCreateOrUpdatePipelineResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       createOrUpdatePipelineOperationSpec
-    ) as Promise<PipelineCreateOrUpdatePipelineResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: createOrUpdatePipelineOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -87,17 +108,36 @@ export class Pipeline {
    * @param pipelineName The pipeline name.
    * @param options The options parameters.
    */
-  deletePipeline(
+  async deletePipeline(
     pipelineName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { pipelineName, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      pipelineName,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       deletePipelineOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: deletePipelineOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -136,6 +176,18 @@ export class Pipeline {
       getPipelinesByWorkspaceNextOperationSpec
     ) as Promise<PipelineGetPipelinesByWorkspaceNextResponse>;
   }
+
+  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
+    options: TOptions | undefined,
+    finalStateVia?: string
+  ): coreHttp.RequestOptionsBase {
+    const operationOptions: coreHttp.OperationOptions = options || {};
+    operationOptions.requestOptions = {
+      ...operationOptions.requestOptions,
+      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
+    };
+    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
+  }
 }
 // Operation Specifications
 
@@ -164,7 +216,15 @@ const createOrUpdatePipelineOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.PipelineResource
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.PipelineResource
+    },
+    202: {
+      bodyMapper: Mappers.PipelineResource
+    },
+    204: {
+      bodyMapper: Mappers.PipelineResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -202,6 +262,7 @@ const deletePipelineOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
     202: {},
     204: {},
     default: {

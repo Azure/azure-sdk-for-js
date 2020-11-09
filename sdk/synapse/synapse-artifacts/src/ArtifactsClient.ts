@@ -10,6 +10,16 @@ import {
 } from "@azure/core-http";
 
 import {
+  DataFlowResource,
+  DataFlowCreateOrUpdateDataFlowOptionalParams,
+  DataFlowCreateOrUpdateDataFlowResponse,
+  DataFlowGetDataFlowOptionalParams,
+  DataFlowGetDataFlowResponse
+} from "./generated/models";
+
+import { LROPoller } from "./generated/lro";
+
+import {
   ArtifactsClientOptions,
   TriggerRunQueryTriggerRunsByWorkspaceResponse,
   BigDataPoolsListResponse,
@@ -34,7 +44,7 @@ import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { createSpan } from "./tracing";
-import { SynapseArtifacts } from "./generated";
+import { SynapseArtifacts } from "./synapseArtifacts";
 import { logger } from "./logger";
 import { SDK_VERSION } from "./constants";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -51,7 +61,7 @@ export class ArtifactsClient {
    * @ignore
    * A reference to the auto-generated synapse accesscontrol HTTP client.
    */
-  private readonly client: SynapseArtifacts;
+  protected readonly client: SynapseArtifacts;
 
   constructor(
     workspaceEndpoint: string,
@@ -91,6 +101,10 @@ export class ArtifactsClient {
     this.client = new SynapseArtifacts(credential, workspaceEndpoint, pipeline);
   }
 
+  public getArtifactsClient() : SynapseArtifacts {
+    return this.client;
+  }
+ 
   public async ListBigDataPools(
     options: coreHttp.OperationOptions = {}
   ): Promise<BigDataPoolsListResponse> {
@@ -549,60 +563,155 @@ export class ArtifactsClient {
     }
   }
 
-  private async *listDataFlowsPage(
-    continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
-  ): AsyncIterableIterator<SqlScriptResource[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(
-        requestOptions
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      }
-    }
+  // private async *listDataFlowsPage(
+  //   continuationState: ListPageSettings,
+  //   options: coreHttp.OperationOptions = {}
+  // ): AsyncIterableIterator<SqlScriptResource[]> {
+  //   const requestOptions = operationOptionsToRequestOptionsBase(options);
+  //   if (!continuationState.continuationToken) {
+  //     const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(
+  //       requestOptions
+  //     );
+  //     continuationState.continuationToken = currentSetResponse.nextLink;
+  //     if (currentSetResponse.value) {
+  //       yield currentSetResponse.value;
+  //     }
+  //   }
 
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspaceNext(
-        continuationState.continuationToken,
-        requestOptions
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      } else {
-        break;
-      }
-    }
-  }
+  //   while (continuationState.continuationToken) {
+  //     const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspaceNext(
+  //       continuationState.continuationToken,
+  //       requestOptions
+  //     );
+  //     continuationState.continuationToken = currentSetResponse.nextLink;
+  //     if (currentSetResponse.value) {
+  //       yield currentSetResponse.value;
+  //     } else {
+  //       break;
+  //     }
+  //   }
+  // }
 
-  private async *listDataFlowssAll(
-    options: coreHttp.OperationOptions = {}
-  ): AsyncIterableIterator<SqlScriptResource> {
-    for await (const page of this.listDataFlowsPage({}, options)) {
-      yield* page;
-    }
-  }
+  // private async *listDataFlowssAll(
+  //   options: coreHttp.OperationOptions = {}
+  // ): AsyncIterableIterator<SqlScriptResource> {
+  //   for await (const page of this.listDataFlowsPage({}, options)) {
+  //     yield* page;
+  //   }
+  // }
 
-  public listDataFlows(
-    options: coreHttp.OperationOptions = {}
-  ): PagedAsyncIterableIterator<SqlScriptResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+  // public listDataFlows(
+  //   options: coreHttp.OperationOptions = {}
+  // ): PagedAsyncIterableIterator<SqlScriptResource> {
+  //   const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+  //   try {
+  //     const iter = this.listDataFlowssAll(updatedOptions);
+  //     return {
+  //       next() {
+  //         return iter.next();
+  //       },
+  //       [Symbol.asyncIterator]() {
+  //         return this;
+  //       },
+  //       byPage: (settings: ListPageSettings = {}) => {
+  //         return this.listDataFlowsPage(settings, updatedOptions);
+  //       }
+  //     };
+  //   } catch (e) {
+  //     span.setStatus({
+  //       code: CanonicalCode.UNKNOWN,
+  //       message: e.message
+  //     });
+  //     throw e;
+  //   } finally {
+  //     span.end();
+  //   }
+  // }
+
+  /**
+  *
+  * Example usage:
+  * ```ts
+  * const client = new KeyVaultBackupClient(url, credentials);
+  *
+  * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+  * const sasToken = "<sas-token>";
+  * const poller = await client.beginBackup(blobStorageUri, sasToken);
+  *
+  * // Serializing the poller
+  * //
+  * //   const serialized = poller.toString();
+  * //
+  * // A new poller can be created with:
+  * //
+  * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+  * //
+  *
+  * // Waiting until it's done
+  * const backupUri = await poller.pollUntilDone();
+  * console.log(backupUri);
+  * ```
+  */
+  public async beginCreateOrUpdateDataFlow(
+    dataFlowName: string,
+    dataFlow: DataFlowResource,
+    options: DataFlowCreateOrUpdateDataFlowOptionalParams = {}
+  ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
+    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+
     try {
-      const iter = this.listDataFlowssAll(updatedOptions);
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: ListPageSettings = {}) => {
-          return this.listDataFlowsPage(settings, updatedOptions);
-        }
-      };
+      const response = await this.client.dataFlow.createOrUpdateDataFlow(
+        dataFlowName,
+        dataFlow,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginDeleteDataFlow(
+    dataFlowName: string,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+
+    try {
+      const response = await this.client.dataFlow.deleteDataFlow(
+        dataFlowName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getDataFlow(
+    dataFlowName: string,
+    options: DataFlowGetDataFlowOptionalParams = {}
+  ): Promise<DataFlowGetDataFlowResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+
+    try {
+      const response = await this.client.dataFlow.getDataFlow(
+        dataFlowName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

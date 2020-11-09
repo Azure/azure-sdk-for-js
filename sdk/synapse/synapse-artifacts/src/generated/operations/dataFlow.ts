@@ -2,6 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
+import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   DataFlowResource,
   DataFlowCreateOrUpdateDataFlowOptionalParams,
@@ -32,18 +33,38 @@ export class DataFlow {
    * @param dataFlow Data flow resource definition.
    * @param options The options parameters.
    */
-  createOrUpdateDataFlow(
+  async createOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
     options?: DataFlowCreateOrUpdateDataFlowOptionalParams
-  ): Promise<DataFlowCreateOrUpdateDataFlowResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { dataFlowName, dataFlow, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      dataFlowName,
+      dataFlow,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        DataFlowCreateOrUpdateDataFlowResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       createOrUpdateDataFlowOperationSpec
-    ) as Promise<DataFlowCreateOrUpdateDataFlowResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: createOrUpdateDataFlowOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -69,17 +90,36 @@ export class DataFlow {
    * @param dataFlowName The data flow name.
    * @param options The options parameters.
    */
-  deleteDataFlow(
+  async deleteDataFlow(
     dataFlowName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { dataFlowName, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      dataFlowName,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       deleteDataFlowOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: deleteDataFlowOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -116,6 +156,18 @@ export class DataFlow {
       getDataFlowsByWorkspaceNextOperationSpec
     ) as Promise<DataFlowGetDataFlowsByWorkspaceNextResponse>;
   }
+
+  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
+    options: TOptions | undefined,
+    finalStateVia?: string
+  ): coreHttp.RequestOptionsBase {
+    const operationOptions: coreHttp.OperationOptions = options || {};
+    operationOptions.requestOptions = {
+      ...operationOptions.requestOptions,
+      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
+    };
+    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
+  }
 }
 // Operation Specifications
 
@@ -128,7 +180,15 @@ const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.DataFlowResource
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.DataFlowResource
+    },
+    202: {
+      bodyMapper: Mappers.DataFlowResource
+    },
+    204: {
+      bodyMapper: Mappers.DataFlowResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -165,6 +225,7 @@ const deleteDataFlowOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
     202: {},
     204: {},
     default: {

@@ -2,6 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseArtifacts } from "../synapseArtifacts";
+import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   DatasetGetDatasetsByWorkspaceResponse,
   DatasetResource,
@@ -48,18 +49,38 @@ export class Dataset {
    * @param dataset Dataset resource definition.
    * @param options The options parameters.
    */
-  createOrUpdateDataset(
+  async createOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams
-  ): Promise<DatasetCreateOrUpdateDatasetResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { datasetName, dataset, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      datasetName,
+      dataset,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        DatasetCreateOrUpdateDatasetResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       createOrUpdateDatasetOperationSpec
-    ) as Promise<DatasetCreateOrUpdateDatasetResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: createOrUpdateDatasetOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -85,17 +106,36 @@ export class Dataset {
    * @param datasetName The dataset name.
    * @param options The options parameters.
    */
-  deleteDataset(
+  async deleteDataset(
     datasetName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
+      options
     );
-    return this.client.sendOperationRequest(
-      { datasetName, options: operationOptions },
+
+    const args: coreHttp.OperationArguments = {
+      datasetName,
+      options: operationOptions
+    };
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
       deleteDatasetOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: deleteDatasetOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -114,6 +154,18 @@ export class Dataset {
       { nextLink, options: operationOptions },
       getDatasetsByWorkspaceNextOperationSpec
     ) as Promise<DatasetGetDatasetsByWorkspaceNextResponse>;
+  }
+
+  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
+    options: TOptions | undefined,
+    finalStateVia?: string
+  ): coreHttp.RequestOptionsBase {
+    const operationOptions: coreHttp.OperationOptions = options || {};
+    operationOptions.requestOptions = {
+      ...operationOptions.requestOptions,
+      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
+    };
+    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
   }
 }
 // Operation Specifications
@@ -143,7 +195,15 @@ const createOrUpdateDatasetOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.DatasetResource
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.DatasetResource
+    },
+    202: {
+      bodyMapper: Mappers.DatasetResource
+    },
+    204: {
+      bodyMapper: Mappers.DatasetResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -181,6 +241,7 @@ const deleteDatasetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
     202: {},
     204: {},
     default: {
