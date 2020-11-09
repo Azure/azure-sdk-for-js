@@ -31,6 +31,7 @@ import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -322,7 +323,7 @@ export class EventHubSender extends LinkEntity {
         // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
           const message = toRheaMessage(events[i], partitionKey);
-          message.body = this._context.dataTransformer.encode(events[i].body);
+          message.body = defaultDataTransformer.encode(events[i].body);
           messages[i] = message;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
