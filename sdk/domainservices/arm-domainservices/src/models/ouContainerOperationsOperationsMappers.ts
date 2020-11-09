@@ -7,10 +7,18 @@
  */
 
 export {
-  DefaultErrorResponse,
-  DefaultErrorResponseError,
-  DefaultErrorResponseErrorDetailsItem,
-  OperationDisplayInfo,
-  OperationEntity,
-  OperationEntityListResult
+  BaseResource,
+  CloudError,
+  ContainerAccount,
+  DomainSecuritySettings,
+  DomainService,
+  ForestTrust,
+  HealthAlert,
+  HealthMonitor,
+  LdapsSettings,
+  NotificationSettings,
+  OuContainer,
+  OuContainerListResult,
+  Resource,
+  ResourceForestSettings
 } from "../models/mappers";

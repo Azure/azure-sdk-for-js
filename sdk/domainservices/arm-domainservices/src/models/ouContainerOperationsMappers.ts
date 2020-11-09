@@ -7,9 +7,7 @@
  */
 
 export {
-  DefaultErrorResponse,
-  DefaultErrorResponseError,
-  DefaultErrorResponseErrorDetailsItem,
+  CloudError,
   OperationDisplayInfo,
   OperationEntity,
   OperationEntityListResult
