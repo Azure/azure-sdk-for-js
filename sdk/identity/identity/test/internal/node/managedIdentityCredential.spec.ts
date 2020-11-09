@@ -17,7 +17,7 @@ interface AuthRequestDetails {
   token: AccessToken | null;
 }
 
-describe("ManagedIdentityCredential", function() {
+describe("ManagedIdentityCredential", function () {
   afterEach(() => {
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -26,7 +26,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
   });
 
-  it("sends an authorization request with a modified resource name", async function() {
+  it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
         { status: 200 }, // Respond to IMDS isAvailable
@@ -83,7 +83,7 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("returns error when ManagedIdentityCredential authentication failed", async function() {
+  it("returns error when ManagedIdentityCredential authentication failed", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -257,8 +257,8 @@ describe("ManagedIdentityCredential", function() {
     if (authDetails.token) {
       // We use Date.now underneath.
       assert.equal(
-        Math.floor(authDetails.token.expiresOnTimestamp / 100000),
-        Math.floor(Date.now() / 100000)
+        Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
+        Math.floor(Date.now() / 1000000)
       );
     } else {
       assert.fail("No token was returned!");
