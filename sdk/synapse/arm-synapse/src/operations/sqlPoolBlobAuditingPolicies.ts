@@ -102,6 +102,70 @@ export class SqlPoolBlobAuditingPolicies {
       createOrUpdateOperationSpec,
       callback) as Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
   }
+
+  /**
+   * Lists auditing settings of a Sql pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolResponse>
+   */
+  listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param callback The callback
+   */
+  listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): void;
+  listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      },
+      listBySqlPoolOperationSpec,
+      callback) as Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolResponse>;
+  }
+
+  /**
+   * Lists auditing settings of a Sql pool.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse>
+   */
+  listBySqlPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySqlPoolNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySqlPoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): void;
+  listBySqlPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicyListResult>): Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySqlPoolNextOperationSpec,
+      callback) as Promise<Models.SqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -162,6 +226,56 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.SqlPoolBlobAuditingPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySqlPoolOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/auditingSettings",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlPoolBlobAuditingPolicyListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySqlPoolNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlPoolBlobAuditingPolicyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
