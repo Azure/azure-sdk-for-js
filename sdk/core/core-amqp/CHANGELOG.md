@@ -6,6 +6,8 @@
 
 - `DataTransformer` and `DefaultDataTransformer` are no longer exported.
   `dataTransformer` has been removed from `ConnectionContextBase` and `ConnectionContextBaseParameters`.
+- Previously, `ConnectionConfig.validate()` overridden entityPath if `undefined` with `String(undefined) = "undefined"`. This has been updated to retain `undefined` in the validation.
+  [PR 12321](https://github.com/Azure/azure-sdk-for-js/pull/12321)
 
 ## 2.0.0-beta.1 (2020-11-03)
 
