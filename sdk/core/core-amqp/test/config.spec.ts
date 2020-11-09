@@ -194,6 +194,46 @@ describe("ConnectionConfig", function() {
         done();
       });
     });
+
+    describe("EntityPath Validation", function() {
+      const connectionString = `
+        Endpoint=sb://hostname.servicebus.windows.net/;
+        SharedAccessKeyName=sakName;
+        SharedAccessKey=sakName;
+        EntityPath=ep;
+      `;
+      const config: ConnectionConfig = {
+        connectionString: connectionString,
+        endpoint: "sb://hostname.servicebus.windows.net/",
+        host: "hostname.servicebus.windows.net/",
+        sharedAccessKeyName: "sakName",
+        sharedAccessKey: "abcd"
+      };
+
+      it("undefined is not stringified", () => {
+        config.entityPath = undefined;
+        ConnectionConfig.validate(config);
+        should.equal(config.entityPath, undefined, `EntityPath is not undefined`);
+      });
+
+      it("null is not stringified", () => {
+        config.entityPath = null as any;
+        ConnectionConfig.validate(config);
+        should.equal(config.entityPath, null, `EntityPath is not null`);
+      });
+
+      it("number is stringified", () => {
+        config.entityPath = 3 as any;
+        ConnectionConfig.validate(config);
+        should.equal(config.entityPath, "3", `EntityPath is not stringified`);
+      });
+
+      it("string is unchanged", () => {
+        config.entityPath = "entityPath";
+        ConnectionConfig.validate(config);
+        should.equal(config.entityPath, "entityPath", `EntityPath is not a string`);
+      });
+    });
   });
 
   describe("SharedAccessSignature", () => {
