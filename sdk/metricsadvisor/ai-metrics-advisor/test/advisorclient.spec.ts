@@ -239,11 +239,11 @@ describe("MetricsAdvisorClient", () => {
         alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
         id: testEnv.METRICS_ADVISOR_ALERT_ID
       })
-      .byPage({ maxPageSize: 2 });
+      .byPage({ maxPageSize: 1 });
     let result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two anomalies in first page");
+    assert.equal(result.value.length, 1, "Expecting one anomaly in first page");
     result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two anomalies in second page");
+    assert.equal(result.value.length, 1, "Expecting one anomaly in second page");
   });
 
   it("lists incidents for alert", async function() {
@@ -484,11 +484,11 @@ describe("MetricsAdvisorClient", () => {
         new Date(Date.UTC(2020, 10, 1)),
         new Date(Date.UTC(2020, 10, 5))
       )
-      .byPage({ maxPageSize: 2 });
+      .byPage({ maxPageSize: 1 });
     let result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two results in first page");
+    assert.equal(result.value.length, 1, "Expecting one result in first page");
     result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two results in second page");
+    assert.equal(result.value.length, 1, "Expecting one result in second page");
   });
 
   it("gets root causes of an incident", async function() {
@@ -601,8 +601,8 @@ describe("MetricsAdvisorClient", () => {
     it("lists Anomaly feedbacks", async function() {
       const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
-          startTime: new Date(Date.UTC(2020, 9, 19)),
-          endTime: new Date(Date.UTC(2020, 9, 20)),
+          startTime: new Date(Date.UTC(2020, 10, 1)),
+          endTime: new Date(Date.UTC(2020, 10, 5)),
           timeMode: "FeedbackCreatedTime"
         }
       });
@@ -615,8 +615,8 @@ describe("MetricsAdvisorClient", () => {
     it("lists Anomaly feedbacks with datetime strings", async function() {
       const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
         filter: {
-          startTime: "2020-10-19T00:00:00.000Z",
-          endTime: "2020-10-20T00:00:00.000Z",
+          startTime: "2020-11-01T00:00:00.000Z",
+          endTime: "2020-11-05T00:00:00.000Z",
           timeMode: "FeedbackCreatedTime"
         }
       });
