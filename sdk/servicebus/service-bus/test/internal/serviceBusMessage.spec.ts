@@ -10,13 +10,9 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import chai from "chai";
-import { Constants, DataTransformer } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 const assert = chai.assert;
 
-const fakeDataTransformer = {
-  encode: (data) => data,
-  decode: (data) => data
-} as DataTransformer;
 const fakeDelivery = {} as Delivery;
 
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
@@ -35,7 +31,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in peekLock mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeDataTransformer,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -47,7 +42,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in receiveAndDelete mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeDataTransformer,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -95,13 +89,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     user_id: "random_user_id"
   };
 
-  const sbMessage = new ServiceBusMessageImpl(
-    fakeDataTransformer,
-    amqpMessage,
-    fakeDelivery,
-    false,
-    "peekLock"
-  );
+  const sbMessage = new ServiceBusMessageImpl(amqpMessage, fakeDelivery, false, "peekLock");
 
   it("headers match", () => {
     assert.equal(sbMessage._amqpAnnotatedMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
