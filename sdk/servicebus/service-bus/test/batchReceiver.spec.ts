@@ -5,7 +5,7 @@ import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
-import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../src/util/errors";
+import { getAlreadyReceivingErrorMsg, InvalidOperationForPeekedMessage } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -395,7 +395,7 @@ describe("Batching Receiver", () => {
         "Peeked msg was not meant to have lockToken! We use this assumption to differentiate between peeked msg and other messages."
       );
 
-      const expectedErrorMsg = MessageAlreadySettled;
+      const expectedErrorMsg = InvalidOperationForPeekedMessage;
       try {
         await receiver.completeMessage(peekedMsg);
         assert.fail("completeMessage should have failed");
@@ -424,7 +424,9 @@ describe("Batching Receiver", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<void> {
+    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<
+      void
+    > {
       await beforeEachTest(noSessionTestClientType);
       await testPeek();
     });

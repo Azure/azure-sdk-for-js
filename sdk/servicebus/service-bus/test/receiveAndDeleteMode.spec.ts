@@ -242,9 +242,9 @@ describe("receive and delete", () => {
       return msgs[0];
     }
 
-    const testError = (err: Error, operation: DispositionType): void => {
-      expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
+    const testError = (err: Error): void => {
+      expect(err.message, "ErrorMessage is different than expected").equals(
+        InvalidOperationInReceiveAndDeleteMode
       );
     };
 
@@ -266,7 +266,7 @@ describe("receive and delete", () => {
         }
       } catch (err) {
         errorWasThrown = true;
-        testError(err, operation);
+        testError(err);
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -453,9 +453,9 @@ describe("receive and delete", () => {
       return deferredMsg;
     }
 
-    const testError = (err: Error, operation: DispositionType): void => {
-      expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
+    const testError = (err: Error): void => {
+      expect(err.message, "ErrorMessage is different than expected").equals(
+        InvalidOperationInReceiveAndDeleteMode
       );
     };
 
@@ -477,7 +477,7 @@ describe("receive and delete", () => {
         }
       } catch (err) {
         errorWasThrown = true;
-        testError(err, operation);
+        testError(err);
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");

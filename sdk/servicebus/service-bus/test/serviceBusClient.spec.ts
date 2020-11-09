@@ -501,9 +501,10 @@ describe("ServiceBusClient live tests", () => {
         caughtError = error;
       }
 
-      const expectedErrorMsg =
-        `Failed to ${operation} the message as the AMQP link with which the message was ` +
-        `received is no longer alive.`;
+      const expectedErrorMsg = getReceiverClosedErrorMsg(
+        receiver.entityPath,
+        receivedMessage.sessionId
+      );
       should.equal(caughtError && caughtError.message, expectedErrorMsg);
     }
 
@@ -730,6 +731,8 @@ describe("ServiceBusClient live tests", () => {
         await beforeEachTest(noSessionTestClientType, entityToClose);
 
         await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
+
+        await testAllDispositions();
       });
 
       it(
