@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
@@ -136,14 +136,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
         try {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
-          const successMessage = `Authentication Complete. You can close the browser and return to the application. Scopes: ${scopeArray.join(
-            ", "
-          )}. Expires on timestamp: ${authResponse?.expiresOn.valueOf()}`;
+          const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
+          const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
           res.status(200).send(successMessage);
-          logger.getToken.info(successMessage);
+          logger.getToken.info(formatSuccess(scopeArray, expiresOnTimestamp));
 
           resolve({
-            expiresOnTimestamp: authResponse.expiresOn.valueOf(),
+            expiresOnTimestamp,
             token: authResponse.accessToken
           });
         } catch (error) {
