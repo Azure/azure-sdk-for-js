@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-preview.7 (Unreleased)
+## 1.0.0-beta.1 (Unreleased)
+
+- Rename package to `@microsoft/opentelemetry-exporter-azure-monitor`
 
 ## 1.0.0-preview.6 (2020-10-09)
 
