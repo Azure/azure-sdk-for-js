@@ -424,9 +424,7 @@ describe("Batching Receiver", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<
-      void
-    > {
+    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testPeek();
     });
