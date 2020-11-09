@@ -465,11 +465,6 @@ export class BatchingReceiverLite {
         if (receiver != null) {
           receiver.removeListener(ReceiverEvents.receiverError, onError);
           receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          console.log(
-            `Inside cleanupBeforeResolveOrReject - ${
-              ReceiverEvents.message
-            } listeners count: ${receiver.listenerCount(ReceiverEvents.message)}`
-          );
           receiver.session.removeListener(SessionEvents.sessionError, onError);
           receiver.removeListener(ReceiverEvents.receiverClose, onClose);
           receiver.session.removeListener(SessionEvents.sessionClose, onClose);
@@ -519,11 +514,6 @@ export class BatchingReceiverLite {
       totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
-      console.log(
-        `Inside _receiveMessagesImpl - ${
-          ReceiverEvents.message
-        } listeners count: ${receiver.listenerCount(ReceiverEvents.message)}`
-      );
       receiver.on(ReceiverEvents.receiverError, onError);
       receiver.on(ReceiverEvents.receiverClose, onClose);
       receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
