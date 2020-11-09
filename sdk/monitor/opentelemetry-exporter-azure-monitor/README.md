@@ -1,6 +1,6 @@
 # Azure Monitor OpenTelemetry Exporter client library for JavaScript
 
-[![npm version](https://badge.fury.io/js/%40azure%2Fmonitor-opentelemetry-exporter.svg)](https://badge.fury.io/js/%40azure%2Fmonitor-opentelemetry-exporter)
+[![npm version](https://badge.fury.io/js/%40microsoft%2Fopentelemetry-exporter-azure-monitor.svg)](https://badge.fury.io/js/%40microsoft%2Fopentelemetry-exporter-azure-monitor)
 
 ## Getting started
 
@@ -8,7 +8,7 @@ This exporter package assumes your application is [already instrumented](https:/
 
 ### Install the package
 
-`npm install @azure/monitor-opentelemetry-exporter`
+`npm install @microsoft/opentelemetry-exporter-azure-monitor`
 
 ### Prerequisites
 
@@ -21,7 +21,7 @@ If you are using this package in a Node.js application, then use Node.js 8.x or 
 Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
-const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
+const { AzureMonitorTraceExporter } = require("@microsoft/opentelemetry-exporter-azure-monitor");
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
 
@@ -99,4 +99,4 @@ If you cannot your library in the registry, feel free to suggest a new plugin re
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry-exporter/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/opentelemetry-exporter-azure-monitor/README.png)
