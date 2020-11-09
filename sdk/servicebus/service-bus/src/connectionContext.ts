@@ -198,11 +198,6 @@ export namespace ConnectionContext {
               ` Waiting for the disconnect event before continuing.`
           );
           this.connection.once(ConnectionEvents.disconnected, resolve);
-          console.log(
-            `Inside waitForDisconnectedEvent - ${
-              ConnectionEvents.disconnected
-            } listeners count: ${this.connection.listenerCount(ConnectionEvents.disconnected)}`
-          );
         });
       },
       waitForConnectionReset() {
