@@ -16,7 +16,6 @@ import {
   generateMessage,
   initializeLockRenewalOperationInfo,
   initializeOperationInfo,
-  LockRenewalOperationInfo,
   OperationInfo,
   saveDiscrepanciesFromTrackedMessages,
   SnapshotOptions,
