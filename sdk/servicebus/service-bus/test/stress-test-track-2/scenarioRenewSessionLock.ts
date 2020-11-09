@@ -48,7 +48,6 @@ function sanitizeOptions(args: string[]): Required<ScenarioRenewSessionLockOptio
 }
 
 // TODO: max lock renewal duration to be 70% of testDuration instead of 100%
-// TODO: stop sending messages after a 70% of test duration
 // TODO: Upon ending max lock renewal duration, pass an option to complete/ignore the message
 export async function scenarioRenewSessionLock() {
   const testOptions = sanitizeOptions(process.argv);
