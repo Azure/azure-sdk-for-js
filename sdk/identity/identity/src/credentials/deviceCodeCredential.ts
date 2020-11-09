@@ -128,9 +128,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
     logger.info(`DeviceCodeCredential invoked. Scopes: ${scopeArray.join(", ")}`);
 
-    try {
-      return this.msalClient.acquireTokenFromCache(scopeArray);
-    } catch (e) {
+    return this.msalClient.acquireTokenFromCache(scopeArray).catch(async (e) => {
       if (e instanceof AuthenticationRequired) {
         try {
           const token = await this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
@@ -153,7 +151,7 @@ export class DeviceCodeCredential implements TokenCredential {
       } else {
         throw e;
       }
-    }
+    });
   }
 
   private async acquireTokenByDeviceCode(
