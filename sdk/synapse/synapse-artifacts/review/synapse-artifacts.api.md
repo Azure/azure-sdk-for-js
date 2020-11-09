@@ -153,58 +153,24 @@ export type AppendVariableActivity = Activity & {
     value?: any;
 };
 
+// Warning: (ae-forgotten-export) The symbol "AuthenticationClient" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export class ArtifactsClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: ArtifactsClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "LROPoller" needs to be exported by the entry point index.d.ts
-    beginCreateOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
-    // (undocumented)
-    beginDeleteDataFlow(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    // (undocumented)
-    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
-    // (undocumented)
-    cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    // (undocumented)
-    createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
-    // (undocumented)
-    deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SynapseArtifacts" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getArtifactsClient(): SynapseArtifacts;
+export class ArtifactsClient extends AuthenticationClient {
     // (undocumented)
     GetBigDataPool(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
     // (undocumented)
-    getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
-    // (undocumented)
-    GetIntegrationRuntime(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
-    // (undocumented)
-    getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    GetIntegrationRuntime(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
     // (undocumented)
     GetSqlPool(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
-    // (undocumented)
-    getSqlScript(sqlScriptName: string, options?: SqlScriptGetSqlScriptOptionalParams): Promise<SqlScriptGetSqlScriptResponse>;
     // (undocumented)
     GetWorkspace(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
     // (undocumented)
     ListBigDataPools(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
     // (undocumented)
-    listDataFlows(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
-    // (undocumented)
     ListIntegrationRuntimes(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
     // (undocumented)
     ListSqlPools(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
-    // (undocumented)
-    listSqlScripts(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
-    // (undocumented)
-    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
-    // (undocumented)
-    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
-    // (undocumented)
-    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
-    // (undocumented)
-    rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    readonly workspaceEndpoint: string;
 }
 
 // @public (undocumented)
@@ -1172,18 +1138,18 @@ export interface DataFlow {
 }
 
 // @public (undocumented)
-export class DataFlowClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: DataflowClientOptions);
+export class DataFlowClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    // Warning: (ae-forgotten-export) The symbol "LROPoller" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     beginUpsert(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
     // (undocumented)
     get(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
     // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
-    readonly workspaceEndpoint: string;
-}
+    }
 
 // @public (undocumented)
 export interface DataflowClientOptions extends PipelineOptions {
@@ -1460,8 +1426,7 @@ export interface Dataset {
 export type DatasetBZip2Compression = DatasetCompression & {};
 
 // @public (undocumented)
-export class DataSetClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: DatasetClientOptions);
+export class DataSetClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
@@ -1470,8 +1435,7 @@ export class DataSetClient {
     get(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
     // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
-    readonly workspaceEndpoint: string;
-}
+    }
 
 // @public (undocumented)
 export interface DatasetClientOptions extends PipelineOptions {
@@ -2784,8 +2748,7 @@ export interface LinkedService {
 }
 
 // @public (undocumented)
-export class LinkedServiceClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: LinkedServiceClientOptions);
+export class LinkedServiceClient extends ArtifactsClient {
     // (undocumented)
     beginDelete(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
@@ -2794,8 +2757,7 @@ export class LinkedServiceClient {
     get(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
     // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
-    readonly workspaceEndpoint: string;
-}
+    }
 
 // @public (undocumented)
 export interface LinkedServiceClientOptions extends PipelineOptions {
@@ -3155,8 +3117,7 @@ export interface NotebookCellOutputItem {
 }
 
 // @public (undocumented)
-export class NotebookClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: NotebookClientOptions);
+export class NotebookClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
@@ -3165,8 +3126,7 @@ export class NotebookClient {
     get(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
     // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
-    readonly workspaceEndpoint: string;
-}
+    }
 
 // @public (undocumented)
 export interface NotebookClientOptions extends PipelineOptions {
@@ -3524,17 +3484,23 @@ export type PhoenixSource = TabularSource & {
 };
 
 // @public (undocumented)
-export class PipelineClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: PipelineClientOptions);
+export class PipelineClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
     beginUpsert(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
     // (undocumented)
+    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
+    // (undocumented)
     get(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
     // (undocumented)
+    getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
-    readonly workspaceEndpoint: string;
+    // (undocumented)
+    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    // (undocumented)
+    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
 }
 
 // @public (undocumented)
@@ -5218,17 +5184,21 @@ export interface Trigger {
 }
 
 // @public (undocumented)
-export class TriggerClient {
-    constructor(workspaceEndpoint: string, credential: TokenCredential, triggerOptions?: TriggerClientOptions);
+export class TriggerClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)
     beginUpsert(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
     // (undocumented)
+    cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    // (undocumented)
     get(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
     // (undocumented)
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
-    readonly workspaceEndpoint: string;
+    // (undocumented)
+    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    // (undocumented)
+    rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
 }
 
 // @public (undocumented)

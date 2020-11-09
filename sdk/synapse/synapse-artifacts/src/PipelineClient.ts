@@ -1,12 +1,13 @@
-import { TokenCredential } from "@azure/core-http";
-import { ArtifactsClient } from "./ArtifactsClient";
-import { SynapseArtifacts } from "./generated";
-import { PipelineClientOptions } from "./models";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   PipelineCreateOrUpdatePipelineOptionalParams,
   PipelineCreateOrUpdatePipelineResponse,
   PipelineGetPipelineOptionalParams,
-  PipelineGetPipelineResponse
+  PipelineGetPipelineResponse,
+  PipelineRunCancelPipelineRunOptionalParams,
+  RunFilterParameters,
+  PipelineRunQueryPipelineRunsByWorkspaceResponse,
+  PipelineRunGetPipelineRunResponse
 } from "./generated/models";
 
 import { LROPoller } from "./generated/lro";
@@ -19,31 +20,7 @@ import { PipelineResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class PipelineClient {
-  /**
-   * The base URL to the workspace
-   */
-  public readonly workspaceEndpoint: string;
-
-  /**
-   * @internal
-   * @ignore
-   * A reference to the auto-generated synapse accesscontrol HTTP client.
-   */
-  private readonly client: SynapseArtifacts;
-
-  constructor(
-    workspaceEndpoint: string,
-    credential: TokenCredential,
-    pipelineOptions: PipelineClientOptions = {}
-  ) {
-    this.workspaceEndpoint = workspaceEndpoint;
-    this.client = new ArtifactsClient(
-      workspaceEndpoint,
-      credential,
-      pipelineOptions
-    ).getArtifactsClient();
-  }
+export class PipelineClient extends AuthenticationClient {
 
   private async *listPipelinesPage(
     continuationState: ListPageSettings,
@@ -165,6 +142,102 @@ export class PipelineClient {
     try {
       const response = await this.client.pipeline.getPipeline(
         pipelineName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async queryPipelineRunsByWorkspace(
+    filterParameters: RunFilterParameters,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-QueryPipelineRunsByWorkspace", options);
+
+    try {
+      const response = await this.client.pipelineRun.queryPipelineRunsByWorkspace(
+        filterParameters,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getPipelineRun(
+    runId: string,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<PipelineRunGetPipelineRunResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-getPipelineRun", options);
+
+    try {
+      const response = await this.client.pipelineRun.getPipelineRun(
+        runId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async queryActivityRuns(
+    pipelineName: string,
+    runId: string,
+    filterParameters: RunFilterParameters,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<PipelineRunGetPipelineRunResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-queryActivityRuns", options);
+
+    try {
+      const response = await this.client.pipelineRun.queryActivityRuns(
+        pipelineName,
+        runId,
+        filterParameters,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async cancelPipelineRun(
+    runId: string,
+    options: PipelineRunCancelPipelineRunOptionalParams = {}
+  ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-GetPipelineRun", options);
+
+    try {
+      const response = await this.client.pipelineRun.cancelPipelineRun(
+        runId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return response;

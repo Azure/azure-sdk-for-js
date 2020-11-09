@@ -1,7 +1,4 @@
-import { TokenCredential } from "@azure/core-http";
-import { ArtifactsClient } from "./ArtifactsClient";
-import { SynapseArtifacts } from "./generated";
-import { NotebookClientOptions } from "./models";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   NotebookCreateOrUpdateNotebookOptionalParams,
   NotebookCreateOrUpdateNotebookResponse,
@@ -19,32 +16,7 @@ import { NotebookResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class NotebookClient {
-  /**
-   * The base URL to the workspace
-   */
-  public readonly workspaceEndpoint: string;
-
-  /**
-   * @internal
-   * @ignore
-   * A reference to the auto-generated synapse accesscontrol HTTP client.
-   */
-  private readonly client: SynapseArtifacts;
-
-  constructor(
-    workspaceEndpoint: string,
-    credential: TokenCredential,
-    pipelineOptions: NotebookClientOptions = {}
-  ) {
-    this.workspaceEndpoint = workspaceEndpoint;
-    this.client = new ArtifactsClient(
-      workspaceEndpoint,
-      credential,
-      pipelineOptions
-    ).getArtifactsClient();
-  }
-
+export class NotebookClient extends AuthenticationClient{
   private async *listNotebooksPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

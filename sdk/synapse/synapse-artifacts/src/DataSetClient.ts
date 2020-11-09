@@ -1,4 +1,4 @@
-import { ArtifactsClient } from "./ArtifactsClient";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   DatasetCreateOrUpdateDatasetOptionalParams,
   DatasetCreateOrUpdateDatasetResponse,
@@ -16,27 +16,7 @@ import { DatasetResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class DataSetClient extends ArtifactsClient {
-  /**
-   * The base URL to the workspace
-   */
-  // public readonly workspaceEndpoint: string;
-
-  /**
-   * @internal
-   * @ignore
-   * A reference to the auto-generated synapse accesscontrol HTTP client.
-   */
-  // private readonly client: SynapseArtifacts;
-
-  // constructor(
-  //   workspaceEndpoint: string,
-  //   credential: TokenCredential,
-  //   pipelineOptions: DatasetClientOptions = {}
-  // ) {
-  //   this.workspaceEndpoint = workspaceEndpoint;
-  //   this.client = new ArtifactsClient(workspaceEndpoint, credential, pipelineOptions).getArtifactsClient();
-  // }
+export class DataSetClient extends AuthenticationClient {
 
   private async *listDataSetsPage(
     continuationState: ListPageSettings,

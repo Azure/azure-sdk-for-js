@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Nov 2020 13:21:25 GMT",
+    "date": "Mon, 09 Nov 2020 08:51:17 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11198.13 - SEASLR2 ProdSlices",
-    "x-ms-request-id": "8a94a1e8-d2ea-4272-b5a1-6a743c7c2400"
+    "x-ms-ests-server": "2.1.11198.13 - EASLR2 ProdSlices",
+    "x-ms-request-id": "5a01b4ce-2615-4dee-8ded-fca024483300"
    }
   },
   {
@@ -30,24 +30,24 @@
    },
    "requestBody": "{\"properties\":{\"type\":\"MappingDataFlow\"}}",
    "status": 202,
-   "response": "{\"id\":\"/subscriptions/051ddeca-1ed6-4d8b-ba6f-1ff561e5f3b3/resourceGroups/shangwei-synapse/providers/Microsoft.Synapse/workspaces/workspace_name/dataflows/shangweidataflow\",\"recordId\":455489,\"state\":\"Updating\",\"created\":\"2020-11-06T13:14:44.7833333Z\",\"changed\":\"2020-11-06T13:21:12.71Z\",\"type\":\"DataFlow\",\"name\":\"shangweidataflow\",\"operationId\":\"17dd59de-a704-4729-8d0b-829395fe131e\",\"artifactId\":\"CCFD1E01-93C8-4D91-A77D-263F030E79A3\"}",
+   "response": "{\"id\":\"/subscriptions/051ddeca-1ed6-4d8b-ba6f-1ff561e5f3b3/resourceGroups/shangwei-synapse/providers/Microsoft.Synapse/workspaces/workspace_name/dataflows/shangweidataflow\",\"recordId\":455489,\"state\":\"Updating\",\"created\":\"2020-11-06T13:14:44.7833333Z\",\"changed\":\"2020-11-09T08:50:59.6233333Z\",\"type\":\"DataFlow\",\"name\":\"shangweidataflow\",\"operationId\":\"07fec377-3fde-4986-be77-e7af4d940379\",\"artifactId\":\"CCFD1E01-93C8-4D91-A77D-263F030E79A3\"}",
    "responseHeaders": {
     "access-control-allow-headers": "Location, Retry-After",
     "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "442",
+    "content-length": "447",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Nov 2020 13:21:26 GMT",
-    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e?api-version=2019-06-01-preview",
+    "date": "Mon, 09 Nov 2020 08:51:17 GMT",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379?api-version=2019-06-01-preview",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "601c2088-f650-4696-80bd-e711b6c2930e"
+    "x-ms-request-id": "c57ee0c0-37d9-47fa-ac34-b0ddffe80cbe"
    }
   },
   {
    "method": "GET",
-   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379",
    "query": {
     "api-version": "2019-06-01-preview"
    },
@@ -59,18 +59,18 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Nov 2020 13:21:27 GMT",
-    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e?api-version=2019-06-01-preview",
+    "date": "Mon, 09 Nov 2020 08:51:17 GMT",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379?api-version=2019-06-01-preview",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "e0f7a190-340b-40cc-a286-c86890df8ad0"
+    "x-ms-request-id": "16381103-c8e1-4f9d-8db9-0e1f96771ad1"
    }
   },
   {
    "method": "GET",
-   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379",
    "query": {
     "api-version": "2019-06-01-preview"
    },
@@ -82,37 +82,37 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Nov 2020 13:21:29 GMT",
-    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e?api-version=2019-06-01-preview",
+    "date": "Mon, 09 Nov 2020 08:51:20 GMT",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379?api-version=2019-06-01-preview",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "128d6980-05c9-4176-8470-7e51d32de859"
+    "x-ms-request-id": "81d71fab-9453-467f-998b-e36ebfe56b1f"
    }
   },
   {
    "method": "GET",
-   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/17dd59de-a704-4729-8d0b-829395fe131e",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/07fec377-3fde-4986-be77-e7af4d940379",
    "query": {
     "api-version": "2019-06-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"/subscriptions/051ddeca-1ed6-4d8b-ba6f-1ff561e5f3b3/resourceGroups/shangwei-synapse/providers/Microsoft.Synapse/workspaces/workspace_name/dataflows/shangweidataflow\",\"name\":\"shangweidataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"properties\":{\"type\":\"MappingDataFlow\"},\"etag\":\"0d003d0f-0000-0100-0000-5fa54dda0000\"}",
+   "response": "{\"id\":\"/subscriptions/051ddeca-1ed6-4d8b-ba6f-1ff561e5f3b3/resourceGroups/shangwei-synapse/providers/Microsoft.Synapse/workspaces/workspace_name/dataflows/shangweidataflow\",\"name\":\"shangweidataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"properties\":{\"type\":\"MappingDataFlow\"},\"etag\":\"1100db4f-0000-0100-0000-5fa903080000\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "339",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Nov 2020 13:21:32 GMT",
+    "date": "Mon, 09 Nov 2020 08:51:22 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=15724800; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "e61c3d98-bf82-42dc-9582-898e279f9b46",
-    "x-ms-request-id": "559b2488-1c26-4f92-b28e-f84e796daf5f",
+    "x-ms-correlation-request-id": "73c760f6-942a-4101-b93c-eae87c2f110f",
+    "x-ms-request-id": "372d5675-5268-4470-934b-2af8ad91c6f2",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -121,5 +121,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "32bbe49b57a3e2ca891da595c730a0f9"
+ "hash": "50f4a771adb1c359dfcdfcf9c164eb1d"
 }

@@ -1,7 +1,4 @@
-import { TokenCredential } from "@azure/core-http";
 import { ArtifactsClient } from "./ArtifactsClient";
-import { SynapseArtifacts } from "./generated";
-import { LinkedServiceClientOptions } from "./models";
 import {
   LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
   LinkedServiceCreateOrUpdateLinkedServiceResponse,
@@ -19,31 +16,7 @@ import { LinkedServiceResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class LinkedServiceClient {
-  /**
-   * The base URL to the workspace
-   */
-  public readonly workspaceEndpoint: string;
-
-  /**
-   * @internal
-   * @ignore
-   * A reference to the auto-generated synapse accesscontrol HTTP client.
-   */
-  private readonly client: SynapseArtifacts;
-
-  constructor(
-    workspaceEndpoint: string,
-    credential: TokenCredential,
-    pipelineOptions: LinkedServiceClientOptions = {}
-  ) {
-    this.workspaceEndpoint = workspaceEndpoint;
-    this.client = new ArtifactsClient(
-      workspaceEndpoint,
-      credential,
-      pipelineOptions
-    ).getArtifactsClient();
-  }
+export class LinkedServiceClient extends ArtifactsClient{
 
   private async *listLinkedServicesPage(
     continuationState: ListPageSettings,

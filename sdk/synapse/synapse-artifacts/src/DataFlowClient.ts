@@ -1,4 +1,4 @@
-import { ArtifactsClient } from "./ArtifactsClient";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   DataFlowResource,
   DataFlowCreateOrUpdateDataFlowOptionalParams,
@@ -17,27 +17,7 @@ import { SqlScriptResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class DataFlowClient extends ArtifactsClient {
-  /**
-   * The base URL to the workspace
-   */
-  // public readonly workspaceEndpoint: string;
-
-  // /**
-  //  * @internal
-  //  * @ignore
-  //  * A reference to the auto-generated synapse accesscontrol HTTP client.
-  //  */
-  // private readonly client: SynapseArtifacts;
-
-  // constructor(
-  //   workspaceEndpoint: string,
-  //   credential: TokenCredential,
-  //   pipelineOptions: DataflowClientOptions = {}
-  // ) {
-  //   this.workspaceEndpoint = workspaceEndpoint;
-  //   this.client = new ArtifactsClient(workspaceEndpoint, credential, pipelineOptions).getArtifactsClient();
-  // }
+export class DataFlowClient extends AuthenticationClient {
 
   private async *listDataFlowsPage(
     continuationState: ListPageSettings,

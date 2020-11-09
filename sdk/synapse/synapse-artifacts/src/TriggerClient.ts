@@ -1,12 +1,10 @@
-import { TokenCredential } from "@azure/core-http";
-import { ArtifactsClient } from "./ArtifactsClient";
-import { SynapseArtifacts } from "./generated";
-import { TriggerClientOptions } from "./models";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   TriggerCreateOrUpdateTriggerOptionalParams,
   TriggerCreateOrUpdateTriggerResponse,
   TriggerGetTriggerOptionalParams,
-  TriggerGetTriggerResponse
+  TriggerGetTriggerResponse,
+  RunFilterParameters
 } from "./generated/models";
 
 import { LROPoller } from "./generated/lro";
@@ -16,35 +14,13 @@ import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import { TriggerResource } from "./models";
 
-import { ListPageSettings } from "./models";
+import { 
+    ListPageSettings,
+    TriggerRunQueryTriggerRunsByWorkspaceResponse,
+} from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class TriggerClient {
-  /**
-   * The base URL to the workspace
-   */
-  public readonly workspaceEndpoint: string;
-
-  /**
-   * @internal
-   * @ignore
-   * A reference to the auto-generated synapse accesscontrol HTTP client.
-   */
-  private readonly client: SynapseArtifacts;
-
-  constructor(
-    workspaceEndpoint: string,
-    credential: TokenCredential,
-    triggerOptions: TriggerClientOptions = {}
-  ) {
-    this.workspaceEndpoint = workspaceEndpoint;
-    this.client = new ArtifactsClient(
-      workspaceEndpoint,
-      credential,
-      triggerOptions
-    ).getArtifactsClient();
-  }
-
+export class TriggerClient extends AuthenticationClient{
   private async *listTriggersPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}
@@ -165,6 +141,79 @@ export class TriggerClient {
     try {
       const response = await this.client.trigger.getTrigger(
         triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async rerunTriggerInstance(
+    triggerName: string,
+    runId: string,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-rerunTriggerInstance", options);
+
+    try {
+      const response = await this.client.triggerRun.rerunTriggerInstance(
+        triggerName,
+        runId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async cancelTriggerInstance(
+    triggerName: string,
+    runId: string,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-cancelTriggerInstance", options);
+
+    try {
+      const response = await this.client.triggerRun.cancelTriggerInstance(
+        triggerName,
+        runId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async queryTriggerRunsByWorkspace(
+    filterParameters: RunFilterParameters,
+    options: coreHttp.OperationOptions = {}
+  ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-queryTriggerRunsByWorkspace", options);
+
+    try {
+      const response = await this.client.triggerRun.queryTriggerRunsByWorkspace(
+        filterParameters,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return response;
