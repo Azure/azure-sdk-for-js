@@ -68,9 +68,7 @@ const getPackageGraph = (baseDir) => {
     const pkgName = contents["name"];
     if (!contents.hasOwnProperty("dependencies")) continue;
 
-    const dependencies = Object.keys(contents["dependencies"]).filter((f) =>
-      f.startsWith("@azure")
-    );
+    const dependencies = Object.keys(contents["dependencies"]);
     // Process each package dependency and build dependency graph that links all packages that are dependent on current package
     for (let dependentPkg of dependencies) {
       if (!packageGraph.has(dependentPkg)) {
