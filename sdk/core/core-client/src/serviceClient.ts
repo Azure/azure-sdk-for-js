@@ -21,7 +21,11 @@ import {
   OperationResponseMap,
   FullOperationResponse,
   DictionaryMapper,
-  CompositeMapper
+  CompositeMapper,
+  XmlOptions,
+  XML_CHARKEY,
+  XML_ATTRKEY,
+  RequiredSerializerOptions
 } from "./interfaces";
 import { getPathStringFromParameter, isStreamOperation } from "./interfaceHelpers";
 import { MapperTypeNames } from "./serializer";
@@ -249,10 +253,20 @@ export function serializeRequestBody(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec,
-  stringifyXML: (obj: any, opts?: { rootName?: string }) => string = function() {
+  stringifyXML: (obj: any, opts?: XmlOptions) => string = function() {
     throw new Error("XML serialization unsupported!");
   }
 ): void {
+  const serializerOptions = operationArguments.options?.serializerOptions;
+  const updatedOptions: RequiredSerializerOptions = {
+    xml: {
+      rootName: serializerOptions?.xml.rootName ?? "",
+      includeRoot: serializerOptions?.xml.includeRoot ?? false,
+      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY
+    }
+  };
+
+  const xmlCharKey = updatedOptions.xml.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
       operationArguments,
@@ -278,14 +292,21 @@ export function serializeRequestBody(
         request.body = operationSpec.serializer.serialize(
           bodyMapper,
           request.body,
-          requestBodyParameterPathString
+          requestBodyParameterPathString,
+          updatedOptions
         );
 
         const isStream = typeName === MapperTypeNames.Stream;
 
         if (operationSpec.isXML) {
           const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
-          const value = getXmlValueWithNamespace(xmlNamespace, xmlnsKey, typeName, request.body);
+          const value = getXmlValueWithNamespace(
+            xmlNamespace,
+            xmlnsKey,
+            typeName,
+            request.body,
+            updatedOptions
+          );
 
           if (typeName === MapperTypeNames.Sequence) {
             request.body = stringifyXML(
@@ -295,11 +316,12 @@ export function serializeRequestBody(
                 xmlnsKey,
                 xmlNamespace
               ),
-              { rootName: xmlName || serializedName }
+              { rootName: xmlName || serializedName, xmlCharKey }
             );
           } else if (!isStream) {
             request.body = stringifyXML(value, {
-              rootName: xmlName || serializedName
+              rootName: xmlName || serializedName,
+              xmlCharKey
             });
           }
         } else if (
@@ -335,7 +357,8 @@ export function serializeRequestBody(
         request.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
           formDataParameter.mapper,
           formDataParameterValue,
-          getPathStringFromParameter(formDataParameter)
+          getPathStringFromParameter(formDataParameter),
+          updatedOptions
         );
       }
     }
@@ -349,12 +372,16 @@ function getXmlValueWithNamespace(
   xmlNamespace: string | undefined,
   xmlnsKey: string,
   typeName: string,
-  serializedValue: any
+  serializedValue: any,
+  options: RequiredSerializerOptions
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
   if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
-    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+    const result: any = {};
+    result[options.xml.xmlCharKey] = serializedValue;
+    result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
+    return result;
   }
 
   return serializedValue;
@@ -428,7 +455,9 @@ function prepareXMLRootList(
     return { [elementName]: obj };
   }
 
-  return { [elementName]: obj, $: { [xmlNamespaceKey]: xmlNamespace } };
+  const result = { [elementName]: obj };
+  result[XML_ATTRKEY] = { [xmlNamespaceKey]: xmlNamespace };
+  return result;
 }
 
 function flattenResponse(

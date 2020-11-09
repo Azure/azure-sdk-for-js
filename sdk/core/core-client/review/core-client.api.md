@@ -97,9 +97,8 @@ export const deserializationPolicyName = "deserializationPolicy";
 // @public
 export interface DeserializationPolicyOptions {
     expectedContentTypes?: DeserializationContentTypes;
-    parseXML?: (str: string, opts?: {
-        includeRoot?: boolean;
-    }) => Promise<any>;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
+    serializerOptions?: SerializerOptions;
 }
 
 // @public (undocumented)
@@ -203,6 +202,7 @@ export interface OperationArguments {
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     requestOptions?: OperationRequestOptions;
+    serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -312,7 +312,7 @@ export interface SequenceMapperType {
 // @public
 export interface Serializer {
     // (undocumented)
-    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML: boolean;
     // (undocumented)
@@ -320,9 +320,14 @@ export interface Serializer {
         [key: string]: any;
     };
     // (undocumented)
-    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+}
+
+// @public
+export interface SerializerOptions {
+    xml: XmlOptions;
 }
 
 // @public
@@ -357,6 +362,19 @@ export interface SimpleMapperType {
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
+}
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
+
+// @public
+export interface XmlOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
 }
 
 
