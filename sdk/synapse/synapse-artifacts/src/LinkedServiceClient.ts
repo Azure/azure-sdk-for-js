@@ -1,4 +1,4 @@
-import { ArtifactsClient } from "./ArtifactsClient";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
   LinkedServiceCreateOrUpdateLinkedServiceResponse,
@@ -8,7 +8,7 @@ import {
 
 import { LROPoller } from "./generated/lro";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./tracing";
+import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import { LinkedServiceResource } from "./models";
@@ -16,7 +16,8 @@ import { LinkedServiceResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class LinkedServiceClient extends ArtifactsClient {
+export class LinkedServiceClient extends AuthenticationClient{
+
   private async *listLinkedServicesPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

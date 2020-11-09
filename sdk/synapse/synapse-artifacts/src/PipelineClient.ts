@@ -12,7 +12,7 @@ import {
 
 import { LROPoller } from "./generated/lro";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./tracing";
+import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import { PipelineResource } from "./models";

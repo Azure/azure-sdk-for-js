@@ -9,7 +9,7 @@ import {
 
 import { LROPoller } from "./generated/lro";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./tracing";
+import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import { SqlScriptResource } from "./models";
@@ -153,91 +153,4 @@ export class DataFlowClient extends AuthenticationClient {
       span.end();
     }
   }
-
-  //   public async beginCreateDebugSession(
-  //     request: CreateDataFlowDebugSessionRequest,
-  //     options: coreHttp.OperationOptions = {}
-  //   ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
-  //     const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
-
-  //     try {
-  //       const response = await this.client.dataFlowDebugSession.createDataFlowDebugSession(
-  //         request,
-  //         operationOptionsToRequestOptionsBase(updatedOptions)
-  //       );
-  //       return response;
-  //     } catch (e) {
-  //       span.setStatus({
-  //         code: CanonicalCode.UNKNOWN,
-  //         message: e.message
-  //       });
-  //       throw e;
-  //     } finally {
-  //       span.end();
-  //     }
-  //   }
-  //   private async *listDataFlowDebugSessionsPage(
-  //     continuationState: ListPageSettings,
-  //     options: coreHttp.OperationOptions = {}
-  //   ): AsyncIterableIterator<SqlScriptResource[]> {
-  //     const requestOptions = operationOptionsToRequestOptionsBase(options);
-  //     if (!continuationState.continuationToken) {
-  //       const currentSetResponse = await this.client.dataFlowDebugSession.queryDataFlowDebugSessionsByWorkspace(
-  //         requestOptions
-  //       );
-  //       continuationState.continuationToken = currentSetResponse.nextLink;
-  //       if (currentSetResponse.value) {
-  //         yield currentSetResponse.value;
-  //       }
-  //     }
-
-  //     while (continuationState.continuationToken) {
-  //       const currentSetResponse = await this.client.dataFlowDebugSession.queryDataFlowDebugSessionsByWorkspaceNext(
-  //         continuationState.continuationToken,
-  //         requestOptions
-  //       );
-  //       continuationState.continuationToken = currentSetResponse.nextLink;
-  //       if (currentSetResponse.value) {
-  //         yield currentSetResponse.value;
-  //       } else {
-  //         break;
-  //       }
-  //     }
-  //   }
-
-  //   private async *listDataFlowDebugSessionsAll(
-  //     options: coreHttp.OperationOptions = {}
-  //   ): AsyncIterableIterator<SqlScriptResource> {
-  //     for await (const page of this.listDataFlowDebugSessionsPage({}, options)) {
-  //       yield* page;
-  //     }
-  //   }
-
-  //   public listDebugSessions(
-  //     options: coreHttp.OperationOptions = {}
-  //   ): PagedAsyncIterableIterator<SqlScriptResource> {
-  //     const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
-  //     try {
-  //       const iter = this.listDataFlowDebugSessionsAll(updatedOptions);
-  //       return {
-  //         next() {
-  //           return iter.next();
-  //         },
-  //         [Symbol.asyncIterator]() {
-  //           return this;
-  //         },
-  //         byPage: (settings: ListPageSettings = {}) => {
-  //           return this.listDataFlowDebugSessionsPage(settings, updatedOptions);
-  //         }
-  //       };
-  //     } catch (e) {
-  //       span.setStatus({
-  //         code: CanonicalCode.UNKNOWN,
-  //         message: e.message
-  //       });
-  //       throw e;
-  //     } finally {
-  //       span.end();
-  //     }
-  //   }
 }

@@ -158,19 +158,19 @@ export type AppendVariableActivity = Activity & {
 // @public (undocumented)
 export class ArtifactsClient extends AuthenticationClient {
     // (undocumented)
-    GetBigDataPool(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
+    getBigDataPool(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
     // (undocumented)
-    GetIntegrationRuntime(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
+    getIntegrationRuntime(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
     // (undocumented)
-    GetSqlPool(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
+    getSqlPool(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
     // (undocumented)
-    GetWorkspace(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
+    getWorkspace(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
     // (undocumented)
-    ListBigDataPools(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+    listBigDataPools(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
     // (undocumented)
-    ListIntegrationRuntimes(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
+    listIntegrationRuntimes(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
     // (undocumented)
-    ListSqlPools(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
+    listSqlPools(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
 }
 
 // @public (undocumented)
@@ -2748,7 +2748,7 @@ export interface LinkedService {
 }
 
 // @public (undocumented)
-export class LinkedServiceClient extends ArtifactsClient {
+export class LinkedServiceClient extends AuthenticationClient {
     // (undocumented)
     beginDelete(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     // (undocumented)

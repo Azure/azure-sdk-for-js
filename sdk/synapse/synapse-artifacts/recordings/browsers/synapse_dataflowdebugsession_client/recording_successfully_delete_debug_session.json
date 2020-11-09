@@ -1,0 +1,80 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 11:00:03 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "792e977d-89c1-4a73-b64b-2b90f3b83200"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://workspace_name.dev.azuresynapse.net/deleteDataFlowDebugSession",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": "{\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Mon, 09 Nov 2020 11:00:06 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "3853ba9c-76d2-43a5-87ac-9ca77a1f3a9e",
+    "x-ms-request-id": "ab06e0f8-db05-42f8-826f-a52a6d360954",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://workspace_name.dev.azuresynapse.net/queryDataFlowDebugSessions",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"startTime\":\"2020-11-09T10:00:38.570625+00:00\",\"lastActivityTime\":\"2020-11-09T10:04:13.8804122+00:00\",\"status\":\"Started\",\"dataflowName\":\"DebugSession-510c2848-8980-4c07-b2bc-d1d6c748ffc3\",\"sessionId\":\"510c2848-8980-4c07-b2bc-d1d6c748ffc3\",\"coreCount\":8,\"nodeCount\":0,\"computeType\":\"General\",\"timeToLiveInMinutes\":60},{\"startTime\":\"2020-11-09T10:50:13.2284799+00:00\",\"lastActivityTime\":\"2020-11-09T10:53:56.4934457+00:00\",\"status\":\"Started\",\"dataflowName\":\"DebugSession-7f2684fc-432b-4c5c-bd45-e1d47762db6a\",\"sessionId\":\"7f2684fc-432b-4c5c-bd45-e1d47762db6a\",\"coreCount\":8,\"nodeCount\":0,\"computeType\":\"General\",\"timeToLiveInMinutes\":60}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "648",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 11:00:06 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "e268ccbf-4997-487a-9e25-9795c1faf074",
+    "x-ms-request-id": "59a03d5d-6007-4e78-ba01-f96e42836284",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "eb56655ad195d7bdcf725c1998f310fe"
+}

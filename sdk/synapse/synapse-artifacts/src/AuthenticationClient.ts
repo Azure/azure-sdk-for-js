@@ -12,8 +12,8 @@ import {
 import { ArtifactsClientOptions } from "./models";
 
 import { SynapseArtifacts } from "./synapseArtifacts";
-import { logger } from "./logger";
-import { SDK_VERSION } from "./constants";
+import { logger } from "./utils/logger";
+import { SDK_VERSION } from "./utils/constants";
 
 export class AuthenticationClient {
   /**

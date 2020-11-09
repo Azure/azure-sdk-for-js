@@ -1,6 +1,6 @@
 import { AuthenticationClient } from "./AuthenticationClient";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./tracing";
+import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import {
@@ -14,6 +14,7 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class SqlScriptClient extends AuthenticationClient {
+
   private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}
@@ -51,7 +52,7 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-  public listSqlScripts(
+  public list(
     options: coreHttp.OperationOptions = {}
   ): PagedAsyncIterableIterator<SqlScriptResource> {
     const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
@@ -79,7 +80,7 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-  public async createOrUpdateSqlScript(
+  public async upsert(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
     options: SqlScriptCreateOrUpdateSqlScriptOptionalParams = {}
@@ -104,7 +105,7 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-  public async getSqlScript(
+  public async get(
     sqlScriptName: string,
     options: SqlScriptGetSqlScriptOptionalParams = {}
   ): Promise<SqlScriptGetSqlScriptResponse> {
@@ -127,7 +128,7 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-  public async deleteSqlScript(
+  public async delete(
     sqlScriptName: string,
     options: coreHttp.OperationOptions = {}
   ): Promise<coreHttp.RestResponse> {

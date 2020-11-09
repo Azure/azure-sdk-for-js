@@ -1,0 +1,2736 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:30 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "6759c150-994a-45f2-a3e9-ecd51d813200"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://workspace_name.dev.azuresynapse.net/createDataFlowDebugSession",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": "{}",
+   "status": 202,
+   "response": "{\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "52",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:31 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ae9e9737-af6e-4bda-8fa9-2a490266b0f1",
+    "x-ms-request-id": "65437cd0-7830-4dc9-90d3-5e206ff87557",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:32 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ec49d2bb-510c-4287-9f43-f4cb4f4b94a0",
+    "x-ms-request-id": "54a469b2-ccb3-4f1f-9f9c-10741dbaa186",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:34 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "59da2ab4-da04-4e38-8c9b-bcdc7c36d068",
+    "x-ms-request-id": "d2c31b05-ee62-4364-bf36-4ea35b6e2edd",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:36 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "9e550135-f926-4fd1-b516-deb0bb7e1fc1",
+    "x-ms-request-id": "39ded785-1f1f-4b60-9f10-677081fd7bb2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:39 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "530cfc84-9f06-41e7-b1e3-e37468c980b2",
+    "x-ms-request-id": "3ddf4ef8-21a6-4810-8894-fb6b403741f3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:41 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "397c54ad-6271-42e4-8359-ed3655dd7a9b",
+    "x-ms-request-id": "2ef21313-a1aa-4827-8501-9144bf610042",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:44 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "10d16079-6103-4bdb-bb64-18e6c23133fb",
+    "x-ms-request-id": "8480c665-a96c-463b-a086-539d739040eb",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:46 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "5142f58b-8eeb-4f40-b120-05346cb4432a",
+    "x-ms-request-id": "2bd09636-b3a2-4165-a9cc-98e26d4cf554",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:48 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "bb15ef36-d397-409f-80ba-ebe0d28f39ed",
+    "x-ms-request-id": "368e5773-50a9-40f2-bde8-ccd7bd399c3a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:50 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "5e3682b7-0e74-4da9-b54c-653cffba43b7",
+    "x-ms-request-id": "93e82620-6ace-4e7c-938d-79096e6693c9",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:53 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "2431072c-9fa8-4f1c-bcbe-b3aadc6edb60",
+    "x-ms-request-id": "bfcafb56-66e7-40ce-b78f-34ff2b8592a5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:55 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "77320014-7920-4950-93cd-0bcaf7b6802a",
+    "x-ms-request-id": "177d41e4-9691-469f-a536-6b11e88b7a51",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:56:57 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "abb62c2b-bdf4-4143-b1d1-ceeabc7a7104",
+    "x-ms-request-id": "652855b9-5dd2-49a0-80c5-30e54c2bdf0a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:00 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "63a13060-0d62-4843-a346-07636ed94676",
+    "x-ms-request-id": "d1b67563-0220-4326-9839-a058dd2b6bda",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:02 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "e8ebcd96-9701-4ff7-8be9-3365eae42032",
+    "x-ms-request-id": "56af09b7-10e0-4eea-aecf-964f6a1ebc28",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:01 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - EASLR2 ProdSlices",
+    "x-ms-request-id": "f3359d4b-d228-4ef7-ae4c-421fcf0b3200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:04 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "bf3261af-6cfd-427d-978d-bde6124bdd5f",
+    "x-ms-request-id": "1eaad871-f3ef-4ef0-8cea-2c9b7962987c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:06 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ddea00df-2afc-4b19-9857-e3cc528eff47",
+    "x-ms-request-id": "35295ba5-d9ca-4ba6-8ee2-389c27d312be",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:09 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ff4dbb73-c989-447d-aae4-ffb9f62f7e6d",
+    "x-ms-request-id": "93e6cb70-9350-4e74-bea2-6a87af974c02",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:11 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "75ad1fd7-e851-466f-b372-625fdc24b0c0",
+    "x-ms-request-id": "fcd3a306-3b57-4fc7-84fe-784b175d8a1c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:13 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "29559781-3066-452b-a792-a366c3405067",
+    "x-ms-request-id": "649b0419-524c-4823-be51-a7019fcf966e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:16 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "9cc13570-d4ed-401e-8005-e8fef9b68d7a",
+    "x-ms-request-id": "3a4616cc-5165-4d86-b089-68ca271f03f6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:18 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "6f553f15-eb54-47eb-b1c4-b26f3a625957",
+    "x-ms-request-id": "c6979985-3c83-49ef-a57c-a24e5dc13127",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:20 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "d8e5918d-880f-493d-90a7-02329da2b021",
+    "x-ms-request-id": "3d166d84-d4d6-4ae9-84d7-f42b5e347ba3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:22 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "f91f8648-1546-431a-b6d1-6b067ec0e5ad",
+    "x-ms-request-id": "0d11ea21-b60f-4147-b08a-51c1cefa9200",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:25 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "d503eb92-dbea-48d9-a4fd-6065d396d497",
+    "x-ms-request-id": "21ec8d61-7e55-4fd1-8daa-1db835caae58",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:27 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "014b91c4-cef6-4b89-a889-f8b5e74e4056",
+    "x-ms-request-id": "0f8a644c-50b7-43f5-81c9-2ff5641c1433",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:29 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "593fceef-591e-41f5-b0a6-dd1750dca559",
+    "x-ms-request-id": "32134531-48ab-44a8-a4e2-86dbd945da3f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:31 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "f19c152b-5219-4f70-a5b0-c19750651078",
+    "x-ms-request-id": "10fd6293-a5fa-4b43-96bc-88e354f055d5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:34 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - EASLR2 ProdSlices",
+    "x-ms-request-id": "aeaa97b2-4005-4852-8d06-46478c7d3200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:34 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "c01b213b-84ae-4d53-a211-8f4d539b3f8a",
+    "x-ms-request-id": "8bb6f863-8c4a-43cc-aab2-da79ea65c185",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:36 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "4d3504d2-3bc5-49d3-b66d-db8847061f12",
+    "x-ms-request-id": "fb775bbf-690f-4798-b3c3-8b8b08bb79b7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:39 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ac723215-b979-4b15-89fe-25b48ff02b82",
+    "x-ms-request-id": "e2ddf2b3-5a7b-41e6-93e2-e1e6b925304c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:41 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "aa91725a-3662-4a5b-8f3b-8528a43ca0c4",
+    "x-ms-request-id": "d34d5c01-543b-4b71-8843-9f151bafa492",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:43 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "964b7462-7955-4906-a00e-008d8e2f939e",
+    "x-ms-request-id": "125c61dc-1bc0-4326-af1e-9eedd63a015e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:45 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "f2dc75d2-d176-47c2-8ef4-c3c444d8c72c",
+    "x-ms-request-id": "7fe4079a-85f3-474d-9929-a30f0a5df0b5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:48 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "b50981a4-bce4-49b8-b68a-0c8f396b1423",
+    "x-ms-request-id": "749a4b5c-d285-48c7-a5aa-4fd76efe6de7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:49 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "906c1d61-0cd3-4aef-b85d-5d4424dbee38",
+    "x-ms-request-id": "8daa0dbd-df83-46c8-a576-66e851cf9f57",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:52 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "6fd4cbe0-8402-4fb4-945e-1a4a33920874",
+    "x-ms-request-id": "f744157b-138e-425e-b3a2-ee889f6b1294",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:54 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "8a7b7ab7-4030-49c5-96db-392719e6bccc",
+    "x-ms-request-id": "782ab1b5-f845-4112-a3bf-41742bbcb86b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:56 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "05fc720f-6b36-462d-96b1-c13d13943989",
+    "x-ms-request-id": "8e5bd299-eca8-441d-8a27-279222d77ce6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:57:58 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "f56b2e24-6a1c-4792-b84e-218fa73c3ec5",
+    "x-ms-request-id": "3afaae82-95aa-4226-b064-65fa1a4cc676",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:01 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "0779a4b9-50c3-4606-b44f-0d97acd8ee65",
+    "x-ms-request-id": "1096289b-01ae-4a81-9dd4-3bad8c0086ce",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:04 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "5273489e-9e8b-433a-9b2c-b287fb4ec172",
+    "x-ms-request-id": "3e34c957-f741-42df-96f0-46a685c7d136",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:06 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - EASLR1 ProdSlices",
+    "x-ms-request-id": "8a72fc78-5fc4-4291-9dd0-568cdc0d3300"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:06 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "68c258f6-d492-4983-a2bc-9797c563c64a",
+    "x-ms-request-id": "44f36341-0425-441f-9d9b-f5a431e053c3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:08 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "66eeee69-5cbb-44bb-9e0e-1a3cf82d2dc3",
+    "x-ms-request-id": "69e8f2bd-005f-4545-9c3f-7f7faea7fa92",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:11 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "da803084-1dcf-4a6f-a018-875daa8867fc",
+    "x-ms-request-id": "97511a14-15d3-47f3-916c-fd72eeb2df35",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:13 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "61e2773a-ad5b-45d0-a97e-a3a7e238b763",
+    "x-ms-request-id": "f1d649f4-8327-4d51-addc-b394a0b93a8a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:15 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "a1c93b22-7d30-4458-8360-6da9ce21cee8",
+    "x-ms-request-id": "8f1f427d-de10-495d-b295-caba93ab58b3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:17 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "7f49ee17-59f5-4f9b-b4ff-ab5835a133b4",
+    "x-ms-request-id": "b2e20c3d-afe6-4067-8dce-4a15546acfc4",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:20 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "9df3e4d7-349a-4ac7-9feb-555fc08d8c58",
+    "x-ms-request-id": "9164437a-3791-42e7-9b2b-dbaf36ecbf5a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:22 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "95a8cd88-30bb-4d29-b383-964ec2d301cc",
+    "x-ms-request-id": "44890a61-55cd-455d-87cb-fae0cdb5fec0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:24 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "7ffce9c5-400a-4eb1-abf3-640437cc1598",
+    "x-ms-request-id": "3e763d6d-fcb3-4c39-b380-ba38a3b00f78",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:26 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "0d2f7c48-a8aa-49d3-9553-2480f145efbd",
+    "x-ms-request-id": "597c6f62-f02a-4106-a1d5-6bb0209999cf",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:29 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "2a0b9337-c28c-4997-9b21-28cd48986567",
+    "x-ms-request-id": "9092a65e-df1b-4d57-9e81-025464e30b52",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:31 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "554d02cb-dade-4629-a2a4-621f53d5db9a",
+    "x-ms-request-id": "d05fc25d-3b03-43fe-89bd-77b6cce996ee",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:33 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "17272fdf-7e94-4a90-85aa-81b6c270dcf0",
+    "x-ms-request-id": "1c9b7705-4667-4320-8169-07a0d5ba4d26",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:36 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "c6af272c-7169-4fbb-8b3e-5ec1a0c88f28",
+    "x-ms-request-id": "e4e7745c-4422-41e6-bbd9-f024bff9615d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:38 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "f194bc03-9d5e-423d-a01d-1ffea8d83200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:38 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "2facf662-2ea2-4f8f-a48c-eb87b62130f5",
+    "x-ms-request-id": "80793342-0fc5-4f71-9ec7-15ba73a71c7c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:40 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "dc33b46f-0159-4bd5-b72a-d93c56b176cd",
+    "x-ms-request-id": "c84ceb92-fb15-41ee-8622-30a202b8b260",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:43 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "033b8af1-b389-434b-8cfc-646dee908c1c",
+    "x-ms-request-id": "7a920506-5096-47a8-941f-6c8a5d53edfa",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:45 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "418206c7-6d11-45f0-bdf3-170f0d90d686",
+    "x-ms-request-id": "e99a1fb5-103e-478f-9d6f-06b45d8b43c3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:47 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "9ff53f64-6590-460f-88eb-904f649a574e",
+    "x-ms-request-id": "0c333630-322b-4b3a-be67-1d1b25f54c93",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:49 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "4de80cf3-5e03-444a-be8f-e51aa1991bbc",
+    "x-ms-request-id": "72c2710a-7fc0-4d3c-82b1-53c46529919a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:52 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "97212a50-5a27-45d2-95f7-5f79b08bda70",
+    "x-ms-request-id": "e22d138f-093b-4387-9616-5b60aedaeb73",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:54 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "25b6a1e0-1961-4ce9-92f3-c1b8eee59e33",
+    "x-ms-request-id": "fc6eb4d3-95e6-4189-9c9b-cd8aeae6910b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:56 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "2091e240-66b4-4444-bf8d-4c864e955b02",
+    "x-ms-request-id": "a67f548a-c9e8-4402-b06e-0b271e133961",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:58:59 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "9fad8a22-739a-4115-829e-2fe30b1f35b4",
+    "x-ms-request-id": "9fe1f23c-04ff-43eb-87fd-ecc9f0229fdc",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:01 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "86ba102c-5aed-4e1e-b440-4a6ebe7efe64",
+    "x-ms-request-id": "962c348d-e541-4ca1-9bea-292f48604df2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:03 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "8ae20211-895d-464c-aacc-bbe83dd593fc",
+    "x-ms-request-id": "94e86f22-c87a-471f-b143-058f9e7a558d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:05 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "15b5e92e-5378-4948-ba7f-6c7db2023c73",
+    "x-ms-request-id": "f7da1344-4d7a-4d07-9e45-67b3d3516518",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:07 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "e7266523-94cc-463b-9f97-2c66828261c5",
+    "x-ms-request-id": "910f762a-2dc9-4b75-a214-ee5325b82ab8",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:10 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "e62b9fab-cb66-4343-a3f6-9f46a273db87",
+    "x-ms-request-id": "f4cb560f-e2cd-42a4-a559-1a6f1bdc74b1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:09 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - EASLR2 ProdSlices",
+    "x-ms-request-id": "41fd7208-e646-4db8-b81e-43f09d4e3200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:12 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "2250097a-c6a5-4c7c-9020-41536f55d8e3",
+    "x-ms-request-id": "556d456f-f1a2-4230-9e63-17cb8bbf25e0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:14 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "3ce4244e-b37a-4f02-8ae0-42ca94b2fb70",
+    "x-ms-request-id": "7d935d75-37db-4b40-a0a9-02efb78fdf35",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:17 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "308cc327-58f7-4ab5-937b-ec832554bcd8",
+    "x-ms-request-id": "2687bcb4-712a-4303-a91e-480250c7110d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:19 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "e822ee2b-14b1-4b03-98fd-e99ff280c743",
+    "x-ms-request-id": "e9aa5c37-218c-48ad-b7bf-11efd05802c9",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:22 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "ed92b290-a752-4046-8c26-dc4ec453ca89",
+    "x-ms-request-id": "372bc856-1a99-4ee6-8845-4ee70a08610a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:24 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "876df1ee-c9ca-41bd-b8a9-f34b6b72cfc3",
+    "x-ms-request-id": "614c05b4-8391-4aec-8776-83bad346ae9f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:26 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "76be2060-e481-4267-9273-5553d4260eb2",
+    "x-ms-request-id": "1a96fa4f-0273-4235-8ce0-2921d72e4c2e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:28 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "42bfcca3-5d83-4531-b081-1dbb942631da",
+    "x-ms-request-id": "d1bdf4c3-1bae-41e5-a80c-4146101b7be8",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:31 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "c6d046ac-9ca7-4b84-99c5-374ff22a3fc0",
+    "x-ms-request-id": "776d87fe-dc7c-4a69-8ad9-133521bb21fc",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:33 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "3740a76c-4ae7-4617-846c-45fca568d396",
+    "x-ms-request-id": "48a8a729-17bc-4f6e-967d-f11569a93e6c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:35 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "db81126b-9eb7-4d35-8169-18605342c2a8",
+    "x-ms-request-id": "813959ab-15d1-4346-9c58-dbd26637ebd7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:38 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "46a43945-73dc-4057-80a4-a2896a4444e7",
+    "x-ms-request-id": "1feaf15e-3fcc-4426-9901-1a00da569c43",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:40 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "429b78fd-2c93-4e4b-b960-54174f88f448",
+    "x-ms-request-id": "f22edb30-b5ea-4f03-880d-2235d50f7a5a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:42 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "a7f8d65a-c865-4dcc-9864-47c42756ea7e",
+    "x-ms-request-id": "2dd446cb-5987-4f7d-bcd6-8f7769a02772",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:42 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11198.13 - EASLR2 ProdSlices",
+    "x-ms-request-id": "f3359d4b-d228-4ef7-ae4c-421f570e3200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:44 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "b3ca271c-fcaa-485e-aa96-95f89528f158",
+    "x-ms-request-id": "d424488d-fdc8-4c97-bb62-78830351891d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:47 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "005b2b5c-8c53-48dc-b4de-edc4d59ddd1b",
+    "x-ms-request-id": "c2c26179-688d-4c94-b7fd-4267b9d69283",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:49 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "150e39d8-77a1-490f-9ed3-4790b5ab0506",
+    "x-ms-request-id": "7a44dfee-1596-45e5-99d0-a37a234be250",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:51 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "fd74dc8e-1401-488d-872b-8e2241ca4aea",
+    "x-ms-request-id": "bec35c34-2c27-40ea-bbbb-d8b8c2c04ca1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:54 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "827f71b9-17a0-4828-a07f-65c46af3f4f5",
+    "x-ms-request-id": "0a1bf69c-1802-46cd-8ff7-a9b338c4db97",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"Pending\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location",
+    "access-control-expose-headers": "Location",
+    "cache-control": "no-cache",
+    "content-length": "71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:56 GMT",
+    "expires": "-1",
+    "location": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266?api-version=2019-06-01-preview",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "202",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "3ac6d233-6e91-4aeb-a3d6-0fd2ebc38ba4",
+    "x-ms-request-id": "f2c6f5c8-62fc-47c1-a18c-3f048c9057ef",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://workspace_name.dev.azuresynapse.net/operationResults/dfCreateSession$$e3e718f0-1ab7-48d8-851a-6f891bf26266",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"status\":\"Succeeded\",\"sessionId\":\"e3e718f0-1ab7-48d8-851a-6f891bf26266\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "73",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 09 Nov 2020 10:59:58 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "301db610-3a51-4ad7-8f53-52fd4091bd23",
+    "x-ms-request-id": "082b0de8-082b-43f1-ad61-2ed9785efc9f",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "69c6368fcb0c18f9c163fb1918b612e9"
+}
