@@ -232,7 +232,6 @@ export interface ConnectionContextBase {
     connection: Connection;
     connectionId: string;
     connectionLock: string;
-    dataTransformer: DataTransformer;
     negotiateClaimLock: string;
     refreshConnection: () => void;
     wasConnectionCloseCalled: boolean;
@@ -373,21 +372,8 @@ export const Constants: {
 export interface CreateConnectionContextBaseParameters {
     config: ConnectionConfig;
     connectionProperties: ConnectionProperties;
-    dataTransformer?: DataTransformer;
     isEntityPathRequired?: boolean;
     operationTimeoutInMs?: number;
-}
-
-// @public
-export interface DataTransformer {
-    decode: (body: any) => any;
-    encode: (body: any) => any;
-}
-
-// @public
-export class DefaultDataTransformer implements DataTransformer {
-    decode(body: any): any;
-    encode(body: any): any;
 }
 
 // @public
