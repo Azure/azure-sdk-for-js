@@ -14,7 +14,6 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class SqlScriptClient extends AuthenticationClient {
-
   private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

@@ -19,29 +19,28 @@ import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class SparkJobDefinitionClient extends AuthenticationClient {
+  public async get(
+    sparkJobDefinitionName: string,
+    options: SparkJobDefinitionGetSparkJobDefinitionOptionalParams = {}
+  ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
+    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
 
-    public async get(
-        sparkJobDefinitionName: string,
-        options: SparkJobDefinitionGetSparkJobDefinitionOptionalParams = {}
-        ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-        const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
-
-        try {
-            const response = await this.client.sparkJobDefinition.getSparkJobDefinition(
-            sparkJobDefinitionName,
-            operationOptionsToRequestOptionsBase(updatedOptions)
-            );
-            return response;
-        } catch (e) {
-            span.setStatus({
-            code: CanonicalCode.UNKNOWN,
-            message: e.message
-            });
-            throw e;
-        } finally {
-            span.end();
-        }
+    try {
+      const response = await this.client.sparkJobDefinition.getSparkJobDefinition(
+        sparkJobDefinitionName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
+  }
 
   private async *listSparkJobDefinitionsPage(
     continuationState: ListPageSettings,
@@ -49,7 +48,9 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   ): AsyncIterableIterator<SparkJobDefinitionResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sparkJobDefinition.getSparkJobDefinitionsByWorkspace(requestOptions);
+      const currentSetResponse = await this.client.sparkJobDefinition.getSparkJobDefinitionsByWorkspace(
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value;

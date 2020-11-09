@@ -16,8 +16,7 @@ import { LinkedServiceResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class LinkedServiceClient extends AuthenticationClient{
-
+export class LinkedServiceClient extends AuthenticationClient {
   private async *listLinkedServicesPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

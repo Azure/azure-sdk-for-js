@@ -11,4 +11,3 @@ export * from "./PipelineClient";
 export * from "./TriggerClient";
 export * from "./DataFlowDebugSessionClient";
 export * from "./SparkJobDefinitionClient";
-

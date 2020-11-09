@@ -30,26 +30,26 @@ describe("Synapse DataFlowDebugSession Client", () => {
   it("successfully list debug session", async function() {
     const list: string[] = [];
     for await (const dataFlowDebugSessionInfo of client.list()) {
-        list.push(dataFlowDebugSessionInfo.sessionId!);
-      }
+      list.push(dataFlowDebugSessionInfo.sessionId!);
+    }
 
-      sessionCount = list.length;
+    sessionCount = list.length;
     assert.include(
-        list,
-        sessionId,
+      list,
+      sessionId,
       "Unexpected name of dataflow by DataFlowDebugSessionClient.list."
     );
   });
 
   it("successfully delete debug session", async function() {
     const list: string[] = [];
-    await client.delete({sessionId:sessionId});
+    await client.delete({ sessionId: sessionId });
     for await (const dataFlowDebugSessionInfo of client.list()) {
-        list.push(dataFlowDebugSessionInfo.id!);
-      }
+      list.push(dataFlowDebugSessionInfo.id!);
+    }
     assert.equal(
-        list.length,
-        sessionCount-1,
+      list.length,
+      sessionCount - 1,
       "Unexpected name of dataflow by DataFlowDebugSessionClient.list."
     );
   });
