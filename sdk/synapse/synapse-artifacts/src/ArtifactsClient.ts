@@ -101,10 +101,10 @@ export class ArtifactsClient {
     this.client = new SynapseArtifacts(credential, workspaceEndpoint, pipeline);
   }
 
-  public getArtifactsClient() : SynapseArtifacts {
+  public getArtifactsClient(): SynapseArtifacts {
     return this.client;
   }
- 
+
   public async ListBigDataPools(
     options: coreHttp.OperationOptions = {}
   ): Promise<BigDataPoolsListResponse> {
@@ -629,29 +629,29 @@ export class ArtifactsClient {
   // }
 
   /**
-  *
-  * Example usage:
-  * ```ts
-  * const client = new KeyVaultBackupClient(url, credentials);
-  *
-  * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
-  * const sasToken = "<sas-token>";
-  * const poller = await client.beginBackup(blobStorageUri, sasToken);
-  *
-  * // Serializing the poller
-  * //
-  * //   const serialized = poller.toString();
-  * //
-  * // A new poller can be created with:
-  * //
-  * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
-  * //
-  *
-  * // Waiting until it's done
-  * const backupUri = await poller.pollUntilDone();
-  * console.log(backupUri);
-  * ```
-  */
+   *
+   * Example usage:
+   * ```ts
+   * const client = new KeyVaultBackupClient(url, credentials);
+   *
+   * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+   * const sasToken = "<sas-token>";
+   * const poller = await client.beginBackup(blobStorageUri, sasToken);
+   *
+   * // Serializing the poller
+   * //
+   * //   const serialized = poller.toString();
+   * //
+   * // A new poller can be created with:
+   * //
+   * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //
+   *
+   * // Waiting until it's done
+   * const backupUri = await poller.pollUntilDone();
+   * console.log(backupUri);
+   * ```
+   */
   public async beginCreateOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
@@ -722,5 +722,4 @@ export class ArtifactsClient {
       span.end();
     }
   }
-
 }

@@ -6,7 +6,7 @@ import { authenticate, createClient } from "./utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
 
 describe("Synapse Dataset Client", () => {
-  let client : DataFlowClient;
+  let client: DataFlowClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
@@ -22,12 +22,12 @@ describe("Synapse Dataset Client", () => {
   it("successfully get data flow by dataflow client", async function() {
     let getResult = await client.get("shangweitest");
     assert.equal(
-        getResult.name,
+      getResult.name,
       "shangweitest",
       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
     );
     assert.equal(
-        getResult.type,
+      getResult.type,
       "Microsoft.Synapse/workspaces/dataflows",
       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
     );

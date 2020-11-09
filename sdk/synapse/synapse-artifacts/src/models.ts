@@ -74,7 +74,6 @@ export interface PipelineClientOptions extends PipelineOptions {
   endpoint?: string;
 }
 
-
 export interface TriggerClientOptions extends PipelineOptions {
   /**
    * Api Version
@@ -85,7 +84,6 @@ export interface TriggerClientOptions extends PipelineOptions {
    */
   endpoint?: string;
 }
-
 
 export interface ListPageSettings {
   /**

@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import {
-  TokenCredential,
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-http";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
 import { getWorkspaceName } from "./utils.common";
@@ -31,9 +29,9 @@ export async function authenticate(that: any): Promise<any> {
   return { recorder, secretSuffix };
 }
 
-export async function createClient<T>(
-  type: { new(workspaceEndpoint: string, credential: TokenCredential): T ;} 
-  ): Promise<T> {
+export async function createClient<T>(type: {
+  new (workspaceEndpoint: string, credential: TokenCredential): T;
+}): Promise<T> {
   const credential = await new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,

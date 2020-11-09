@@ -8,8 +8,8 @@ import { Recorder } from "@azure/test-utils-recorder";
 // import { getSparkpoolName } from "./utils/utils.common";
 
 describe("Synapse Artifacts Client", () => {
-//   let client: ArtifactsClient;
-  let dataflowClient : DataFlowClient;
+  //   let client: ArtifactsClient;
+  let dataflowClient: DataFlowClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
@@ -22,58 +22,58 @@ describe("Synapse Artifacts Client", () => {
     await recorder.stop();
   });
 
-//   it("successfully create data flow", async function() {
-//     let dataflow : DataFlowResource =  {
-//         properties : {
-//             type : "MappingDataFlow"
-//         }
-//     };
-//     let getResult = await client.beginCreateOrUpdateDataFlow("shangweidataflow", dataflow);
-//     const response = await getResult.pollUntilDone();
-//     assert.equal(
-//       response.name,
-//       "shangweidataflow",
-//       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
-//     );
-//     assert.equal(
-//       response.type,
-//       "Microsoft.Synapse/workspaces/dataflows",
-//       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
-//     );
-//   });
+  //   it("successfully create data flow", async function() {
+  //     let dataflow : DataFlowResource =  {
+  //         properties : {
+  //             type : "MappingDataFlow"
+  //         }
+  //     };
+  //     let getResult = await client.beginCreateOrUpdateDataFlow("shangweidataflow", dataflow);
+  //     const response = await getResult.pollUntilDone();
+  //     assert.equal(
+  //       response.name,
+  //       "shangweidataflow",
+  //       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
+  //     );
+  //     assert.equal(
+  //       response.type,
+  //       "Microsoft.Synapse/workspaces/dataflows",
+  //       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
+  //     );
+  //   });
 
-//   it("successfully get big data pool", async function() {
-//     let getResult = await client.GetBigDataPool(getSparkpoolName());
-//     assert.equal(
-//         getResult.sparkVersion,
-//       "2.4",
-//       "Unexpected spark Version of big data pool by GetBigDataPool."
-//     );
-//   });
+  //   it("successfully get big data pool", async function() {
+  //     let getResult = await client.GetBigDataPool(getSparkpoolName());
+  //     assert.equal(
+  //         getResult.sparkVersion,
+  //       "2.4",
+  //       "Unexpected spark Version of big data pool by GetBigDataPool."
+  //     );
+  //   });
 
-//   it("successfully get data flow", async function() {
-//     let getResult = await client.getDataFlow("shangweitest");
-//     assert.equal(
-//         getResult.name,
-//       "shangweitest",
-//       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
-//     );
-//     assert.equal(
-//         getResult.type,
-//       "Microsoft.Synapse/workspaces/dataflows",
-//       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
-//     );
-//   });
+  //   it("successfully get data flow", async function() {
+  //     let getResult = await client.getDataFlow("shangweitest");
+  //     assert.equal(
+  //         getResult.name,
+  //       "shangweitest",
+  //       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
+  //     );
+  //     assert.equal(
+  //         getResult.type,
+  //       "Microsoft.Synapse/workspaces/dataflows",
+  //       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
+  //     );
+  //   });
 
   it("successfully get data flow by dataflow client", async function() {
     let getResult = await dataflowClient.get("shangweitest");
     assert.equal(
-        getResult.name,
+      getResult.name,
       "shangweitest",
       "Unexpected name of datafloe by beginCreateOrUpdateDataFlow."
     );
     assert.equal(
-        getResult.type,
+      getResult.type,
       "Microsoft.Synapse/workspaces/dataflows",
       "Unexpected type of datafloe by beginCreateOrUpdateDataFlow."
     );
