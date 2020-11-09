@@ -51,7 +51,10 @@ describe("serviceBusClient unit tests", () => {
 
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
           "a session id",
-          origConnectionContext.config
+          {
+            ...origConnectionContext.config,
+            entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+          }
         );
 
         let sessionReceiver: ServiceBusSessionReceiver;
@@ -102,10 +105,10 @@ describe("serviceBusClient unit tests", () => {
 
         const origConnectionContext = client["_connectionContext"];
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
-          "session id",
-          origConnectionContext.config
-        );
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+        });
 
         let sessionReceiver: ServiceBusSessionReceiver;
 
