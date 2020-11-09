@@ -109,18 +109,16 @@ async function createDataFeed(client) {
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "CustomValue",
-        customFillValue: 567
-      },
-      accessMode: "Private"
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "CustomValue",
+      customFillValue: 567
+    },
+    accessMode: "Private"
   };
 
   const result = await client.createDataFeed(feed);
@@ -149,13 +147,11 @@ async function updateDataFeed(client, dataFeedId) {
       stopRetryAfterInSeconds: 667777,
       ingestionStartOffsetInSeconds: 4444
     },
-    options: {
-      description: "New datafeed description",
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      status: "Paused"
-    }
+    description: "New datafeed description",
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    status: "Paused"
   };
 
   try {
@@ -163,7 +159,7 @@ async function updateDataFeed(client, dataFeedId) {
     const updated = await client.updateDataFeed(dataFeedId, patch);
     console.dir(updated);
   } catch (err) {
-    console.log("Error occured when updating data feed");
+    console.log("Error occurred when updating data feed");
     console.log(err);
   }
 }

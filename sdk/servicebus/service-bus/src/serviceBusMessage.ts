@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, Constants, DataTransformer } from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
 import {
@@ -11,7 +11,6 @@ import {
   uuid_to_string,
   Message as RheaMessage
 } from "rhea-promise";
-import { ConnectionContext } from "./connectionContext";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
 import { reorderLockToken } from "./util/utils";
@@ -770,7 +769,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * @internal
    */
   constructor(
-    private readonly _context: ConnectionContext,
+    private readonly _dataTransformer: DataTransformer,
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
@@ -783,7 +782,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       this.lockToken = undefined;
     }
     if (msg.body) {
-      this.body = this._context.dataTransformer.decode(msg.body);
+      this.body = this._dataTransformer.decode(msg.body);
     }
     // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);

@@ -258,7 +258,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export interface DataFeed {
+export type DataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -299,11 +299,7 @@ export interface DataFeed {
    * Ingestion settings for the data feed.
    */
   ingestionSettings: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions;
-}
+} & DataFeedOptions;
 
 /**
  * Represents an Azure Application Insights data source.
@@ -439,7 +435,7 @@ export type DataFeedSource =
 /**
  * Represents the input type to the Update Data Feed operation.
  */
-export interface DataFeedPatch {
+export type DataFeedPatch = {
   /**
    * Name of the data feed
    */
@@ -461,16 +457,12 @@ export interface DataFeedPatch {
    * Ingestion settings for the data feed.
    */
   ingestionSettings?: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions & {
+} & DataFeedOptions & {
     /**
      * Status of the data feed.
      */
     status?: DataFeedDetailStatus;
   };
-}
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.

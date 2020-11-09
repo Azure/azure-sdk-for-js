@@ -128,18 +128,16 @@ async function createDataFeed(
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@microsoft.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@microsoft.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -180,7 +178,7 @@ async function configureAnomalyDetectionConfiguration(
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(anomalyConfig);
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 
 async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
@@ -232,7 +230,7 @@ async function configureAlertConfiguration(
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlert);
+  return await adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(
