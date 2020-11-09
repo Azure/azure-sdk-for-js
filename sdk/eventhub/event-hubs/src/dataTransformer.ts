@@ -7,31 +7,11 @@ import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
 
 /**
- * Describes the transformations that can be performed to encode/decode the data before sending it
- * on (or receiving it from) the wire.
- * @internal
- * @ingore
- */
-export interface DataTransformer {
-  /**
-   * @property {Function} encode A function that takes the body property from an EventData object
-   * and returns an encoded body (some form of AMQP type).
-   */
-  encode: (body: any) => any;
-  /**
-   * @property {Function} decode A function that takes the body property from an AMQP message
-   * and returns the decoded message body. If it cannot decode the body then it returns the body
-   * as-is.
-   */
-  decode: (body: any) => any;
-}
-
-/**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
  * @ingore
  */
-export const defaultDataTransformer: DataTransformer = {
+export const defaultDataTransformer = {
   /**
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
