@@ -17,7 +17,6 @@ import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class DataSetClient extends AuthenticationClient {
-
   private async *listDataSetsPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

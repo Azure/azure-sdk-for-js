@@ -9,9 +9,7 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 
-import {
-  ArtifactsClientOptions
-} from "./models";
+import { ArtifactsClientOptions } from "./models";
 
 import { SynapseArtifacts } from "./synapseArtifacts";
 import { logger } from "./logger";

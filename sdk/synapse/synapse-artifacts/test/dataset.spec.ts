@@ -4,10 +4,10 @@ import { DataFlowClient } from "../src";
 import { assert } from "chai";
 import { authenticate, createClient } from "./utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
-import { DataFlowResource } from "../src"
+import { DataFlowResource } from "../src";
 
 describe("Synapse Dataset Client", () => {
-  let client : DataFlowClient;
+  let client: DataFlowClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
@@ -21,10 +21,10 @@ describe("Synapse Dataset Client", () => {
   });
 
   it("successfully create data flow", async function() {
-    let dataflow : DataFlowResource =  {
-        properties : {
-            type : "MappingDataFlow"
-        }
+    let dataflow: DataFlowResource = {
+      properties: {
+        type: "MappingDataFlow"
+      }
     };
     let getResult = await client.beginUpsert("shangweidataflow", dataflow);
     const response = await getResult.pollUntilDone();
@@ -43,12 +43,12 @@ describe("Synapse Dataset Client", () => {
   it("successfully get data se by dataflow client", async function() {
     let getResult = await client.get("shangweitest");
     assert.equal(
-        getResult.name,
+      getResult.name,
       "shangweitest",
       "Unexpected name of dataflow by DataFlowClient.get."
     );
     assert.equal(
-        getResult.type,
+      getResult.type,
       "Microsoft.Synapse/workspaces/dataflows",
       "Unexpected type of dataflow by DataFlowClient.get."
     );

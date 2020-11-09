@@ -16,7 +16,7 @@ import { NotebookResource } from "./models";
 import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class NotebookClient extends AuthenticationClient{
+export class NotebookClient extends AuthenticationClient {
   private async *listNotebooksPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

@@ -14,13 +14,10 @@ import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 import { TriggerResource } from "./models";
 
-import { 
-    ListPageSettings,
-    TriggerRunQueryTriggerRunsByWorkspaceResponse,
-} from "./models";
+import { ListPageSettings, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export class TriggerClient extends AuthenticationClient{
+export class TriggerClient extends AuthenticationClient {
   private async *listTriggersPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}

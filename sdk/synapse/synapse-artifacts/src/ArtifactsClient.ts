@@ -10,7 +10,7 @@ import {
   IntegrationRuntimesGetResponse,
   SqlPoolsListResponse,
   SqlPoolsGetResponse,
-  WorkspaceGetResponse,
+  WorkspaceGetResponse
 } from "./models";
 
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
@@ -20,7 +20,6 @@ import { CanonicalCode } from "@opentelemetry/api";
 import * as coreHttp from "@azure/core-http";
 
 export class ArtifactsClient extends AuthenticationClient {
-
   public async listBigDataPools(
     options: coreHttp.OperationOptions = {}
   ): Promise<BigDataPoolsListResponse> {

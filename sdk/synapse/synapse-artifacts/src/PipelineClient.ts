@@ -21,7 +21,6 @@ import { ListPageSettings } from "./models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class PipelineClient extends AuthenticationClient {
-
   private async *listPipelinesPage(
     continuationState: ListPageSettings,
     options: coreHttp.OperationOptions = {}
