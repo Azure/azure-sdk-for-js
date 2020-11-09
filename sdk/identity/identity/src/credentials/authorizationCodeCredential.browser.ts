@@ -27,12 +27,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   );
   constructor() {
-    logger.info(formatError(BrowserNotSupportedError));
+    logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
   public getToken(): Promise<AccessToken | null> {
-    logger.getToken.info(formatError(BrowserNotSupportedError));
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }

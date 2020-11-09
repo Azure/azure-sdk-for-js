@@ -157,7 +157,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           const error = new CredentialUnavailable(
             "The managed identity endpoint was reached, yet no tokens were received."
           );
-          logger.getToken.info(formatError(error));
+          logger.getToken.info(formatError(scopes, error));
           throw error;
         }
 
@@ -171,7 +171,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "The managed identity endpoint is not currently available"
         );
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
 
@@ -200,7 +200,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
 
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
 

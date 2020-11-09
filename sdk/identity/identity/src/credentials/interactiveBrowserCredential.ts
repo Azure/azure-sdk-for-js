@@ -92,7 +92,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         return this.acquireTokenFromBrowser(scopeArray);
       } else {
-        logger.getToken.info(formatError(e));
+        logger.getToken.info(formatError(scopes, e));
         throw e;
       }
     });
@@ -136,23 +136,23 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
         try {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
-          res.sendStatus(200);
-
+          const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
+          const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
+          res.status(200).send(successMessage);
           logger.getToken.info(formatSuccess(scopeArray));
 
           resolve({
-            expiresOnTimestamp: authResponse.expiresOn.valueOf(),
+            expiresOnTimestamp,
             token: authResponse.accessToken
           });
         } catch (error) {
-          res.status(500).send(error);
-
-          logger.getToken.info(formatError(error));
-          reject(
-            new Error(
-              `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
-            )
+          const errorMessage = formatError(
+            scopeArray,
+            `${req.query["error"]}. ${req.query["error_description"]}`
           );
+          res.status(500).send(errorMessage);
+          logger.getToken.info(errorMessage);
+          reject(new Error(errorMessage));
         } finally {
           cleanup();
         }

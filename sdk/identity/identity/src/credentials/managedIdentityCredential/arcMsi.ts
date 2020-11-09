@@ -60,7 +60,7 @@ async function filePathRequest(
   if (response.status !== 401) {
     let message = "";
     if (response.bodyAsText) {
-      message = ` Response: ${response.bodyAsText}`
+      message = ` Response: ${response.bodyAsText}`;
     }
     throw new AuthenticationError(
       response.status,
