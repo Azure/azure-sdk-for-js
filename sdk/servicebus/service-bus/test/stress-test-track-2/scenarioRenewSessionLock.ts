@@ -28,14 +28,16 @@ interface ScenarioRenewSessionLockOptions {
   numberOfSessions?: number;
 }
 
-function sanitizeOptions(
-  options: ScenarioRenewSessionLockOptions
-): Required<ScenarioRenewSessionLockOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioRenewSessionLockOptions> {
+  const options = parsedArgs<ScenarioRenewSessionLockOptions>(args, {
+    boolean: ["autoLockRenewal", "settleMessageOnReceive"],
+    default: { autoLockRenewal: false, settleMessageOnReceive: true }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
-    numberOfSessions: options.numberOfSessions || 1,
+    numberOfSessions: options.numberOfSessions || 16,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
@@ -49,12 +51,7 @@ function sanitizeOptions(
 // TODO: stop sending messages after a 70% of test duration
 // TODO: Upon ending max lock renewal duration, pass an option to complete/ignore the message
 export async function scenarioRenewSessionLock() {
-  const testOptions = sanitizeOptions(
-    parsedArgs<ScenarioRenewSessionLockOptions>(process.argv, {
-      boolean: ["autoLockRenewal", "settleMessageOnReceive"],
-      default: { autoLockRenewal: false, settleMessageOnReceive: true }
-    })
-  );
+  const testOptions = sanitizeOptions(process.argv);
   const {
     testDurationInMs,
     receiveBatchMaxMessageCount,
