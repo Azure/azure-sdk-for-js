@@ -8,7 +8,9 @@
 
 export {
   discriminators,
-  BackupStatusRequest,
-  BackupStatusResponse,
-  CloudError
+  ErrorAdditionalInfo,
+  NewErrorResponse,
+  NewErrorResponseError,
+  PrepareDataMoveResponse,
+  VaultStorageConfigOperationResultResponse
 } from "../models/mappers";
