@@ -48,7 +48,7 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
  * Formatting the success event on the credentials
  */
 export function formatSuccess(scope: string | string[], timestamp?: number): string {
-  let message = `SUCCESS! Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
+  let message = `SUCCESS. Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
   if (timestamp) {
     message += ` Expires on: ${timestamp}`;
   }
@@ -59,11 +59,11 @@ export function formatSuccess(scope: string | string[], timestamp?: number): str
  * Formatting the success event on the credentials
  */
 export function formatError(scope: string | string[] | undefined, error: Error | string): string {
-  let message = "";
+  let message = "ERROR.";
   if (scope?.length) {
-    message += `Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}. `;
+    message += ` Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
   }
-  return `${message}ERROR: ${typeof error === "string" ? error : error.message}.`;
+  return `${message} Error message: ${typeof error === "string" ? error : error.message}.`;
 }
 
 /**
