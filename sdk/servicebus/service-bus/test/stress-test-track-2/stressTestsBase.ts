@@ -43,13 +43,9 @@ export class SBStressTestsBase {
     client: initializeOperationInfo()
   };
   // Message Lock Renewal
-  messageLockRenewalInfo: LockRenewalOperationInfo = {
-    ...initializeLockRenewalOperationInfo()
-  };
+  messageLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Session Lock Renewal
-  sessionLockRenewalInfo: LockRenewalOperationInfo = {
-    ...initializeLockRenewalOperationInfo()
-  };
+  sessionLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
     process.env.SERVICEBUS_CONNECTION_STRING!
