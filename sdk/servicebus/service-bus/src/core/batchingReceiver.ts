@@ -191,10 +191,7 @@ export function getRemainingWaitTimeInMsFn(
  * @internal
  * @ignore
  */
-type EventEmitterLike<T extends Receiver | Session> = Pick<
-  T,
-  "once" | "removeListener" | "on" | "listenerCount"
->;
+type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
 
 /**
  * The bare minimum needed to receive messages for batched
