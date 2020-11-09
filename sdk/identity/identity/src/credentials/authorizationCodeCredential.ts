@@ -186,7 +186,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
-      logger.getToken.info(formatSuccess(scopes, tokenResponse?.accessToken.expiresOnTimestamp));
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =

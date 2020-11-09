@@ -218,7 +218,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       );
 
       if (tokenResponse) {
-        logger.getToken.info(formatSuccess(scopes, tokenResponse.accessToken.expiresOnTimestamp));
+        logger.getToken.info(formatSuccess(scopes));
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailable(

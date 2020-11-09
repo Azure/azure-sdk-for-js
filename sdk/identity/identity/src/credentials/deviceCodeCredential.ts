@@ -134,7 +134,7 @@ export class DeviceCodeCredential implements TokenCredential {
       if (e instanceof AuthenticationRequired) {
         try {
           const token = await this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
-          logger.getToken.info(formatSuccess(scopeArray, token?.expiresOnTimestamp));
+          logger.getToken.info(formatSuccess(scopeArray));
           return token;
         } catch (err) {
           const code =
@@ -163,7 +163,7 @@ export class DeviceCodeCredential implements TokenCredential {
     try {
       const deviceResponse = await this.msalClient.acquireTokenByDeviceCode(deviceCodeRequest);
       const expiresOnTimestamp = deviceResponse.expiresOn.getTime();
-      logger.getToken.info(formatSuccess(scopes, expiresOnTimestamp));
+      logger.getToken.info(formatSuccess(scopes));
       return {
         expiresOnTimestamp,
         token: deviceResponse.accessToken

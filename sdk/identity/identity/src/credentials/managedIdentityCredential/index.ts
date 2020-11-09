@@ -175,7 +175,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         throw error;
       }
 
-      logger.getToken.info(formatSuccess(scopes, result.expiresOnTimestamp));
+      logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
       // CredentialUnavailable errors are expected to reach here.

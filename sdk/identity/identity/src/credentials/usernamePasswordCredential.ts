@@ -95,7 +95,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.info(formatSuccess(scopes, tokenResponse?.accessToken.expiresOnTimestamp));
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =

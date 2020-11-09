@@ -85,7 +85,7 @@ export class ChainedTokenCredential implements TokenCredential {
 
     span.end();
 
-    logger.getToken.info(formatSuccess(scopes, token?.expiresOnTimestamp));
+    logger.getToken.info(formatSuccess(scopes));
     return token;
   }
 }

@@ -126,7 +126,7 @@ export class EnvironmentCredential implements TokenCredential {
     if (this._credential) {
       try {
         const result = await this._credential.getToken(scopes, newOptions);
-        logger.getToken.info(formatSuccess(scopes, result?.expiresOnTimestamp));
+        logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
         const code =

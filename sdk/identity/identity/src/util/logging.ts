@@ -47,12 +47,8 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 /**
  * Formatting the success event on the credentials
  */
-export function formatSuccess(scope: string | string[], timestamp?: number): string {
-  let message = `SUCCESS. Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
-  if (timestamp) {
-    message += ` Expires on: ${timestamp}`;
-  }
-  return message;
+export function formatSuccess(scope: string | string[]): string {
+  return `SUCCESS. Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
 }
 
 /**

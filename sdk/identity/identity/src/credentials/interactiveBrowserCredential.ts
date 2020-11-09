@@ -139,7 +139,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
           const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
           res.status(200).send(successMessage);
-          logger.getToken.info(formatSuccess(scopeArray, expiresOnTimestamp));
+          logger.getToken.info(formatSuccess(scopeArray));
 
           resolve({
             expiresOnTimestamp,

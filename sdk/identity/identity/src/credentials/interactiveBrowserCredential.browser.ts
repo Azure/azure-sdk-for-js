@@ -157,7 +157,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
       if (authResponse) {
         const expiresOnTimestamp = authResponse.expiresOn.getTime();
-        logger.getToken.info(formatSuccess(scopes, expiresOnTimestamp));
+        logger.getToken.info(formatSuccess(scopes));
         return {
           token: authResponse.accessToken,
           expiresOnTimestamp
