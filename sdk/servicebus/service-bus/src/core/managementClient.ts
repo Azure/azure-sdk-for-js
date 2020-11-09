@@ -802,7 +802,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       for (const msg of messages) {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
         const message = new ServiceBusMessageImpl(
-          this._context,
+          this._context.dataTransformer,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
           false,

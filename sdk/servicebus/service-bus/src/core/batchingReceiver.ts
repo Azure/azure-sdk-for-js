@@ -253,7 +253,7 @@ export class BatchingReceiverLite {
 
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        _connectionContext,
+        _connectionContext.dataTransformer,
         context.message!,
         context.delivery!,
         true,

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ConnectionContext } from "../../src/connectionContext";
 import {
   Delivery,
   uuid_to_string,
@@ -11,15 +10,13 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import chai from "chai";
-import { Constants } from "@azure/core-amqp";
+import { Constants, DataTransformer } from "@azure/core-amqp";
 const assert = chai.assert;
 
-const fakeContext = {
-  dataTransformer: {
-    encode: (data) => data,
-    decode: (data) => data
-  }
-} as ConnectionContext;
+const fakeDataTransformer = {
+  encode: (data) => data,
+  decode: (data) => data
+} as DataTransformer;
 const fakeDelivery = {} as Delivery;
 
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
@@ -38,7 +35,7 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in peekLock mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
+      fakeDataTransformer,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -50,7 +47,7 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in receiveAndDelete mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
+      fakeDataTransformer,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -99,7 +96,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   };
 
   const sbMessage = new ServiceBusMessageImpl(
-    fakeContext,
+    fakeDataTransformer,
     amqpMessage,
     fakeDelivery,
     false,
