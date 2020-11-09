@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-let _atob: any;
+let safeatob: any;
 
 // base64 character set, plus padding character (=)
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -10,7 +10,7 @@ const b64re = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3
 
 if ("function" !== typeof atob) {
   // atob implementation for React Native
-  _atob = (str: string) => {
+  safeatob = (str: string) => {
     // atob can work with strings with whitespaces, even inside the encoded part,
     // but only \t, \n, \f, \r and ' ', which can be stripped.
     str = String(str).replace(/[\t\n\f\r ]+/g, "");
@@ -44,7 +44,7 @@ if ("function" !== typeof atob) {
     return result;
   };
 } else {
-  _atob = atob;
+  safeatob = atob;
 }
 
-export default _atob;
+export default safeatob;
