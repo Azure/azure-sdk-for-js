@@ -272,7 +272,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listMetricSeriesDefinitions()", async function() {
     const iterator = client.listMetricSeriesDefinitions(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 7, 5))
     );
     let result = await iterator.next();
@@ -283,7 +283,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listMetricSeriesDefinitions() with datetime string", async function() {
     const iterator = client.listMetricSeriesDefinitions(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-08-05T00:00:00.000Z"
     );
     let result = await iterator.next();
@@ -295,7 +295,7 @@ describe("MetricsAdvisorClient", () => {
   it("listMetricSeriesDefinitions() by page", async function() {
     const iterator = client
       .listMetricSeriesDefinitions(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         new Date(Date.UTC(2020, 7, 5))
       )
       .byPage({ maxPageSize: 2 });
@@ -307,7 +307,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listMetricDimensionValues()", async function() {
     const iterator = client.listMetricDimensionValues(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "Dim1"
     );
     let result = await iterator.next();
@@ -318,7 +318,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listMetricDimensionValues() by page", async function() {
     const iterator = client
-      .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, "Dim1")
+      .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "Dim1")
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
     assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
@@ -328,7 +328,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists series data for a metric", async function() {
     const data = await client.getMetricSeriesData(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
       [
@@ -337,7 +337,7 @@ describe("MetricsAdvisorClient", () => {
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
-    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![0].definition.dimension, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
@@ -351,7 +351,7 @@ describe("MetricsAdvisorClient", () => {
       "Expecting data for the first time series"
     );
 
-    assert.equal(data![1].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.equal(data![1].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![1].definition.dimension, {
       Dim1: "Common Beech",
       Dim2: "Ant"
@@ -368,7 +368,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("lists series data for a metric with datetime strings", async function() {
     const data = await client.getMetricSeriesData(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-08-05T00:00:00.000Z",
       "2020-09-05T00:00:00.000Z",
       [
@@ -377,7 +377,7 @@ describe("MetricsAdvisorClient", () => {
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
-    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+    assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![0].definition.dimension, {
       Dim1: "Common Lime",
       Dim2: "Amphibian"
@@ -455,7 +455,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("list metric enrichment status", async function() {
     const iterator = client.listMetricEnrichmentStatus(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 0, 1)),
       new Date(Date.UTC(2020, 8, 18))
     );
@@ -467,7 +467,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("list metric enrichment status with datetime strings", async function() {
     const iterator = client.listMetricEnrichmentStatus(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-01-01T00:00:00.000Z",
       "2020-09-18T00:00:00.000Z"
     );
@@ -480,15 +480,15 @@ describe("MetricsAdvisorClient", () => {
   it("list metric enrichment status by page", async function() {
     const iterator = client
       .listMetricEnrichmentStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
-        new Date(Date.UTC(2020, 10, 1)),
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
+        new Date(Date.UTC(2020, 0, 1)),
         new Date(Date.UTC(2020, 10, 5))
       )
-      .byPage({ maxPageSize: 1 });
+      .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one result in first page");
+    assert.equal(result.value.length, 2, "Expecting two results in first page");
     result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one result in second page");
+    assert.equal(result.value.length, 2, "Expecting two results in second page");
   });
 
   it("gets root causes of an incident", async function() {
@@ -514,7 +514,7 @@ describe("MetricsAdvisorClient", () => {
     let createdFeedbackId: string;
     it("creates Anomaly feedback", async function() {
       const anomalyFeedback: MetricAnomalyFeedback = {
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Anomaly",
         startTime: new Date(Date.UTC(2020, 7, 5)),
         endTime: new Date(Date.UTC(2020, 7, 7)),
@@ -533,7 +533,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("creates ChangePoint feedback", async function() {
       const changePointFeedback: MetricChangePointFeedback = {
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "ChangePoint",
         startTime: new Date(Date.UTC(2020, 7, 5)),
         value: "ChangePoint",
@@ -551,7 +551,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("creates Period feedback", async function() {
       const periodFeedback: MetricPeriodFeedback = {
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Period",
         periodType: "AutoDetect",
         periodValue: 4,
@@ -570,7 +570,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("creates Comment feedback", async function() {
       const expectedCommentFeedback: MetricCommentFeedback = {
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Comment",
         dimensionKey: { Dim1: "Common Lime", Dim2: "Amphibian" },
         comment: "This is a comment"
@@ -599,7 +599,7 @@ describe("MetricsAdvisorClient", () => {
 
     // service issue, skipping for now
     it("lists Anomaly feedbacks", async function() {
-      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, {
         filter: {
           startTime: new Date(Date.UTC(2020, 10, 1)),
           endTime: new Date(Date.UTC(2020, 10, 5)),
@@ -613,7 +613,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     it("lists Anomaly feedbacks with datetime strings", async function() {
-      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1, {
+      const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, {
         filter: {
           startTime: "2020-11-01T00:00:00.000Z",
           endTime: "2020-11-05T00:00:00.000Z",
@@ -628,7 +628,7 @@ describe("MetricsAdvisorClient", () => {
 
     it("lists Anomaly feedbacks by page", async function() {
       const iterator = client
-        .listFeedback(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
       assert.equal(result.value.length, 2, "Expecting two entries in first page");
