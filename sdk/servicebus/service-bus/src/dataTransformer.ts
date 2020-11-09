@@ -14,7 +14,7 @@ import { logErrorStackTrace, logger } from "./log";
  */
 export interface DataTransformer {
   /**
-   * @property {Function} encode A function that takes the body property from an EventData object
+   * @property {Function} encode A function that takes the body property from a ServiceBusMessage object
    * and returns an encoded body (some form of AMQP type).
    */
   encode: (body: any) => any;
