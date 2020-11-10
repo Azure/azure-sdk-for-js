@@ -1,29 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
+  ListPageSettings,
+  SparkJobDefinitionResource,
   SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
   SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse,
   SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
   SparkJobDefinitionGetSparkJobDefinitionResponse,
   SparkJobDefinitionExecuteSparkJobDefinitionResponse,
   SparkJobDefinitionDebugSparkJobDefinitionResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { SparkJobDefinitionResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+} from "./models";
 
 export class SparkJobDefinitionClient extends AuthenticationClient {
   public async get(
     sparkJobDefinitionName: string,
     options: SparkJobDefinitionGetSparkJobDefinitionOptionalParams = {}
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-Get", options);
 
     try {
       const response = await this.client.sparkJobDefinition.getSparkJobDefinition(
@@ -33,7 +33,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -44,7 +44,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
 
   private async *listSparkJobDefinitionsPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<SparkJobDefinitionResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -72,7 +72,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   }
 
   private async *listSparkJobDefinitionsAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
     for await (const page of this.listSparkJobDefinitionsPage({}, options)) {
       yield* page;
@@ -80,9 +80,9 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<SparkJobDefinitionResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-List", options);
     try {
       const iter = this.listSparkJobDefinitionsAll(updatedOptions);
       return {
@@ -98,7 +98,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -112,7 +112,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
     sparkJobDefinition: SparkJobDefinitionResource,
     options: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams = {}
   ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-Upsert", options);
 
     try {
       const response = await this.client.sparkJobDefinition.createOrUpdateSparkJobDefinition(
@@ -123,7 +123,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -134,9 +134,9 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
 
   public async delete(
     sparkJobDefinitionName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-Delete", options);
 
     try {
       const response = await this.client.sparkJobDefinition.deleteSparkJobDefinition(
@@ -146,7 +146,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -157,9 +157,9 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
 
   public async beginExecute(
     sparkJobDefinitionName: string,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-BeginExecute", options);
 
     try {
       const response = await this.client.sparkJobDefinition.executeSparkJobDefinition(
@@ -169,7 +169,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -180,9 +180,9 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
 
   public async beginDebug(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("SparkJobDefinition-BeginDebug", options);
 
     try {
       const response = await this.client.sparkJobDefinition.debugSparkJobDefinition(
@@ -192,7 +192,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

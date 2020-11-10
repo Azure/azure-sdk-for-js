@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
-
+import { operationOptionsToRequestOptionsBase, OperationOptions } from "@azure/core-http";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { AuthenticationClient } from "./AuthenticationClient";
 import {
   BigDataPoolsListResponse,
   BigDataPoolsGetResponse,
@@ -13,17 +14,11 @@ import {
   WorkspaceGetResponse
 } from "./models";
 
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { AuthenticationClient } from "./AuthenticationClient";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-
 export class ArtifactsClient extends AuthenticationClient {
   public async listBigDataPools(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<BigDataPoolsListResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListBigDataPools", options);
+    const { span, updatedOptions } = createSpan("Artifacts-ListBigDataPools", options);
 
     try {
       const response = await this.client.bigDataPools.list(
@@ -32,7 +27,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -43,9 +38,9 @@ export class ArtifactsClient extends AuthenticationClient {
 
   public async getBigDataPool(
     bigDataPoolName: string,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<BigDataPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetBigDataPool", options);
+    const { span, updatedOptions } = createSpan("Artifacts-GetBigDataPool", options);
 
     try {
       const response = await this.client.bigDataPools.get(
@@ -55,7 +50,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -65,9 +60,9 @@ export class ArtifactsClient extends AuthenticationClient {
   }
 
   public async listIntegrationRuntimes(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<IntegrationRuntimesListResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListIntegrationRuntimes", options);
+    const { span, updatedOptions } = createSpan("Artifacts-ListIntegrationRuntimes", options);
 
     try {
       const response = await this.client.integrationRuntimes.list(
@@ -76,7 +71,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -87,9 +82,9 @@ export class ArtifactsClient extends AuthenticationClient {
 
   public async getIntegrationRuntime(
     integrationRuntimeName: string,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<IntegrationRuntimesGetResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetIntegrationRuntime", options);
+    const { span, updatedOptions } = createSpan("Artifacts-GetIntegrationRuntime", options);
 
     try {
       const response = await this.client.integrationRuntimes.get(
@@ -99,7 +94,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -109,9 +104,9 @@ export class ArtifactsClient extends AuthenticationClient {
   }
 
   public async listSqlPools(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<SqlPoolsListResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSqlPools", options);
+    const { span, updatedOptions } = createSpan("Artifacts-ListSqlPools", options);
 
     try {
       const response = await this.client.sqlPools.list(
@@ -120,7 +115,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -131,9 +126,9 @@ export class ArtifactsClient extends AuthenticationClient {
 
   public async getSqlPool(
     sqlPoolName: string,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<SqlPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetSqlPool", options);
+    const { span, updatedOptions } = createSpan("Artifacts-GetSqlPool", options);
 
     try {
       const response = await this.client.sqlPools.get(
@@ -143,7 +138,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -153,9 +148,9 @@ export class ArtifactsClient extends AuthenticationClient {
   }
 
   public async getWorkspace(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<WorkspaceGetResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetWorkspace", options);
+    const { span, updatedOptions } = createSpan("Artifacts-GetWorkspace", options);
 
     try {
       const response = await this.client.workspace.get(
@@ -164,7 +159,7 @@ export class ArtifactsClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

@@ -1,8 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   SqlScriptResource,
@@ -11,12 +14,11 @@ import {
   SqlScriptGetSqlScriptOptionalParams,
   SqlScriptGetSqlScriptResponse
 } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class SqlScriptClient extends AuthenticationClient {
   private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<SqlScriptResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -44,7 +46,7 @@ export class SqlScriptClient extends AuthenticationClient {
   }
 
   private async *listSqlScriptsAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<SqlScriptResource> {
     for await (const page of this.listSqlScriptsPage({}, options)) {
       yield* page;
@@ -52,9 +54,9 @@ export class SqlScriptClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<SqlScriptResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+    const { span, updatedOptions } = createSpan("SqlScript-List", options);
     try {
       const iter = this.listSqlScriptsAll(updatedOptions);
       return {
@@ -70,7 +72,7 @@ export class SqlScriptClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -84,7 +86,7 @@ export class SqlScriptClient extends AuthenticationClient {
     sqlScript: SqlScriptResource,
     options: SqlScriptCreateOrUpdateSqlScriptOptionalParams = {}
   ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-createOrUpdateSqlScript", options);
+    const { span, updatedOptions } = createSpan("SqlScript-Upsert", options);
 
     try {
       const response = await this.client.sqlScript.createOrUpdateSqlScript(
@@ -95,7 +97,7 @@ export class SqlScriptClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -108,7 +110,7 @@ export class SqlScriptClient extends AuthenticationClient {
     sqlScriptName: string,
     options: SqlScriptGetSqlScriptOptionalParams = {}
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getSqlScript", options);
+    const { span, updatedOptions } = createSpan("SqlScript-Get", options);
 
     try {
       const response = await this.client.sqlScript.getSqlScript(
@@ -118,7 +120,7 @@ export class SqlScriptClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -129,9 +131,9 @@ export class SqlScriptClient extends AuthenticationClient {
 
   public async delete(
     sqlScriptName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-deleteSqlScript", options);
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("SqlScript-Delete", options);
 
     try {
       const response = await this.client.sqlScript.deleteSqlScript(
@@ -141,7 +143,7 @@ export class SqlScriptClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

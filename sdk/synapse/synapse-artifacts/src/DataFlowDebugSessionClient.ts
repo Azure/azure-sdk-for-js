@@ -1,28 +1,29 @@
-import { AuthenticationClient } from "./AuthenticationClient";
-import {
-  CreateDataFlowDebugSessionRequest,
-  DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
-  DeleteDataFlowDebugSessionRequest,
-  DataFlowDebugCommandRequest,
-  DataFlowDebugSessionAddDataFlowResponse,
-  DataFlowDebugPackage
-} from "./generated/models";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
 
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-
-import { ListPageSettings, DataFlowDebugSessionInfo } from "./models";
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { AuthenticationClient } from "./AuthenticationClient";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { LROPoller } from "./generated/lro";
+import { 
+    ListPageSettings, 
+    DataFlowDebugSessionInfo,
+    CreateDataFlowDebugSessionRequest,
+    DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
+    DeleteDataFlowDebugSessionRequest,
+    DataFlowDebugCommandRequest,
+    DataFlowDebugSessionAddDataFlowResponse,
+    DataFlowDebugPackage
+} from "./models";
 
 export class DataFlowDebugSessionClient extends AuthenticationClient {
   public async beginCreate(
     request: CreateDataFlowDebugSessionRequest,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataFlowDebugSession-BeginCreate", options);
 
     try {
       const response = await this.client.dataFlowDebugSession.createDataFlowDebugSession(
@@ -32,7 +33,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -43,7 +44,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
 
   private async *listDataFlowDebugSessionsPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<DataFlowDebugSessionInfo[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -71,7 +72,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
   }
 
   private async *listDataFlowDebugSessionsAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<DataFlowDebugSessionInfo> {
     for await (const page of this.listDataFlowDebugSessionsPage({}, options)) {
       yield* page;
@@ -79,9 +80,9 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+    const { span, updatedOptions } = createSpan("DataFlowDebugSession-List", options);
     try {
       const iter = this.listDataFlowDebugSessionsAll(updatedOptions);
       return {
@@ -97,7 +98,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -108,9 +109,9 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
 
   public async delete(
     request: DeleteDataFlowDebugSessionRequest,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("DataFlowDebugSession-Delete", options);
 
     try {
       const response = await this.client.dataFlowDebugSession.deleteDataFlowDebugSession(
@@ -120,7 +121,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -131,9 +132,9 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
 
   public async addDataFlow(
     request: DataFlowDebugPackage,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataFlowDebugSession-AddDataFlow", options);
 
     try {
       const response = await this.client.dataFlowDebugSession.addDataFlow(
@@ -143,7 +144,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -154,9 +155,9 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
 
   public async beginExecute(
     request: DataFlowDebugCommandRequest,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataFlowDebugSession-BeginExecute", options);
 
     try {
       const response = await this.client.dataFlowDebugSession.addDataFlow(
@@ -166,7 +167,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

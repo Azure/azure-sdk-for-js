@@ -1,5 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
+  ListPageSettings,
+  PipelineResource,
   PipelineCreateOrUpdatePipelineOptionalParams,
   PipelineCreateOrUpdatePipelineResponse,
   PipelineGetPipelineOptionalParams,
@@ -8,22 +18,12 @@ import {
   RunFilterParameters,
   PipelineRunQueryPipelineRunsByWorkspaceResponse,
   PipelineRunGetPipelineRunResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { PipelineResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+} from "./models";
 
 export class PipelineClient extends AuthenticationClient {
   private async *listPipelinesPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<PipelineResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -49,7 +49,7 @@ export class PipelineClient extends AuthenticationClient {
   }
 
   private async *listPipelinesAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<PipelineResource> {
     for await (const page of this.listPipelinesPage({}, options)) {
       yield* page;
@@ -57,9 +57,9 @@ export class PipelineClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<PipelineResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("Pipeline-List", options);
     try {
       const iter = this.listPipelinesAll(updatedOptions);
       return {
@@ -75,7 +75,7 @@ export class PipelineClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -89,7 +89,7 @@ export class PipelineClient extends AuthenticationClient {
     pipeline: PipelineResource,
     options: PipelineCreateOrUpdatePipelineOptionalParams = {}
   ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("Pipeline-BeginUpsert", options);
 
     try {
       const response = await this.client.pipeline.createOrUpdatePipeline(
@@ -100,7 +100,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -111,9 +111,9 @@ export class PipelineClient extends AuthenticationClient {
 
   public async beginDelete(
     pipelineName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("Pipeline-BeginDelete", options);
 
     try {
       const response = await this.client.pipeline.deletePipeline(
@@ -123,7 +123,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -136,7 +136,7 @@ export class PipelineClient extends AuthenticationClient {
     pipelineName: string,
     options: PipelineGetPipelineOptionalParams = {}
   ): Promise<PipelineGetPipelineResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("Pipeline-Get", options);
 
     try {
       const response = await this.client.pipeline.getPipeline(
@@ -146,7 +146,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -155,11 +155,11 @@ export class PipelineClient extends AuthenticationClient {
     }
   }
 
-  public async queryPipelineRunsByWorkspace(
+  public async queryPipelineRuns(
     filterParameters: RunFilterParameters,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-QueryPipelineRunsByWorkspace", options);
+    const { span, updatedOptions } = createSpan("Pipeline-QueryPipelineRuns", options);
 
     try {
       const response = await this.client.pipelineRun.queryPipelineRunsByWorkspace(
@@ -169,7 +169,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -180,9 +180,9 @@ export class PipelineClient extends AuthenticationClient {
 
   public async getPipelineRun(
     runId: string,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getPipelineRun", options);
+    const { span, updatedOptions } = createSpan("Pipeline-GetPipelineRun", options);
 
     try {
       const response = await this.client.pipelineRun.getPipelineRun(
@@ -192,7 +192,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -205,9 +205,9 @@ export class PipelineClient extends AuthenticationClient {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-queryActivityRuns", options);
+    const { span, updatedOptions } = createSpan("Pipeline-QueryActivityRuns", options);
 
     try {
       const response = await this.client.pipelineRun.queryActivityRuns(
@@ -219,7 +219,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -231,8 +231,8 @@ export class PipelineClient extends AuthenticationClient {
   public async cancelPipelineRun(
     runId: string,
     options: PipelineRunCancelPipelineRunOptionalParams = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetPipelineRun", options);
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("Pipeline-CancelPipelineRun", options);
 
     try {
       const response = await this.client.pipelineRun.cancelPipelineRun(
@@ -242,7 +242,7 @@ export class PipelineClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

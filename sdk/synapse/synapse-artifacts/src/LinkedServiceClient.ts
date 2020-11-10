@@ -1,25 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions,RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
+  LinkedServiceResource,
+  ListPageSettings,
   LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
   LinkedServiceCreateOrUpdateLinkedServiceResponse,
   LinkedServiceGetLinkedServiceOptionalParams,
   LinkedServiceGetLinkedServiceResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { LinkedServiceResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+} from "./models";
 
 export class LinkedServiceClient extends AuthenticationClient {
   private async *listLinkedServicesPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<LinkedServiceResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -47,7 +47,7 @@ export class LinkedServiceClient extends AuthenticationClient {
   }
 
   private async *listLinkedServicesAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<LinkedServiceResource> {
     for await (const page of this.listLinkedServicesPage({}, options)) {
       yield* page;
@@ -55,9 +55,9 @@ export class LinkedServiceClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<LinkedServiceResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("LinkedService-List", options);
     try {
       const iter = this.listLinkedServicesAll(updatedOptions);
       return {
@@ -73,7 +73,7 @@ export class LinkedServiceClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -87,7 +87,7 @@ export class LinkedServiceClient extends AuthenticationClient {
     linkedService: LinkedServiceResource,
     options: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams = {}
   ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("LinkedService-BeginUpsert", options);
 
     try {
       const response = await this.client.linkedService.createOrUpdateLinkedService(
@@ -98,7 +98,7 @@ export class LinkedServiceClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -109,9 +109,9 @@ export class LinkedServiceClient extends AuthenticationClient {
 
   public async beginDelete(
     linkedServiceName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-deleteLinkedService", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("LinkedService-BeginDelte", options);
 
     try {
       const response = await this.client.linkedService.deleteLinkedService(
@@ -121,7 +121,7 @@ export class LinkedServiceClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -134,7 +134,7 @@ export class LinkedServiceClient extends AuthenticationClient {
     linkedServiceName: string,
     options: LinkedServiceGetLinkedServiceOptionalParams = {}
   ): Promise<LinkedServiceGetLinkedServiceResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getLinkedService", options);
+    const { span, updatedOptions } = createSpan("LinkedService-Get", options);
 
     try {
       const response = await this.client.linkedService.getLinkedService(
@@ -144,7 +144,7 @@ export class LinkedServiceClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

@@ -1,26 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";;
 import { AuthenticationClient } from "./AuthenticationClient";
 import {
+  ListPageSettings,
+  TriggerResource,
+  TriggerRunQueryTriggerRunsByWorkspaceResponse,
   TriggerCreateOrUpdateTriggerOptionalParams,
   TriggerCreateOrUpdateTriggerResponse,
   TriggerGetTriggerOptionalParams,
   TriggerGetTriggerResponse,
-  RunFilterParameters
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { TriggerResource } from "./models";
-
-import { ListPageSettings, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+  RunFilterParameters,
+  TriggerSubscribeTriggerToEventsResponse,
+  TriggerGetEventSubscriptionStatusResponse,
+  TriggerUnsubscribeTriggerFromEventsResponse
+} from "./models";
 
 export class TriggerClient extends AuthenticationClient {
   private async *listTriggersPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<TriggerResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -46,7 +50,7 @@ export class TriggerClient extends AuthenticationClient {
   }
 
   private async *listTriggersAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<TriggerResource> {
     for await (const page of this.listTriggersPage({}, options)) {
       yield* page;
@@ -54,9 +58,9 @@ export class TriggerClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<TriggerResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("Trigger-List", options);
     try {
       const iter = this.listTriggersAll(updatedOptions);
       return {
@@ -72,7 +76,7 @@ export class TriggerClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -86,7 +90,7 @@ export class TriggerClient extends AuthenticationClient {
     trigger: TriggerResource,
     options: TriggerCreateOrUpdateTriggerOptionalParams = {}
   ): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("Trigger-BeginUpsert", options);
 
     try {
       const response = await this.client.trigger.createOrUpdateTrigger(
@@ -97,7 +101,7 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -108,9 +112,9 @@ export class TriggerClient extends AuthenticationClient {
 
   public async beginDelete(
     triggerName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("Trigger-BeginDelete", options);
 
     try {
       const response = await this.client.trigger.deleteTrigger(
@@ -120,7 +124,7 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -133,7 +137,7 @@ export class TriggerClient extends AuthenticationClient {
     triggerName: string,
     options: TriggerGetTriggerOptionalParams = {}
   ): Promise<TriggerGetTriggerResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("Trigger-Get", options);
 
     try {
       const response = await this.client.trigger.getTrigger(
@@ -143,7 +147,122 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginSubscribeTriggerToEvents(
+    triggerName: string,
+    options: OperationOptions = {}
+  ): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>> {
+    const { span, updatedOptions } = createSpan("Trigger-BeginSubscribeTriggerToEvents", options);
+
+    try {
+      const response = await this.client.trigger.subscribeTriggerToEvents(
+        triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginUnsubscribeTriggerToEvents(
+    triggerName: string,
+    options: OperationOptions = {}
+  ): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>> {
+    const { span, updatedOptions } = createSpan("Trigger-BeginUnsubscribeTriggerToEvents", options);
+
+    try {
+      const response = await this.client.trigger.unsubscribeTriggerFromEvents(
+        triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginStart(
+    triggerName: string,
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("Trigger-BeginStart", options);
+
+    try {
+      const response = await this.client.trigger.startTrigger(
+        triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginStop(
+    triggerName: string,
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("Trigger-BeginStop", options);
+
+    try {
+      const response = await this.client.trigger.stopTrigger(
+        triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getEventSubscriptionStatus(
+    triggerName: string,
+    options: OperationOptions = {}
+  ): Promise<TriggerGetEventSubscriptionStatusResponse> {
+    const { span, updatedOptions } = createSpan("Trigger-GetEventSubscriptionStatus", options);
+
+    try {
+      const response = await this.client.trigger.getEventSubscriptionStatus(
+        triggerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -155,9 +274,9 @@ export class TriggerClient extends AuthenticationClient {
   public async rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-rerunTriggerInstance", options);
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("Trigger-RerunTriggerInstance", options);
 
     try {
       const response = await this.client.triggerRun.rerunTriggerInstance(
@@ -168,7 +287,7 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -180,9 +299,9 @@ export class TriggerClient extends AuthenticationClient {
   public async cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-cancelTriggerInstance", options);
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("Trigger-CancelTriggerInstance", options);
 
     try {
       const response = await this.client.triggerRun.cancelTriggerInstance(
@@ -193,7 +312,7 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -204,9 +323,9 @@ export class TriggerClient extends AuthenticationClient {
 
   public async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-queryTriggerRunsByWorkspace", options);
+    const { span, updatedOptions } = createSpan("Trigger-QueryTriggerRunsByWorkspace", options);
 
     try {
       const response = await this.client.triggerRun.queryTriggerRunsByWorkspace(
@@ -216,7 +335,7 @@ export class TriggerClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

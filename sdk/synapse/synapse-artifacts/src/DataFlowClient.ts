@@ -1,30 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
 import { AuthenticationClient } from "./AuthenticationClient";
+import { LROPoller } from "./generated/lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
   DataFlowResource,
   DataFlowCreateOrUpdateDataFlowOptionalParams,
   DataFlowCreateOrUpdateDataFlowResponse,
   DataFlowGetDataFlowOptionalParams,
-  DataFlowGetDataFlowResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { SqlScriptResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+  DataFlowGetDataFlowResponse,
+  ListPageSettings
+} from "./models";
 
 export class DataFlowClient extends AuthenticationClient {
   private async *listDataFlowsPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
-  ): AsyncIterableIterator<SqlScriptResource[]> {
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<DataFlowResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspace(
+      const currentSetResponse = await this.client.dataFlow.getDataFlowsByWorkspace(
         requestOptions
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -34,7 +33,7 @@ export class DataFlowClient extends AuthenticationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.sqlScript.getSqlScriptsByWorkspaceNext(
+      const currentSetResponse = await this.client.dataFlow.getDataFlowsByWorkspaceNext(
         continuationState.continuationToken,
         requestOptions
       );
@@ -48,17 +47,17 @@ export class DataFlowClient extends AuthenticationClient {
   }
 
   private async *listDataFlowsAll(
-    options: coreHttp.OperationOptions = {}
-  ): AsyncIterableIterator<SqlScriptResource> {
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<DataFlowResource> {
     for await (const page of this.listDataFlowsPage({}, options)) {
       yield* page;
     }
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
-  ): PagedAsyncIterableIterator<SqlScriptResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSqlScripts", options);
+    options: OperationOptions = {}
+  ): PagedAsyncIterableIterator<DataFlowResource> {
+    const { span, updatedOptions } = createSpan("DataFlow-List", options);
     try {
       const iter = this.listDataFlowsAll(updatedOptions);
       return {
@@ -74,7 +73,7 @@ export class DataFlowClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -88,7 +87,7 @@ export class DataFlowClient extends AuthenticationClient {
     dataFlow: DataFlowResource,
     options: DataFlowCreateOrUpdateDataFlowOptionalParams = {}
   ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataFlow-BeginUpsert", options);
 
     try {
       const response = await this.client.dataFlow.createOrUpdateDataFlow(
@@ -99,7 +98,7 @@ export class DataFlowClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -110,9 +109,9 @@ export class DataFlowClient extends AuthenticationClient {
 
   public async beginDelete(
     dataFlowName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("DataFlow-BeginDelete", options);
 
     try {
       const response = await this.client.dataFlow.deleteDataFlow(
@@ -122,7 +121,7 @@ export class DataFlowClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -135,7 +134,7 @@ export class DataFlowClient extends AuthenticationClient {
     dataFlowName: string,
     options: DataFlowGetDataFlowOptionalParams = {}
   ): Promise<DataFlowGetDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataFlow-Get", options);
 
     try {
       const response = await this.client.dataFlow.getDataFlow(
@@ -145,7 +144,7 @@ export class DataFlowClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

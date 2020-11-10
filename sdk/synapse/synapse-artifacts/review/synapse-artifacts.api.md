@@ -8,6 +8,7 @@ import * as coreHttp from '@azure/core-http';
 import { HttpMethods } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
 import { OperationArguments } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { OperationSpec } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -158,23 +159,23 @@ export type AppendVariableActivity = Activity & {
 // @public (undocumented)
 export class ArtifactsClient extends AuthenticationClient {
     // (undocumented)
-    getBigDataPool(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
+    getBigDataPool(bigDataPoolName: string, options?: OperationOptions): Promise<BigDataPoolsGetResponse>;
     // (undocumented)
-    getIntegrationRuntime(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
+    getIntegrationRuntime(integrationRuntimeName: string, options?: OperationOptions): Promise<IntegrationRuntimesGetResponse>;
     // (undocumented)
-    getSqlPool(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
+    getSqlPool(sqlPoolName: string, options?: OperationOptions): Promise<SqlPoolsGetResponse>;
     // (undocumented)
-    getWorkspace(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
+    getWorkspace(options?: OperationOptions): Promise<WorkspaceGetResponse>;
     // (undocumented)
-    listBigDataPools(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+    listBigDataPools(options?: OperationOptions): Promise<BigDataPoolsListResponse>;
     // (undocumented)
-    listIntegrationRuntimes(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
+    listIntegrationRuntimes(options?: OperationOptions): Promise<IntegrationRuntimesListResponse>;
     // (undocumented)
-    listSqlPools(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
+    listSqlPools(options?: OperationOptions): Promise<SqlPoolsListResponse>;
 }
 
 // @public (undocumented)
-export interface ArtifactsClientOptions extends PipelineOptions {
+export interface AuthenticationClientOptions extends PipelineOptions {
     apiVersion?: string;
     endpoint?: string;
 }
@@ -1140,7 +1141,7 @@ export interface DataFlow {
 // @public (undocumented)
 export class DataFlowClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(dataFlowName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // Warning: (ae-forgotten-export) The symbol "LROPoller" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -1148,14 +1149,8 @@ export class DataFlowClient extends AuthenticationClient {
     // (undocumented)
     get(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<DataFlowResource>;
     }
-
-// @public (undocumented)
-export interface DataflowClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimized" | string;
@@ -1239,6 +1234,20 @@ export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionR
         parsedBody: AddDataFlowToDebugSessionResponse;
     };
 };
+
+// @public (undocumented)
+export class DataFlowDebugSessionClient extends AuthenticationClient {
+    // (undocumented)
+    addDataFlow(request: DataFlowDebugPackage, options?: OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    // (undocumented)
+    beginCreate(request: CreateDataFlowDebugSessionRequest, options?: OperationOptions): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
+    // (undocumented)
+    beginExecute(request: DataFlowDebugCommandRequest, options?: OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    // (undocumented)
+    delete(request: DeleteDataFlowDebugSessionRequest, options?: OperationOptions): Promise<RestResponse>;
+    // (undocumented)
+    list(options?: OperationOptions): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
+    }
 
 // @public
 export interface DataFlowDebugSessionCreateDataFlowDebugSessionHeaders {
@@ -1428,20 +1437,14 @@ export type DatasetBZip2Compression = DatasetCompression & {};
 // @public (undocumented)
 export class DataSetClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(datasetName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // (undocumented)
     beginUpsert(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
     // (undocumented)
     get(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
     }
-
-// @public (undocumented)
-export interface DatasetClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export interface DatasetCompression {
@@ -2750,20 +2753,14 @@ export interface LinkedService {
 // @public (undocumented)
 export class LinkedServiceClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(linkedServiceName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // (undocumented)
     beginUpsert(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
     // (undocumented)
     get(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
     }
-
-// @public (undocumented)
-export interface LinkedServiceClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams extends coreHttp.OperationOptions {
@@ -3119,20 +3116,14 @@ export interface NotebookCellOutputItem {
 // @public (undocumented)
 export class NotebookClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(notebookName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // (undocumented)
     beginUpsert(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
     // (undocumented)
     get(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
     }
-
-// @public (undocumented)
-export interface NotebookClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
@@ -3486,27 +3477,21 @@ export type PhoenixSource = TabularSource & {
 // @public (undocumented)
 export class PipelineClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(pipelineName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // (undocumented)
     beginUpsert(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
     // (undocumented)
-    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
+    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<RestResponse>;
     // (undocumented)
     get(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
     // (undocumented)
-    getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    getPipelineRun(runId: string, options?: OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
     // (undocumented)
-    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
     // (undocumented)
-    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
-}
-
-// @public (undocumented)
-export interface PipelineClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
+    queryPipelineRuns(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
 }
 
 // @public
@@ -4423,6 +4408,22 @@ export interface SparkJobDefinition {
     targetBigDataPool: BigDataPoolReference;
 }
 
+// @public (undocumented)
+export class SparkJobDefinitionClient extends AuthenticationClient {
+    // (undocumented)
+    beginDebug(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: OperationOptions): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
+    // (undocumented)
+    beginExecute(sparkJobDefinitionName: string, options?: OperationOptions): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
+    // (undocumented)
+    delete(sparkJobDefinitionName: string, options?: OperationOptions): Promise<RestResponse>;
+    // (undocumented)
+    get(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
+    // (undocumented)
+    list(options?: OperationOptions): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
+    // (undocumented)
+    upsert(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+}
+
 // @public
 export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
@@ -5186,25 +5187,29 @@ export interface Trigger {
 // @public (undocumented)
 export class TriggerClient extends AuthenticationClient {
     // (undocumented)
-    beginDelete(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    beginDelete(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
+    // (undocumented)
+    beginStart(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
+    // (undocumented)
+    beginStop(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
+    // (undocumented)
+    beginSubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>>;
+    // (undocumented)
+    beginUnsubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>>;
     // (undocumented)
     beginUpsert(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
     // (undocumented)
-    cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    cancelTriggerInstance(triggerName: string, runId: string, options?: OperationOptions): Promise<RestResponse>;
     // (undocumented)
     get(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
     // (undocumented)
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
+    getEventSubscriptionStatus(triggerName: string, options?: OperationOptions): Promise<TriggerGetEventSubscriptionStatusResponse>;
     // (undocumented)
-    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    list(options?: OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
     // (undocumented)
-    rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-}
-
-// @public (undocumented)
-export interface TriggerClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
+    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    // (undocumented)
+    rerunTriggerInstance(triggerName: string, runId: string, options?: OperationOptions): Promise<RestResponse>;
 }
 
 // @public

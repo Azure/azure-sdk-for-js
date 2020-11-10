@@ -1,25 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions,RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
-import {
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { 
+  ListPageSettings,
+  DatasetResource,
   DatasetCreateOrUpdateDatasetOptionalParams,
   DatasetCreateOrUpdateDatasetResponse,
   DatasetGetDatasetOptionalParams,
   DatasetGetDatasetResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { DatasetResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+ } from "./models";
 
 export class DataSetClient extends AuthenticationClient {
   private async *listDataSetsPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<DatasetResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -45,7 +45,7 @@ export class DataSetClient extends AuthenticationClient {
   }
 
   private async *listDataSetsAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<DatasetResource> {
     for await (const page of this.listDataSetsPage({}, options)) {
       yield* page;
@@ -53,9 +53,9 @@ export class DataSetClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<DatasetResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("DataSet-List", options);
     try {
       const iter = this.listDataSetsAll(updatedOptions);
       return {
@@ -71,7 +71,7 @@ export class DataSetClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -85,7 +85,7 @@ export class DataSetClient extends AuthenticationClient {
     dataset: DatasetResource,
     options: DatasetCreateOrUpdateDatasetOptionalParams = {}
   ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataSet-BeginUpsert", options);
 
     try {
       const response = await this.client.dataset.createOrUpdateDataset(
@@ -96,7 +96,7 @@ export class DataSetClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -107,9 +107,9 @@ export class DataSetClient extends AuthenticationClient {
 
   public async beginDelete(
     datasetName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("DataSet-BeginDelete", options);
 
     try {
       const response = await this.client.dataset.deleteDataset(
@@ -119,7 +119,7 @@ export class DataSetClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -132,7 +132,7 @@ export class DataSetClient extends AuthenticationClient {
     datasetName: string,
     options: DatasetGetDatasetOptionalParams = {}
   ): Promise<DatasetGetDatasetResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("DataSet-Get", options);
 
     try {
       const response = await this.client.dataset.getDataset(
@@ -142,7 +142,7 @@ export class DataSetClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

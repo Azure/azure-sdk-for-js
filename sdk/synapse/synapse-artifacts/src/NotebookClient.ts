@@ -1,25 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
+import { operationOptionsToRequestOptionsBase, OperationOptions,RestResponse } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
+import { LROPoller } from "./generated/lro";
+import { createSpan,  getCanonicalCode } from "./utils/tracing";
 import {
+  ListPageSettings,
+  NotebookResource,
   NotebookCreateOrUpdateNotebookOptionalParams,
   NotebookCreateOrUpdateNotebookResponse,
   NotebookGetNotebookOptionalParams,
   NotebookGetNotebookResponse
-} from "./generated/models";
-
-import { LROPoller } from "./generated/lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import * as coreHttp from "@azure/core-http";
-import { NotebookResource } from "./models";
-
-import { ListPageSettings } from "./models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+} from "./models";
 
 export class NotebookClient extends AuthenticationClient {
   private async *listNotebooksPage(
     continuationState: ListPageSettings,
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<NotebookResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
@@ -47,7 +47,7 @@ export class NotebookClient extends AuthenticationClient {
   }
 
   private async *listNotebooksAll(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): AsyncIterableIterator<NotebookResource> {
     for await (const page of this.listNotebooksPage({}, options)) {
       yield* page;
@@ -55,9 +55,9 @@ export class NotebookClient extends AuthenticationClient {
   }
 
   public list(
-    options: coreHttp.OperationOptions = {}
+    options: OperationOptions = {}
   ): PagedAsyncIterableIterator<NotebookResource> {
-    const { span, updatedOptions } = createSpan("Synapse-ListDataSets", options);
+    const { span, updatedOptions } = createSpan("Notebook-List", options);
     try {
       const iter = this.listNotebooksAll(updatedOptions);
       return {
@@ -73,7 +73,7 @@ export class NotebookClient extends AuthenticationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -87,7 +87,7 @@ export class NotebookClient extends AuthenticationClient {
     notebook: NotebookResource,
     options: NotebookCreateOrUpdateNotebookOptionalParams = {}
   ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    const { span, updatedOptions } = createSpan("Notebook-BeginUpsert", options);
 
     try {
       const response = await this.client.notebook.createOrUpdateNotebook(
@@ -98,7 +98,7 @@ export class NotebookClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -109,9 +109,9 @@ export class NotebookClient extends AuthenticationClient {
 
   public async beginDelete(
     notebookName: string,
-    options: coreHttp.OperationOptions = {}
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("Synapse-beginCreateOrUpdateDataFlow", options);
+    options: OperationOptions = {}
+  ): Promise<LROPoller<RestResponse>> {
+    const { span, updatedOptions } = createSpan("Notebook-BeginDelete", options);
 
     try {
       const response = await this.client.notebook.deleteNotebook(
@@ -121,7 +121,7 @@ export class NotebookClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -134,7 +134,7 @@ export class NotebookClient extends AuthenticationClient {
     notebookName: string,
     options: NotebookGetNotebookOptionalParams = {}
   ): Promise<NotebookGetNotebookResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-getDataFlow", options);
+    const { span, updatedOptions } = createSpan("Notebook-Get", options);
 
     try {
       const response = await this.client.notebook.getNotebook(
@@ -144,7 +144,7 @@ export class NotebookClient extends AuthenticationClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;

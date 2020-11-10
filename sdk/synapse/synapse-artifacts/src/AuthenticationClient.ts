@@ -1,19 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http";
-
-import { ArtifactsClientOptions } from "./models";
-
+import { TokenCredential, createPipelineFromOptions, bearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { SynapseArtifacts } from "./synapseArtifacts";
+import { AuthenticationClientOptions } from "./models";
 import { logger } from "./utils/logger";
-import { SDK_VERSION } from "./utils/constants";
+import { SDK_VERSION, DEFAULT_SYNAPSE_SCOPE } from "./utils/constants";
 
 export class AuthenticationClient {
   /**
@@ -31,7 +24,7 @@ export class AuthenticationClient {
   constructor(
     workspaceEndpoint: string,
     credential: TokenCredential,
-    pipelineOptions: ArtifactsClientOptions = {}
+    pipelineOptions: AuthenticationClientOptions = {}
   ) {
     this.workspaceEndpoint = workspaceEndpoint;
 
@@ -49,7 +42,7 @@ export class AuthenticationClient {
 
     const authPolicy = bearerTokenAuthenticationPolicy(
       credential,
-      "https://dev.azuresynapse.net/.default"
+      DEFAULT_SYNAPSE_SCOPE
     );
 
     const internalPipelineOptions = {
