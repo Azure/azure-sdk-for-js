@@ -38,12 +38,7 @@ let deadLetterReceiver: ServiceBusReceiver;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
-    // prior to a recent change the behavior was always to _not_ auto-renew locks.
-    // for compat with these tests I'm just disabling this. There are tests in renewLocks.spec.ts that
-    // ensure lock renewal does work with batching.
-    maxAutoLockRenewalDurationInMs: 0
-  });
+  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
