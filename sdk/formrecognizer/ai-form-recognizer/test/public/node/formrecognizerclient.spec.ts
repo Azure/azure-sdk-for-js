@@ -156,7 +156,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     assert.equal(receipt.formType, "prebuilt:receipt");
   });
 
-  it.only("recognizes multi-page receipt with blank page", async () => {
+  it("recognizes multi-page receipt with blank page", async () => {
     const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
     const stream = fs.createReadStream(filePath);
 

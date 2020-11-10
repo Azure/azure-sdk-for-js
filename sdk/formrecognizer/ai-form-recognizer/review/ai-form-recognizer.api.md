@@ -222,10 +222,8 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    // (undocumented)
     beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
-    // (undocumented)
-    beginRecognizeBusinessCardsFromUrl(receiptUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
+    beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
@@ -408,6 +406,14 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
+export interface RecognizeFormsOperationState extends PollOperationState<RecognizedFormArray> {
+    expectedDocType?: string;
+    modelId?: string;
+    resultId?: string;
+    status: OperationStatus;
+}
+
+// @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeFieldElements?: boolean;
 };
@@ -444,10 +450,6 @@ export interface TrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/formRecognizerClient.ts:131:3 - (ae-forgotten-export) The symbol "RecognizeFormsOperationState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
