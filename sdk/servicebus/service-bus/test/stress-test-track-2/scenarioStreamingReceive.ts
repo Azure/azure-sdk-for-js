@@ -24,26 +24,38 @@ interface ScenarioStreamingReceiveOptions {
   settleMessageOnReceive?: boolean;
 }
 
-function sanitizeOptions(
-  options: ScenarioStreamingReceiveOptions
-): Required<ScenarioStreamingReceiveOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptions> {
+  const options = parsedArgs<ScenarioStreamingReceiveOptions>(args, {
+    boolean: [
+      "autoComplete",
+      "manualLockRenewal",
+      "completeMessageAfterDuration",
+      "settleMessageOnReceive"
+    ],
+    default: {
+      autoComplete: true,
+      manualLockRenewal: true,
+      completeMessageAfterDuration: true,
+      settleMessageOnReceive: false
+    }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
-    autoComplete: options.autoComplete || true,
+    autoComplete: options.autoComplete,
     maxConcurrentCalls: options.maxConcurrentCalls || 100,
     maxAutoRenewLockDurationInMs: options.maxAutoRenewLockDurationInMs || 0,
-    manualLockRenewal: options.manualLockRenewal || true,
+    manualLockRenewal: options.manualLockRenewal,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    completeMessageAfterDuration: options.completeMessageAfterDuration || true,
-    settleMessageOnReceive: options.settleMessageOnReceive || false
+    completeMessageAfterDuration: options.completeMessageAfterDuration,
+    settleMessageOnReceive: options.settleMessageOnReceive
   };
 }
 
 export async function scenarioStreamingReceive() {
-  const testOptions = sanitizeOptions(parsedArgs<ScenarioStreamingReceiveOptions>(process.argv));
+  const testOptions = sanitizeOptions(process.argv);
   const {
     testDurationInMs,
     receiveMode,
