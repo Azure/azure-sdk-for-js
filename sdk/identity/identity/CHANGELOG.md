@@ -2,11 +2,11 @@
 
 ## 1.2.0 (Unreleased)
 
-### Changes since 1.1.*
+### Changes since 1.1.\*
 
 - With 1.2, we've added support for Azure Arc to our Managed Identity credential.
 - We've also added an Interactive Browser credential for Node, which spawns the user's browser and connects via
-a browser-based auth code flow. This is powered by the Microsoft Authentication Library (MSAL)
+  a browser-based auth code flow. This is powered by the Microsoft Authentication Library (MSAL)
 - We've moved `DeviceCodeCredential` to also use the Microsoft Authentication Library (MSAL)
 - Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential.
 - Added Active Directory Federation Services authority host support to the node credentials.
@@ -40,7 +40,7 @@ a browser-based auth code flow. This is powered by the Microsoft Authentication 
 
 ## 1.1.0 (2020-08-11)
 
-### Changes since 1.0.*
+### Changes since 1.0.\*
 
 - With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
   - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.
