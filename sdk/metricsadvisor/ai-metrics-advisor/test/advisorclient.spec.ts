@@ -519,7 +519,7 @@ describe("MetricsAdvisorClient", () => {
         startTime: new Date(Date.UTC(2020, 7, 5)),
         endTime: new Date(Date.UTC(2020, 7, 7)),
         value: "NotAnomaly",
-        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
+        dimensionKey: { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(anomalyFeedback);
 
@@ -537,7 +537,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "ChangePoint",
         startTime: new Date(Date.UTC(2020, 7, 5)),
         value: "ChangePoint",
-        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
+        dimensionKey: { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(changePointFeedback);
 
@@ -555,7 +555,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "Period",
         periodType: "AutoDetect",
         periodValue: 4,
-        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
+        dimensionKey: { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(periodFeedback);
 
@@ -572,7 +572,7 @@ describe("MetricsAdvisorClient", () => {
       const expectedCommentFeedback: MetricCommentFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Comment",
-        dimensionKey:  { city: "Cairo", category: "Home & Garden" },
+        dimensionKey: { city: "Cairo", category: "Home & Garden" },
         comment: "This is a comment"
       };
 
