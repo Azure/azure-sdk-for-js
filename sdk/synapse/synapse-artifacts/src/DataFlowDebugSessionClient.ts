@@ -2,20 +2,24 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import {
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  RestResponse
+} from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { createSpan, getCanonicalCode } from "./utils/tracing";
 import { LROPoller } from "./generated/lro";
-import { 
-    ListPageSettings, 
-    DataFlowDebugSessionInfo,
-    CreateDataFlowDebugSessionRequest,
-    DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
-    DeleteDataFlowDebugSessionRequest,
-    DataFlowDebugCommandRequest,
-    DataFlowDebugSessionAddDataFlowResponse,
-    DataFlowDebugPackage
+import {
+  ListPageSettings,
+  DataFlowDebugSessionInfo,
+  CreateDataFlowDebugSessionRequest,
+  DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
+  DeleteDataFlowDebugSessionRequest,
+  DataFlowDebugCommandRequest,
+  DataFlowDebugSessionAddDataFlowResponse,
+  DataFlowDebugPackage
 } from "./models";
 
 export class DataFlowDebugSessionClient extends AuthenticationClient {

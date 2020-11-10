@@ -2,11 +2,15 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { operationOptionsToRequestOptionsBase, OperationOptions,RestResponse } from "@azure/core-http";
+import {
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  RestResponse
+} from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
 import { LROPoller } from "./generated/lro";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   NotebookResource,
@@ -54,9 +58,7 @@ export class NotebookClient extends AuthenticationClient {
     }
   }
 
-  public list(
-    options: OperationOptions = {}
-  ): PagedAsyncIterableIterator<NotebookResource> {
+  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
     const { span, updatedOptions } = createSpan("Notebook-List", options);
     try {
       const iter = this.listNotebooksAll(updatedOptions);

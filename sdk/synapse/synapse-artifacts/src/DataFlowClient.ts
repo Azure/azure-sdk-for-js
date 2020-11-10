@@ -5,8 +5,12 @@
 import { AuthenticationClient } from "./AuthenticationClient";
 import { LROPoller } from "./generated/lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import {
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  RestResponse
+} from "@azure/core-http";
+import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   DataFlowResource,
   DataFlowCreateOrUpdateDataFlowOptionalParams,
@@ -23,9 +27,7 @@ export class DataFlowClient extends AuthenticationClient {
   ): AsyncIterableIterator<DataFlowResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.dataFlow.getDataFlowsByWorkspace(
-        requestOptions
-      );
+      const currentSetResponse = await this.client.dataFlow.getDataFlowsByWorkspace(requestOptions);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value;
@@ -54,9 +56,7 @@ export class DataFlowClient extends AuthenticationClient {
     }
   }
 
-  public list(
-    options: OperationOptions = {}
-  ): PagedAsyncIterableIterator<DataFlowResource> {
+  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<DataFlowResource> {
     const { span, updatedOptions } = createSpan("DataFlow-List", options);
     try {
       const iter = this.listDataFlowsAll(updatedOptions);

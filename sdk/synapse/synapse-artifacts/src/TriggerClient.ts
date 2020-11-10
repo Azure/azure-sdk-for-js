@@ -2,10 +2,14 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { operationOptionsToRequestOptionsBase, OperationOptions, RestResponse } from "@azure/core-http";
+import {
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  RestResponse
+} from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LROPoller } from "./generated/lro";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";;
+import { createSpan, getCanonicalCode } from "./utils/tracing";
 import { AuthenticationClient } from "./AuthenticationClient";
 import {
   ListPageSettings,
@@ -57,9 +61,7 @@ export class TriggerClient extends AuthenticationClient {
     }
   }
 
-  public list(
-    options: OperationOptions = {}
-  ): PagedAsyncIterableIterator<TriggerResource> {
+  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<TriggerResource> {
     const { span, updatedOptions } = createSpan("Trigger-List", options);
     try {
       const iter = this.listTriggersAll(updatedOptions);

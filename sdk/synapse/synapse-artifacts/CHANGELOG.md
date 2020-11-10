@@ -21,5 +21,3 @@ The first preview of the Azure Synapse Artifacts Client has the following featur
 - query/cancel/rerun TriggerRun under current workspace
 - subscribe/nnsubscribe TriggerToEvents under current workspace
 - get EventSubscription status
-
-

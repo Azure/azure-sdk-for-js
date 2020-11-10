@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential, createPipelineFromOptions, bearerTokenAuthenticationPolicy } from "@azure/core-http";
+import {
+  TokenCredential,
+  createPipelineFromOptions,
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-http";
 import { SynapseArtifacts } from "./synapseArtifacts";
 import { AuthenticationClientOptions } from "./models";
 import { logger } from "./utils/logger";
@@ -40,10 +44,7 @@ export class AuthenticationClient {
           : libInfo
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      credential,
-      DEFAULT_SYNAPSE_SCOPE
-    );
+    const authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_SYNAPSE_SCOPE);
 
     const internalPipelineOptions = {
       ...pipelineOptions,

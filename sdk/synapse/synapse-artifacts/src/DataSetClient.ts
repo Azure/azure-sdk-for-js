@@ -2,19 +2,23 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { operationOptionsToRequestOptionsBase, OperationOptions,RestResponse } from "@azure/core-http";
+import {
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  RestResponse
+} from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AuthenticationClient } from "./AuthenticationClient";
 import { LROPoller } from "./generated/lro";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";
-import { 
+import { createSpan, getCanonicalCode } from "./utils/tracing";
+import {
   ListPageSettings,
   DatasetResource,
   DatasetCreateOrUpdateDatasetOptionalParams,
   DatasetCreateOrUpdateDatasetResponse,
   DatasetGetDatasetOptionalParams,
   DatasetGetDatasetResponse
- } from "./models";
+} from "./models";
 
 export class DataSetClient extends AuthenticationClient {
   private async *listDataSetsPage(
@@ -52,9 +56,7 @@ export class DataSetClient extends AuthenticationClient {
     }
   }
 
-  public list(
-    options: OperationOptions = {}
-  ): PagedAsyncIterableIterator<DatasetResource> {
+  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<DatasetResource> {
     const { span, updatedOptions } = createSpan("DataSet-List", options);
     try {
       const iter = this.listDataSetsAll(updatedOptions);

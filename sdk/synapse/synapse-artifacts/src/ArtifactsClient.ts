@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 import { operationOptionsToRequestOptionsBase, OperationOptions } from "@azure/core-http";
-import { createSpan,  getCanonicalCode } from "./utils/tracing";
+import { createSpan, getCanonicalCode } from "./utils/tracing";
 import { AuthenticationClient } from "./AuthenticationClient";
 import {
   BigDataPoolsListResponse,
@@ -15,9 +15,7 @@ import {
 } from "./models";
 
 export class ArtifactsClient extends AuthenticationClient {
-  public async listBigDataPools(
-    options: OperationOptions = {}
-  ): Promise<BigDataPoolsListResponse> {
+  public async listBigDataPools(options: OperationOptions = {}): Promise<BigDataPoolsListResponse> {
     const { span, updatedOptions } = createSpan("Artifacts-ListBigDataPools", options);
 
     try {
@@ -103,9 +101,7 @@ export class ArtifactsClient extends AuthenticationClient {
     }
   }
 
-  public async listSqlPools(
-    options: OperationOptions = {}
-  ): Promise<SqlPoolsListResponse> {
+  public async listSqlPools(options: OperationOptions = {}): Promise<SqlPoolsListResponse> {
     const { span, updatedOptions } = createSpan("Artifacts-ListSqlPools", options);
 
     try {
@@ -147,9 +143,7 @@ export class ArtifactsClient extends AuthenticationClient {
     }
   }
 
-  public async getWorkspace(
-    options: OperationOptions = {}
-  ): Promise<WorkspaceGetResponse> {
+  public async getWorkspace(options: OperationOptions = {}): Promise<WorkspaceGetResponse> {
     const { span, updatedOptions } = createSpan("Artifacts-GetWorkspace", options);
 
     try {
