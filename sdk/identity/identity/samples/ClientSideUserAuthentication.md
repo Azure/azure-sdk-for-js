@@ -39,16 +39,24 @@ As code uses the `SecretClient` in the above sample, the `InteractiveBrowserCred
 For terminal clients without an available web browser, or clients with limited UI capabilities the `DeviceCodeCredential` provides the ability to authenticate any client using a device code. The next sample shows authenticating a `BlobServiceClient` (from [@azure/storage-blob](https://www.npmjs.com/package/@azure/storage-blob)) using the `DeviceCodeCredential`.
 
 ```ts
-import { DeviceCodeCredential } from "@azure/identity";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { DeviceCodeCredential } = require("@azure/identity");
+import { BlobServiceClient } = require("@azure/storage-blob");
 
-let credential = new DeviceCodeCredential(
-  // By default, tenantId will be "organizations". You might assign a specific tenant this way.
-  process.env.AZURE_TENANT_ID!,
-  // By default, clientId will be the same used by the Azure CLI. You might assign a specific client ID this way.
-  process.env.AZURE_CLIENT_ID!
-);
-let client = new BlobServiceClient("https://myaccount.blob.core.windows.net/mycontainer/myblob", credential);
+async function main() {
+  const credential = new DeviceCodeCredential(
+    // By default, tenantId will be "organizations". You might assign a specific tenant this way.
+    process.env.AZURE_TENANT_ID!,
+    // By default, clientId will be the same used by the Azure CLI. You might assign a specific client ID this way.
+    process.env.AZURE_CLIENT_ID!
+  );
+  const client = new BlobServiceClient("https://myaccount.blob.core.windows.net/mycontainer/myblob", credential);
+
+  const containerClient = blobServiceClient.getContainerClient("<container-name>");
+  const createContainerResponse = await containerClient.create();
+  console.log(`Successfully created a container`, createContainerResponse.requestId);
+}
+
+main().then(console.log).catch((e) => console.error(e));
 ```
 
 Similarly to the `InteractiveBrowserCredential` the `DeviceCodeCredential` will also initiate the user interaction automatically as needed. To instantiate the `DeviceCodeCredential` the application must provide a callback which is called to display the device code along with details on how to authenticate to the user. By default, the full device code message will be printed to the console.
