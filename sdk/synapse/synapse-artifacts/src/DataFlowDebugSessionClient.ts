@@ -23,6 +23,12 @@ import {
 } from "./models";
 
 export class DataFlowDebugSessionClient extends AuthenticationClient {
+
+  /**
+   * Creates a data flow debug session.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
+   */  
   public async beginCreate(
     request: CreateDataFlowDebugSessionRequest,
     options: OperationOptions = {}
@@ -83,6 +89,10 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Query all active data flow debug sessions.
+   * @param options The options parameters.
+   */  
   public list(
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo> {
@@ -111,6 +121,11 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Deletes a data flow debug session.
+   * @param request Data flow debug session definition for deletion
+   * @param options The options parameters.
+   */  
   public async delete(
     request: DeleteDataFlowDebugSessionRequest,
     options: OperationOptions = {}
@@ -134,6 +149,11 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Add a data flow into debug session.
+   * @param request Data flow debug session definition with debug content.
+   * @param options The options parameters.
+   */  
   public async addDataFlow(
     request: DataFlowDebugPackage,
     options: OperationOptions = {}
@@ -157,6 +177,11 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Execute a data flow debug command.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
+   */  
   public async beginExecute(
     request: DataFlowDebugCommandRequest,
     options: OperationOptions = {}

@@ -21,6 +21,35 @@ import {
 } from "./models";
 
 export class LinkedServiceClient extends AuthenticationClient {
+
+  /**
+   * Gets a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
+   */  
+  public async get(
+    linkedServiceName: string,
+    options: LinkedServiceGetLinkedServiceOptionalParams = {}
+  ): Promise<LinkedServiceGetLinkedServiceResponse> {
+    const { span, updatedOptions } = createSpan("LinkedService-Get", options);
+
+    try {
+      const response = await this.client.linkedService.getLinkedService(
+        linkedServiceName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
   private async *listLinkedServicesPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -58,6 +87,10 @@ export class LinkedServiceClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Lists linked services.
+   * @param options The options parameters.
+   */  
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<LinkedServiceResource> {
     const { span, updatedOptions } = createSpan("LinkedService-List", options);
     try {
@@ -84,6 +117,12 @@ export class LinkedServiceClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Creates or updates a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param linkedService Linked service resource definition.
+   * @param options The options parameters.
+   */  
   public async beginUpsert(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
@@ -109,6 +148,11 @@ export class LinkedServiceClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Deletes a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
+   */  
   public async beginDelete(
     linkedServiceName: string,
     options: OperationOptions = {}
@@ -117,29 +161,6 @@ export class LinkedServiceClient extends AuthenticationClient {
 
     try {
       const response = await this.client.linkedService.deleteLinkedService(
-        linkedServiceName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: getCanonicalCode(e),
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async get(
-    linkedServiceName: string,
-    options: LinkedServiceGetLinkedServiceOptionalParams = {}
-  ): Promise<LinkedServiceGetLinkedServiceResponse> {
-    const { span, updatedOptions } = createSpan("LinkedService-Get", options);
-
-    try {
-      const response = await this.client.linkedService.getLinkedService(
         linkedServiceName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

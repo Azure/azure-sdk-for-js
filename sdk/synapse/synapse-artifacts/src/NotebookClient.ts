@@ -21,7 +21,103 @@ import {
 } from "./models";
 
 export class NotebookClient extends AuthenticationClient {
+
+  /**
+   * Gets a Note Book.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
+   */  
+  public async get(
+    notebookName: string,
+    options: NotebookGetNotebookOptionalParams = {}
+  ): Promise<NotebookGetNotebookResponse> {
+    const { span, updatedOptions } = createSpan("Notebook-Get", options);
+
+    try {
+      const response = await this.client.notebook.getNotebook(
+        notebookName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+    
   private async *listNotebooksPage(
+    continuationState: ListPageSettings,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<NotebookResource[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    if (!continuationState.continuationToken) {
+      const currentSetResponse = await this.client.notebook.getNotebooksByWorkspace(
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.notebook.getNotebooksByWorkspaceNext(
+        continuationState.continuationToken,
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listNotebooksAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<NotebookResource> {
+    for await (const page of this.listNotebooksPage({}, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists Notebooks.
+   * @param options The options parameters.
+   */  
+  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
+    const { span, updatedOptions } = createSpan("Notebook-List", options);
+    try {
+      const iter = this.listNotebooksAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listNotebooksPage(settings, updatedOptions);
+        }
+      };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listNotebookSummaryPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
   ): AsyncIterableIterator<NotebookResource[]> {
@@ -50,18 +146,22 @@ export class NotebookClient extends AuthenticationClient {
     }
   }
 
-  private async *listNotebooksAll(
+  private async *listNotebookSummaryAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.listNotebooksPage({}, options)) {
+    for await (const page of this.listNotebookSummaryPage({}, options)) {
       yield* page;
     }
   }
 
-  public list(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
-    const { span, updatedOptions } = createSpan("Notebook-List", options);
+  /**
+   * Lists a summary of Notebooks.
+   * @param options The options parameters.
+   */  
+  public listSummary(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
+    const { span, updatedOptions } = createSpan("Notebook-ListSummary", options);
     try {
-      const iter = this.listNotebooksAll(updatedOptions);
+      const iter = this.listNotebookSummaryAll(updatedOptions);
       return {
         next() {
           return iter.next();
@@ -70,7 +170,7 @@ export class NotebookClient extends AuthenticationClient {
           return this;
         },
         byPage: (settings: ListPageSettings = {}) => {
-          return this.listNotebooksPage(settings, updatedOptions);
+          return this.listNotebookSummaryPage(settings, updatedOptions);
         }
       };
     } catch (e) {
@@ -84,6 +184,12 @@ export class NotebookClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Creates or updates a Note Book.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
+   */  
   public async beginUpsert(
     notebookName: string,
     notebook: NotebookResource,
@@ -109,6 +215,11 @@ export class NotebookClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Deletes a Note book.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
+   */  
   public async beginDelete(
     notebookName: string,
     options: OperationOptions = {}
@@ -117,29 +228,6 @@ export class NotebookClient extends AuthenticationClient {
 
     try {
       const response = await this.client.notebook.deleteNotebook(
-        notebookName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: getCanonicalCode(e),
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async get(
-    notebookName: string,
-    options: NotebookGetNotebookOptionalParams = {}
-  ): Promise<NotebookGetNotebookResponse> {
-    const { span, updatedOptions } = createSpan("Notebook-Get", options);
-
-    try {
-      const response = await this.client.notebook.getNotebook(
         notebookName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

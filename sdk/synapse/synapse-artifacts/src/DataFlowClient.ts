@@ -21,6 +21,35 @@ import {
 } from "./models";
 
 export class DataFlowClient extends AuthenticationClient {
+
+  /**
+   * Gets a data flow.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
+   */  
+  public async get(
+    dataFlowName: string,
+    options: DataFlowGetDataFlowOptionalParams = {}
+  ): Promise<DataFlowGetDataFlowResponse> {
+    const { span, updatedOptions } = createSpan("DataFlow-Get", options);
+
+    try {
+      const response = await this.client.dataFlow.getDataFlow(
+        dataFlowName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  
   private async *listDataFlowsPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -56,6 +85,10 @@ export class DataFlowClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Lists data flows.
+   * @param options The options parameters.
+   */
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<DataFlowResource> {
     const { span, updatedOptions } = createSpan("DataFlow-List", options);
     try {
@@ -82,6 +115,12 @@ export class DataFlowClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Creates or updates a data flow.
+   * @param dataFlowName The data flow name.
+   * @param dataFlow Data flow resource definition.
+   * @param options The options parameters.
+   */  
   public async beginUpsert(
     dataFlowName: string,
     dataFlow: DataFlowResource,
@@ -107,6 +146,11 @@ export class DataFlowClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Deletes a data flow.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
+   */  
   public async beginDelete(
     dataFlowName: string,
     options: OperationOptions = {}
@@ -115,29 +159,6 @@ export class DataFlowClient extends AuthenticationClient {
 
     try {
       const response = await this.client.dataFlow.deleteDataFlow(
-        dataFlowName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: getCanonicalCode(e),
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async get(
-    dataFlowName: string,
-    options: DataFlowGetDataFlowOptionalParams = {}
-  ): Promise<DataFlowGetDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("DataFlow-Get", options);
-
-    try {
-      const response = await this.client.dataFlow.getDataFlow(
         dataFlowName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

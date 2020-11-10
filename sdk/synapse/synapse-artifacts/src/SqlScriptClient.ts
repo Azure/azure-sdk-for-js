@@ -20,6 +20,35 @@ import {
 } from "./models";
 
 export class SqlScriptClient extends AuthenticationClient {
+
+  /**
+   * Gets a sql script.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
+   */  
+  public async get(
+    sqlScriptName: string,
+    options: SqlScriptGetSqlScriptOptionalParams = {}
+  ): Promise<SqlScriptGetSqlScriptResponse> {
+    const { span, updatedOptions } = createSpan("SqlScript-Get", options);
+
+    try {
+      const response = await this.client.sqlScript.getSqlScript(
+        sqlScriptName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  
   private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -57,6 +86,10 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
+   /**
+   * Lists sql scripts.
+   * @param options The options parameters.
+   */ 
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<SqlScriptResource> {
     const { span, updatedOptions } = createSpan("SqlScript-List", options);
     try {
@@ -83,6 +116,12 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Creates or updates a Sql Script.
+   * @param sqlScriptName The sql script name.
+   * @param sqlScript Sql Script resource definition.
+   * @param options The options parameters.
+   */  
   public async upsert(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
@@ -108,29 +147,11 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-  public async get(
-    sqlScriptName: string,
-    options: SqlScriptGetSqlScriptOptionalParams = {}
-  ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan("SqlScript-Get", options);
-
-    try {
-      const response = await this.client.sqlScript.getSqlScript(
-        sqlScriptName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: getCanonicalCode(e),
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
+  /**
+   * Deletes a Sql Script.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
+   */  
   public async delete(
     sqlScriptName: string,
     options: OperationOptions = {}

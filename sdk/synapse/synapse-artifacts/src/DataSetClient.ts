@@ -21,6 +21,35 @@ import {
 } from "./models";
 
 export class DataSetClient extends AuthenticationClient {
+  
+  /**
+   * Gets a dataset.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
+   */  
+  public async get(
+    datasetName: string,
+    options: DatasetGetDatasetOptionalParams = {}
+  ): Promise<DatasetGetDatasetResponse> {
+    const { span, updatedOptions } = createSpan("DataSet-Get", options);
+
+    try {
+      const response = await this.client.dataset.getDataset(
+        datasetName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
   private async *listDataSetsPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -56,6 +85,10 @@ export class DataSetClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Lists datasets.
+   * @param options The options parameters.
+   */  
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<DatasetResource> {
     const { span, updatedOptions } = createSpan("DataSet-List", options);
     try {
@@ -82,6 +115,12 @@ export class DataSetClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Creates or updates a dataset.
+   * @param datasetName The dataset name.
+   * @param dataset Dataset resource definition.
+   * @param options The options parameters.
+   */  
   public async beginUpsert(
     datasetName: string,
     dataset: DatasetResource,
@@ -107,6 +146,11 @@ export class DataSetClient extends AuthenticationClient {
     }
   }
 
+  /**
+   * Deletes a dataset.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
+   */  
   public async beginDelete(
     datasetName: string,
     options: OperationOptions = {}
@@ -115,29 +159,6 @@ export class DataSetClient extends AuthenticationClient {
 
     try {
       const response = await this.client.dataset.deleteDataset(
-        datasetName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: getCanonicalCode(e),
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async get(
-    datasetName: string,
-    options: DatasetGetDatasetOptionalParams = {}
-  ): Promise<DatasetGetDatasetResponse> {
-    const { span, updatedOptions } = createSpan("DataSet-Get", options);
-
-    try {
-      const response = await this.client.dataset.getDataset(
         datasetName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
