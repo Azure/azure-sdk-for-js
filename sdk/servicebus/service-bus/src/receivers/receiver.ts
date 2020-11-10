@@ -463,7 +463,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxMessageCount = 1;
     }
     maxMessageCount = Number(maxMessageCount);
-    if (maxMessageCount === NaN || maxMessageCount < 1) {
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
       throw new TypeError(InvalidMaxMessageCountError);
     }
 
