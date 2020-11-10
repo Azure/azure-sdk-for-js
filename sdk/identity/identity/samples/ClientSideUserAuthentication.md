@@ -32,7 +32,7 @@ async function main() {
 main().then(console.log).catch((e) => console.error(e));
 ```
 
-As code uses the `SecretClient` in the above sample, the `InteractiveBrowserCredential` will automatically authenticate the user by launching the default system browser prompting the user to login. In this case the user interaction happens on demand as is necessary to authenticate calls from the client.
+As code uses the `SecretClient` in the above sample, the `InteractiveBrowserCredential` will automatically authenticate the user by launching the default system browser prompting the user to login. Once the user successfully logs in, the user can then call into Azure services.
 
 ## Authenticating users with the DeviceCodeCredential
 
@@ -59,4 +59,4 @@ async function main() {
 main().then(console.log).catch((e) => console.error(e));
 ```
 
-Similarly to the `InteractiveBrowserCredential` the `DeviceCodeCredential` will also initiate the user interaction automatically as needed. To instantiate the `DeviceCodeCredential` the application must provide a callback which is called to display the device code along with details on how to authenticate to the user. By default, the full device code message will be printed to the console.
+Similarly to the `InteractiveBrowserCredential` the `DeviceCodeCredential` will also initiate the user interaction automatically as needed. To instantiate the `DeviceCodeCredential` the application must provide a callback which is called to display the device code along with details on how to authenticate to the user. By default, a message with a URL and a code will be presented to the user through the device's console. Once the user loads the given URL and enters the code, the authentication will be complete, and the user will be able to call into Azure services.
