@@ -782,11 +782,10 @@ describe("Batching Receiver", () => {
         : TestMessage.getSample();
       await sender.sendMessages(testMessages);
 
-      // If using sessions, we need a receiver with lock renewal disabled so that
+      // We need a receiver with lock renewal disabled so that
       // the message lands back in the queue/subscription to be picked up again.
+      await receiver.close();
       if (entityNames.usesSessions) {
-        await receiver.close();
-
         receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
           entityNames,
           testMessages.sessionId!,
@@ -794,6 +793,10 @@ describe("Batching Receiver", () => {
             maxAutoLockRenewalDurationInMs: 0
           }
         );
+      } else {
+        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
+          maxAutoLockRenewalDurationInMs: 0
+        });
       }
 
       let batch = await receiver.receiveMessages(1);
