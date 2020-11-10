@@ -2,7 +2,7 @@
 
 ## 7.0.0 (Unreleased)
 
-- "number"s set as values in the key-value pairs of properties under correlation rule filter(and sqlParameters under SQLRuleFilter) would get serialized as "double"(used to be "int") while sending the requests, "double" and "int" values get deserialized as "number"("double" wasn't supported before) in the responses.
+- Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The  "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
 
 ## 7.0.0-preview.8 (2020-11-04)
