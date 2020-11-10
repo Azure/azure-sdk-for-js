@@ -1,10 +1,12 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2020-11-10)
+
+- This release marks the general availability of the `@azure/core-amqp` version 2 package.
 
 ### Breaking changes
 
-- Continuing our work to clean the public API surface that we started in 2.0.0-beta.1, `DataTransformer` and `DefaultDataTransformer` are no longer exported. 
+- Continuing our work to clean the public API surface that we started in 2.0.0-beta.1, `DataTransformer` and `DefaultDataTransformer` are no longer exported.
   `dataTransformer` has been removed from `ConnectionContextBase` and `ConnectionContextBaseParameters`.
   This allows us to consider other forms of implementing serializers in the future.
 - Previously, `ConnectionConfig.validate()` overridden entityPath if `undefined` with `String(undefined) = "undefined"`. This has been updated to retain `undefined` in the validation.
