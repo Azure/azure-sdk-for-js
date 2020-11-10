@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0-beta.2 (Unreleased)
+## 12.2.0 (2020-11-10)
 
 - Bug fix - Fixes an issue where `DataLakePathClient.move()` will give an `InvalidSourceUri` error when the copy source name contains characters that need to be URL encoded. Fixed bug [11849](https://github.com/Azure/azure-sdk-for-js/issues/11849).
 
