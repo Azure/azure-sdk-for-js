@@ -145,7 +145,7 @@ describe("MetricsAdvisorClient", () => {
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 5)),
       new Date(Date.UTC(2020, 10, 5)),
-      "Dim1"
+      "city"
     );
     let result = await iterator.next();
     assert.ok(result.value, "Expecting first dimension value");
@@ -158,7 +158,7 @@ describe("MetricsAdvisorClient", () => {
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-01-05T00:00:00.000Z",
       "2020-11-05T00:00:00.000Z",
-      "Dim1"
+      "city"
     );
     let result = await iterator.next();
     assert.ok(result.value, "Expecting first dimension value");
@@ -172,7 +172,7 @@ describe("MetricsAdvisorClient", () => {
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
         new Date(Date.UTC(2020, 0, 5)),
         new Date(Date.UTC(2020, 10, 5)),
-        "Dim1"
+        "city"
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
