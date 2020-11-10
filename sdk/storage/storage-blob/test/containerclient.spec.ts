@@ -821,13 +821,18 @@ describe("ContainerClient", () => {
       }
     };
     const newContainerClient = blobServiceClient.getContainerClient(
-      recorder.getUniqueName("newcontainer")
+      recorder.getUniqueName("listingcontainer")
     );
     await newContainerClient.create();
-    await newContainerClient.uploadBlockBlob(recorder.getUniqueName("newblob"), body, body.length, {
-      blobHTTPHeaders: options,
-      metadata: options.metadata
-    });
+    await newContainerClient.uploadBlockBlob(
+      recorder.getUniqueName("listblob"),
+      body,
+      body.length,
+      {
+        blobHTTPHeaders: options,
+        metadata: options.metadata
+      }
+    );
 
     const iterator = newContainerClient
       .listBlobsFlat({ includeMetadata: true })
