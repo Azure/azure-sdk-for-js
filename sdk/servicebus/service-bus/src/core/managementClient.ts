@@ -47,6 +47,7 @@ import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
+import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
@@ -489,7 +490,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
           const message = fromRheaMessage(decodedMessage as any);
-          message.body = this._context.dataTransformer.decode(message.body);
+          message.body = defaultDataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
@@ -589,7 +590,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
       const amqpMessage = toRheaMessage(item);
-      amqpMessage.body = this._context.dataTransformer.encode(amqpMessage.body);
+      amqpMessage.body = defaultDataTransformer.encode(amqpMessage.body);
 
       try {
         const entry: any = {
@@ -802,7 +803,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       for (const msg of messages) {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
         const message = new ServiceBusMessageImpl(
-          this._context,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
           false,
@@ -1017,7 +1017,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       const result = await this._makeManagementRequest(request, receiverLogger, options);
       return result.body["session-state"]
-        ? this._context.dataTransformer.decode(result.body["session-state"])
+        ? defaultDataTransformer.decode(result.body["session-state"])
         : result.body["session-state"];
     } catch (err) {
       const error = translateServiceBusError(err);

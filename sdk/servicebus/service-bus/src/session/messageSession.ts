@@ -621,7 +621,6 @@ export class MessageSession extends LinkEntity<Receiver> {
         }
 
         const bMessage = new ServiceBusMessageImpl(
-          this._context,
           context.message!,
           context.delivery!,
           true,

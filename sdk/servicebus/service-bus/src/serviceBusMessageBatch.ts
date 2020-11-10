@@ -22,6 +22,7 @@ import {
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
@@ -263,7 +264,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message);
-    amqpMessage.body = this._context.dataTransformer.encode(message.body);
+    amqpMessage.body = defaultDataTransformer.encode(message.body);
 
     let encodedMessage: Buffer;
     try {

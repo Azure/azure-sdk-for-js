@@ -2,32 +2,16 @@
 // Licensed under the MIT license.
 
 import { message } from "rhea-promise";
-import { logErrorStackTrace, logger } from "./log";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
-
-/**
- * Describes the transformations that can be performed to encode/decode the data before sending it
- * on (or receiving it from) the wire.
- */
-export interface DataTransformer {
-  /**
-   * @property {Function} encode A function that takes the body property from an EventData object
-   * and returns an encoded body (some form of AMQP type).
-   */
-  encode: (body: any) => any;
-  /**
-   * @property {Function} decode A function that takes the body property from an AMQP message
-   * and returns the decoded message body. If it cannot decode the body then it returns the body
-   * as-is.
-   */
-  decode: (body: any) => any;
-}
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * The default data transformer that will be used by the Azure SDK.
+ * @internal
+ * @ingore
  */
-export class DefaultDataTransformer implements DataTransformer {
+export const defaultDataTransformer = {
   /**
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
@@ -57,12 +41,12 @@ export class DefaultDataTransformer implements DataTransformer {
           body +
           `${err ? err.stack : JSON.stringify(err)}`;
         logger.warning("[encode] " + msg);
-        logErrorStackTrace(err);
+        logErrorStackTrace(logger, err);
         throw new Error(msg);
       }
     }
     return result;
-  }
+  },
 
   /**
    * @property {Function} [decode] A function that takes the body property from an AMQP message
@@ -99,4 +83,4 @@ export class DefaultDataTransformer implements DataTransformer {
     }
     return processedBody;
   }
-}
+};

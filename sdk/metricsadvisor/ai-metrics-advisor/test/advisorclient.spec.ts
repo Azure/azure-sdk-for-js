@@ -211,15 +211,15 @@ describe("MetricsAdvisorClient", () => {
     const iterator = client
       .listAlerts(
         testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-        new Date(Date.UTC(2020, 0, 1)),
-        new Date(Date.UTC(2020, 8, 12)),
+        new Date(Date.UTC(2020, 10, 1)),
+        new Date(Date.UTC(2020, 10, 5)),
         "AnomalyTime"
       )
-      .byPage({ maxPageSize: 2 });
+      .byPage({ maxPageSize: 1 });
     let result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two alerts in first page");
+    assert.equal(result.value.length, 1, "Expecting one alert in first page");
     result = await iterator.next();
-    assert.equal(result.value.length, 2, "Expecting two alerts in second page");
+    assert.equal(result.value.length, 1, "Expecting one alert in second page");
   });
 
   it("lists anomalies for alert", async function() {

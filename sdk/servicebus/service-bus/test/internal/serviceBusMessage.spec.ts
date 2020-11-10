@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ConnectionContext } from "../../src/connectionContext";
 import {
   Delivery,
   uuid_to_string,
@@ -14,12 +13,6 @@ import chai from "chai";
 import { Constants } from "@azure/core-amqp";
 const assert = chai.assert;
 
-const fakeContext = {
-  dataTransformer: {
-    encode: (data) => data,
-    decode: (data) => data
-  }
-} as ConnectionContext;
 const fakeDelivery = {} as Delivery;
 
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
@@ -38,7 +31,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in peekLock mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -50,7 +42,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in receiveAndDelete mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -98,13 +89,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     user_id: "random_user_id"
   };
 
-  const sbMessage = new ServiceBusMessageImpl(
-    fakeContext,
-    amqpMessage,
-    fakeDelivery,
-    false,
-    "peekLock"
-  );
+  const sbMessage = new ServiceBusMessageImpl(amqpMessage, fakeDelivery, false, "peekLock");
 
   it("headers match", () => {
     assert.equal(sbMessage._amqpAnnotatedMessage.header?.firstAcquirer, amqpMessage.first_acquirer);

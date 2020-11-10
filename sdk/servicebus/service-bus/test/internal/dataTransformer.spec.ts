@@ -6,8 +6,7 @@ import * as chai from "chai";
 const should = chai.should();
 import * as assert from "assert";
 import isBuffer from "is-buffer";
-
-import { DefaultDataTransformer } from "../src";
+import { defaultDataTransformer } from "../../src/dataTransformer";
 
 describe("DataTransformer", function() {
   const objectBody: any = {
@@ -38,9 +37,9 @@ describe("DataTransformer", function() {
   const nullBody: null = null;
   const undefinedBody: undefined = undefined;
   const emptyStringBody: string = "";
-  const bufferbody: Buffer = Buffer.from("zzz", "utf8");
+  const bufferBody: Buffer = Buffer.from("zzz", "utf8");
   const hexBufferBody: Buffer = Buffer.from("7468697320697320612074c3a97374", "hex");
-  const transformer = new DefaultDataTransformer();
+  const transformer = defaultDataTransformer;
 
   it("should correctly encode/decode a string message body", function(done) {
     const encoded: any = transformer.encode(stringBody);
@@ -115,11 +114,11 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a buffer message body", function(done) {
-    const encoded: any = transformer.encode(bufferbody);
+    const encoded: any = transformer.encode(bufferBody);
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
-    assert.deepEqual(decoded, bufferbody);
+    assert.deepEqual(decoded, bufferBody);
     done();
   });
 
@@ -184,8 +183,8 @@ describe("DataTransformer", function() {
     });
 
     it("should correctly decode a buffer message body", function(done) {
-      const decoded: any = transformer.decode(bufferbody);
-      assert.deepEqual(decoded, bufferbody);
+      const decoded: any = transformer.decode(bufferBody);
+      assert.deepEqual(decoded, bufferBody);
       done();
     });
 

@@ -11,7 +11,7 @@ import {
   uuid_to_string,
   Message as RheaMessage
 } from "rhea-promise";
-import { ConnectionContext } from "./connectionContext";
+import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
 import { reorderLockToken } from "./util/utils";
@@ -759,18 +759,9 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly deadLetterErrorDescription?: string;
   /**
-   * @property Boolean denoting if the message has already been settled.
-   * @readonly
-   */
-  public get isSettled(): boolean {
-    return this.delivery.remote_settled;
-  }
-
-  /**
    * @internal
    */
   constructor(
-    private readonly _context: ConnectionContext,
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
@@ -783,7 +774,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       this.lockToken = undefined;
     }
     if (msg.body) {
-      this.body = this._context.dataTransformer.decode(msg.body);
+      this.body = defaultDataTransformer.decode(msg.body);
     }
     // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);

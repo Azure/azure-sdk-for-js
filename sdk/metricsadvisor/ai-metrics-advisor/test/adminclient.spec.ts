@@ -145,7 +145,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       const actual = await client.createDetectionConfig(expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);
@@ -207,7 +207,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);
@@ -248,9 +248,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("lists detection configurations", async function() {
-      const iterator = client.listDetectionConfigs(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
-      );
+      const iterator = client.listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
       let result = await iterator.next();
 
       assert.ok(result.value.id, "Expecting first detection config");

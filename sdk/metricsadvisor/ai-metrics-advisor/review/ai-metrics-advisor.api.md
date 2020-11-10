@@ -194,25 +194,24 @@ export type ChangeThresholdConditionUnion = {
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 
 // @public
-export interface DataFeed {
-    createdTime: Date;
-    creator: string;
-    granularity: DataFeedGranularity;
+export type DataFeed = {
     id: string;
-    ingestionSettings: DataFeedIngestionSettings;
-    isAdmin: boolean;
     name: string;
-    options?: DataFeedOptions;
-    schema: DataFeedSchema;
-    source: DataFeedSource;
+    createdOn: Date;
     status: DataFeedStatus;
-}
+    isAdmin: boolean;
+    creator: string;
+    source: DataFeedSource;
+    schema: DataFeedSchema;
+    granularity: DataFeedGranularity;
+    ingestionSettings: DataFeedIngestionSettings;
+} & DataFeedOptions;
 
 // @public
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
-export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">;
+export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
 export type DataFeedDetailStatus = "Active" | "Paused";
@@ -274,17 +273,16 @@ export interface DataFeedOptions {
 }
 
 // @public
-export interface DataFeedPatch {
-    ingestionSettings?: DataFeedIngestionSettings;
+export type DataFeedPatch = {
     name?: string;
-    options?: DataFeedOptions & {
-        status?: DataFeedDetailStatus;
-    };
+    source: DataFeedSourcePatch;
     schema?: {
         timestampColumn?: string;
     };
-    source: DataFeedSourcePatch;
-}
+    ingestionSettings?: DataFeedIngestionSettings;
+} & DataFeedOptions & {
+    status?: DataFeedDetailStatus;
+};
 
 // @public
 export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
@@ -310,7 +308,7 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource;
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
 
 // @public
 export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
@@ -776,7 +774,7 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
 
 // @public
 export interface MetricFeedbackCommon {
-    readonly createdTime?: Date;
+    readonly createdOn?: Date;
     dimensionKey: DimensionKey;
     readonly id?: string;
     metricId: string;
@@ -993,6 +991,12 @@ export interface TopNGroupScope {
     period: number;
     top: number;
 }
+
+// @public
+export type UnknownDataFeedSource = {
+    dataSourceType: "Unknown";
+    dataSourceParameter: unknown;
+};
 
 // @public (undocumented)
 export interface WebhookHookParameter {

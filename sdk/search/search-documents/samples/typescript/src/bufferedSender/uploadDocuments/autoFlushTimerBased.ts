@@ -9,6 +9,8 @@ import {
 import { createIndex, WAIT_TIME } from "../../utils/setup";
 import { Hotel } from "../../utils/interfaces";
 import { delay } from "@azure/core-http";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.

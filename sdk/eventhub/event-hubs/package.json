@@ -134,6 +134,7 @@
     "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "esm": "^3.2.18",
+    "https-proxy-agent": "^5.0.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

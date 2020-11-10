@@ -14,12 +14,12 @@ export class ManagedIdentityCredential implements TokenCredential {
   constructor(clientId: string, options?: TokenCredentialOptions);
   constructor(options?: TokenCredentialOptions);
   constructor() {
-    logger.info(formatError(BrowserNotSupportedError));
+    logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
   public async getToken(): Promise<AccessToken | null> {
-    logger.getToken.info(formatError(BrowserNotSupportedError));
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }
