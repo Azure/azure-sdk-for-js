@@ -14,6 +14,7 @@ import {
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 
 dotenv.config();
 
@@ -79,6 +80,19 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   ],
   queryParametersToSkip: []
 };
+
+export function createRecorder(context: Context): Recorder {
+  return record(context, environmentSetup);
+}
+
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
+export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCredential {
+  return useAad
+    ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    : new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY);
+}
 
 export function createRecordedTrainingClient(
   context: Context,

@@ -36,11 +36,8 @@ async function main() {
 async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
-  for await (const ingestion of adminClient.listDataFeedIngestionStatus(
-    dataFeedId,
-    startTime,
-    endTime
-  )) {
+  const listIterator = adminClient.listDataFeedIngestionStatus(dataFeedId, startTime, endTime);
+  for await (const ingestion of listIterator) {
     console.log(`  ${ingestion.timestamp} ${ingestion.status}  ${ingestion.message}`);
   }
   // listing by pages
@@ -51,11 +48,11 @@ async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) 
 
   if (!result.done) {
     console.log("  -- Page --");
-    console.table(result.value.statusList, ["timestamp", "status", "message"]);
+    console.table(result.value, ["timestamp", "status", "message"]);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("  -- Page --");
-      console.table(result.value.statusList, ["timestamp", "status", "message"]);
+      console.table(result.value, ["timestamp", "status", "message"]);
     }
   }
 }

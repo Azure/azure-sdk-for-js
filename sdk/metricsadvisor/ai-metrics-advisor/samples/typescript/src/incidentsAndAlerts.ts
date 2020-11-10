@@ -39,21 +39,22 @@ async function listIncidentsForDetectionConfig(
 ) {
   console.log(`Listing incidents for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidents(
+  const listIterator = client.listIncidents(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
       dimensionFilter: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
     }
-  )) {
+  );
+  for await (const incident of listIterator) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
-    console.log(`      startTime: ${incident.rootDimensionKey}`);
+    console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccurredTime}`);
+    console.log(`      last occurred: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
@@ -65,7 +66,7 @@ async function listIncidentsForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.incidents, [
+    console.table(result.value, [
       "id",
       "severity",
       "status",
@@ -83,15 +84,16 @@ async function listAnomaliesForDetectionConfig(
   detectionConfigId: string
 ) {
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
-  console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomalies(
+  const listIterator = client.listAnomalies(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
       severityFilter: { min: "Medium", max: "High" }
     }
-  )) {
+  );
+  console.log("  using for-await-of syntax");
+  for await (const anomaly of listIterator) {
     console.log("    Anomaly");
     console.log(`      metric id: ${anomaly.metricId}`);
     console.log(`      detection config id: ${anomaly.detectionConfigurationId}`);
@@ -112,7 +114,7 @@ async function listAnomaliesForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "severity", "seriesKey"]);
+    console.table(result.value, ["timestamp", "severity", "seriesKey"]);
     result = await iterator.next();
   }
 }
@@ -136,12 +138,13 @@ async function getRootCauses(
 async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   console.log("  using for-await-of syntax");
-  for await (const alert of client.listAlertsForAlertConfiguration(
+  const listIterator = client.listAlerts(
     alertConfigId,
-    new Date("10/22/2020"),
-    new Date("10/24/2020"),
+    new Date("11/01/2020"),
+    new Date("11/05/2020"),
     "AnomalyTime"
-  )) {
+  );
+  for await (const alert of listIterator) {
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
     console.log(`      timestamp: ${alert.timestamp}`);
@@ -150,18 +153,13 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
 
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(
-      alertConfigId,
-      new Date("10/22/2020"),
-      new Date("10/24/2020"),
-      "AnomalyTime"
-    )
+    .listAlerts(alertConfigId, new Date("11/01/2020"), new Date("11/05/2020"), "AnomalyTime")
     .byPage({ maxPageSize: 20 });
 
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.alerts, ["id", "timestamp", "createdOn"]);
+    console.table(result.value, ["id", "timestamp", "createdOn"]);
     result = await iterator.next();
   }
 }
@@ -175,14 +173,15 @@ async function listIncidentsForAlert(
     `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const incident of client.listIncidents({ alertConfigId, id: alertId })) {
+  const listIterator = client.listIncidents({ alertConfigId, id: alertId });
+  for await (const incident of listIterator) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
     console.log(`      severity: ${incident.severity}`);
     console.log(`      status: ${incident.status}`);
-    console.log(`      startTime: ${incident.rootDimensionKey}`);
+    console.log(`      root dimension key: ${incident.rootDimensionKey}`);
     console.log(`      startTime: ${incident.startTime}`);
-    console.log(`      last occured: ${incident.lastOccurredTime}`);
+    console.log(`      last occurred: ${incident.lastOccurredTime}`);
     console.log(`      detection config id: ${incident.detectionConfigurationId}`);
   }
 
@@ -192,7 +191,7 @@ async function listIncidentsForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("  Page");
-    console.table(result.value.incidents, [
+    console.table(result.value, [
       "id",
       "severity",
       "status",
@@ -214,7 +213,8 @@ async function listAnomaliesForAlert(
     `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  for await (const anomaly of client.listAnomalies({ alertConfigId, id: alertId })) {
+  const listIterator = client.listAnomalies({ alertConfigId, id: alertId });
+  for await (const anomaly of listIterator) {
     console.log("    Anomaly");
     console.log(`      timestamp: ${anomaly.timestamp}`);
     console.log(`      dimension: ${anomaly.seriesKey}`);
@@ -227,7 +227,7 @@ async function listAnomaliesForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value.anomalies, ["timestamp", "seriesKey", "status"]);
+    console.table(result.value, ["timestamp", "seriesKey", "status"]);
     result = await iterator.next();
   }
 }

@@ -5,6 +5,7 @@ import { MessageHandlers, ProcessErrorArgs } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger, ServiceBusLogger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 import {
   DeadLetterOptions,
   DispositionType,
@@ -14,7 +15,7 @@ import {
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../util/errors";
-import { ErrorNameConditionMapper, translate } from "@azure/core-amqp";
+import { ErrorNameConditionMapper } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -61,6 +62,7 @@ export function wrapProcessErrorHandler(
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
+      args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
     } catch (err) {
       logger.logError(err, `An error was thrown from the user's processError handler`);
@@ -68,6 +70,14 @@ export function wrapProcessErrorHandler(
   };
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ */
 export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -81,6 +91,15 @@ export function completeMessage(
   return settleMessage(message, DispositionType.complete, context, entityPath);
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {{ [key: string]: any }} [propertiesToModify]
+ */
 export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -97,6 +116,15 @@ export function abandonMessage(
   });
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {{ [key: string]: any }} [propertiesToModify]
+ */
 export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -113,6 +141,15 @@ export function deferMessage(
   });
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {(DeadLetterOptions & { [key: string]: any })} [propertiesToModify]
+ */
 export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
@@ -148,6 +185,16 @@ export function deadLetterMessage(
   );
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ServiceBusMessageImpl} message
+ * @param {DispositionType} operation
+ * @param {ConnectionContext} context
+ * @param {string} entityPath
+ * @param {DispositionStatusOptions} [options]
+ */
 function settleMessage(
   message: ServiceBusMessageImpl,
   operation: DispositionType,
@@ -189,7 +236,7 @@ function settleMessage(
     if (message.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
     } else if ((!receiver || !receiver.isOpen()) && message.sessionId != undefined) {
-      error = translate({
+      error = translateServiceBusError({
         description:
           `Failed to ${operation} the message as the AMQP link with which the message was ` +
           `received is no longer alive.`,
@@ -217,8 +264,13 @@ function settleMessage(
         ...options,
         associatedLinkName,
         sessionId: message.sessionId
+      })
+      .catch((err) => {
+        throw translateServiceBusError(err);
       });
   }
 
-  return receiver!.settleMessage(message, operation, options);
+  return receiver!.settleMessage(message, operation, options).catch((err) => {
+    throw translateServiceBusError(err);
+  });
 }

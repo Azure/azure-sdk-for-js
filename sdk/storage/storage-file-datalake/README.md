@@ -75,6 +75,11 @@ There are differences between Node.js and browsers runtime. When getting started
 - Shared Access Signature(SAS) generation
   - `generateAccountSASQueryParameters()`
   - `generateDataLakeSASQueryParameters()`
+- Parallel uploading and downloading. Note that `DataLakeFileClient.upload()` is available in both Node.js and browsers.
+  - `DataLakeFileClient.uploadFile()`
+  - `DataLakeFileClient.uploadStream()`
+  - `DataLakeFileClient.readToBuffer()`
+  - `DataLakeFileClient.readToFile()`
 
 ##### Features, interfaces, classes or functions only available in browsers
 

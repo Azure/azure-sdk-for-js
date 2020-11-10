@@ -24,7 +24,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -34,7 +34,7 @@ export async function main() {
 
 async function processDeadletterMessageQueue() {
   // If connecting to a subscription's dead letter queue you can use the createReceiver(topicName, subscriptionName) overload
-  const receiver = sbClient.createReceiver(queueName, { subQueue: "deadLetter" });
+  const receiver = sbClient.createReceiver(queueName, { subQueueType: "deadLetter" });
 
   const messages = await receiver.receiveMessages(1);
 

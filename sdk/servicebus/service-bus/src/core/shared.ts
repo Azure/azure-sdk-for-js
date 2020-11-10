@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Delivery } from "rhea-promise";
-import { translate } from "@azure/core-amqp";
+import { translateServiceBusError } from "../serviceBusError";
 import { receiverLogger } from "../log";
 
 /**
@@ -60,7 +60,7 @@ export function onMessageSettled(
         deleteResult
       );
       if (state && state.error && (state.error.condition || state.error.description)) {
-        const error = translate(state.error);
+        const error = translateServiceBusError(state.error);
         return promise.reject(error);
       }
 

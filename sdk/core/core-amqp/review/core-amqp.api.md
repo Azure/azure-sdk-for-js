@@ -101,9 +101,9 @@ export interface CbsResponse {
     // (undocumented)
     correlationId: string;
     // (undocumented)
-    satusDescription: string;
-    // (undocumented)
     statusCode: string;
+    // (undocumented)
+    statusDescription: string;
 }
 
 // @public
@@ -455,13 +455,10 @@ export function isSystemError(err: any): err is NetworkSystemError;
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export type MessageErrorCodes = "AddressAlreadyInUseError" | "ArgumentError" | "ArgumentOutOfRangeError" | "ConnectionForcedError" | "ConnectionRedirectError" | "DecodeError" | "DetachForcedError" | "ErrantLinkError" | "FrameSizeTooSmallError" | "FramingError" | "HandleInUseError" | "IllegalStateError" | "InternalServerError" | "InvalidFieldError" | "InvalidOperationError" | "LinkRedirectError" | "MessageLockLostError" | "MessageNotFoundError" | "MessageTooLargeError" | "MessageWaitTimeout" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessagingEntityNotFoundError" | "NoMatchingSubscriptionError" | "NotImplementedError" | "OperationCancelledError" | "OperationTimeoutError" | "PartitionNotOwnedError" | "PreconditionFailedError" | "PublisherRevokedError" | "QuotaExceededError" | "ReceiverDisconnectedError" | "RelayNotFoundError" | "ResourceDeletedError" | "ResourceLockedError" | "SenderBusyError" | "ServerBusyError" | "ServiceCommunicationError" | "ServiceUnavailableError" | "SessionCannotBeLockedError" | "SessionLockLostError" | "SessionWindowViolationError" | "StoreLockLostError" | "SystemError" | "TransferLimitExceededError" | "UnattachedHandleError" | "UnauthorizedError";
-
-// @public
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: MessageErrorCodes | string;
+    code?: MessagingErrorCodes | string;
     errno?: number | string;
     info?: any;
     name: string;
@@ -469,6 +466,9 @@ export class MessagingError extends Error {
     retryable: boolean;
     syscall?: string;
 }
+
+// @public
+export type MessagingErrorCodes = "AddressAlreadyInUseError" | "ArgumentError" | "ArgumentOutOfRangeError" | "ConnectionForcedError" | "ConnectionRedirectError" | "DecodeError" | "DetachForcedError" | "ErrantLinkError" | "FrameSizeTooSmallError" | "FramingError" | "HandleInUseError" | "IllegalStateError" | "InternalServerError" | "InvalidFieldError" | "InvalidOperationError" | "LinkRedirectError" | "MessageLockLostError" | "MessageNotFoundError" | "MessageTooLargeError" | "MessageWaitTimeout" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessagingEntityNotFoundError" | "NoMatchingSubscriptionError" | "NotImplementedError" | "OperationCancelledError" | "OperationTimeoutError" | "PartitionNotOwnedError" | "PreconditionFailedError" | "PublisherRevokedError" | "QuotaExceededError" | "ReceiverDisconnectedError" | "RelayNotFoundError" | "ResourceDeletedError" | "ResourceLockedError" | "SenderBusyError" | "ServerBusyError" | "ServiceCommunicationError" | "ServiceUnavailableError" | "SessionCannotBeLockedError" | "SessionLockLostError" | "SessionWindowViolationError" | "StoreLockLostError" | "SystemError" | "TransferLimitExceededError" | "UnattachedHandleError" | "UnauthorizedError";
 
 // @public
 export interface NetworkSystemError {

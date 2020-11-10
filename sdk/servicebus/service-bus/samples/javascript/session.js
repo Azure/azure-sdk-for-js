@@ -38,7 +38,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   try {

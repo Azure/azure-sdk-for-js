@@ -2,6 +2,9 @@
 
 ## 3.1.0-beta.1 (Unreleased)
 
+- Added the `modelName` property to `CustomFormModelInfo`, reflecting the same property that was added to the model training options.
+- Altered the type hierarchy so that `CustomFormModel` inherits the properties of `CustomFormModelInfo`.
+- Added the `modelName` field to `BeginTrainingOptions`. The given model name will become an immutable property of the trained model.
 - Migrated to the 2.1-preview.1 Form Recognizer service endpoint for all REST API calls.
 
 ## 3.0.0 (2020-08-20)

@@ -20,23 +20,29 @@ export async function main() {
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   // using `for await` syntax:
+  console.log("Iteration using `for await`:");
   const result = client.listCustomModels();
   for await (const model of result) {
-    console.log("- Model:", model.modelId);
+    const name = model.modelName ?? "<unnamed>";
+    console.log(`- Model: ${model.modelId} (${name})`);
   }
 
   // using `iter.next()`
+  console.log("Traditional iteration:");
   let iter = client.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
-    console.log("- Model:", modelItem.value.modelId);
+    const name = modelItem.value.modelName ?? "<unnamed>";
+    console.log(`- Model: ${modelItem.value.modelId} (${name})`);
     modelItem = await iter.next();
   }
 
   // using `byPage()`
+  console.log("Iteration by page:");
   for await (const response of client.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList!) {
-      console.log("- Model:", modelInfo.modelId);
+      const name = modelInfo.modelName ?? "<unnamed>";
+      console.log(`- Model: ${modelInfo.modelId} (${name})`);
     }
   }
 }

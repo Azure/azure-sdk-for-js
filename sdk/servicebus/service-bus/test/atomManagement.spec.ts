@@ -66,14 +66,6 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
-
-  it("Create queue response", async () => {
-    const response = await serviceBusAtomManagementClient.createQueue("random");
-    // @ts-expect-error
-    response.authorizationRules = "";
-    // @ts-expect-error
-    response.maxDeliveryCount = undefined;
-  });
 });
 
 describe("Listing methods - PagedAsyncIterableIterator", function(): void {

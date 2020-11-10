@@ -38,7 +38,7 @@ async function provideAnomalyFeedback(client, metricId) {
     value: "NotAnomaly",
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(anomalyFeedback);
+  return await client.createFeedback(anomalyFeedback);
 }
 
 async function providePeriodFeedback(client, metricId) {
@@ -50,7 +50,7 @@ async function providePeriodFeedback(client, metricId) {
     periodValue: 4,
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(periodFeedback);
+  return await client.createFeedback(periodFeedback);
 }
 
 async function provideChangePointFeedback(client, metricId) {
@@ -62,7 +62,7 @@ async function provideChangePointFeedback(client, metricId) {
     value: "ChangePoint",
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(changePointFeedback);
+  return await client.createFeedback(changePointFeedback);
 }
 
 async function provideCommentFeedback(client, metricId) {
@@ -73,27 +73,28 @@ async function provideCommentFeedback(client, metricId) {
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
-  return await client.createMetricFeedback(commendFeedback);
+  return await client.createFeedback(commendFeedback);
 }
 
 async function getFeedback(client, feedbackId) {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
-  const feedback = await client.getMetricFeedback(feedbackId);
+  const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 
 async function listFeedback(client, metricId, startTime, endTime) {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
-  for await (const feedback of client.listMetricFeedbacks(metricId, {
+  const listIterator = client.listFeedback(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
       endTime: new Date("08/03/2020"),
       timeMode: "MetricTimestamp"
     }
-  })) {
+  });
+  for await (const feedback of listIterator) {
     console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
-    console.log(`      created time: ${feedback.createdTime}`);
+    console.log(`      created time: ${feedback.createdOn}`);
     console.log(`      metric id: ${feedback.metricId}`);
     console.log(`      user principal: ${feedback.userPrincipal}`);
     if (feedback.feedbackType === "Anomaly") {
@@ -111,7 +112,7 @@ async function listFeedback(client, metricId, startTime, endTime) {
 
   console.log("  first two pages using iterator");
   const iterator = client
-    .listMetricFeedbacks(metricId, {
+    .listFeedback(metricId, {
       filter: {
         timeMode: "FeedbackCreatedTime"
       }
@@ -121,11 +122,11 @@ async function listFeedback(client, metricId, startTime, endTime) {
 
   if (!result.done) {
     console.log("first page");
-    console.table(result.value.feedbacks);
+    console.table(result.value);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("second page");
-      console.table(nextPage.value.feedbacks);
+      console.table(nextPage.value);
     }
   }
 }

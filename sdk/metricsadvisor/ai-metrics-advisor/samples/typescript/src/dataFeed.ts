@@ -10,15 +10,9 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  DataFeedSchema,
-  DataFeedMetric,
-  DataFeedDimension,
-  DataFeedIngestionSettings,
-  DataFeedGranularity,
-  DataFeedSource,
-  DataFeedOptions,
   GetDataFeedResponse,
-  DataFeedPatch
+  DataFeedPatch,
+  DataFeedDescriptor
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -53,7 +47,8 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 
   // second approach
   console.log("  using for-await-of loop");
-  for await (const datatFeed of client.listDataFeeds()) {
+  const iterator = client.listDataFeeds();
+  for await (const datatFeed of iterator) {
     console.log(`id :${datatFeed.id}, name: ${datatFeed.name}`);
   }
 
@@ -63,9 +58,9 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
   let page = await pages.next();
   let i = 1;
   while (!page.done) {
-    if (page.value.dataFeeds) {
+    if (page.value) {
       console.log(`-- page ${i++}`);
-      for (const feed of page.value.dataFeeds) {
+      for (const feed of page.value) {
         console.log(`  ${feed.id} - ${feed.name}`);
       }
     }
@@ -77,7 +72,7 @@ async function createDataFeed(
   client: MetricsAdvisorAdministrationClient
 ): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
-  const feed = {
+  const feed: DataFeedDescriptor = {
     name: "test-datafeed-" + new Date().getTime().toString(),
     source: {
       dataSourceType: "AzureBlob",
@@ -120,18 +115,16 @@ async function createDataFeed(
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__CUSTOM_SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "CustomValue",
-        customFillValue: 567
-      },
-      accessMode: "Private"
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__CUSTOM_SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "CustomValue",
+      customFillValue: 567
+    },
+    accessMode: "Private"
   };
   const result = await client.createDataFeed(feed);
 
@@ -160,13 +153,11 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
       stopRetryAfterInSeconds: 667777,
       ingestionStartOffsetInSeconds: 4444
     },
-    options: {
-      description: "New datafeed description",
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      status: "Paused"
-    }
+    description: "New datafeed description",
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    status: "Paused"
   };
 
   try {
@@ -174,7 +165,7 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
     const updated = await client.updateDataFeed(dataFeedId, patch);
     console.dir(updated);
   } catch (err) {
-    console.log("Error occured when updating data feed");
+    console.log("Error occurred when updating data feed");
     console.log(err);
   }
 }

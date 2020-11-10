@@ -27,17 +27,38 @@ describe("deserializationPolicy", function() {
   };
 
   it(`should not modify a request that has no request body mapper`, async function() {
-    const deserializationPolicy = new DeserializationPolicy(
-      mockPolicy,
-      {},
-      new RequestPolicyOptions()
-    );
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, new RequestPolicyOptions());
 
     const request = createRequest();
     request.body = "hello there!";
 
     await deserializationPolicy.sendRequest(request);
     assert.strictEqual(request.body, "hello there!");
+  });
+
+  it(`should deserialize underscore xml element with custom xml char key`, async function() {
+    const request = createRequest();
+    const mockClient: HttpClient = {
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "application/xml" }),
+          bodyAsText: "<Metadata><h>v</h><_>underscore</_></Metadata>"
+        })
+    };
+    const deserializationPolicy = new DeserializationPolicy(
+      mockClient,
+      new RequestPolicyOptions(),
+      {},
+      { xmlCharKey: "#" }
+    );
+
+    const response = await deserializationPolicy.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, {
+      h: "v",
+      _: "underscore"
+    });
   });
 
   it("should parse a JSON response body", async function() {
@@ -410,6 +431,66 @@ describe("deserializationPolicy", function() {
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with custom xml char key`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        apples: {
+          $: {
+            taste: "good"
+          },
+          "#": "3"
+        }
+      });
+    });
+
+    it(`with custom xml char key for underscore xml element`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        h: "v",
+        _: "underscore"
+      });
     });
 
     it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {
@@ -911,6 +992,62 @@ describe("deserializationPolicy", function() {
         assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
         assert.strictEqual(e.response.parsedBody.message2, "InvalidResourceNameBody2");
         assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
+      }
+    });
+
+    it(`with default error response body`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "StorageError",
+        type: {
+          name: "Composite",
+          className: "StorageError",
+          modelProperties: {
+            code: {
+              xmlName: "Code",
+              serializedName: "Code",
+              type: {
+                name: "String"
+              }
+            },
+            message: {
+              xmlName: "Message",
+              serializedName: "Message",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><Error><Code>ContainerAlreadyExists</Code><Message>The specified container already exists.</Message></Error>`
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.equal(e.code, "ContainerAlreadyExists");
+        assert.equal(e.message, "The specified container already exists.");
       }
     });
   });
