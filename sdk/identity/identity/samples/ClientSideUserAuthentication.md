@@ -15,12 +15,12 @@ const { InteractiveBrowserCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
 async function main() {
-  const credential = new InteractiveBrowserCredential(
+  const credential = new InteractiveBrowserCredential({
     // By default, tenantId will be "organizations". You might assign a specific tenant this way.
     tenantId: process.env.AZURE_TENANT_ID,
     // By default, clientId will be the same used by the Azure CLI. You might assign a specific client ID this way.
     clientId: process.env.AZURE_CLIENT_ID  
-  ));
+  });
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);
@@ -39,15 +39,15 @@ As code uses the `SecretClient` in the above sample, the `InteractiveBrowserCred
 For terminal clients without an available web browser, or clients with limited UI capabilities the `DeviceCodeCredential` provides the ability to authenticate any client using a device code. The next sample shows authenticating a `BlobServiceClient` (from [@azure/storage-blob](https://www.npmjs.com/package/@azure/storage-blob)) using the `DeviceCodeCredential`.
 
 ```ts
-import { DeviceCodeCredential } = require("@azure/identity");
-import { BlobServiceClient } = require("@azure/storage-blob");
+const { DeviceCodeCredential } = require("@azure/identity");
+const { BlobServiceClient } = require("@azure/storage-blob");
 
 async function main() {
   const credential = new DeviceCodeCredential(
     // By default, tenantId will be "organizations". You might assign a specific tenant this way.
-    process.env.AZURE_TENANT_ID!,
+    process.env.AZURE_TENANT_ID,
     // By default, clientId will be the same used by the Azure CLI. You might assign a specific client ID this way.
-    process.env.AZURE_CLIENT_ID!
+    process.env.AZURE_CLIENT_ID
   );
   const client = new BlobServiceClient("https://myaccount.blob.core.windows.net/mycontainer/myblob", credential);
 
