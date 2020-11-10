@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 export { createSerializer, MapperTypeNames } from "./serializer";
-export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export {
+  ServiceClient,
+  ServiceClientOptions,
+  createClientPipeline,
+  ClientPipelineOptions
+} from "./serviceClient";
 export {
   OperationSpec,
   OperationArguments,
