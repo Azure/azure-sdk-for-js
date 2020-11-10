@@ -15,7 +15,6 @@ import {
 } from "./models";
 
 export class ArtifactsClient extends AuthenticationClient {
-
   /**
    * List Big Data Pools
    * @param options The options parameters.
@@ -43,7 +42,8 @@ export class ArtifactsClient extends AuthenticationClient {
    * Get Big Data Pool
    * @param bigDataPoolName The Big Data Pool name
    * @param options The options parameters.
-   */  
+   */
+
   public async getBigDataPool(
     bigDataPoolName: string,
     options: OperationOptions = {}
@@ -70,7 +70,8 @@ export class ArtifactsClient extends AuthenticationClient {
   /**
    * List Integration Runtimes
    * @param options The options parameters.
-   */  
+   */
+
   public async listIntegrationRuntimes(
     options: OperationOptions = {}
   ): Promise<IntegrationRuntimesListResponse> {
@@ -96,7 +97,8 @@ export class ArtifactsClient extends AuthenticationClient {
    * Get Integration Runtime
    * @param integrationRuntimeName The Integration Runtime name
    * @param options The options parameters.
-   */  
+   */
+
   public async getIntegrationRuntime(
     integrationRuntimeName: string,
     options: OperationOptions = {}
@@ -120,10 +122,11 @@ export class ArtifactsClient extends AuthenticationClient {
     }
   }
 
-   /**
+  /**
    * List Sql Pools
    * @param options The options parameters.
-   */ 
+   */
+
   public async listSqlPools(options: OperationOptions = {}): Promise<SqlPoolsListResponse> {
     const { span, updatedOptions } = createSpan("Artifacts-ListSqlPools", options);
 
@@ -147,7 +150,8 @@ export class ArtifactsClient extends AuthenticationClient {
    * Get Sql Pool
    * @param sqlPoolName The Sql Pool name
    * @param options The options parameters.
-   */  
+   */
+
   public async getSqlPool(
     sqlPoolName: string,
     options: OperationOptions = {}
@@ -174,7 +178,8 @@ export class ArtifactsClient extends AuthenticationClient {
   /**
    * Get Workspace
    * @param options The options parameters.
-   */  
+   */
+
   public async getWorkspace(options: OperationOptions = {}): Promise<WorkspaceGetResponse> {
     const { span, updatedOptions } = createSpan("Artifacts-GetWorkspace", options);
 

@@ -25,12 +25,12 @@ import {
 } from "./models";
 
 export class PipelineClient extends AuthenticationClient {
-
   /**
    * Gets a pipeline.
    * @param pipelineName The pipeline name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     pipelineName: string,
     options: PipelineGetPipelineOptionalParams = {}
@@ -92,7 +92,8 @@ export class PipelineClient extends AuthenticationClient {
   /**
    * Lists pipelines.
    * @param options The options parameters.
-   */  
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<PipelineResource> {
     const { span, updatedOptions } = createSpan("Pipeline-List", options);
     try {
@@ -124,7 +125,8 @@ export class PipelineClient extends AuthenticationClient {
    * @param pipelineName The pipeline name.
    * @param pipeline Pipeline resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     pipelineName: string,
     pipeline: PipelineResource,
@@ -154,7 +156,8 @@ export class PipelineClient extends AuthenticationClient {
    * Deletes a pipeline.
    * @param pipelineName The pipeline name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     pipelineName: string,
     options: OperationOptions = {}
@@ -182,7 +185,8 @@ export class PipelineClient extends AuthenticationClient {
    * Query pipeline runs in the workspace based on input filter conditions.
    * @param filterParameters Parameters to filter the pipeline run.
    * @param options The options parameters.
-   */  
+   */
+
   public async queryPipelineRuns(
     filterParameters: RunFilterParameters,
     options: OperationOptions = {}
@@ -210,7 +214,8 @@ export class PipelineClient extends AuthenticationClient {
    * Get a pipeline run by its run ID.
    * @param runId The pipeline run identifier.
    * @param options The options parameters.
-   */  
+   */
+
   public async getPipelineRun(
     runId: string,
     options: OperationOptions = {}
@@ -240,7 +245,8 @@ export class PipelineClient extends AuthenticationClient {
    * @param runId The pipeline run identifier.
    * @param filterParameters Parameters to filter the activity runs.
    * @param options The options parameters.
-   */  
+   */
+
   public async queryActivityRuns(
     pipelineName: string,
     runId: string,

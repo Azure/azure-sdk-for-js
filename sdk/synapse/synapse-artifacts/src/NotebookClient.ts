@@ -21,12 +21,12 @@ import {
 } from "./models";
 
 export class NotebookClient extends AuthenticationClient {
-
   /**
    * Gets a Note Book.
    * @param notebookName The notebook name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     notebookName: string,
     options: NotebookGetNotebookOptionalParams = {}
@@ -49,16 +49,14 @@ export class NotebookClient extends AuthenticationClient {
       span.end();
     }
   }
-    
+
   private async *listNotebooksPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
   ): AsyncIterableIterator<NotebookResource[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.notebook.getNotebooksByWorkspace(
-        requestOptions
-      );
+      const currentSetResponse = await this.client.notebook.getNotebooksByWorkspace(requestOptions);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value;
@@ -90,7 +88,8 @@ export class NotebookClient extends AuthenticationClient {
   /**
    * Lists Notebooks.
    * @param options The options parameters.
-   */  
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
     const { span, updatedOptions } = createSpan("Notebook-List", options);
     try {
@@ -157,7 +156,8 @@ export class NotebookClient extends AuthenticationClient {
   /**
    * Lists a summary of Notebooks.
    * @param options The options parameters.
-   */  
+   */
+
   public listSummary(options: OperationOptions = {}): PagedAsyncIterableIterator<NotebookResource> {
     const { span, updatedOptions } = createSpan("Notebook-ListSummary", options);
     try {
@@ -189,7 +189,8 @@ export class NotebookClient extends AuthenticationClient {
    * @param notebookName The notebook name.
    * @param notebook Note book resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     notebookName: string,
     notebook: NotebookResource,
@@ -219,7 +220,8 @@ export class NotebookClient extends AuthenticationClient {
    * Deletes a Note book.
    * @param notebookName The notebook name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     notebookName: string,
     options: OperationOptions = {}

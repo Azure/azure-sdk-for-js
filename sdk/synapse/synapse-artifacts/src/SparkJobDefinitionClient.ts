@@ -23,7 +23,6 @@ import {
 } from "./models";
 
 export class SparkJobDefinitionClient extends AuthenticationClient {
-
   /**
    * Gets a Spark Job Definition.
    * @param sparkJobDefinitionName The spark job definition name.
@@ -92,7 +91,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   /**
    * Lists spark job definitions.
    * @param options The options parameters.
-   */  
+   */
+
   public list(
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<SparkJobDefinitionResource> {
@@ -126,7 +126,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
    * @param sparkJobDefinitionName The spark job definition name.
    * @param sparkJobDefinition Spark Job Definition resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async upsert(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
@@ -156,7 +157,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
    * Deletes a Spark Job Definition.
    * @param sparkJobDefinitionName The spark job definition name.
    * @param options The options parameters.
-   */  
+   */
+
   public async delete(
     sparkJobDefinitionName: string,
     options: OperationOptions = {}
@@ -184,7 +186,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
    * Executes the spark job definition.
    * @param sparkJobDefinitionName The spark job definition name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginExecute(
     sparkJobDefinitionName: string,
     options: OperationOptions = {}
@@ -212,7 +215,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
    * Debug the spark job definition.
    * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDebug(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options: OperationOptions = {}

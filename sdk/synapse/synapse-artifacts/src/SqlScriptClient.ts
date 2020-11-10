@@ -20,12 +20,12 @@ import {
 } from "./models";
 
 export class SqlScriptClient extends AuthenticationClient {
-
   /**
    * Gets a sql script.
    * @param sqlScriptName The sql script name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     sqlScriptName: string,
     options: SqlScriptGetSqlScriptOptionalParams = {}
@@ -48,7 +48,7 @@ export class SqlScriptClient extends AuthenticationClient {
       span.end();
     }
   }
-  
+
   private async *listSqlScriptsPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -86,10 +86,11 @@ export class SqlScriptClient extends AuthenticationClient {
     }
   }
 
-   /**
+  /**
    * Lists sql scripts.
    * @param options The options parameters.
-   */ 
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<SqlScriptResource> {
     const { span, updatedOptions } = createSpan("SqlScript-List", options);
     try {
@@ -121,7 +122,8 @@ export class SqlScriptClient extends AuthenticationClient {
    * @param sqlScriptName The sql script name.
    * @param sqlScript Sql Script resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async upsert(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
@@ -151,7 +153,8 @@ export class SqlScriptClient extends AuthenticationClient {
    * Deletes a Sql Script.
    * @param sqlScriptName The sql script name.
    * @param options The options parameters.
-   */  
+   */
+
   public async delete(
     sqlScriptName: string,
     options: OperationOptions = {}

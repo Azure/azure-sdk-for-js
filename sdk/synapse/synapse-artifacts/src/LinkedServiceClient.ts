@@ -21,12 +21,12 @@ import {
 } from "./models";
 
 export class LinkedServiceClient extends AuthenticationClient {
-
   /**
    * Gets a linked service.
    * @param linkedServiceName The linked service name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     linkedServiceName: string,
     options: LinkedServiceGetLinkedServiceOptionalParams = {}
@@ -90,7 +90,8 @@ export class LinkedServiceClient extends AuthenticationClient {
   /**
    * Lists linked services.
    * @param options The options parameters.
-   */  
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<LinkedServiceResource> {
     const { span, updatedOptions } = createSpan("LinkedService-List", options);
     try {
@@ -122,7 +123,8 @@ export class LinkedServiceClient extends AuthenticationClient {
    * @param linkedServiceName The linked service name.
    * @param linkedService Linked service resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
@@ -152,7 +154,8 @@ export class LinkedServiceClient extends AuthenticationClient {
    * Deletes a linked service.
    * @param linkedServiceName The linked service name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     linkedServiceName: string,
     options: OperationOptions = {}

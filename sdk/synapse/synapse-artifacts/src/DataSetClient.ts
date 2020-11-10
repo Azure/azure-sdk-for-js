@@ -21,12 +21,12 @@ import {
 } from "./models";
 
 export class DataSetClient extends AuthenticationClient {
-  
   /**
    * Gets a dataset.
    * @param datasetName The dataset name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     datasetName: string,
     options: DatasetGetDatasetOptionalParams = {}
@@ -88,7 +88,8 @@ export class DataSetClient extends AuthenticationClient {
   /**
    * Lists datasets.
    * @param options The options parameters.
-   */  
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<DatasetResource> {
     const { span, updatedOptions } = createSpan("DataSet-List", options);
     try {
@@ -120,7 +121,8 @@ export class DataSetClient extends AuthenticationClient {
    * @param datasetName The dataset name.
    * @param dataset Dataset resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     datasetName: string,
     dataset: DatasetResource,
@@ -150,7 +152,8 @@ export class DataSetClient extends AuthenticationClient {
    * Deletes a dataset.
    * @param datasetName The dataset name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     datasetName: string,
     options: OperationOptions = {}

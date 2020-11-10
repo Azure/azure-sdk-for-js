@@ -21,12 +21,12 @@ import {
 } from "./models";
 
 export class DataFlowClient extends AuthenticationClient {
-
   /**
    * Gets a data flow.
    * @param dataFlowName The data flow name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     dataFlowName: string,
     options: DataFlowGetDataFlowOptionalParams = {}
@@ -49,7 +49,7 @@ export class DataFlowClient extends AuthenticationClient {
       span.end();
     }
   }
-  
+
   private async *listDataFlowsPage(
     continuationState: ListPageSettings,
     options: OperationOptions = {}
@@ -120,7 +120,8 @@ export class DataFlowClient extends AuthenticationClient {
    * @param dataFlowName The data flow name.
    * @param dataFlow Data flow resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     dataFlowName: string,
     dataFlow: DataFlowResource,
@@ -150,7 +151,8 @@ export class DataFlowClient extends AuthenticationClient {
    * Deletes a data flow.
    * @param dataFlowName The data flow name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     dataFlowName: string,
     options: OperationOptions = {}

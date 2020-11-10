@@ -64,7 +64,8 @@ export class TriggerClient extends AuthenticationClient {
   /**
    * Lists triggers.
    * @param options The options parameters.
-   */  
+   */
+
   public list(options: OperationOptions = {}): PagedAsyncIterableIterator<TriggerResource> {
     const { span, updatedOptions } = createSpan("Trigger-List", options);
     try {
@@ -96,7 +97,8 @@ export class TriggerClient extends AuthenticationClient {
    * @param triggerName The trigger name.
    * @param trigger Trigger resource definition.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUpsert(
     triggerName: string,
     trigger: TriggerResource,
@@ -126,7 +128,8 @@ export class TriggerClient extends AuthenticationClient {
    * Deletes a trigger.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginDelete(
     triggerName: string,
     options: OperationOptions = {}
@@ -154,7 +157,8 @@ export class TriggerClient extends AuthenticationClient {
    * Gets a trigger.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */  
+   */
+
   public async get(
     triggerName: string,
     options: TriggerGetTriggerOptionalParams = {}
@@ -182,7 +186,8 @@ export class TriggerClient extends AuthenticationClient {
    * Subscribe event trigger to events.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginSubscribeTriggerToEvents(
     triggerName: string,
     options: OperationOptions = {}
@@ -210,7 +215,8 @@ export class TriggerClient extends AuthenticationClient {
    * Unsubscribe event trigger from events.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */  
+   */
+
   public async beginUnsubscribeTriggerToEvents(
     triggerName: string,
     options: OperationOptions = {}
@@ -238,7 +244,8 @@ export class TriggerClient extends AuthenticationClient {
    * Starts a trigger.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */ 
+   */
+
   public async beginStart(
     triggerName: string,
     options: OperationOptions = {}
@@ -262,11 +269,12 @@ export class TriggerClient extends AuthenticationClient {
     }
   }
 
-   /**
+  /**
    * Stops a trigger.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */ 
+   */
+
   public async beginStop(
     triggerName: string,
     options: OperationOptions = {}
@@ -294,7 +302,8 @@ export class TriggerClient extends AuthenticationClient {
    * Get a trigger's event subscription status.
    * @param triggerName The trigger name.
    * @param options The options parameters.
-   */  
+   */
+
   public async getEventSubscriptionStatus(
     triggerName: string,
     options: OperationOptions = {}
@@ -323,7 +332,8 @@ export class TriggerClient extends AuthenticationClient {
    * @param triggerName The trigger name.
    * @param runId The pipeline run identifier.
    * @param options The options parameters.
-   */  
+   */
+
   public async rerunTriggerInstance(
     triggerName: string,
     runId: string,
@@ -354,7 +364,8 @@ export class TriggerClient extends AuthenticationClient {
    * @param triggerName The trigger name.
    * @param runId The pipeline run identifier.
    * @param options The options parameters.
-   */  
+   */
+
   public async cancelTriggerInstance(
     triggerName: string,
     runId: string,
@@ -384,7 +395,8 @@ export class TriggerClient extends AuthenticationClient {
    * Query trigger runs.
    * @param filterParameters Parameters to filter the pipeline run.
    * @param options The options parameters.
-   */  
+   */
+
   public async queryTriggerRuns(
     filterParameters: RunFilterParameters,
     options: OperationOptions = {}
