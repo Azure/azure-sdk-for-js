@@ -38,9 +38,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listAnomaliesForDetectionConfiguration()", async function() {
     const iterator = client.listAnomalies(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      new Date(Date.UTC(2020, 7, 5)),
-      new Date(Date.UTC(2020, 8, 5))
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      new Date(Date.UTC(2020, 0, 5)),
+      new Date(Date.UTC(2020, 10, 5))
     );
     let result = await iterator.next();
     assert.ok(result.value.seriesKey, "Expecting first anomaly");
@@ -51,9 +51,9 @@ describe("MetricsAdvisorClient", () => {
   it("listAnomaliesForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listAnomalies(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-        new Date(Date.UTC(2020, 7, 5)),
-        new Date(Date.UTC(2020, 8, 5))
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+        new Date(Date.UTC(2020, 0, 5)),
+        new Date(Date.UTC(2020, 10, 5))
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
@@ -64,9 +64,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listAnomalies(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      "2020-08-05T00:00:00.000Z",
-      "2020-09-05T00:00:00.000Z"
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      "2020-01-05T00:00:00.000Z",
+      "2020-11-05T00:00:00.000Z"
     );
     let result = await iterator.next();
     assert.ok(result.value.seriesKey, "Expecting first anomaly");
@@ -77,7 +77,7 @@ describe("MetricsAdvisorClient", () => {
   it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function() {
     try {
       const iterator = client.listAnomalies(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
         "startTime",
         "endTime"
       );
@@ -90,9 +90,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listIncidentsForDetectionConfiguration()", async function() {
     const iterator = client.listIncidents(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      new Date(Date.UTC(2020, 7, 5)),
-      new Date(Date.UTC(2020, 8, 5))
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      new Date(Date.UTC(2020, 0, 5)),
+      new Date(Date.UTC(2020, 10, 5))
     );
     let result = await iterator.next();
     assert.ok(result.value.rootDimensionKey, "Expecting first incident");
@@ -103,9 +103,9 @@ describe("MetricsAdvisorClient", () => {
   it("listIncidentsForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listIncidents(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-        new Date(Date.UTC(2020, 7, 5)),
-        new Date(Date.UTC(2020, 8, 5))
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+        new Date(Date.UTC(2020, 0, 5)),
+        new Date(Date.UTC(2020, 10, 5))
       )
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
@@ -116,9 +116,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listIncidents(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      "2020-08-05T00:00:00.000Z",
-      "2020-09-05T00:00:00.000Z"
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      "2020-01-05T00:00:00.000Z",
+      "2020-11-05T00:00:00.000Z"
     );
     let result = await iterator.next();
     assert.ok(result.value.rootDimensionKey, "Expecting first incident");
@@ -129,7 +129,7 @@ describe("MetricsAdvisorClient", () => {
   it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function() {
     try {
       const iterator = client.listIncidents(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
         "startTime",
         "endTime"
       );
@@ -142,9 +142,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listDimensionValuesForDetectionConfiguration()", async function() {
     const iterator = client.listDimensionValuesForDetectionConfig(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      new Date(Date.UTC(2020, 7, 5)),
-      new Date(Date.UTC(2020, 8, 5)),
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      new Date(Date.UTC(2020, 0, 5)),
+      new Date(Date.UTC(2020, 10, 5)),
       "Dim1"
     );
     let result = await iterator.next();
@@ -155,9 +155,9 @@ describe("MetricsAdvisorClient", () => {
 
   it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listDimensionValuesForDetectionConfig(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-      "2020-08-05T00:00:00.000Z",
-      "2020-09-05T00:00:00.000Z",
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+      "2020-01-05T00:00:00.000Z",
+      "2020-11-05T00:00:00.000Z",
       "Dim1"
     );
     let result = await iterator.next();
@@ -169,9 +169,9 @@ describe("MetricsAdvisorClient", () => {
   it("listDimensionValuesForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listDimensionValuesForDetectionConfig(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
-        new Date(Date.UTC(2020, 7, 5)),
-        new Date(Date.UTC(2020, 8, 5)),
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
+        new Date(Date.UTC(2020, 0, 5)),
+        new Date(Date.UTC(2020, 10, 5)),
         "Dim1"
       )
       .byPage({ maxPageSize: 2 });
@@ -308,7 +308,7 @@ describe("MetricsAdvisorClient", () => {
   it("listMetricDimensionValues()", async function() {
     const iterator = client.listMetricDimensionValues(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-      "Dim1"
+      "city"
     );
     let result = await iterator.next();
     assert.ok(result.value, "Expecting first dimension value");
@@ -318,7 +318,7 @@ describe("MetricsAdvisorClient", () => {
 
   it("listMetricDimensionValues() by page", async function() {
     const iterator = client
-      .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "Dim1")
+      .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "city")
       .byPage({ maxPageSize: 2 });
     let result = await iterator.next();
     assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
@@ -332,15 +332,15 @@ describe("MetricsAdvisorClient", () => {
       new Date(Date.UTC(2020, 7, 5)),
       new Date(Date.UTC(2020, 8, 5)),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { city: "Manila", category: "Shoes Handbags & Sunglasses" },
+        { city: "Cairo", category: "Home & Garden" }
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
     assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![0].definition.dimension, {
-      Dim1: "Common Lime",
-      Dim2: "Amphibian"
+      city: "Manila",
+      category: "Shoes Handbags & Sunglasses"
     });
 
     assert.ok(
@@ -353,8 +353,8 @@ describe("MetricsAdvisorClient", () => {
 
     assert.equal(data![1].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![1].definition.dimension, {
-      Dim1: "Common Beech",
-      Dim2: "Ant"
+      city: "Cairo",
+      category: "Home & Garden"
     });
 
     assert.ok(
@@ -372,15 +372,15 @@ describe("MetricsAdvisorClient", () => {
       "2020-08-05T00:00:00.000Z",
       "2020-09-05T00:00:00.000Z",
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { city: "Cairo", category: "Home & Garden" },
+        { city: "Manila", category: "Shoes Handbags & Sunglasses" }
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
     assert.equal(data![0].definition.metricId, testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
     assert.deepStrictEqual(data![0].definition.dimension, {
-      Dim1: "Common Lime",
-      Dim2: "Amphibian"
+      city: "Cairo",
+      category: "Home & Garden"
     });
 
     assert.ok(
@@ -394,19 +394,19 @@ describe("MetricsAdvisorClient", () => {
 
   it("list enriched data for a detection configuration", async function() {
     const data = await client.getMetricEnrichedSeriesData(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 1)),
       new Date(Date.UTC(2020, 7, 27)),
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { city: "Manila", category: "Shoes Handbags & Sunglasses" },
+        { city: "Cairo", category: "Home & Garden" }
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
     assert.deepStrictEqual(data![0].series, {
-      Dim1: "Common Lime",
-      Dim2: "Amphibian"
+      city: "Manila",
+      category: "Shoes Handbags & Sunglasses"
     });
 
     assert.ok(
@@ -420,8 +420,8 @@ describe("MetricsAdvisorClient", () => {
     );
 
     assert.deepStrictEqual(data![1].series, {
-      Dim1: "Common Beech",
-      Dim2: "Ant"
+      city: "Cairo",
+      category: "Home & Garden"
     });
 
     assert.ok(
@@ -437,19 +437,19 @@ describe("MetricsAdvisorClient", () => {
 
   it("list enriched data for a detection configuration with datetime strings", async function() {
     const data = await client.getMetricEnrichedSeriesData(
-      testEnv.METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID,
+      testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-08-01T00:00:00.000Z",
       "2020-08-27T00:00:00.000Z",
       [
-        { Dim1: "Common Lime", Dim2: "Amphibian" },
-        { Dim1: "Common Beech", Dim2: "Ant" }
+        { city: "Manila", category: "Shoes Handbags & Sunglasses" },
+        { city: "Cairo", category: "Home & Garden" }
       ]
     );
     assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
     assert.deepStrictEqual(data![0].series, {
-      Dim1: "Common Lime",
-      Dim2: "Amphibian"
+      city: "Manila",
+      category: "Shoes Handbags & Sunglasses"
     });
   });
 
@@ -519,7 +519,7 @@ describe("MetricsAdvisorClient", () => {
         startTime: new Date(Date.UTC(2020, 7, 5)),
         endTime: new Date(Date.UTC(2020, 7, 7)),
         value: "NotAnomaly",
-        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
+        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(anomalyFeedback);
 
@@ -537,7 +537,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "ChangePoint",
         startTime: new Date(Date.UTC(2020, 7, 5)),
         value: "ChangePoint",
-        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
+        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(changePointFeedback);
 
@@ -555,7 +555,7 @@ describe("MetricsAdvisorClient", () => {
         feedbackType: "Period",
         periodType: "AutoDetect",
         periodValue: 4,
-        dimensionKey: { Dim1: "Common Lime", Dim2: "Ant" }
+        dimensionKey:  { city: "Cairo", category: "Home & Garden" }
       };
       const actual = await client.createFeedback(periodFeedback);
 
@@ -572,7 +572,7 @@ describe("MetricsAdvisorClient", () => {
       const expectedCommentFeedback: MetricCommentFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Comment",
-        dimensionKey: { Dim1: "Common Lime", Dim2: "Amphibian" },
+        dimensionKey:  { city: "Cairo", category: "Home & Garden" },
         comment: "This is a comment"
       };
 
