@@ -2,8 +2,11 @@
 
 ## 2.0.0 (Unreleased)
 
-### Breaking Changes
+### Breaking changes
 
+- Continuing our work to clean the public API surface that we started in 2.0.0-beta.1, `DataTransformer` and `DefaultDataTransformer` are no longer exported. 
+  `dataTransformer` has been removed from `ConnectionContextBase` and `ConnectionContextBaseParameters`.
+  This allows us to consider other forms of implementing serializers in the future.
 - Previously, `ConnectionConfig.validate()` overridden entityPath if `undefined` with `String(undefined) = "undefined"`. This has been updated to retain `undefined` in the validation.
   [PR 12321](https://github.com/Azure/azure-sdk-for-js/pull/12321)
 
