@@ -312,6 +312,8 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 - Supports authentication with a service bus connection string as well as with the AAD credentials from `@azure/identity` similar to the `ServiceBusClient`.
 
+Note: Service Bus doesn't support setting CORS rules for namespaces yet, hence `ServiceBusAdministrationClient` won't work in the browser without disabling web-security. For more info, refer [here](https://github.com/Azure/azure-sdk-for-js/issues/4983).
+
 ```js
 // Get the connection string from the portal
 // OR
