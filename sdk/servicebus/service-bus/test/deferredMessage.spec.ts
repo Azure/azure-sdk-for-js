@@ -106,7 +106,7 @@ describe("Deferred Messages", () => {
     should.equal(
       !!(deferredMsg as any)["delivery"],
       true,
-      "Deferred msg should have delivery! We use this assumption to differentiate between peeked msg and other messages."
+      "Deferred msg should have delivery! We use this assumption to differentiate between deferred msg and other messages when settling."
     );
     should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
