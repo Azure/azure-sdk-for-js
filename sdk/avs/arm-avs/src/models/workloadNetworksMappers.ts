@@ -17,7 +17,6 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   ExpressRouteAuthorization,
-  ExpressRouteAuthorizationList,
   GlobalReachConnection,
   HcxEnterpriseSite,
   IdentitySource,
@@ -28,11 +27,17 @@ export {
   Sku,
   TrackedResource,
   WorkloadNetworkDhcp,
+  WorkloadNetworkDhcpList,
   WorkloadNetworkGateway,
+  WorkloadNetworkGatewayList,
   WorkloadNetworkPortMirroring,
+  WorkloadNetworkPortMirroringList,
   WorkloadNetworkSegment,
   WorkloadNetworkSegmentPortVif,
+  WorkloadNetworkSegmentsList,
   WorkloadNetworkSegmentSubnet,
   WorkloadNetworkVirtualMachine,
-  WorkloadNetworkVMGroup
+  WorkloadNetworkVirtualMachinesList,
+  WorkloadNetworkVMGroup,
+  WorkloadNetworkVMGroupsList
 } from "../models/mappers";
