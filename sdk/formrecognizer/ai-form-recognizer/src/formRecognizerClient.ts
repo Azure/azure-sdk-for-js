@@ -135,12 +135,26 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 /**
  * Options for starting the receipt recognition operation
  */
-export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+  /**
+   * Locale of the document.
+   *
+   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
+   */
+  locale?: string;
+}
 
 /**
  * Options for starting the Business Card recognition operation
  */
-export type BeginRecognizeBusinessCardsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
+  /**
+   * Locale of the document.
+   *
+   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
+   */
+  locale?: string;
+}
 
 /**
  * Client class for interacting with the Azure Form Recognizer service.

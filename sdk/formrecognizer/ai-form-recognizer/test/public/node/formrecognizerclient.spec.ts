@@ -180,6 +180,33 @@ matrix([[true, false]] as const, async (useAad) => {
         const receipt = receipts![0];
         assert.equal(receipt.formType, "prebuilt:receipt");
       });
+
+      it("specifying locale", async () => {
+        const url = makeTestUrl("/contoso-allinone.jpg");
+
+        // Just make sure that this doesn't throw
+        const poller = await client.beginRecognizeReceiptsFromUrl(url, {
+          locale: "en-IN",
+          ...testPollingOptions
+        });
+
+        await poller.pollUntilDone();
+      });
+
+      it("invalid locale throws", async () => {
+        const url = makeTestUrl("/contoso-allinone.jpg");
+
+        try {
+          // Just make sure that this doesn't throw
+          const poller = await client.beginRecognizeReceiptsFromUrl(url, {
+            locale: "thisIsNotAValidLocaleString",
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid locale.");
+        } catch {}
+      });
     });
 
     describe("business cards", () => {
@@ -249,6 +276,33 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(field?.value?.length, 1);
           assert.equal(field?.value?.[0].value, expectedValue);
         }
+      });
+
+      it("specifying locale", async () => {
+        const url = makeTestUrl("/businessCard.jpg");
+
+        // Just make sure that this doesn't throw
+        const poller = await client.beginRecognizeReceiptsFromUrl(url, {
+          locale: "en-IN",
+          ...testPollingOptions
+        });
+
+        await poller.pollUntilDone();
+      });
+
+      it("invalid locale throws", async () => {
+        const url = makeTestUrl("/businessCard.jpg");
+
+        try {
+          // Just make sure that this doesn't throw
+          const poller = await client.beginRecognizeReceiptsFromUrl(url, {
+            locale: "thisIsNotAValidLocaleString",
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid locale.");
+        } catch {}
       });
     });
   }).timeout(60000);

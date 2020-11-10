@@ -31,7 +31,9 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
-export type BeginRecognizeBusinessCardsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
@@ -50,7 +52,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & {
