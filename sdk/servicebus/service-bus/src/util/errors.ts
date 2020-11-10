@@ -19,6 +19,14 @@ export const entityPathMisMatchError =
   "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
 
 /**
+ * Error message for when maxMessageCount provided is invalid.
+ *
+ * @internal
+ * @ignore
+ */
+export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number greater than 0.";
+
+/**
  * @internal
  * @ignore
  * Logs and throws Error if the current AMQP connection is closed.
@@ -94,30 +102,6 @@ export function throwTypeErrorIfParameterMissing(
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
-    logger.warning(`[${connectionId}] %O`, error);
-    throw error;
-  }
-}
-
-/**
- * @internal
- * @ignore
- * Logs and Throws TypeError if given parameter is not of expected type
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
- * @param expectedType Expected type of the parameter
- */
-export function throwTypeErrorIfParameterTypeMismatch(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: any,
-  expectedType: string
-): void {
-  if (typeof parameterValue !== expectedType) {
-    const error = new TypeError(
-      `The parameter "${parameterName}" should be of type "${expectedType}"`
-    );
     logger.warning(`[${connectionId}] %O`, error);
     throw error;
   }

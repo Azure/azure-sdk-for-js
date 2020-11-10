@@ -15,6 +15,7 @@ import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
@@ -461,6 +462,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     if (maxMessageCount == undefined) {
       maxMessageCount = 1;
     }
+    maxMessageCount = Number(maxMessageCount);
+    if (maxMessageCount === NaN || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
+    }
 
     const receiveMessages = async () => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
@@ -551,10 +556,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     options: PeekMessagesOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
 
     const managementRequestOptions = {
       ...options,
