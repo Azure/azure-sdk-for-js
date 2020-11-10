@@ -10,7 +10,7 @@ import { testPollingOptions, makeCredential, createRecorder } from "../../utils/
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "../../utils/matrix";
 
-const endpoint = () => env.FORM_RECOGNIZER_ENDPOINT;
+const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 
 function makeTestUrl(path: string): string {
   const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
@@ -205,7 +205,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {}
+        } catch {
+          // Intentionally left empty
+        }
       });
     });
 
@@ -302,7 +304,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {}
+        } catch {
+          // Intentionally left empty
+        }
       });
     });
   }).timeout(60000);

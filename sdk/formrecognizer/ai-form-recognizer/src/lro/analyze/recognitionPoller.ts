@@ -78,8 +78,7 @@ function makeFormRecognitionOperation(
   description: FormPollerOperationDescription,
   initialState: RecognizeFormsOperationState
 ): PollOperation<typeof initialState, RecognizedFormArray> {
-  let self: PollOperation<typeof initialState, RecognizedFormArray>;
-  self = {
+  const self: PollOperation<typeof initialState, RecognizedFormArray> = {
     state: { ...initialState },
     async cancel() {
       throw new Error("The cancel operation is not supported on this poller.");
@@ -96,6 +95,7 @@ function makeFormRecognitionOperation(
       self.state.status = response.status;
 
       if (!isCompleted) {
+        // eslint-disable-next-line no-unused-expressions
         options?.fireProgress?.({ ...self.state });
 
         if (response.status === "succeeded") {
