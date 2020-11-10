@@ -413,9 +413,10 @@ export class BatchingReceiverLite {
             if (totalWaitTimer) clearTimeout(totalWaitTimer);
             const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
             totalWaitTimer = setTimeout(() => {
-              actionAfterWaitTimeout(
-                `Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
+              logger.verbose(
+                `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
               );
+              return finalAction();
             }, remainingWaitTimeInMs);
           }
         }
@@ -491,12 +492,6 @@ export class BatchingReceiverLite {
         reject(err);
       }, args.abortSignal);
 
-      // Action to be performed after the wait time is over.
-      const actionAfterWaitTimeout = (logMessage: string): void => {
-        logger.verbose(`${loggingPrefix} ${logMessage}`);
-        return finalAction();
-      };
-
       logger.verbose(
         `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
       );
@@ -512,9 +507,10 @@ export class BatchingReceiverLite {
       );
 
       totalWaitTimer = setTimeout(() => {
-        actionAfterWaitTimeout(
-          `Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
+        logger.verbose(
+          `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
         );
+        return finalAction();
       }, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
