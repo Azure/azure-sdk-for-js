@@ -2,6 +2,9 @@
 
 ## 3.1.0-beta.1 (Unreleased)
 
+- Made optimizations to the long-running operation infrastructure that should result in faster and more memory-efficient polling for results of custom form recognition, receipt recognition, and business card recognition.
+- Added an option for specifying the locale of a document to receipt and business card methods through the `locale` property of the options bag.
+- Added support for Business Card recognition through the `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl` methods, which mirror their receipt couterparts.
 - Added the `modelName` property to `CustomFormModelInfo`, reflecting the same property that was added to the model training options.
 - Altered the type hierarchy so that `CustomFormModel` inherits the properties of `CustomFormModelInfo`.
 - Added the `modelName` field to `BeginTrainingOptions`. The given model name will become an immutable property of the trained model.
