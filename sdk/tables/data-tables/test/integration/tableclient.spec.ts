@@ -5,7 +5,7 @@ import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../testUtils";
 
 describe("TableClient", () => {
   let client: TableClient;
@@ -43,8 +43,9 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(async () => {
+    before(async function() {
       if (!isPlaybackMode()) {
+        this.timeout(10000);
         await client.createEntity({
           partitionKey: listPartitionKey,
           rowKey: "binary1",

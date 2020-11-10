@@ -4,7 +4,7 @@
 import { TableResponseProperties, TableServiceClient } from "../../src";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../testUtils";
 import { assert } from "chai";
 
 describe("TableServiceClient", () => {
@@ -47,9 +47,10 @@ describe("TableServiceClient", () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
-    before(async () => {
+    before(async function() {
       // Create tables to be listed
       if (!isPlaybackMode()) {
+        this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
           await client.createTable(tableName);
@@ -58,9 +59,10 @@ describe("TableServiceClient", () => {
       }
     });
 
-    after(async () => {
+    after(async function() {
       // Cleanup tables
       if (!isPlaybackMode()) {
+        this.timeout(10000);
         try {
           for (const table of tableNames) {
             await client.deleteTable(table);

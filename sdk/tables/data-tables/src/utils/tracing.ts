@@ -3,7 +3,7 @@
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 
 type OperationTracingOptions = OperationOptions["tracingOptions"];
 

@@ -11,7 +11,8 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
+import { PipelineResponse, PipelineOptions } from "@azure/core-https";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure Tables Api requests
@@ -28,7 +29,7 @@ export type CreateTableItemResponse = TableCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpResponse & {
+  _response: PipelineResponse & {
     /**
      * The response body as text (string format)
      */
@@ -52,7 +53,7 @@ export type CreateTableEntityResponse = TableInsertEntityHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpResponse & {
+  _response: PipelineResponse & {
     /**
      * The response body as text (string format)
      */
@@ -80,7 +81,7 @@ export type ListTableItemsResponse = Array<TableResponseProperties> & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpResponse & {
+  _response: PipelineResponse & {
     /**
      * The response body as text (string format)
      */
@@ -112,7 +113,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpResponse & {
+  _response: PipelineResponse & {
     /**
      * The response body as text (string format)
      */
@@ -135,7 +136,7 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpResponse & {
+  _response: PipelineResponse & {
     /**
      * The response body as text (string format)
      */

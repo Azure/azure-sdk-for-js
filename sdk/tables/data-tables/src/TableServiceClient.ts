@@ -34,9 +34,11 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
+import { createClientPipeline, ClientPipelineOptions } from "@azure/core-client";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
+import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+import { parseXML } from "@azure/core-xml";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -115,18 +117,25 @@ export class TableServiceClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
-      loggingOptions: {
-        logger: logger.info,
-        allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+    const internalPipelineOptions: ClientPipelineOptions = {
+      ...clientOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        },
+        deserializationOptions: {
+          parseXML
+        }
       }
     };
 
-    const pipeline = {
-      ...clientOptions,
-      ...createPipelineFromOptions(internalPipelineOptions, credential)
-    };
-    const client = new GeneratedClient(url, pipeline);
+    const pipeline = createClientPipeline(internalPipelineOptions);
+
+    if (credential) {
+      pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
+    const client = new GeneratedClient(url, { pipeline });
     this.table = client.table;
     this.service = client.service;
   }

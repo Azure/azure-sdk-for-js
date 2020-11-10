@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 
 // This is used as a workaround to be able to stub generateUuid
 // during testing.
 export class Uuid {
-  public static generateUuid(): string {
-    return generateUuid();
+  public static generateUuid() {
+    return uuidv4();
   }
 }

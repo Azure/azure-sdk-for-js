@@ -33,23 +33,22 @@ import {
   TablesSharedKeyCredential,
   TablesSharedKeyCredentialLike
 } from "./TablesSharedKeyCredential";
+import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  ServiceClientOptions
-} from "@azure/core-http";
+import { Pipeline } from "@azure/core-https";
+import { ClientPipelineOptions, createClientPipeline } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
+import { parseXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -143,29 +142,36 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let pipeline: ServiceClientOptions;
+    let pipeline: Pipeline;
 
     if (isInternalClientOptions(clientOptions)) {
       // The client is meant to be an intercept client, so we need to create only the intercepting
       // pipelines.
-      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest?.createPipeline() };
+      pipeline = clientOptions.innerBatchRequest.createPipeline();
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
-      const internalPipelineOptions: InternalPipelineOptions = {
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+      const internalPipelineOptions: ClientPipelineOptions = {
+        ...clientOptions,
+        ...{
+          loggingOptions: {
+            logger: logger.info,
+            additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          },
+          deserializationOptions: {
+            parseXML
+          }
         }
       };
-      pipeline = {
-        ...clientOptions,
-        ...createPipelineFromOptions(internalPipelineOptions, credential)
-      };
+      pipeline = createClientPipeline(internalPipelineOptions);
+    }
+
+    if (credential) {
+      pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
 
     this.tableName = tableName;
     this.credential = credential;
-    const { table } = new GeneratedClient(url, pipeline);
+    const { table } = new GeneratedClient(url, { pipeline });
     this.table = table;
   }
 
