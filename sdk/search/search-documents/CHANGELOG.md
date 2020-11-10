@@ -1,5 +1,8 @@
 # Release History
 
+## 11.1.0-beta.3 (Unreleased)
+
+
 ## 11.1.0-beta.2 (2020-11-10)
 
 - [Breaking] Hidden the constructor of `SearchIndexingBufferedSender` and made it to an interface. Please refer [#11785](https://github.com/Azure/azure-sdk-for-js/pull/11785) for further details.
