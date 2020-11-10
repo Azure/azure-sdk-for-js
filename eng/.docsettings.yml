@@ -99,6 +99,7 @@ known_content_issues:
   - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md",  "#1583"]
   - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md",  "#1583"]
   - ["sdk/core/abort-controller/README.md",  "#1583"]
+  - ["sdk/core/core-amqp/README.md",  "#1583"]
   - ["sdk/core/core-auth/README.md",  "#1583"]
   - ["sdk/core/core-tracing/README.md",  "#1583"]
   - ["sdk/core/logger/README.md",  "#1583"]
