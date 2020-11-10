@@ -75,6 +75,21 @@ describe("invalid parameters", () => {
     });
 
     invalidMessageCounts.forEach((inputValue) => {
+      it(`ReceiveMessages: ${inputValue} as maxMessageCount in SessionReceiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.receiveMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          // should.equal(error && error.name, "TypeError");
+          should.equal(error.message, InvalidMaxMessageCountError);
+        }
+      });
+    });
+
+    invalidMessageCounts.forEach((inputValue) => {
       it(`Peek: ${inputValue} as maxMessageCount in SessionReceiver`, async function(): Promise<
         void
       > {
@@ -228,6 +243,21 @@ describe("invalid parameters", () => {
         `Invalid subQueueType '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
         "Did not throw error if created a client with invalid subQueue."
       );
+    });
+
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`ReceiveMessages: ${inputValue} as maxMessageCount in Receiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.receiveMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          should.equal(error.message, InvalidMaxMessageCountError);
+        }
+      });
     });
 
     invalidMessageCounts.forEach((inputValue) => {
