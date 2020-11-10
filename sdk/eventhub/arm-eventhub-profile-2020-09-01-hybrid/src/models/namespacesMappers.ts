@@ -8,7 +8,6 @@
 
 export {
   AccessKeys,
-  ArmDisasterRecovery,
   AuthorizationRule,
   AuthorizationRuleListResult,
   BaseResource,

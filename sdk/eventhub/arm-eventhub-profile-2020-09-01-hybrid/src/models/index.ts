@@ -486,37 +486,6 @@ export interface ConsumerGroup extends Resource {
 }
 
 /**
- * Single item in List or Get Alias(Disaster Recovery configuration) operation
- */
-export interface ArmDisasterRecovery extends Resource {
-  /**
-   * Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted'
-   * or 'Succeeded' or 'Failed'. Possible values include: 'Accepted', 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningStateDR;
-  /**
-   * ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing
-   */
-  partnerNamespace?: string;
-  /**
-   * Alternate name specified when alias and namespace names are same.
-   */
-  alternateName?: string;
-  /**
-   * role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or
-   * 'Secondary'. Possible values include: 'Primary', 'PrimaryNotReplicating', 'Secondary'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly role?: RoleDisasterRecovery;
-  /**
-   * Number of entities pending to be replicated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly pendingReplicationOperationsCount?: number;
-}
-
-/**
  * The object that represents the operation.
  */
 export interface OperationDisplay {
@@ -766,20 +735,6 @@ export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpoi
 
 /**
  * @interface
- * The result of the List Alias(Disaster Recovery configuration) operation.
- * @extends Array<ArmDisasterRecovery>
- */
-export interface ArmDisasterRecoveryListResult extends Array<ArmDisasterRecovery> {
-  /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of Alias(Disaster
-   * Recovery configuration)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * The result of the List EventHubs operation.
  * @extends Array<Eventhub>
  */
@@ -902,22 +857,6 @@ export type KeyType = 'PrimaryKey' | 'SecondaryKey';
  * @enum {string}
  */
 export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
-
-/**
- * Defines values for ProvisioningStateDR.
- * Possible values include: 'Accepted', 'Succeeded', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
-
-/**
- * Defines values for RoleDisasterRecovery.
- * Possible values include: 'Primary', 'PrimaryNotReplicating', 'Secondary'
- * @readonly
- * @enum {string}
- */
-export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Secondary';
 
 /**
  * Defines values for EncodingCaptureDescription.
@@ -1577,86 +1516,6 @@ export type DisasterRecoveryConfigsListKeysResponse = AccessKeys & {
 };
 
 /**
- * Contains response data for the checkNameAvailability operation.
- */
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecoveryListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DisasterRecoveryConfigsCreateOrUpdateResponse = ArmDisasterRecovery & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecovery;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DisasterRecoveryConfigsGetResponse = ArmDisasterRecovery & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecovery;
-    };
-};
-
-/**
  * Contains response data for the listAuthorizationRulesNext operation.
  */
 export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = AuthorizationRuleListResult & {
@@ -1673,26 +1532,6 @@ export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = Authoriz
        * The response body as parsed JSON or XML
        */
       parsedBody: AuthorizationRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecoveryListResult;
     };
 };
 

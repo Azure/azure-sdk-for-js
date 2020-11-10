@@ -7,7 +7,6 @@
  */
 
 export {
-  ArmDisasterRecovery,
   AuthorizationRule,
   BaseResource,
   CaptureDescription,

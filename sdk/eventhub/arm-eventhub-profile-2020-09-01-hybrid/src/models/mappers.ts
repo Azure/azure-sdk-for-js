@@ -817,60 +817,6 @@ export const ConsumerGroup: msRest.CompositeMapper = {
   }
 };
 
-export const ArmDisasterRecovery: msRest.CompositeMapper = {
-  serializedName: "ArmDisasterRecovery",
-  type: {
-    name: "Composite",
-    className: "ArmDisasterRecovery",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Succeeded",
-            "Failed"
-          ]
-        }
-      },
-      partnerNamespace: {
-        serializedName: "properties.partnerNamespace",
-        type: {
-          name: "String"
-        }
-      },
-      alternateName: {
-        serializedName: "properties.alternateName",
-        type: {
-          name: "String"
-        }
-      },
-      role: {
-        readOnly: true,
-        serializedName: "properties.role",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Primary",
-            "PrimaryNotReplicating",
-            "Secondary"
-          ]
-        }
-      },
-      pendingReplicationOperationsCount: {
-        readOnly: true,
-        serializedName: "properties.pendingReplicationOperationsCount",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const OperationDisplay: msRest.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
@@ -1243,35 +1189,6 @@ export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
         }
       },
       nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ArmDisasterRecoveryListResult: msRest.CompositeMapper = {
-  serializedName: "ArmDisasterRecoveryListResult",
-  type: {
-    name: "Composite",
-    className: "ArmDisasterRecoveryListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ArmDisasterRecovery"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
         serializedName: "nextLink",
         type: {
           name: "String"

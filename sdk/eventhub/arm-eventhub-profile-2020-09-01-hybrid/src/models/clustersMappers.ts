@@ -7,7 +7,6 @@
  */
 
 export {
-  ArmDisasterRecovery,
   AuthorizationRule,
   AvailableCluster,
   AvailableClustersList,

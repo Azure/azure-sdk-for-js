@@ -8,14 +8,10 @@
 
 export {
   AccessKeys,
-  ArmDisasterRecovery,
-  ArmDisasterRecoveryListResult,
   AuthorizationRule,
   AuthorizationRuleListResult,
   BaseResource,
   CaptureDescription,
-  CheckNameAvailabilityParameter,
-  CheckNameAvailabilityResult,
   Cluster,
   ClusterSku,
   ConnectionState,
