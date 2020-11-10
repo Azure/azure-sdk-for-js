@@ -40,7 +40,7 @@ describe("BlobClient Node.js only", () => {
   const tempFolderPath = "temp";
   const timeoutForLargeFile = 20 * 60 * 1000;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
