@@ -38,6 +38,7 @@ describe("BlobClient Node.js only", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
   const tempFolderPath = "temp";
+  const timeoutForLargeFile = 20 * 60 * 1000;
 
   let recorder: any;
 
@@ -477,7 +478,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(typeof response.date, "object");
   });
 
-  it("query should work with large file", async function() {
+  it.only("query should work with large file", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
@@ -499,7 +500,7 @@ describe("BlobClient Node.js only", () => {
     unlinkSync(tempFileLarge);
 
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFile);
 
   it("query should work with aborter", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
