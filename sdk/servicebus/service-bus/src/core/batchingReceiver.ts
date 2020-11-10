@@ -509,7 +509,7 @@ export class BatchingReceiverLite {
         logger.verbose(
           `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
         );
-        return finalAction();
+        finalAction();
       }, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
