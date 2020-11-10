@@ -12,7 +12,6 @@ import {
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  GeneratedClientGetAnalyzeBusinessCardResultResponse as GetAnalyzeBusinessCardResultResponse,
   GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
@@ -31,7 +30,7 @@ import {
   CustomFormSubmodel,
   RecognizedFormArray
 } from "./models";
-import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
+import { RecognizeContentResultResponse } from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
