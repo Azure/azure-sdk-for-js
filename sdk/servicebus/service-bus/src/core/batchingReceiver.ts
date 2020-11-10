@@ -415,7 +415,7 @@ export class BatchingReceiverLite {
               logger.verbose(
                 `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
               );
-              return finalAction();
+              finalAction();
             }, remainingWaitTimeInMs);
           }
         }
