@@ -8,6 +8,7 @@
 
 export {
   discriminators,
-  CloudError,
-  GetVpnSitesConfigurationRequest
+  AzureWebCategory,
+  AzureWebCategoryListResult,
+  CloudError
 } from "../models/mappers";
