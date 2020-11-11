@@ -14,7 +14,8 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
-      WORKSPACE_NAME: "workspace_name"
+      WORKSPACE_NAME: "workspace_name",
+      SPARKPOOL_NAME: "sparkpool_name"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
