@@ -5,7 +5,6 @@
 ```ts
 
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
-import { AmqpError } from 'rhea-promise';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
@@ -136,7 +135,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export function isServiceBusError(err: Error | AmqpError | ServiceBusError): err is ServiceBusError;
+export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
 export interface MessageHandlers {

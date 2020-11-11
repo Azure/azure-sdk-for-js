@@ -172,8 +172,6 @@ export function translateServiceBusError(err: AmqpError | Error): ServiceBusErro
  *
  * @param err An error to check to see if it's of type ServiceBusError
  */
-export function isServiceBusError(
-  err: Error | AmqpError | ServiceBusError
-): err is ServiceBusError {
-  return (err as Error | ServiceBusError).name === "ServiceBusError";
+export function isServiceBusError(err: unknown): err is ServiceBusError {
+  return (err as Error | ServiceBusError)?.name === "ServiceBusError";
 }
