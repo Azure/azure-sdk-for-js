@@ -52,10 +52,10 @@ export function initializeLockRenewalOperationInfo(): LockRenewalOperationInfo {
   return { ...initializeOperationInfo(), lockRenewalTimers: {}, renewalCount: {} };
 }
 
-export function generateMessage(useSessions: boolean) {
+export function generateMessage(useSessions: boolean, numberOfSessions: number) {
   return {
     body: `message ${Math.random()}`,
-    sessionId: useSessions ? `session-${Math.ceil(Math.random() * 10000)}` : undefined,
+    sessionId: useSessions ? `session-${Math.ceil(Math.random() * numberOfSessions)}` : undefined,
     messageId: uuidv4()
   };
 }
