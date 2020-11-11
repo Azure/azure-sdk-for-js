@@ -259,7 +259,7 @@ export function throwErrorIfInvalidOperationOnMessage(
 export const PartitionKeySessionIdMismatchError =
   "The fields 'partitionKey' and 'sessionId' cannot have different values.";
 /**
- * Throws error if given object is not a valid ServiceBusMessage
+ * Throws error if the given object is not a valid ServiceBusMessage
  * @internal
  * @ignore
  * @param msg The object that needs to be validated as a ServiceBusMessage
