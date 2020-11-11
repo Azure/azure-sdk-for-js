@@ -67,6 +67,8 @@ export async function scenarioRenewSessionLock() {
   const testDurationForSendInMs = testDurationInMs * 0.7;
   // Since we are focusing on session locks in this test
   const receiveMode = "receiveAndDelete";
+  const useSessions = true;
+  const useScheduleApi = false;
 
   const startedAt = new Date();
 
@@ -76,7 +78,7 @@ export async function scenarioRenewSessionLock() {
 
   const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, { requiresSession: true }, testOptions);
+  await stressBase.init(undefined, { requiresSession: useSessions }, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -87,8 +89,8 @@ export async function scenarioRenewSessionLock() {
       await stressBase.sendMessages(
         [sender],
         numberOfMessagesPerSend,
-        true,
-        false,
+        useSessions,
+        useScheduleApi,
         numberOfSessions
       );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
