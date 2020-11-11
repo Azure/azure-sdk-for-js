@@ -14,10 +14,10 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   DatasetResource,
-  DatasetCreateOrUpdateDatasetOptionalParams,
-  DatasetCreateOrUpdateDatasetResponse,
-  DatasetGetDatasetOptionalParams,
-  DatasetGetDatasetResponse
+  UpsertDatasetOptionalParams,
+  UpsertDatasetResponse,
+  GetDatasetOptionalParams,
+  GetDatasetResponse
 } from "./models";
 
 export class DataSetClient extends AuthenticationClient {
@@ -29,8 +29,8 @@ export class DataSetClient extends AuthenticationClient {
 
   public async get(
     datasetName: string,
-    options: DatasetGetDatasetOptionalParams = {}
-  ): Promise<DatasetGetDatasetResponse> {
+    options: GetDatasetOptionalParams = {}
+  ): Promise<GetDatasetResponse> {
     const { span, updatedOptions } = createSpan("DataSet-Get", options);
 
     try {
@@ -126,8 +126,8 @@ export class DataSetClient extends AuthenticationClient {
   public async beginUpsert(
     datasetName: string,
     dataset: DatasetResource,
-    options: DatasetCreateOrUpdateDatasetOptionalParams = {}
-  ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
+    options:UpsertDatasetOptionalParams = {}
+  ): Promise<LROPoller<UpsertDatasetResponse>> {
     const { span, updatedOptions } = createSpan("DataSet-BeginUpsert", options);
 
     try {

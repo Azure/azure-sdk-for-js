@@ -17,7 +17,7 @@ import {
   IntegrationRuntimes
 } from "./generated/operations";
 import { SynapseArtifactsContext } from "./synapseArtifactsContext";
-import { SynapseArtifactsOptionalParams } from "./models";
+import { SynapseArtifactsOptionalParams } from "./generated/models";
 
 export class SynapseArtifacts extends SynapseArtifactsContext {
   /**

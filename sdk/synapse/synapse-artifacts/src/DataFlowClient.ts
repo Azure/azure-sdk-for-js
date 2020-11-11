@@ -13,10 +13,10 @@ import {
 import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   DataFlowResource,
-  DataFlowCreateOrUpdateDataFlowOptionalParams,
-  DataFlowCreateOrUpdateDataFlowResponse,
-  DataFlowGetDataFlowOptionalParams,
-  DataFlowGetDataFlowResponse,
+  UpsertDataFlowOptionalParams,
+  UpsertDataFlowResponse,
+  GetDataFlowOptionalParams,
+  GetDataFlowResponse,
   ListPageSettings
 } from "./models";
 
@@ -29,8 +29,8 @@ export class DataFlowClient extends AuthenticationClient {
 
   public async get(
     dataFlowName: string,
-    options: DataFlowGetDataFlowOptionalParams = {}
-  ): Promise<DataFlowGetDataFlowResponse> {
+    options: GetDataFlowOptionalParams = {}
+  ): Promise<GetDataFlowResponse> {
     const { span, updatedOptions } = createSpan("DataFlow-Get", options);
 
     try {
@@ -125,8 +125,8 @@ export class DataFlowClient extends AuthenticationClient {
   public async beginUpsert(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options: DataFlowCreateOrUpdateDataFlowOptionalParams = {}
-  ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
+    options: UpsertDataFlowOptionalParams = {}
+  ): Promise<LROPoller<UpsertDataFlowResponse>> {
     const { span, updatedOptions } = createSpan("DataFlow-BeginUpsert", options);
 
     try {

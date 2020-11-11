@@ -14,14 +14,15 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   PipelineResource,
-  PipelineCreateOrUpdatePipelineOptionalParams,
-  PipelineCreateOrUpdatePipelineResponse,
-  PipelineGetPipelineOptionalParams,
-  PipelineGetPipelineResponse,
-  PipelineRunCancelPipelineRunOptionalParams,
+  UpsertPipelineOptionalParams,
+  UpsertPipelineResponse,
+  GetPipelineOptionalParams,
+  GetPipelineResponse,
+  CancelPipelineRunOptionalParams,
   RunFilterParameters,
-  PipelineRunQueryPipelineRunsByWorkspaceResponse,
-  PipelineRunGetPipelineRunResponse
+  QueryPipelineRunsResponse,
+  GetPipelineRunResponse,
+  QueryActivityRunsResponse
 } from "./models";
 
 export class PipelineClient extends AuthenticationClient {
@@ -33,8 +34,8 @@ export class PipelineClient extends AuthenticationClient {
 
   public async get(
     pipelineName: string,
-    options: PipelineGetPipelineOptionalParams = {}
-  ): Promise<PipelineGetPipelineResponse> {
+    options: GetPipelineOptionalParams = {}
+  ): Promise<GetPipelineResponse> {
     const { span, updatedOptions } = createSpan("Pipeline-Get", options);
 
     try {
@@ -130,8 +131,8 @@ export class PipelineClient extends AuthenticationClient {
   public async beginUpsert(
     pipelineName: string,
     pipeline: PipelineResource,
-    options: PipelineCreateOrUpdatePipelineOptionalParams = {}
-  ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
+    options: UpsertPipelineOptionalParams = {}
+  ): Promise<LROPoller<UpsertPipelineResponse>> {
     const { span, updatedOptions } = createSpan("Pipeline-BeginUpsert", options);
 
     try {
@@ -190,7 +191,7 @@ export class PipelineClient extends AuthenticationClient {
   public async queryPipelineRuns(
     filterParameters: RunFilterParameters,
     options: OperationOptions = {}
-  ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
+  ): Promise<QueryPipelineRunsResponse> {
     const { span, updatedOptions } = createSpan("Pipeline-QueryPipelineRuns", options);
 
     try {
@@ -219,7 +220,7 @@ export class PipelineClient extends AuthenticationClient {
   public async getPipelineRun(
     runId: string,
     options: OperationOptions = {}
-  ): Promise<PipelineRunGetPipelineRunResponse> {
+  ): Promise<GetPipelineRunResponse> {
     const { span, updatedOptions } = createSpan("Pipeline-GetPipelineRun", options);
 
     try {
@@ -252,7 +253,7 @@ export class PipelineClient extends AuthenticationClient {
     runId: string,
     filterParameters: RunFilterParameters,
     options: OperationOptions = {}
-  ): Promise<PipelineRunGetPipelineRunResponse> {
+  ): Promise<QueryActivityRunsResponse> {
     const { span, updatedOptions } = createSpan("Pipeline-QueryActivityRuns", options);
 
     try {
@@ -281,7 +282,7 @@ export class PipelineClient extends AuthenticationClient {
    */
   public async cancelPipelineRun(
     runId: string,
-    options: PipelineRunCancelPipelineRunOptionalParams = {}
+    options: CancelPipelineRunOptionalParams = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("Pipeline-CancelPipelineRun", options);
 

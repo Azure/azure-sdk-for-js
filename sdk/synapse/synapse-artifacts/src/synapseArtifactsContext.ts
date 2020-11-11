@@ -1,5 +1,5 @@
 import * as coreHttp from "@azure/core-http";
-import { SynapseArtifactsOptionalParams } from "./models";
+import { SynapseArtifactsOptionalParams } from "./generated/models";
 import { lroPolicy } from "./generated/lro";
 
 const packageName = "@azure/synapse-artifacts";

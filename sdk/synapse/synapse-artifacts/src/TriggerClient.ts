@@ -14,15 +14,15 @@ import { AuthenticationClient } from "./AuthenticationClient";
 import {
   ListPageSettings,
   TriggerResource,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse,
-  TriggerCreateOrUpdateTriggerOptionalParams,
-  TriggerCreateOrUpdateTriggerResponse,
-  TriggerGetTriggerOptionalParams,
-  TriggerGetTriggerResponse,
+  QueryTriggerRunsResponse,
+  UpsertTriggerOptionalParams,
+  UpsertTriggerResponse,
+  GetTriggerOptionalParams,
+  GetTriggerResponse,
   RunFilterParameters,
-  TriggerSubscribeTriggerToEventsResponse,
-  TriggerGetEventSubscriptionStatusResponse,
-  TriggerUnsubscribeTriggerFromEventsResponse
+  SubscribeTriggerToEventsResponse,
+  GetEventSubscriptionStatusResponse,
+  UnsubscribeTriggerFromEventsResponse
 } from "./models";
 
 export class TriggerClient extends AuthenticationClient {
@@ -102,8 +102,8 @@ export class TriggerClient extends AuthenticationClient {
   public async beginUpsert(
     triggerName: string,
     trigger: TriggerResource,
-    options: TriggerCreateOrUpdateTriggerOptionalParams = {}
-  ): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>> {
+    options: UpsertTriggerOptionalParams = {}
+  ): Promise<LROPoller<UpsertTriggerResponse>> {
     const { span, updatedOptions } = createSpan("Trigger-BeginUpsert", options);
 
     try {
@@ -161,8 +161,8 @@ export class TriggerClient extends AuthenticationClient {
 
   public async get(
     triggerName: string,
-    options: TriggerGetTriggerOptionalParams = {}
-  ): Promise<TriggerGetTriggerResponse> {
+    options: GetTriggerOptionalParams = {}
+  ): Promise<GetTriggerResponse> {
     const { span, updatedOptions } = createSpan("Trigger-Get", options);
 
     try {
@@ -191,7 +191,7 @@ export class TriggerClient extends AuthenticationClient {
   public async beginSubscribeTriggerToEvents(
     triggerName: string,
     options: OperationOptions = {}
-  ): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>> {
+  ): Promise<LROPoller<SubscribeTriggerToEventsResponse>> {
     const { span, updatedOptions } = createSpan("Trigger-BeginSubscribeTriggerToEvents", options);
 
     try {
@@ -220,7 +220,7 @@ export class TriggerClient extends AuthenticationClient {
   public async beginUnsubscribeTriggerToEvents(
     triggerName: string,
     options: OperationOptions = {}
-  ): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>> {
+  ): Promise<LROPoller<UnsubscribeTriggerFromEventsResponse>> {
     const { span, updatedOptions } = createSpan("Trigger-BeginUnsubscribeTriggerToEvents", options);
 
     try {
@@ -307,7 +307,7 @@ export class TriggerClient extends AuthenticationClient {
   public async getEventSubscriptionStatus(
     triggerName: string,
     options: OperationOptions = {}
-  ): Promise<TriggerGetEventSubscriptionStatusResponse> {
+  ): Promise<GetEventSubscriptionStatusResponse> {
     const { span, updatedOptions } = createSpan("Trigger-GetEventSubscriptionStatus", options);
 
     try {
@@ -400,7 +400,7 @@ export class TriggerClient extends AuthenticationClient {
   public async queryTriggerRuns(
     filterParameters: RunFilterParameters,
     options: OperationOptions = {}
-  ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
+  ): Promise<QueryTriggerRunsResponse> {
     const { span, updatedOptions } = createSpan("Trigger-QueryTriggerRuns", options);
 
     try {

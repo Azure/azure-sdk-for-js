@@ -13,10 +13,10 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   SqlScriptResource,
-  SqlScriptCreateOrUpdateSqlScriptOptionalParams,
-  SqlScriptCreateOrUpdateSqlScriptResponse,
-  SqlScriptGetSqlScriptOptionalParams,
-  SqlScriptGetSqlScriptResponse
+  UpsertSqlScriptOptionalParams,
+  UpsertSqlScriptResponse,
+  GetSqlScriptOptionalParams,
+  GetSqlScriptResponse
 } from "./models";
 
 export class SqlScriptClient extends AuthenticationClient {
@@ -28,8 +28,8 @@ export class SqlScriptClient extends AuthenticationClient {
 
   public async get(
     sqlScriptName: string,
-    options: SqlScriptGetSqlScriptOptionalParams = {}
-  ): Promise<SqlScriptGetSqlScriptResponse> {
+    options: GetSqlScriptOptionalParams = {}
+  ): Promise<GetSqlScriptResponse> {
     const { span, updatedOptions } = createSpan("SqlScript-Get", options);
 
     try {
@@ -127,8 +127,8 @@ export class SqlScriptClient extends AuthenticationClient {
   public async upsert(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options: SqlScriptCreateOrUpdateSqlScriptOptionalParams = {}
-  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
+    options: UpsertSqlScriptOptionalParams = {}
+  ): Promise<UpsertSqlScriptResponse> {
     const { span, updatedOptions } = createSpan("SqlScript-Upsert", options);
 
     try {

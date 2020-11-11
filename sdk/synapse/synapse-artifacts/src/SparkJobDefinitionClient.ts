@@ -14,12 +14,12 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   SparkJobDefinitionResource,
-  SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
-  SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse,
-  SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
-  SparkJobDefinitionGetSparkJobDefinitionResponse,
-  SparkJobDefinitionExecuteSparkJobDefinitionResponse,
-  SparkJobDefinitionDebugSparkJobDefinitionResponse
+  UpsertSparkJobDefinitionOptionalParams,
+  UpsertSparkJobDefinitionResponse,
+  GetSparkJobDefinitionOptionalParams,
+  GetSparkJobDefinitionResponse,
+  ExecuteSparkJobDefinitionResponse,
+  DebugSparkJobDefinitionResponse
 } from "./models";
 
 export class SparkJobDefinitionClient extends AuthenticationClient {
@@ -30,8 +30,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
    */
   public async get(
     sparkJobDefinitionName: string,
-    options: SparkJobDefinitionGetSparkJobDefinitionOptionalParams = {}
-  ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
+    options: GetSparkJobDefinitionOptionalParams = {}
+  ): Promise<GetSparkJobDefinitionResponse> {
     const { span, updatedOptions } = createSpan("SparkJobDefinition-Get", options);
 
     try {
@@ -131,8 +131,8 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   public async upsert(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
-    options: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams = {}
-  ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
+    options: UpsertSparkJobDefinitionOptionalParams = {}
+  ): Promise<UpsertSparkJobDefinitionResponse> {
     const { span, updatedOptions } = createSpan("SparkJobDefinition-Upsert", options);
 
     try {
@@ -191,7 +191,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   public async beginExecute(
     sparkJobDefinitionName: string,
     options: OperationOptions = {}
-  ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
+  ): Promise<LROPoller<ExecuteSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan("SparkJobDefinition-BeginExecute", options);
 
     try {
@@ -220,7 +220,7 @@ export class SparkJobDefinitionClient extends AuthenticationClient {
   public async beginDebug(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options: OperationOptions = {}
-  ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
+  ): Promise<LROPoller<DebugSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan("SparkJobDefinition-BeginDebug", options);
 
     try {

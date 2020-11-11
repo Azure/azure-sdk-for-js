@@ -72,6 +72,14 @@ export interface ActivityRunsQueryResponse {
 export type ActivityUnion = ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity | SqlPoolStoredProcedureActivity;
 
 // @public
+export type AddDataFlowResponse = AddDataFlowToDebugSessionResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AddDataFlowToDebugSessionResponse;
+    };
+};
+
+// @public
 export interface AddDataFlowToDebugSessionResponse {
     jobVersion?: string;
 }
@@ -820,6 +828,11 @@ export type BlobTrigger = MultiplePipelineTrigger & {
 };
 
 // @public
+export interface CancelPipelineRunOptionalParams extends coreHttp.OperationOptions {
+    isRecursive?: boolean;
+}
+
+// @public
 export type CassandraLinkedService = LinkedService & {
     host: any;
     authenticationType?: any;
@@ -1051,15 +1064,16 @@ export interface CreateDataFlowDebugSessionRequest {
     newClusterNodeType?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CreateDataFlowDebugSessionResponse" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CreateDataFlowDebugSessionResponse {
-    sessionId?: string;
-}
-
-// @public
-export interface CreateRunResponse {
-    runId: string;
-}
+export type CreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse_2 & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: CreateDataFlowDebugSessionResponse_2;
+        [LROSYM]: LROResponseInfo;
+    };
+};
 
 // @public
 export type CustomActivity = ExecutionActivity & {
@@ -1135,27 +1149,13 @@ export interface DataFlow {
 export class DataFlowClient extends AuthenticationClient {
     beginDelete(dataFlowName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     // Warning: (ae-forgotten-export) The symbol "LROPoller" needs to be exported by the entry point index.d.ts
-    beginUpsert(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
-    get(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
+    beginUpsert(dataFlowName: string, dataFlow: DataFlowResource, options?: UpsertDataFlowOptionalParams): Promise<LROPoller<UpsertDataFlowResponse>>;
+    get(dataFlowName: string, options?: GetDataFlowOptionalParams): Promise<GetDataFlowResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<DataFlowResource>;
     }
 
 // @public
 export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimized" | string;
-
-// @public
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
 
 // @public
 export interface DataFlowDebugCommandRequest {
@@ -1192,64 +1192,18 @@ export interface DataFlowDebugPackageDebugSettings {
 }
 
 // @public
-export interface DataFlowDebugPreviewDataRequest {
-    dataFlowName?: string;
-    rowLimits?: number;
-    sessionId?: string;
-    streamName?: string;
-}
-
-// @public
-export interface DataFlowDebugQueryResponse {
-    runId?: string;
-}
-
-// @public
 export type DataFlowDebugResource = SubResourceDebugResource & {
     properties: DataFlowUnion;
 };
 
-// @public
-export interface DataFlowDebugResultResponse {
-    data?: string;
-    status?: string;
-}
-
-// @public
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddDataFlowToDebugSessionResponse;
-    };
-};
-
 // @public (undocumented)
 export class DataFlowDebugSessionClient extends AuthenticationClient {
-    addDataFlow(request: DataFlowDebugPackage, options?: OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
-    beginCreate(request: CreateDataFlowDebugSessionRequest, options?: OperationOptions): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
-    beginExecute(request: DataFlowDebugCommandRequest, options?: OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    addDataFlow(request: DataFlowDebugPackage, options?: OperationOptions): Promise<AddDataFlowResponse>;
+    beginCreate(request: CreateDataFlowDebugSessionRequest, options?: OperationOptions): Promise<LROPoller<CreateDataFlowDebugSessionResponse>>;
+    beginExecute(request: DataFlowDebugCommandRequest, options?: OperationOptions): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>>;
     delete(request: DeleteDataFlowDebugSessionRequest, options?: OperationOptions): Promise<RestResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
     }
-
-// @public
-export interface DataFlowDebugSessionCreateDataFlowDebugSessionHeaders {
-    location?: string;
-}
-
-// @public
-export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateDataFlowDebugSessionResponse;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface DataFlowDebugSessionExecuteCommandHeaders {
-    location?: string;
-}
 
 // @public
 export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse & {
@@ -1275,67 +1229,8 @@ export interface DataFlowDebugSessionInfo {
 }
 
 // @public
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryDataFlowDebugSessionsResponse;
-    };
-};
-
-// @public
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse = QueryDataFlowDebugSessionsResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryDataFlowDebugSessionsResponse;
-    };
-};
-
-// @public
-export interface DataFlowDebugStatisticsRequest {
-    columns?: string[];
-    dataFlowName?: string;
-    sessionId?: string;
-    streamName?: string;
-}
-
-// @public
 export interface DataFlowFolder {
     name?: string;
-}
-
-// @public
-export interface DataFlowGetDataFlowOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type DataFlowGetDataFlowResponse = DataFlowResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowResource;
-    };
-};
-
-// @public
-export type DataFlowGetDataFlowsByWorkspaceNextResponse = DataFlowListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowListResponse;
-    };
-};
-
-// @public
-export type DataFlowGetDataFlowsByWorkspaceResponse = DataFlowListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowListResponse;
-    };
-};
-
-// @public
-export interface DataFlowListResponse {
-    nextLink?: string;
-    value: DataFlowResource[];
 }
 
 // @public
@@ -1420,8 +1315,8 @@ export type DatasetBZip2Compression = DatasetCompression & {};
 // @public (undocumented)
 export class DataSetClient extends AuthenticationClient {
     beginDelete(datasetName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
-    beginUpsert(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
-    get(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
+    beginUpsert(datasetName: string, dataset: DatasetResource, options?: UpsertDatasetOptionalParams): Promise<LROPoller<UpsertDatasetResponse>>;
+    get(datasetName: string, options?: GetDatasetOptionalParams): Promise<GetDatasetResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
     }
 
@@ -1436,26 +1331,6 @@ export type DatasetCompressionLevel = "Optimal" | "Fastest" | string;
 
 // @public (undocumented)
 export type DatasetCompressionUnion = DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression;
-
-// @public
-export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface DatasetDataElement {
-    name?: any;
-    type?: any;
-}
 
 // @public
 export type DatasetDebugResource = SubResourceDebugResource & {
@@ -1473,44 +1348,9 @@ export interface DatasetFolder {
 }
 
 // @public
-export interface DatasetGetDatasetOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type DatasetGetDatasetResponse = DatasetResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetResource;
-    };
-};
-
-// @public
-export type DatasetGetDatasetsByWorkspaceNextResponse = DatasetListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetListResponse;
-    };
-};
-
-// @public
-export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetListResponse;
-    };
-};
-
-// @public
 export type DatasetGZipCompression = DatasetCompression & {
     level?: DatasetCompressionLevel;
 };
-
-// @public
-export interface DatasetListResponse {
-    nextLink?: string;
-    value: DatasetResource[];
-}
 
 // @public
 export interface DatasetLocation {
@@ -1539,13 +1379,6 @@ export type DatasetReferenceType = "DatasetReference" | string;
 export type DatasetResource = AzureEntityResource & {
     properties: DatasetUnion;
 };
-
-// @public
-export interface DatasetSchemaDataElement {
-    [property: string]: any;
-    name?: any;
-    type?: any;
-}
 
 // @public
 export interface DatasetStorageFormat {
@@ -1594,6 +1427,15 @@ export type Db2TableDataset = Dataset & {
     tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
+};
+
+// @public
+export type DebugSparkJobDefinitionResponse = SparkBatchJob & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SparkBatchJob;
+        [LROSYM]: LROResponseInfo;
+    };
 };
 
 // @public
@@ -1901,6 +1743,15 @@ export type ExecutePipelineActivity = Activity & {
 };
 
 // @public
+export type ExecuteSparkJobDefinitionResponse = SparkBatchJob & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SparkBatchJob;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
 export type ExecuteSsisPackageActivity = ExecutionActivity & {
     packageLocation: SsisPackageLocation;
     runtime?: any;
@@ -2049,15 +1900,130 @@ export type FtpServerLinkedService = LinkedService & {
 export type FtpServerLocation = DatasetLocation & {};
 
 // @public
+export interface GetDataFlowOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetDataFlowResponse = DataFlowResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: DataFlowResource;
+    };
+};
+
+// @public
+export interface GetDatasetOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetDatasetResponse = DatasetResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: DatasetResource;
+    };
+};
+
+// @public
+export type GetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerSubscriptionOperationStatus;
+    };
+};
+
+// @public
+export interface GetLinkedServiceOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetLinkedServiceResponse = LinkedServiceResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LinkedServiceResource;
+    };
+};
+
+// @public
 export type GetMetadataActivity = ExecutionActivity & {
     dataset: DatasetReference;
     fieldList?: any[];
 };
 
 // @public
-export interface GetSsisObjectMetadataRequest {
-    metadataPath?: string;
+export interface GetNotebookOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
 }
+
+// @public
+export type GetNotebookResponse = NotebookResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: NotebookResource;
+    };
+};
+
+// @public
+export interface GetPipelineOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetPipelineResponse = PipelineResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PipelineResource;
+    };
+};
+
+// @public
+export type GetPipelineRunResponse = PipelineRun & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PipelineRun;
+    };
+};
+
+// @public
+export interface GetSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetSparkJobDefinitionResponse = SparkJobDefinitionResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SparkJobDefinitionResource;
+    };
+};
+
+// @public
+export interface GetSqlScriptOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetSqlScriptResponse = SqlScriptResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SqlScriptResource;
+    };
+};
+
+// @public
+export interface GetTriggerOptionalParams extends coreHttp.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type GetTriggerResponse = TriggerResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerResource;
+    };
+};
 
 // @public
 export type GoogleAdWordsAuthenticationType = "ServiceAuthentication" | "UserAuthentication" | string;
@@ -2732,64 +2698,15 @@ export interface LinkedService {
 // @public (undocumented)
 export class LinkedServiceClient extends AuthenticationClient {
     beginDelete(linkedServiceName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
-    beginUpsert(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
-    get(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
+    beginUpsert(linkedServiceName: string, linkedService: LinkedServiceResource, options?: UpsertLinkedServiceOptionalParams): Promise<LROPoller<UpsertLinkedServiceResponse>>;
+    get(linkedServiceName: string, options?: GetLinkedServiceOptionalParams): Promise<GetLinkedServiceResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
     }
-
-// @public
-export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
 
 // @public
 export type LinkedServiceDebugResource = SubResourceDebugResource & {
     properties: LinkedServiceUnion;
 };
-
-// @public
-export interface LinkedServiceGetLinkedServiceOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type LinkedServiceGetLinkedServiceResponse = LinkedServiceResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceResource;
-    };
-};
-
-// @public
-export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceListResponse;
-    };
-};
-
-// @public
-export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceListResponse;
-    };
-};
-
-// @public
-export interface LinkedServiceListResponse {
-    nextLink?: string;
-    value: LinkedServiceResource[];
-}
 
 // @public
 export interface LinkedServiceReference {
@@ -3091,70 +3008,11 @@ export interface NotebookCellOutputItem {
 // @public (undocumented)
 export class NotebookClient extends AuthenticationClient {
     beginDelete(notebookName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
-    beginUpsert(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
-    get(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
+    beginUpsert(notebookName: string, notebook: NotebookResource, options?: UpsertNotebookOptionalParams): Promise<LROPoller<UpsertNotebookResponse>>;
+    get(notebookName: string, options?: GetNotebookOptionalParams): Promise<GetNotebookResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
     listSummary(options?: OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
 }
-
-// @public
-export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface NotebookGetNotebookOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type NotebookGetNotebookResponse = NotebookResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookResource;
-    };
-};
-
-// @public
-export type NotebookGetNotebooksByWorkspaceNextResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebooksByWorkspaceResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
 
 // @public
 export interface NotebookKernelSpec {
@@ -3168,12 +3026,6 @@ export interface NotebookLanguageInfo {
     [property: string]: any;
     codemirrorMode?: string;
     name: string;
-}
-
-// @public
-export interface NotebookListResponse {
-    nextLink?: string;
-    value: NotebookResource[];
 }
 
 // @public
@@ -3449,85 +3301,18 @@ export type PhoenixSource = TabularSource & {
 // @public (undocumented)
 export class PipelineClient extends AuthenticationClient {
     beginDelete(pipelineName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
-    beginUpsert(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
-    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<RestResponse>;
-    get(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
-    getPipelineRun(runId: string, options?: OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    beginUpsert(pipelineName: string, pipeline: PipelineResource, options?: UpsertPipelineOptionalParams): Promise<LROPoller<UpsertPipelineResponse>>;
+    cancelPipelineRun(runId: string, options?: CancelPipelineRunOptionalParams): Promise<RestResponse>;
+    get(pipelineName: string, options?: GetPipelineOptionalParams): Promise<GetPipelineResponse>;
+    getPipelineRun(runId: string, options?: OperationOptions): Promise<GetPipelineRunResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
-    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
-    queryPipelineRuns(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
+    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: OperationOptions): Promise<QueryActivityRunsResponse>;
+    queryPipelineRuns(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<QueryPipelineRunsResponse>;
 }
-
-// @public
-export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface PipelineCreatePipelineRunOptionalParams extends coreHttp.OperationOptions {
-    isRecovery?: boolean;
-    parameters?: {
-        [propertyName: string]: any;
-    };
-    referencePipelineRunId?: string;
-    startActivityName?: string;
-}
-
-// @public
-export type PipelineCreatePipelineRunResponse = CreateRunResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateRunResponse;
-    };
-};
 
 // @public
 export interface PipelineFolder {
     name?: string;
-}
-
-// @public
-export interface PipelineGetPipelineOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type PipelineGetPipelineResponse = PipelineResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineResource;
-    };
-};
-
-// @public
-export type PipelineGetPipelinesByWorkspaceNextResponse = PipelineListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineListResponse;
-    };
-};
-
-// @public
-export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineListResponse;
-    };
-};
-
-// @public
-export interface PipelineListResponse {
-    nextLink?: string;
-    value: PipelineResource[];
 }
 
 // @public
@@ -3579,40 +3364,11 @@ export interface PipelineRun {
 }
 
 // @public
-export interface PipelineRunCancelPipelineRunOptionalParams extends coreHttp.OperationOptions {
-    isRecursive?: boolean;
-}
-
-// @public
-export type PipelineRunGetPipelineRunResponse = PipelineRun & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineRun;
-    };
-};
-
-// @public
 export interface PipelineRunInvokedBy {
     readonly id?: string;
     readonly invokedByType?: string;
     readonly name?: string;
 }
-
-// @public
-export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ActivityRunsQueryResponse;
-    };
-};
-
-// @public
-export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineRunsQueryResponse;
-    };
-};
 
 // @public
 export interface PipelineRunsQueryResponse {
@@ -3713,10 +3469,28 @@ export type PrivateLinkServiceConnectionStateStatus = "Approved" | "Pending" | "
 export type ProxyResource = Resource & {};
 
 // @public
-export interface QueryDataFlowDebugSessionsResponse {
-    nextLink?: string;
-    value?: DataFlowDebugSessionInfo[];
-}
+export type QueryActivityRunsResponse = ActivityRunsQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: ActivityRunsQueryResponse;
+    };
+};
+
+// @public
+export type QueryPipelineRunsResponse = PipelineRunsQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PipelineRunsQueryResponse;
+    };
+};
+
+// @public
+export type QueryTriggerRunsResponse = TriggerRunsQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerRunsQueryResponse;
+    };
+};
 
 // @public
 export type QuickBooksLinkedService = LinkedService & {
@@ -3784,30 +3558,12 @@ export type RelationalTableDataset = Dataset & {
 };
 
 // @public
-export interface RerunTriggerListResponse {
-    readonly nextLink?: string;
-    value: RerunTriggerResource[];
-}
-
-// @public
-export type RerunTriggerResource = AzureEntityResource & {
-    properties: RerunTumblingWindowTrigger;
-};
-
-// @public
 export type RerunTumblingWindowTrigger = Trigger & {
     parentTrigger?: any;
     requestedStartTime: Date;
     requestedEndTime: Date;
     maxConcurrency: number;
 };
-
-// @public
-export interface RerunTumblingWindowTriggerActionParameters {
-    endTime: Date;
-    maxConcurrency: number;
-    startTime: Date;
-}
 
 // @public (undocumented)
 export interface Resource {
@@ -4374,84 +4130,18 @@ export interface SparkJobDefinition {
 
 // @public (undocumented)
 export class SparkJobDefinitionClient extends AuthenticationClient {
-    beginDebug(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: OperationOptions): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
-    beginExecute(sparkJobDefinitionName: string, options?: OperationOptions): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
+    beginDebug(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: OperationOptions): Promise<LROPoller<DebugSparkJobDefinitionResponse>>;
+    beginExecute(sparkJobDefinitionName: string, options?: OperationOptions): Promise<LROPoller<ExecuteSparkJobDefinitionResponse>>;
     delete(sparkJobDefinitionName: string, options?: OperationOptions): Promise<RestResponse>;
-    get(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
+    get(sparkJobDefinitionName: string, options?: GetSparkJobDefinitionOptionalParams): Promise<GetSparkJobDefinitionResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
-    upsert(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+    upsert(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: UpsertSparkJobDefinitionOptionalParams): Promise<UpsertSparkJobDefinitionResponse>;
 }
-
-// @public
-export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionResource;
-    };
-};
-
-// @public
-export type SparkJobDefinitionDebugSparkJobDefinitionResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export type SparkJobDefinitionExecuteSparkJobDefinitionResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionResource;
-    };
-};
-
-// @public
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionsListResponse;
-    };
-};
-
-// @public
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionsListResponse;
-    };
-};
 
 // @public
 export type SparkJobDefinitionResource = AzureEntityResource & {
     properties: SparkJobDefinition;
 };
-
-// @public
-export interface SparkJobDefinitionsListResponse {
-    nextLink?: string;
-    value: SparkJobDefinitionResource[];
-}
 
 // @public
 export interface SparkJobProperties {
@@ -4706,48 +4396,6 @@ export interface SqlScriptContent {
 }
 
 // @public
-export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptResource;
-    };
-};
-
-// @public
-export interface SqlScriptGetSqlScriptOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type SqlScriptGetSqlScriptResponse = SqlScriptResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptResource;
-    };
-};
-
-// @public
-export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptsListResponse;
-    };
-};
-
-// @public
-export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptsListResponse;
-    };
-};
-
-// @public
 export interface SqlScriptMetadata {
     [property: string]: any;
     language?: string;
@@ -4757,12 +4405,6 @@ export interface SqlScriptMetadata {
 export type SqlScriptResource = AzureEntityResource & {
     properties: SqlScript;
 };
-
-// @public
-export interface SqlScriptsListResponse {
-    nextLink?: string;
-    value: SqlScriptResource[];
-}
 
 // @public
 export type SqlScriptType = "SqlQuery" | string;
@@ -4894,14 +4536,6 @@ export interface SsisLogLocation {
 export type SsisLogLocationType = "File" | string;
 
 // @public
-export interface SsisObjectMetadataStatusResponse {
-    error?: string;
-    name?: string;
-    properties?: string;
-    status?: string;
-}
-
-// @public
 export interface SsisPackageLocation {
     accessCredential?: SsisAccessCredential;
     childPackages?: SsisChildPackage[];
@@ -4929,22 +4563,6 @@ export interface StagingSettings {
     enableCompression?: any;
     linkedServiceName: LinkedServiceReference;
     path?: any;
-}
-
-// @public
-export interface StartDataFlowDebugSessionRequest {
-    dataFlow?: DataFlowResource;
-    datasets?: DatasetResource[];
-    debugSettings?: any;
-    incrementalDebug?: boolean;
-    linkedServices?: LinkedServiceResource[];
-    sessionId?: string;
-    staging?: any;
-}
-
-// @public
-export interface StartDataFlowDebugSessionResponse {
-    jobVersion?: string;
 }
 
 // @public
@@ -4986,6 +4604,15 @@ export interface SubResourceDebugResource {
 }
 
 // @public
+export type SubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerSubscriptionOperationStatus;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
 export type SwitchActivity = Activity & {
     on: Expression;
     cases?: SwitchCase[];
@@ -5021,12 +4648,6 @@ export type SybaseSource = TabularSource & {
 export type SybaseTableDataset = Dataset & {
     tableName?: any;
 };
-
-// @public
-export interface SynapseArtifactsOptionalParams extends coreHttp.ServiceClientOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export type SynapseNotebookActivity = Activity & {
@@ -5147,35 +4768,15 @@ export class TriggerClient extends AuthenticationClient {
     beginDelete(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     beginStart(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
     beginStop(triggerName: string, options?: OperationOptions): Promise<LROPoller<RestResponse>>;
-    beginSubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>>;
-    beginUnsubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>>;
-    beginUpsert(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
+    beginSubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<SubscribeTriggerToEventsResponse>>;
+    beginUnsubscribeTriggerToEvents(triggerName: string, options?: OperationOptions): Promise<LROPoller<UnsubscribeTriggerFromEventsResponse>>;
+    beginUpsert(triggerName: string, trigger: TriggerResource, options?: UpsertTriggerOptionalParams): Promise<LROPoller<UpsertTriggerResponse>>;
     cancelTriggerInstance(triggerName: string, runId: string, options?: OperationOptions): Promise<RestResponse>;
-    get(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
-    getEventSubscriptionStatus(triggerName: string, options?: OperationOptions): Promise<TriggerGetEventSubscriptionStatusResponse>;
+    get(triggerName: string, options?: GetTriggerOptionalParams): Promise<GetTriggerResponse>;
+    getEventSubscriptionStatus(triggerName: string, options?: OperationOptions): Promise<GetEventSubscriptionStatusResponse>;
     list(options?: OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
-    queryTriggerRuns(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    queryTriggerRuns(filterParameters: RunFilterParameters, options?: OperationOptions): Promise<QueryTriggerRunsResponse>;
     rerunTriggerInstance(triggerName: string, runId: string, options?: OperationOptions): Promise<RestResponse>;
-}
-
-// @public
-export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface TriggerDependencyProvisioningStatus {
-    provisioningStatus: string;
-    triggerName: string;
 }
 
 // @public
@@ -5185,49 +4786,6 @@ export type TriggerDependencyReference = DependencyReference & {
 
 // @public (undocumented)
 export type TriggerDependencyReferenceUnion = TumblingWindowTriggerDependencyReference;
-
-// @public
-export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-    };
-};
-
-// @public
-export interface TriggerGetTriggerOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type TriggerGetTriggerResponse = TriggerResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerResource;
-    };
-};
-
-// @public
-export type TriggerGetTriggersByWorkspaceNextResponse = TriggerListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerListResponse;
-    };
-};
-
-// @public
-export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerListResponse;
-    };
-};
-
-// @public
-export interface TriggerListResponse {
-    nextLink?: string;
-    value: TriggerResource[];
-}
 
 // @public
 export interface TriggerPipelineReference {
@@ -5269,14 +4827,6 @@ export interface TriggerRun {
 }
 
 // @public
-export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerRunsQueryResponse;
-    };
-};
-
-// @public
 export interface TriggerRunsQueryResponse {
     continuationToken?: string;
     value: TriggerRun[];
@@ -5289,15 +4839,6 @@ export type TriggerRunStatus = "Succeeded" | "Failed" | "Inprogress" | string;
 export type TriggerRuntimeState = "Started" | "Stopped" | "Disabled" | string;
 
 // @public
-export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export interface TriggerSubscriptionOperationStatus {
     readonly status?: EventSubscriptionStatus;
     readonly triggerName?: string;
@@ -5305,15 +4846,6 @@ export interface TriggerSubscriptionOperationStatus {
 
 // @public (undocumented)
 export type TriggerUnion = RerunTumblingWindowTrigger | MultiplePipelineTriggerUnion | TumblingWindowTrigger | ChainingTrigger;
-
-// @public
-export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-        [LROSYM]: LROResponseInfo;
-    };
-};
 
 // @public
 export type TumblingWindowFrequency = "Minute" | "Hour" | string;
@@ -5341,10 +4873,129 @@ export type TumblingWindowTriggerDependencyReference = TriggerDependencyReferenc
 export type Type = "LinkedServiceReference" | string;
 
 // @public
+export type UnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerSubscriptionOperationStatus;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
 export type UntilActivity = Activity & {
     expression: Expression;
     timeout?: any;
     activities: ActivityUnion[];
+};
+
+// @public
+export interface UpsertDataFlowOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertDataFlowResponse = DataFlowResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: DataFlowResource;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
+export interface UpsertDatasetOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertDatasetResponse = DatasetResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: DatasetResource;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
+export interface UpsertLinkedServiceOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertLinkedServiceResponse = LinkedServiceResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LinkedServiceResource;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
+export interface UpsertNotebookOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertNotebookResponse = NotebookResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: NotebookResource;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
+export interface UpsertPipelineOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertPipelineResponse = PipelineResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PipelineResource;
+        [LROSYM]: LROResponseInfo;
+    };
+};
+
+// @public
+export interface UpsertSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertSparkJobDefinitionResponse = SparkJobDefinitionResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SparkJobDefinitionResource;
+    };
+};
+
+// @public
+export interface UpsertSqlScriptOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertSqlScriptResponse = SqlScriptResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SqlScriptResource;
+    };
+};
+
+// @public
+export interface UpsertTriggerOptionalParams extends coreHttp.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpsertTriggerResponse = TriggerResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TriggerResource;
+        [LROSYM]: LROResponseInfo;
+    };
 };
 
 // @public
@@ -5566,7 +5217,7 @@ export type ZohoSource = TabularSource & {
 
 // Warnings were encountered during analysis:
 //
-// src/generated/models/index.ts:13710:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
+// src/generated/models/index.ts:13805:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

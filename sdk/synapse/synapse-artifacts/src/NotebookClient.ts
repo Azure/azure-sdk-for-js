@@ -14,10 +14,10 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   ListPageSettings,
   NotebookResource,
-  NotebookCreateOrUpdateNotebookOptionalParams,
-  NotebookCreateOrUpdateNotebookResponse,
-  NotebookGetNotebookOptionalParams,
-  NotebookGetNotebookResponse
+  UpsertNotebookOptionalParams,
+  UpsertNotebookResponse,
+  GetNotebookOptionalParams,
+  GetNotebookResponse
 } from "./models";
 
 export class NotebookClient extends AuthenticationClient {
@@ -29,8 +29,8 @@ export class NotebookClient extends AuthenticationClient {
 
   public async get(
     notebookName: string,
-    options: NotebookGetNotebookOptionalParams = {}
-  ): Promise<NotebookGetNotebookResponse> {
+    options: GetNotebookOptionalParams = {}
+  ): Promise<GetNotebookResponse> {
     const { span, updatedOptions } = createSpan("Notebook-Get", options);
 
     try {
@@ -194,8 +194,8 @@ export class NotebookClient extends AuthenticationClient {
   public async beginUpsert(
     notebookName: string,
     notebook: NotebookResource,
-    options: NotebookCreateOrUpdateNotebookOptionalParams = {}
-  ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
+    options: UpsertNotebookOptionalParams = {}
+  ): Promise<LROPoller<UpsertNotebookResponse>> {
     const { span, updatedOptions } = createSpan("Notebook-BeginUpsert", options);
 
     try {

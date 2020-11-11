@@ -15,11 +15,12 @@ import {
   ListPageSettings,
   DataFlowDebugSessionInfo,
   CreateDataFlowDebugSessionRequest,
-  DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
+  CreateDataFlowDebugSessionResponse,
   DeleteDataFlowDebugSessionRequest,
   DataFlowDebugCommandRequest,
-  DataFlowDebugSessionAddDataFlowResponse,
-  DataFlowDebugPackage
+  AddDataFlowResponse,
+  DataFlowDebugPackage,
+  DataFlowDebugSessionExecuteCommandResponse
 } from "./models";
 
 export class DataFlowDebugSessionClient extends AuthenticationClient {
@@ -32,7 +33,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
   public async beginCreate(
     request: CreateDataFlowDebugSessionRequest,
     options: OperationOptions = {}
-  ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
+  ): Promise<LROPoller<CreateDataFlowDebugSessionResponse>> {
     const { span, updatedOptions } = createSpan("DataFlowDebugSession-BeginCreate", options);
 
     try {
@@ -160,7 +161,7 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
   public async addDataFlow(
     request: DataFlowDebugPackage,
     options: OperationOptions = {}
-  ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
+  ): Promise<AddDataFlowResponse> {
     const { span, updatedOptions } = createSpan("DataFlowDebugSession-AddDataFlow", options);
 
     try {
@@ -189,11 +190,11 @@ export class DataFlowDebugSessionClient extends AuthenticationClient {
   public async beginExecute(
     request: DataFlowDebugCommandRequest,
     options: OperationOptions = {}
-  ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
+  ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
     const { span, updatedOptions } = createSpan("DataFlowDebugSession-BeginExecute", options);
 
     try {
-      const response = await this.client.dataFlowDebugSession.addDataFlow(
+      const response = await this.client.dataFlowDebugSession.executeCommand(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

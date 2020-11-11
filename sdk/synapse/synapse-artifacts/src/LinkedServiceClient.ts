@@ -14,10 +14,10 @@ import { createSpan, getCanonicalCode } from "./utils/tracing";
 import {
   LinkedServiceResource,
   ListPageSettings,
-  LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
-  LinkedServiceCreateOrUpdateLinkedServiceResponse,
-  LinkedServiceGetLinkedServiceOptionalParams,
-  LinkedServiceGetLinkedServiceResponse
+  UpsertLinkedServiceOptionalParams,
+  UpsertLinkedServiceResponse,
+  GetLinkedServiceOptionalParams,
+  GetLinkedServiceResponse
 } from "./models";
 
 export class LinkedServiceClient extends AuthenticationClient {
@@ -29,8 +29,8 @@ export class LinkedServiceClient extends AuthenticationClient {
 
   public async get(
     linkedServiceName: string,
-    options: LinkedServiceGetLinkedServiceOptionalParams = {}
-  ): Promise<LinkedServiceGetLinkedServiceResponse> {
+    options: GetLinkedServiceOptionalParams = {}
+  ): Promise<GetLinkedServiceResponse> {
     const { span, updatedOptions } = createSpan("LinkedService-Get", options);
 
     try {
@@ -128,8 +128,8 @@ export class LinkedServiceClient extends AuthenticationClient {
   public async beginUpsert(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
-    options: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams = {}
-  ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
+    options: UpsertLinkedServiceOptionalParams = {}
+  ): Promise<LROPoller<UpsertLinkedServiceResponse>> {
     const { span, updatedOptions } = createSpan("LinkedService-BeginUpsert", options);
 
     try {
