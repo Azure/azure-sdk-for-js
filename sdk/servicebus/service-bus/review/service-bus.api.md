@@ -79,12 +79,20 @@ export interface CreateQueueOptions extends OperationOptions {
 }
 
 // @public
+export interface CreateRuleOptions {
+    action?: SqlRuleAction;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+    name: string;
+}
+
+// @public
 export interface CreateSubscriptionOptions extends OperationOptions {
     autoDeleteOnIdle?: string;
     availabilityStatus?: EntityAvailabilityStatus;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
+    defaultRuleOptions?: CreateRuleOptions;
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -515,7 +523,7 @@ export interface SubscriptionProperties {
     status: EntityStatus;
     readonly subscriptionName: string;
     readonly topicName: string;
-    userMetadata: string;
+    userMetadata?: string;
 }
 
 // @public
