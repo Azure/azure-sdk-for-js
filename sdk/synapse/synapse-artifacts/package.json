@@ -1,8 +1,8 @@
 {
   "name": "@azure/synapse-artifacts",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for SynapseArtifacts.",
-  "version": "1.0.0",
+  "description": "Azure client library for Azure Synapse Artifacts.",
+  "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
