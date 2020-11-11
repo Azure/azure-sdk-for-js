@@ -389,21 +389,14 @@ export class FormRecognizerClient {
       createOperation: span("customFormsInternal", async (finalOptions) => {
         const requestBody = await toRequestBody(form);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
-        const { operationLocation } = await this.client.analyzeWithCustomModel(
-          modelId,
-          contentType!,
-          requestBody as Blob | ArrayBuffer | ArrayBufferView,
-          operationOptionsToRequestOptionsBase(finalOptions)
+        return processOperationLocation(
+          await this.client.analyzeWithCustomModel(
+            modelId,
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
         );
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
       }),
       getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
         // using the modelId from the parameter here is important, as we could be restoring from
@@ -423,7 +416,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Recognizes forms from a URL to a form document using a custom form model from training.
+   * Recognizes forms from a URL to a document using a custom form model from training.
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -442,9 +435,9 @@ export class FormRecognizerClient {
    * const forms = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes form information from a url to a form document using a custom form model.
+   * @summary Recognizes form information from a url to a document using a custom form model.
    * @param modelId Id of the custom form model to use
-   * @param formUrl Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param formUrl Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
    * @param options Options for the recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
@@ -464,25 +457,14 @@ export class FormRecognizerClient {
     const poller = new FormRecognitionPoller({
       modelId,
       createOperation: span("customFormsInternal", async (finalOptions) => {
-        const { operationLocation } = await this.client.analyzeWithCustomModel(
-          modelId,
-          "application/json",
-          {
+        return processOperationLocation(
+          await this.client.analyzeWithCustomModel(modelId, "application/json", {
             fileStream: {
               source: formUrl
             },
             ...operationOptionsToRequestOptionsBase(finalOptions)
-          }
+          })
         );
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
       }),
       getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
         // using the modelId from the parameter here is important, as we could be restoring from
@@ -505,7 +487,8 @@ export class FormRecognizerClient {
    * Recognizes data from business cards using pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
-   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the
+   * following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -527,7 +510,7 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given document
+   * @summary Recognizes business card information from a given document
    * @param businessCard Input document
    * @param options Options for the recognition operation
    */
@@ -545,20 +528,13 @@ export class FormRecognizerClient {
       createOperation: span("businessCardsInternal", async (finalOptions) => {
         const requestBody = await toRequestBody(businessCard);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
-        const { operationLocation } = await this.client.analyzeBusinessCardAsync(
-          contentType!,
-          requestBody as Blob | ArrayBuffer | ArrayBufferView,
-          operationOptionsToRequestOptionsBase(finalOptions)
+        return processOperationLocation(
+          await this.client.analyzeBusinessCardAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
         );
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
       }),
       getResult: span("getBusinessCards", async (finalOptions, resultId) =>
         this.client.getAnalyzeBusinessCardResult(
@@ -577,7 +553,7 @@ export class FormRecognizerClient {
    * Recognizes business card information from a url using pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
-   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -598,7 +574,7 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes business card information from a given accessible url to input document
+   * @summary Recognizes business card information from a given accessible url to a document
    * @param businessCardUrl Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
    * @param options Options for the recognition operation
    */
@@ -619,24 +595,14 @@ export class FormRecognizerClient {
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:businessCard",
       createOperation: span("businessCardsInternal", async (finalOptions) => {
-        const { operationLocation } = await this.client.analyzeBusinessCardAsync(
-          "application/json",
-          {
+        return processOperationLocation(
+          await this.client.analyzeBusinessCardAsync("application/json", {
             fileStream: {
               source: businessCardUrl
             },
             ...operationOptionsToRequestOptionsBase(finalOptions)
-          }
+          })
         );
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
       }),
       getResult: span("getBusinessCards", async (finalOptions, resultId) =>
         this.client.getAnalyzeBusinessCardResult(
@@ -655,7 +621,7 @@ export class FormRecognizerClient {
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
-   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -696,20 +662,13 @@ export class FormRecognizerClient {
       createOperation: span("receiptsInternal", async (finalOptions) => {
         const requestBody = await toRequestBody(receipt);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
-        const { operationLocation } = await this.client.analyzeReceiptAsync(
-          contentType!,
-          requestBody as Blob | ArrayBuffer | ArrayBufferView,
-          operationOptionsToRequestOptionsBase(finalOptions)
+        return processOperationLocation(
+          await this.client.analyzeReceiptAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
         );
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
       }),
       getResult: span("getReceipts", async (finalOptions, resultId) =>
         this.client.getAnalyzeReceiptResult(
@@ -728,7 +687,8 @@ export class FormRecognizerClient {
    * Recognizes receipt information from a url using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
-   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the
+   * following link: https://aka.ms/azsdk/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -749,7 +709,7 @@ export class FormRecognizerClient {
    * const [receipt] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given accessible url to input document
+   * @summary Recognizes receipt information from a given accessible url to a document
    * @param receiptUrl Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
    * @param options Options for the recognition operation
    */
@@ -770,21 +730,14 @@ export class FormRecognizerClient {
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:receipt",
       createOperation: span("receiptsInternal", async (finalOptions) => {
-        const { operationLocation } = await this.client.analyzeReceiptAsync("application/json", {
-          fileStream: {
-            source: receiptUrl
-          },
-          ...operationOptionsToRequestOptionsBase(finalOptions)
-        });
-
-        if (!operationLocation) {
-          throw new Error(
-            "The service did not respond with an 'operationLocation' to retrieve results."
-          );
-        } else {
-          const lastSlashIndex = operationLocation.lastIndexOf("/");
-          return operationLocation.substring(lastSlashIndex + 1);
-        }
+        return processOperationLocation(
+          await this.client.analyzeReceiptAsync("application/json", {
+            fileStream: {
+              source: receiptUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          })
+        );
       }),
       getResult: span("getReceipts", async (finalOptions, resultId) =>
         this.client.getAnalyzeReceiptResult(
@@ -797,6 +750,33 @@ export class FormRecognizerClient {
 
     await poller.poll();
     return poller;
+  }
+}
+
+/**
+ * An operation that can be queried.
+ *
+ * @internal
+ */
+interface RemoteOperation {
+  operationLocation?: string;
+}
+
+/**
+ * Validates a remote operation's location is defined and extracts the
+ * result ID from it.
+ *
+ * @param remoteOperation the operation to process
+ * @returns the remote operation ID
+ *
+ * @internal
+ */
+function processOperationLocation({ operationLocation }: RemoteOperation): string {
+  if (!operationLocation) {
+    throw new Error("The service did not respond with an 'operationLocation' to retrieve results.");
+  } else {
+    const lastSlashIndex = operationLocation.lastIndexOf("/");
+    return operationLocation.substring(lastSlashIndex + 1);
   }
 }
 
@@ -815,7 +795,7 @@ interface Spanner<Options> {
    * @param handler the handler to run. Its first parameter will have the
    *   type of `options` that were passed to `makeSpanner`
    *
-   * @returns a function that will wrap a call to the `hander` in tracing code, forwarding its parameters
+   * @returns a function that will wrap a call to the `handler` in tracing code, forwarding its parameters
    */
   span<Args extends unknown[], Result>(
     name: string,
