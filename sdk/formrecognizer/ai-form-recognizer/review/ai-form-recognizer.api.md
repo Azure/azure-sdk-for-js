@@ -31,6 +31,11 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
+export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
@@ -47,7 +52,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & {
@@ -219,6 +226,8 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
+    beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
@@ -401,9 +410,12 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
-export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
+export interface RecognizeFormsOperationState extends PollOperationState<RecognizedFormArray> {
+    expectedDocType?: string;
+    modelId?: string;
+    resultId?: string;
     status: OperationStatus;
-};
+}
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
