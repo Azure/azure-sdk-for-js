@@ -4,6 +4,7 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
+$ArtifactToPackgeMap = @{'opentelemetry-exporter-azure-monitor'='microsoft-opentelemetry-exporter-azure-monitor'}
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
@@ -89,6 +90,11 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
   foreach ($Item in $PublishedDocs) 
   {
     $PkgName = "azure-$($Item.BaseName)"
+    # Override package name from other scope. We don't have package name to parse this out here.
+    if ($ArtifactToPackgeMap.ContainsKey($($Item.BaseName)))
+    {
+      $PkgName = $ArtifactToPackgeMap[$($Item.BaseName)]
+    }
     Write-Host $PkgName
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
@@ -111,7 +117,7 @@ function Get-javascript-GithubIoDocIndex() {
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
-  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/azure-(.*)/$" -blobArtifactsReplacement "@azure/`${1}"
+  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/([a-z]*)-(.*)/$" -blobArtifactsReplacement "@`${1}/`${2}"
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
