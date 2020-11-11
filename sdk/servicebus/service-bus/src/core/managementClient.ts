@@ -39,7 +39,8 @@ import {
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
@@ -445,10 +446,18 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterNotLong(connId, "fromSequenceNumber", fromSequenceNumber);
 
     // Checks for maxMessageCount
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
-    maxMessageCount = Number(maxMessageCount);
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
+
     if (isNaN(maxMessageCount) || maxMessageCount < 1) {
       throw new TypeError(InvalidMaxMessageCountError);
     }

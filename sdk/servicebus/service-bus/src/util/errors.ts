@@ -110,6 +110,31 @@ export function throwTypeErrorIfParameterMissing(
 /**
  * @internal
  * @ignore
+ * Logs and Throws TypeError if given parameter is not of expected type
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to type check
+ * @param parameterValue Value of the parameter to type check
+ * @param expectedType Expected type of the parameter
+ */
+
+export function throwTypeErrorIfParameterTypeMismatch(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: any,
+  expectedType: string
+): void {
+  if (typeof parameterValue !== expectedType) {
+    const error = new TypeError(
+      `The parameter "${parameterName}" should be of type "${expectedType}"`
+    );
+    logger.warning(`[${connectionId}] %O`, error);
+    throw error;
+  }
+}
+
+/**
+ * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check

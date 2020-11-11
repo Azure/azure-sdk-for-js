@@ -4,15 +4,15 @@
 import chai from "chai";
 import Long from "long";
 const should = chai.should();
+const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
-import { InvalidMaxMessageCountError } from "../src/util/errors";
 
-describe("invalid parameters", () => {
+describe.only("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -23,7 +23,7 @@ describe("invalid parameters", () => {
     return serviceBusClient.test.after();
   });
 
-  const invalidMessageCounts = [-100, 0, "boo"];
+  const invalidMessageCounts = [-100, 0, "boo", undefined, null];
 
   describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: ServiceBusSender;
@@ -83,8 +83,10 @@ describe("invalid parameters", () => {
           await receiver.receiveMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
-          // should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
@@ -98,8 +100,10 @@ describe("invalid parameters", () => {
           await receiver.peekMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
-          // should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
@@ -116,7 +120,9 @@ describe("invalid parameters", () => {
           chai.assert.fail("This should not have passed.");
         } catch (error) {
           should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
@@ -255,7 +261,9 @@ describe("invalid parameters", () => {
           chai.assert.fail("This should not have passed.");
         } catch (error) {
           should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
@@ -268,7 +276,9 @@ describe("invalid parameters", () => {
           chai.assert.fail("This should not have passed.");
         } catch (error) {
           should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
@@ -285,7 +295,9 @@ describe("invalid parameters", () => {
           chai.assert.fail("This should not have passed.");
         } catch (error) {
           should.equal(error && error.name, "TypeError");
-          should.equal(error.message, InvalidMaxMessageCountError);
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
         }
       });
     });
