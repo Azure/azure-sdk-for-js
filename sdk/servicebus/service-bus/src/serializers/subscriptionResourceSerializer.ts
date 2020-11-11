@@ -18,6 +18,11 @@ import {
   getStringOrUndefined,
   getDate
 } from "../util/utils";
+import {
+  buildInternalRuleResource,
+  CreateRuleOptions,
+  InternalRuleOptions
+} from "./ruleResourceSerializer";
 
 /**
  * @internal
@@ -40,6 +45,9 @@ export function buildSubscriptionOptions(
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscription.deadLetteringOnFilterEvaluationExceptions
     ),
+    DefaultRuleDescription: subscription.defaultRuleOptions
+      ? buildInternalRuleResource(subscription.defaultRuleOptions)
+      : undefined,
     MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
     Status: getStringOrUndefined(subscription.status),
@@ -177,6 +185,12 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    * in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
+
+  /**
+   * Represents the options to create a rule for the subscription.
+   * If none provided, True Filter(1=1) is added.
+   */
+  defaultRuleOptions?: CreateRuleOptions;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -327,7 +341,7 @@ export interface SubscriptionProperties {
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Absolute URL or the name of the queue or topic the dead-lettered
@@ -458,6 +472,8 @@ export interface InternalSubscriptionOptions {
    * Availability status of the messaging entity.
    */
   EntityAvailabilityStatus?: string;
+
+  DefaultRuleDescription?: InternalRuleOptions;
 }
 
 /**
