@@ -47,7 +47,7 @@ async function main() {
 
         // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
         if (isServiceBusError(args.error)) {
-          switch (args.error.reason) {
+          switch (args.error.code) {
             case "MessagingEntityDisabled":
             case "MessagingEntityNotFound":
             case "Unauthorized":
@@ -55,7 +55,7 @@ async function main() {
               // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
               // what is considered fatal for your program.
               console.log(
-                `An unrecoverable error occurred. Stopping processing. ${args.error.reason}`,
+                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
                 args.error
               );
               await subscription.close();
