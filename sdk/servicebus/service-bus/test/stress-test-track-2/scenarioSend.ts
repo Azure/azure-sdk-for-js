@@ -28,7 +28,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioSimpleSendOptions> {
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    useScheduleApi: options.useScheduleApi || false
+    useScheduleApi: options.useScheduleApi
   };
 }
 
