@@ -75,8 +75,6 @@ function getRuleAction(value: any): SqlRuleAction {
 
 /**
  * Represents the options to create a rule for a subscription.
- * @internal
- * @ignore
  */
 export interface CreateRuleOptions {
   /**
@@ -157,79 +155,101 @@ export interface SqlRuleFilter {
 /**
  * @internal
  * @ignore
- * RuleResourceSerializer for serializing / deserializing Rule entities
+ *
+ * @interface InternalRuleOptions
  */
-export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: RuleProperties): object {
-    const resource: { Name: any; Filter: any; Action: any } = {
-      Filter: {},
-      Action: {},
-      Name: rule.name
-    };
+export interface InternalRuleOptions {
+  Name: string;
+  Filter: any;
+  Action: any;
+}
 
-    if (rule.filter == undefined) {
-      // Defaults to creating a true filter if none specified
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {CreateRuleOptions} rule
+ */
+export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRuleOptions {
+  const resource: InternalRuleOptions = {
+    Filter: {},
+    Action: {},
+    Name: rule.name
+  };
+
+  if (rule.filter == undefined) {
+    // Defaults to creating a true filter if none specified
+    resource.Filter = {
+      SqlExpression: "1=1"
+    };
+    resource.Filter[Constants.XML_METADATA_MARKER] = {
+      "p4:type": "SqlFilter",
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+    };
+  } else {
+    if (rule.filter.hasOwnProperty("sqlExpression")) {
+      const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
       resource.Filter = {
-        SqlExpression: "1=1"
+        SqlExpression: sqlFilter.sqlExpression,
+        Parameters: buildInternalRawKeyValuePairs(sqlFilter.sqlParameters, "sqlParameters")
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlFilter",
         "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
       };
     } else {
-      if (rule.filter.hasOwnProperty("sqlExpression")) {
-        const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
-        resource.Filter = {
-          SqlExpression: sqlFilter.sqlExpression,
-          Parameters: buildInternalRawKeyValuePairs(sqlFilter.sqlParameters, "sqlParameters")
-        };
-        resource.Filter[Constants.XML_METADATA_MARKER] = {
-          "p4:type": "SqlFilter",
-          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-        };
-      } else {
-        const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
+      const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
 
-        resource.Filter = {
-          CorrelationId: correlationFilter.correlationId,
-          Label: correlationFilter.subject,
-          To: correlationFilter.to,
-          ReplyTo: correlationFilter.replyTo,
-          ReplyToSessionId: correlationFilter.replyToSessionId,
-          ContentType: correlationFilter.contentType,
-          SessionId: correlationFilter.sessionId,
-          MessageId: correlationFilter.messageId,
-          Properties: buildInternalRawKeyValuePairs(
-            correlationFilter.applicationProperties,
-            "applicationProperties"
-          )
-        };
-        resource.Filter[Constants.XML_METADATA_MARKER] = {
-          "p4:type": "CorrelationFilter",
-          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-        };
-      }
-    }
-
-    if (rule.action == undefined || rule.action.sqlExpression == undefined) {
-      // Defaults to creating an empty rule action instance if none specified
-      resource.Action = {};
-      resource.Action[Constants.XML_METADATA_MARKER] = {
-        "p4:type": "EmptyRuleAction",
-        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+      resource.Filter = {
+        CorrelationId: correlationFilter.correlationId,
+        Label: correlationFilter.subject,
+        To: correlationFilter.to,
+        ReplyTo: correlationFilter.replyTo,
+        ReplyToSessionId: correlationFilter.replyToSessionId,
+        ContentType: correlationFilter.contentType,
+        SessionId: correlationFilter.sessionId,
+        MessageId: correlationFilter.messageId,
+        Properties: buildInternalRawKeyValuePairs(
+          correlationFilter.applicationProperties,
+          "applicationProperties"
+        )
       };
-    } else {
-      resource.Action = {
-        SqlExpression: rule.action.sqlExpression,
-        Parameters: buildInternalRawKeyValuePairs(rule.action.sqlParameters, "sqlParameters")
-      };
-      resource.Action[Constants.XML_METADATA_MARKER] = {
-        "p4:type": "SqlRuleAction",
+      resource.Filter[Constants.XML_METADATA_MARKER] = {
+        "p4:type": "CorrelationFilter",
         "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
       };
     }
+  }
 
-    return serializeToAtomXmlRequest("RuleDescription", resource);
+  if (rule.action == undefined || rule.action.sqlExpression == undefined) {
+    // Defaults to creating an empty rule action instance if none specified
+    resource.Action = {};
+    resource.Action[Constants.XML_METADATA_MARKER] = {
+      "p4:type": "EmptyRuleAction",
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+    };
+  } else {
+    resource.Action = {
+      SqlExpression: rule.action.sqlExpression,
+      Parameters: buildInternalRawKeyValuePairs(rule.action.sqlParameters, "sqlParameters")
+    };
+    resource.Action[Constants.XML_METADATA_MARKER] = {
+      "p4:type": "SqlRuleAction",
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+    };
+  }
+
+  return resource;
+}
+
+/**
+ * @internal
+ * @ignore
+ * RuleResourceSerializer for serializing / deserializing Rule entities
+ */
+export class RuleResourceSerializer implements AtomXmlSerializer {
+  serialize(rule: RuleProperties): object {
+    return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
