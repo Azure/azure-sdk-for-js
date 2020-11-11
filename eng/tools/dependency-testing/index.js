@@ -332,7 +332,13 @@ async function main(argv) {
   const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
 
-  const packageName = artifactName.replace("azure-", "@azure/");
+  let packageName = "";
+  if (artifactName.startsWith("microsoft-")) {
+    packageName = artifactName.replace("microsoft-", "@microsoft/");
+  }
+  else {
+    packageName = artifactName.replace("azure-", "@azure/");
+  }
   const targetPackage = await getPackageFromRush(repoRoot, packageName);
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
 

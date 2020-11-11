@@ -11,8 +11,8 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
   if (Test-Path $projectPath)
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
-    $jsStylePkgName = $pkgName.replace("azure-", "@azure/")
-    if ($projectJson.name -eq "$jsStylePkgName")
+    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+    if ($pkgName -eq "$jsStylePkgName")
     {
       return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
     }

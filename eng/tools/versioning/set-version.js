@@ -33,11 +33,10 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
-  const packageName = artifactName.replace("azure-", "@azure/");
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName == packageName
+    packageSpec => packageSpec.packageName.replace("@", "").replace("/", "-") == packageName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);

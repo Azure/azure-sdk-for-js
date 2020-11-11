@@ -106,7 +106,7 @@ function getPackageUrl(language, package, version) {
 $(function () {
   $('h4').each(function () {
     var pkgName = $(this).text()
-      .replace("@azure/", "azure-");
+      .replace("@", "").replace("/", "-");
     populateIndexList($(this), pkgName)
   });
 })
