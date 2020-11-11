@@ -19,6 +19,14 @@ export const entityPathMisMatchError =
   "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
 
 /**
+ * Error message for when maxMessageCount provided is invalid.
+ *
+ * @internal
+ * @ignore
+ */
+export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number greater than 0.";
+
+/**
  * @internal
  * @ignore
  * Logs and throws Error if the current AMQP connection is closed.
@@ -108,6 +116,7 @@ export function throwTypeErrorIfParameterMissing(
  * @param parameterValue Value of the parameter to type check
  * @param expectedType Expected type of the parameter
  */
+
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
