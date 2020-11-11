@@ -129,6 +129,8 @@ describe("TableClient", () => {
       });
       let all: TableEntity<BinaryEntity>[] = [];
       for await (const entity of entities) {
+        assert.isDefined(entity.timestamp, "Expected timestamp to be defined in the entity");
+        assert.isDefined(entity.etag, "Expected etag");
         all = [...all, entity];
       }
 

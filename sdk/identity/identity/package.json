@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.2.0-beta.3",
+  "version": "1.2.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -9,7 +9,7 @@
   "browser": {
     "./dist-esm/src/credentials/azureCliCredential.js": "./dist-esm/src/credentials/azureCliCredential.browser.js",
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
-    "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
+    "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
@@ -79,11 +79,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.1.6",
+    "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^1.0.0-alpha.8",
+    "@azure/msal-node": "^1.0.0-alpha.13",
     "@opentelemetry/api": "^0.10.2",
+    "axios": "^0.20.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "msal": "^1.0.2",
@@ -135,6 +136,7 @@
     "typescript": "~3.9.3",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
-    "@types/sinon": "^9.0.4"
+    "@types/sinon": "^9.0.4",
+    "mock-fs": "^4.10.4"
   }
 }

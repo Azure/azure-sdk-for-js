@@ -1,7 +1,10 @@
 # Release History
 
-## 5.3.1 (Unreleased)
+## 5.3.1 (2020-11-09)
 
+- Fixes issue [#12278](https://github.com/Azure/azure-sdk-for-js/issues/12278)
+  where the `processEvents` handler could ignore the `maxWaitTimeInSeconds`
+  parameter after a disconnection.
 
 ## 5.3.0 (2020-09-08)
 

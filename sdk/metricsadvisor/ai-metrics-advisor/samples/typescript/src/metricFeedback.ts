@@ -44,9 +44,9 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
     value: "NotAnomaly",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(anomalyFeedback);
+  return await client.createFeedback(anomalyFeedback);
 }
 
 async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -56,9 +56,9 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(periodFeedback);
+  return await client.createFeedback(periodFeedback);
 }
 
 async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -68,9 +68,9 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Ant" } }
+    dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createMetricFeedback(changePointFeedback);
+  return await client.createFeedback(changePointFeedback);
 }
 
 async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
@@ -78,30 +78,31 @@ async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: st
   const commendFeedback: MetricCommentFeedback = {
     metricId: metricId,
     feedbackType: "Comment",
-    dimensionFilter: { dimension: { Dim1: "Common Lime", Dim2: "Amphibian" } },
+    dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
-  return await client.createMetricFeedback(commendFeedback);
+  return await client.createFeedback(commendFeedback);
 }
 
 async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
-  const feedback = await client.getMetricFeedback(feedbackId);
+  const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 
 async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
-  for await (const feedback of client.listMetricFeedbacks(metricId, {
+  const listIterator = client.listFeedback(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
-      endTime: new Date("08/11/2020"),
+      endTime: new Date("08/03/2020"),
       timeMode: "MetricTimestamp"
     }
-  })) {
+  });
+  for await (const feedback of listIterator) {
     console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
-    console.log(`      created time: ${feedback.createdTime}`);
+    console.log(`      created time: ${feedback.createdOn}`);
     console.log(`      metric id: ${feedback.metricId}`);
     console.log(`      user principal: ${feedback.userPrincipal}`);
     if (feedback.feedbackType === "Anomaly") {
@@ -119,7 +120,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
 
   console.log("  first two pages using iterator");
   const iterator = client
-    .listMetricFeedbacks(metricId, {
+    .listFeedback(metricId, {
       filter: {
         timeMode: "FeedbackCreatedTime"
       }
@@ -129,11 +130,11 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
 
   if (!result.done) {
     console.log("first page");
-    console.table(result.value.feedbacks);
+    console.table(result.value);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("second page");
-      console.table(nextPage.value.feedbacks);
+      console.table(nextPage.value);
     }
   }
 }

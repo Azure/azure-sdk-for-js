@@ -9,7 +9,6 @@ chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
 describe("invalid parameters", () => {
@@ -25,7 +24,7 @@ describe("invalid parameters", () => {
 
   describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: ServiceBusSender;
-    let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+    let receiver: ServiceBusSessionReceiver;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -233,13 +232,13 @@ describe("invalid parameters", () => {
       let errorCaught: string = "";
       try {
         // @ts-expect-error
-        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+        sbClient.createReceiver("dummyQueue", { subQueueType: 123 });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        `Invalid subQueue '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
+        `Invalid subQueueType '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
         "Did not throw error if created a client with invalid subQueue."
       );
     });
@@ -399,7 +398,7 @@ describe("invalid parameters", () => {
     it("ScheduledMessages: Missing messages in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.scheduleMessages(new Date(), undefined as any);
+        await sender.scheduleMessages(undefined as any, new Date());
       } catch (error) {
         caughtError = error;
       }

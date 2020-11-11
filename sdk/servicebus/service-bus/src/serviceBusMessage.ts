@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
-import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
-import {
-  AmqpMessage,
-  Constants,
-  ErrorNameConditionMapper,
-  MessageHeader,
-  MessageProperties,
-  translate
-} from "@azure/core-amqp";
-import { messageLogger as logger, receiverLogger } from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import { Buffer } from "buffer";
-import { DispositionStatusOptions } from "./core/managementClient";
+import Long from "long";
+import {
+  Delivery,
+  DeliveryAnnotations,
+  MessageAnnotations,
+  uuid_to_string,
+  Message as RheaMessage
+} from "rhea-promise";
+import { defaultDataTransformer } from "./dataTransformer";
+import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
+import { reorderLockToken } from "./util/utils";
 
 /**
  * @internal
@@ -148,7 +145,10 @@ export interface ServiceBusMessage {
    * together and in order as they are transferred.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
    */
-  viaPartitionKey?: string;
+
+  // Will be required later for implementing Transactions
+  // viaPartitionKey?: string;
+
   /**
    * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
@@ -210,138 +210,6 @@ export interface ServiceBusMessage {
    * used for custom message metadata.
    */
   applicationProperties?: { [key: string]: number | boolean | string | Date };
-
-  /**
-   * @property The identity of the user producing the message.
-   */
-  userId?: string;
-}
-
-/**
- * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
- */
-export interface AmqpAnnotatedMessage {
-  /**
-   * Describes the defined set of standard header properties of the message.
-   */
-  header?: AmqpMessageHeader;
-  /**
-   * Describes set of footer properties of the message.
-   */
-  footer?: { [key: string]: any };
-  /**
-   * A dictionary containing message attributes that will be held in the message header
-   */
-  messageAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary used for delivery-specific
-   * non-standard properties at the head of the message.
-   */
-  deliveryAnnotations?: { [key: string]: any };
-  /**
-   * A dictionary containing application specific message properties.
-   */
-  applicationProperties?: { [key: string]: any };
-  /**
-   *  Describes the defined set of standard properties of the message.
-   */
-  properties?: AmqpMessageProperties;
-  /**
-   * The message body.
-   */
-  body: any;
-}
-
-/**
- * Describes the defined set of standard header properties of the message.
- */
-export interface AmqpMessageHeader {
-  /**
-   * If this value is true, then this message has not been
-   * acquired by any other link. Ifthis value is false, then this message MAY have previously
-   * been acquired by another link or links.
-   */
-  firstAcquirer?: boolean;
-  /**
-   * The number of prior unsuccessful delivery attempts.
-   */
-  deliveryCount?: number;
-  /**
-   * Time to live in milli seconds.
-   */
-  timeToLive?: number;
-  /**
-   * Specifies durability requirements.
-   */
-  durable?: boolean;
-  /**
-   * The relative message priority. Higher numbers indicate higher
-   * priority messages.
-   */
-  priority?: number;
-}
-
-/**
- * Describes the defined set of standard properties of the message.
- */
-export interface AmqpMessageProperties {
-  /**
-   * The application message identifier that uniquely idenitifes a message.
-   * The user is responsible for making sure that this is unique in
-   * the given context. Guids usually make a good fit.
-   */
-  messageId?: string | number | Buffer;
-  /**
-   * The address of the node the message is destined for.
-   */
-  to?: string;
-  /**
-   * The id that can be used to mark or
-   * identify messages between clients.
-   */
-  correlationId?: string | number | Buffer;
-  /**
-   * MIME type for the message.
-   */
-  contentType?: string;
-  /**
-   * The content-encoding property is used as a modifier to the content-type.
-   * When present, its valueindicates what additional content encodings have
-   * been applied to theapplication-data.
-   */
-  contentEncoding?: string;
-  /**
-   * The time when this message is considered expired.
-   */
-  absoluteExpiryTime?: number;
-  /**
-   * The time this message was created.
-   */
-  creationTime?: number;
-  /**
-   * The group this message belongs to.
-   */
-  groupId?: string;
-  /**
-   * The sequence number of this message with its group.
-   */
-  groupSequence?: number;
-  /**
-   * The address of the node to send replies to.
-   */
-  replyTo?: string;
-  /**
-   * The group the reply message belongs to.
-   */
-  replyToGroupId?: string;
-  /**
-   * A common field for summary information about the message content and purpose.
-   */
-  subject?: string;
-  /**
-   * The identity of the user responsible for producing the message.
-   */
-  userId?: string;
 }
 
 /**
@@ -405,10 +273,10 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 /**
  * @internal
  * @ignore
- * Converts given ServiceBusMessage to AmqpMessage
+ * Converts given ServiceBusMessage to RheaMessage
  */
-export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
-  const amqpMsg: AmqpMessage = {
+export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
+  const amqpMsg: RheaMessage = {
     body: msg.body,
     message_annotations: {}
   };
@@ -466,23 +334,22 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     }
     amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
   }
-  if (msg.viaPartitionKey != null) {
-    if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
-      throw new Error(
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
-      );
-    }
-    amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-  }
+
+  // Will be required later for implementing Transactions
+  // if (msg.viaPartitionKey != null) {
+  //   if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
+  //     throw new Error(
+  //       "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
+  //     );
+  //   }
+  //   amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+  // }
+
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
 
-  if (msg.userId != null) {
-    amqpMsg.user_id = msg.userId;
-  }
-
-  logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
+  logger.verbose("SBMessage to RheaMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
@@ -566,141 +433,19 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
-   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
+   * @property {AmqpAnnotatedMessage} _amqpAnnotatedMessage The underlying raw amqp message.
    * @readonly
    */
   readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
 }
 
 /**
- * A message that can be settled by completing it, abandoning it, deferring it, or sending
- * it to the dead letter queue.
- */
-export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMessage {
-  /**
-   * Removes the message from Service Bus.
-   *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
-   * if the AMQP link with which the message was received is no longer alive. This can
-   * happen either because the lock on the session expired or the receiver was explicitly closed by
-   * the user or the AMQP link got closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
-   * if the lock on the message has expired or the AMQP link with which the message was received is
-   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
-   * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
-   * property on the message if you are not sure whether the message is settled.
-   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled. To avoid this error, update your code to not settle a message which is received
-   * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
-   * the message in time. The message may or may not have been settled successfully.
-   *
-   * @returns Promise<void>.
-   */
-  complete(): Promise<void>;
-
-  /**
-   * The lock held on the message by the receiver is let go, making the message available again in
-   * Service Bus for another receive operation.
-   *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
-   * if the AMQP link with which the message was received is no longer alive. This can
-   * happen either because the lock on the session expired or the receiver was explicitly closed by
-   * the user or the AMQP link got closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
-   * if the lock on the message has expired or the AMQP link with which the message was received is
-   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
-   * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
-   * property on the message if you are not sure whether the message is settled.
-   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled. To avoid this error, update your code to not settle a message which is received
-   * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
-   * the message in time. The message may or may not have been settled successfully.
-   *
-   * @param propertiesToModify The properties of the message to modify while abandoning the message.
-   *
-   * @return Promise<void>.
-   */
-  abandon(propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
-   * receive it message again in the future using the `receiveDeferredMessage` method.
-   *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
-   * if the AMQP link with which the message was received is no longer alive. This can
-   * happen either because the lock on the session expired or the receiver was explicitly closed by
-   * the user or the AMQP link got closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
-   * if the lock on the message has expired or the AMQP link with which the message was received is
-   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
-   * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
-   * property on the message if you are not sure whether the message is settled.
-   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled. To avoid this error, update your code to not settle a message which is received
-   * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
-   * the message in time. The message may or may not have been settled successfully.
-   *
-   * @param propertiesToModify The properties of the message to modify while deferring the message
-   *
-   * @returns Promise<void>
-   */
-  defer(propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
-   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
-   *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
-   * if the AMQP link with which the message was received is no longer alive. This can
-   * happen either because the lock on the session expired or the receiver was explicitly closed by
-   * the user or the AMQP link got closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
-   * if the lock on the message has expired or the AMQP link with which the message was received is
-   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
-   * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
-   * property on the message if you are not sure whether the message is settled.
-   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled. To avoid this error, update your code to not settle a message which is received
-   * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
-   * the message in time. The message may or may not have been settled successfully.
-   *
-   * @param options The DeadLetter options that can be provided while
-   * rejecting the message.
-   *
-   * @returns Promise<void>
-   */
-  deadLetter(options?: DeadLetterOptions & { [key: string]: any }): Promise<void>;
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  renewLock(): Promise<Date>;
-}
-
-/**
  * @internal
  * @ignore
- * Converts given AmqpMessage to ServiceBusReceivedMessage
+ * Converts given RheaMessage to ServiceBusReceivedMessage
  */
-export function fromAmqpMessage(
-  msg: AmqpMessage,
+export function fromRheaMessage(
+  msg: RheaMessage,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
@@ -748,9 +493,12 @@ export function fromAmqpMessage(
     if (msg.message_annotations[Constants.partitionKey] != null) {
       sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
-    if (msg.message_annotations[Constants.viaPartitionKey] != null) {
-      sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
-    }
+
+    // Will be required later for implementing Transactions
+    // if (msg.message_annotations[Constants.viaPartitionKey] != null) {
+    //   sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
+    // }
+
     if (msg.message_annotations[Constants.scheduledEnqueueTime] != null) {
       sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
@@ -784,12 +532,8 @@ export function fromAmqpMessage(
     props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
   }
 
-  if (msg.user_id != null) {
-    sbmsg.userId = msg.user_id;
-  }
-
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
+    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -810,30 +554,8 @@ export function fromAmqpMessage(
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
   };
 
-  logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
-}
-
-/**
- * Takes AmqpMessage(type from "rhea") and returns it in the AmqpAnnotatedMessage format.
- *
- * @export
- * @param {AmqpMessage} msg
- * @returns {AmqpAnnotatedMessage}
- * @internal
- * @ignore
- */
-export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
-  const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);
-  return {
-    header: { ...messageHeader, timeToLive: messageHeader.ttl },
-    footer: (msg as any).footer,
-    messageAnnotations: msg.message_annotations,
-    deliveryAnnotations: msg.delivery_annotations,
-    applicationProperties: msg.application_properties,
-    properties: MessageProperties.fromAmqpMessageProperties(msg),
-    body: msg.body
-  };
 }
 
 /**
@@ -850,9 +572,9 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * @internal
  * @ignore
  * @class ServiceBusMessageImpl
- * @implements {ServiceBusReceivedMessageWithLock}
+ * @implements {ServiceBusReceivedMessage}
  */
-export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock {
+export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */
@@ -900,7 +622,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * together and in order as they are transferred.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
    */
-  viaPartitionKey?: string;
+  // Will be required later for implementing Transactions
+  // viaPartitionKey?: string;
   /**
    * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
@@ -1036,149 +759,26 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    */
   readonly deadLetterErrorDescription?: string;
   /**
-   * @property Boolean denoting if the message has already been settled.
-   * @readonly
-   */
-  public get isSettled(): boolean {
-    return this.delivery.remote_settled;
-  }
-
-  /**
    * @internal
    */
   constructor(
-    private readonly _context: ConnectionContext,
-    private readonly _entityPath: string,
-    msg: AmqpMessage,
+    msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode
   ) {
-    Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
+    Object.assign(this, fromRheaMessage(msg, delivery, shouldReorderLockToken));
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
     if (msg.body) {
-      this.body = this._context.dataTransformer.decode(msg.body);
+      this.body = defaultDataTransformer.decode(msg.body);
     }
-    this._amqpAnnotatedMessage = toAmqpAnnotatedMessage(msg);
+    // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
+    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.complete().
-   */
-  async complete(): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Completing the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.complete);
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.abandon().
-   */
-  async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    receiverLogger.verbose(
-      "[%s] Abandoning the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.abandon, {
-      propertiesToModify: propertiesToModify
-    });
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.defer().
-   */
-  async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Deferring the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-    return this.settleMessage(DispositionType.defer, {
-      propertiesToModify: propertiesToModify
-    });
-  }
-
-  /**
-   * See ServiceBusReceivedMessageWithLock.deadLetter().
-   */
-  async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    receiverLogger.verbose(
-      "[%s] Deadlettering the message with id '%s'.",
-      this._context.connectionId,
-      this.messageId
-    );
-
-    const actualPropertiesToModify: Partial<DeadLetterOptions> = {
-      ...propertiesToModify
-    };
-
-    // these two fields are handled specially and don't need to be in here.
-    delete actualPropertiesToModify.deadLetterErrorDescription;
-    delete actualPropertiesToModify.deadLetterReason;
-
-    const dispositionStatusOptions: DispositionStatusOptions = {
-      propertiesToModify: actualPropertiesToModify,
-      deadLetterReason: propertiesToModify?.deadLetterReason,
-      deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
-    };
-    return this.settleMessage(DispositionType.deadletter, dispositionStatusOptions);
-  }
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  async renewLock(): Promise<Date> {
-    let associatedLinkName: string | undefined;
-    let error: Error | undefined;
-    if (this.sessionId) {
-      error = translate({
-        description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
-        condition: ErrorNameConditionMapper.InvalidOperationError
-      });
-    } else if (!this.lockToken) {
-      error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
-      );
-    } else if (this.delivery.remote_settled) {
-      error = new Error(`Failed to renew the lock as this message is already settled.`);
-    }
-    if (error) {
-      logger.logError(
-        error,
-        "[%s] An error occurred when renewing the lock on the message with id '%s'",
-        this._context.connectionId,
-        this.messageId
-      );
-      throw error;
-    }
-
-    if (this.delivery.link) {
-      const associatedReceiver = this._context.getReceiverFromCache(this.delivery.link.name);
-      associatedLinkName = associatedReceiver?.name;
-    }
-    this.lockedUntilUtc = await this._context
-      .getManagementClient(this._entityPath)
-      .renewLock(this.lockToken!, { associatedLinkName });
-    return this.lockedUntilUtc;
   }
 
   /**
@@ -1200,90 +800,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      applicationProperties: this.applicationProperties,
-      viaPartitionKey: this.viaPartitionKey
+      applicationProperties: this.applicationProperties
+      // Will be required later for implementing Transactions
+      // viaPartitionKey: this.viaPartitionKey
     };
 
     return clone;
-  }
-
-  /**
-   * Helper method to settle the message.
-   * @ignore
-   * @internal
-   *
-   * @private
-   * @param {DispositionStatus} operation
-   * @param {DispositionStatusOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof ServiceBusMessageImpl
-   */
-  private async settleMessage(
-    operation: DispositionType,
-    options?: DispositionStatusOptions
-  ): Promise<void> {
-    if (!this.lockToken) {
-      const error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-      );
-      logger.logError(
-        error,
-        "[%s] An error occurred when settling a message with id '%s'",
-        this._context.connectionId,
-        this.messageId
-      );
-      throw error;
-    }
-    const isDeferredMessage = !this.delivery.link;
-    const receiver = isDeferredMessage
-      ? undefined
-      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
-    const associatedLinkName = receiver?.name;
-
-    if (!isDeferredMessage) {
-      // In case the message wasn't from a deferred queue,
-      //   1. We can verify the remote_settled flag on the delivery
-      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
-      //      - If the flag is false, we can't say that the message has not been settled
-      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-      //   2. If the message has a session-id and if the associated receiver link is unavailable,
-      //      then throw an error since we need a lock on the session to settle the message.
-      let error: Error | undefined;
-      if (this.delivery.remote_settled) {
-        error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-      } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-        error = translate({
-          description:
-            `Failed to ${operation} the message as the AMQP link with which the message was ` +
-            `received is no longer alive.`,
-          condition: ErrorNameConditionMapper.SessionLockLostError
-        });
-      }
-      if (error) {
-        logger.logError(
-          error,
-          "[%s] An error occurred when settling a message with id '%s'",
-          this._context.connectionId,
-          this.messageId
-        );
-        throw error;
-      }
-    }
-
-    // Message Settlement with managementLink
-    // 1. If the received message is deferred as such messages can only be settled using managementLink
-    // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
-    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
-      await this._context
-        .getManagementClient(this._entityPath)
-        .updateDispositionStatus(this.lockToken, operation, {
-          ...options,
-          associatedLinkName,
-          sessionId: this.sessionId
-        });
-      return;
-    }
-
-    return receiver!.settleMessage(this, operation, options);
   }
 }

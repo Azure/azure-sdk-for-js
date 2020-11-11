@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to create a namespace using AAD token credentials
@@ -30,19 +31,40 @@ require("dotenv").config();
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
   process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
 const tenantId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
+
 async function main() {
+  if (
+    tenantId === "<azure tenant id>" ||
+    clientSecret === "<azure client secret>" ||
+    clientId === "<azure client id>"
+  ) {
+    console.log(
+      `Required environment variables are missing. Please ensure AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_CLIENT_ID have been set.`
+    );
+    process.exit(1);
+  }
+
   const tokenCreds = new DefaultAzureCredential();
 
   const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+
   /*
      Refer to other samples, and place your code here
-     to create queue clients, and send/receive messages
+   to create queue/subscription receivers.
     */
+  const sender = sbClient.createSender(queueName);
+
+  await sender.sendMessages({
+    body: "using AAD auth sample message"
+  });
+
+  await sender.close();
   await sbClient.close();
 }
 

@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
@@ -32,8 +33,8 @@ async function main() {
 }
 
 async function processDeadletterMessageQueue() {
-  // If connecting to a subscription's dead letter queue you can use the createReceiver(topic, subscription) overload
-  const receiver = sbClient.createReceiver(queueName, { subQueue: "deadLetter" });
+  // If connecting to a subscription's dead letter queue you can use the createReceiver(topicName, subscriptionName) overload
+  const receiver = sbClient.createReceiver(queueName, { subQueueType: "deadLetter" });
 
   const messages = await receiver.receiveMessages(1);
 
@@ -44,7 +45,7 @@ async function processDeadletterMessageQueue() {
     await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await messages[0].complete();
+    await receiver.completeMessage(messages[0]);
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }

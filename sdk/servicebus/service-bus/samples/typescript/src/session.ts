@@ -2,8 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
@@ -15,7 +15,7 @@
   sessions in Service Bus.
 */
 
-import { delay, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -85,8 +85,8 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   const processMessage = async (message: ServiceBusMessage) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (err) => {
-    console.log(">>>>> Error occurred: ", err);
+  const processError = async (args: ProcessErrorArgs) => {
+    console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
   };
   receiver.subscribe({
     processMessage,

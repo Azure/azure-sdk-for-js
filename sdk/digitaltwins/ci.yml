@@ -26,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: digitaltwins
     Artifacts:
-      - name: azure-digital-twins
-        safeName: azuredigitaltwins
+      - name: azure-digital-twins-core
+        safeName: azuredigitaltwinscore

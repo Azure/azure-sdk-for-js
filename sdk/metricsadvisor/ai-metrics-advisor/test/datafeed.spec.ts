@@ -13,10 +13,11 @@ import {
   DataFeedPatch,
   DataFeedSchema,
   DataFeedSource,
-  Dimension,
-  Metric,
+  DataFeedDimension,
+  DataFeedMetric,
   MetricsAdvisorAdministrationClient,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorKeyCredential,
+  UnknownDataFeedSource
 } from "../src";
 import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -81,7 +82,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -98,7 +99,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   let createdPostGreSqlId: string;
 
   describe("DataFeed", async () => {
-    const metric: Metric[] = [
+    const metric: DataFeedMetric[] = [
       {
         name: "Metric1",
         displayName: "Metric1",
@@ -110,7 +111,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         description: ""
       }
     ];
-    const dimension: Dimension[] = [
+    const dimension: DataFeedDimension[] = [
       { name: "Dim1", displayName: "Dim1 display" },
       { name: "Dim2", displayName: "Dim2 display" }
     ];
@@ -129,6 +130,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       granularityType: "Daily"
     };
     const options: DataFeedOptions = {
+      description: "Data feed description",
       rollupSettings: {
         rollupType: "AutoRollup",
         rollupMethod: "Sum",
@@ -157,17 +159,17 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
       createdAzureBlobDataFeedId = actual.id;
 
-      assert.equal(actual.metricIds?.length, 2, "Expecting two metrics");
+      assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -189,43 +191,44 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         dataFeedIngestion,
         "Ingesting settings mismatch!"
       );
-      assert.ok(actual.options, "Expecting valid datafeed options");
-      assert.equal(actual.options!.accessMode, options.accessMode, "options.accessMode mismatch");
+
+      assert.equal(actual.description, options.description, "options.description mismatch");
+      assert.equal(actual.accessMode, options.accessMode, "options.accessMode mismatch");
       assert.ok(
-        actual.options!.missingDataPointFillSettings,
+        actual.missingDataPointFillSettings,
         "Expecting valid options.missingDataPointFillSettings"
       );
       assert.equal(
-        actual.options!.missingDataPointFillSettings!.fillType,
+        actual.missingDataPointFillSettings!.fillType,
         options.missingDataPointFillSettings!.fillType,
         "options.missingDataPointFillSettings.fillType mismatch"
       );
       assert.ok(
-        actual.options!.missingDataPointFillSettings!.fillType,
+        actual.missingDataPointFillSettings!.fillType,
         "Expecting valid options.missingDataPointFillSettings.fillType"
       );
-      if (actual.options!.missingDataPointFillSettings!.fillType! === "CustomValue") {
+      if (actual.missingDataPointFillSettings!.fillType! === "CustomValue") {
         // not sure why TS didn't narrow down the union type for us...so casting to any
         assert.equal(
-          (actual.options!.missingDataPointFillSettings! as any).customFillValue,
+          (actual.missingDataPointFillSettings! as any).customFillValue,
           (options.missingDataPointFillSettings! as any).customFillValue,
           "options.missingDataPointFillSettings.customFillValue mismatch"
         );
       }
-      assert.ok(actual.options!.rollupSettings, "Expecting valid options.rollupSettings");
+      assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
       assert.equal(
-        actual.options!.rollupSettings!.rollupType,
+        actual.rollupSettings!.rollupType,
         options.rollupSettings!.rollupType,
         "options.missingDataPointFillSettings.rollupType mismatch"
       );
       assert.ok(
-        actual.options!.rollupSettings!.rollupType,
+        actual.rollupSettings!.rollupType,
         "Expecting valid options.missingDataPointFillSettings.fillType"
       );
-      if (actual.options!.rollupSettings!.rollupType! === "AutoRollup") {
+      if (actual.rollupSettings!.rollupType! === "AutoRollup") {
         // not sure why TS didn't narrow down the union type for us...so casting to any
         assert.equal(
-          (actual.options!.rollupSettings! as any).rollupIdentificationValue,
+          (actual.rollupSettings! as any).rollupIdentificationValue,
           (options.rollupSettings! as any).rollupIdentificationValue,
           "options.missingDataPointFillSettings.fillType mismatch"
         );
@@ -249,11 +252,11 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       }
 
       const actual = await client.getDataFeed(createdAzureBlobDataFeedId);
-      assert.equal(actual.metricIds?.length, 2, "Expecting two metrics");
+      assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
       assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
       assert.equal(actual.name, feedName);
       assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
-      assert.deepStrictEqual(actual.granularity, granularity, "Granualarity mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
       assert.equal(
         actual.schema.metrics[0].name,
         dataFeedSchema.metrics[0].name,
@@ -299,19 +302,17 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
           timestampColumn: "UpdatedTimestampeColumn"
         },
         ingestionSettings: expectedIngestionSettings,
-        options: {
-          dataFeedDescription: "Updated Azure Blob description",
-          rollupSettings: {
-            rollupType: "AlreadyRollup",
-            rollupIdentificationValue: "__Existing__"
-          },
-          missingDataPointFillSettings: {
-            fillType: "PreviousValue"
-          },
-          accessMode: "Public",
-          viewers: ["viewer1@example.com"],
-          actionLinkTemplate: "Updated Azure Blob action link template"
-        }
+        description: "Updated Azure Blob description",
+        rollupSettings: {
+          rollupType: "AlreadyRollup",
+          rollupIdentificationValue: "__Existing__"
+        },
+        missingDataPointFillSettings: {
+          fillType: "PreviousValue"
+        },
+        accessMode: "Public",
+        viewerEmails: ["viewer1@example.com"],
+        actionLinkTemplate: "Updated Azure Blob action link template"
       };
       const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
 
@@ -319,18 +320,15 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       assert.equal(updated.source.dataSourceType, "AzureBlob");
       assert.deepStrictEqual(updated.source.dataSourceParameter, expectedSourceParameter);
       assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
-      assert.ok(updated.options, "Expecting valid updated.options");
-      assert.equal(updated.options!.dataFeedDescription, "Updated Azure Blob description");
-      assert.ok(updated.options!.rollupSettings, "Expecting valid updated.options.rollupSettings");
-      assert.equal(updated.options!.rollupSettings!.rollupType, "AlreadyRollup");
-      assert.equal(
-        (updated.options!.rollupSettings! as any).rollupIdentificationValue,
-        "__Existing__"
-      );
-      assert.equal(updated.options!.missingDataPointFillSettings?.fillType, "PreviousValue");
-      assert.equal(updated.options!.accessMode, "Public");
-      assert.deepStrictEqual(updated.options!.viewers, ["viewer1@example.com"]);
-      assert.equal(updated.options?.actionLinkTemplate, "Updated Azure Blob action link template");
+
+      assert.equal(updated.description, "Updated Azure Blob description");
+      assert.ok(updated.rollupSettings, "Expecting valid updated.options.rollupSettings");
+      assert.equal(updated.rollupSettings!.rollupType, "AlreadyRollup");
+      assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
+      assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
+      assert.equal(updated.accessMode, "Public");
+      assert.deepStrictEqual(updated.viewerEmails, ["viewer1@example.com"]);
+      assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
     });
 
     it("creates an Azure Application Insights feed", async () => {
@@ -350,7 +348,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -387,7 +385,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -426,9 +424,9 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         })
         .byPage({ maxPageSize: 1 });
       let result = await iterator.next();
-      assert.equal(result.value.dataFeeds.length, 1, "Expecting one entry in first page");
+      assert.equal(result.value.length, 1, "Expecting one entry in first page");
       result = await iterator.next();
-      assert.equal(result.value.dataFeeds.length, 1, "Expecting one entry in second page");
+      assert.equal(result.value.length, 1, "Expecting one entry in second page");
     });
 
     it("deletes an Azure Blob datafeed", async function() {
@@ -459,7 +457,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -497,7 +495,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -534,7 +532,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -570,7 +568,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -605,7 +603,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -642,7 +640,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -679,7 +677,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -715,7 +713,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         granularity,
         schema: dataFeedSchema,
         ingestionSettings: dataFeedIngestion,
-        options
+        ...options
       });
 
       assert.ok(actual.id, "Expecting valid data feed id");
@@ -754,6 +752,54 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
 
     it("deletes PostgreSQL data feed", async function() {
       await verifyDataFeedDeletion(client, createdPostGreSqlId);
+    });
+
+    it("creates Unknown data feed", async () => {
+      const expectedSource: UnknownDataFeedSource = {
+        dataSourceType: "Unknown",
+        dataSourceParameter: {
+          connectionString: "https://connect-to-postgresql",
+          query: "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
+        }
+      };
+      try {
+        await client.createDataFeed({
+          name: postgreSqlFeedName,
+          source: expectedSource,
+          granularity,
+          schema: dataFeedSchema,
+          ingestionSettings: dataFeedIngestion,
+          ...options
+        });
+        assert.fail("Test should throw error");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot create a data feed with the Unknown source type."
+        );
+      }
+    });
+
+    it("updates data feed to have an unknown data source type", async function() {
+      const patch: DataFeedPatch = {
+        source: {
+          dataSourceType: "Unknown",
+          dataSourceParameter: {
+            connectionString: "https://connect-to-mongodb-patch",
+            database: "data-feed-mongodb-patch",
+            command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+          }
+        }
+      };
+      try {
+        await client.updateDataFeed(createdPostGreSqlId, patch);
+        assert.fail("Test should throw error");
+      } catch (error) {
+        assert.equal(
+          (error as any).message,
+          "Cannot update a data feed to have the Unknown source type."
+        );
+      }
     });
   });
 }).timeout(60000);

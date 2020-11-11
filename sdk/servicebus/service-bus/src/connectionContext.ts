@@ -8,10 +8,9 @@ import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  SharedKeyCredential,
-  TokenCredential,
   delay
 } from "@azure/core-amqp";
+import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
@@ -20,6 +19,7 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
+import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 
 /**
  * @internal
@@ -28,6 +28,11 @@ import { getRuntimeInfo } from "./util/runtimeInfo";
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
+  /**
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * Default value: SharedKeyCredentials.
+   */
+  tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property A map of active Service Bus Senders with sender name as key.
    */
@@ -141,7 +146,6 @@ export namespace ConnectionContext {
     )} ${getRuntimeInfo()}`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenCredential: tokenCredential,
       // re-enabling this will be a post-GA discussion similar to event-hubs.
       // dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
@@ -153,6 +157,7 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
+    connectionContext.tokenCredential = tokenCredential;
     connectionContext.senders = {};
     connectionContext.messageReceivers = {};
     connectionContext.messageSessions = {};
@@ -321,6 +326,10 @@ export namespace ConnectionContext {
         // We don't call onDetached for sender after `refreshConnection()`
         //   because any new send calls that potentially initialize links would also get affected if called later.
         // TODO: do the same for batching receiver
+        logger.verbose(
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
+            `senders. We should not reconnect.`
+        );
         const detachCalls: Promise<void>[] = [];
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
@@ -349,13 +358,12 @@ export namespace ConnectionContext {
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was atleast one sender/receiver link on the connection before it went down.
+      // and there was at least one receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
-      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
+      if (!state.wasConnectionCloseCalled && state.numReceivers) {
         logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "senders and/or receivers. We should reconnect.",
-          connectionContext.connection.id
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
+            `receivers. We should reconnect.`
         );
         await delay(Constants.connectionReconnectDelay);
 
@@ -372,19 +380,16 @@ export namespace ConnectionContext {
               receiver.receiverType,
               receiver.name
             );
-            const causedByDisconnect = true;
             detachCalls.push(
-              receiver
-                .onDetached(connectionError || contextError, causedByDisconnect)
-                .catch((err) => {
-                  logger.logError(
-                    err,
-                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
-                    connectionContext.connection.id,
-                    receiver.receiverType,
-                    receiver.name
-                  );
-                })
+              receiver.onDetached(connectionError || contextError).catch((err) => {
+                logger.logError(
+                  err,
+                  "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
+                  connectionContext.connection.id,
+                  receiver.receiverType,
+                  receiver.name
+                );
+              })
             );
           }
         }
@@ -483,42 +488,53 @@ export namespace ConnectionContext {
    * @returns {Promise<any>}
    */
   export async function close(context: ConnectionContext): Promise<void> {
+    const logPrefix = `[${context.connectionId}]`;
+
     try {
-      if (context.connection.isOpen()) {
-        logger.verbose("Closing the amqp connection '%s' on the client.", context.connectionId);
+      logger.verbose(`${logPrefix} Permanently closing the amqp connection on the client.`);
 
-        // Close all the senders.
-        for (const senderName of Object.keys(context.senders)) {
-          await context.senders[senderName].close();
-        }
-
-        // Close all MessageReceiver instances
-        for (const receiverName of Object.keys(context.messageReceivers)) {
-          await context.messageReceivers[receiverName].close();
-        }
-
-        // Close all MessageSession instances
-        for (const messageSessionName of Object.keys(context.messageSessions)) {
-          await context.messageSessions[messageSessionName].close();
-        }
-
-        // Close all the ManagementClients.
-        for (const entityPath of Object.keys(context.managementClients)) {
-          await context.managementClients[entityPath].close();
-        }
-
-        await context.cbsSession.close();
-
-        await context.connection.close();
-        context.wasConnectionCloseCalled = true;
-        logger.verbose("Closed the amqp connection '%s' on the client.", context.connectionId);
+      // Close all the senders.
+      const senderNames = Object.keys(context.senders);
+      logger.verbose(`${logPrefix} Permanently closing ${senderNames.length} senders.`);
+      for (const senderName of senderNames) {
+        await context.senders[senderName].close();
       }
+
+      // Close all MessageReceiver instances
+      const messageReceiverNames = Object.keys(context.messageReceivers);
+      logger.verbose(`${logPrefix} Permanently closing ${messageReceiverNames.length} receivers.`);
+      for (const receiverName of messageReceiverNames) {
+        await context.messageReceivers[receiverName].close();
+      }
+
+      // Close all MessageSession instances
+      const messageSessionNames = Object.keys(context.messageSessions);
+      logger.verbose(
+        `${logPrefix} Permanently closing ${messageSessionNames.length} session receivers.`
+      );
+      for (const messageSessionName of messageSessionNames) {
+        await context.messageSessions[messageSessionName].close();
+      }
+
+      // Close all the ManagementClients.
+      const managementClientsEntityPaths = Object.keys(context.managementClients);
+      logger.verbose(
+        `${logPrefix} Permanently closing ${managementClientsEntityPaths.length} session receivers.`
+      );
+      for (const entityPath of managementClientsEntityPaths) {
+        await context.managementClients[entityPath].close();
+      }
+
+      logger.verbose(`${logPrefix} Permanently closing cbsSession`);
+      await context.cbsSession.close();
+
+      logger.verbose(`${logPrefix} Permanently closing internal connection`);
+      await context.connection.close();
+      context.wasConnectionCloseCalled = true;
+      logger.verbose(`[${logPrefix} Permanently closed the amqp connection on the client.`);
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-      logger.logError(
-        err,
-        `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
-      );
+      logger.logError(err, `${logPrefix} An error occurred while closing the connection`);
       throw errObj;
     }
   }

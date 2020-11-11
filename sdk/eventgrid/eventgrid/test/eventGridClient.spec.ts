@@ -32,8 +32,8 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(function() {
-      recorder.stop();
+    afterEach(async function() {
+      await recorder.stop();
     });
 
     it("sends a single event", async () => {
@@ -90,8 +90,8 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(function() {
-      recorder.stop();
+    afterEach(async function() {
+      await recorder.stop();
     });
 
     it("sends a single event", async () => {
@@ -189,8 +189,8 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(function() {
-      recorder.stop();
+    afterEach(async function() {
+      await recorder.stop();
     });
 
     it("sends a single event", async () => {

@@ -59,12 +59,34 @@ export class PartitionPump {
     );
   }
 
-  private async _receiveEvents(partitionId: string): Promise<void> {
+  /**
+   * Creates a new `EventHubReceiver` and replaces any existing receiver.
+   * @param partitionId The partition the receiver should read messages from.
+   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * If `-1`, then the PartitionPump's startPosition will be used instead.
+   */
+  private _setOrReplaceReceiver(
+    partitionId: string,
+    lastSeenSequenceNumber: number
+  ): EventHubReceiver {
+    // Determine what the new EventPosition should be.
+    // If this PartitionPump has received events, we'll start from the last
+    // seen sequenceNumber (exclusive).
+    // Otherwise, use the `_startPosition`.
+    const currentEventPosition: EventPosition =
+      lastSeenSequenceNumber >= 0
+        ? {
+            sequenceNumber: lastSeenSequenceNumber,
+            isInclusive: false
+          }
+        : this._startPosition;
+
+    // Set or replace the PartitionPump's receiver.
     this._receiver = new EventHubReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
       partitionId,
-      this._startPosition,
+      currentEventPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
@@ -72,9 +94,21 @@ export class PartitionPump {
       }
     );
 
+    return this._receiver;
+  }
+
+  private async _receiveEvents(partitionId: string): Promise<void> {
+    let lastSeenSequenceNumber = -1;
+    let receiver = this._setOrReplaceReceiver(partitionId, lastSeenSequenceNumber);
+
     while (this._isReceiving) {
       try {
-        const receivedEvents = await this._receiver.receiveBatch(
+        // Check if the receiver was closed so we can recreate it.
+        if (receiver.isClosed) {
+          receiver = this._setOrReplaceReceiver(partitionId, lastSeenSequenceNumber);
+        }
+
+        const receivedEvents = await receiver.receiveBatch(
           this._processorOptions.maxBatchSize,
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
@@ -82,13 +116,18 @@ export class PartitionPump {
 
         if (
           this._processorOptions.trackLastEnqueuedEventProperties &&
-          this._receiver.lastEnqueuedEventProperties
+          receiver.lastEnqueuedEventProperties
         ) {
-          this._partitionProcessor.lastEnqueuedEventProperties = this._receiver.lastEnqueuedEventProperties;
+          this._partitionProcessor.lastEnqueuedEventProperties =
+            receiver.lastEnqueuedEventProperties;
         }
         // avoid calling user's processEvents handler if the pump was stopped while receiving events
         if (!this._isReceiving) {
           return;
+        }
+
+        if (receivedEvents.length) {
+          lastSeenSequenceNumber = receivedEvents[receivedEvents.length - 1].sequenceNumber;
         }
 
         const span = createProcessingSpan(

@@ -3,30 +3,60 @@
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
+import { ServiceBusReceivedMessage } from "./serviceBusMessage";
+import { ServiceBusError } from "./serviceBusError";
+
+/**
+ * Arguments to the `processError` callback.
+ */
+export interface ProcessErrorArgs {
+  /**
+   * The error.
+   */
+  error: Error | ServiceBusError;
+  /**
+   * The operation where the error originated.
+   *
+   * 'abandon': Errors that occur when if `abandon` is triggered automatically.
+   * 'complete': Errors that occur when autoComplete completes a message.
+   * 'processMessageCallback': Errors thrown from the user's `processMessage` callback passed to `subscribe`.
+   * 'receive': Errors thrown when receiving messages.
+   * 'renewLock': Errors thrown when automatic lock renewal fails.
+   */
+  errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
+  /**
+   * The entity path for the current receiver.
+   */
+  entityPath: string;
+  /**
+   * The fully qualified namespace for the Service Bus.
+   */
+  fullyQualifiedNamespace: string;
+}
 
 /**
  * The general message handler interface (used for streamMessages).
  */
-export interface MessageHandlers<ReceivedMessageT> {
+export interface MessageHandlers {
   /**
    * Handler that processes messages from service bus.
    *
    * @param message A message received from Service Bus.
    */
-  processMessage(message: ReceivedMessageT): Promise<void>;
+  processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
-   * @param err An error from Service Bus.
+   * @param args The error and additional context to indicate where
+   * the error originated.
    */
-  processError(err: Error): Promise<void>;
+  processError(args: ProcessErrorArgs): Promise<void>;
 }
 
 /**
  * @internal
  * @ignore
  */
-export interface InternalMessageHandlers<ReceivedMessageT>
-  extends MessageHandlers<ReceivedMessageT> {
+export interface InternalMessageHandlers extends MessageHandlers {
   /**
    * Called when the connection is initialized but before we subscribe to messages or add credits.
    *
@@ -41,19 +71,9 @@ export interface InternalMessageHandlers<ReceivedMessageT>
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
- * Represents the sub queue that is applicable for any queue or subscription.
- * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
- * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+ * Options to use when creating a receiver.
  */
-export type SubQueue = "deadLetter" | "transferDeadLetter";
-
-/**
- *
- *
- * @interface CreateReceiverOptions
- * @template ReceiveModeT
- */
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+export interface ServiceBusReceiverOptions {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -73,13 +93,13 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
-  subQueue?: SubQueue;
+  subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed
@@ -150,14 +170,8 @@ export interface SubscribeOptions extends OperationOptionsBase {
 /**
  * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
  * when using a Queue/Subscription that has sessions enabled.
- *
- * @export
- * @interface AcceptSessionOptions
- * @extends {OperationOptionsBase}
- * @template ReceiveModeT
  */
-export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
-  extends OperationOptionsBase {
+export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -177,14 +191,14 @@ export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveModeT;
+  receiveMode?: ReceiveMode;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxAutoRenewLockDurationInMs?: number;
+  maxAutoLockRenewalDurationInMs?: number;
 }
 
 /**

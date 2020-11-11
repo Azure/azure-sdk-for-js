@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, parseConnectionString } from "@azure/core-amqp";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
+import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
+import { EntityStatus, EntityAvailabilityStatus, isNode } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -31,9 +31,9 @@ const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new Servi
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
-const endpointWithProtocol = (parseConnectionString(
+const endpointWithProtocol = parseServiceBusConnectionString(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-) as any).Endpoint;
+).endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -62,17 +62,9 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
-  });
-
-  it("Create queue response", async () => {
-    const response = await serviceBusAtomManagementClient.createQueue("random");
-    // @ts-expect-error
-    response.authorizationRules = "";
-    // @ts-expect-error
-    response.maxDeliveryCount = undefined;
   });
 });
 
@@ -268,10 +260,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
-        .Endpoint;
-      const host = endpoint.match(".*://([^/]*)")[1];
-
+      const connectionStringProperties = parseServiceBusConnectionString(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+      );
+      const host = connectionStringProperties.fullyQualifiedNamespace;
+      const endpoint = connectionStringProperties.endpoint;
       const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
@@ -316,7 +309,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        host.match("(.*).servicebus.windows.net")[1],
+        (host.match("(.*).servicebus.windows.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
