@@ -126,7 +126,7 @@ export class DataSetClient extends AuthenticationClient {
   public async beginUpsert(
     datasetName: string,
     dataset: DatasetResource,
-    options:UpsertDatasetOptionalParams = {}
+    options: UpsertDatasetOptionalParams = {}
   ): Promise<LROPoller<UpsertDatasetResponse>> {
     const { span, updatedOptions } = createSpan("DataSet-BeginUpsert", options);
 

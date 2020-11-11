@@ -379,7 +379,6 @@ export {
   SalesforceSink,
   SalesforceServiceCloudSink,
   CosmosDbMongoDbApiSink,
-
   AvroSource,
   ParquetSource,
   DelimitedTextSource,
@@ -415,7 +414,6 @@ export {
   DatasetGZipCompression,
   DatasetDeflateCompression,
   DatasetZipDeflateCompression,
-
   AzureBlobStorageLocation,
   AzureBlobFSLocation,
   AzureDataLakeStoreLocation,
@@ -715,7 +713,6 @@ export {
   WorkspaceIdentity,
   WorkspaceUpdateParameters,
   JsonFormatFilePattern,
-
   BigDataPoolsListResponse,
   BigDataPoolsGetResponse,
   IntegrationRuntimesListResponse,
@@ -723,7 +720,6 @@ export {
   SqlPoolsListResponse,
   SqlPoolsGetResponse,
   WorkspaceGetResponse,
-
   DataFlowDebugSessionExecuteCommandResponse,
   PipelineRunQueryActivityRunsResponse as QueryActivityRunsResponse,
   TriggerRunQueryTriggerRunsByWorkspaceResponse as QueryTriggerRunsResponse,
@@ -750,7 +746,7 @@ export {
   PipelineGetPipelineResponse as GetPipelineResponse,
   PipelineRunCancelPipelineRunOptionalParams as CancelPipelineRunOptionalParams,
   PipelineRunQueryPipelineRunsByWorkspaceResponse as QueryPipelineRunsResponse,
-  PipelineRunGetPipelineRunResponse as GetPipelineRunResponse, 
+  PipelineRunGetPipelineRunResponse as GetPipelineRunResponse,
   NotebookCreateOrUpdateNotebookOptionalParams as UpsertNotebookOptionalParams,
   NotebookCreateOrUpdateNotebookResponse as UpsertNotebookResponse,
   NotebookGetNotebookOptionalParams as GetNotebookOptionalParams,
@@ -768,7 +764,7 @@ export {
   DataFlowGetDataFlowOptionalParams as GetDataFlowOptionalParams,
   DataFlowGetDataFlowResponse as GetDataFlowResponse,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse as CreateDataFlowDebugSessionResponse,
-  DataFlowDebugSessionAddDataFlowResponse as AddDataFlowResponse,
+  DataFlowDebugSessionAddDataFlowResponse as AddDataFlowResponse
 } from "./generated/models";
 
 //export * from "./generated/lro";
