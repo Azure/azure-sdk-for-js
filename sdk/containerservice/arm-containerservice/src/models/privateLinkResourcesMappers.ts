@@ -9,6 +9,6 @@
 export {
   discriminators,
   CloudError,
-  OperationListResult,
-  OperationValue
+  PrivateLinkResource,
+  PrivateLinkResourcesListResult
 } from "../models/mappers";
