@@ -12,7 +12,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
-describe.only("invalid parameters", () => {
+describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
