@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
+import { LROSYM, LROResponseInfo } from "./generated/lro/models";
 
 // export * from "./generated/models";
 
@@ -763,8 +765,36 @@ export {
   DataFlowCreateOrUpdateDataFlowResponse as UpsertDataFlowResponse,
   DataFlowGetDataFlowOptionalParams as GetDataFlowOptionalParams,
   DataFlowGetDataFlowResponse as GetDataFlowResponse,
-  DataFlowDebugSessionCreateDataFlowDebugSessionResponse as CreateDataFlowDebugSessionResponse,
   DataFlowDebugSessionAddDataFlowResponse as AddDataFlowResponse
 } from "./generated/models";
 
-//export * from "./generated/lro";
+/**
+ * Contains response data for the createDataFlowDebugSession operation.
+ */
+export type CreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponseRest & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CreateDataFlowDebugSessionResponseRest;
+    /**
+     * The parsed HTTP response headers.
+     */
+    [LROSYM]: LROResponseInfo;
+  };
+};
+
+export interface CreateDataFlowDebugSessionResponseRest {
+  /**
+   * The ID of data flow debug session.
+   */
+  sessionId?: string;
+}

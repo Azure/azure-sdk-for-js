@@ -1064,16 +1064,19 @@ export interface CreateDataFlowDebugSessionRequest {
     newClusterNodeType?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateDataFlowDebugSessionResponse" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type CreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse_2 & {
+export type CreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponseRest & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: CreateDataFlowDebugSessionResponse_2;
+        parsedBody: CreateDataFlowDebugSessionResponseRest;
         [LROSYM]: LROResponseInfo;
     };
 };
+
+// @public (undocumented)
+export interface CreateDataFlowDebugSessionResponseRest {
+    sessionId?: string;
+}
 
 // @public
 export type CustomActivity = ExecutionActivity & {
@@ -5217,7 +5220,7 @@ export type ZohoSource = TabularSource & {
 
 // Warnings were encountered during analysis:
 //
-// src/generated/models/index.ts:13805:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
+// src/models.ts:791:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
