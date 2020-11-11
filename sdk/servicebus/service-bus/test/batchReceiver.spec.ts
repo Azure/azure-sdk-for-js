@@ -459,7 +459,7 @@ describe("Batching Receiver", () => {
       let errorWasThrown = false;
 
       await receiver.deadLetterMessage(deadLetterMsg).catch((err) => {
-        should.equal(err.code, "InvalidOperationError", "Error code is different than expected");
+        should.equal(err.code, "GeneralError", "Error code is different than expected");
         errorWasThrown = true;
       });
 

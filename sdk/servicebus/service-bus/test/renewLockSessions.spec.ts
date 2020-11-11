@@ -333,7 +333,7 @@ describe("Session Lock Renewal", () => {
       {
         processMessage,
         async processError(args: ProcessErrorArgs) {
-          if (isServiceBusError(args.error) && args.error.reason === "SessionLockLost") {
+          if (isServiceBusError(args.error) && args.error.code === "SessionLockLost") {
             sessionLockLostErrorThrown = true;
           } else {
             uncaughtErrorFromHandlers = args.error;
@@ -358,7 +358,7 @@ describe("Session Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(messagesReceived[0]).catch((err) => {
-      should.equal(err.reason, "SessionLockLost", "Error code is different than expected");
+      should.equal(err.code, "SessionLockLost", "Error code is different than expected");
       errorWasThrown = true;
     });
 

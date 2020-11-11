@@ -118,14 +118,14 @@ describe("ServiceBusClient live tests", () => {
       } else {
         if (isNode) {
           should.equal(
-            err.code === "ENOTFOUND" || err.code === "EAI_AGAIN",
+            err.code === "ServiceCommunicationProblem",
             true,
             `Error code ${err.code} is different than expected`
           );
         } else {
           should.equal(
             err.code,
-            "ServiceCommunicationError",
+            "ServiceCommunicationProblem",
             "Error code is different than expected"
           );
         }
@@ -199,11 +199,7 @@ describe("ServiceBusClient live tests", () => {
       if (!isServiceBusError(err)) {
         should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
-        should.equal(
-          err.reason,
-          "MessagingEntityNotFound",
-          "Error code is different than expected"
-        );
+        should.equal(err.code, "MessagingEntityNotFound", "Error code is different than expected");
         should.equal(
           err.message.includes(
             `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`

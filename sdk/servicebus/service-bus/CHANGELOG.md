@@ -2,6 +2,11 @@
 
 ## 7.0.0 (Unreleased)
 
+### Breaking changes
+
+- The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
+  The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
+
 ## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:

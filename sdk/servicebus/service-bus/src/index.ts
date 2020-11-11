@@ -4,14 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export {
-  delay,
-  MessagingErrorCodes,
-  MessagingError,
-  RetryOptions,
-  TokenType,
-  WebSocketOptions
-} from "@azure/core-amqp";
+export { delay, MessagingError, RetryOptions, TokenType, WebSocketOptions } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
@@ -67,4 +60,4 @@ export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
-export { isServiceBusError, ServiceBusError, ServiceBusErrorReason } from "./serviceBusError";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
