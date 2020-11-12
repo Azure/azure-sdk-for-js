@@ -8,7 +8,7 @@ import { OperationOptions, SpanConfig } from "./interfaces";
 type OperationTracingOptions = OperationOptions["tracingOptions"];
 
 /**
- * Creates a span using the global tracer.
+ * Creates a function called createSpan to create spans using the global tracer.
  * @ignore
  * @param spanConfig The name of the operation being performed.
  * @param tracingOptions The options for the underlying http request.
