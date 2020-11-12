@@ -198,7 +198,7 @@ describe("Session Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(msgs[0]).catch((err) => {
-      should.equal(err.code, "SessionLockLostError", "Reason code is different than expected");
+      should.equal(err.code, "SessionLockLost", "Reason code is different than expected");
       errorWasThrown = true;
     });
 

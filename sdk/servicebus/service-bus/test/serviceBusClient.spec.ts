@@ -118,16 +118,12 @@ describe("ServiceBusClient live tests", () => {
       } else {
         if (isNode) {
           should.equal(
-            err.code === "ServiceCommunicationProblem",
+            err.code === "GeneralError",
             true,
             `Error code ${err.code} is different than expected`
           );
         } else {
-          should.equal(
-            err.code,
-            "ServiceCommunicationProblem",
-            "Error code is different than expected"
-          );
+          should.equal(err.code, "GeneralError", "Error code is different than expected");
         }
 
         errorWasThrown = true;
