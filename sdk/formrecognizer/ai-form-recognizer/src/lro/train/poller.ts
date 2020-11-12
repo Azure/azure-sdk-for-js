@@ -19,7 +19,7 @@ export { ModelStatus, TrainCustomModelAsyncResponse };
 export type TrainPollerClient = {
   getCustomModel: (modelId: string, options: GetModelOptions) => Promise<FormModelResponse>;
   trainCustomModelInternal: (
-    source: string,
+    source: string | string[],
     useLabelFile?: boolean,
     options?: TrainingFileFilter
   ) => Promise<TrainCustomModelAsyncResponse>;
@@ -39,7 +39,7 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
   /**
    * The accessible url to an Azure Blob Storage container holding the training documents.
    */
-  source: string;
+  trainingInputs: string | string[];
   /**
    * The id of the custom form model being created from the training operation.
    */
@@ -62,7 +62,7 @@ export interface BeginTrainingPollerOperation
  */
 export interface BeginTrainingPollerOptions {
   client: TrainPollerClient;
-  source: string;
+  trainingInputs: string | string[];
   updateIntervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
@@ -78,7 +78,7 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
   constructor(options: BeginTrainingPollerOptions) {
     const {
       client,
-      source,
+      trainingInputs,
       updateIntervalInMs = 5000,
       onProgress,
       resumeFrom,
@@ -94,7 +94,7 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
     const operation = makeBeginTrainingPollOperation({
       ...state,
       client,
-      source,
+      trainingInputs,
       status: "creating",
       trainModelOptions
     });
@@ -129,12 +129,12 @@ function makeBeginTrainingPollOperation(
 
     async update(options = {}): Promise<BeginTrainingPollerOperation> {
       const state = this.state;
-      const { client, source, trainModelOptions } = state;
+      const { client, trainingInputs, trainModelOptions } = state;
 
       if (!state.isStarted) {
         state.isStarted = true;
         const result = await client.trainCustomModelInternal(
-          source,
+          trainingInputs,
           false,
           trainModelOptions || {}
         );
