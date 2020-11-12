@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-01-01T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2020-11-05T18:37:01.002Z\\\",\\\"CreateTime\\\":\\\"2020-11-05T18:37:01.002Z\\\"}\"},{\"timestamp\":\"2020-01-02T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2020-11-10T04:09:51.332Z\\\",\\\"CreateTime\\\":\\\"2020-11-10T04:09:51.332Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/status/enrichment/anomalyDetection/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "e94a5c69-971f-404e-a3ee-104f9bb91afa",
+    "apim-request-id": "a8a9a777-0ffd-4d9d-a73b-4c3c22084c63",
     "content-length": "525",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 22:18:53 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:14 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "187",
-    "x-request-id": "e94a5c69-971f-404e-a3ee-104f9bb91afa"
+    "x-envoy-upstream-service-time": "164",
+    "x-request-id": "a8a9a777-0ffd-4d9d-a73b-4c3c22084c63"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-01-03T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2020-11-04T22:34:42.412Z\\\",\\\"UpdateTime\\\":\\\"2020-11-04T22:34:42.412Z\\\"}\"},{\"timestamp\":\"2020-01-04T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2020-11-04T22:35:42.915Z\\\",\\\"UpdateTime\\\":\\\"2020-11-04T22:35:42.915Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/status/enrichment/anomalyDetection/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "a9d2fde0-7b62-4275-af92-dd724a46c452",
+    "apim-request-id": "b3ba71a7-1db4-4537-998e-4b70cb345c19",
     "content-length": "525",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 22:18:53 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:14 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "158",
-    "x-request-id": "a9d2fde0-7b62-4275-af92-dd724a46c452"
+    "x-envoy-upstream-service-time": "172",
+    "x-request-id": "b3ba71a7-1db4-4537-998e-4b70cb345c19"
    }
   }
  ],

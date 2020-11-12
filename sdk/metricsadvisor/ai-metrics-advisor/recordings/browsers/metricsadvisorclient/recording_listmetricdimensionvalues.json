@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\",\"Alexandria\",\"Ankara\",\"Atlanta\",\"Baghdad\",\"Bangkok\",\"Barcelona\",\"Beijing\",\"Belo Horizonte\",\"Bengaluru\",\"Bogota\",\"Boston\",\"Brasilia\",\"Buenos Aires\",\"Cairo\",\"Chengdu\",\"Chennai\",\"Chicago\",\"Chittagong\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/dimension/query?$top=20&$skip=20\"}",
    "responseHeaders": {
-    "apim-request-id": "cc0b82b8-610a-4f3e-b020-454ece6ca004",
+    "apim-request-id": "bff7dda2-4344-4be3-95c3-e4a2904a567e",
     "content-length": "402",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 22:18:51 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "90",
-    "x-request-id": "cc0b82b8-610a-4f3e-b020-454ece6ca004"
+    "x-envoy-upstream-service-time": "116",
+    "x-request-id": "bff7dda2-4344-4be3-95c3-e4a2904a567e"
    }
   }
  ],

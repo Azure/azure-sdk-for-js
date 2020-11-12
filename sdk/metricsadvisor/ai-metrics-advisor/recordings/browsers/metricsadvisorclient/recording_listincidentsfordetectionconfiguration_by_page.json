@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"incidentId\":\"2d7db62bcdf6c4f795c81fa0cd335508-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}},{\"incidentId\":\"22ede4ce36745c0a111c6cb99fd20c54-175908d9800\",\"startTime\":\"2020-11-03T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/query?$top=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXlaRGRrWWpZeVltTmtaalpqTkdZM09UVmpPREZtWVRCalpETXpOVFV3T0E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
    "responseHeaders": {
-    "apim-request-id": "1d290aa0-0a5e-4346-8f12-ee3f33e217b7",
+    "apim-request-id": "ef2568bf-55aa-45b3-81b1-01d537de061b",
     "content-length": "1138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 22:18:48 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "274",
-    "x-request-id": "1d290aa0-0a5e-4346-8f12-ee3f33e217b7"
+    "x-envoy-upstream-service-time": "272",
+    "x-request-id": "ef2568bf-55aa-45b3-81b1-01d537de061b"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"incidentId\":\"3bc1136adb61ca433bd9edbbaf46ec21-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Cell Phones\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}},{\"incidentId\":\"3b763da1c27792ce771cf696518d688d-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Automotive & Powersports\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/query?$top=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXpZbU14TVRNMllXUmlOakZqWVRRek0ySmtPV1ZrWW1KaFpqUTJaV015TVE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
    "responseHeaders": {
-    "apim-request-id": "5cd9f2f5-e3f3-42cc-b3cb-7f8ced2191c0",
+    "apim-request-id": "c170fff1-d1b2-46a5-9768-7b24e8160dd6",
     "content-length": "1126",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 22:18:48 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "222",
-    "x-request-id": "5cd9f2f5-e3f3-42cc-b3cb-7f8ced2191c0"
+    "x-envoy-upstream-service-time": "239",
+    "x-request-id": "c170fff1-d1b2-46a5-9768-7b24e8160dd6"
    }
   }
  ],

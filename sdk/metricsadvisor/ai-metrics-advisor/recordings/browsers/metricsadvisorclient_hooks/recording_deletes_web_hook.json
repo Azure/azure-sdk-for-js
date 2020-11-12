@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/dfec49ef-5c00-492b-a399-b8c46fa995cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/0e4c8fda-76cf-4a12-890c-b2c9a4aa8f8c",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "9ab7e558-6c1f-4156-9fdc-3c0fc2d5db89",
+    "apim-request-id": "14000aaa-b1fc-49c0-bbe3-4b4fefef7905",
     "content-length": "0",
-    "date": "Mon, 21 Sep 2020 23:39:36 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "168",
-    "x-request-id": "9ab7e558-6c1f-4156-9fdc-3c0fc2d5db89"
+    "x-envoy-upstream-service-time": "166",
+    "x-request-id": "14000aaa-b1fc-49c0-bbe3-4b4fefef7905"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/dfec49ef-5c00-492b-a399-b8c46fa995cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/0e4c8fda-76cf-4a12-890c-b2c9a4aa8f8c",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"ERROR_INVALID_PARAMETER\",\"message\":\"hookId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "d2d91e4d-11ec-49d1-89b3-ef23cdb4d1ee",
+    "apim-request-id": "24f5b940-75c1-44ee-91f3-60baf7ac7796",
     "content-length": "65",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 21 Sep 2020 23:39:36 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "43",
-    "x-request-id": "d2d91e4d-11ec-49d1-89b3-ef23cdb4d1ee"
+    "x-envoy-upstream-service-time": "58",
+    "x-request-id": "24f5b940-75c1-44ee-91f3-60baf7ac7796"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f7433cda18d3c94981b993878276438a"
+ "hash": "46f2d8214e5640108032d25a34c0d3b8"
 }

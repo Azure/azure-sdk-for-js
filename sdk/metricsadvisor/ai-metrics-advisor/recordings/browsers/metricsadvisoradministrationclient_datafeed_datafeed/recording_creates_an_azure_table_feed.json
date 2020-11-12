@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"AzureTable\",\"dataFeedName\":\"js-test-tableFeed-160323426952304845\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://table.example.net\",\"table\":\"table-name\",\"query\":\"partition-key eq @start-time\"}}",
+   "requestBody": "{\"dataSourceType\":\"AzureTable\",\"dataFeedName\":\"js-test-tableFeed-160522303902104205\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://table.example.net\",\"table\":\"table-name\",\"query\":\"partition-key eq @start-time\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "67b3fa3f-50a9-466e-b175-62e7e3f6053b",
+    "apim-request-id": "bd1c332e-eb3f-4291-ba7e-4ebcc595b238",
     "content-length": "0",
-    "date": "Tue, 20 Oct 2020 22:51:16 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/33dc7121-8095-41f3-8d47-2a5f5afb2baa",
+    "date": "Thu, 12 Nov 2020 23:17:37 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/9773d113-f178-4bbb-82b2-9cbba14a6431",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "451",
-    "x-request-id": "67b3fa3f-50a9-466e-b175-62e7e3f6053b"
+    "x-envoy-upstream-service-time": "439",
+    "x-request-id": "bd1c332e-eb3f-4291-ba7e-4ebcc595b238"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/33dc7121-8095-41f3-8d47-2a5f5afb2baa",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/9773d113-f178-4bbb-82b2-9cbba14a6431",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"33dc7121-8095-41f3-8d47-2a5f5afb2baa\",\"dataFeedName\":\"js-test-tableFeed-160323426952304845\",\"metrics\":[{\"metricId\":\"d5859990-4311-4722-8c3f-3e31fd0b62ce\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"d78b7a31-0a42-462e-9e8b-0943e12e09c5\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureTable\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"yumeng@microsoft.com\"],\"viewers\":[],\"creator\":\"yumeng@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-10-20T22:51:16Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://table.example.net\",\"query\":\"partition-key eq @start-time\",\"table\":\"table-name\"}}",
+   "response": "{\"dataFeedId\":\"9773d113-f178-4bbb-82b2-9cbba14a6431\",\"dataFeedName\":\"js-test-tableFeed-160522303902104205\",\"metrics\":[{\"metricId\":\"98933119-c3cb-45b4-9958-8fa81976f127\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"b6081797-58fb-4e7d-9f41-e6f9c59839b7\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureTable\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-12T23:17:37Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://table.example.net\",\"query\":\"partition-key eq @start-time\",\"table\":\"table-name\"}}",
    "responseHeaders": {
-    "apim-request-id": "c774044f-95bc-4a24-b52b-81d4daee0578",
-    "content-length": "1330",
+    "apim-request-id": "74f619c7-1cff-4b67-9558-675ac89c61fb",
+    "content-length": "1332",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 20 Oct 2020 22:51:16 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "110",
-    "x-request-id": "c774044f-95bc-4a24-b52b-81d4daee0578"
+    "x-envoy-upstream-service-time": "286",
+    "x-request-id": "74f619c7-1cff-4b67-9558-675ac89c61fb"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e92edbe4233eedd376a7e45b03b3ac33"
+ "hash": "1e9dc84421a859149a58d90a65de4243"
 }

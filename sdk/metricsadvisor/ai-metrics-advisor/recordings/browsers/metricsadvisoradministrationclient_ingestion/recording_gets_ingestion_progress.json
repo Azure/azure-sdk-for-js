@@ -8,9 +8,14 @@
    "status": 200,
    "response": "{\"latestSuccessTimestamp\":\"2020-11-11T00:00:00Z\",\"latestActiveTimestamp\":\"2020-11-11T00:00:00Z\"}",
    "responseHeaders": {
-    "apim-request-id": "0522cd4b-5173-4af5-948c-d8a4b2980f30",
+    "apim-request-id": "0bcf4e9e-d5e4-4895-8ebc-97ae9f047b1d",
     "content-length": "96",
-    "content-type": "application/json; charset=utf-8"
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 12 Nov 2020 23:17:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "219",
+    "x-request-id": "0bcf4e9e-d5e4-4895-8ebc-97ae9f047b1d"
    }
   }
  ],

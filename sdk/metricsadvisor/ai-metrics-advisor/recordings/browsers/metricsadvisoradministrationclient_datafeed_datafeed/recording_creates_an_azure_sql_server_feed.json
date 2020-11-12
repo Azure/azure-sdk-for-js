@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"SqlServer\",\"dataFeedName\":\"js-test-sqlServerFeed-160323426952302851\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"sqlServer_query\"}}",
+   "requestBody": "{\"dataSourceType\":\"SqlServer\",\"dataFeedName\":\"js-test-sqlServerFeed-160522303902103660\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "ad24fa08-e42c-4fb0-a928-735ad05bab7b",
+    "apim-request-id": "70531b0e-d38f-4695-bf65-cc3a72389d30",
     "content-length": "0",
-    "date": "Tue, 20 Oct 2020 22:51:12 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/2b11cc89-fb8f-49f7-9276-6f66513ee8ab",
+    "date": "Thu, 12 Nov 2020 23:17:24 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/c1ab4ab4-1e74-48e4-bc5f-1acf4a8f56c0",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "460",
-    "x-request-id": "ad24fa08-e42c-4fb0-a928-735ad05bab7b"
+    "x-envoy-upstream-service-time": "632",
+    "x-request-id": "70531b0e-d38f-4695-bf65-cc3a72389d30"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/2b11cc89-fb8f-49f7-9276-6f66513ee8ab",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/c1ab4ab4-1e74-48e4-bc5f-1acf4a8f56c0",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"2b11cc89-fb8f-49f7-9276-6f66513ee8ab\",\"dataFeedName\":\"js-test-sqlServerFeed-160323426952302851\",\"metrics\":[{\"metricId\":\"229de921-5a6f-4f14-a4a3-b3e41b4a7c7e\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"78eed017-a56b-4a61-a2e2-51db6534a319\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"SqlServer\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"yumeng@microsoft.com\"],\"viewers\":[],\"creator\":\"yumeng@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-10-20T22:51:12Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"sqlServer_query\"}}",
+   "response": "{\"dataFeedId\":\"c1ab4ab4-1e74-48e4-bc5f-1acf4a8f56c0\",\"dataFeedName\":\"js-test-sqlServerFeed-160522303902103660\",\"metrics\":[{\"metricId\":\"b6ba4837-6791-44e3-9f6e-2635d76d2a25\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"66ead343-f70d-43e4-a2ef-5e71e8b4d21d\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"SqlServer\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-12T23:17:25Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
    "responseHeaders": {
-    "apim-request-id": "81429d02-a14e-409c-a46e-db36a90408ce",
-    "content-length": "1544",
+    "apim-request-id": "68cea064-54c2-4dd2-bc6c-265a979453ab",
+    "content-length": "1546",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 20 Oct 2020 22:51:12 GMT",
+    "date": "Thu, 12 Nov 2020 23:17:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "117",
-    "x-request-id": "81429d02-a14e-409c-a46e-db36a90408ce"
+    "x-envoy-upstream-service-time": "306",
+    "x-request-id": "68cea064-54c2-4dd2-bc6c-265a979453ab"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "726566dc028a99e4b4be9ea0c661d893"
+ "hash": "de0139ef268b9befcfb96952b3457915"
 }
