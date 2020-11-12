@@ -248,7 +248,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it.only("lists detection configurations", async function() {
-      const iterator = client.listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1);
+      const iterator = client.listDetectionConfigs(
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
+      );
       let result = await iterator.next();
 
       assert.ok(result.value.id, "Expecting first detection config");
