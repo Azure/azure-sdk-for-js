@@ -2,43 +2,43 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query",
    "query": {
     "$top": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-09-05T00:00:00.000Z\",\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Cherry Laurel\",\"Cabbage Palm\"],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[\"Karachi\",\"__SUM__\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "daec6049-662a-4ff7-b0dd-1cc0be75d9cd",
-    "content-length": "259",
+    "apim-request-id": "a1fe5290-d923-439f-a4d6-9045c47cf6e1",
+    "content-length": "245",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:33 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "186",
-    "x-request-id": "daec6049-662a-4ff7-b0dd-1cc0be75d9cd"
+    "x-envoy-upstream-service-time": "263",
+    "x-request-id": "a1fe5290-d923-439f-a4d6-9045c47cf6e1"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query",
    "query": {
     "$top": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-09-05T00:00:00.000Z\",\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Common Lime\",\"Blackthorn\"],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "6cfb603a-fe3b-445b-9267-9a54e7ba5d7f",
-    "content-length": "255",
+    "apim-request-id": "a1e0aeca-688e-4ac4-b5d2-843fcc5a82b2",
+    "content-length": "247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:33 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "178",
-    "x-request-id": "6cfb603a-fe3b-445b-9267-9a54e7ba5d7f"
+    "x-envoy-upstream-service-time": "238",
+    "x-request-id": "a1e0aeca-688e-4ac4-b5d2-843fcc5a82b2"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "cabf0165171c84ebdc80266696a61d30"
+ "hash": "7a8dd18746d59645fc11810981c667e0"
 }

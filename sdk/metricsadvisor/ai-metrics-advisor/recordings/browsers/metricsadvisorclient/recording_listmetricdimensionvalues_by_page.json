@@ -2,43 +2,43 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/dimension/query",
    "query": {
     "$top": "2"
    },
-   "requestBody": "{\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Algerian Fir\",\"Almond\"],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/dimension/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "e1773835-01bc-421c-92e1-20f5a9a759e8",
-    "content-length": "207",
+    "apim-request-id": "0e84ce30-af28-4f75-974e-0d2558207fdb",
+    "content-length": "202",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:34 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "77",
-    "x-request-id": "e1773835-01bc-421c-92e1-20f5a9a759e8"
+    "x-envoy-upstream-service-time": "111",
+    "x-request-id": "0e84ce30-af28-4f75-974e-0d2558207fdb"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/dimension/query",
    "query": {
     "$top": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Aspen\",\"Austrian Pine\"],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[\"Alexandria\",\"Ankara\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/45c7-a1e0-f87c9c7ca80f-189ff959-d9f4/dimension/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "f00c194c-447e-4def-9ac6-523791cc4d98",
-    "content-length": "207",
+    "apim-request-id": "2745cdf1-fd0e-4d28-a4c6-8ec5c459421c",
+    "content-length": "202",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:35 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "89",
-    "x-request-id": "f00c194c-447e-4def-9ac6-523791cc4d98"
+    "x-envoy-upstream-service-time": "98",
+    "x-request-id": "2745cdf1-fd0e-4d28-a4c6-8ec5c459421c"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "71466e9b08c7c7b6413ae7f6db639786"
+ "hash": "32bf83c8a1f87f385c071892443441d3"
 }

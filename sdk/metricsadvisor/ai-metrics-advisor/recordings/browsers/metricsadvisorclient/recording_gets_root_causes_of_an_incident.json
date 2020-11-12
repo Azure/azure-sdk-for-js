@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/5938cd75cfdecfff045-17465dcc000045f03a31628d/rootCause",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Home & Garden\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.2336003146084017,\"description\":\"Decrease on category = Home & Garden | city = Karachi contributes the most to current incident.\"}]}",
+   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "e6a997f5-62b9-426e-b913-cf0ce88a7f14",
-    "content-length": "240",
+    "apim-request-id": "c4a6b1a9-9081-4eb1-9a9f-0a8838b5f514",
+    "content-length": "259",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Sep 2020 22:10:48 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5322",
-    "x-request-id": "e6a997f5-62b9-426e-b913-cf0ce88a7f14"
+    "x-envoy-upstream-service-time": "245",
+    "x-request-id": "c4a6b1a9-9081-4eb1-9a9f-0a8838b5f514"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "251922eb9e32d0d16848e1ec21a1bf28"
+ "hash": "0b5d03b9b1e54f65046bb36e5de9dbf2"
 }

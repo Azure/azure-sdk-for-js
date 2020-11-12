@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query",
    "query": {},
-   "requestBody": "{\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-09-05T00:00:00.000Z\",\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Cherry Laurel\",\"Cabbage Palm\",\"Common Lime\",\"Blackthorn\",\"Blue Atlas Cedar\",\"Cider gum\",\"Common Walnut\",\"Almond\",\"Chinese red-barked birch\",\"Black Birch (River Birch)\",\"Bastard Service Tree\",\"Caucasian Fir\",\"Common Beech\",\"Cherry\",\"Caucasian Lime\",\"Birch\",\"Algerian Fir\",\"Black Poplar\",\"Cockspur Thorn\",\"Common Ash\",\"Austrian Pine\",\"Common Hazel\",\"Common Alder\",\"Box elder\",\"Aspen\",\"Common Juniper\"],\"@nextLink\":null}",
+   "response": "{\"value\":[\"Karachi\",\"__SUM__\",\"Los Angeles\",\"Delhi\",\"Manila\",\"Seoul\",\"Mumbai\",\"Beijing\",\"New York\",\"Miami\",\"Mexico City\",\"Tianjin\",\"Philadelphia\",\"Osaka\",\"Moscow\",\"Santiago\",\"Istanbul\",\"Taipei\",\"Madrid\",\"Kolkata\",\"Rio de Janeiro\",\"Shenzhen\",\"Belo Horizonte\",\"Jakarta\",\"Lahore\",\"Dallas\",\"Wuhan\",\"Cairo\",\"Hyderabad\",\"Lima\",\"Dhaka\",\"Bogota\",\"Shanghai\",\"Paris\",\"Bangkok\",\"Houston\",\"Buenos Aires\",\"Kinshasa\",\"London\",\"Chennai\",\"Bengaluru\",\"Lagos\",\"Tokyo\",\"Sao Paulo\",\"Chicago\",\"Hong Kong\",\"Chongqing\",\"Guangzhou\",\"Tehran\",\"Boston\",\"Ho Chi Minh City\",\"Khartoum\",\"Barcelona\",\"Washington\",\"Pune\",\"Shenyang\",\"Saint Petersburg\",\"Toronto\",\"Guadalajara\",\"Singapore\",\"Dongguan\",\"Luanda\",\"Baghdad\",\"Haora\"],\"@nextLink\":null}",
    "responseHeaders": {
-    "apim-request-id": "7679b5a1-3083-4902-b66f-1fa678449407",
-    "content-length": "428",
+    "apim-request-id": "e5abf675-36bf-48a1-a48b-8a2703cf52cf",
+    "content-length": "710",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:32 GMT",
+    "date": "Thu, 12 Nov 2020 22:18:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "192",
-    "x-request-id": "7679b5a1-3083-4902-b66f-1fa678449407"
+    "x-envoy-upstream-service-time": "348",
+    "x-request-id": "e5abf675-36bf-48a1-a48b-8a2703cf52cf"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "09c62cd7cce4b0605358d47092fa6a04"
+ "hash": "18f34a94aec485d293cfb86a6e2b9729"
 }

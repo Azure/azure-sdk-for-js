@@ -37,7 +37,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
   });
 
   describe("Ingestion", function() {
-    it.only("lists ingestion status", async function() {
+    it("lists ingestion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 1)),
@@ -49,7 +49,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.value.status, "Expecting second status");
     });
 
-    it.only("lists ingestion status with datetime strings", async function() {
+    it("lists ingestion status with datetime strings", async function() {
       const iterator = client.listDataFeedIngestionStatus(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         "2020-08-01T00:00:00.000Z",
@@ -61,7 +61,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.value.status, "Expecting second status");
     });
 
-    it.only("lists ingestion status by page", async function() {
+    it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
@@ -75,7 +75,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.equal(result.value.length, 2, "Expecting two entries in second page");
     });
 
-    it.only("gets ingestion progress", async function() {
+    it("gets ingestion progress", async function() {
       const result = await client.getDataFeedIngestionProgress(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
       );
@@ -84,7 +84,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
     });
 
-    it.only("refreshes ingesetion status", async function() {
+    it("refreshes ingesetion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 22)),
@@ -118,7 +118,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     let createdAlertConfigId: string;
     let expectedDetectionConfigName: string;
 
-    it("creates a detection configuration", async function() {
+    it.only("creates a detection configuration", async function() {
       expectedDetectionConfigName = recorder.getUniqueName("js-detection-config-");
       const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
         name: expectedDetectionConfigName,
@@ -247,7 +247,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.equal(result.description, "new description");
     });
 
-    it.only("lists detection configurations", async function() {
+    it("lists detection configurations", async function() {
       const iterator = client.listDetectionConfigs(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
       );
@@ -258,7 +258,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       assert.ok(result.value.id, "Expecting second detection config");
     });
 
-    it.only("lists detection configurations by page", async function() {
+    it("lists detection configurations by page", async function() {
       const iterator = client
         .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
         .byPage();

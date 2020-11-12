@@ -1,28 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "7829449fc8cf6337c3c723b6341b8fae";
+module.exports.hash = "78892ebc4812a54f8413f419d4f1b68a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause')
-  .reply(200, {"value":[{"rootCause":{"dimension":{"category":"Home & Garden","city":"Karachi"}},"path":["city"],"score":0.2336003146084017,"description":"Decrease on category = Home & Garden | city = Karachi contributes the most to current incident."}]}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/5938cd75cfdecfff045-17465dcc000045f03a31628d/rootCause')
+  .reply(200, {"value":[{"rootCause":{"dimension":{"category":"Electronics (Consumer)","city":"Karachi"}},"path":["city"],"score":0.34265262137636504,"description":"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident."}]}, [
   'Content-Length',
-  '240',
+  '259',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '6aa62c2a-9ba6-47cb-8c0f-fae99c58f014',
+  '187fff82-d322-440d-98a0-0a8262193e32',
   'x-envoy-upstream-service-time',
-  '379',
+  '255',
   'apim-request-id',
-  '6aa62c2a-9ba6-47cb-8c0f-fae99c58f014',
+  '187fff82-d322-440d-98a0-0a8262193e32',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 18 Sep 2020 22:08:32 GMT',
-  'Connection',
-  'close'
+  'Thu, 12 Nov 2020 22:18:37 GMT'
 ]);
