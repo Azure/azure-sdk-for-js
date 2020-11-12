@@ -421,7 +421,6 @@ function RetrieveReleaseTag($pkgRepository, $artifactLocation, $continueOnError 
     Write-Error "No release tag retrieved from $artifactLocation"
   }
 }
-
 function RetrievePackages($pkgRepository, $artifactLocation) {
   $parsePkgInfoFn = ""
   $packagePattern = ""
