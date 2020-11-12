@@ -25,7 +25,7 @@ import {
   getParentSpan,
   OperationOptionsBase
 } from "./modelsToBeSharedWithEventHubs";
-import { CanonicalCode, SpanContext } from "@opentelemetry/api";
+import { CanonicalCode } from "@opentelemetry/api";
 import { senderLogger as logger } from "./log";
 
 /**
@@ -188,8 +188,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
-    // link message span contexts
-    let spanContextsToLink: SpanContext[] = [];
     if (isServiceBusMessage(messages)) {
       messages = [messages];
     }
@@ -210,7 +208,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         }
       }
     } else if (isServiceBusMessageBatch(messages)) {
-      spanContextsToLink = messages._messageSpanContexts;
       batch = messages;
     } else {
       throw new TypeError(invalidTypeErrMsg);
@@ -218,7 +215,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
     const sendSpan = createSendSpan(
       getParentSpan(options?.tracingOptions),
-      spanContextsToLink,
+      batch._messageSpanContexts,
       this.entityPath,
       this._context.config.host
     );
