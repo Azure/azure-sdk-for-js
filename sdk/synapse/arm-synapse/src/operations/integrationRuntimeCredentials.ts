@@ -31,7 +31,7 @@ export class IntegrationRuntimeCredentials {
    * import it (preferred) on any self-hosted integration runtime node than using this API directly.
    * @summary Sync integration runtime credentials
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -39,14 +39,14 @@ export class IntegrationRuntimeCredentials {
   sync(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
   sync(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback
