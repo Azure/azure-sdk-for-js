@@ -47,8 +47,8 @@ async function main() {
     console.log("Contact Names:");
     for (const contactName of contactNames) {
       if (contactName.valueType === "object") {
-        const firstName = contactName.value?.["FirstName"].value || "<no first name>";
-        const lastName = contactName.value?.["LastName"].value || "<no last name>";
+        const firstName = contactName.value["FirstName"].value || "<no first name>";
+        const lastName = contactName.value["LastName"].value || "<no last name>";
         console.log(`- ${firstName} ${lastName} (${contactName.confidence} confidence)`);
       }
     }
@@ -73,7 +73,7 @@ async function main() {
  * processing.
  */
 function printSimpleArrayField(businessCard, fieldName) {
-  const fieldValues = businessCard.fields[fieldName]?.value;
+  const fieldValues = businessCard.fields[fieldName].value;
   if (Array.isArray(fieldValues)) {
     console.log(`${fieldName}:`);
     for (const item of fieldValues) {
