@@ -18,18 +18,22 @@ interface ScenarioSimpleSendOptions {
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-function sanitizeOptions(options: ScenarioSimpleSendOptions): Required<ScenarioSimpleSendOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioSimpleSendOptions> {
+  const options = parsedArgs<ScenarioSimpleSendOptions>(args, {
+    boolean: ["useScheduleApi"],
+    default: { useScheduleApi: false }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    useScheduleApi: options.useScheduleApi || false
+    useScheduleApi: options.useScheduleApi
   };
 }
 
 async function main() {
-  const testOptions = sanitizeOptions(parsedArgs<ScenarioSimpleSendOptions>(process.argv));
+  const testOptions = sanitizeOptions(process.argv);
 
   const {
     testDurationInMs,

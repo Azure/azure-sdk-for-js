@@ -20,10 +20,8 @@ export {
 } from "./ConnectionContextBase";
 export {
   MessagingError,
-  MessagingErrorCodes,
   isMessagingError,
   ErrorNameConditionMapper,
-  ConditionStatusMapper,
   ConditionErrorNameMapper,
   translate,
   retryableErrors,

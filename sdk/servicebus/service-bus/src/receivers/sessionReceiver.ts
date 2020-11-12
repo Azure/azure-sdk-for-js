@@ -8,10 +8,12 @@ import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwErrorIfInvalidOperationOnMessage
+  throwErrorIfInvalidOperationOnMessage,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import {
@@ -298,10 +300,6 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
-
     const managementRequestOptions = {
       ...options,
       associatedLinkName: this._messageSession.name,
@@ -381,9 +379,20 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const receiveBatchOperationPromise = async () => {
