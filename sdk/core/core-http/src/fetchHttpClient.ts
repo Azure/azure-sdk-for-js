@@ -55,6 +55,9 @@ export abstract class FetchHttpClient implements HttpClient {
 
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
+    let registerCleanUpListenerOnStream:
+      | ((stream: NodeJS.ReadableStream, isDownload: boolean) => void)
+      | undefined;
     if (httpRequest.abortSignal) {
       if (httpRequest.abortSignal.aborted) {
         throw new AbortError("The operation was aborted.");
@@ -66,6 +69,28 @@ export abstract class FetchHttpClient implements HttpClient {
         }
       };
       httpRequest.abortSignal.addEventListener("abort", abortListener);
+
+      registerCleanUpListenerOnStream = (stream: NodeJS.ReadableStream, isDownload: boolean) => {
+        const cleanupCallback = () => {
+          if (isDownload) {
+            isDownloadStreamActive = false;
+          } else {
+            isUploadStreamActive = false;
+          }
+          stream.removeListener("close", cleanupCallback);
+          stream.removeListener("end", cleanupCallback);
+          stream.removeListener("error", cleanupCallback);
+
+          if (abortListener) {
+            // unregister only when the other stream is not active
+            if ((isDownload && !isUploadStreamActive) || (!isDownload && !isDownloadStreamActive))
+              httpRequest.abortSignal?.removeEventListener("abort", abortListener);
+          }
+        };
+        stream.once("close", cleanupCallback);
+        stream.once("end", cleanupCallback);
+        stream.once("error", cleanupCallback);
+      };
     }
 
     if (httpRequest.timeout) {
@@ -124,6 +149,7 @@ export abstract class FetchHttpClient implements HttpClient {
         ? httpRequest.body()
         : httpRequest.body
       : undefined;
+    let isUploadStreamActive = false;
     if (httpRequest.onUploadProgress && httpRequest.body) {
       const onUploadProgress = httpRequest.onUploadProgress;
       const uploadReportStream = new ReportTransform(onUploadProgress);
@@ -134,6 +160,10 @@ export abstract class FetchHttpClient implements HttpClient {
       }
 
       body = uploadReportStream;
+    }
+    if (registerCleanUpListenerOnStream && isReadableStream(body)) {
+      isUploadStreamActive = true;
+      registerCleanUpListenerOnStream(body, false);
     }
 
     const platformSpecificRequestInit: Partial<RequestInit> = await this.prepareRequest(
@@ -150,6 +180,7 @@ export abstract class FetchHttpClient implements HttpClient {
     };
 
     let operationResponse: HttpOperationResponse | undefined;
+    let isDownloadStreamActive = false;
     try {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
@@ -180,6 +211,13 @@ export abstract class FetchHttpClient implements HttpClient {
           }
         }
       }
+      if (
+        registerCleanUpListenerOnStream &&
+        isReadableStream(operationResponse.readableStreamBody)
+      ) {
+        isDownloadStreamActive = true;
+        registerCleanUpListenerOnStream(operationResponse.readableStreamBody, true);
+      }
 
       await this.processRequest(operationResponse);
 
@@ -199,33 +237,10 @@ export abstract class FetchHttpClient implements HttpClient {
 
       throw fetchError;
     } finally {
-      // clean up event listener. for streaming operations clean up on close/end/error event.
-      const cleanUpStreamListener = (stream: NodeJS.ReadableStream) => {
-        const cleanupCallback = () => {
-          stream.removeListener("close", cleanupCallback);
-          stream.removeListener("end", cleanupCallback);
-          stream.removeListener("error", cleanupCallback);
-          if (abortListener) {
-            httpRequest.abortSignal?.removeEventListener("abort", abortListener);
-          }
-        };
-        stream.once("close", cleanupCallback);
-        stream.once("end", cleanupCallback);
-        stream.once("error", cleanupCallback);
-      };
-
-      // it's super rare if not impossible that both download streaming and upload streaming happen
-      // at the same time so assume download stream (if any) will ends after upload stream (if any).
-      if (isReadableStream(operationResponse?.readableStreamBody)) {
-        // download stream
-        cleanUpStreamListener(operationResponse!.readableStreamBody);
-      } else if (isReadableStream(body)) {
-        // upload stream
-        cleanUpStreamListener(body);
-      } else {
-        if (abortListener) {
-          httpRequest.abortSignal?.removeEventListener("abort", abortListener);
-        }
+      const isStreaming =
+        isReadableStream(operationResponse?.readableStreamBody) || isReadableStream(body);
+      if (!isStreaming && abortListener) {
+        httpRequest.abortSignal?.removeEventListener("abort", abortListener);
       }
     }
   }
