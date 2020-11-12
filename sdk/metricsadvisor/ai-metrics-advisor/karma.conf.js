@@ -62,9 +62,6 @@ module.exports = function(config) {
       "METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING",
       "METRICS_ADVISOR_AZURE_BLOB_CONTAINER",
       "METRICS_ADVISOR_AZURE_BLOB_TEMPLATE",
-      "METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID",
-      "METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1",
-      "METRICS_ADVISOR_AZURE_BLOB_DETECTION_CONFIG_ID",
       "METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID",
       "METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY",
       "METRICS_ADVISOR_AZURE_APPINSIGHTS_QUERY",
@@ -72,6 +69,8 @@ module.exports = function(config) {
       "METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY",
       "METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID",
       "METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_INCIDENT_ID",
+      "METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID",
+      "METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1",
       "METRICS_ADVISOR_ALERT_CONFIG_ID",
       "METRICS_ADVISOR_ALERT_ID",
       "AZURE_CLIENT_ID",
@@ -130,7 +129,7 @@ module.exports = function(config) {
 
     // --no-sandbox allows our tests to run in Linux without having to change the system.
     // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["ChromeHeadlessNoSandbox"],
+    browsers: ["Chrome"],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
