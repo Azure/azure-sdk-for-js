@@ -1,77 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
-/// <reference lib="esnext.asynciterable" />
 
 import {
-  TokenCredential,
-  PipelineOptions,
-  createPipelineFromOptions,
   bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase
+  createPipelineFromOptions,
+  TokenCredential
 } from "@azure/core-http";
 
 import { SynapseSpark } from "./generated";
 import { logger } from "./logger";
-import { SDK_VERSION, DEFAULT_SYNAPSE_SCOPE } from "./constants";
+import { DEFAULT_SYNAPSE_SCOPE, SDK_VERSION } from "./constants";
 import { createSpan, getCanonicalCode } from "./tracing";
-
 import {
-  SparkClientOptions,
-  GetSparkBatchJobOptions,
-  ListSparkBatchJobsOptions,
-  CreateSparkBatchJobOptions,
   CancelSparkBatchJobOptions,
-  GetSparkSessionOptions,
-  ListSparkSessionsOptions,
-  CreateSparkSessionOptions,
   CancelSparkSessionOptions,
-  ResetSparkSessionTimeoutOptions,
-  GetSparkStatementOptions,
-  ListSparkStatementsOptions,
-  CreateSparkStatementOptions,
   CancelSparkStatementOptions,
+  CreateSparkBatchJobOptions,
+  CreateSparkSessionOptions,
+  CreateSparkStatementOptions,
+  GetSparkBatchJobOptions,
+  GetSparkSessionOptions,
+  GetSparkStatementOptions,
+  ListSparkBatchJobsOptions,
+  ListSparkSessionsOptions,
+  ListSparkStatementsOptions,
+  OperationResponse,
+  ResetSparkSessionTimeoutOptions,
+  SparkBatchJob,
+  SparkBatchJobCollection,
   SparkBatchJobOptions,
+  SparkClientOptions,
+  SparkSession,
+  SparkSessionCollection,
   SparkSessionOptions,
+  SparkStatement,
+  SparkStatementCollection,
   SparkStatementOptions,
-  OperationResponse
+  WithResponse
 } from "./models";
-
-import {
-  GetSparkBatchJobResponse,
-  ListSparkBatchJobsResponse,
-  CreateSparkBatchJobResponse,
-  GetSparkSessionResponse,
-  ListSparkSessionsResponse,
-  CreateSparkSessionResponse,
-  GetSparkStatementResponse,
-  ListSparkStatementsResponse,
-  CreateSparkStatementResponse
-} from "./models";
-
-export { PipelineOptions, logger };
 
 export class SparkClient {
-  /**
-   * The base URL to the workspace
-   */
-  public readonly workspaceEndpoint: string;
-
   /**
    * @internal
    * @ignore
    * A reference to the auto-generated synapse spark HTTP client.
    */
   private readonly client: SynapseSpark;
-
+  /**
+   * Creates an instance of SparkClient.
+   *
+   * Example usage:
+   * ```ts
+   * import { AccessControlClient } from "@azure/synapse-spark";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * let workspaceEndpoint = `https://<workspacename>.dev.azuresynapse.net`;
+   * let sparkPoolName = "sparkpoolname";
+   * let credentials = new DefaultAzureCredential();
+   *
+   * let client = new SparkClient(vaultUrl, credentials);
+   * ```
+   * @param {string} workspaceEndpoint The base URL to the workspace, for example https://myworkspace.dev.azuresynapse.net.
+   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
+   * @param {string} sparkPoolName Name of the spark pool.
+   * @param {PipelineOptions} [pipelineOptions] Optional. Pipeline options used to configure workspace API requests.
+   *                                                         Omit this parameter to use the default pipeline configuration.
+   * @memberof SparkClient
+   */
   constructor(
     workspaceEndpoint: string,
     sparkPoolName: string,
     credential: TokenCredential,
     pipelineOptions: SparkClientOptions = {}
   ) {
-    this.workspaceEndpoint = workspaceEndpoint;
-
     const libInfo = `azsdk-js-synapse-spark/${SDK_VERSION}`;
 
     const userAgentOptions = pipelineOptions.userAgentOptions;
@@ -109,14 +110,11 @@ export class SparkClient {
   public async getSparkBatchJob(
     batchId: number,
     options: GetSparkBatchJobOptions = {}
-  ): Promise<GetSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetSparkBatchJob", options);
+  ): Promise<WithResponse<SparkBatchJob>> {
+    const { span, updatedOptions } = createSpan("Synapse-getSparkBatchJob", options);
 
     try {
-      const response = await this.client.sparkBatch.getSparkBatchJob(
-        batchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkBatch.getSparkBatchJob(batchId, updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -136,13 +134,11 @@ export class SparkClient {
 
   public async listSparkBatchJobs(
     options: ListSparkBatchJobsOptions = {}
-  ): Promise<ListSparkBatchJobsResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSparkBatchJobs", options);
+  ): Promise<WithResponse<SparkBatchJobCollection>> {
+    const { span, updatedOptions } = createSpan("Synapse-listSparkBatchJobs", options);
 
     try {
-      const response = await this.client.sparkBatch.getSparkBatchJobs(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkBatch.getSparkBatchJobs(updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -164,13 +160,13 @@ export class SparkClient {
   public async createSparkBatchJob(
     sparkBatchJobOptions: SparkBatchJobOptions,
     options: CreateSparkBatchJobOptions = {}
-  ): Promise<CreateSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CreateSparkBatchJob", options);
+  ): Promise<WithResponse<SparkBatchJob>> {
+    const { span, updatedOptions } = createSpan("Synapse-createSparkBatchJob", options);
 
     try {
       const response = await this.client.sparkBatch.createSparkBatchJob(
         sparkBatchJobOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -194,13 +190,10 @@ export class SparkClient {
     batchId: number,
     options: CancelSparkBatchJobOptions = {}
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CancelSparkBatchJob", options);
+    const { span, updatedOptions } = createSpan("Synapse-cancelSparkBatchJob", options);
 
     try {
-      const response = await this.client.sparkBatch.cancelSparkBatchJob(
-        batchId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkBatch.cancelSparkBatchJob(batchId, updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -222,14 +215,11 @@ export class SparkClient {
   public async getSparkSession(
     sessionId: number,
     options: GetSparkSessionOptions = {}
-  ): Promise<GetSparkSessionResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetSparkSession", options);
+  ): Promise<WithResponse<SparkSession>> {
+    const { span, updatedOptions } = createSpan("Synapse-getSparkSession", options);
 
     try {
-      const response = await this.client.sparkSession.getSparkSession(
-        sessionId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkSession.getSparkSession(sessionId, updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -249,13 +239,11 @@ export class SparkClient {
 
   public async listSparkSessions(
     options: ListSparkSessionsOptions = {}
-  ): Promise<ListSparkSessionsResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSparkSessions", options);
+  ): Promise<WithResponse<SparkSessionCollection>> {
+    const { span, updatedOptions } = createSpan("Synapse-listSparkSessions", options);
 
     try {
-      const response = await this.client.sparkSession.getSparkSessions(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkSession.getSparkSessions(updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -274,16 +262,16 @@ export class SparkClient {
    * @param options The options parameters.
    */
 
-  public async createSparkSeesion(
+  public async createSparkSession(
     sparkSessionOptions: SparkSessionOptions,
     options: CreateSparkSessionOptions = {}
-  ): Promise<CreateSparkSessionResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CreateSparkSeesion", options);
+  ): Promise<WithResponse<SparkSession>> {
+    const { span, updatedOptions } = createSpan("Synapse-createSparkSession", options);
 
     try {
       const response = await this.client.sparkSession.createSparkSession(
         sparkSessionOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -307,12 +295,12 @@ export class SparkClient {
     sessionId: number,
     options: CancelSparkSessionOptions = {}
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CancelSparkSession", options);
+    const { span, updatedOptions } = createSpan("Synapse-cancelSparkSession", options);
 
     try {
       const response = await this.client.sparkSession.resetSparkSessionTimeout(
         sessionId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -336,12 +324,12 @@ export class SparkClient {
     sessionId: number,
     options: ResetSparkSessionTimeoutOptions
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ResetSparkSessionTimeout", options);
+    const { span, updatedOptions } = createSpan("Synapse-resetSparkSessionTimeout", options);
 
     try {
       const response = await this.client.sparkSession.resetSparkSessionTimeout(
         sessionId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -365,14 +353,14 @@ export class SparkClient {
     sessionId: number,
     statementId: number,
     options: GetSparkStatementOptions = {}
-  ): Promise<GetSparkStatementResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-GetSparkStatement", options);
+  ): Promise<WithResponse<SparkStatement>> {
+    const { span, updatedOptions } = createSpan("Synapse-getSparkStatement", options);
 
     try {
       const response = await this.client.sparkSession.getSparkStatement(
         sessionId,
         statementId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -395,14 +383,11 @@ export class SparkClient {
   public async listSparkStatements(
     sessionId: number,
     options: ListSparkStatementsOptions = {}
-  ): Promise<ListSparkStatementsResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-ListSparkStatements", options);
+  ): Promise<WithResponse<SparkStatementCollection>> {
+    const { span, updatedOptions } = createSpan("Synapse-listSparkStatements", options);
 
     try {
-      const response = await this.client.sparkSession.getSparkStatements(
-        sessionId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const response = await this.client.sparkSession.getSparkStatements(sessionId, updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -426,14 +411,14 @@ export class SparkClient {
     sessionId: number,
     sparkStatementOptions: SparkStatementOptions,
     options: CreateSparkStatementOptions = {}
-  ): Promise<CreateSparkStatementResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CreateSparkStatement", options);
+  ): Promise<WithResponse<SparkStatement>> {
+    const { span, updatedOptions } = createSpan("Synapse-createSparkStatement", options);
 
     try {
       const response = await this.client.sparkSession.createSparkStatement(
         sessionId,
         sparkStatementOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {
@@ -459,13 +444,13 @@ export class SparkClient {
     statementId: number,
     options: CancelSparkStatementOptions = {}
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("Synapse-CancelSparkStatement", options);
+    const { span, updatedOptions } = createSpan("Synapse-cancelSparkStatement", options);
 
     try {
       const response = await this.client.sparkSession.cancelSparkStatement(
         sessionId,
         statementId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response;
     } catch (e) {

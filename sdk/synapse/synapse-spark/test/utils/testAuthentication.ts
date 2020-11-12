@@ -1,11 +1,12 @@
+import { ClientSecretCredential } from "@azure/identity";
+import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+
+import { SparkClient } from "../../src";
+import { uniqueString } from "./recorderUtils";
+import { getSparkpoolName, getWorkspaceName } from "./utils.common";
+
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { ClientSecretCredential } from "@azure/identity";
-import { SparkClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { uniqueString } from "./recorderUtils";
-import { getWorkspaceName, getSparkpoolName } from "./utils.common";
 
 export async function authenticate(that: any): Promise<any> {
   const secretSuffix = uniqueString();
@@ -32,9 +33,9 @@ export async function authenticate(that: any): Promise<any> {
     env.AZURE_CLIENT_SECRET
   );
 
-  const worksapceName = getWorkspaceName();
+  const workspaceName = getWorkspaceName();
   const sparkpoolName = getSparkpoolName();
-  const workspaceEndpoint = `https://${worksapceName}.dev.azuresynapse.net`;
+  const workspaceEndpoint = `https://${workspaceName}.dev.azuresynapse.net`;
   const client = new SparkClient(workspaceEndpoint, sparkpoolName, credential);
 
   return { recorder, client, secretSuffix };

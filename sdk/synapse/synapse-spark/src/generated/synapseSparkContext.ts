@@ -1,5 +1,6 @@
-import * as coreHttp from "@azure/core-http";
-import { SynapseSparkOptionalParams } from "./models";
+import * as coreHttp from '@azure/core-http'
+
+import { SynapseSparkOptionalParams } from './models'
 
 const packageName = "@azure/synapse-spark";
 const packageVersion = "1.0.0";

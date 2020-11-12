@@ -1,4 +1,4 @@
-import * as coreHttp from "@azure/core-http";
+import * as coreHttp from '@azure/core-http'
 
 /**
  * Response for batch list operation.

@@ -1,17 +1,18 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { SparkClient } from "../src";
 import { assert } from "chai";
-import { authenticate } from "./utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
+
+import { SparkClient } from "../src";
+import { authenticate } from "./utils/testAuthentication";
 import { getSparkpoolName } from "./utils/utils.common";
 import {
-  SparkSessionOptions,
   CreateSparkSessionOptions,
   GetSparkSessionOptions,
-  ListSparkBatchJobsOptions
+  ListSparkBatchJobsOptions,
+  SparkSessionOptions
 } from "../src";
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 describe("Synapse Spark Client - Spark Session", () => {
   let client: SparkClient;
   let recorder: Recorder;
@@ -41,17 +42,17 @@ describe("Synapse Spark Client - Spark Session", () => {
       detailed: true
     };
 
-    let createResult = await client.createSparkSeesion(sparkSession, options);
+    let createResult = await client.createSparkSession(sparkSession, options);
     sessionId = createResult.id;
     assert.equal(
       createResult.name,
       sessionName,
-      "Unexpected name of spark session by createSparkSeesion."
+      "Unexpected name of spark session by createSparkSession."
     );
     assert.equal(
       createResult.sparkPoolName,
       getSparkpoolName(),
-      "Unexpected name of sparkpool by createSparkSeesion."
+      "Unexpected name of sparkpool by createSparkSession."
     );
   });
 

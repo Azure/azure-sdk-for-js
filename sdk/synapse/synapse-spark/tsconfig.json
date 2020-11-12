@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom"],
-    "resolveJsonModule": true
+    "outDir": "./dist-esm"
   },
   "exclude": ["node_modules", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]

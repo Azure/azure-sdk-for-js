@@ -25,36 +25,12 @@ export interface CreateSparkBatchJobOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type CreateSparkBatchJobResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-    };
-};
-
-// @public
 export interface CreateSparkSessionOptions extends coreHttp.OperationOptions {
     detailed?: boolean;
 }
 
-// @public
-export type CreateSparkSessionResponse = SparkSession & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSession;
-    };
-};
-
 // @public (undocumented)
 export type CreateSparkStatementOptions = OperationOptions;
-
-// @public
-export type CreateSparkStatementResponse = SparkStatement & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatement;
-    };
-};
 
 // @public
 export interface GetSparkBatchJobOptions extends coreHttp.OperationOptions {
@@ -62,36 +38,12 @@ export interface GetSparkBatchJobOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type GetSparkBatchJobResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-    };
-};
-
-// @public
 export interface GetSparkSessionOptions extends coreHttp.OperationOptions {
     detailed?: boolean;
 }
 
-// @public
-export type GetSparkSessionResponse = SparkSession & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSession;
-    };
-};
-
 // @public (undocumented)
 export type GetSparkStatementOptions = OperationOptions;
-
-// @public
-export type GetSparkStatementResponse = SparkStatement & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatement;
-    };
-};
 
 // @public (undocumented)
 export interface ListPageSettings {
@@ -106,48 +58,19 @@ export interface ListSparkBatchJobsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type ListSparkBatchJobsResponse = SparkBatchJobCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJobCollection;
-    };
-};
-
-// @public
 export interface ListSparkSessionsOptions extends coreHttp.OperationOptions {
     detailed?: boolean;
     fromParam?: number;
     size?: number;
 }
 
-// @public
-export type ListSparkSessionsResponse = SparkSessionCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSessionCollection;
-    };
-};
-
 // @public (undocumented)
 export type ListSparkStatementsOptions = OperationOptions;
-
-// @public
-export type ListSparkStatementsResponse = SparkStatementCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatementCollection;
-    };
-};
-
-// @public
-export const logger: import("@azure/logger").AzureLogger;
 
 // @public (undocumented)
 export interface OperationResponse {
     _response: HttpResponse;
 }
-
-export { PipelineOptions }
 
 // @public
 export type PluginCurrentState = "Preparation" | "ResourceAcquisition" | "Queued" | "Submission" | "Monitoring" | "Cleanup" | "Ended" | string;
@@ -253,23 +176,20 @@ export class SparkClient {
     cancelSparkBatchJob(batchId: number, options?: CancelSparkBatchJobOptions): Promise<OperationResponse>;
     cancelSparkSession(sessionId: number, options?: CancelSparkSessionOptions): Promise<OperationResponse>;
     cancelSparkStatement(sessionId: number, statementId: number, options?: CancelSparkStatementOptions): Promise<OperationResponse>;
-    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: CreateSparkBatchJobOptions): Promise<CreateSparkBatchJobResponse>;
-    createSparkSeesion(sparkSessionOptions: SparkSessionOptions, options?: CreateSparkSessionOptions): Promise<CreateSparkSessionResponse>;
-    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: CreateSparkStatementOptions): Promise<CreateSparkStatementResponse>;
-    getSparkBatchJob(batchId: number, options?: GetSparkBatchJobOptions): Promise<GetSparkBatchJobResponse>;
-    getSparkSession(sessionId: number, options?: GetSparkSessionOptions): Promise<GetSparkSessionResponse>;
-    getSparkStatement(sessionId: number, statementId: number, options?: GetSparkStatementOptions): Promise<GetSparkStatementResponse>;
-    listSparkBatchJobs(options?: ListSparkBatchJobsOptions): Promise<ListSparkBatchJobsResponse>;
-    listSparkSessions(options?: ListSparkSessionsOptions): Promise<ListSparkSessionsResponse>;
-    listSparkStatements(sessionId: number, options?: ListSparkStatementsOptions): Promise<ListSparkStatementsResponse>;
+    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: CreateSparkBatchJobOptions): Promise<WithResponse<SparkBatchJob>>;
+    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: CreateSparkSessionOptions): Promise<WithResponse<SparkSession>>;
+    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: CreateSparkStatementOptions): Promise<WithResponse<SparkStatement>>;
+    getSparkBatchJob(batchId: number, options?: GetSparkBatchJobOptions): Promise<WithResponse<SparkBatchJob>>;
+    getSparkSession(sessionId: number, options?: GetSparkSessionOptions): Promise<WithResponse<SparkSession>>;
+    getSparkStatement(sessionId: number, statementId: number, options?: GetSparkStatementOptions): Promise<WithResponse<SparkStatement>>;
+    listSparkBatchJobs(options?: ListSparkBatchJobsOptions): Promise<WithResponse<SparkBatchJobCollection>>;
+    listSparkSessions(options?: ListSparkSessionsOptions): Promise<WithResponse<SparkSessionCollection>>;
+    listSparkStatements(sessionId: number, options?: ListSparkStatementsOptions): Promise<WithResponse<SparkStatementCollection>>;
     resetSparkSessionTimeout(sessionId: number, options: ResetSparkSessionTimeoutOptions): Promise<OperationResponse>;
-    readonly workspaceEndpoint: string;
 }
 
 // @public
 export interface SparkClientOptions extends PipelineOptions {
-    endpoint?: string;
-    livyApiVersion?: string;
 }
 
 // @public
@@ -518,6 +438,14 @@ export interface SparkStatementOutput {
     // (undocumented)
     traceback?: string[];
 }
+
+// @public
+export type WithResponse<T extends object> = T & {
+    _response: HttpResponse & {
+        bodyAsText: string;
+        parsedBody: T;
+    };
+};
 
 
 // (No @packageDocumentation comment for this package)

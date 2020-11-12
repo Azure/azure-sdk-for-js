@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
-import { OperationOptions } from "@azure/core-http";
-import { HttpResponse } from "@azure/core-http";
+import { HttpResponse, OperationOptions, PipelineOptions } from "@azure/core-http";
 
 export {
   SparkBatchGetSparkBatchJobOptionalParams as GetSparkBatchJobOptions,
@@ -12,15 +10,6 @@ export {
   SparkSessionGetSparkSessionOptionalParams as GetSparkSessionOptions,
   SparkSessionGetSparkSessionsOptionalParams as ListSparkSessionsOptions,
   SparkSessionCreateSparkSessionOptionalParams as CreateSparkSessionOptions,
-  SparkBatchGetSparkBatchJobResponse as GetSparkBatchJobResponse,
-  SparkBatchGetSparkBatchJobsResponse as ListSparkBatchJobsResponse,
-  SparkBatchCreateSparkBatchJobResponse as CreateSparkBatchJobResponse,
-  SparkSessionGetSparkSessionResponse as GetSparkSessionResponse,
-  SparkSessionGetSparkSessionsResponse as ListSparkSessionsResponse,
-  SparkSessionCreateSparkSessionResponse as CreateSparkSessionResponse,
-  SparkSessionGetSparkStatementResponse as GetSparkStatementResponse,
-  SparkSessionGetSparkStatementsResponse as ListSparkStatementsResponse,
-  SparkSessionCreateSparkStatementResponse as CreateSparkStatementResponse,
   SparkBatchJobCollection,
   SparkBatchJob,
   SparkBatchJobState,
@@ -48,18 +37,29 @@ export {
 } from "./generated/models";
 
 /**
+ * Represents the returned response of the operation along with the raw response.
+ */
+export type WithResponse<T extends object> = T & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: T;
+  };
+};
+
+/**
  * Options to create spark client.
  */
-export interface SparkClientOptions extends PipelineOptions {
-  /**
-   * Valid api-version for the request.
-   */
-  livyApiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
-  endpoint?: string;
-}
+export interface SparkClientOptions extends PipelineOptions {}
 
 export type CancelSparkBatchJobOptions = OperationOptions;
 
