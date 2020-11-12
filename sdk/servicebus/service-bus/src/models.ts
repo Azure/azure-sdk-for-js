@@ -152,16 +152,16 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided processMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
+   * @property Indicates whether the receiver.completeMessage() should automatically be
+   * called for your message by the sdk after the user provided processMessage handler has been executed.
+   * Calling receiver.completeMessage() for a message removes it from the Queue/Subscription.
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
   /**
    * @property The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
-   * not be received until atleast one of the calls to the user's message handler has completed.
+   * not be received until at least one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
   maxConcurrentCalls?: number;
