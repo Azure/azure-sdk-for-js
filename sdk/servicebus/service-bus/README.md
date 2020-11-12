@@ -277,7 +277,7 @@ which is handled by Service Bus. Conceptually, this is similar to how message
 locking works when using `peekLock` mode - when a message (or session) is
 locked your receiver has exclusive access to it.
 
-In order to open and lock a session, use an instance of `ServiceBusClient` to create a [SessionReceiver][sessionreceiver] using [createSessionReceiver][sbclient_createsessionreceiver].
+In order to open and lock a session, use an instance of `ServiceBusClient` to create a [SessionReceiver][sessionreceiver].
 
 There are two ways of choosing which session to open:
 
