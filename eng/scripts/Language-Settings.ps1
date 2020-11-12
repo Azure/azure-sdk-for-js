@@ -4,7 +4,6 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
-$ArtifactToPackgeMap = @{'opentelemetry-exporter-azure-monitor'='microsoft-opentelemetry-exporter-azure-monitor'}
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
@@ -88,20 +87,22 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
   foreach ($Item in $PublishedDocs) 
-  {
-    $PkgName = "azure-$($Item.BaseName)"
-    # Override package name from other scope. We don't have package name to parse this out here.
-    if ($ArtifactToPackgeMap.ContainsKey($($Item.BaseName)))
-    {
-      $PkgName = $ArtifactToPackgeMap[$($Item.BaseName)]
-    }
-    Write-Host $PkgName
+  {    
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
     if ($dirList.Length -eq 1)
     {
       $DocVersion = $dirList[0].Name
+      $parsedPackage = RetrieveReleasePackageInfo "NPM" $PublicArtifactLocation
+      $tag = ""
+      # set default package name
+      $PkgName = "azure-$($Item.BaseName)"
+      if ($parsedPackage -ne $null)
+      {        
+        $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
+        $tag = $parsedPackage.ReleaseTag
+      }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag

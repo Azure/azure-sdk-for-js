@@ -393,8 +393,8 @@ function GetExistingTags($apiUrl) {
   }
 }
 
-# Retrieve release tag for artiface package. If multiple packages, then output the first one.
-function RetrieveReleaseTag($pkgRepository, $artifactLocation, $continueOnError = $true) {
+# Retrieve package info for artiface package.
+function RetrieveReleasePackageInfo($pkgRepository, $artifactLocation, $continueOnError = $true) {
   if (!$artifactLocation) {
     return ""
   }
@@ -402,17 +402,39 @@ function RetrieveReleaseTag($pkgRepository, $artifactLocation, $continueOnError 
     $pkgs, $parsePkgInfoFn = RetrievePackages -pkgRepository $pkgRepository -artifactLocation $artifactLocation
     if (!$pkgs -or !$pkgs[0]) {
       Write-Host "No packages retrieved from artifact location."
-      return ""
+      return $null
     }
     if ($pkgs.Count -gt 1) {
       Write-Host "There are more than 1 packages retieved from artifact location."
       foreach ($pkg in $pkgs) {
         Write-Host "The package name is $($pkg.BaseName)"
       }
-      return ""
+      return $null
     }
     $parsedPackage = &$parsePkgInfoFn -pkg $pkgs[0] -workingDirectory $artifactLocation
-    return $parsedPackage.ReleaseTag
+    return $parsedPackage
+  }
+  catch {
+    if ($continueOnError) {
+      return $null
+    }
+    Write-Error "No release tag retrieved from $artifactLocation"
+  }
+}
+
+# Retrieve release tag for artiface package. If multiple packages, then output the first one.
+function RetrieveReleaseTag($pkgRepository, $artifactLocation, $continueOnError = $true) {
+  if (!$artifactLocation) {
+    return ""
+  }
+  try {
+    $parsedPackage = RetrieveReleasePackageInfo -pkgRepository $pkgRepository -artifactLocation $artifactLocation
+    $tag = ""
+    if ($parsedPackage -ne $null)
+    {
+      $tag = $parsedPackage.ReleaseTag
+    }
+    return $tag
   }
   catch {
     if ($continueOnError) {
@@ -421,6 +443,7 @@ function RetrieveReleaseTag($pkgRepository, $artifactLocation, $continueOnError 
     Write-Error "No release tag retrieved from $artifactLocation"
   }
 }
+
 function RetrievePackages($pkgRepository, $artifactLocation) {
   $parsePkgInfoFn = ""
   $packagePattern = ""
