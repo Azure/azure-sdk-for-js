@@ -1,5 +1,8 @@
 # Release History
 
+## 2.0.1 (Unreleased)
+
+
 ## 2.0.0 (2020-11-12)
 
 - This release marks the general availability of the `@azure/core-amqp` version 2 package.
