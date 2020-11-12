@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { createSerializer, MapperTypeNames } from "./serializer";
+export { createSpan } from "./createSpan";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export {
   OperationSpec,

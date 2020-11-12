@@ -3,27 +3,9 @@
 
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
 import { getTracer } from "@azure/core-tracing";
-import { OperationOptions } from "./coreHttp";
+import { OperationOptions, SpanConfig } from "./interfaces";
 
 type OperationTracingOptions = OperationOptions["tracingOptions"];
-
-/**
- * Configuration for creating a new Tracing Span
- */
-export interface SpanConfig {
-  /**
-   * Name of the operation to trace
-   */
-  operationName: string;
-  /**
-   * Package name prefix
-   */
-  packagePrefix: string;
-  /**
-   * Service namespace
-   */
-  namespace: string;
-}
 
 /**
  * Creates a span using the global tracer.

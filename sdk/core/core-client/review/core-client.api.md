@@ -12,6 +12,7 @@ import { Pipeline } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
+import { Span } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
@@ -61,6 +62,14 @@ export interface CompositeMapperType {
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+// Warning: (ae-forgotten-export) The symbol "SpanConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createSpan<T extends OperationOptions>({ operationName, packagePrefix, namespace }: SpanConfig, operationOptions: T): {
+    span: Span;
+    updatedOptions: T;
+};
 
 // @public
 export interface DeserializationContentTypes {
