@@ -3,11 +3,12 @@
 
 import Long from "long";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
+  throwIfNotValidServiceBusMessage,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "./util/errors";
@@ -190,16 +191,18 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
     // link message span contexts
     let spanContextsToLink: SpanContext[] = [];
-    if (isServiceBusMessage(messages)) {
-      messages = [messages];
-    }
+
     let batch: ServiceBusMessageBatch;
-    if (Array.isArray(messages)) {
+    if (isServiceBusMessageBatch(messages)) {
+      spanContextsToLink = messages._messageSpanContexts;
+      batch = messages;
+    } else {
+      if (!Array.isArray(messages)) {
+        messages = [messages];
+      }
       batch = await this.createMessageBatch(options);
       for (const message of messages) {
-        if (!isServiceBusMessage(message)) {
-          throw new TypeError(invalidTypeErrMsg);
-        }
+        throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
         if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
           const error = new MessagingError(
@@ -209,11 +212,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           throw error;
         }
       }
-    } else if (isServiceBusMessageBatch(messages)) {
-      spanContextsToLink = messages._messageSpanContexts;
-      batch = messages;
-    } else {
-      throw new TypeError(invalidTypeErrMsg);
     }
 
     const sendSpan = createSendSpan(
@@ -258,11 +256,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
 
     for (const message of messagesToSchedule) {
-      if (!isServiceBusMessage(message)) {
-        throw new TypeError(
-          "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage."
-        );
-      }
+      throwIfNotValidServiceBusMessage(
+        message,
+        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage."
+      );
     }
 
     const scheduleMessageOperationPromise = async () => {

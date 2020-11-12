@@ -5,7 +5,6 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
   ServiceBusReceiver,
   ServiceBusSender,
   ServiceBusSessionReceiver,
@@ -17,7 +16,6 @@ import {
   generateMessage,
   initializeLockRenewalOperationInfo,
   initializeOperationInfo,
-  LockRenewalOperationInfo,
   OperationInfo,
   saveDiscrepanciesFromTrackedMessages,
   SnapshotOptions,
@@ -44,13 +42,9 @@ export class SBStressTestsBase {
     client: initializeOperationInfo()
   };
   // Message Lock Renewal
-  messageLockRenewalInfo: LockRenewalOperationInfo = {
-    ...initializeLockRenewalOperationInfo()
-  };
+  messageLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Session Lock Renewal
-  sessionLockRenewalInfo: LockRenewalOperationInfo = {
-    ...initializeLockRenewalOperationInfo()
-  };
+  sessionLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
     process.env.SERVICEBUS_CONNECTION_STRING!
@@ -100,18 +94,19 @@ export class SBStressTestsBase {
     senders: ServiceBusSender[],
     numberOfMessages = 1,
     useSessions = false,
-    useScheduleApi = false
+    useScheduleApi = false,
+    numberOfSessions = 0 // Will be used only if useSessions is true
   ) {
     for (const sender of senders) {
       try {
         const messages: ServiceBusMessage[] = [];
         for (let i = 0; i < numberOfMessages; i++) {
-          messages.push(generateMessage(useSessions));
+          messages.push(generateMessage(useSessions, numberOfSessions));
         }
         if (useScheduleApi) {
           const scheduleTime = new Date();
           scheduleTime.setMinutes(scheduleTime.getMinutes() + 1); // 1 minute from now
-          await sender.scheduleMessages(scheduleTime, messages);
+          await sender.scheduleMessages(messages, scheduleTime);
         } else {
           await sender.sendMessages(messages);
         }
@@ -126,12 +121,12 @@ export class SBStressTestsBase {
     }
   }
 
-  public async receiveMessages<ReceivedMessageT extends ServiceBusReceivedMessage>(
-    receiver: ServiceBusReceiver<ReceivedMessageT>,
+  public async receiveMessages(
+    receiver: ServiceBusReceiver,
     maxMsgCount = 10,
     maxWaitTimeInMs = 10000,
     settleMessageOnReceive = false
-  ): Promise<ReceivedMessageT[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.receiveMessages(maxMsgCount, {
         maxWaitTimeInMs
@@ -139,12 +134,8 @@ export class SBStressTestsBase {
       this.trackMessageIds(messages, "received");
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccesses++;
-      if (settleMessageOnReceive) {
-        await Promise.all(
-          messages.map((msg) =>
-            this.completeMessage((msg as unknown) as ServiceBusReceivedMessageWithLock)
-          )
-        );
+      if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
+        await Promise.all(messages.map((msg) => this.completeMessage(msg, receiver)));
       }
       return messages;
     } catch (error) {
@@ -156,7 +147,7 @@ export class SBStressTestsBase {
   }
 
   public async peekMessages(
-    receiver: ServiceBusReceiver<ServiceBusReceivedMessage>,
+    receiver: ServiceBusReceiver,
     maxMsgCount = 10,
     fromSequenceNumber?: Long.Long
   ): Promise<ServiceBusReceivedMessage[]> {
@@ -176,8 +167,8 @@ export class SBStressTestsBase {
     return [];
   }
 
-  public async receiveStreaming<ReceivedMessageT extends ServiceBusReceivedMessage>(
-    receiver: ServiceBusReceiver<ReceivedMessageT>,
+  public async receiveStreaming(
+    receiver: ServiceBusReceiver,
     duration: number,
     options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
       manualLockRenewal: boolean;
@@ -187,14 +178,12 @@ export class SBStressTestsBase {
     }
   ) {
     const startTime = new Date();
-    const processMessage = async (
-      message: ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
-    ) => {
+    const processMessage = async (message: ServiceBusReceivedMessage) => {
       // TODO: message to keep renewing locks - pass args
       // TODO: message to complete after certain number of renewals
       if (receiver.receiveMode === "peekLock") {
         if (options.settleMessageOnReceive) {
-          await this.completeMessage(message as ServiceBusReceivedMessageWithLock);
+          await this.completeMessage(message, receiver);
         } else if (
           !options.autoComplete &&
           options.maxAutoRenewLockDurationInMs === 0 &&
@@ -202,7 +191,8 @@ export class SBStressTestsBase {
         ) {
           const elapsedTime = new Date().valueOf() - startTime.valueOf();
           this.renewMessageLockUntil(
-            message as ServiceBusReceivedMessageWithLock,
+            message,
+            receiver,
             duration - elapsedTime,
             options.completeMessageAfterDuration
           );
@@ -251,7 +241,8 @@ export class SBStressTestsBase {
    * @param {boolean} completeMessageAfterDuration
    */
   public renewMessageLockUntil(
-    message: ServiceBusReceivedMessageWithLock,
+    message: ServiceBusReceivedMessage,
+    receiver: ServiceBusReceiver,
     duration: number,
     completeMessageAfterDuration: boolean
   ) {
@@ -260,7 +251,7 @@ export class SBStressTestsBase {
     this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string] = setTimeout(
       async () => {
         try {
-          await message.renewLock();
+          await receiver.renewMessageLock(message);
           this.messageLockRenewalInfo.numberOfSuccesses++;
           const currentRenewalCount = this.messageLockRenewalInfo.renewalCount[
             message.messageId as string
@@ -275,9 +266,14 @@ export class SBStressTestsBase {
         }
         const elapsedTime = new Date().valueOf() - startTime.valueOf();
         if (duration - elapsedTime > 0) {
-          this.renewMessageLockUntil(message, duration - elapsedTime, completeMessageAfterDuration);
+          this.renewMessageLockUntil(
+            message,
+            receiver,
+            duration - elapsedTime,
+            completeMessageAfterDuration
+          );
         } else {
-          await this.completeMessage(message);
+          await this.completeMessage(message, receiver);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
       },
@@ -288,9 +284,9 @@ export class SBStressTestsBase {
   /**
    * completeMessage
    */
-  public async completeMessage(message: ServiceBusReceivedMessageWithLock) {
+  public async completeMessage(message: ServiceBusReceivedMessage, receiver: ServiceBusReceiver) {
     try {
-      await message.complete();
+      await receiver.completeMessage(message);
       this.trackedMessageIds[message.messageId! as string].settledCount++;
     } catch (error) {
       console.error("Error in message completion: ", error);
@@ -305,10 +301,7 @@ export class SBStressTestsBase {
    * @param {ServiceBusSessionReceiver<ServiceBusReceivedMessage>} receiver
    * @param {number} duration Duration until which the lock is renewed
    */
-  public renewSessionLockUntil(
-    receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessage>,
-    duration: number
-  ) {
+  public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??
     const startTime = new Date();
     this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(async () => {
@@ -334,11 +327,7 @@ export class SBStressTestsBase {
   }
 
   public async callClose(
-    object:
-      | ServiceBusSender
-      | ServiceBusReceiver<ServiceBusReceivedMessage>
-      | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
-      | ServiceBusClient,
+    object: ServiceBusSender | ServiceBusReceiver | ServiceBusSessionReceiver | ServiceBusClient,
     type: "sender" | "receiver" | "session" | "client"
   ) {
     try {

@@ -1,9 +1,4 @@
-import {
-  ReceiveMode,
-  ServiceBusClient,
-  ServiceBusReceivedMessage,
-  ServiceBusReceiver
-} from "@azure/service-bus";
+import { ReceiveMode, ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -28,9 +23,11 @@ interface ScenarioReceiveBatchOptions {
   settleMessageOnReceive: boolean;
 }
 
-function sanitizeOptions(
-  options: ScenarioReceiveBatchOptions
-): Required<ScenarioReceiveBatchOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> {
+  const options = parsedArgs<ScenarioReceiveBatchOptions>(args, {
+    boolean: ["settleMessageOnReceive"],
+    default: { settleMessageOnReceive: false }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
@@ -41,12 +38,12 @@ function sanitizeOptions(
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
     maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
-    settleMessageOnReceive: options.settleMessageOnReceive || false
+    settleMessageOnReceive: options.settleMessageOnReceive
   };
 }
 
 export async function scenarioReceiveBatch() {
-  const testOptions = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
+  const testOptions = sanitizeOptions(process.argv);
   const {
     testDurationInMs,
     receiveMode,
@@ -72,7 +69,7 @@ export async function scenarioReceiveBatch() {
 
   await stressBase.init(undefined, undefined, testOptions);
   const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver;
 
   if (receiveMode === "receiveAndDelete") {
     receiver = sbClient.createReceiver(stressBase.queueName, {
