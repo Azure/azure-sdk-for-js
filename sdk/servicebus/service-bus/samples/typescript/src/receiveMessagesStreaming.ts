@@ -37,48 +37,56 @@ export async function main() {
   const receiver = sbClient.createReceiver(queueName);
 
   try {
-    const subscription = receiver.subscribe({
-      processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
-        console.log(`Received message: ${brokeredMessage.body}`);
+    const subscription = receiver.subscribe(
+      {
+        processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
+          console.log(`Received message: ${brokeredMessage.body}`);
 
-        // autoComplete, which is enabled by default, will automatically call
-        // receiver.completeMessage() on your message after awaiting on your processMessage
-        // handler so long as your handler does not throw an error.
-        //
-        // If your handler _does_ throw an error then the message will automatically
-        // be abandoned using receiver.abandonMessage()
-        //
-        // autoComplete can be disabled in the options for subscribe().
-      },
-      processError: async (args: ProcessErrorArgs) => {
-        console.log(`Error from source ${args.errorSource} occurred: `, args.error);
+          // autoComplete, which is enabled by default, will automatically call
+          // receiver.completeMessage() on your message after awaiting on your processMessage
+          // handler so long as your handler does not throw an error.
+          //
+          // If your handler _does_ throw an error then the message will automatically
+          // be abandoned using receiver.abandonMessage()
+          //
+          // autoComplete can be disabled in the options for subscribe().
+        },
+        processError: async (args: ProcessErrorArgs) => {
+          console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
-        // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
-        if (isServiceBusError(args.error)) {
-          switch (args.error.code) {
-            case "MessagingEntityDisabled":
-            case "MessagingEntityNotFound":
-            case "Unauthorized":
-              // It's possible you have a temporary infrastructure change (for instance, the entity being
-              // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
-              // what is considered fatal for your program.
-              console.log(
-                `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
-                args.error
-              );
-              await subscription.close();
-              break;
-            case "MessageLockLost":
-              console.log(`Message lock lost for message`, args.error);
-              break;
-            case "ServiceBusy":
-              // choosing an arbitrary amount of time to wait.
-              await delay(1000);
-              break;
+          // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
+          if (isServiceBusError(args.error)) {
+            switch (args.error.code) {
+              case "MessagingEntityDisabled":
+              case "MessagingEntityNotFound":
+              case "Unauthorized":
+                // It's possible you have a temporary infrastructure change (for instance, the entity being
+                // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
+                // what is considered fatal for your program.
+                console.log(
+                  `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
+                  args.error
+                );
+                await subscription.close();
+                break;
+              case "MessageLockLost":
+                console.log(`Message lock lost for message`, args.error);
+                break;
+              case "ServiceBusy":
+                // choosing an arbitrary amount of time to wait.
+                await delay(1000);
+                break;
+            }
           }
         }
+      },
+      {
+        // Indicates whether the complete() method on the message should automatically be called by the sdk
+        //  after the user provided processMessage handler has been executed.
+        // Calling complete() on a message removes it from the Queue/Subscription.
+        autoComplete: true
       }
-    });
+    );
 
     // Waiting long enough before closing the receiver to receive messages
     console.log(`Receiving messages for 20 seconds before exiting...`);

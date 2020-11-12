@@ -126,7 +126,7 @@ export interface ServiceBusReceiverOptions {
 export interface CreateMessageBatchOptions extends OperationOptionsBase {
   /**
    * @property
-   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+   * The upper limit for the size of batch. The `tryAddMessage` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
 }
@@ -153,7 +153,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
    * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
+   * called by the sdk after the user provided processMessage handler has been executed.
    * Calling `complete()` on a message removes it from the Queue/Subscription.
    * - **Default**: `true`.
    */
