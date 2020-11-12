@@ -73,6 +73,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $resultObj = New-Object PSObject -Property @{
     PackageId      = $pkgId
     PackageVersion = $pkgVersion
+    ReleaseTag     = "$($pkgId)_$($pkgVersion)"
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
@@ -107,7 +108,8 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
   }
 }
 
-function Get-javascript-GithubIoDocIndex() {
+function Get-javascript-GithubIoDocIndex()
+{
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
