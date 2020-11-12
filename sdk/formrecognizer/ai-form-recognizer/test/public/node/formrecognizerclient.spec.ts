@@ -5,7 +5,7 @@ import { assert } from "chai";
 import fs from "fs";
 import path from "path";
 
-import { FormRecognizerClient, FormField } from "../../../src";
+import { FormRecognizerClient, FormField, FormTrainingClient, CustomFormModel } from "../../../src";
 import { testPollingOptions, makeCredential, createRecorder } from "../../utils/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "../../utils/matrix";
@@ -112,6 +112,66 @@ matrix([[true, false]] as const, async (useAad) => {
         const pages = await poller.pollUntilDone();
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+      });
+
+      it.only("with selection marks", async () => {
+        const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginRecognizeContent(stream, testPollingOptions);
+        const [page] = await poller.pollUntilDone();
+
+        assert.ok(page);
+
+        assert.equal(page.pageNumber, 1);
+        assert.isNotEmpty(page.selectionMarks);
+      });
+    });
+
+    describe("custom forms", () => {
+      let _model: CustomFormModel;
+
+      // We only want to create the model once, but because of the recorder's
+      // precedence, we have to create it in a test, so one test will end up
+      // recording the entire creation and the other tests will still be able
+      // to use it
+      // TODO: this is used in formtrainingclient as well, abstract to a helper
+      async function requireModel(): Promise<CustomFormModel> {
+        if (!_model) {
+          const client = new FormTrainingClient(endpoint(), makeCredential(useAad));
+          const poller = await client.beginTraining(
+            env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL,
+            true,
+            {
+              modelName: recorder.getUniqueName("customFormModelName"),
+              ...testPollingOptions
+            }
+          );
+          _model = await poller.pollUntilDone();
+
+          assert.ok(_model.modelId);
+        }
+
+        return _model;
+      }
+
+      it.only("with selection marks", async () => {
+        const { modelId } = await requireModel();
+
+        const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginRecognizeCustomForms(modelId, stream, testPollingOptions);
+        const [result] = await poller.pollUntilDone();
+
+        assert.ok(result);
+
+        const [page] = result.pages;
+
+        assert.ok(page);
+
+        assert.equal(page.pageNumber, 1);
+        assert.isNotEmpty(page.selectionMarks);
       });
     });
 
