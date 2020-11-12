@@ -81,9 +81,9 @@ export async function main() {
         }
       },
       {
-        // Indicates whether the complete() method on the message should automatically be called by the sdk
+        // Indicates whether the receiver.completeMessage() should automatically be called for your message by the sdk
         //  after the user provided processMessage handler has been executed.
-        // Calling complete() on a message removes it from the Queue/Subscription.
+        // Calling receiver.completeMessage() for a message removes it from the Queue/Subscription.
         autoComplete: true
       }
     );
