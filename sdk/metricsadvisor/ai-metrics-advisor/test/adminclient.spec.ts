@@ -118,7 +118,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     let createdAlertConfigId: string;
     let expectedDetectionConfigName: string;
 
-    it.only("creates a detection configuration", async function() {
+    it("creates a detection configuration", async function() {
       expectedDetectionConfigName = recorder.getUniqueName("js-detection-config-");
       const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
         name: expectedDetectionConfigName,

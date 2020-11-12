@@ -36,7 +36,7 @@ describe("MetricsAdvisorClient", () => {
     }
   });
 
-  it.only("listAnomaliesForDetectionConfiguration()", async function() {
+  it("listAnomaliesForDetectionConfiguration()", async function() {
     const iterator = client.listAnomalies(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 5)),
@@ -48,7 +48,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
-  it.only("listAnomaliesForDetectionConfiguration() by page", async function() {
+  it("listAnomaliesForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listAnomalies(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -62,7 +62,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 2, "Expecting two anomalies in second page");
   });
 
-  it.only("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
+  it("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listAnomalies(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-01-05T00:00:00.000Z",
@@ -74,7 +74,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.seriesKey, "Expecting second anomaly");
   });
 
-  it.only("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function() {
+  it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function() {
     try {
       const iterator = client.listAnomalies(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -88,7 +88,7 @@ describe("MetricsAdvisorClient", () => {
     }
   });
 
-  it.only("listIncidentsForDetectionConfiguration()", async function() {
+  it("listIncidentsForDetectionConfiguration()", async function() {
     const iterator = client.listIncidents(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 5)),
@@ -100,7 +100,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.rootDimensionKey, "Expecting second incident");
   });
 
-  it.only("listIncidentsForDetectionConfiguration() by page", async function() {
+  it("listIncidentsForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listIncidents(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -114,7 +114,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 2, "Expecting two incidents in second page");
   });
 
-  it.only("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
+  it("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listIncidents(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-01-05T00:00:00.000Z",
@@ -126,7 +126,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.rootDimensionKey, "Expecting second incident");
   });
 
-  it.only("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function() {
+  it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function() {
     try {
       const iterator = client.listIncidents(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -140,7 +140,7 @@ describe("MetricsAdvisorClient", () => {
     }
   });
 
-  it.only("listDimensionValuesForDetectionConfiguration()", async function() {
+  it("listDimensionValuesForDetectionConfiguration()", async function() {
     const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 0, 5)),
@@ -153,7 +153,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value, "Expecting second dimension value");
   });
 
-  it.only("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
+  it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
     const iterator = client.listDimensionValuesForDetectionConfig(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-01-05T00:00:00.000Z",
@@ -166,7 +166,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value, "Expecting second dimension value");
   });
 
-  it.only("listDimensionValuesForDetectionConfiguration() by page", async function() {
+  it("listDimensionValuesForDetectionConfiguration() by page", async function() {
     const iterator = client
       .listDimensionValuesForDetectionConfig(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -270,7 +270,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 1, "Expecting one incident in second page");
   });
 
-  it.only("listMetricSeriesDefinitions()", async function() {
+  it("listMetricSeriesDefinitions()", async function() {
     const iterator = client.listMetricSeriesDefinitions(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 7, 5))
@@ -281,7 +281,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.dimension, "Expecting second definition");
   });
 
-  it.only("listMetricSeriesDefinitions() with datetime string", async function() {
+  it("listMetricSeriesDefinitions() with datetime string", async function() {
     const iterator = client.listMetricSeriesDefinitions(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-08-05T00:00:00.000Z"
@@ -292,7 +292,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.dimension, "Expecting second definition");
   });
 
-  it.only("listMetricSeriesDefinitions() by page", async function() {
+  it("listMetricSeriesDefinitions() by page", async function() {
     const iterator = client
       .listMetricSeriesDefinitions(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
@@ -305,7 +305,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 2, "Expecting two definitions in second page");
   });
 
-  it.only("listMetricDimensionValues()", async function() {
+  it("listMetricDimensionValues()", async function() {
     const iterator = client.listMetricDimensionValues(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "city"
@@ -316,7 +316,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value, "Expecting second dimension value");
   });
 
-  it.only("listMetricDimensionValues() by page", async function() {
+  it("listMetricDimensionValues() by page", async function() {
     const iterator = client
       .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "city")
       .byPage({ maxPageSize: 2 });
@@ -326,7 +326,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 2, "Expecting two dimension values in second page");
   });
 
-  it.only("lists series data for a metric", async function() {
+  it("lists series data for a metric", async function() {
     const data = await client.getMetricSeriesData(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 7, 5)),
@@ -366,7 +366,7 @@ describe("MetricsAdvisorClient", () => {
     );
   });
 
-  it.only("lists series data for a metric with datetime strings", async function() {
+  it("lists series data for a metric with datetime strings", async function() {
     const data = await client.getMetricSeriesData(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-08-05T00:00:00.000Z",
@@ -392,7 +392,7 @@ describe("MetricsAdvisorClient", () => {
     );
   });
 
-  it.only("list enriched data for a detection configuration", async function() {
+  it("list enriched data for a detection configuration", async function() {
     const data = await client.getMetricEnrichedSeriesData(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       new Date(Date.UTC(2020, 7, 1)),
@@ -435,7 +435,7 @@ describe("MetricsAdvisorClient", () => {
     );
   });
 
-  it.only("list enriched data for a detection configuration with datetime strings", async function() {
+  it("list enriched data for a detection configuration with datetime strings", async function() {
     const data = await client.getMetricEnrichedSeriesData(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       "2020-08-01T00:00:00.000Z",
@@ -453,7 +453,7 @@ describe("MetricsAdvisorClient", () => {
     });
   });
 
-  it.only("list metric enrichment status", async function() {
+  it("list metric enrichment status", async function() {
     const iterator = client.listMetricEnrichmentStatus(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       new Date(Date.UTC(2020, 0, 1)),
@@ -465,7 +465,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.status, "Expecting second status");
   });
 
-  it.only("list metric enrichment status with datetime strings", async function() {
+  it("list metric enrichment status with datetime strings", async function() {
     const iterator = client.listMetricEnrichmentStatus(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
       "2020-01-01T00:00:00.000Z",
@@ -477,7 +477,7 @@ describe("MetricsAdvisorClient", () => {
     assert.ok(result.value.status, "Expecting second status");
   });
 
-  it.only("list metric enrichment status by page", async function() {
+  it("list metric enrichment status by page", async function() {
     const iterator = client
       .listMetricEnrichmentStatus(
         testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
@@ -491,7 +491,7 @@ describe("MetricsAdvisorClient", () => {
     assert.equal(result.value.length, 2, "Expecting two results in second page");
   });
 
-  it.only("gets root causes of an incident", async function() {
+  it("gets root causes of an incident", async function() {
     const result = await client.getIncidentRootCauses(
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
       testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID
@@ -512,7 +512,7 @@ describe("MetricsAdvisorClient", () => {
 
   describe("Feedback", async function() {
     let createdFeedbackId: string;
-    it.only("creates Anomaly feedback", async function() {
+    it("creates Anomaly feedback", async function() {
       const anomalyFeedback: MetricAnomalyFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Anomaly",
@@ -531,7 +531,7 @@ describe("MetricsAdvisorClient", () => {
       }
     });
 
-    it.only("creates ChangePoint feedback", async function() {
+    it("creates ChangePoint feedback", async function() {
       const changePointFeedback: MetricChangePointFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "ChangePoint",
@@ -549,7 +549,7 @@ describe("MetricsAdvisorClient", () => {
       }
     });
 
-    it.only("creates Period feedback", async function() {
+    it("creates Period feedback", async function() {
       const periodFeedback: MetricPeriodFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Period",
@@ -568,7 +568,7 @@ describe("MetricsAdvisorClient", () => {
       }
     });
 
-    it.only("creates Comment feedback", async function() {
+    it("creates Comment feedback", async function() {
       const expectedCommentFeedback: MetricCommentFeedback = {
         metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         feedbackType: "Comment",
@@ -598,7 +598,7 @@ describe("MetricsAdvisorClient", () => {
     });
 
     // service issue, skipping for now
-    it.only("lists Anomaly feedbacks", async function() {
+    it("lists Anomaly feedbacks", async function() {
       const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, {
         filter: {
           startTime: new Date(Date.UTC(2020, 10, 1)),
@@ -612,7 +612,7 @@ describe("MetricsAdvisorClient", () => {
       assert.ok(result.value.id, "Expecting second status");
     });
 
-    it.only("lists Anomaly feedbacks with datetime strings", async function() {
+    it("lists Anomaly feedbacks with datetime strings", async function() {
       const iterator = client.listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, {
         filter: {
           startTime: "2020-11-01T00:00:00.000Z",
@@ -626,7 +626,7 @@ describe("MetricsAdvisorClient", () => {
       assert.ok(result.value.id, "Expecting second status");
     });
 
-    it.only("lists Anomaly feedbacks by page", async function() {
+    it("lists Anomaly feedbacks by page", async function() {
       const iterator = client
         .listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
         .byPage({ maxPageSize: 2 });
