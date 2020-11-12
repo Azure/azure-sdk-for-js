@@ -3,9 +3,12 @@
 
 import { assert } from "chai";
 import { SpanKind, TraceFlags } from "@opentelemetry/api";
-import { createSpan, OperationOptions } from "../src";
 import { setTracer, TestSpan, TestTracer } from "@azure/core-tracing";
 import sinon from "sinon";
+import { createSpanFunction } from "../src/createSpan";
+import { OperationOptions } from "../src/interfaces";
+
+const createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
 
 describe("createSpan", () => {
   it("returns a created span with the right metadata", () => {
@@ -20,10 +23,7 @@ describe("createSpan", () => {
     const startSpanStub = sinon.stub(tracer, "startSpan");
     startSpanStub.returns(testSpan);
     setTracer(tracer);
-    const { span } = createSpan(
-      { operationName: "testMethod", namespace: "Microsoft.Test", packagePrefix: "Azure.Test" },
-      {}
-    );
+    const { span } = createSpan("testMethod", {});
     assert.strictEqual(span, testSpan, "Should return mocked span");
     assert.isTrue(startSpanStub.calledOnce);
     const [name, options] = startSpanStub.firstCall.args;
@@ -34,10 +34,7 @@ describe("createSpan", () => {
 
   it("returns updated SpanOptions", () => {
     const options: OperationOptions = {};
-    const { span, updatedOptions } = createSpan(
-      { operationName: "testMethod", namespace: "Microsoft.Test", packagePrefix: "Azure.Test" },
-      options
-    );
+    const { span, updatedOptions } = createSpan("testMethod", options);
     assert.isEmpty(options, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
     const expected: OperationOptions = {
@@ -63,10 +60,7 @@ describe("createSpan", () => {
         }
       }
     };
-    const { span, updatedOptions } = createSpan(
-      { operationName: "testMethod", namespace: "Microsoft.Test", packagePrefix: "Azure.Test" },
-      options
-    );
+    const { span, updatedOptions } = createSpan("testMethod", options);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
     const expected: OperationOptions = {
       tracingOptions: {

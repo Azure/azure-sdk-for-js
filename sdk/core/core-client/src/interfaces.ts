@@ -473,10 +473,6 @@ export interface UrlParameterValue {
  */
 export interface SpanConfig {
   /**
-   * Name of the operation to trace
-   */
-  operationName: string;
-  /**
    * Package name prefix
    */
   packagePrefix: string;

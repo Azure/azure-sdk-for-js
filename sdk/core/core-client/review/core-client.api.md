@@ -64,7 +64,7 @@ export function createSerializer(modelMappers?: {
 }, isXML?: boolean): Serializer;
 
 // @public
-export function createSpan<T extends OperationOptions>({ operationName, packagePrefix, namespace }: SpanConfig, operationOptions: T): {
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
     span: Span;
     updatedOptions: T;
 };
@@ -340,7 +340,6 @@ export interface SimpleMapperType {
 // @public
 export interface SpanConfig {
     namespace: string;
-    operationName: string;
     packagePrefix: string;
 }
 

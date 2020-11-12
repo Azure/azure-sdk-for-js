@@ -12,10 +12,6 @@ type OperationTracingOptions = OperationOptions["tracingOptions"];
  */
 export interface SpanConfig {
   /**
-   * Name of the operation to trace
-   */
-  operationName: string;
-  /**
    * Package name prefix
    */
   packagePrefix: string;
@@ -31,45 +27,47 @@ export interface SpanConfig {
  * @param spanConfig The name of the operation being performed.
  * @param tracingOptions The options for the underlying http request.
  */
-export function createSpan<T extends OperationOptions>(
-  { operationName, packagePrefix, namespace }: SpanConfig,
-  operationOptions: T
-): { span: Span; updatedOptions: T } {
-  const tracer = getTracer();
-  const tracingOptions = operationOptions.tracingOptions || {};
-  const spanOptions: SpanOptions = {
-    ...tracingOptions.spanOptions,
-    kind: SpanKind.INTERNAL
-  };
-
-  const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions);
-
-  span.setAttribute("az.namespace", namespace);
-
-  let newSpanOptions = tracingOptions.spanOptions || {};
-  if (span.isRecording()) {
-    newSpanOptions = {
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
+  return function<T extends OperationOptions>(
+    operationName: string,
+    operationOptions: T
+  ): { span: Span; updatedOptions: T } {
+    const tracer = getTracer();
+    const tracingOptions = operationOptions.tracingOptions || {};
+    const spanOptions: SpanOptions = {
       ...tracingOptions.spanOptions,
-      parent: span.context(),
-      attributes: {
-        ...spanOptions.attributes,
-        "az.namespace": namespace
-      }
+      kind: SpanKind.INTERNAL
     };
-  }
 
-  const newTracingOptions: OperationTracingOptions = {
-    ...tracingOptions,
-    spanOptions: newSpanOptions
-  };
+    const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions);
 
-  const newOperationOptions: T = {
-    ...operationOptions,
-    tracingOptions: newTracingOptions
-  };
+    span.setAttribute("az.namespace", namespace);
 
-  return {
-    span,
-    updatedOptions: newOperationOptions
+    let newSpanOptions = tracingOptions.spanOptions || {};
+    if (span.isRecording()) {
+      newSpanOptions = {
+        ...tracingOptions.spanOptions,
+        parent: span.context(),
+        attributes: {
+          ...spanOptions.attributes,
+          "az.namespace": namespace
+        }
+      };
+    }
+
+    const newTracingOptions: OperationTracingOptions = {
+      ...tracingOptions,
+      spanOptions: newSpanOptions
+    };
+
+    const newOperationOptions: T = {
+      ...operationOptions,
+      tracingOptions: newTracingOptions
+    };
+
+    return {
+      span,
+      updatedOptions: newOperationOptions
+    };
   };
 }

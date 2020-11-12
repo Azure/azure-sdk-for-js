@@ -158,7 +158,7 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public
-export function createSpan<T extends OperationOptions>({ operationName, packagePrefix, namespace }: SpanConfig, operationOptions: T): {
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
     span: Span;
     updatedOptions: T;
 };
@@ -800,7 +800,6 @@ export interface SimpleMapperType {
 // @public
 export interface SpanConfig {
     namespace: string;
-    operationName: string;
     packagePrefix: string;
 }
 

@@ -43,7 +43,7 @@ export {
   ProxySettings,
   ProxyOptions
 } from "./serviceClient";
-export { createSpan, SpanConfig } from "./createSpan";
+export { createSpanFunction, SpanConfig } from "./createSpan";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
