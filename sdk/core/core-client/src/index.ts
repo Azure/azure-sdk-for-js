@@ -33,7 +33,8 @@ export {
   ParameterPath,
   OperationResponse,
   FullOperationResponse,
-  PolymorphicDiscriminator
+  PolymorphicDiscriminator,
+  SpanConfig
 } from "./interfaces";
 export {
   deserializationPolicy,

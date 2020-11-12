@@ -63,8 +63,6 @@ export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
 
-// Warning: (ae-forgotten-export) The symbol "SpanConfig" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function createSpan<T extends OperationOptions>({ operationName, packagePrefix, namespace }: SpanConfig, operationOptions: T): {
     span: Span;
@@ -337,6 +335,13 @@ export interface ServiceClientOptions {
 export interface SimpleMapperType {
     // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
+}
+
+// @public
+export interface SpanConfig {
+    namespace: string;
+    operationName: string;
+    packagePrefix: string;
 }
 
 
