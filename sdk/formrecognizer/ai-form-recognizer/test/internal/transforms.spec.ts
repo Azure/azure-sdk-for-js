@@ -480,7 +480,6 @@ describe("Transforms", () => {
   it("toRecognizedFormArray() converts unsupervised response into recognized forms", () => {
     const original: GetAnalyzeFormResultResponse = JSON.parse(unsupervisedResponseString);
     const forms = toRecognizedFormArray(original);
-    console.dir(forms);
 
     assert.ok(forms, "Expecting non-empty recognized forms");
     assert.ok(forms!.length > 0, "Expecting at least one recognized forms");
@@ -524,11 +523,14 @@ describe("Transforms", () => {
     const transformed = toFormModelResponse(original);
     const models = transformed.submodels;
 
-    assert.deepStrictEqual(
-      transformed.trainingDocuments,
-      original.trainResult!.trainingDocuments,
-      "Expecting same 'trainingDocuments' as original's"
-    );
+    assert.isNotEmpty(transformed.trainingDocuments);
+
+    for (const document of transformed.trainingDocuments!) {
+      assert.equal(document.modelId, original.modelInfo.modelId);
+      assert.isEmpty(document.errors);
+      assert.equal(document.status, "succeeded");
+    }
+
     assert.deepStrictEqual(
       transformed.errors,
       original.trainResult!.errors,
@@ -548,11 +550,14 @@ describe("Transforms", () => {
     const transformed = toFormModelResponse(original);
     const models = transformed.submodels;
 
-    assert.deepStrictEqual(
-      transformed.trainingDocuments,
-      original.trainResult!.trainingDocuments,
-      "Expecting same 'trainingDocuments' as original's"
-    );
+    assert.isNotEmpty(transformed.trainingDocuments);
+
+    for (const document of transformed.trainingDocuments!) {
+      assert.equal(document.modelId, original.modelInfo.modelId);
+      assert.isEmpty(document.errors);
+      assert.equal(document.status, "succeeded");
+    }
+
     assert.deepStrictEqual(
       transformed.errors,
       original.trainResult!.errors,

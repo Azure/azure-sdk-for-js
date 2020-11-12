@@ -13,7 +13,10 @@ import {
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
   GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
-  GeneratedClientGetCustomModelResponse as GetCustomModelResponse
+  GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
+  SelectionMark,
+  TrainResult,
+  KeysResult
 } from "./generated/models";
 
 import {
@@ -28,11 +31,13 @@ import {
   FormModelResponse,
   CustomFormModelField,
   CustomFormSubmodel,
-  RecognizedFormArray
+  RecognizedFormArray,
+  FormSelectionMark,
+  TrainingDocumentInfo
 } from "./models";
 import { RecognizeContentResultResponse } from "./internalModels";
 
-export function toBoundingBox(original: number[]): Point2D[] {
+function toBoundingBox(original: number[]): Point2D[] {
   return [
     { x: original[0], y: original[1] },
     { x: original[2], y: original[3] },
@@ -44,7 +49,7 @@ export function toBoundingBox(original: number[]): Point2D[] {
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
   const line: FormLine = {
     kind: "line",
-    pageNumber: pageNumber,
+    pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
     words: original.words.map((w) => {
@@ -53,12 +58,22 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
         text: w.text,
         boundingBox: toBoundingBox(w.boundingBox),
         confidence: w.confidence || 1,
-        pageNumber: pageNumber
+        pageNumber
       };
     })
   };
 
   return line;
+}
+
+export function toSelectionMark(original: SelectionMark, pageNumber: number): FormSelectionMark {
+  return {
+    kind: "selectionMark",
+    pageNumber,
+    boundingBox: toBoundingBox(original.boundingBox),
+    confidence: original.confidence,
+    state: original.state
+  };
 }
 
 export function toFormPage(original: ReadResultModel): FormPage {
@@ -68,7 +83,8 @@ export function toFormPage(original: ReadResultModel): FormPage {
     width: original.width,
     height: original.height,
     unit: original.unit,
-    lines: original.lines?.map((l) => toTextLine(l, original.pageNumber))
+    lines: original.lines?.map((l) => toTextLine(l, original.pageNumber)),
+    selectionMarks: original.selectionMarks?.map((m) => toSelectionMark(m, original.pageNumber))
   };
 }
 
@@ -300,6 +316,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
 export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: original.docType,
+    modelId: original.modelId,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
     pages: pages.filter(
@@ -341,57 +358,112 @@ export function toRecognizeContentResultResponse(
   }
 }
 
+function flattenTrainingDocuments(
+  original: GetCustomModelResponse
+): TrainingDocumentInfo[] | undefined {
+  if (original.composedTrainResults) {
+    // Composed model, need to zip the training documents into a flat array and add modelID correlation.
+    const mappedResultDocuments = original.composedTrainResults.map((innerResult) =>
+      innerResult.trainingDocuments.map((info) => ({
+        ...info,
+        modelId: innerResult.modelId,
+        errors: info.errors ?? []
+      }))
+    );
+
+    // Fold these together using a simple reduce (easy
+    return mappedResultDocuments.reduce(Array.prototype.concat.call, []);
+  } else if (original.trainResult) {
+    // Normal training scenario with only one trainResult
+    return original.trainResult.trainingDocuments.map((info) => ({
+      ...info,
+      modelId: original.modelInfo.modelId,
+      errors: info.errors ?? []
+    }));
+  }
+
+  return undefined;
+}
+
+function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomFormSubmodel[] {
+  const mappedSubmodels = results.map((r) => toSubmodelsFromTrainResultLabeled(r));
+
+  // Flatten the array
+  return mappedSubmodels.reduce(Array.prototype.concat.call, []);
+}
+
+function toSubmodelsFromTrainResultLabeled(
+  result: TrainResult,
+  modelName?: string
+): CustomFormSubmodel[] {
+  return [
+    {
+      modelId: result.modelId,
+      accuracy: result.averageModelAccuracy,
+      formType: `custom:${modelName ?? result.modelId}`,
+      fields:
+        result.fields?.reduce((fields, field) => {
+          fields[field.fieldName] = {
+            name: field.fieldName,
+            accuracy: field.accuracy,
+            label: null
+          };
+          return fields;
+        }, {} as Record<string, CustomFormModelField>) ?? {}
+    }
+  ];
+}
+
+function toSubmodelsFromTrainResultUnlabeled(
+  keys: KeysResult,
+  modelId: string
+): CustomFormSubmodel[] {
+  // Each cluster becomes a submodel
+  return Object.entries(keys.clusters).map(
+    ([clusterKey, cluster]): CustomFormSubmodel => ({
+      modelId,
+      // Create formType from the key of the cluster
+      formType: `form-${clusterKey}`,
+      // Roll the fields up into the correct shape
+      fields: cluster.reduce((fields, label, idx) => {
+        fields[`field-${idx}`] = {
+          name: `field-${idx}`,
+          label
+        };
+        return fields;
+      }, {} as Record<string, CustomFormModelField>)
+    })
+  );
+}
+
+function flattenCustomFormSubmodels(
+  original: GetCustomModelResponse
+): CustomFormSubmodel[] | undefined {
+  if (original.modelInfo.status === "ready") {
+    if (original.composedTrainResults !== undefined) {
+      return toSubmodelsFromComposedTrainResults(original.composedTrainResults);
+    } else if (original.trainResult?.fields || original.trainResult?.averageModelAccuracy) {
+      return toSubmodelsFromTrainResultLabeled(original.trainResult, original.modelInfo.modelName);
+    } else if (original.keys) {
+      return toSubmodelsFromTrainResultUnlabeled(original.keys, original.modelInfo.modelId);
+    } else {
+      throw new Error("No submodel information was found in the training response.");
+    }
+  }
+  return undefined;
+}
+
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
-  const common = {
-    ...response.modelInfo,
-    trainingDocuments: response.trainResult?.trainingDocuments.map((d) => {
-      if (!Array.isArray(d.errors)) {
-        d.errors = [];
-      }
-      return d;
-    }),
+  return {
+    status: response.modelInfo.status,
+    modelId: response.modelInfo.modelId,
+    modelName: response.modelInfo.modelName,
+    trainingStartedOn: response.modelInfo.trainingStartedOn,
+    trainingCompletedOn: response.modelInfo.trainingCompletedOn,
+    trainingDocuments: flattenTrainingDocuments(response),
+    properties: response.modelInfo.attributes,
     errors: response.trainResult?.errors,
+    submodels: flattenCustomFormSubmodels(response),
     _response: response._response
   };
-
-  if (response.modelInfo.status !== "ready") {
-    return common;
-  }
-
-  if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
-    // training with forms and labels, populate from trainingResult.fields
-    const fields: Record<string, CustomFormModelField> = {};
-    for (const f of response.trainResult.fields!) {
-      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
-    }
-    return {
-      ...common,
-      submodels: [
-        {
-          accuracy: response.trainResult.averageModelAccuracy,
-          formType: `form-${response.modelInfo.modelId}`,
-          fields
-        }
-      ]
-    };
-  } else if (response.keys) {
-    // training with forms, populate from trainingResult.keys
-    const submodels: CustomFormSubmodel[] = [];
-    for (const clusterKey in response.keys.clusters) {
-      const cluster = response.keys.clusters[clusterKey];
-      const fields: Record<string, CustomFormModelField> = {};
-
-      for (let i = 0; i < cluster.length; i++) {
-        fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };
-      }
-      submodels.push({ formType: `form-${clusterKey}`, fields });
-    }
-
-    return {
-      ...common,
-      submodels
-    };
-  } else {
-    throw new Error("Expecting model(s) from training result but got none");
-  }
 }

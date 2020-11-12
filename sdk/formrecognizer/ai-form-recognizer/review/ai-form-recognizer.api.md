@@ -111,9 +111,15 @@ export interface CustomFormModelField {
 export interface CustomFormModelInfo {
     modelId: string;
     modelName?: string;
+    properties?: CustomFormModelProperties;
     status: ModelStatus;
     trainingCompletedOn: Date;
     trainingStartedOn: Date;
+}
+
+// @public
+export interface CustomFormModelProperties {
+    isComposed?: boolean;
 }
 
 // @public
@@ -121,6 +127,7 @@ export interface CustomFormSubmodel {
     accuracy?: number;
     fields: Record<string, CustomFormModelField>;
     formType: string;
+    modelId?: string;
 }
 
 // @public
@@ -138,13 +145,13 @@ export interface FieldData {
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
-export type FormElement = FormWord | FormLine;
+export type FormElement = FormWord | FormLine | FormSelectionMark;
 
 // @public
 export interface FormElementCommon {
     boundingBox: Point2D[];
     pageNumber: number;
-    text: string;
+    text?: string;
 }
 
 // @public
@@ -177,6 +184,9 @@ export type FormField = {
 } | {
     value?: Record<string, FormField>;
     valueType?: "object";
+} | {
+    value?: SelectionMarkState;
+    valueType?: "selectionMark";
 });
 
 // @public
@@ -188,6 +198,7 @@ export interface FormFieldsReport {
 // @public
 export interface FormLine extends FormElementCommon {
     kind: "line";
+    text: string;
     words: FormWord[];
 }
 
@@ -204,6 +215,7 @@ export interface FormPage {
     height: number;
     lines?: FormLine[];
     pageNumber: number;
+    selectionMarks?: FormSelectionMark[];
     tables?: FormTable[];
     textAngle: number;
     unit: LengthUnit;
@@ -255,6 +267,13 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
 // @public
+export interface FormSelectionMark extends FormElementCommon {
+    confidence?: number;
+    kind: "selectionMark";
+    state: SelectionMarkState;
+}
+
+// @public
 export interface FormTable {
     cells: FormTableCell[];
     columnCount: number;
@@ -295,6 +314,7 @@ export class FormTrainingClient {
 export interface FormWord extends FormElementCommon {
     confidence?: number;
     kind: "word";
+    text: string;
 }
 
 // @public
@@ -401,6 +421,8 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 export interface RecognizedForm {
     fields: Record<string, FormField>;
     formType: string;
+    formTypeConfidence?: number;
+    modelId?: string;
     pageRange: FormPageRange;
     pages: FormPage[];
 }
@@ -425,8 +447,12 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
+export type SelectionMarkState = "selected" | "unselected" | string;
+
+// @public
 export interface TrainingDocumentInfo {
     errors: FormRecognizerError[];
+    modelId?: string;
     name: string;
     pageCount: number;
     status: TrainingStatus;
