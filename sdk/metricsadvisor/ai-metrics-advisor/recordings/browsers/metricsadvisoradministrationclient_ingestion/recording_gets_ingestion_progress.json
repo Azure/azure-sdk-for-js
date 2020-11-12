@@ -2,28 +2,21 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionProgress",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"latestSuccessTimestamp\":\"2020-09-17T00:00:00Z\",\"latestActiveTimestamp\":\"2020-09-17T00:00:00Z\"}",
+   "response": "{\"latestSuccessTimestamp\":\"2020-11-11T00:00:00Z\",\"latestActiveTimestamp\":\"2020-11-11T00:00:00Z\"}",
    "responseHeaders": {
-    "apim-request-id": "fc7cae5a-c65a-463f-a5fe-089583bd3d83",
+    "apim-request-id": "0522cd4b-5173-4af5-948c-d8a4b2980f30",
     "content-length": "96",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Sep 2020 23:53:02 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "338",
-    "x-request-id": "fc7cae5a-c65a-463f-a5fe-089583bd3d83"
+    "content-type": "application/json; charset=utf-8"
    }
   }
  ],
  "uniqueTestInfo": {
-  "uniqueName": {
-   "js-test-datafeed-": "js-test-datafeed-160047318226805041"
-  },
+  "uniqueName": {},
   "newDate": {}
  },
- "hash": "e7475e0223f257be148f8272806c3563"
+ "hash": "3772c4cc3bbdd255e6ab7b60b8dbc9c8"
 }
