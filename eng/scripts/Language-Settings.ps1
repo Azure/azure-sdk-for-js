@@ -94,14 +94,13 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
     if ($dirList.Length -eq 1)
     {
       $DocVersion = $dirList[0].Name
-      $parsedPackage = RetrieveReleasePackageInfo "NPM" $PublicArtifactLocation
-      $tag = ""
+      $pkgs, $parsePkgInfoFn = RetrievePackages "NPM" $PublicArtifactLocation
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
-      if ($parsedPackage -ne $null)
+      if ($pkgs -and $pkgs.Count -gt 0)
       {        
+        $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
-        $tag = $parsedPackage.ReleaseTag
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
