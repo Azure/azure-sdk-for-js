@@ -10,7 +10,6 @@ import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { MessagingErrorCodes } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -144,8 +143,6 @@ export interface MessageHandlers {
 }
 
 export { MessagingError }
-
-export { MessagingErrorCodes }
 
 // @public
 export interface NamespaceProperties {
@@ -305,11 +302,11 @@ export interface ServiceBusConnectionStringProperties {
 // @public
 export class ServiceBusError extends MessagingError {
     constructor(messagingError: MessagingError);
-    reason: ServiceBusErrorReason;
-}
+    code: ServiceBusErrorCode;
+    }
 
 // @public
-export type ServiceBusErrorReason =
+export type ServiceBusErrorCode =
 /**
  * The exception was the result of a general error within the client library.
  */
