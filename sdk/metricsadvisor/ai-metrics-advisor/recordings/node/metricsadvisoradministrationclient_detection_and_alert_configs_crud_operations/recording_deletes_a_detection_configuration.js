@@ -1,49 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "5bafa7f0b31b621537c9ea4b442bba98";
+module.exports.hash = "5349a68c0261fcac86d6839b6fdcbd32";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a459fa2f-8f12-4d86-952f-d4b63c0e2c61')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/8f867116-8170-4273-90a9-9ecb10e1f57e')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'acce692e-1896-47dc-a049-985c8df8e7c0',
+  '7e7ccde8-be20-46ba-a2b8-a4ee533787b3',
   'x-envoy-upstream-service-time',
-  '83',
+  '98',
   'apim-request-id',
-  'acce692e-1896-47dc-a049-985c8df8e7c0',
+  '7e7ccde8-be20-46ba-a2b8-a4ee533787b3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 19:35:22 GMT',
-  'Connection',
-  'close'
+  'Thu, 12 Nov 2020 23:10:34 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a459fa2f-8f12-4d86-952f-d4b63c0e2c61')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: c08e65a0-48db-47c5-abf7-4896f77ac63c"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/8f867116-8170-4273-90a9-9ecb10e1f57e')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 83889a35-443d-44e9-98ad-ed5074a867aa"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '320f5f29-ed69-4d3f-a045-3932726e03cb',
+  'fed17923-2c5f-494f-8747-275cd682430e',
   'x-envoy-upstream-service-time',
-  '52',
+  '63',
   'apim-request-id',
-  '320f5f29-ed69-4d3f-a045-3932726e03cb',
+  'fed17923-2c5f-494f-8747-275cd682430e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 19:35:23 GMT',
-  'Connection',
-  'close'
+  'Thu, 12 Nov 2020 23:10:34 GMT'
 ]);

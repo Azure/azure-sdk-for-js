@@ -1,51 +1,47 @@
 let nock = require('nock');
 
-module.exports.hash = "5ac7a388805b4331a80b7ed20e9c56ac";
+module.exports.hash = "3526125e80b81425f640e08d5a3a111d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/feedback/metric', {"feedbackType":"Period","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"Dim1":"Common Lime","Dim2":"Ant"}},"value":{"periodType":"AutoDetect","periodValue":4}})
+  .post('/metricsadvisor/v1.0/feedback/metric', {"feedbackType":"Period","metricId":"45c7-a1e0-f87c9c7ca80f-189ff959-d9f4","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"value":{"periodType":"AutoDetect","periodValue":4}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/feedback/metric/80f0967f-fdf8-4fd5-99f2-765cb0776c05',
+  'https://endpoint/metricsadvisor/v1.0/feedback/metric/6cc6491d-4f3d-4cd7-90ab-5fdd348d306e',
   'x-request-id',
-  '5cd08cbb-c36b-4063-8a85-a3c4607fa435',
+  '391b7570-61d4-4a37-808f-9582825f1928',
   'x-envoy-upstream-service-time',
-  '269',
+  '376',
   'apim-request-id',
-  '5cd08cbb-c36b-4063-8a85-a3c4607fa435',
+  '391b7570-61d4-4a37-808f-9582825f1928',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 22:12:14 GMT',
-  'Connection',
-  'close'
+  'Thu, 12 Nov 2020 23:10:49 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/feedback/metric/80f0967f-fdf8-4fd5-99f2-765cb0776c05')
-  .reply(200, {"feedbackId":"80f0967f-fdf8-4fd5-99f2-765cb0776c05","createdTime":"2020-09-25T22:12:15.433Z","userPrincipal":"yumeng@microsoft.com","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"Dim1":"Common Lime","Dim2":"Ant"}},"feedbackType":"Period","value":{"periodType":"AutoDetect","periodValue":4}}, [
+  .get('/metricsadvisor/v1.0/feedback/metric/6cc6491d-4f3d-4cd7-90ab-5fdd348d306e')
+  .reply(200, {"feedbackId":"6cc6491d-4f3d-4cd7-90ab-5fdd348d306e","createdTime":"2020-11-12T23:10:49.286Z","userPrincipal":"kaghiya@microsoft.com","metricId":"45c7-a1e0-f87c9c7ca80f-189ff959-d9f4","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"feedbackType":"Period","value":{"periodType":"AutoDetect","periodValue":4}}, [
   'Content-Length',
-  '327',
+  '336',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'f84045cf-3ef6-4ff8-9676-6b3930b2163a',
+  '2619b091-b443-45f1-96e0-1b303fd0a9f1',
   'x-envoy-upstream-service-time',
-  '44',
+  '114',
   'apim-request-id',
-  'f84045cf-3ef6-4ff8-9676-6b3930b2163a',
+  '2619b091-b443-45f1-96e0-1b303fd0a9f1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 22:12:15 GMT',
-  'Connection',
-  'close'
+  'Thu, 12 Nov 2020 23:10:49 GMT'
 ]);
