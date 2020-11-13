@@ -1286,10 +1286,10 @@ export class BlockBlobClient extends BlobClient {
     query(query: string, options?: BlockBlobQueryOptions): Promise<BlobDownloadResponseModel>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
+    syncUploadFromURL(sourceURL: string, options?: BlockBlobSyncUploadFromURLOptions): Promise<BlockBlobPutBlobFromUrlResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
-    uploadFromURL(sourceURL: string, options?: BlockBlobUploadFromURLOptions): Promise<BlockBlobPutBlobFromUrlResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
@@ -1479,14 +1479,7 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
 };
 
 // @public
-export enum BlockBlobTier {
-    Archive = "Archive",
-    Cool = "Cool",
-    Hot = "Hot"
-}
-
-// @public
-export interface BlockBlobUploadFromURLOptions extends CommonOptions {
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
@@ -1498,6 +1491,13 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
     tags?: Tags;
     tier?: BlockBlobTier | string;
     timeoutInSeconds?: number;
+}
+
+// @public
+export enum BlockBlobTier {
+    Archive = "Archive",
+    Cool = "Cool",
+    Hot = "Hot"
 }
 
 // @public
@@ -2012,6 +2012,8 @@ export interface FilterBlobItem {
     containerName: string;
     name: string;
     tags?: Tags;
+    // @deprecated
+    tagValue?: string;
 }
 
 // @public

@@ -1146,7 +1146,7 @@ export interface ListSharesResponse {
     // (undocumented)
     serviceEndpoint: string;
     // (undocumented)
-    shareItems?: ShareItemModel[];
+    shareItems?: ShareItemInternal[];
 }
 
 // @public
@@ -1387,10 +1387,10 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
-    enabledProtocols?: ShareEnabledProtocols;
     metadata?: {
         [propertyName: string]: string;
     };
+    protocols?: ShareProtocols;
     quota?: number;
     rootSquash?: ShareRootSquash;
 }
@@ -1515,12 +1515,6 @@ export class ShareDirectoryClient extends StorageClient {
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
     get shareName(): string;
     }
-
-// @public
-export interface ShareEnabledProtocols {
-    NFS?: boolean;
-    SMB?: boolean;
-}
 
 // @public
 export interface ShareExistsOptions extends CommonOptions {
@@ -1699,12 +1693,12 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 };
 
 // @public
-export type ShareItem = Omit<ShareItemModel, "properties"> & {
+export type ShareItem = Omit<ShareItemInternal, "properties"> & {
     properties: ShareProperties;
 };
 
 // @public
-export interface ShareItemModel {
+export interface ShareItemInternal {
     // (undocumented)
     deleted?: boolean;
     // (undocumented)
@@ -1714,7 +1708,7 @@ export interface ShareItemModel {
     // (undocumented)
     name: string;
     // (undocumented)
-    properties: SharePropertiesModel;
+    properties: SharePropertiesInternal;
     // (undocumented)
     snapshot?: string;
     // (undocumented)
@@ -1739,12 +1733,12 @@ export interface SharePermission {
 }
 
 // @public
-export type ShareProperties = Omit<SharePropertiesModel, "enabledProtocols"> & {
-    enabledProtocols?: ShareEnabledProtocols;
+export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+    protocols?: ShareProtocols;
 };
 
 // @public
-export interface SharePropertiesModel {
+export interface SharePropertiesInternal {
     // (undocumented)
     accessTier?: string;
     // (undocumented)
@@ -1775,6 +1769,12 @@ export interface SharePropertiesModel {
     // (undocumented)
     remainingRetentionDays?: number;
     rootSquash?: ShareRootSquash;
+}
+
+// @public
+export interface ShareProtocols {
+    nfsEnabled?: boolean;
+    smbEnabled?: boolean;
 }
 
 // @public

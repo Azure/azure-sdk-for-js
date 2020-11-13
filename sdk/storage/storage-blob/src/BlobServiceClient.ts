@@ -216,6 +216,15 @@ export interface FilterBlobItem {
    * @memberof FilterBlobItem
    */
   tags?: Tags;
+
+  /**
+   * Tag value.
+   *
+   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  tagValue?: string;
 }
 
 /**
@@ -855,7 +864,6 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {}
   ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
-    // TODO: Rename response.blobs to response.blobItems?
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-findBlobsByTagsSegment",
       options.tracingOptions

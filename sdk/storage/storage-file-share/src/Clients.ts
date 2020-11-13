@@ -89,8 +89,8 @@ import {
   Metadata,
   validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
-  ShareEnabledProtocols,
-  toShareEnabledProtocolsString
+  ShareProtocols,
+  toShareProtocolsString
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -147,10 +147,10 @@ export interface ShareCreateOptions extends CommonOptions {
 
   /**
    * Supported in version 2020-02-10 and above. Specifies the enabled protocols on the share. If not specified, the default is SMB.
-   * @type {ShareEnabledProtocols}
+   * @type {ShareProtocols}
    * @memberof ShareCreateOptions
    */
-  enabledProtocols?: ShareEnabledProtocols;
+  protocols?: ShareProtocols;
   /**
    * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
@@ -725,7 +725,7 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.create({
         ...options,
-        enabledProtocols: toShareEnabledProtocolsString(options.enabledProtocols),
+        enabledProtocols: toShareProtocolsString(options.protocols),
         spanOptions
       });
     } catch (e) {

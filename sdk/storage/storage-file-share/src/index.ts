@@ -27,7 +27,7 @@ export {
   TimePreserveType,
   FileAttributesPreserveType,
   CloseHandlesInfo,
-  ShareEnabledProtocols
+  ShareProtocols
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";

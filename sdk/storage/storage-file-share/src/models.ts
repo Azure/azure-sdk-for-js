@@ -165,66 +165,62 @@ export interface CloseHandlesInfo {
 /**
  * Protocols to enable on the share. For now, only support SMB or NFS.
  * @export
- * @interface ShareEnabledProtocols
+ * @interface ShareProtocols
  */
-export interface ShareEnabledProtocols {
+export interface ShareProtocols {
   /**
    * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
    *
    * @type {boolean}
-   * @memberof ShareEnabledProtocols
+   * @memberof ShareProtocols
    */
-  SMB?: boolean;
+  smbEnabled?: boolean;
   /**
    * The share can be accessed by NFSv4.1.
    *
    * @type {boolean}
-   * @memberof ShareEnabledProtocols
+   * @memberof ShareProtocols
    */
-  NFS?: boolean;
+  nfsEnabled?: boolean;
 }
 
 /**
- * Protocols to enable on the share in string.
+ * String values of protocols to enable on the share.
  * @interface shareEnabledProtocolsItems
  */
 let shareEnabledProtocolsItems = ["SMB", "NFS"];
 
 /**
- * Convert enabledProtocols from joined string to ShareEnabledProtocols.
+ * Convert protocols from joined string to ShareProtocols.
  *
  * @export
- * @param {string} enabledProtocolsString
- * @returns {ShareEnabledProtocols}
+ * @param {string} protocolsString
+ * @returns {ShareProtocols}
  */
-export function toShareEnabledProtocols(
-  enabledProtocolsString?: string
-): ShareEnabledProtocols | undefined {
-  if (enabledProtocolsString === undefined) {
+export function toShareProtocols(protocolsString?: string): ShareProtocols | undefined {
+  if (protocolsString === undefined) {
     return undefined;
   }
 
-  const protocolStrArray = enabledProtocolsString.split(";");
-  let enabledProtocols = {};
+  const protocolStrArray = protocolsString.split(";");
+  let protocols = {};
   for (const str of protocolStrArray) {
-    (enabledProtocols as any)[str] = true;
+    (protocols as any)[str] = true;
   }
-  return enabledProtocols as ShareEnabledProtocols;
+  return protocols as ShareProtocols;
 }
 
 /**
- * Convert ShareEnabledProtocols to joined string.
+ * Convert ShareProtocols to joined string.
  *
  * @export
- * @param {ShareEnabledProtocols} enabledProtocols
+ * @param {ShareProtocols} protocols
  * @returns {string | undefined}
  */
-export function toShareEnabledProtocolsString(
-  enabledProtocols: ShareEnabledProtocols = {}
-): string | undefined {
+export function toShareProtocolsString(protocols: ShareProtocols = {}): string | undefined {
   const protocolStrArray: string[] = [];
   for (const item of shareEnabledProtocolsItems) {
-    if ((enabledProtocols as any)[item] === true) {
+    if ((protocols as any)[item] === true) {
       protocolStrArray.push(item);
     }
   }

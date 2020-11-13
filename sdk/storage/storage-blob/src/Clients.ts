@@ -3201,17 +3201,17 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure {@link BlockBlobClient.uploadFromURL} operation.
+ * Options to configure {@link BlockBlobClient.syncUploadFromURL} operation.
  *
  * @export
- * @interface BlockBlobUploadFromURLOptions
+ * @interface BlockBlobSyncUploadFromURLOptions
  */
-export interface BlockBlobUploadFromURLOptions extends CommonOptions {
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   /**
    * Server timeout in seconds.
    * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
    * @type {number}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   timeoutInSeconds?: number;
   /**
@@ -3219,21 +3219,21 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet for the destination Azure Blob.
    *
    * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when uploading to a block blob.
    *
    * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -3246,14 +3246,14 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
    * information.
    *
    * @type {Metadata}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -3263,7 +3263,7 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
    * Storage Services.
    *
    * @type {string}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   encryptionScope?: string;
   /**
@@ -3271,28 +3271,28 @@ export interface BlockBlobUploadFromURLOptions extends CommonOptions {
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    *
    * @type {BlockBlobTier | string}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   tier?: BlockBlobTier | string;
   /**
    * Blob tags.
    *
    * @type {Tags}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   tags?: Tags;
   /**
    * Optional, default is true.  Indicates if properties from the source blob should be copied.
    *
    * @type {boolean}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   copySourceBlobProperties?: boolean;
   /**
    * Optional. Conditions to meet for the source Azure Blob.
    *
    * @type {ModifiedAccessConditions}
-   * @memberof BlockBlobUploadFromURLOptions
+   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   sourceConditions?: ModifiedAccessConditions;
 }
@@ -4278,18 +4278,18 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {BlockBlobUploadFromURLOptions} [options={}] Optional parameters.
+   * @param {BlockBlobSyncUploadFromURLOptions} [options={}] Optional parameters.
    * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
    * @memberof BlockBlobClient
    */
 
-  public async uploadFromURL(
+  public async syncUploadFromURL(
     sourceURL: string,
-    options: BlockBlobUploadFromURLOptions = {}
+    options: BlockBlobSyncUploadFromURLOptions = {}
   ): Promise<BlockBlobPutBlobFromUrlResponse> {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
-      "BlockBlobClient-uploadFromURL",
+      "BlockBlobClient-syncUploadFromURL",
       options.tracingOptions
     );
     try {

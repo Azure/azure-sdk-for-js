@@ -10,8 +10,8 @@ import {
   ServiceGetPropertiesResponse,
   ServiceSetPropertiesResponse,
   ServiceListSharesSegmentResponseModel,
-  ShareItemModel,
-  SharePropertiesModel
+  ShareItemInternal,
+  SharePropertiesInternal
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -27,7 +27,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
-import { ShareEnabledProtocols, toShareEnabledProtocols } from "./models";
+import { ShareProtocols, toShareProtocols } from "./models";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -182,8 +182,8 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
  * @export
  * @interface ShareProperties
  */
-export type ShareProperties = Omit<SharePropertiesModel, "enabledProtocols"> & {
-  enabledProtocols?: ShareEnabledProtocols;
+export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+  protocols?: ShareProtocols;
 };
 
 /**
@@ -192,7 +192,7 @@ export type ShareProperties = Omit<SharePropertiesModel, "enabledProtocols"> & {
  * @export
  * @interface ShareItem
  */
-export type ShareItem = Omit<ShareItemModel, "properties"> & { properties: ShareProperties };
+export type ShareItem = Omit<ShareItemInternal, "properties"> & { properties: ShareProperties };
 
 /**
  * Contains response data for the {@link ShareServiceClient.listShares} operation.
@@ -670,13 +670,11 @@ export class ShareServiceClient extends StorageClient {
         spanOptions
       });
 
-      // parse enabledProtocols
+      // parse protocols
       if (res.shareItems) {
         for (let i = 0; i < res.shareItems.length; i++) {
-          const enabledProtocolsStr = res.shareItems[i].properties.enabledProtocols;
-          (res.shareItems[i].properties.enabledProtocols as any) = toShareEnabledProtocols(
-            enabledProtocolsStr
-          );
+          const protocolsStr = res.shareItems[i].properties.enabledProtocols;
+          (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
         }
       }
 

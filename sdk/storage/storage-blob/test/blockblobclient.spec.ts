@@ -402,10 +402,10 @@ describe("BlockBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.only("uploadFromURL with timeout", async () => {
+  it.only("syncUploadFromURL with timeout", async () => {
     let exceptionCaught = false;
     try {
-      await blockBlobClient.uploadFromURL(
+      await blockBlobClient.syncUploadFromURL(
         "https://jian.blob.core.windows.net/testcontainer/SpeedTest_256MB.dat?sv=2020-02-10&ss=btqf&srt=sco&spr=https%2Chttp&st=2020-10-13T12%3A33%3A26Z&se=2021-01-21T12%3A38%3A26Z&sp=rwdxftlacup&sig=3mKyirvsZdoRqg0woprlJk5kU8ac8If9SnHTFKLBtd0%3D",
         {
           timeoutInSeconds: 1
