@@ -50,6 +50,39 @@ describe("getRequestUrl", function() {
     );
     assert.strictEqual(result, "https://test.com/Tables('TestTable')");
   });
+
+  it("should handle query parameters on the base url", function() {
+    const result = getRequestUrl(
+      "{url}",
+      operationSpec,
+      { table: "TestTable" },
+      { url: "https://test.com?superSecretKey=awesome" }
+    );
+    assert.strictEqual(result, "https://test.com/Tables('TestTable')?superSecretKey=awesome");
+  });
+
+  it("should not modify needlessly encoded query parameters", function() {
+    const specWithQueryParams: OperationSpec = {
+      ...operationSpec,
+      queryParameters: [
+        {
+          parameterPath: "extraValue",
+          mapper: { type: { name: "String" }, serializedName: "extraValue", required: true },
+          skipEncoding: true
+        }
+      ]
+    };
+    const result = getRequestUrl(
+      "{url}",
+      specWithQueryParams,
+      { table: "TestTable", extraValue: "%27blah%27" },
+      { url: "https://test.com?superSecretKey=Qai%2B4%2FIM%3D" }
+    );
+    assert.strictEqual(
+      result,
+      "https://test.com/Tables('TestTable')?superSecretKey=Qai%2B4%2FIM%3D&extraValue=%27blah%27"
+    );
+  });
 });
 
 /**
