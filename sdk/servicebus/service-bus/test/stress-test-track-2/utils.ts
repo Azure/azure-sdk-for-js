@@ -67,7 +67,9 @@ export async function saveDiscrepanciesFromTrackedMessages(
   const output = {
     messages_sent_but_never_received: [],
     messages_not_sent_but_received: [],
-    messages_sent_multiple_times: []
+    messages_sent_multiple_times: [],
+    messages_sent_once_but_received_multiple_times: [],
+    messages_sent_once_and_received_once: []
   };
   for (const id in trackedMessageIds) {
     if (trackedMessageIds[id].sentCount <= 0) {
@@ -81,6 +83,14 @@ export async function saveDiscrepanciesFromTrackedMessages(
     if (trackedMessageIds[id].sentCount > 1) {
       // Message was sent multiple times
       output.messages_sent_multiple_times.push(id);
+    }
+    if (trackedMessageIds[id].sentCount === 1 && trackedMessageIds[id].receivedCount > 1) {
+      // Message was sent once but received multiple times
+      output.messages_sent_once_but_received_multiple_times.push(id);
+    }
+    if (trackedMessageIds[id].sentCount === 1 && trackedMessageIds[id].receivedCount === 1) {
+      // Message was sent once and received once
+      output.messages_sent_once_and_received_once.push(id);
     }
   }
 
