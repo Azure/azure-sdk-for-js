@@ -781,6 +781,7 @@ export class FormTrainingClient {
  * @internal
  */
 async function composeModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   modelIds: string[],
   options?: BeginCreateComposedModelOptions

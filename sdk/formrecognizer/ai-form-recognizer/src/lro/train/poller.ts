@@ -33,10 +33,6 @@ export type TrainPollerClient = {
  */
 export interface BeginTrainingPollState extends PollOperationState<CustomFormModel> {
   /**
-   * The instance of {@link TrainPollerClient} that is used when calling {@link FormTrainingClient.beginTraining}.
-   */
-  readonly client: TrainPollerClient;
-  /**
    * The accessible url to an Azure Blob Storage container holding the training documents.
    */
   trainingInputs: string | string[];
@@ -91,9 +87,8 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeBeginTrainingPollOperation({
+    const operation = makeBeginTrainingPollOperation(client, {
       ...state,
-      client,
       trainingInputs,
       status: "creating",
       trainModelOptions
@@ -118,6 +113,7 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
  * @ignore
  */
 function makeBeginTrainingPollOperation(
+  client: TrainPollerClient,
   state: BeginTrainingPollState
 ): BeginTrainingPollerOperation {
   return {
@@ -129,7 +125,7 @@ function makeBeginTrainingPollOperation(
 
     async update(options = {}): Promise<BeginTrainingPollerOperation> {
       const state = this.state;
-      const { client, trainingInputs, trainModelOptions } = state;
+      const { trainingInputs, trainModelOptions } = state;
 
       if (!state.isStarted) {
         state.isStarted = true;
@@ -183,7 +179,7 @@ ${additionalInfo || ""}
         }
       }
 
-      return makeBeginTrainingPollOperation(state);
+      return makeBeginTrainingPollOperation(client, state);
     },
 
     toString() {
