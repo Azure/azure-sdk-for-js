@@ -243,7 +243,9 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "selectionMark":
-      value = original.valueSelectionMark;
+      // TODO: service issue returns `undefined` for valueSelectionMark and
+      // instead returns the value in `text`
+      value = original.text;
       break;
     case "array":
       value = original.valueArray?.map((fieldValueModel) =>

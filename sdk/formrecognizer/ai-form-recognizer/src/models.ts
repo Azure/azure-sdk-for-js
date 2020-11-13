@@ -119,7 +119,7 @@ export interface FormSelectionMark extends FormElementCommon {
    */
   kind: "selectionMark";
   /**
-   * The state of the mark, either "checked" or "unchecked".
+   * The state of the mark, either "selected" or "unselected".
    */
   state: SelectionMarkState;
   /**

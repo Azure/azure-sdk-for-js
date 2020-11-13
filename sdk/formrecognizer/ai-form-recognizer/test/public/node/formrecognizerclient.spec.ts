@@ -142,7 +142,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const client = new FormTrainingClient(endpoint(), makeCredential(useAad));
           modelName = recorder.getUniqueName("customFormModelName");
           const poller = await client.beginTraining(
-            env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL,
+            env.FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL,
             true,
             {
               modelName,
@@ -157,7 +157,7 @@ matrix([[true, false]] as const, async (useAad) => {
         return _model;
       }
 
-      it("with selection marks", async () => {
+      it.only("with selection marks", async () => {
         const { modelId } = await requireModel();
 
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
@@ -169,6 +169,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result);
         assert.equal(result.formType, `custom:${modelName}`);
         assert.equal(result.formTypeConfidence, 1);
+
+        const amexMark = result.fields["AMEX_SELECTION_MARK"];
+        assert.equal(amexMark.valueType, "selectionMark");
+        assert.equal(amexMark.value, "selected");
 
         const [page] = result.pages;
 

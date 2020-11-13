@@ -60,13 +60,12 @@
   "variables": {
     "frRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
   },
-  "resources": [{
+  "resources": [
+    {
       "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
       "name": "[format('{0}/Microsoft.Authorization/{1}', parameters('baseName'), guid(parameters('baseName')))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
         "roleDefinitionId": "[variables('frRoleId')]"
@@ -102,6 +101,10 @@
     "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL": {
       "type": "string",
       "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('testingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('testingDataSasProperties')).serviceSasToken)]"
+    },
+    "FORM_RECOGNIZER_SELECTION_MARK_BLOB_CONTAINER_SAS_URL": {
+      "type": "string",
+      "value": "[concat(reference(parameters('trainingDataResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('selectionMarkTrainingDataContainer'), '?', listServiceSas(parameters('trainingDataResourceId'), '2019-06-01', parameters('selectionMarkTrainingDataSasProperties')).serviceSasToken)]"
     },
     "FORM_RECOGNIZER_TARGET_RESOURCE_REGION": {
       "type": "string",
