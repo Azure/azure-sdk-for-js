@@ -193,7 +193,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { city: "Kolkata", Dim2: "Handmade" },
+            series: { city: "Kolkata", category: "Handmade" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,

@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/ee75e451-f44f-414b-8968-8020ce295de1",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9f752db6-f332-4140-b67e-8b6803cde89b",
    "query": {},
    "requestBody": "{\"hookType\":\"Webhook\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\"}}",
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "0c3d8a21-250e-44cf-812e-388cf1bb3491",
+    "apim-request-id": "57bd1de5-615f-4381-8b23-72da91d398e0",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 01:24:11 GMT",
+    "date": "Fri, 13 Nov 2020 19:48:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "1448",
-    "x-request-id": "0c3d8a21-250e-44cf-812e-388cf1bb3491"
+    "x-envoy-upstream-service-time": "737",
+    "x-request-id": "57bd1de5-615f-4381-8b23-72da91d398e0"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/ee75e451-f44f-414b-8968-8020ce295de1",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9f752db6-f332-4140-b67e-8b6803cde89b",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"ee75e451-f44f-414b-8968-8020ce295de1\",\"hookName\":\"js-test-webHook-160523064596600688\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "response": "{\"hookId\":\"9f752db6-f332-4140-b67e-8b6803cde89b\",\"hookName\":\"js-test-webHook-160529689701706453\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
    "responseHeaders": {
-    "apim-request-id": "d2deffe6-90b0-416d-9e32-0527917192f8",
+    "apim-request-id": "829f262f-7241-47bc-a84d-60c6e7796c67",
     "content-length": "353",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:24:11 GMT",
+    "date": "Fri, 13 Nov 2020 19:48:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "216",
-    "x-request-id": "d2deffe6-90b0-416d-9e32-0527917192f8"
+    "x-envoy-upstream-service-time": "150",
+    "x-request-id": "829f262f-7241-47bc-a84d-60c6e7796c67"
    }
   }
  ],

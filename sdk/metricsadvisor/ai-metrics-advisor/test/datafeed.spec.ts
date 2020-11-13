@@ -112,8 +112,8 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
       }
     ];
     const dimension: DataFeedDimension[] = [
-      { name: "city", displayName: "city" },
-      { name: "category", displayName: "category" }
+      { name: "category", displayName: "category" },
+      { name: "city", displayName: "city" }
     ];
     const dataFeedSchema: DataFeedSchema = {
       metrics: metric,

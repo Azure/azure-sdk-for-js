@@ -5,41 +5,41 @@ module.exports.hash = "5349a68c0261fcac86d6839b6fdcbd32";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/140d75a6-c547-43fb-9254-a7ba9093e5e4')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/1e23316a-5a0b-411d-a8f7-93f4d54467f7')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'a9e827ae-4687-4153-ac5c-fb8743564f87',
+  '64d899c3-8067-4c2f-a087-aacae5bf1dc1',
   'x-envoy-upstream-service-time',
-  '85',
+  '97',
   'apim-request-id',
-  'a9e827ae-4687-4153-ac5c-fb8743564f87',
+  '64d899c3-8067-4c2f-a087-aacae5bf1dc1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 13 Nov 2020 01:14:26 GMT'
+  'Fri, 13 Nov 2020 19:46:14 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/140d75a6-c547-43fb-9254-a7ba9093e5e4')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: d180622c-2bd1-458f-8139-cd523ff82076"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/1e23316a-5a0b-411d-a8f7-93f4d54467f7')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: c0e6d675-6d7c-4eaf-99ce-86df67fe64ca"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '1c3c5ee2-e1c2-44a7-bd4c-bc217654e8f5',
+  'de5bf517-6343-415b-ba16-68147250c874',
   'x-envoy-upstream-service-time',
-  '68',
+  '67',
   'apim-request-id',
-  '1c3c5ee2-e1c2-44a7-bd4c-bc217654e8f5',
+  'de5bf517-6343-415b-ba16-68147250c874',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 13 Nov 2020 01:14:26 GMT'
+  'Fri, 13 Nov 2020 19:46:14 GMT'
 ]);

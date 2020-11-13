@@ -4,42 +4,42 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations",
    "query": {},
-   "requestBody": "{\"name\":\"js-alert-config-160523060797105169\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\"},{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\"}]}",
+   "requestBody": "{\"name\":\"js-alert-config-160529683279501419\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"7ab0a4a9-b27a-471f-92f5-b265caa815a6\",\"anomalyScopeType\":\"All\"},{\"anomalyDetectionConfigurationId\":\"7ab0a4a9-b27a-471f-92f5-b265caa815a6\",\"anomalyScopeType\":\"All\"}]}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "72a7d44e-2aa9-4a6b-bd31-55bc4d7362d6",
+    "apim-request-id": "31ec610d-c030-4acb-9645-92b0b7d56b2f",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 01:23:27 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3ffb0e89-7284-46a5-9e40-e78efc13a78e",
+    "date": "Fri, 13 Nov 2020 19:47:12 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/fbda7420-a98a-403a-80a3-77c462c97bb6",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "158",
-    "x-request-id": "72a7d44e-2aa9-4a6b-bd31-55bc4d7362d6"
+    "x-envoy-upstream-service-time": "164",
+    "x-request-id": "31ec610d-c030-4acb-9645-92b0b7d56b2f"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3ffb0e89-7284-46a5-9e40-e78efc13a78e",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/fbda7420-a98a-403a-80a3-77c462c97bb6",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"3ffb0e89-7284-46a5-9e40-e78efc13a78e\",\"name\":\"js-alert-config-160523060797105169\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"fbda7420-a98a-403a-80a3-77c462c97bb6\",\"name\":\"js-alert-config-160529683279501419\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"7ab0a4a9-b27a-471f-92f5-b265caa815a6\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"7ab0a4a9-b27a-471f-92f5-b265caa815a6\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
    "responseHeaders": {
-    "apim-request-id": "019e46aa-0f05-4415-9786-578e984865a5",
+    "apim-request-id": "19d6b171-7080-469d-8eb1-38d39b7de149",
     "content-length": "488",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:27 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "90",
-    "x-request-id": "019e46aa-0f05-4415-9786-578e984865a5"
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "19d6b171-7080-469d-8eb1-38d39b7de149"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "js-alert-config-": "js-alert-config-160523060797105169"
+   "js-alert-config-": "js-alert-config-160529683279501419"
   },
   "newDate": {}
  },

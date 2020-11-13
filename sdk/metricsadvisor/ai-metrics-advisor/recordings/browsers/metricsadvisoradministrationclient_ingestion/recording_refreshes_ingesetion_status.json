@@ -6,51 +6,16 @@
    "query": {},
    "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":null}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"}],\"@nextLink\":null}",
    "responseHeaders": {
-    "apim-request-id": "056238fa-a7cc-499a-96f7-ed1f9792438d",
-    "content-length": "99",
+    "apim-request-id": "9d6c7b05-6e3b-41e1-910b-deac40c48daf",
+    "content-length": "97",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:26 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "191",
-    "x-request-id": "056238fa-a7cc-499a-96f7-ed1f9792438d"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress/reset",
-   "query": {},
-   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "85a915d5-9549-49de-8bf0-ad357a2e8629",
-    "content-length": "0",
-    "date": "Fri, 13 Nov 2020 01:23:26 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "195",
-    "x-request-id": "85a915d5-9549-49de-8bf0-ad357a2e8629"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
-   "query": {},
-   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
-   "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"}],\"@nextLink\":null}",
-   "responseHeaders": {
-    "apim-request-id": "2360f927-df3d-4be1-8fa4-952b7e4af768",
-    "content-length": "100",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:26 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "185",
-    "x-request-id": "2360f927-df3d-4be1-8fa4-952b7e4af768"
+    "x-envoy-upstream-service-time": "258",
+    "x-request-id": "9d6c7b05-6e3b-41e1-910b-deac40c48daf"
    }
   }
  ],

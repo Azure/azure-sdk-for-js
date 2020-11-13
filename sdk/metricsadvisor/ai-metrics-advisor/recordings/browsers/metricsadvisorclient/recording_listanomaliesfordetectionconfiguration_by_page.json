@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Tianjin\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "8718e7c0-e6b2-42cc-8678-83692abd5ddd",
+    "apim-request-id": "62ee4a04-c85a-4cd5-a18a-f8e24cd76116",
     "content-length": "498",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:30 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "142",
-    "x-request-id": "8718e7c0-e6b2-42cc-8678-83692abd5ddd"
+    "x-envoy-upstream-service-time": "249",
+    "x-request-id": "62ee4a04-c85a-4cd5-a18a-f8e24cd76116"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Los Angeles\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "843eec40-797e-40ad-a62b-b894cd1e687c",
+    "apim-request-id": "47c58c03-b31e-40f2-88cc-ee07c52a93cd",
     "content-length": "509",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:30 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "150",
-    "x-request-id": "843eec40-797e-40ad-a62b-b894cd1e687c"
+    "x-envoy-upstream-service-time": "222",
+    "x-request-id": "47c58c03-b31e-40f2-88cc-ee07c52a93cd"
    }
   }
  ],

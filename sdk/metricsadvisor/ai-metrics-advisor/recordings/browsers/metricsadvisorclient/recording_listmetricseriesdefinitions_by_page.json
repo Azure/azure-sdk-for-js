@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Miami\",\"category\":\"Health & Personal Care\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Rio de Janeiro\",\"category\":\"Historical & Advertising Collectibles\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "b7aad49c-0c40-413c-a88d-6339a5a20a4e",
+    "apim-request-id": "12b1bcee-e0fc-4166-a731-d76956803ef2",
     "content-length": "435",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:35 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "103",
-    "x-request-id": "b7aad49c-0c40-413c-a88d-6339a5a20a4e"
+    "x-envoy-upstream-service-time": "237",
+    "x-request-id": "12b1bcee-e0fc-4166-a731-d76956803ef2"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Belo Horizonte\",\"category\":\"Electronics (Consumer)\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Kinshasa\",\"category\":\"Beauty\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "e7668fc4-9564-4faa-9576-042d85096f4e",
+    "apim-request-id": "1ab9bd68-8310-42af-80ad-3ca6b391cd04",
     "content-length": "407",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 01:23:35 GMT",
+    "date": "Fri, 13 Nov 2020 19:47:30 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "89",
-    "x-request-id": "e7668fc4-9564-4faa-9576-042d85096f4e"
+    "x-envoy-upstream-service-time": "546",
+    "x-request-id": "1ab9bd68-8310-42af-80ad-3ca6b391cd04"
    }
   }
  ],
