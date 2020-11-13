@@ -25,7 +25,6 @@ export interface RecordedAdvisorClient {
 }
 
 const blobConnectionString = "blob_connection_string";
-const blobContainer = "blob_container";
 const blobTemplate = "blob_template";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -35,13 +34,10 @@ const replaceableVariables: { [k: string]: string } = {
   METRICS_ADVISOR_API_KEY: "api_key",
   METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
   METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING: blobConnectionString,
-  METRICS_ADVISOR_AZURE_BLOB_CONTAINER: blobContainer,
   METRICS_ADVISOR_AZURE_BLOB_TEMPLATE: blobTemplate,
   METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID: "appInsights_application",
   METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY: "appInsights_app_key",
-  METRICS_ADVISOR_AZURE_APPINSIGHTS_QUERY: "appInsights_query",
   METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING: "sqlServer_connection_string",
-  METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY: "sqlServer_query",
   // fake ids
   METRICS_ADVISOR_ALERT_CONFIG_ID: "7edf304f-6487-4e3d-a137-cc4f679bcbc0",
   METRICS_ADVISOR_ALERT_ID: "17470297800",

@@ -27,7 +27,6 @@ extends:
       METRICS_ADVISOR_ALERT_CONFIG_ID: $(js-metrics-azure-blob-alert-config)
       METRCS_ADVISOR_HOOK_ID: $(js-metrics-azure-blob-hook-id)
       METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING: $(metricsadvisor-test-azure-blob-connection-string)
-      METRICS_ADVISOR_AZURE_BLOB_CONTAINER: $(js-metrics-advisor-azure-blob-container)
       METRICS_ADVISOR_AZURE_BLOB_TEMPLATE: $(js-metrics-advisor-azure-blob-template)
       METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING: $(metricsadvisor-test-sql-server-connection-string)
       METRICS_ADVISOR_AZURE_TABLE_CONNECTION_STRING: $(metricsadvisor-test-azure-table-connection-string) 

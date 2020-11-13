@@ -22,7 +22,7 @@ import {
 import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 
-describe("MetricsAdvisorAdministrationClient datafeed", () => {
+describe.only("MetricsAdvisorAdministrationClient datafeed", () => {
   let client: MetricsAdvisorAdministrationClient;
   let recorder: Recorder;
   let feedName: string;
@@ -149,7 +149,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         dataSourceType: "AzureBlob",
         dataSourceParameter: {
           connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
-          container: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONTAINER,
+          container: "adsample",
           blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE
         }
       };
@@ -241,7 +241,7 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
         dataSourceType: "AzureBlob",
         dataSourceParameter: {
           connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
-          container: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONTAINER,
+          container: "adsample",
           blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE
         }
       };
