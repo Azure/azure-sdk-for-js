@@ -12,9 +12,9 @@ const config = {
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/arm-policy-profile-hybrid-2020-09-01.js",
+    file: "./dist/arm-policy-profile-2020-09-01-hybrid.js",
     format: "umd",
-    name: "Azure.ArmPolicyProfileHybrid20200901",
+    name: "Azure.ArmPolicyProfile20200901Hybrid",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",

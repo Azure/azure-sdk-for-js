@@ -10,7 +10,7 @@ This package contains an isomorphic SDK for PolicyClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-policy-profile-hybrid-2020-09-01
+npm install @azure/arm-policy-profile-2020-09-01-hybrid
 ```
 
 ### How to use
@@ -30,7 +30,7 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { PolicyClient, PolicyModels, PolicyMappers } from "@azure/arm-policy-profile-hybrid-2020-09-01";
+import { PolicyClient, PolicyModels, PolicyMappers } from "@azure/arm-policy-profile-2020-09-01-hybrid";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -62,11 +62,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-policy-profile-hybrid-2020-09-01 sample</title>
+    <title>@azure/arm-policy-profile-2020-09-01-hybrid sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-policy-profile-hybrid-2020-09-01/dist/arm-policy-profile-hybrid-2020-09-01.js"></script>
+    <script src="node_modules/@azure/arm-policy-profile-2020-09-01-hybrid/dist/arm-policy-profile-2020-09-01-hybrid.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,7 +78,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmPolicyProfileHybrid20200901.PolicyClient(res.creds, subscriptionId);
+        const client = new Azure.ArmPolicyProfile20200901Hybrid.PolicyClient(res.creds, subscriptionId);
         const policyDefinitionName = "testpolicyDefinitionName";
         client.policyDefinitions.get(policyDefinitionName).then((result) => {
           console.log("The result is:");
@@ -98,4 +98,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/policy/arm-policy-profile-hybrid-2020-09-01/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/policy/arm-policy-profile-2020-09-01-hybrid/README.png)
