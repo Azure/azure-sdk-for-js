@@ -8,17 +8,28 @@
 
 ### Breaking Changes
 
-- Renamed `PhoneNumberSearch` to `PhoneNumberReservation` and renamed its `searchId` property to `reservationId`.
-- Renamed `cancelSearch` to `cancelReservation`.
+#### Model types
+
 - Renamed `CancelSearchOptions` to `CancelReservationOptions`.
+- Removed `GetReleaseOptions`.
+- Removed `GetSearchOptions`.
+- Replaced `CreateSearchOptions` with `BeginReservePhoneNumbersOptions`.
+- Replaced `PurchaseSearchOptions` with `BeginPurchaseReservationOptions`.
+- Replaced `ReleasePhoneNumbersOptions` with `BeginReleasePhoneNumbersOptions`.
+- Renamed `PhoneNumberSearch` to `PhoneNumberReservation`.
+
+#### `PhoneNumberReservation`
+
+- Renamed `searchId` property to `reservationId`.
+
+#### `PhoneNumberAdministrationClient`
+
+- Renamed `cancelSearch` to `cancelReservation`.
 - Removed `getRelease` and `GetReleaseOptions`.
 - Removed `getSearch` and `GetSearchOptions`.
 - Replaced `createSearch` with `beginReservePhoneNumbers` which returns a poller for the long-running operation.
-- Replaced `CreateSearchOptions` with `BeginReservePhoneNumbersOptions`.
 - Replaced `purchaseSearch` with `beginPurchaseReservation` which returns a poller for the long-running operation.
-- Replaced `PurchaseSearchOptions` with `BeginPurchaseReservationOptions`.
 - Replaced `releasePhoneNumbers` with `beginReleasePhoneNumbers` which returns a poller for the long-running operation.
-- Replaced `ReleasePhoneNumbersOptions` with `BeginReleasePhoneNumbersOptions`.
 
 ## 1.0.0-beta.2 (2020-10-06)
 
