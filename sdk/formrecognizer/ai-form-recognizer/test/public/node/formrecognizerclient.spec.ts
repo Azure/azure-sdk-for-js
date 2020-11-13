@@ -114,7 +114,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
       });
 
-      it.only("with selection marks", async () => {
+      it("with selection marks", async () => {
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
         const stream = fs.createReadStream(filePath);
 
@@ -155,7 +155,7 @@ matrix([[true, false]] as const, async (useAad) => {
         return _model;
       }
 
-      it.only("with selection marks", async () => {
+      it("with selection marks", async () => {
         const { modelId } = await requireModel();
 
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
