@@ -5,7 +5,7 @@ module.exports.hash = "5348f8c8e57bee11a45ef17648833e16";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionProgress')
+  .get('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress')
   .reply(200, {"latestSuccessTimestamp":"2020-11-12T00:00:00Z","latestActiveTimestamp":"2020-11-12T00:00:00Z"}, [
   'Content-Length',
   '96',
