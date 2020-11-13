@@ -18,7 +18,7 @@ import {
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 dotenv.config();
 
@@ -28,7 +28,7 @@ describe("AppendBlobClient Node.js only", () => {
   let blobName: string;
   let appendBlobClient: AppendBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
@@ -124,7 +124,7 @@ describe("AppendBlobClient Node.js only", () => {
     await blockBlobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (blockBlobClient as any).pipeline.factories;
@@ -162,7 +162,7 @@ describe("AppendBlobClient Node.js only", () => {
     // Get a SAS for blobURL
     const factories = (blockBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -204,7 +204,7 @@ describe("AppendBlobClient Node.js only", () => {
     // Get a SAS for blobURL
     const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {

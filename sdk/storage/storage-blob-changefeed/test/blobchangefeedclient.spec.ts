@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { record, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
@@ -13,7 +13,7 @@ dotenv.config();
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
 describe("BlobChangeFeedClient", async () => {
-  let recorder: any;
+  let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {
@@ -172,7 +172,7 @@ describe("BlobChangeFeedClient", async () => {
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
-  let recorder: any;
+  let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {
