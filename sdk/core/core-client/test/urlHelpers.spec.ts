@@ -1,0 +1,72 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import { getRequestUrl } from "../src/urlHelpers";
+import { OperationSpec, OperationURLParameter, createSerializer } from "../src";
+
+describe("getRequestUrl", function() {
+  const urlParameter: OperationURLParameter = {
+    parameterPath: "url",
+    mapper: {
+      serializedName: "url",
+      required: true,
+      xmlName: "url",
+      type: {
+        name: "String"
+      }
+    },
+    skipEncoding: true
+  };
+
+  const tableParameter: OperationURLParameter = {
+    parameterPath: "table",
+    mapper: {
+      serializedName: "table",
+      required: true,
+      xmlName: "table",
+      type: {
+        name: "String"
+      }
+    }
+  };
+
+  const serializer = createSerializer({}, false);
+
+  const operationSpec: OperationSpec = {
+    path: "/Tables('{table}')",
+    httpMethod: "DELETE",
+    responses: {},
+    urlParameters: [urlParameter, tableParameter],
+    serializer
+  };
+
+  it("should handle nested replacements", function() {
+    const result = getRequestUrl(
+      "{url}",
+      operationSpec,
+      { table: "TestTable" },
+      { url: "https://test.com" }
+    );
+    assert.strictEqual(result, "https://test.com/Tables('TestTable')");
+  });
+});
+
+/**
+ * const deleteOperationSpec: OperationSpec = {
+  path: "/Tables('{table}')",
+  httpMethod: "DELETE",
+  responses: {
+    204: {
+      headersMapper: Mappers.TableDeleteHeaders
+    },
+    default: {
+      bodyMapper: Mappers.TableServiceError,
+      headersMapper: Mappers.TableDeleteExceptionHeaders
+    }
+  },
+  urlParameters: [Parameters.url, Parameters.table],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
+  serializer
+};
+ */

@@ -34,7 +34,7 @@ export function getRequestUrl(
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
     } else {
-      requestUrl = appendPath(requestUrl, operationSpec.path);
+      requestUrl = appendPath(requestUrl, path);
     }
   }
 
