@@ -7,19 +7,17 @@
  */
 
 export {
+  Alias,
+  AliasPath,
+  AliasPathMetadata,
+  AliasPattern,
   BaseResource,
   CloudError,
+  DataEffect,
+  DataManifestCustomResourceFunctionDefinition,
+  DataPolicyManifest,
+  DataPolicyManifestListResult,
   ErrorAdditionalInfo,
-  ErrorResponse,
-  Identity,
-  ParameterDefinitionsValue,
-  ParameterDefinitionsValueMetadata,
-  ParameterValuesValue,
-  PolicyAssignment,
-  PolicyAssignmentListResult,
-  PolicyDefinition,
-  PolicyDefinitionGroup,
-  PolicyDefinitionReference,
-  PolicySetDefinition,
-  PolicySku
+  ErrorDetail,
+  ResourceTypeAliases
 } from "../models/mappers";

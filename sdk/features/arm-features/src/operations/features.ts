@@ -144,6 +144,38 @@ export class Features {
   }
 
   /**
+   * Unregisters the preview feature for the subscription.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to unregister.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesUnregisterResponse>
+   */
+  unregister(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesUnregisterResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to unregister.
+   * @param callback The callback
+   */
+  unregister(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to unregister.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  unregister(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  unregister(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesUnregisterResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceProviderNamespace,
+        featureName,
+        options
+      },
+      unregisterOperationSpec,
+      callback) as Promise<Models.FeaturesUnregisterResponse>;
+  }
+
+  /**
    * Gets all the preview features that are available through AFEC for the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -278,6 +310,31 @@ const getOperationSpec: msRest.OperationSpec = {
 const registerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/register",
+  urlParameters: [
+    Parameters.resourceProviderNamespace,
+    Parameters.featureName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FeatureResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const unregisterOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/unregister",
   urlParameters: [
     Parameters.resourceProviderNamespace,
     Parameters.featureName,

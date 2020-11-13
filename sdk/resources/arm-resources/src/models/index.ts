@@ -278,7 +278,9 @@ export interface ErrorAdditionalInfo {
 }
 
 /**
- * The resource management error response.
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.)
+ * @summary Error Response
  */
 export interface ErrorResponse {
   /**
@@ -416,6 +418,24 @@ export interface Alias {
 }
 
 /**
+ * The provider extended location.
+ */
+export interface ProviderExtendedLocation {
+  /**
+   * The azure location.
+   */
+  location?: string;
+  /**
+   * The extended location type.
+   */
+  type?: string;
+  /**
+   * The extended locations for the azure location.
+   */
+  extendedLocations?: string[];
+}
+
+/**
  * Resource type managed by the resource provider.
  */
 export interface ProviderResourceType {
@@ -427,6 +447,10 @@ export interface ProviderResourceType {
    * The collection of locations where this resource type can be created.
    */
   locations?: string[];
+  /**
+   * The location mappings that are supported by this resource type.
+   */
+  locationMappings?: ProviderExtendedLocation[];
   /**
    * The aliases that are supported by this resource type.
    */
@@ -696,6 +720,21 @@ export interface DeploymentExtended extends BaseResource {
    * Deployment tags
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * List of resource types of a resource provider.
+ */
+export interface ProviderResourceTypeListResult {
+  /**
+   * An array of resource types.
+   */
+  value?: ProviderResourceType[];
+  /**
+   * The URL to use for getting the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -1502,6 +1541,17 @@ export interface ProvidersGetOptionalParams extends msRest.RequestOptionsBase {
  * Optional Parameters.
  */
 export interface ProvidersGetAtTenantScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The $expand query parameter. For example, to include property aliases in response, use
+   * $expand=resourceTypes/aliases.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderResourceTypesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The $expand query parameter. For example, to include property aliases in response, use
    * $expand=resourceTypes/aliases.
@@ -3146,6 +3196,26 @@ export type ProvidersListAtTenantScopeNextResponse = ProviderListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ProviderResourceTypesListResponse = ProviderResourceTypeListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderResourceTypeListResult;
     };
 };
 

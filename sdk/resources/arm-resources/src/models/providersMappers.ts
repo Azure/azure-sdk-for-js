@@ -16,6 +16,7 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   Provider,
+  ProviderExtendedLocation,
   ProviderListResult,
   ProviderResourceType
 } from "../models/mappers";

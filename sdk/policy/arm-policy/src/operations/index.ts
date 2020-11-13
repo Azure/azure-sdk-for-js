@@ -8,6 +8,4 @@
  * regenerated.
  */
 
-export * from "./policyAssignments";
-export * from "./policyDefinitions";
-export * from "./policySetDefinitions";
+export * from "./dataPolicyManifests";

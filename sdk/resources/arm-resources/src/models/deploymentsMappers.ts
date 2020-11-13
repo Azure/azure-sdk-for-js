@@ -42,6 +42,7 @@ export {
   ParametersLink,
   Plan,
   Provider,
+  ProviderExtendedLocation,
   ProviderResourceType,
   Resource,
   ResourceGroup,

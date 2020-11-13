@@ -675,6 +675,39 @@ export const Alias: msRest.CompositeMapper = {
   }
 };
 
+export const ProviderExtendedLocation: msRest.CompositeMapper = {
+  serializedName: "ProviderExtendedLocation",
+  type: {
+    name: "Composite",
+    className: "ProviderExtendedLocation",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      extendedLocations: {
+        serializedName: "extendedLocations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ProviderResourceType: msRest.CompositeMapper = {
   serializedName: "ProviderResourceType",
   type: {
@@ -694,6 +727,18 @@ export const ProviderResourceType: msRest.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      locationMappings: {
+        serializedName: "locationMappings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderExtendedLocation"
             }
           }
         }
@@ -1166,6 +1211,35 @@ export const DeploymentExtended: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ProviderResourceTypeListResult: msRest.CompositeMapper = {
+  serializedName: "ProviderResourceTypeListResult",
+  type: {
+    name: "Composite",
+    className: "ProviderResourceTypeListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderResourceType"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

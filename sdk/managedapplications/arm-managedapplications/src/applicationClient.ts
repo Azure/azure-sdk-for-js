@@ -13,24 +13,24 @@ import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
-import { ManagedApplicationClientContext } from "./managedApplicationClientContext";
+import { ApplicationClientContext } from "./applicationClientContext";
 
 
-class ManagedApplicationClient extends ManagedApplicationClientContext {
+class ApplicationClient extends ApplicationClientContext {
   // Operation groups
-  appliances: operations.Appliances;
-  applianceDefinitions: operations.ApplianceDefinitions;
+  applications: operations.Applications;
+  applicationDefinitions: operations.ApplicationDefinitions;
 
   /**
-   * Initializes a new instance of the ManagedApplicationClient class.
+   * Initializes a new instance of the ApplicationClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedApplicationClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApplicationClientOptions) {
     super(credentials, subscriptionId, options);
-    this.appliances = new operations.Appliances(this);
-    this.applianceDefinitions = new operations.ApplianceDefinitions(this);
+    this.applications = new operations.Applications(this);
+    this.applicationDefinitions = new operations.ApplicationDefinitions(this);
   }
 
   /**
@@ -130,9 +130,9 @@ const listOperationsNextOperationSpec: msRest.OperationSpec = {
 };
 
 export {
-  ManagedApplicationClient,
-  ManagedApplicationClientContext,
-  Models as ManagedApplicationModels,
-  Mappers as ManagedApplicationMappers
+  ApplicationClient,
+  ApplicationClientContext,
+  Models as ApplicationModels,
+  Mappers as ApplicationMappers
 };
 export * from "./operations";

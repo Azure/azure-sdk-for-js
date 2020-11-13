@@ -30,7 +30,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter0: msRest.OperationQueryParameter = {
+export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -42,39 +42,6 @@ export const filter0: msRest.OperationQueryParameter = {
     }
   },
   skipEncoding: true
-};
-export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const filter2: msRest.OperationQueryParameter = {
-  parameterPath: "filter",
-  mapper: {
-    required: true,
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const managementGroupId: msRest.OperationURLParameter = {
-  parameterPath: "managementGroupId",
-  mapper: {
-    required: true,
-    serializedName: "managementGroupId",
-    type: {
-      name: "String"
-    }
-  }
 };
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
@@ -87,120 +54,11 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const parentResourcePath: msRest.OperationURLParameter = {
-  parameterPath: "parentResourcePath",
+export const policyMode: msRest.OperationURLParameter = {
+  parameterPath: "policyMode",
   mapper: {
     required: true,
-    serializedName: "parentResourcePath",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const policyAssignmentId: msRest.OperationURLParameter = {
-  parameterPath: "policyAssignmentId",
-  mapper: {
-    required: true,
-    serializedName: "policyAssignmentId",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const policyAssignmentName: msRest.OperationURLParameter = {
-  parameterPath: "policyAssignmentName",
-  mapper: {
-    required: true,
-    serializedName: "policyAssignmentName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const policyDefinitionName: msRest.OperationURLParameter = {
-  parameterPath: "policyDefinitionName",
-  mapper: {
-    required: true,
-    serializedName: "policyDefinitionName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const policySetDefinitionName: msRest.OperationURLParameter = {
-  parameterPath: "policySetDefinitionName",
-  mapper: {
-    required: true,
-    serializedName: "policySetDefinitionName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    required: true,
-    serializedName: "resourceGroupName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const resourceName: msRest.OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    required: true,
-    serializedName: "resourceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const resourceProviderNamespace: msRest.OperationURLParameter = {
-  parameterPath: "resourceProviderNamespace",
-  mapper: {
-    required: true,
-    serializedName: "resourceProviderNamespace",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const resourceType: msRest.OperationURLParameter = {
-  parameterPath: "resourceType",
-  mapper: {
-    required: true,
-    serializedName: "resourceType",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const scope: msRest.OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    required: true,
-    serializedName: "scope",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const subscriptionId: msRest.OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    required: true,
-    serializedName: "subscriptionId",
+    serializedName: "policyMode",
     type: {
       name: "String"
     }

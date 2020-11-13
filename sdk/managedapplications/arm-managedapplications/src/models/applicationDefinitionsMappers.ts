@@ -7,12 +7,12 @@
  */
 
 export {
-  Appliance,
-  ApplianceArtifact,
-  ApplianceDefinition,
-  ApplianceDefinitionListResult,
-  AppliancePatchable,
-  ApplianceProviderAuthorization,
+  Application,
+  ApplicationArtifact,
+  ApplicationDefinition,
+  ApplicationDefinitionListResult,
+  ApplicationPatchable,
+  ApplicationProviderAuthorization,
   BaseResource,
   ErrorResponse,
   GenericResource,

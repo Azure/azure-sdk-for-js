@@ -17,21 +17,16 @@ import { PolicyClientContext } from "./policyClientContext";
 
 class PolicyClient extends PolicyClientContext {
   // Operation groups
-  policyAssignments: operations.PolicyAssignments;
-  policyDefinitions: operations.PolicyDefinitions;
-  policySetDefinitions: operations.PolicySetDefinitions;
+  dataPolicyManifests: operations.DataPolicyManifests;
 
   /**
    * Initializes a new instance of the PolicyClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
-    super(credentials, subscriptionId, options);
-    this.policyAssignments = new operations.PolicyAssignments(this);
-    this.policyDefinitions = new operations.PolicyDefinitions(this);
-    this.policySetDefinitions = new operations.PolicySetDefinitions(this);
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.PolicyClientOptions) {
+    super(credentials, options);
+    this.dataPolicyManifests = new operations.DataPolicyManifests(this);
   }
 }
 

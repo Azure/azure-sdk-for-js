@@ -20,6 +20,7 @@ class ResourceManagementClient extends ResourceManagementClientContext {
   operations: operations.Operations;
   deployments: operations.Deployments;
   providers: operations.Providers;
+  providerResourceTypes: operations.ProviderResourceTypes;
   resources: operations.Resources;
   resourceGroups: operations.ResourceGroups;
   tags: operations.TagsOperations;
@@ -36,6 +37,7 @@ class ResourceManagementClient extends ResourceManagementClientContext {
     this.operations = new operations.Operations(this);
     this.deployments = new operations.Deployments(this);
     this.providers = new operations.Providers(this);
+    this.providerResourceTypes = new operations.ProviderResourceTypes(this);
     this.resources = new operations.Resources(this);
     this.resourceGroups = new operations.ResourceGroups(this);
     this.tags = new operations.TagsOperations(this);

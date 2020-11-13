@@ -7,19 +7,15 @@
  */
 
 export {
-  BaseResource,
+  Alias,
+  AliasPath,
+  AliasPathMetadata,
+  AliasPattern,
+  ApiProfile,
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,
-  Identity,
-  ParameterDefinitionsValue,
-  ParameterDefinitionsValueMetadata,
-  ParameterValuesValue,
-  PolicyAssignment,
-  PolicyDefinition,
-  PolicyDefinitionGroup,
-  PolicyDefinitionReference,
-  PolicySetDefinition,
-  PolicySetDefinitionListResult,
-  PolicySku
+  ProviderExtendedLocation,
+  ProviderResourceType,
+  ProviderResourceTypeListResult
 } from "../models/mappers";

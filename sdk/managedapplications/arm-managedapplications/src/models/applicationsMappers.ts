@@ -7,19 +7,18 @@
  */
 
 export {
+  Application,
+  ApplicationArtifact,
+  ApplicationDefinition,
+  ApplicationListResult,
+  ApplicationPatchable,
+  ApplicationProviderAuthorization,
   BaseResource,
-  CloudError,
-  ErrorAdditionalInfo,
   ErrorResponse,
+  GenericResource,
   Identity,
-  ParameterDefinitionsValue,
-  ParameterDefinitionsValueMetadata,
-  ParameterValuesValue,
-  PolicyAssignment,
-  PolicyDefinition,
-  PolicyDefinitionGroup,
-  PolicyDefinitionListResult,
-  PolicyDefinitionReference,
-  PolicySetDefinition,
-  PolicySku
+  Plan,
+  PlanPatchable,
+  Resource,
+  Sku
 } from "../models/mappers";
