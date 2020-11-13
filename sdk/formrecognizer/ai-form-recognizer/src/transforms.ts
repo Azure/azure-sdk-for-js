@@ -378,10 +378,7 @@ function flattenTrainingDocuments(
     );
 
     // Fold these together using a simple reduce
-    return mappedResultDocuments.reduce(
-      (prev, next) => Array.prototype.concat.call(prev, next),
-      []
-    );
+    return ([] as TrainingDocumentInfo[]).concat(...mappedResultDocuments);
   } else if (original.trainResult) {
     // Normal training scenario with only one trainResult
     return original.trainResult.trainingDocuments.map((info) => ({
@@ -398,7 +395,7 @@ function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomForm
   const mappedSubmodels = results.map((r) => toSubmodelsFromTrainResultLabeled(r));
 
   // Flatten the array
-  return mappedSubmodels.reduce((prev, next) => Array.prototype.concat.call(prev, next), []);
+  return ([] as CustomFormSubmodel[]).concat(...mappedSubmodels);
 }
 
 function toSubmodelsFromTrainResultLabeled(
