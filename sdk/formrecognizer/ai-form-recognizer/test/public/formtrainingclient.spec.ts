@@ -149,7 +149,7 @@ matrix([[true, false]] as const, async (useAad) => {
                   submodel.fields["Signature"],
                   "Expecting field with name 'Signature' to be valid"
                 );
-                assert.isNotTrue(model.properties?.isComposed);
+                assert.isNotTrue(model.properties?.isComposedModel);
                 // TODO: move this above this if statement, as it should work
                 // in unlabeled models pending a service fix.
                 assert.equal(model.modelName, modelName);

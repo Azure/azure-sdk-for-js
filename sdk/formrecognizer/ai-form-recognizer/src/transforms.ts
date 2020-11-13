@@ -16,7 +16,8 @@ import {
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   SelectionMark,
   TrainResult,
-  KeysResult
+  KeysResult,
+  Attributes
 } from "./generated/models";
 
 import {
@@ -33,7 +34,8 @@ import {
   CustomFormSubmodel,
   RecognizedFormArray,
   FormSelectionMark,
-  TrainingDocumentInfo
+  TrainingDocumentInfo,
+  CustomFormModelProperties
 } from "./models";
 import { RecognizeContentResultResponse } from "./internalModels";
 
@@ -240,6 +242,9 @@ export function toFormFieldFromFieldValueModel(
     case "phoneNumber":
       value = original.valuePhoneNumber;
       break;
+    case "selectionMark":
+      value = original.valueSelectionMark;
+      break;
     case "array":
       value = original.valueArray?.map((fieldValueModel) =>
         toFormFieldFromFieldValueModel(fieldValueModel, key, readResults)
@@ -316,6 +321,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
 export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: original.docType,
+    formTypeConfidence: original.docTypeConfidence,
     modelId: original.modelId,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
@@ -456,6 +462,18 @@ function flattenCustomFormSubmodels(
   return undefined;
 }
 
+export function toCustomFormModelProperties(
+  original: Attributes | undefined
+): CustomFormModelProperties | undefined {
+  if (original) {
+    return {
+      isComposedModel: original.isComposed
+    };
+  } else {
+    return undefined;
+  }
+}
+
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
   return {
     status: response.modelInfo.status,
@@ -464,7 +482,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     trainingStartedOn: response.modelInfo.trainingStartedOn,
     trainingCompletedOn: response.modelInfo.trainingCompletedOn,
     trainingDocuments: flattenTrainingDocuments(response),
-    properties: response.modelInfo.attributes,
+    properties: toCustomFormModelProperties(response.modelInfo.attributes),
     errors: response.trainResult?.errors,
     submodels: flattenCustomFormSubmodels(response),
     _response: response._response

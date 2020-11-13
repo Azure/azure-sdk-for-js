@@ -13,7 +13,6 @@ import {
   Language,
   LengthUnit,
   ModelsSummary,
-  Attributes as CustomFormModelProperties,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
@@ -32,7 +31,6 @@ export {
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
-  CustomFormModelProperties,
   OperationStatus,
   TrainingStatus
 };
@@ -452,6 +450,16 @@ export interface TrainingDocumentInfo {
    * Status of the training operation.
    */
   status: TrainingStatus;
+}
+
+/**
+ * Optional properties of a custom form model.
+ */
+export interface CustomFormModelProperties {
+  /**
+   * Indicates whether or not the model was composed.
+   */
+  isComposedModel?: boolean;
 }
 
 /**

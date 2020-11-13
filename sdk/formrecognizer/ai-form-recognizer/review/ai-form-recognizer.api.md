@@ -119,7 +119,7 @@ export interface CustomFormModelInfo {
 
 // @public
 export interface CustomFormModelProperties {
-    isComposed?: boolean;
+    isComposedModel?: boolean;
 }
 
 // @public

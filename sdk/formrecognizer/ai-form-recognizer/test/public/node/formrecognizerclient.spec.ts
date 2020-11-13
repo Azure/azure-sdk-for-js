@@ -130,6 +130,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
     describe("custom forms", () => {
       let _model: CustomFormModel;
+      let modelName: string;
 
       // We only want to create the model once, but because of the recorder's
       // precedence, we have to create it in a test, so one test will end up
@@ -139,11 +140,12 @@ matrix([[true, false]] as const, async (useAad) => {
       async function requireModel(): Promise<CustomFormModel> {
         if (!_model) {
           const client = new FormTrainingClient(endpoint(), makeCredential(useAad));
+          modelName = recorder.getUniqueName("customFormModelName");
           const poller = await client.beginTraining(
             env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL,
             true,
             {
-              modelName: recorder.getUniqueName("customFormModelName"),
+              modelName,
               ...testPollingOptions
             }
           );
@@ -165,6 +167,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const [result] = await poller.pollUntilDone();
 
         assert.ok(result);
+        assert.equal(result.formType, `custom:${modelName}`);
+        assert.equal(result.formTypeConfidence, 1);
 
         const [page] = result.pages;
 
