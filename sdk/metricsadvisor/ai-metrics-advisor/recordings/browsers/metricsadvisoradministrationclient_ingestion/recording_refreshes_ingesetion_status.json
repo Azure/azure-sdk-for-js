@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionStatus/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
    "query": {},
    "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
    "status": 200,
@@ -20,7 +20,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionProgress/reset",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress/reset",
    "query": {},
    "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
    "status": 204,
@@ -37,7 +37,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionStatus/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
    "query": {},
    "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
    "status": 200,
