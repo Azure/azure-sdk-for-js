@@ -6,21 +6,21 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionProgress')
-  .reply(200, {"latestSuccessTimestamp":"2020-11-11T00:00:00Z","latestActiveTimestamp":"2020-11-11T00:00:00Z"}, [
+  .reply(200, {"latestSuccessTimestamp":"2020-11-12T00:00:00Z","latestActiveTimestamp":"2020-11-12T00:00:00Z"}, [
   'Content-Length',
   '96',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd89da041-3d82-4d9d-9c8a-a0fb74371473',
+  '9ac82bf7-9a90-43d7-9a54-9ccc14be5551',
   'x-envoy-upstream-service-time',
-  '392',
+  '178',
   'apim-request-id',
-  'd89da041-3d82-4d9d-9c8a-a0fb74371473',
+  '9ac82bf7-9a90-43d7-9a54-9ccc14be5551',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 12 Nov 2020 23:10:29 GMT'
+  'Fri, 13 Nov 2020 01:14:12 GMT'
 ]);

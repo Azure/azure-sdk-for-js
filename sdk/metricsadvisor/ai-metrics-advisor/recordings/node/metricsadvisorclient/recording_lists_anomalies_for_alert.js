@@ -6,21 +6,21 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies')
-  .reply(200, {"value":[{"metricId":"45c7-a1e0-f87c9c7ca80f-189ff959-d9f4","anomalyDetectionConfigurationId":"5c54b62e-6be7-4d64-b085-60e9bd59fa79","timestamp":"2020-10-20T00:00:00Z","createdTime":"2020-10-21T15:54:37.73Z","modifiedTime":"2020-10-21T15:54:37.73Z","dimension":{"city":"Delhi","category":"Shoes Handbags & Sunglasses"},"property":{"anomalySeverity":"Medium","anomalyStatus":"Active"}},{"metricId":"45c7-a1e0-f87c9c7ca80f-189ff959-d9f4","anomalyDetectionConfigurationId":"5c54b62e-6be7-4d64-b085-60e9bd59fa79","timestamp":"2020-10-20T00:00:00Z","createdTime":"2020-10-21T15:54:37.73Z","modifiedTime":"2020-10-21T15:54:37.73Z","dimension":{"city":"Karachi","category":"Handmade"},"property":{"anomalySeverity":"Medium","anomalyStatus":"Active"}}],"@nextLink":null}, [
+  .reply(200, {"value":[{"metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","anomalyDetectionConfigurationId":"26ece682-80a6-4415-89a2-05903dd9a640","timestamp":"2020-10-20T00:00:00Z","createdTime":"2020-10-21T15:54:37.73Z","modifiedTime":"2020-10-21T15:54:37.73Z","dimension":{"city":"Delhi","category":"Shoes Handbags & Sunglasses"},"property":{"anomalySeverity":"Medium","anomalyStatus":"Active"}},{"metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","anomalyDetectionConfigurationId":"26ece682-80a6-4415-89a2-05903dd9a640","timestamp":"2020-10-20T00:00:00Z","createdTime":"2020-10-21T15:54:37.73Z","modifiedTime":"2020-10-21T15:54:37.73Z","dimension":{"city":"Karachi","category":"Handmade"},"property":{"anomalySeverity":"Medium","anomalyStatus":"Active"}}],"@nextLink":null}, [
   'Content-Length',
   '763',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '1f4ee7c5-e590-4ee3-8e65-0a0aeb7bca5d',
+  'c4da253b-bdc0-4286-b4dd-4abaaed931b0',
   'x-envoy-upstream-service-time',
-  '72',
+  '74',
   'apim-request-id',
-  '1f4ee7c5-e590-4ee3-8e65-0a0aeb7bca5d',
+  'c4da253b-bdc0-4286-b4dd-4abaaed931b0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 12 Nov 2020 23:10:41 GMT'
+  'Fri, 13 Nov 2020 01:14:32 GMT'
 ]);
