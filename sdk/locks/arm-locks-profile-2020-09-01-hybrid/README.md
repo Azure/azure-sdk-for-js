@@ -10,7 +10,7 @@ This package contains an isomorphic SDK for ManagementLockClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-locks-profile-hybrid-2020-09-01
+npm install @azure/arm-locks-profile-2020-09-01-hybrid
 ```
 
 ### How to use
@@ -30,7 +30,7 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ManagementLockClient, ManagementLockModels, ManagementLockMappers } from "@azure/arm-locks-profile-hybrid-2020-09-01";
+import { ManagementLockClient, ManagementLockModels, ManagementLockMappers } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -61,11 +61,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-locks-profile-hybrid-2020-09-01 sample</title>
+    <title>@azure/arm-locks-profile-2020-09-01-hybrid sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-locks-profile-hybrid-2020-09-01/dist/arm-locks-profile-hybrid-2020-09-01.js"></script>
+    <script src="node_modules/@azure/arm-locks-profile-2020-09-01-hybrid/dist/arm-locks-profile-2020-09-01-hybrid.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -77,7 +77,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmLocksProfileHybrid20200901.ManagementLockClient(res.creds, subscriptionId);
+        const client = new Azure.ArmLocksProfile20200901Hybrid.ManagementLockClient(res.creds, subscriptionId);
         client.authorizationOperations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
@@ -96,4 +96,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/locks/arm-locks-profile-hybrid-2020-09-01/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/locks/arm-locks-profile-2020-09-01-hybrid/README.png)
