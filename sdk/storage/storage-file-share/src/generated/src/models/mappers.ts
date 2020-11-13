@@ -391,11 +391,11 @@ export const ListHandlesResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShareProperties: coreHttp.CompositeMapper = {
-  serializedName: "ShareProperties",
+export const SharePropertiesInternal: coreHttp.CompositeMapper = {
+  serializedName: "SharePropertiesInternal",
   type: {
     name: "Composite",
-    className: "ShareProperties",
+    className: "SharePropertiesInternal",
     modelProperties: {
       lastModified: {
         xmlName: "Last-Modified",
@@ -543,12 +543,12 @@ export const ShareProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShareItem: coreHttp.CompositeMapper = {
+export const ShareItemInternal: coreHttp.CompositeMapper = {
   xmlName: "Share",
-  serializedName: "ShareItem",
+  serializedName: "ShareItemInternal",
   type: {
     name: "Composite",
-    className: "ShareItem",
+    className: "ShareItemInternal",
     modelProperties: {
       name: {
         xmlName: "Name",
@@ -585,7 +585,7 @@ export const ShareItem: coreHttp.CompositeMapper = {
         serializedName: "Properties",
         type: {
           name: "Composite",
-          className: "ShareProperties"
+          className: "SharePropertiesInternal"
         }
       },
       metadata: {
@@ -651,7 +651,7 @@ export const ListSharesResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ShareItem"
+              className: "ShareItemInternal"
             }
           }
         }

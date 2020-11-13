@@ -165,7 +165,7 @@ export interface ListHandlesResponse {
 /**
  * Properties of a share.
  */
-export interface ShareProperties {
+export interface SharePropertiesInternal {
   lastModified: Date;
   etag: string;
   quota: number;
@@ -200,12 +200,12 @@ export interface ShareProperties {
 /**
  * A listed Azure Storage share item.
  */
-export interface ShareItem {
+export interface ShareItemInternal {
   name: string;
   snapshot?: string;
   deleted?: boolean;
   version?: string;
-  properties: ShareProperties;
+  properties: SharePropertiesInternal;
   metadata?: { [propertyName: string]: string };
 }
 
@@ -217,7 +217,7 @@ export interface ListSharesResponse {
   prefix?: string;
   marker?: string;
   maxResults?: number;
-  shareItems?: ShareItem[];
+  shareItems?: ShareItemInternal[];
   continuationToken: string;
 }
 
