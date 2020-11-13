@@ -12,15 +12,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '9131f6f1-bbbc-48a6-8481-a7defe5cb371',
+  'e1f45c66-80ca-4e62-9f13-ff7ddbc55240',
   'x-envoy-upstream-service-time',
-  '241',
+  '207',
   'apim-request-id',
-  '9131f6f1-bbbc-48a6-8481-a7defe5cb371',
+  'e1f45c66-80ca-4e62-9f13-ff7ddbc55240',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 13 Nov 2020 19:46:04 GMT'
+  'Fri, 13 Nov 2020 21:54:08 GMT'
 ]);
