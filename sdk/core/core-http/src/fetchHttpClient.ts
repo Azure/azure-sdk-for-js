@@ -73,9 +73,9 @@ export abstract class FetchHttpClient implements HttpClient {
       registerCleanUpListenerOnStream = (stream: NodeJS.ReadableStream, isDownload: boolean) => {
         const cleanupCallback = () => {
           if (isDownload) {
-            isDownloadStreamActive = false;
+            streamingDownload = false;
           } else {
-            isUploadStreamActive = false;
+            streamingUpload = false;
           }
           stream.removeListener("close", cleanupCallback);
           stream.removeListener("end", cleanupCallback);
@@ -83,7 +83,7 @@ export abstract class FetchHttpClient implements HttpClient {
 
           if (abortListener) {
             // unregister only when the other stream is not active
-            if ((isDownload && !isUploadStreamActive) || (!isDownload && !isDownloadStreamActive))
+            if ((isDownload && !streamingUpload) || (!isDownload && !streamingDownload))
               httpRequest.abortSignal?.removeEventListener("abort", abortListener);
           }
         };
@@ -149,7 +149,7 @@ export abstract class FetchHttpClient implements HttpClient {
         ? httpRequest.body()
         : httpRequest.body
       : undefined;
-    let isUploadStreamActive = false;
+    let streamingUpload = false;
     if (httpRequest.onUploadProgress && httpRequest.body) {
       const onUploadProgress = httpRequest.onUploadProgress;
       const uploadReportStream = new ReportTransform(onUploadProgress);
@@ -162,7 +162,7 @@ export abstract class FetchHttpClient implements HttpClient {
       body = uploadReportStream;
     }
     if (registerCleanUpListenerOnStream && isReadableStream(body)) {
-      isUploadStreamActive = true;
+      streamingUpload = true;
       registerCleanUpListenerOnStream(body, false);
     }
 
@@ -180,7 +180,7 @@ export abstract class FetchHttpClient implements HttpClient {
     };
 
     let operationResponse: HttpOperationResponse | undefined;
-    let isDownloadStreamActive = false;
+    let streamingDownload = false;
     try {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
@@ -215,7 +215,7 @@ export abstract class FetchHttpClient implements HttpClient {
         registerCleanUpListenerOnStream &&
         isReadableStream(operationResponse.readableStreamBody)
       ) {
-        isDownloadStreamActive = true;
+        streamingDownload = true;
         registerCleanUpListenerOnStream(operationResponse.readableStreamBody, true);
       }
 
@@ -237,9 +237,7 @@ export abstract class FetchHttpClient implements HttpClient {
 
       throw fetchError;
     } finally {
-      const isStreaming =
-        isReadableStream(operationResponse?.readableStreamBody) || isReadableStream(body);
-      if (!isStreaming && abortListener) {
+      if (!(streamingUpload || streamingDownload) && abortListener) {
         httpRequest.abortSignal?.removeEventListener("abort", abortListener);
       }
     }
