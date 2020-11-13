@@ -8,9 +8,12 @@ import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong
+  throwTypeErrorIfParameterNotLong,
+  throwErrorIfInvalidOperationOnMessage,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import {
@@ -297,10 +300,6 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
-
     const managementRequestOptions = {
       ...options,
       associatedLinkName: this._messageSession.name,
@@ -380,9 +379,20 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const receiveBatchOperationPromise = async () => {
@@ -494,6 +504,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return completeMessage(msgImpl, this._context, this.entityPath);
   }
@@ -502,6 +514,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
@@ -510,6 +524,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
@@ -518,6 +534,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }

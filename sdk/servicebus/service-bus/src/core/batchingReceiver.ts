@@ -253,7 +253,6 @@ export class BatchingReceiverLite {
 
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        _connectionContext.dataTransformer,
         context.message!,
         context.delivery!,
         true,
@@ -411,8 +410,13 @@ export class BatchingReceiverLite {
             // a chance to have fewer messages internally that could get lost if the user's
             // app crashes in receiveAndDelete mode.
             if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
+            const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
+            totalWaitTimer = setTimeout(() => {
+              logger.verbose(
+                `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
+              );
+              finalAction();
+            }, remainingWaitTimeInMs);
           }
         }
 
@@ -487,14 +491,6 @@ export class BatchingReceiverLite {
         reject(err);
       }, args.abortSignal);
 
-      // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout = (): void => {
-        logger.verbose(
-          `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
-        );
-        return finalAction();
-      };
-
       logger.verbose(
         `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
       );
@@ -509,7 +505,12 @@ export class BatchingReceiverLite {
         `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
       );
 
-      totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
+      totalWaitTimer = setTimeout(() => {
+        logger.verbose(
+          `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
+        );
+        finalAction();
+      }, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
       receiver.on(ReceiverEvents.receiverError, onError);

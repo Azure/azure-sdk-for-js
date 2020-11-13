@@ -143,7 +143,7 @@ describe("LeaseClient from File", () => {
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
   let fileClient: DataLakeFileClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -266,7 +266,7 @@ describe("LeaseClient from Directory", () => {
   let fileSystemClient: DataLakeFileSystemClient;
   let directoryName: string;
   let directoryClient: DataLakeDirectoryClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

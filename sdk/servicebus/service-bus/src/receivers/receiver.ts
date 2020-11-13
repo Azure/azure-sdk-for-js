@@ -14,11 +14,13 @@ import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
-  getErrorMessageNotSupportedInReceiveAndDeleteMode,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong
+  throwTypeErrorIfParameterNotLong,
+  throwErrorIfInvalidOperationOnMessage,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
@@ -155,7 +157,7 @@ export interface ServiceBusReceiver {
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled.
    * property on the message if you are not sure whether the message is settled.
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
@@ -178,7 +180,7 @@ export interface ServiceBusReceiver {
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled.
    * property on the message if you are not sure whether the message is settled.
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
@@ -206,7 +208,7 @@ export interface ServiceBusReceiver {
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled.
    * property on the message if you are not sure whether the message is settled.
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
@@ -234,7 +236,7 @@ export interface ServiceBusReceiver {
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled.
    * property on the message if you are not sure whether the message is settled.
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
@@ -457,9 +459,20 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const receiveMessages = async () => {
@@ -552,10 +565,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
-
     const managementRequestOptions = {
       ...options,
       associatedLinkName: this._getAssociatedReceiverName(),
@@ -624,6 +633,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return completeMessage(msgImpl, this._context, this.entityPath);
   }
@@ -632,6 +643,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
@@ -640,6 +653,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
@@ -648,35 +663,19 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
     return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
   async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
+
     const msgImpl = message as ServiceBusMessageImpl;
-    if (!msgImpl.delivery) {
-      throw new Error("A peeked message does not have a lock to be renewed.");
-    }
 
     let associatedLinkName: string | undefined;
-    let error: Error | undefined;
-    if (!message.lockToken) {
-      error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
-      );
-    } else if (msgImpl.delivery.remote_settled) {
-      error = new Error(`Failed to renew the lock as this message is already settled.`);
-    }
-    if (error) {
-      logger.logError(
-        error,
-        "[%s] An error occurred when renewing the lock on the message with id '%s'",
-        this._context.connectionId,
-        message.messageId
-      );
-      throw error;
-    }
-
     if (msgImpl.delivery.link) {
       const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
       associatedLinkName = associatedReceiver?.name;

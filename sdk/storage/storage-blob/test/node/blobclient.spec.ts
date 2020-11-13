@@ -5,7 +5,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, record } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 import {
   BlobClient,
@@ -38,8 +38,9 @@ describe("BlobClient Node.js only", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
   const tempFolderPath = "temp";
+  const timeoutForLargeFile = 20 * 60 * 1000;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
@@ -205,7 +206,7 @@ describe("BlobClient Node.js only", () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (containerClient as any).pipeline.factories;
@@ -499,7 +500,7 @@ describe("BlobClient Node.js only", () => {
     unlinkSync(tempFileLarge);
 
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFile);
 
   it("query should work with aborter", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");

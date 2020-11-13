@@ -18,6 +18,7 @@ import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { ProcessErrorArgs } from "../src/models";
+import { InvalidOperationForPeekedMessage } from "../src/util/errors";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -78,7 +79,7 @@ describe("Message Lock Renewal", () => {
       await receiver.renewMessageLock(peekedMsg);
       assert.fail("renewMessageLock should have failed");
     } catch (error) {
-      should.equal(error.message, "A peeked message does not have a lock to be renewed.");
+      should.equal(error.message, InvalidOperationForPeekedMessage);
     }
 
     // Clean up any left over messages
@@ -227,7 +228,7 @@ describe("Message Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(msgs[0]).catch((err) => {
-      should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
+      should.equal(err.code, "MessageLockLost", "Error code is different than expected");
       errorWasThrown = true;
     });
 
@@ -356,7 +357,7 @@ describe("Message Lock Renewal", () => {
         }
       } catch (err) {
         if (options.willCompleteFail) {
-          should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
+          should.equal(err.code, "MessageLockLost", "Error code is different than expected");
         } else {
           throw err;
         }

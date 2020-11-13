@@ -12,7 +12,6 @@ import {
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
   GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
@@ -28,9 +27,10 @@ import {
   Point2D,
   FormModelResponse,
   CustomFormModelField,
-  CustomFormSubmodel
+  CustomFormSubmodel,
+  RecognizedFormArray
 } from "./models";
-import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
+import { RecognizeContentResultResponse } from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
@@ -150,58 +150,47 @@ export function toFormPages(
 ): FormPage[] {
   const transformed = readResults?.map(toFormPage);
   // maps from page numbers to the objects
-  const readMap = new Map<number, FormPage>(transformed?.map((r) => [r.pageNumber, r]));
   const pageMap = new Map<number, PageResultModel>(pageResults?.map((r) => [r.pageNumber, r]));
-  const result = [];
-  for (const pageNumber of readMap.keys()) {
-    const readResult = readMap.get(pageNumber);
-    if (readResult) {
+  return (
+    transformed?.map((page) => {
+      const { pageNumber } = page;
       const pageResult = pageMap.get(pageNumber);
-      if (pageResult) {
-        readResult.tables = pageResult.tables?.map((table) =>
-          toFormTable(table, transformed!, pageNumber)
-        );
-        result.push(readResult);
-      }
-    }
-  }
-
-  return result;
+      return {
+        ...page,
+        tables:
+          pageResult?.tables?.map((table) => toFormTable(table, transformed, pageNumber)) ?? []
+      };
+    }) ?? []
+  );
 }
 
-export function toRecognizeFormResultResponse(
-  original: GetAnalyzeFormResultResponse
-): RecognizeFormResultResponse {
+export function toRecognizedFormArray(
+  original: GetAnalyzeFormResultResponse,
+  expectedDocType?: string
+): RecognizedFormArray {
   const pages = toFormPages(
     original.analyzeResult?.readResults,
     original.analyzeResult?.pageResults
   );
-  const common = {
-    status: original.status,
-    createdOn: original.createdOn,
-    errors: original.analyzeResult?.errors,
-    lastModified: original.lastModified,
-    _response: original._response
-  };
 
-  if (original.status !== "succeeded") {
-    return common;
+  if (original.analyzeResult?.documentResults?.length) {
+    // supervised/prebuilt results come from documentResults
+    return (
+      original.analyzeResult?.documentResults
+        ?.filter((d) => !!d.fields)
+        ?.map((d) => {
+          if (expectedDocType !== undefined && expectedDocType !== d.docType) {
+            throw new RangeError(
+              `Expected document type '${expectedDocType}', but found '${d.docType}'.`
+            );
+          }
+          return toRecognizedForm(d, pages);
+        }) ?? []
+    );
+  } else {
+    // unsupervised results from from pageResults;
+    return original.analyzeResult?.pageResults?.map((p) => toFormFromPageResult(p, pages)) ?? [];
   }
-
-  const additional = original.analyzeResult
-    ? {
-        version: original.analyzeResult.version,
-        forms:
-          original.analyzeResult.documentResults &&
-          original.analyzeResult.documentResults.length > 0
-            ? original.analyzeResult.documentResults.map((d) => toRecognizedForm(d, pages)) // supervised
-            : original.analyzeResult.pageResults?.map((p) => toFormFromPageResult(p, pages)) // unsupervised
-      }
-    : undefined;
-  return {
-    ...common,
-    ...additional
-  };
 }
 
 export function toFormFieldFromFieldValueModel(
@@ -350,41 +339,6 @@ export function toRecognizeContentResultResponse(
   } else {
     return common;
   }
-}
-
-export function toRecognizeFormResultResponseFromReceipt(
-  original: GetAnalyzeReceiptResultResponse
-): RecognizeFormResultResponse {
-  const common = {
-    status: original.status,
-    createdOn: original.createdOn,
-    errors: original.analyzeResult?.errors,
-    lastModified: original.lastModified,
-    _response: original._response
-  };
-  if (original.status !== "succeeded") {
-    return common;
-  }
-
-  if (!original.analyzeResult) {
-    throw new Error("Expecting valid analyzeResult from the service response");
-  }
-
-  const pages = original.analyzeResult!.readResults.map(toFormPage);
-  return {
-    ...common,
-    version: original.analyzeResult!.version,
-    forms: original
-      .analyzeResult!.documentResults!.filter((d) => {
-        return !!d.fields;
-      })
-      .map((d) => {
-        if (d.docType !== "prebuilt:receipt") {
-          throw new RangeError("The document type is not 'prebuilt:receipt'");
-        }
-        return toRecognizedForm(d, pages);
-      })
-  };
 }
 
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {

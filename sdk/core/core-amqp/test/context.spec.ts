@@ -3,7 +3,7 @@
 
 import * as chai from "chai";
 const should = chai.should();
-import { CbsClient, ConnectionConfig, ConnectionContextBase, DefaultDataTransformer } from "../src";
+import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
 import { isNode } from "../src/util/utils";
 
@@ -26,14 +26,12 @@ describe("ConnectionContextBase", function() {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
-    should.exist(context.dataTransformer);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.cbsSession.should.instanceOf(CbsClient);
-    context.dataTransformer.should.instanceOf(DefaultDataTransformer);
     done();
   });
 
@@ -133,7 +131,6 @@ describe("ConnectionContextBase", function() {
       should.exist(context.connectionId);
       should.exist(context.connectionLock);
       should.exist(context.negotiateClaimLock);
-      should.exist(context.dataTransformer);
       context.wasConnectionCloseCalled.should.equal(false);
       context.cbsSession.should.instanceOf(CbsClient);
 

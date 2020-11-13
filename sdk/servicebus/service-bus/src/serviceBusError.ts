@@ -1,11 +1,11 @@
-import { isMessagingError, MessagingErrorCodes, MessagingError, translate } from "@azure/core-amqp";
+import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 import { AmqpError } from "rhea-promise";
 
 /**
- * Service Bus failure reasons.
+ * Service Bus failure codes.
  */
-export type ServiceBusErrorReason =
-  // note: This list is intended to mirror https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Primitives/ServiceBusFailureReason.cs
+export type ServiceBusErrorCode =
+  // note: This list is intended to loosely follow https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Primitives/ServiceBusFailureReason.cs
   /**
    * The exception was the result of a general error within the client library.
    */
@@ -64,15 +64,12 @@ export type ServiceBusErrorReason =
   | "Unauthorized";
 
 /**
- * Translation between the MessagingErrorCodes into a ServiceBusReason
+ * Translation between the MessagingErrorCodes into a ServiceBusCode
  *
  * @internal
  * @ignore
  */
-export const wellKnownMessageCodesToServiceBusReasons: Map<
-  MessagingErrorCodes,
-  ServiceBusErrorReason
-> = new Map([
+export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusErrorCode> = new Map([
   ["MessagingEntityNotFoundError", "MessagingEntityNotFound"],
   ["MessageLockLostError", "MessageLockLost"],
   ["MessageNotFoundError", "MessageNotFound"],
@@ -114,7 +111,7 @@ export class ServiceBusError extends MessagingError {
    * **Unauthorized"**: The user doesn't have access to the entity.
    */
   // NOTE: make sure this list and the list above are properly kept in sync.
-  reason: ServiceBusErrorReason;
+  code: ServiceBusErrorCode;
 
   /**
    * @param {string} message The error message that provides more information about the error.
@@ -129,17 +126,15 @@ export class ServiceBusError extends MessagingError {
     }
 
     this.name = "ServiceBusError";
-    this.reason = ServiceBusError.convertMessagingCodeToReason(this.code);
+    this.code = ServiceBusError.normalizeMessagingCode(messagingError.code);
   }
 
-  private static convertMessagingCodeToReason(oldCode?: string): ServiceBusErrorReason {
-    const code = oldCode as MessagingErrorCodes | undefined;
-
-    if (code == null || !wellKnownMessageCodesToServiceBusReasons.has(code)) {
+  private static normalizeMessagingCode(oldCode?: string): ServiceBusErrorCode {
+    if (oldCode == null || !wellKnownMessageCodesToServiceBusCodes.has(oldCode)) {
       return "GeneralError";
     }
 
-    return wellKnownMessageCodesToServiceBusReasons.get(code)!;
+    return wellKnownMessageCodesToServiceBusCodes.get(oldCode)!;
   }
 }
 
@@ -172,8 +167,6 @@ export function translateServiceBusError(err: AmqpError | Error): ServiceBusErro
  *
  * @param err An error to check to see if it's of type ServiceBusError
  */
-export function isServiceBusError(
-  err: Error | AmqpError | ServiceBusError
-): err is ServiceBusError {
-  return (err as Error | ServiceBusError).name === "ServiceBusError";
+export function isServiceBusError(err: any): err is ServiceBusError {
+  return err?.name === "ServiceBusError";
 }
