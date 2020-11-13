@@ -4,7 +4,7 @@
 
 ### Added
 
-- Added support for long-running operations.
+- Added support for long-running operations. See details under Breaking Changes.
 
 ### Breaking Changes
 
