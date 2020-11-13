@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "76656b70-c5fd-4f63-8c37-fd30278b537d",
+    "apim-request-id": "1360c45b-0cb8-46e3-ab4b-c43f60bcb5e2",
     "content-length": "259",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 21:55:47 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "481",
-    "x-request-id": "76656b70-c5fd-4f63-8c37-fd30278b537d"
+    "x-envoy-upstream-service-time": "478",
+    "x-request-id": "1360c45b-0cb8-46e3-ab4b-c43f60bcb5e2"
    }
   }
  ],

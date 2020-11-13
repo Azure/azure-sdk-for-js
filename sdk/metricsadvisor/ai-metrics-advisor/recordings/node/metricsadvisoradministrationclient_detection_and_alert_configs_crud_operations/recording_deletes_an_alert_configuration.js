@@ -5,41 +5,41 @@ module.exports.hash = "7dfa40ad7c8743266d5b9f72b2cbdbdf";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/988c6443-ef9c-4c77-b494-75e0a8a6aeb7')
+  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/180377ec-559a-40d1-af6c-2b3d9d5909bf')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'a66df618-7e91-4d38-a59f-839d323f3254',
+  '8428f53d-edb0-41db-aac8-a8a0d27713b5',
   'x-envoy-upstream-service-time',
-  '139',
+  '134',
   'apim-request-id',
-  'a66df618-7e91-4d38-a59f-839d323f3254',
+  '8428f53d-edb0-41db-aac8-a8a0d27713b5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 13 Nov 2020 21:54:12 GMT'
+  'Fri, 13 Nov 2020 22:02:43 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/988c6443-ef9c-4c77-b494-75e0a8a6aeb7')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: b16b562a-bbe6-4d41-991a-f241753fab50"}, [
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/180377ec-559a-40d1-af6c-2b3d9d5909bf')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: d6d2aee5-4053-40ff-b92a-07b986247a75"}, [
   'Content-Length',
   '123',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '24cba4e2-14cc-408b-a435-69a626679da5',
+  'bdf0dec9-9294-4cdd-be02-7aac53e847c2',
   'x-envoy-upstream-service-time',
-  '71',
+  '80',
   'apim-request-id',
-  '24cba4e2-14cc-408b-a435-69a626679da5',
+  'bdf0dec9-9294-4cdd-be02-7aac53e847c2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 13 Nov 2020 21:54:12 GMT'
+  'Fri, 13 Nov 2020 22:02:43 GMT'
 ]);

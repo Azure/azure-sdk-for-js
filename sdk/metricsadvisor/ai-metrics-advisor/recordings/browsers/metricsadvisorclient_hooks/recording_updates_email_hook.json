@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/a6f5ac5b-5857-4a38-adbc-2a222ff66f99",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/14031747-4f83-4625-b6bb-56c14742a3e7",
    "query": {},
    "requestBody": "{\"hookType\":\"Email\",\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "af75bc64-d90c-4251-b654-16e7a50ee848",
+    "apim-request-id": "77139d03-b51d-4ff9-89e3-2da597ae486c",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 21:56:14 GMT",
+    "date": "Fri, 13 Nov 2020 22:05:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "512",
-    "x-request-id": "af75bc64-d90c-4251-b654-16e7a50ee848"
+    "x-envoy-upstream-service-time": "371",
+    "x-request-id": "77139d03-b51d-4ff9-89e3-2da597ae486c"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/a6f5ac5b-5857-4a38-adbc-2a222ff66f99",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/14031747-4f83-4625-b6bb-56c14742a3e7",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"a6f5ac5b-5857-4a38-adbc-2a222ff66f99\",\"hookName\":\"js-test-emailHook-160530457349904957\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
+   "response": "{\"hookId\":\"14031747-4f83-4625-b6bb-56c14742a3e7\",\"hookName\":\"js-test-emailHook-160530509848002272\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "responseHeaders": {
-    "apim-request-id": "e50d491c-8356-4bb0-894e-85ebaabf416e",
+    "apim-request-id": "7e465e08-3c90-4f5e-98c6-0bc6ef6473bd",
     "content-length": "268",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 21:56:14 GMT",
+    "date": "Fri, 13 Nov 2020 22:05:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "139",
-    "x-request-id": "e50d491c-8356-4bb0-894e-85ebaabf416e"
+    "x-envoy-upstream-service-time": "176",
+    "x-request-id": "7e465e08-3c90-4f5e-98c6-0bc6ef6473bd"
    }
   }
  ],

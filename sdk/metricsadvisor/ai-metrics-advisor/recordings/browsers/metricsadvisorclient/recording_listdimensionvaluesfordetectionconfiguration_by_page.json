@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[\"Karachi\",\"__SUM__\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "afec214b-176e-49b3-ad4f-857e328b9d29",
+    "apim-request-id": "8cf27d3c-6277-46f6-a5f0-d796b2606c57",
     "content-length": "245",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 21:55:36 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "460",
-    "x-request-id": "afec214b-176e-49b3-ad4f-857e328b9d29"
+    "x-envoy-upstream-service-time": "205",
+    "x-request-id": "8cf27d3c-6277-46f6-a5f0-d796b2606c57"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "77b91c60-8aea-45f3-b52e-41102aa4ade5",
+    "apim-request-id": "88fd1cf5-4488-40c2-b17d-143851052c98",
     "content-length": "247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 21:55:36 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "451",
-    "x-request-id": "77b91c60-8aea-45f3-b52e-41102aa4ade5"
+    "x-envoy-upstream-service-time": "217",
+    "x-request-id": "88fd1cf5-4488-40c2-b17d-143851052c98"
    }
   }
  ],
