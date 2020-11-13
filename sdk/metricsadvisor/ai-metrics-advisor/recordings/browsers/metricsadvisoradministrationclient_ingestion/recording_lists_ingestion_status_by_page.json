@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-08-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionStatus/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "6c11f467-c5fa-437a-bb4f-764a2a4fd93d",
+    "apim-request-id": "c975afef-8d3c-4534-94c7-7ef2e89ad316",
     "content-length": "330",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:01 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "369",
-    "x-request-id": "6c11f467-c5fa-437a-bb4f-764a2a4fd93d"
+    "x-envoy-upstream-service-time": "286",
+    "x-request-id": "c975afef-8d3c-4534-94c7-7ef2e89ad316"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-08-29T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-28T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/89a2-05903dd9a640-26ece682-80a6-4415/ingestionStatus/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "b1a402bc-c722-40cf-864f-c31f1db07496",
+    "apim-request-id": "5284a5eb-2831-4fc9-8981-2c2fd0db159e",
     "content-length": "330",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:01 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "393",
-    "x-request-id": "b1a402bc-c722-40cf-864f-c31f1db07496"
+    "x-envoy-upstream-service-time": "273",
+    "x-request-id": "5284a5eb-2831-4fc9-8981-2c2fd0db159e"
    }
   }
  ],

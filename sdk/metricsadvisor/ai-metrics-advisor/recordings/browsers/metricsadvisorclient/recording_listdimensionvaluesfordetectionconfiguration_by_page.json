@@ -2,43 +2,43 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
    "query": {
     "$top": "2"
    },
    "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Karachi\",\"__SUM__\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[\"Karachi\",\"__SUM__\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "b86839e7-47db-455c-8538-ce1a1d36ccd7",
+    "apim-request-id": "de8f2201-e74a-4ace-b7b2-19a82e661a0f",
     "content-length": "245",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:09 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "310",
-    "x-request-id": "b86839e7-47db-455c-8538-ce1a1d36ccd7"
+    "x-envoy-upstream-service-time": "205",
+    "x-request-id": "de8f2201-e74a-4ace-b7b2-19a82e661a0f"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
    "query": {
     "$top": "2",
     "$skip": "2"
    },
    "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/anomalies/dimension/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "19b4a56a-4db9-4af4-bcae-1f519f9853f3",
+    "apim-request-id": "e1ffe134-076f-43b3-b230-894598d141f3",
     "content-length": "247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:09 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "274",
-    "x-request-id": "19b4a56a-4db9-4af4-bcae-1f519f9853f3"
+    "x-envoy-upstream-service-time": "210",
+    "x-request-id": "e1ffe134-076f-43b3-b230-894598d141f3"
    }
   }
  ],

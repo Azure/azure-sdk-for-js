@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5c54b62e-6be7-4d64-b085-60e9bd59fa79/incidents/5938cd75cfdecfff045-17465dcc000045f03a31628d/rootCause",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "45332d55-1c24-4a30-9079-ff8ebc686c1d",
+    "apim-request-id": "29191419-b93b-4e9c-a14e-d5f7098f158f",
     "content-length": "259",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:15 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "250",
-    "x-request-id": "45332d55-1c24-4a30-9079-ff8ebc686c1d"
+    "x-envoy-upstream-service-time": "395",
+    "x-request-id": "29191419-b93b-4e9c-a14e-d5f7098f158f"
    }
   }
  ],

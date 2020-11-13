@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/1a3333b4-b0da-4789-9c09-ac3a776f289b",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/69fb8dc6-00d1-4c70-b13f-ed7b34f89e70",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "863c2e4b-2844-41d0-b6eb-c2aa10071fc1",
+    "apim-request-id": "8f0320d5-2752-475d-9726-053a7864e863",
     "content-length": "0",
-    "date": "Thu, 12 Nov 2020 23:17:05 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "90",
-    "x-request-id": "863c2e4b-2844-41d0-b6eb-c2aa10071fc1"
+    "x-envoy-upstream-service-time": "184",
+    "x-request-id": "8f0320d5-2752-475d-9726-053a7864e863"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/1a3333b4-b0da-4789-9c09-ac3a776f289b",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/69fb8dc6-00d1-4c70-b13f-ed7b34f89e70",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyDetectionConfiguration. TraceId: c6c18c31-a265-4a48-9487-98eb3435b5e0\"}",
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyDetectionConfiguration. TraceId: ce77ed9a-4851-461f-8986-263192928642\"}",
    "responseHeaders": {
-    "apim-request-id": "3750e74d-098b-49d4-b4ff-21f1cfe70b38",
+    "apim-request-id": "5c322de2-d006-4604-947a-b60f6544703f",
     "content-length": "124",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:05 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "64",
-    "x-request-id": "3750e74d-098b-49d4-b4ff-21f1cfe70b38"
+    "x-envoy-upstream-service-time": "136",
+    "x-request-id": "5c322de2-d006-4604-947a-b60f6544703f"
    }
   }
  ],

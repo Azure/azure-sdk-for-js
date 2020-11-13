@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/12e3414a-162a-4e21-8d05-160dd43377de",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3ffb0e89-7284-46a5-9e40-e78efc13a78e",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"12e3414a-162a-4e21-8d05-160dd43377de\",\"name\":\"js-alert-config-160522302401500907\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"1a3333b4-b0da-4789-9c09-ac3a776f289b\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"1a3333b4-b0da-4789-9c09-ac3a776f289b\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"3ffb0e89-7284-46a5-9e40-e78efc13a78e\",\"name\":\"js-alert-config-160523060797105169\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"69fb8dc6-00d1-4c70-b13f-ed7b34f89e70\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
    "responseHeaders": {
-    "apim-request-id": "4789c4b6-86a5-4456-86a8-1fa608041e93",
+    "apim-request-id": "0e9acb87-9296-47b2-bcaf-199c181aedcc",
     "content-length": "488",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 Nov 2020 23:17:04 GMT",
+    "date": "Fri, 13 Nov 2020 01:23:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "84",
-    "x-request-id": "4789c4b6-86a5-4456-86a8-1fa608041e93"
+    "x-envoy-upstream-service-time": "81",
+    "x-request-id": "0e9acb87-9296-47b2-bcaf-199c181aedcc"
    }
   }
  ],
