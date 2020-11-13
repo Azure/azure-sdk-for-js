@@ -183,7 +183,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         },
         seriesGroupDetectionConditions: [
           {
-            group: { Dim1: "Common Lime" },
+            group: { city: "Mumbai" },
             hardThresholdCondition: {
               anomalyDetectorDirection: "Up",
               upperBound: 400,
@@ -193,7 +193,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { Dim1: "Common Beech", Dim2: "Ant" },
+            series: { city: "Kolkata", Dim2: "Handmade" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,

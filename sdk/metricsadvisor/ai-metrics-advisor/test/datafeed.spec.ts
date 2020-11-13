@@ -101,19 +101,19 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   describe("DataFeed", async () => {
     const metric: DataFeedMetric[] = [
       {
-        name: "Metric1",
-        displayName: "Metric1",
+        name: "cost",
+        displayName: "cost",
         description: ""
       },
       {
-        name: "Metric2",
-        displayName: "Metric2",
+        name: "revenue",
+        displayName: "revenue",
         description: ""
       }
     ];
     const dimension: DataFeedDimension[] = [
-      { name: "Dim1", displayName: "Dim1 display" },
-      { name: "Dim2", displayName: "Dim2 display" }
+      { name: "city", displayName: "city" },
+      { name: "category", displayName: "category" }
     ];
     const dataFeedSchema: DataFeedSchema = {
       metrics: metric,
