@@ -785,8 +785,7 @@ async function composeModelInternal(
   modelIds: string[],
   options?: BeginCreateComposedModelOptions
 ): Promise<GeneratedClientComposeCustomModelsAsyncResponse> {
-  const realOptions = options ?? {};
-  const { span, updatedOptions: finalOptions } = createSpan("composeModelInternal", realOptions);
+  const { span, updatedOptions: finalOptions } = createSpan("composeModelInternal", options ?? {});
 
   try {
     return client.composeCustomModelsAsync(

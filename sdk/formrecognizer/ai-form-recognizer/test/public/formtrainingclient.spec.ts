@@ -301,6 +301,64 @@ matrix([[true, false]] as const, async (useAad) => {
 
     // #endregion
 
+    it("compose model", async () => {
+      if (useAad) {
+        // TODO
+        recorder.skip(undefined, "Deployment issue blocks support for compose on AAD");
+      }
+      const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
+
+      // Create two models using the same data set. This will still test our training
+      // client because the service's behavior here shouldn't affect it.
+
+      let allTrainingDocuments: TrainingDocumentInfo[] = [];
+
+      // Helper function to train/validate single model
+      async function makeModel(modelName: string): Promise<string> {
+        const poller = await trainingClient.beginTraining(containerSasUrl(), true, {
+          modelName,
+          ...testPollingOptions
+        });
+        const model = await poller.pollUntilDone();
+
+        assert.ok(model.modelId);
+        assert.equal(model.errors?.length, 0);
+        assert.equal(model.modelName, modelName);
+        assert.isNotEmpty(model.trainingDocuments);
+        assert.isNotEmpty(model.submodels);
+
+        allTrainingDocuments = allTrainingDocuments.concat(model.trainingDocuments ?? []);
+
+        return model.modelId;
+      }
+
+      const modelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
+
+      const modelName = recorder.getUniqueName("composedModelName");
+      const composePoller = await trainingClient.beginCreateComposedModel(modelIds, {
+        modelName,
+        ...testPollingOptions
+      });
+
+      const composedModel = await composePoller.pollUntilDone();
+      assert.ok(composedModel.modelId);
+      assert.equal(composedModel.errors?.length ?? 0, 0);
+      assert.equal(composedModel.modelName, modelName);
+      assert.ok(composedModel.properties);
+      assert.isTrue(composedModel.properties?.isComposed);
+
+      // Submodels
+      assert.equal(composedModel.submodels?.length, 2);
+      assert.isTrue(composedModel.submodels?.every((model) => modelIds.includes(model.modelId!)));
+
+      // Training Documents
+      assert.equal(composedModel.trainingDocuments?.length, allTrainingDocuments.length);
+      for (const info of composedModel.trainingDocuments ?? []) {
+        assert.isTrue(modelIds.includes(info.modelId!));
+        assert.isTrue(info.name.startsWith("Form_"));
+      }
+    });
+
     it("copy model", async function() {
       // Since this test is isolated, we'll create a fresh set of resources for it
 
