@@ -457,13 +457,13 @@ export const JobMetadata: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "notstarted",
+            "notStarted",
             "running",
             "succeeded",
             "failed",
+            "rejected",
             "cancelled",
             "cancelling",
-            "notStarted",
             "partiallyCompleted"
           ]
         }
@@ -497,7 +497,7 @@ export const TasksStateTasks: coreHttp.CompositeMapper = {
         serializedName: "details",
         type: {
           name: "Composite",
-          className: "TasksStateTasksDetails"
+          className: "TaskState"
         }
       },
       completed: {
@@ -568,22 +568,6 @@ export const TasksStateTasks: coreHttp.CompositeMapper = {
   }
 };
 
-export const TasksStateTasksDetails: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TasksStateTasksDetails",
-    modelProperties: {
-      allof: {
-        serializedName: "allof",
-        type: {
-          name: "Composite",
-          className: "TaskState"
-        }
-      }
-    }
-  }
-};
-
 export const TaskState: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -598,7 +582,6 @@ export const TaskState: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
-        required: true,
         type: {
           name: "String"
         }
@@ -609,13 +592,13 @@ export const TaskState: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "notstarted",
+            "notStarted",
             "running",
             "succeeded",
             "failed",
+            "rejected",
             "cancelled",
             "cancelling",
-            "notStarted",
             "partiallyCompleted"
           ]
         }
@@ -2095,6 +2078,16 @@ export const TasksStateTasksKeyPhraseExtractionTasksItem: coreHttp.CompositeMapp
       ...TaskState.type.modelProperties,
       ...Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1
         .type.modelProperties
+    }
+  }
+};
+
+export const TasksStateTasksDetails: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TasksStateTasksDetails",
+    modelProperties: {
+      ...TaskState.type.modelProperties
     }
   }
 };

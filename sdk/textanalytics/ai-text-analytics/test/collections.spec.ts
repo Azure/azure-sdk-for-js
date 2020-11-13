@@ -369,8 +369,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
             }
           }
         ],
-        modelVersion: "",
-        _response: {} as any
+        modelVersion: ""
       });
 
       const inputOrder = input.map((item) => item.id);

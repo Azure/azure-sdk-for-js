@@ -14,41 +14,18 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalyzeEntitiesResult extends RecognizeCategorizedEntitiesSuccessResult {
-    // (undocumented)
-    type: "Entities";
-}
-
-// @public
-export interface AnalyzeErrorResult extends TextAnalyticsErrorResult {
-    // (undocumented)
-    type: "Error";
-}
-
-// @public
-export interface AnalyzeJobOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public (undocumented)
-export interface AnalyzeKeyPhrasesResult extends ExtractKeyPhrasesSuccessResult {
-    // (undocumented)
-    type: "KeyPhrases";
-}
-
-// @public (undocumented)
-export interface AnalyzePiiEntitiesResult extends RecognizePiiEntitiesSuccessResult {
-    // (undocumented)
-    type: "PiiEntities";
+export interface AnalyzeJobOptions extends OperationOptions {
+    includeStatistics?: boolean;
 }
 
 // @public
 export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
 
 // @public
-export type AnalyzeResult = AnalyzeEntitiesResult | AnalyzePiiEntitiesResult | AnalyzeKeyPhrasesResult | AnalyzeErrorResult;
-
-// @public
-export interface AnalyzeResultsArray extends Array<AnalyzeResult> {
+export interface AnalyzeResult {
+    entitiesRecognitionResults?: RecognizeCategorizedEntitiesResultArray[];
+    keyPhrasesExtractionResults?: ExtractKeyPhrasesResultArray[];
+    piiEntitiesRecognitionResults?: RecognizePiiEntitiesResultArray[];
 }
 
 // @public
@@ -98,9 +75,7 @@ export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedH
 
 // @public
 export interface BeginAnalyzeHealthcareOptions {
-    // (undocumented)
     health?: HealthcareJobOptions;
-    // (undocumented)
     polling?: PollingOptions;
 }
 
@@ -109,9 +84,7 @@ export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResu
 
 // @public
 export interface BeginAnalyzeOptions {
-    // (undocumented)
     analyze?: AnalyzeJobOptions;
-    // (undocumented)
     polling?: PollingOptions;
 }
 
@@ -158,16 +131,10 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
-// @public (undocumented)
+// @public
 export type EntitiesTask = {
-    parameters?: EntitiesTaskParameters;
-};
-
-// @public (undocumented)
-export interface EntitiesTaskParameters {
-    // (undocumented)
     modelVersion?: string;
-}
+};
 
 // @public
 export interface Entity {
@@ -250,25 +217,15 @@ export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, 
 // @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
 
-// @public (undocumented)
+// @public
 export interface JobManifestTasks {
-    // (undocumented)
     entityRecognitionPiiTasks?: PiiTask[];
-    // (undocumented)
     entityRecognitionTasks?: EntitiesTask[];
-    // (undocumented)
     keyPhraseExtractionTasks?: KeyPhrasesTask[];
 }
 
-// @public (undocumented)
+// @public
 export interface KeyPhrasesTask {
-    // (undocumented)
-    parameters?: KeyPhrasesTaskParameters;
-}
-
-// @public (undocumented)
-export interface KeyPhrasesTaskParameters {
-    // (undocumented)
     modelVersion?: string;
 }
 
@@ -301,7 +258,7 @@ export interface OpinionSentiment extends SentenceOpinion {
 }
 
 // @public
-export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResultsArray>;
+export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResult>;
 
 // @public
 export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
@@ -326,18 +283,11 @@ export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
-// @public (undocumented)
+// @public
 export type PiiTask = {
-    parameters?: PiiTaskParameters;
-};
-
-// @public (undocumented)
-export interface PiiTaskParameters {
-    // (undocumented)
     domain?: PiiTaskParametersDomain;
-    // (undocumented)
     modelVersion?: string;
-}
+};
 
 // @public
 export type PiiTaskParametersDomain = "phi" | "none" | string;

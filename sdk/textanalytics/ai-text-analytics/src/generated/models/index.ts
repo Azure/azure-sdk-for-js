@@ -175,7 +175,7 @@ export interface TasksState {
 }
 
 export interface TasksStateTasks {
-  details?: TasksStateTasksDetails;
+  details?: TaskState;
   completed: number;
   failed: number;
   inProgress: number;
@@ -185,18 +185,14 @@ export interface TasksStateTasks {
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
 }
 
-export interface TasksStateTasksDetails {
-  allof?: TaskState;
-}
-
 export interface TaskState {
   lastUpdateDateTime: Date;
-  name: string;
+  name?: string;
   status: State;
 }
 
 export interface Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 {
-  results?: EntitiesResult;
+  results: EntitiesResult;
 }
 
 export interface EntitiesResult {
@@ -303,7 +299,7 @@ export interface DocumentError {
 }
 
 export interface Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 {
-  results?: PiiResult;
+  results: PiiResult;
 }
 
 export interface PiiResult {
@@ -349,7 +345,7 @@ export interface PiiDocumentEntities {
 }
 
 export interface Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 {
-  results?: KeyPhraseResult;
+  results: KeyPhraseResult;
 }
 
 export interface KeyPhraseResult {
@@ -811,6 +807,8 @@ export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
 export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
   Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 & {};
 
+export type TasksStateTasksDetails = TaskState & {};
+
 export type HealthcareEntity = Entity & {
   isNegated: boolean;
   /**
@@ -890,13 +888,13 @@ export type ErrorCodeValue =
  * Defines values for State.
  */
 export type State =
-  | "notstarted"
+  | "notStarted"
   | "running"
   | "succeeded"
   | "failed"
+  | "rejected"
   | "cancelled"
   | "cancelling"
-  | "notStarted"
   | "partiallyCompleted";
 /**
  * Defines values for DocumentSentimentLabel.

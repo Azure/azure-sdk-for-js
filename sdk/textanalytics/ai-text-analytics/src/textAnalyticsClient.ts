@@ -19,8 +19,7 @@ import {
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
   PiiTaskParametersDomain,
-  TextDocumentInput,
-  KeyPhrasesTask
+  TextDocumentInput
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
@@ -49,7 +48,12 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { addEncodingParamToTask, addStrEncodingParam, handleInvalidDocumentBatch } from "./util";
+import {
+  addEncodingParamToTask,
+  AddParamsToTask,
+  addStrEncodingParam,
+  handleInvalidDocumentBatch
+} from "./util";
 import {
   BeginAnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcarePoller,
@@ -151,26 +155,60 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
-export interface EntitiesTaskParameters {
-  modelVersion?: string;
-}
-
+/**
+ * Options for an entities recognition task.
+ */
 export type EntitiesTask = {
-  parameters?: EntitiesTaskParameters;
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
 };
 
+/**
+ * Options for a Pii entities recognition task.
+ */
 export type PiiTask = {
-  parameters?: PiiTaskParameters;
+  /**
+   * Filters entities to ones only included in the specified domain (e.g., if
+   * set to 'PHI', entities in the Protected Healthcare Information domain will
+   * only be returned). See https://aka.ms/tanerpii for more information.
+   */
+  domain?: PiiTaskParametersDomain;
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
 };
 
-export interface PiiTaskParameters {
-  domain?: PiiTaskParametersDomain;
+/**
+ * Options for a key phrases recognition task.
+ */
+export interface KeyPhrasesTask {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
   modelVersion?: string;
 }
 
+/**
+ * Description of collection of tasks for the analyze API to perform on input documents
+ */
 export interface JobManifestTasks {
+  /**
+   * A collection of descriptions of entities recognition tasks.
+   */
   entityRecognitionTasks?: EntitiesTask[];
+  /**
+   * A collection of descriptions of Pii entities recognition tasks.
+   */
   entityRecognitionPiiTasks?: PiiTask[];
+  /**
+   * A collection of descriptions of key phrases recognition tasks.
+   */
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
 }
 /**
@@ -877,11 +915,11 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
     }
-
+    const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
     const poller = new BeginAnalyzePoller({
       client: this.client,
       documents: realInputs,
-      tasks: addEncodingParamToAnalyzeInput(tasks),
+      tasks: compiledTasks,
       analysisOptions: realOptions.analyze,
       ...realOptions.polling
     });
@@ -892,10 +930,15 @@ export class TextAnalyticsClient {
 }
 
 function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
-  let tasksWithEncodingParam: GeneratedJobManifestTasks = tasks;
-  tasksWithEncodingParam.entityRecognitionPiiTasks?.map(addEncodingParamToTask);
-  tasksWithEncodingParam.entityRecognitionTasks?.map(addEncodingParamToTask);
-  return tasks;
+  return {
+    entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    entityRecognitionTasks: tasks.entityRecognitionTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
+  };
 }
 
 function isStringArray(documents: any[]): documents is string[] {

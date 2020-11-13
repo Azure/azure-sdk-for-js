@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
 import {
   AbortSignalLike,
   OperationOptions,
@@ -14,15 +12,11 @@ import {
   GeneratedClientAnalyzeStatusOptionalParams as AnalyzeJobStatusOptions,
   JobManifestTasks,
   State,
-  TasksStateTasksEntityRecognitionPiiTasksItem,
-  TasksStateTasksEntityRecognitionTasksItem,
-  TasksStateTasksKeyPhraseExtractionTasksItem,
   TextDocumentBatchStatistics,
   TextDocumentInput
 } from "../../generated/models";
 import {
   AnalyzeResult,
-  AnalyzeResultsArray,
   PagedAsyncIterableAnalyzeResults,
   PaginatedAnalyzeResults
 } from "../../analyzeResult";
@@ -42,15 +36,23 @@ import {
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
-import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
-import { makeRecognizeCategorizedEntitiesResult } from "../../recognizeCategorizedEntitiesResult";
-import { makeRecognizePiiEntitiesResult } from "../../recognizePiiEntitiesResult";
-import { makeExtractKeyPhrasesResult } from "../../extractKeyPhrasesResult";
-import { processAndcombineSuccessfulErroneousDocuments } from "../../textAnalyticsResult";
+import {
+  makeRecognizeCategorizedEntitiesResultArray,
+  RecognizeCategorizedEntitiesResultArray
+} from "../../recognizeCategorizedEntitiesResultArray";
+import {
+  makeRecognizePiiEntitiesResultArray,
+  RecognizePiiEntitiesResultArray
+} from "../../recognizePiiEntitiesResultArray";
+import {
+  ExtractKeyPhrasesResultArray,
+  makeExtractKeyPhrasesResultArray
+} from "../../extractKeyPhrasesResultArray";
+import { logger } from "../../logger";
 export { State };
 
 interface AnalyzeResultsWithPagination {
-  result: AnalyzeResultsArray;
+  result: AnalyzeResult;
   top?: number;
   skip?: number;
 }
@@ -70,13 +72,24 @@ interface BeginAnalyzeInternalOptions extends OperationOptions {}
 /**
  * Options for configuring analyze jobs.
  */
-export interface AnalyzeJobOptions extends TextAnalyticsOperationOptions {}
+export interface AnalyzeJobOptions extends OperationOptions {
+  /**
+   * If set to true, response will contain input and document level statistics.
+   */
+  includeStatistics?: boolean;
+}
 
 /**
  * Options for the begin analyze operation.
  */
 export interface BeginAnalyzeOptions {
+  /**
+   * Options related to polling from the service.
+   */
   polling?: PollingOptions;
+  /**
+   * Options related to the analyze job.
+   */
   analyze?: AnalyzeJobOptions;
 }
 
@@ -100,7 +113,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     private documents: TextDocumentInput[],
     private tasks: JobManifestTasks,
     private options: BeginAnalyzeOptions = {},
-    private statusOptions: TextAnalyticsStatusOperationOptions
+    private statusOptions: TextAnalyticsStatusOperationOptions = {}
   ) {
     super(state);
   }
@@ -110,12 +123,12 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
    * "succeeded" and it returns an iterator for the results and provides a
    * byPage method to return the results paginated.
    */
-  private listAnalyzeResultsByPage(
+  private listAnalyzeResults(
     jobId: string,
     options: AnalyzeJobStatusOptions = {}
   ): PagedAsyncIterableAnalyzeResults {
-    const iter = this._listAnalyzeResults(jobId, options);
-    const pagedIterator = {
+    const iter = this._listAnalyzeResultsPaginated(jobId, options);
+    return {
       next() {
         return iter.next();
       },
@@ -127,19 +140,6 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         return this._listAnalyzeResultsPaginated(jobId, pageOptions);
       }
     };
-    return pagedIterator;
-  }
-
-  /**
-   * returns an iterator to the results of an analyze job.
-   */
-  private async *_listAnalyzeResults(
-    jobId: string,
-    options?: AnalyzeJobStatusOptions
-  ): AsyncIterableIterator<AnalyzeResult> {
-    for await (const page of this._listAnalyzeResultsPaginated(jobId, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -148,7 +148,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   private async *_listAnalyzeResultsPaginated(
     jobId: string,
     options?: AnalyzeJobStatusOptions
-  ): AsyncIterableIterator<AnalyzeResultsArray> {
+  ): AsyncIterableIterator<AnalyzeResult> {
     let response = await this._listAnalyzeResultsSinglePage(jobId, options);
     yield response.result;
     while (response.skip) {
@@ -178,14 +178,32 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         jobId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      const result: AnalyzeResultsArray = [
-        ...makeAnalyzeEntitiesResultArray(this.documents, response.tasks.entityRecognitionTasks),
-        ...makeAnalyzePiiEntitiesResultArray(
-          this.documents,
-          response.tasks.entityRecognitionPiiTasks
+      const result: AnalyzeResult = {
+        entitiesRecognitionResults: response.tasks.entityRecognitionTasks?.map(
+          ({ results }): RecognizeCategorizedEntitiesResultArray =>
+            makeRecognizeCategorizedEntitiesResultArray(
+              this.documents,
+              results?.documents,
+              results?.errors,
+              results?.modelVersion,
+              results?.statistics
+            )
         ),
-        ...makeAnalyzeKeyPhrasesResultArray(this.documents, response.tasks.keyPhraseExtractionTasks)
-      ];
+        piiEntitiesRecognitionResults: response.tasks.entityRecognitionPiiTasks?.map(
+          ({ results }): RecognizePiiEntitiesResultArray =>
+            makeRecognizePiiEntitiesResultArray(this.documents, results)
+        ),
+        keyPhrasesExtractionResults: response.tasks.keyPhraseExtractionTasks?.map(
+          ({ results }): ExtractKeyPhrasesResultArray =>
+            makeExtractKeyPhrasesResultArray(
+              this.documents,
+              results?.documents,
+              results?.errors,
+              results?.modelVersion,
+              results?.statistics
+            )
+        )
+      };
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
         : { result };
@@ -235,7 +253,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         case "running":
           break;
         default: {
-          throw new Error("Unrecognized state of the analyze job!");
+          throw new Error(`Unrecognized state of the analyze job!: ${response.status}`);
         }
       }
       return { done: false };
@@ -298,6 +316,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       }
       state.jobId = getJobID(response.operationLocation);
     }
+
     const status = await this.getAnalyzeStatus(state.jobId!, {
       ...this.statusOptions,
       abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
@@ -307,7 +326,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       if (typeof options.fireProgress === "function") {
         options.fireProgress(state);
       }
-      const pagedIterator = this.listAnalyzeResultsByPage(state.jobId!, this.options.analyze || {});
+      const pagedIterator = this.listAnalyzeResults(state.jobId!, this.options.analyze || {});
       state.result = Object.assign(pagedIterator, {
         statistics: status.statistics
       });
@@ -315,70 +334,11 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     }
     return this;
   }
-}
 
-function makeAnalyzeEntitiesResultArray(
-  documents: TextDocumentInput[],
-  tasksResults?: TasksStateTasksEntityRecognitionTasksItem[]
-): AnalyzeResultsArray {
-  let result: AnalyzeResultsArray = [];
-  if (tasksResults) {
-    for (const task of tasksResults) {
-      if (task.results) {
-        const analyzeEntitiesResult: AnalyzeResultsArray = processAndcombineSuccessfulErroneousDocuments(
-          documents,
-          task.results,
-          (doc) =>
-            makeRecognizeCategorizedEntitiesResult(
-              doc.id,
-              doc.entities,
-              doc.warnings,
-              doc.statistics
-            )
-        ).map((doc) => (doc.error ? { type: "Error", ...doc } : { type: "Entities", ...doc }));
-        result.push(...analyzeEntitiesResult);
-      }
-    }
+  async cancel(): Promise<BeginAnalyzePollerOperation> {
+    const state = this.state;
+    logger.warning(`The service does not yet support cancellation for beginAnalyze.`);
+    state.isCancelled = true;
+    return this;
   }
-  return result;
-}
-
-function makeAnalyzePiiEntitiesResultArray(
-  documents: TextDocumentInput[],
-  tasksResults?: TasksStateTasksEntityRecognitionPiiTasksItem[]
-): AnalyzeResultsArray {
-  let result: AnalyzeResultsArray = [];
-  if (tasksResults) {
-    for (const task of tasksResults) {
-      if (task.results) {
-        const analyzeEntitiesResult: AnalyzeResultsArray = processAndcombineSuccessfulErroneousDocuments(
-          documents,
-          task.results,
-          makeRecognizePiiEntitiesResult
-        ).map((doc) => (doc.error ? { type: "Error", ...doc } : { type: "PiiEntities", ...doc }));
-        result.push(...analyzeEntitiesResult);
-      }
-    }
-  }
-  return result;
-}
-
-function makeAnalyzeKeyPhrasesResultArray(
-  documents: TextDocumentInput[],
-  tasksResults?: TasksStateTasksKeyPhraseExtractionTasksItem[]
-): AnalyzeResultsArray {
-  let result: AnalyzeResultsArray = [];
-  if (tasksResults) {
-    for (const task of tasksResults) {
-      if (task.results) {
-        const analyzeKeyPhrasesResult: AnalyzeResultsArray = processAndcombineSuccessfulErroneousDocuments(
-          documents,
-          task.results,
-          (doc) => makeExtractKeyPhrasesResult(doc.id, doc.keyPhrases, doc.warnings, doc.statistics)
-        ).map((doc) => (doc.error ? { type: "Error", ...doc } : { type: "KeyPhrases", ...doc }));
-        result.push(...analyzeKeyPhrasesResult);
-      }
-    }
-  }
-  return result;
 }

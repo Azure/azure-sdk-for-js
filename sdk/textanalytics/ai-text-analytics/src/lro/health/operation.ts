@@ -34,7 +34,7 @@ import {
   TextAnalyticsStatusOperationOptions
 } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
-import { combineSuccessfulErroneousDocuments } from "../../textAnalyticsResult";
+import { combineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
 import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
@@ -80,7 +80,13 @@ export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {}
  * Options for the begin analyze healthcare operation.
  */
 export interface BeginAnalyzeHealthcareOptions {
+  /**
+   * Options related to polling from the service.
+   */
   polling?: PollingOptions;
+  /**
+   * Options related to the healthcare job.
+   */
   health?: HealthcareJobOptions;
 }
 
@@ -117,7 +123,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     options: HealthcareJobStatusOptions = {}
   ): PagedAsyncIterableHealthEntities {
     const iter = this._listHealthcareEntities(jobId, options);
-    const pagedIterator = {
+    return {
       next() {
         return iter.next();
       },
@@ -129,7 +135,6 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         return this._listHealthcareEntitiesPaginated(jobId, pageOptions);
       }
     };
-    return pagedIterator;
   }
 
   /**
@@ -181,7 +186,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       if (response.results) {
-        const result = combineSuccessfulErroneousDocuments(this.documents, response.results);
+        const result = combineSuccessfulAndErroneousDocuments(this.documents, response.results);
         return response.nextLink
           ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
           : { result };

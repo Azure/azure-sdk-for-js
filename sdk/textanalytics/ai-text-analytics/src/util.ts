@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-http";
-import { StringIndexType } from "./generated/models";
+import { URL, URLSearchParams } from "./utils/url";
+import { StringIndexType, StringIndexTypeResponse } from "./generated/models";
 import { logger } from "./logger";
 
 export interface IdObject {
@@ -70,13 +71,15 @@ export function addStrEncodingParam<T>(options: T): T & { stringIndexType: Strin
   return { ...options, stringIndexType: jsEncodingUnit };
 }
 
-export function addEncodingParamToTask<X, Y>(
-  task: X & { parameters?: Y & { stringIndexType?: StringIndexType } }
-): X & { parameters?: Y & { stringIndexType?: StringIndexType } } {
-  if (task.parameters) {
-    task.parameters.stringIndexType = jsEncodingUnit;
-  }
+export function addEncodingParamToTask<X>(
+  task: X & { stringIndexType?: StringIndexTypeResponse }
+): X & { stringIndexType?: StringIndexTypeResponse } {
+  task.stringIndexType = jsEncodingUnit;
   return task;
+}
+
+export function AddParamsToTask<X>(task: X): { parameters?: X } {
+  return { parameters: task };
 }
 
 export interface PageParam {
@@ -84,30 +87,25 @@ export interface PageParam {
   skip: number;
 }
 
-function findParamValue(matches: RegExpMatchArray, param: string): number {
-  for (let i = 0; i < matches.length; i += 2) {
-    if (matches[i] === `\$${param}`) {
-      return parseInt(matches[i + 1]);
-    }
-  }
-  throw new Error(`The parameter \$${param} was not found in nextLink`);
-}
-
 export function nextLinkToTopAndSkip(nextLink: string): PageParam {
-  let regExp = /(?:\?|\&)([^=]+)\=([^\&]+)/g,
-    match,
-    matches: string[] = [];
-  while ((match = regExp.exec(nextLink))) {
-    matches.push(match[1], match[2]);
-  }
-  if (matches) {
-    return {
-      skip: findParamValue(matches, "skip"),
-      top: findParamValue(matches, "top")
-    };
+  const url = new URL(nextLink);
+  const searchParams = new URLSearchParams(url.searchParams);
+  let top: number;
+  if (searchParams.has("$top")) {
+    top = parseInt(searchParams.get("$top")!);
   } else {
-    throw new Error(`Malformed URL or a URL without parameters found`);
+    throw new Error(`nextLink URL does not have the $top param: ${nextLink}`);
   }
+  let skip: number;
+  if (searchParams.has("$skip")) {
+    skip = parseInt(searchParams.get("$skip")!);
+  } else {
+    throw new Error(`nextLink URL does not have the $skip param: ${nextLink}`);
+  }
+  return {
+    skip: skip,
+    top: top
+  };
 }
 
 export function getJobID(operationLocation: string): string {

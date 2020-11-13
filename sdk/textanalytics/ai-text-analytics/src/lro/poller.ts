@@ -69,24 +69,21 @@ export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TRe
 /**
  * Common properties and methods of polling operations.
  */
-export class AnalysisPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
+export abstract class AnalysisPollOperation<TState, TResult>
+  implements PollOperation<TState, TResult> {
   constructor(public state: TState) {}
 
   /**
    * @summary Meant to reach to the service and update the Poller operation.
    * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
-  public async update(): Promise<PollOperation<TState, TResult>> {
-    throw new Error("Operation not implemented.");
-  }
+  public abstract update(): Promise<PollOperation<TState, TResult>>;
 
   /**
    * @summary Meant to reach to the service and cancel the Poller operation.
    * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
-  public async cancel(): Promise<PollOperation<TState, TResult>> {
-    throw new Error("Operation not implemented.");
-  }
+  public abstract cancel(): Promise<PollOperation<TState, TResult>>;
 
   /**
    * @summary Serializes the Poller operation.

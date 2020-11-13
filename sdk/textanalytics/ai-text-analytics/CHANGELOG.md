@@ -1,6 +1,10 @@
 # Release History
 
-## 5.2.0-beta.1 (Unreleased)
+## 5.1.0-beta.3 (Unreleased)
+
+- We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.
+- We now have added support for performing multiple analyses at once with the introduction of the `beginAnalyze` API.
+- We now have added support for the recognition of healthcare entities with the introduction of the `beginAnalyzeHealthcare` API.
 
 ## 5.1.0-beta.2 (2020-10-06)
 
@@ -17,7 +21,7 @@
 
 ## 5.0.1 (2020-08-18)
 
-- Handles REST exceptions with code InvalidDocumentBatch in a way that maintains backward compatability.
+- Handles REST exceptions with code InvalidDocumentBatch in a way that maintains backward compatibility.
 
 ## 5.0.0 (2020-07-27)
 

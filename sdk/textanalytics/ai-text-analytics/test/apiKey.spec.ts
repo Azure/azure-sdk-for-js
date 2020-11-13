@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { TextAnalyticsClient, AzureKeyCredential, TextDocumentInput } from "../src/index";
@@ -25,7 +25,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   const apiKey = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
   // eslint-disable-next-line no-invalid-this
-  this.timeout(10000);
+  this.timeout(100000);
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
@@ -79,32 +79,51 @@ describe("[API Key] TextAnalyticsClient", function() {
   });
 
   describe("#health", () => {
+    let pollingInterval = 2000;
+    if (isRecordMode() || process.env.TEST_MODE === "live") {
+      this.timeout(1000000);
+    } else {
+      pollingInterval = 0;
+    }
     it("input strings", async () => {
-      const poller = await client.beginAnalyzeHealthcare([
-        "Patient does not suffer from high blood pressure.",
-        "Prescribed 100mg ibuprofen, taken twice daily."
-      ]);
+      const poller = await client.beginAnalyzeHealthcare(
+        [
+          "Patient does not suffer from high blood pressure.",
+          "Prescribed 100mg ibuprofen, taken twice daily."
+        ],
+        "en",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         if (!doc.error) {
           assert.ok(doc.id);
-          assert.ok(doc.statistics);
           assert.ok(doc.entities);
           assert.ok(doc.relations);
         }
       }
-    }).timeout(1000000);
+    });
 
     it("input documents", async () => {
-      const poller = await client.beginAnalyzeHealthcare([
-        { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
-        { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
-      ]);
+      const poller = await client.beginAnalyzeHealthcare(
+        [
+          { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+          { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+        ],
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         if (!doc.error) {
           assert.ok(doc.id);
-          assert.ok(doc.statistics);
           assert.ok(doc.entities);
           assert.ok(doc.relations);
         }
@@ -118,20 +137,23 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "3", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       const result1 = (await result.next()).value;
       const result2 = (await result.next()).value;
       const result3 = (await result.next()).value;
       if (!result3.error) {
         assert.ok(result3.id);
-        assert.ok(result3.statistics);
         assert.ok(result3.entities);
         assert.ok(result3.relations);
       }
       assert.ok(result1.error);
       assert.ok(result2.error);
-    }).timeout(1000000);
+    });
 
     it("all inputs with errors", async () => {
       const docs = [
@@ -140,7 +162,11 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "3", language: "en", text: "" }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       const result1 = (await result.next()).value;
       const result2 = (await result.next()).value;
@@ -148,27 +174,29 @@ describe("[API Key] TextAnalyticsClient", function() {
       assert.ok(result1.error);
       assert.ok(result2.error);
       assert.ok(result3.error);
-    }).timeout(1000000);
+    });
 
     it("too many documents", async () => {
-      const docs = Array(1001).fill("random text");
+      const docs = Array(11).fill("random text");
       try {
-        await client.beginAnalyzeHealthcare(docs);
+        const response = await client.beginAnalyzeHealthcare(docs, "en", {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        });
+        console.log(response);
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 400);
         assert.equal(e.code, "InvalidDocumentBatch");
         assert.equal(
           e.message,
-          "Batch request contains too many records. Max 1000 records are permitted."
+          "Batch request contains too many records. Max 10 records are permitted."
         );
       }
-    }).timeout(1000000);
+    });
 
-    /**
-     * The service returns status code 413 which is not included in the swagger.
-     */
-    it.skip("payload too large", async () => {
+    it("payload too large", async () => {
       const large_doc =
         "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
             CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -185,24 +213,29 @@ describe("[API Key] TextAnalyticsClient", function() {
             for revascularization with open heart surgery.";
       const docs = Array(500).fill(large_doc);
       try {
-        await client.beginAnalyzeHealthcare(docs);
+        await client.beginAnalyzeHealthcare(docs, "en", {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        });
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 413);
-        assert.equal(e.code, "BodyTooLarge");
+        assert.equal(e.code, "InvalidDocumentBatch");
         assert.equal(
           e.message,
-          "Request Payload sent is too large to be processed. Limit request size to: 524288."
+          "Request Payload sent is too large to be processed. Limit request size to: 524288"
         );
       }
     });
 
-    /**
-     * The service does not return warnings.
-     */
-    it.skip("document warnings", async () => {
+    it("document warnings", async () => {
       const docs = [{ id: "1", text: "This won't actually create a warning :'(" }];
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         if (!doc.error) {
@@ -219,7 +252,11 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "4", text: "four" },
         { id: "5", text: "five" }
       ];
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       let i = 0;
       for await (const doc of result) {
@@ -235,14 +272,18 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "19", text: ":P" },
         { id: "1", text: ":D" }
       ];
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       const in_order = [56, 0, 22, 19, 1];
       let i = 0;
       for await (const doc of result) {
         assert.equal(parseInt(doc.id), in_order[i++]);
       }
-    }).timeout(1000000);
+    });
 
     it("show stats and model version", async () => {
       const docs: TextDocumentInput[] = [
@@ -256,6 +297,9 @@ describe("[API Key] TextAnalyticsClient", function() {
         health: {
           modelVersion: "latest",
           includeStatistics: true
+        },
+        polling: {
+          updateIntervalInMs: pollingInterval
         }
       });
       const result = await poller.pollUntilDone();
@@ -274,12 +318,16 @@ describe("[API Key] TextAnalyticsClient", function() {
         "The restaurant was not as good as I hoped."
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs, "en");
+      const poller = await client.beginAnalyzeHealthcare(docs, "en", {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         assert.isUndefined(doc.error);
       }
-    }).timeout(1000000);
+    });
 
     it("whole batch empty language hint", async () => {
       const docs = [
@@ -288,7 +336,11 @@ describe("[API Key] TextAnalyticsClient", function() {
         "The restaurant was not as good as I hoped."
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs, "");
+      const poller = await client.beginAnalyzeHealthcare(docs, "", {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         assert.isUndefined(doc.error);
@@ -302,12 +354,16 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "3", text: "The restaurant had really good food." }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         assert.isUndefined(doc.error);
       }
-    }).timeout(1000000);
+    });
 
     it("whole batch with multiple languages", async () => {
       const docs = [
@@ -316,17 +372,25 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "3", text: "猫は幸せ" }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       for await (const doc of result) {
         assert.isUndefined(doc.error);
       }
-    }).timeout(1000000);
+    });
 
     it("invalid language hint", async () => {
       const docs = ["This should fail because we're passing in an invalid language hint"];
 
-      const poller = await client.beginAnalyzeHealthcare(docs, "notalanguage");
+      const poller = await client.beginAnalyzeHealthcare(docs, "notalanguage", {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       const firstResult = (await result.next()).value;
       assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
@@ -341,7 +405,11 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       const firstResult = (await result.next()).value;
       assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
@@ -360,7 +428,12 @@ describe("[API Key] TextAnalyticsClient", function() {
       ];
 
       try {
-        await client.beginAnalyzeHealthcare(docs, { health: { modelVersion: "bad" } });
+        await client.beginAnalyzeHealthcare(docs, {
+          health: { modelVersion: "bad" },
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        });
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.code, "ModelVersionIncorrect");
@@ -378,7 +451,11 @@ describe("[API Key] TextAnalyticsClient", function() {
         { id: "3", text: text }
       ];
 
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const doc_errors = await poller.pollUntilDone();
       assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
       assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
@@ -392,7 +469,11 @@ describe("[API Key] TextAnalyticsClient", function() {
       ];
 
       try {
-        await client.beginAnalyzeHealthcare(docs);
+        await client.beginAnalyzeHealthcare(docs, {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        });
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.code, "InvalidRequest");
@@ -402,11 +483,19 @@ describe("[API Key] TextAnalyticsClient", function() {
     /**
      * the service by default returns pages of 20 documents each and this test
      * makes sure we get all the results and not just the first page.
+     *
+     * EDIT: the service decided to process only 10 documents max per request so
+     * pagination became unneeded. Once the service raises the limit on
+     * the number of input documents, we should re-enable these tests.
      */
-    it("paged results one loop", async () => {
+    it.skip("paged results one loop", async () => {
       const docs = Array(40).fill("random text");
       docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       let count = 0;
       for await (const doc of result) {
@@ -421,12 +510,16 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       }
       assert.equal(docs.length, count);
-    }).timeout(1000000);
+    });
 
-    it("paged results nested loop", async () => {
+    it.skip("paged results nested loop", async () => {
       const docs = Array(40).fill("random text");
       docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       let docCount = 0,
         pageCount = 0;
@@ -446,12 +539,16 @@ describe("[API Key] TextAnalyticsClient", function() {
       }
       assert.equal(docs.length, docCount);
       assert.equal(Math.ceil(docs.length / 20), pageCount);
-    }).timeout(1000000);
+    });
 
-    it("paged results with custom page size", async () => {
+    it.skip("paged results with custom page size", async () => {
       const docs = Array(40).fill("random text");
       docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-      const poller = await client.beginAnalyzeHealthcare(docs);
+      const poller = await client.beginAnalyzeHealthcare(docs, {
+        polling: {
+          updateIntervalInMs: pollingInterval
+        }
+      });
       const result = await poller.pollUntilDone();
       let docCount = 0,
         pageCount = 0,
@@ -472,25 +569,247 @@ describe("[API Key] TextAnalyticsClient", function() {
       }
       assert.equal(docs.length, docCount);
       assert.equal(Math.ceil(docs.length / pageSize), pageCount);
-    }).timeout(1000000);
+    });
 
     it("cancelled", async () => {
-      const poller = await client.beginAnalyzeHealthcare([
-        { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
-        { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
-      ]);
+      const poller = await client.beginAnalyzeHealthcare(
+        [
+          { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+          { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+        ],
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
       await poller.cancelOperation();
       assert.ok(poller.getOperationState().isCancelled);
     });
   });
 
   describe("#analyze", () => {
-    it.only("input strings", async () => {
+    let pollingInterval = 2000;
+    if (isRecordMode() || process.env.TEST_MODE === "live") {
+      this.timeout(1000000);
+    } else {
+      pollingInterval = 0;
+    }
+    it("single entity recognition task", async () => {
       const docs = [
-        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen." },
+        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
+        { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          for (const result of task) {
+            if (!result.error) {
+              assert.ok(result.id);
+              assert.ok(result.entities);
+            } else {
+              assert.fail("did not expect document errors but got one.");
+            }
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+      }
+    });
+
+    it("single key phrases task", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
+        { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const task = keyPhrasesResult[0];
+          assert.equal(task.length, 2);
+          for (const result of task) {
+            if (!result.error) {
+              assert.include(result.keyPhrases, "Paul Allen");
+              assert.include(result.keyPhrases, "Bill Gates");
+              assert.include(result.keyPhrases, "Microsoft");
+              assert.ok(result.id);
+            }
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("single entities recognition task", async () => {
+      const docs = [
+        {
+          id: "1",
+          text: "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.",
+          language: "en"
+        },
         {
           id: "2",
-          language: "en",
+          text: "Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.",
+          language: "es"
+        },
+        {
+          id: "3",
+          text: "Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegründet.",
+          language: "de"
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          assert.equal(task.length, 3);
+          for (const doc of task) {
+            if (!doc.error) {
+              assert.equal(doc.entities.length, 4);
+              for (const entity of doc.entities) {
+                assert.isDefined(entity.text);
+                assert.isDefined(entity.category);
+                assert.isDefined(entity.offset);
+                assert.isDefined(entity.confidenceScore);
+              }
+            }
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+      }
+    });
+
+    it("single pii entities recognition task", async () => {
+      const docs = [
+        { id: "1", text: "My SSN is 859-98-0987." },
+        {
+          id: "2",
+          text:
+            "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+        },
+        { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.piiEntitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          assert.equal(task.length, 3);
+          const doc1 = task[0];
+          const doc2 = task[1];
+          const doc3 = task[2];
+          if (!doc1.error) {
+            assert.equal(doc1.entities[0].text, "859-98-0987");
+            assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
+          }
+          if (!doc2.error) {
+            assert.equal(doc2.entities[0].text, "111000025");
+            // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
+          }
+          if (!doc3.error) {
+            assert.equal(doc3.entities[0].text, "998.214.865-68");
+            assert.equal(doc3.entities[0].category, "Brazil CPF Number");
+          }
+          for (const doc of task) {
+            if (!doc.error) {
+              for (const entity of doc.entities) {
+                assert.isDefined(entity.text);
+                assert.isDefined(entity.category);
+                assert.isDefined(entity.offset);
+                assert.isDefined(entity.confidenceScore);
+              }
+            }
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+      }
+    });
+
+    it("bad request empty string", async () => {
+      const docs = [""];
+      try {
+        const poller = await client.beginAnalyze(
+          docs,
+          {
+            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+          },
+          "en",
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            }
+          }
+        );
+        await poller.pollUntilDone();
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+      }
+    });
+
+    /**
+     * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
+     */
+    it.skip("some documents with errors and multiple tasks", async () => {
+      const docs = [
+        { id: "1", language: "", text: "" },
+        {
+          id: "2",
+          language: "english",
           text: "I did not like the hotel we stayed at. It was too expensive."
         },
         {
@@ -500,26 +819,559 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       ];
 
-      const poller = await client.beginAnalyze(docs, {
-        entityRecognitionTasks: [{ parameters: { modelVersion: "latest" } }]
-      });
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
       const result = await poller.pollUntilDone();
-      for await (const doc of result) {
-        switch (doc.type) {
-          case "Entities": {
-            assert.ok(doc.id);
-            assert.ok(doc.entities);
-            break;
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    /**
+     * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
+     */
+    it.skip("all documents with errors and multiple tasks", async () => {
+      const docs = [
+        { id: "1", language: "", text: "" },
+        {
+          id: "2",
+          language: "english",
+          text: "I did not like the hotel we stayed at. It was too expensive."
+        },
+        {
+          id: "3",
+          language: "en",
+          text: ""
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
           }
-          case "Error": {
-            assert.fail("Unexpected failure");
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("output order is same as the input's one with multiple tasks", async () => {
+      const docs = [
+        { id: "1", text: "one" },
+        { id: "2", text: "two" },
+        { id: "3", text: "three" },
+        { id: "4", text: "four" },
+        { id: "5", text: "five" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
           }
-          case "KeyPhrases":
-          case "PiiEntities": {
-            assert.fail("Unexpected task results");
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("out of order input IDs with multiple tasks", async () => {
+      const docs = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "w" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const in_order = ["56", "0", "22", "19", "1"];
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    /**
+     * The service does not returns statistics
+     */
+    it.skip("statistics", async () => {
+      const docs = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          analyze: { includeStatistics: true },
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      assert.equal(result.statistics?.documentCount, 5);
+      assert.equal(result.statistics?.transactionCount, 4);
+      assert.equal(result.statistics?.validDocumentCount, 4);
+      assert.equal(result.statistics?.erroneousDocumentCount, 1);
+    });
+
+    it("whole batch language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "en",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
           }
         }
       }
-    }).timeout(1000000);
+    });
+
+    it("whole batch with no language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("each doc has a language hint", async () => {
+      const docs = [
+        { id: "1", language: "", text: "I will go to the park." },
+        { id: "2", language: "", text: "I did not like the hotel we stayed at." },
+        { id: "3", text: "The restaurant had really good food." }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("whole batch input with a language hint", async () => {
+      const docs = [
+        { id: "1", text: "I will go to the park." },
+        { id: "2", text: "Este es un document escrito en Español." },
+        { id: "3", text: "猫は幸せ" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("invalid language hint", async () => {
+      const docs = ["This should fail because we're passing in an invalid language hint"];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "notalanguage",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+      for (const doc of entitiesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+      const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+      for (const doc of piiEntitiesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+      const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+      for (const doc of keyPhrasesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+    });
+
+    it.skip("bad model", async () => {
+      const docs = [
+        {
+          id: "1",
+          language: "en",
+          text: "This should fail because we're passing in an invalid language hint"
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "bad" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "bad" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "bad" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+      for (const doc of entitiesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+      const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+      for (const doc of piiEntitiesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+      const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+      for (const doc of keyPhrasesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+    });
+
+    it("paged results with custom page size", async () => {
+      const totalDocs = 25;
+      const docs = Array(totalDocs - 1).fill("random text");
+      docs.push("Microsoft was founded by Bill Gates and Paul Allen");
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "en",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      let docCount = 0,
+        pageCount = 0,
+        pageSize = 10;
+      for await (const page of result.byPage({ maxPageSize: pageSize })) {
+        const entitiesTaskDocs = page.entitiesRecognitionResults![0];
+        ++pageCount;
+        for (const doc of entitiesTaskDocs) {
+          assert.isUndefined(doc.error);
+          ++docCount;
+          if (!doc.error) {
+            if (docCount === totalDocs) {
+              assert.equal(doc.entities.length, 3);
+            } else {
+              assert.equal(doc.entities.length, 0);
+            }
+          }
+        }
+      }
+      assert.equal(docs.length, docCount);
+      assert.equal(Math.ceil(docs.length / pageSize), pageCount);
+    });
+
+    it("pii redacted test is not empty", async () => {
+      const docs = [
+        { id: "1", text: "I will go to the park." },
+        { id: "2", text: "Este es un document escrito en Español." },
+        { id: "3", text: "猫は幸せ" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults!;
+        assert.equal(piiEntitiesResult.length, 1);
+        for (const docs of piiEntitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+            if (!doc.error) {
+              assert.isNotEmpty(doc.redactedText);
+            }
+          }
+        }
+      }
+    });
   });
 });

@@ -173,11 +173,11 @@ export function makeTextAnalyticsErrorResult(
  * @param input the array of documents sent to the service for processing.
  * @param response the response received from the service.
  */
-export function combineSuccessfulErroneousDocuments<T1 extends TextAnalyticsSuccessResult>(
+export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnalyticsSuccessResult>(
   input: TextDocumentInput[],
-  response: TextAnalyticsResponse<T1>
-): (T1 | TextAnalyticsErrorResult)[] {
-  return processAndcombineSuccessfulErroneousDocuments(input, response, (x) => x);
+  response: TextAnalyticsResponse<TSuccess>
+): (TSuccess | TextAnalyticsErrorResult)[] {
+  return processAndCombineSuccessfulAndErroneousDocuments(input, response, (x) => x);
 }
 
 /**
@@ -187,16 +187,16 @@ export function combineSuccessfulErroneousDocuments<T1 extends TextAnalyticsSucc
  * @param response the response received from the service.
  * @param process a function to convert the results from one type to another.
  */
-export function processAndcombineSuccessfulErroneousDocuments<
-  T1 extends TextAnalyticsSuccessResult,
-  T2 extends TextAnalyticsSuccessResult
+export function processAndCombineSuccessfulAndErroneousDocuments<
+  TSuccess extends TextAnalyticsSuccessResult,
+  T extends TextAnalyticsSuccessResult
 >(
   input: TextDocumentInput[],
-  response: TextAnalyticsResponse<T1>,
-  process: (doc: T1) => T2
-): (T2 | TextAnalyticsErrorResult)[] {
+  response: TextAnalyticsResponse<TSuccess>,
+  process: (doc: TSuccess) => T
+): (T | TextAnalyticsErrorResult)[] {
   const unsortedResult = response.documents
-    .map((document): T2 | TextAnalyticsErrorResult => process(document))
+    .map((document): T | TextAnalyticsErrorResult => process(document))
     .concat(
       response.errors.map((error) => {
         return makeTextAnalyticsErrorResult(error.id, error.error);
@@ -212,10 +212,13 @@ export function processAndcombineSuccessfulErroneousDocuments<
  * @param input the array of documents sent to the service for processing.
  * @param response the response received from the service.
  */
-export function combineSuccessfulErroneousDocumentsWithStatisticsAndModelVersion<
-  T1 extends TextAnalyticsSuccessResult
->(input: TextDocumentInput[], response: TextAnalyticsResponse<T1>): TextAnalyticsResultArray<T1> {
-  const sorted = combineSuccessfulErroneousDocuments(input, response);
+export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion<
+  TSuccess extends TextAnalyticsSuccessResult
+>(
+  input: TextDocumentInput[],
+  response: TextAnalyticsResponse<TSuccess>
+): TextAnalyticsResultArray<TSuccess> {
+  const sorted = combineSuccessfulAndErroneousDocuments(input, response);
   return Object.assign(sorted, {
     statistics: response.statistics,
     modelVersion: response.modelVersion

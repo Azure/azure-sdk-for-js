@@ -45,22 +45,20 @@ export class BeginAnalyzePoller extends AnalysisPoller<
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { includeStatistics, requestOptions, tracingOptions } = analysisOptions || {};
+    const { requestOptions, tracingOptions } = analysisOptions || {};
     const operation = new BeginAnalyzePollerOperation(
       state || {},
       client,
       documents,
       tasks,
       {
-        analyze: analysisOptions,
+        analyze: { requestOptions, tracingOptions },
         polling: {
           updateIntervalInMs,
           resumeFrom
         }
       },
-      // take out modelVersion from the options that will be sent to the status
-      // API because it is not applicable.
-      { includeStatistics, requestOptions, tracingOptions }
+      analysisOptions
     );
 
     super(operation);
