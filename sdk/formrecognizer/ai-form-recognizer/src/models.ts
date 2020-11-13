@@ -369,11 +369,13 @@ export interface FormPageArray extends Array<FormPage> {}
  */
 export interface RecognizedForm {
   /**
-   * Document type.
+   * The type of the form.
    */
   formType: string;
   /**
    * Confidence in the correctness of the form type.
+   *
+   * For unlabeled models, this value will always be undefined.
    */
   formTypeConfidence?: number;
   /**
