@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"InfluxDB\",\"dataFeedName\":\"js-test-influxdbFeed-160529686314109231\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"userName\":\"user\",\"password\":\"pwd1\",\"query\":\"partition-key eq @start-time\"}}",
+   "requestBody": "{\"dataSourceType\":\"InfluxDB\",\"dataFeedName\":\"js-test-influxdbFeed-160529804499009706\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"userName\":\"user\",\"password\":\"pwd1\",\"query\":\"partition-key eq @start-time\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "5bf20ffc-4ea0-4413-9f24-4c91167762d4",
+    "apim-request-id": "150d8940-4241-4f12-9075-4a046aaf24ad",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 19:48:10 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/bf4a5326-9beb-41ec-a059-df85137a243d",
+    "date": "Fri, 13 Nov 2020 20:07:36 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/396a91b6-aa51-4257-ba2b-9a85f1d34f20",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "710",
-    "x-request-id": "5bf20ffc-4ea0-4413-9f24-4c91167762d4"
+    "x-envoy-upstream-service-time": "560",
+    "x-request-id": "150d8940-4241-4f12-9075-4a046aaf24ad"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/bf4a5326-9beb-41ec-a059-df85137a243d",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/396a91b6-aa51-4257-ba2b-9a85f1d34f20",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"bf4a5326-9beb-41ec-a059-df85137a243d\",\"dataFeedName\":\"js-test-influxdbFeed-160529686314109231\",\"metrics\":[{\"metricId\":\"e27b71f6-7de9-409d-9e2e-6917870ba9a8\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"a7b59b17-21a4-4c96-8349-5a1615f2e266\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"InfluxDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T19:48:10Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"password\":\"pwd1\",\"database\":\"data-feed-database\",\"query\":\"partition-key eq @start-time\",\"userName\":\"user\"}}",
+   "response": "{\"dataFeedId\":\"396a91b6-aa51-4257-ba2b-9a85f1d34f20\",\"dataFeedName\":\"js-test-influxdbFeed-160529804499009706\",\"metrics\":[{\"metricId\":\"7b6c91f6-15c4-4950-b4e1-ab2702894c1f\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"11117d0f-7815-4669-a02d-8c0add169358\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"InfluxDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T20:07:37Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"password\":\"pwd1\",\"database\":\"data-feed-database\",\"query\":\"partition-key eq @start-time\",\"userName\":\"user\"}}",
    "responseHeaders": {
-    "apim-request-id": "860f3f64-2b29-45db-9677-e9a8d0ef9d4b",
+    "apim-request-id": "3ba25170-874d-420e-96ac-25d5d9a81c04",
     "content-length": "1368",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:48:10 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "199",
-    "x-request-id": "860f3f64-2b29-45db-9677-e9a8d0ef9d4b"
+    "x-envoy-upstream-service-time": "141",
+    "x-request-id": "3ba25170-874d-420e-96ac-25d5d9a81c04"
    }
   }
  ],

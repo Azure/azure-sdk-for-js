@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-08-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "dfe627da-d7cc-4929-9111-4646288b678c",
+    "apim-request-id": "f6753435-7b90-4edc-9427-023071786833",
     "content-length": "330",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:09 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "364",
-    "x-request-id": "dfe627da-d7cc-4929-9111-4646288b678c"
+    "x-envoy-upstream-service-time": "5409",
+    "x-request-id": "f6753435-7b90-4edc-9427-023071786833"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-08-29T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-28T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "db7f6df8-ab94-4864-a79f-267f7625e649",
+    "apim-request-id": "f8f0121b-4d48-47d3-b174-ca5dcccd9d4e",
     "content-length": "330",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:09 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "279",
-    "x-request-id": "db7f6df8-ab94-4864-a79f-267f7625e649"
+    "x-envoy-upstream-service-time": "212",
+    "x-request-id": "f8f0121b-4d48-47d3-b174-ca5dcccd9d4e"
    }
   }
  ],

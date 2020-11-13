@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"MySql\",\"dataFeedName\":\"js-test-mySqlFeed-160529686314102205\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mysql\",\"query\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
+   "requestBody": "{\"dataSourceType\":\"MySql\",\"dataFeedName\":\"js-test-mySqlFeed-160529804499001425\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mysql\",\"query\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "bc08877c-0c26-480f-adf5-4691c5986989",
+    "apim-request-id": "12cd551d-1a1e-491f-8697-3cc659263d54",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 19:48:13 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/71f8ce2c-f07c-4ae9-824c-fc98c0ef0ae5",
+    "date": "Fri, 13 Nov 2020 20:07:39 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/737266d1-5318-4538-a256-7f775da71bd4",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "607",
-    "x-request-id": "bc08877c-0c26-480f-adf5-4691c5986989"
+    "x-envoy-upstream-service-time": "657",
+    "x-request-id": "12cd551d-1a1e-491f-8697-3cc659263d54"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/71f8ce2c-f07c-4ae9-824c-fc98c0ef0ae5",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/737266d1-5318-4538-a256-7f775da71bd4",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"71f8ce2c-f07c-4ae9-824c-fc98c0ef0ae5\",\"dataFeedName\":\"js-test-mySqlFeed-160529686314102205\",\"metrics\":[{\"metricId\":\"b694acc9-d7c0-496b-9f32-2d7fe34887c5\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"34052ad9-0112-4161-a223-24773bd28ff4\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MySql\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T19:48:13Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mysql\",\"query\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
+   "response": "{\"dataFeedId\":\"737266d1-5318-4538-a256-7f775da71bd4\",\"dataFeedName\":\"js-test-mySqlFeed-160529804499001425\",\"metrics\":[{\"metricId\":\"3ebf3ba3-1fd5-4a9f-9b71-0790d9c98f18\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"deb173d7-185d-4784-a28d-cbc3b2971413\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MySql\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T20:07:40Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mysql\",\"query\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
    "responseHeaders": {
-    "apim-request-id": "afe770da-0822-48bb-b448-8bce9c68881a",
+    "apim-request-id": "0194854b-b5d9-43d4-a650-fc87c32cbedd",
     "content-length": "1320",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:48:13 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "143",
-    "x-request-id": "afe770da-0822-48bb-b448-8bce9c68881a"
+    "x-envoy-upstream-service-time": "173",
+    "x-request-id": "0194854b-b5d9-43d4-a650-fc87c32cbedd"
    }
   }
  ],

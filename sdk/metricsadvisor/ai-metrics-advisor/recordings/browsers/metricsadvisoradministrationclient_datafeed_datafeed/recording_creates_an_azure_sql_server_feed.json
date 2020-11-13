@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"SqlServer\",\"dataFeedName\":\"js-test-sqlServerFeed-160529686314100395\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
+   "requestBody": "{\"dataSourceType\":\"SqlServer\",\"dataFeedName\":\"js-test-sqlServerFeed-160529804499001290\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "9d533950-11e8-4c66-95ea-fc282084a9fc",
+    "apim-request-id": "6ec2bab7-f07c-40c4-9441-500aaa726133",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 19:47:48 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/b571f229-1eb8-48a1-9e00-4ec1d5d04271",
+    "date": "Fri, 13 Nov 2020 20:07:28 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e90be852-1e42-4cc4-a7db-b8eaa5d800e1",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "1108",
-    "x-request-id": "9d533950-11e8-4c66-95ea-fc282084a9fc"
+    "x-envoy-upstream-service-time": "932",
+    "x-request-id": "6ec2bab7-f07c-40c4-9441-500aaa726133"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/b571f229-1eb8-48a1-9e00-4ec1d5d04271",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e90be852-1e42-4cc4-a7db-b8eaa5d800e1",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"b571f229-1eb8-48a1-9e00-4ec1d5d04271\",\"dataFeedName\":\"js-test-sqlServerFeed-160529686314100395\",\"metrics\":[{\"metricId\":\"d5c2d001-a41b-4f57-97a1-74d858760b2f\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"6bda151b-cee8-48e4-9b48-ada4c59b8863\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"SqlServer\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T19:47:48Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
+   "response": "{\"dataFeedId\":\"e90be852-1e42-4cc4-a7db-b8eaa5d800e1\",\"dataFeedName\":\"js-test-sqlServerFeed-160529804499001290\",\"metrics\":[{\"metricId\":\"0a0a7471-f6f7-40dd-8f66-c352a0ef0f9b\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"aaa2fad4-10f1-4e95-8642-4ad0c42678a5\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"SqlServer\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T20:07:28Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"sqlServer_connection_string\",\"query\":\"select * from blob_container2 where Timestamp = @StartTime\"}}",
    "responseHeaders": {
-    "apim-request-id": "be317e6d-fc21-4026-8eba-c5fb34ad2ab2",
+    "apim-request-id": "20330833-6dbf-4bac-b708-c25b9ce0fef4",
     "content-length": "1532",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:48 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "340",
-    "x-request-id": "be317e6d-fc21-4026-8eba-c5fb34ad2ab2"
+    "x-envoy-upstream-service-time": "169",
+    "x-request-id": "20330833-6dbf-4bac-b708-c25b9ce0fef4"
    }
   }
  ],

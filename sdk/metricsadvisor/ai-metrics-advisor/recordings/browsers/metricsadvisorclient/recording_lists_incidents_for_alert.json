@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"incidentId\":\"51d849d03277901eadfa9a0e7665b4ad-17470297800\",\"startTime\":\"2020-10-20T00:00:00Z\",\"lastTime\":\"2020-10-20T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Delhi\",\"category\":\"Shoes Handbags & Sunglasses\"}},\"property\":{\"incidentStatus\":\"Resolved\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"incidentId\":\"daceb039d9ec34d28f04654dd61aee57-17470297800\",\"startTime\":\"2020-10-20T00:00:00Z\",\"lastTime\":\"2020-10-20T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Karachi\",\"category\":\"Handmade\"}},\"property\":{\"maxSeverity\":\"Medium\",\"incidentStatus\":\"Active\"}}],\"@nextLink\":null}",
    "responseHeaders": {
-    "apim-request-id": "bcbfe125-2bb6-4151-99d2-58a4b18008aa",
+    "apim-request-id": "34aa12b2-98bd-4eed-a197-5182c553995b",
     "content-length": "788",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:27 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "732",
-    "x-request-id": "bcbfe125-2bb6-4151-99d2-58a4b18008aa"
+    "x-envoy-upstream-service-time": "292",
+    "x-request-id": "34aa12b2-98bd-4eed-a197-5182c553995b"
    }
   }
  ],

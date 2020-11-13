@@ -6,16 +6,51 @@
    "query": {},
    "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"}],\"@nextLink\":null}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":null}",
    "responseHeaders": {
-    "apim-request-id": "9d6c7b05-6e3b-41e1-910b-deac40c48daf",
-    "content-length": "97",
+    "apim-request-id": "a0539b99-036e-4152-a852-5ae4041f3a96",
+    "content-length": "99",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:10 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "258",
-    "x-request-id": "9d6c7b05-6e3b-41e1-910b-deac40c48daf"
+    "x-envoy-upstream-service-time": "191",
+    "x-request-id": "a0539b99-036e-4152-a852-5ae4041f3a96"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress/reset",
+   "query": {},
+   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "c630b752-1035-4460-9c7f-c47d9c49cfee",
+    "content-length": "0",
+    "date": "Fri, 13 Nov 2020 20:07:06 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "218",
+    "x-request-id": "c630b752-1035-4460-9c7f-c47d9c49cfee"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
+   "query": {},
+   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"}],\"@nextLink\":null}",
+   "responseHeaders": {
+    "apim-request-id": "f9003f5f-2143-4483-a028-4f442ce4c5a1",
+    "content-length": "100",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 20:07:06 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "194",
+    "x-request-id": "f9003f5f-2143-4483-a028-4f442ce4c5a1"
    }
   }
  ],

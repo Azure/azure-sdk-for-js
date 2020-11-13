@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/fbda7420-a98a-403a-80a3-77c462c97bb6",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/de0adf59-9c43-4ecc-a2f2-acbbb65d3461",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "fb656c14-8239-496e-9281-fc6bb55ab26b",
+    "apim-request-id": "edc9bd8e-d939-4844-a652-286b9061c7e2",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 19:47:14 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "235",
-    "x-request-id": "fb656c14-8239-496e-9281-fc6bb55ab26b"
+    "x-envoy-upstream-service-time": "126",
+    "x-request-id": "edc9bd8e-d939-4844-a652-286b9061c7e2"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/fbda7420-a98a-403a-80a3-77c462c97bb6",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/de0adf59-9c43-4ecc-a2f2-acbbb65d3461",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: ec97753a-1fde-4319-9eab-e772110f37c1\"}",
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: 338d5db5-e151-4d42-8320-13f89de3302f\"}",
    "responseHeaders": {
-    "apim-request-id": "a581fb78-00d7-43e0-b9a6-d911fe4a97b5",
+    "apim-request-id": "0bb509ab-ac47-455b-a4ad-58f5ba583d65",
     "content-length": "123",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:14 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "100",
-    "x-request-id": "a581fb78-00d7-43e0-b9a6-d911fe4a97b5"
+    "x-envoy-upstream-service-time": "64",
+    "x-request-id": "0bb509ab-ac47-455b-a4ad-58f5ba583d65"
    }
   }
  ],

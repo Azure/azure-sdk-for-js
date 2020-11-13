@@ -8,32 +8,32 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "c0cb44e7-b99f-4d2a-a285-42100c10b499",
+    "apim-request-id": "4fa7fd82-3373-4883-a02d-b6d5bc250d5a",
     "content-length": "0",
-    "date": "Fri, 13 Nov 2020 19:47:37 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/d183cd71-800c-46a2-bf15-d63cecb630e8",
+    "date": "Fri, 13 Nov 2020 20:07:21 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/dbbebff0-af7f-498e-b789-8f1714942c1d",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "604",
-    "x-request-id": "c0cb44e7-b99f-4d2a-a285-42100c10b499"
+    "x-envoy-upstream-service-time": "308",
+    "x-request-id": "4fa7fd82-3373-4883-a02d-b6d5bc250d5a"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/d183cd71-800c-46a2-bf15-d63cecb630e8",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/dbbebff0-af7f-498e-b789-8f1714942c1d",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"feedbackId\":\"d183cd71-800c-46a2-bf15-d63cecb630e8\",\"createdTime\":\"2020-11-13T19:47:37.685Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"},\"anomalyDetectionConfigurationId\":null,\"anomalyDetectionConfigurationSnapshot\":null}",
+   "response": "{\"feedbackId\":\"dbbebff0-af7f-498e-b789-8f1714942c1d\",\"createdTime\":\"2020-11-13T20:07:22.034Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"},\"anomalyDetectionConfigurationId\":null,\"anomalyDetectionConfigurationSnapshot\":null}",
    "responseHeaders": {
-    "apim-request-id": "d69d267a-1de4-486e-988e-10e1a541be08",
+    "apim-request-id": "99e3e87c-bf4d-4465-84d0-b77c23a49813",
     "content-length": "475",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 19:47:37 GMT",
+    "date": "Fri, 13 Nov 2020 20:07:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "187",
-    "x-request-id": "d69d267a-1de4-486e-988e-10e1a541be08"
+    "x-envoy-upstream-service-time": "88",
+    "x-request-id": "99e3e87c-bf4d-4465-84d0-b77c23a49813"
    }
   }
  ],
