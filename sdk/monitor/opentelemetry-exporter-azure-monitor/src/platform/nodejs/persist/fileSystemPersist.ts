@@ -7,7 +7,7 @@ import * as path from "path";
 import { Logger } from "@opentelemetry/api";
 import { NoopLogger } from "@opentelemetry/core";
 import { PersistentStorage } from "../../../types";
-import { AzureExporterConfig, DEFAULT_EXPORTER_CONFIG } from "../../../config";
+import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
 import { promisify } from "util";
 
@@ -24,11 +24,11 @@ export class FileSystemPersist implements PersistentStorage {
 
   maxBytesOnDisk: number = 50_000_000; // ~50MB
 
-  private readonly _options: AzureExporterConfig;
+  private readonly _options: AzureExporterInternalConfig;
 
   private readonly _logger: Logger;
 
-  constructor(options: Partial<AzureExporterConfig> = {}) {
+  constructor(options: Partial<AzureExporterInternalConfig> = {}) {
     this._options = { ...DEFAULT_EXPORTER_CONFIG, ...options };
     this._logger = options.logger || new NoopLogger();
     if (!this._options.instrumentationKey) {

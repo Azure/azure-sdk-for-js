@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { ExportResult } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "../../../src/export/exporter";
+import { AzureMonitorTraceExporter } from "../../../src/export/trace";
 import { TelemetryProcessor } from "../../../src/types";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
@@ -20,15 +20,21 @@ function toObject<T>(obj: T): T {
 }
 
 describe("#AzureMonitorBaseExporter", () => {
-  class TestExporter extends AzureMonitorBaseExporter {
+  class TestExporter extends AzureMonitorTraceExporter {
+    private thisAsAny: any;
     constructor() {
       super({
-        instrumentationKey: "foo-ikey"
+        connectionString: `instrumentationkey=foo-ikey`
       });
+      this.thisAsAny = this;
     }
 
     getTelemetryProcesors() {
-      return this._telemetryProcessors;
+      return this.thisAsAny._telemetryProcessors;
+    }
+
+    async exportEnvelopesPrivate(payload: Envelope[]): Promise<ExportResult> {
+      return this.thisAsAny.exportEnvelopes(payload);
     }
   }
 
@@ -66,7 +72,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const response = failedBreezeResponse(1, 429);
         scope.reply(429, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopes([envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
 
         const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
@@ -79,7 +85,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const response = partialBreezeResponse([200, 408, 408]);
         scope.reply(206, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopes([envelope, envelope, envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope, envelope, envelope]);
         assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
 
         const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
@@ -91,7 +97,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const response = failedBreezeResponse(1, 400);
         scope.reply(400, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopes([envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
 
         const persistedEnvelopes = await exporter["_persister"].shift();
@@ -103,7 +109,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopes([envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.SUCCESS);
         assert.notStrictEqual(exporter["_retryTimer"], null);
 
@@ -117,7 +123,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopes([envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.SUCCESS);
         assert.strictEqual(exporter["_retryTimer"], "foo");
       });

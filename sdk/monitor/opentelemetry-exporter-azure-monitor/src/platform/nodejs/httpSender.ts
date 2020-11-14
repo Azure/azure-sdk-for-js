@@ -9,7 +9,7 @@ import {
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams
 } from "../../generated";
-import { AzureExporterConfig } from "../../config";
+import { AzureExporterInternalConfig } from "../../config";
 
 export class HttpSender implements Sender {
   private readonly _logger: Logger;
@@ -17,7 +17,7 @@ export class HttpSender implements Sender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
 
   constructor(
-    private _exporterOptions: Partial<AzureExporterConfig> = {},
+    private _exporterOptions: Partial<AzureExporterInternalConfig> = {},
     private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams = {}
   ) {
     this._logger = this._exporterOptions.logger || new ConsoleLogger(LogLevel.ERROR);
