@@ -28,7 +28,8 @@ export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadReques
 /**
  * Thread participants to be added to the thread.
  */
-export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
+export interface AddChatParticipantsRequest
+  extends Omit<RestAddChatParticipantsRequest, "participants"> {
   /**
    * Participants to add to a chat thread.
    */

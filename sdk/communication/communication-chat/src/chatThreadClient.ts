@@ -26,7 +26,7 @@ import {
   UpdateMessageOptions,
   UpdateThreadOptions,
   AddParticipantsOptions,
-  ListParticipantsOptions as ListParticipantsOptions,
+  ListParticipantsOptions,
   RemoveParticipantOptions,
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
@@ -348,10 +348,7 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatParticipant[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatParticipants(
-        this.threadId,
-        requestOptions
-      );
+      const currentSetResponse = await this.api.listChatParticipants(this.threadId, requestOptions);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToChatParticipantSdkModel, this);

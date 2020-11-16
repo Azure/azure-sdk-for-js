@@ -204,7 +204,10 @@ describe("[Mocked] ChatThreadClient", async () => {
     );
     assert.equal(request.method, "POST");
     const requestJson = JSON.parse(request.body);
-    assert.equal(sendRequest.participants[0].user.communicationUserId, requestJson.participants[0].id);
+    assert.equal(
+      sendRequest.participants[0].user.communicationUserId,
+      requestJson.participants[0].id
+    );
     assert.equal(sendRequest.participants[0].displayName, requestJson.participants[0].displayName);
     assert.equal(
       sendRequest.participants[0].shareHistoryTime?.toDateString(),
@@ -291,7 +294,9 @@ describe("[Mocked] ChatThreadClient", async () => {
   });
 
   it("makes successful list read receipts request", async () => {
-    const mockHttpClient = generateHttpClient(200, { value: [mockChatMessageReadReceipt, mockChatMessageReadReceipt] });
+    const mockHttpClient = generateHttpClient(200, {
+      value: [mockChatMessageReadReceipt, mockChatMessageReadReceipt]
+    });
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 

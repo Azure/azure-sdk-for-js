@@ -126,7 +126,9 @@ export class ChatClient {
       const response = await this.api.createChatThread(
         {
           topic: request.topic,
-          participants: request.participants?.map((participant) => mapToChatParticipantRestModel(participant))
+          participants: request.participants?.map((participant) =>
+            mapToChatParticipantRestModel(participant)
+          )
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

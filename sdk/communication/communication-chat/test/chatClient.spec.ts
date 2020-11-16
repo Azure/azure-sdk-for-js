@@ -114,7 +114,7 @@ describe("ChatClient", function() {
   it("successfully adds participants", async function() {
     testUser3 = (await createTestUser()).user;
 
-    const request = { participants : [{ user: testUser3 }] };
+    const request = { participants: [{ user: testUser3 }] };
     await chatThreadClient.addParticipants(request);
   });
 
@@ -126,7 +126,9 @@ describe("ChatClient", function() {
   });
 
   it("successfully remove a participant", async function() {
-    await chatThreadClient.removeParticipant({ communicationUserId: testUser2.communicationUserId });
+    await chatThreadClient.removeParticipant({
+      communicationUserId: testUser2.communicationUserId
+    });
   });
 
   it("successfully lists read receipts", async function() {

@@ -4,7 +4,13 @@
 import * as RestModel from "../generated/src/models";
 import { HttpResponse } from "@azure/core-http";
 import { AddChatParticipantsRequest } from "./requests";
-import { ChatMessage, ChatThread, ChatParticipant, ChatMessageReadReceipt, WithResponse } from "./models";
+import {
+  ChatMessage,
+  ChatThread,
+  ChatParticipant,
+  ChatMessageReadReceipt,
+  WithResponse
+} from "./models";
 
 /**
  * Mapping chat participant customer model to chat participant REST model
@@ -24,7 +30,9 @@ export const mapToAddChatParticipantsRequestRestModel = (
   addParticipantsRequest: AddChatParticipantsRequest
 ): RestModel.AddChatParticipantsRequest => {
   return {
-    participants: addParticipantsRequest.participants?.map((participant) => mapToChatParticipantRestModel(participant))
+    participants: addParticipantsRequest.participants?.map((participant) =>
+      mapToChatParticipantRestModel(participant)
+    )
   };
 };
 
@@ -68,14 +76,18 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
     createdBy: {
       communicationUserId: chatThread.createdBy!
     },
-    participants: chatThread.participants?.map((participant) => mapToChatParticipantSdkModel(participant))!
+    participants: chatThread.participants?.map((participant) =>
+      mapToChatParticipantSdkModel(participant)
+    )!
   };
 };
 
 /**
  * Mapping read receipt REST model to read receipt SDK model
  */
-export const mapToReadReceiptSdkModel = (readReceipt: RestModel.ChatMessageReadReceipt): ChatMessageReadReceipt => {
+export const mapToReadReceiptSdkModel = (
+  readReceipt: RestModel.ChatMessageReadReceipt
+): ChatMessageReadReceipt => {
   const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId! } };
   delete (model as any).senderId;
   return model;
