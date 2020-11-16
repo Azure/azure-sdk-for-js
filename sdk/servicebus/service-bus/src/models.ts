@@ -152,12 +152,16 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
+   * @property Indicates whether the message should be settled using the `completeMessage()`
+   * method on the receiver automatically after it executes the user provided message callback.
+   * Doing so removes the message from the queue/subscription.
+   *
+   * This option is ignored if messages are received in the `receiveAndDelete` receive mode or if
+   * the message is already settled in the user provided message callback.
+   *
    * - **Default**: `true`.
    */
-  autoComplete?: boolean;
+  autoCompleteMessages?: boolean;
   /**
    * @property The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will

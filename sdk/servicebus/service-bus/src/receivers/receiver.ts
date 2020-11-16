@@ -425,7 +425,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     options: StreamingReceiverInitArgs
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(this._context);
-    if (options.autoComplete == null) options.autoComplete = true;
+    if (options.autoCompleteMessages == null) options.autoCompleteMessages = true;
 
     // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
     // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages

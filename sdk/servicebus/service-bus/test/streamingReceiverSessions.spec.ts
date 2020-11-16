@@ -209,7 +209,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -253,7 +253,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -304,7 +304,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
@@ -364,7 +364,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
@@ -425,7 +425,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => msgCount === 1);
@@ -764,7 +764,7 @@ describe("Streaming with sessions", () => {
           processError
         },
         {
-          autoComplete: false
+          autoCompleteMessages: false
         }
       );
       await receiver.close();

@@ -111,7 +111,7 @@ async function receiveMessage() {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     ); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);

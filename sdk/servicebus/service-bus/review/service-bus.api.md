@@ -491,7 +491,7 @@ export interface SqlRuleFilter {
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase {
-    autoComplete?: boolean;
+    autoCompleteMessages?: boolean;
     maxConcurrentCalls?: number;
 }
 
