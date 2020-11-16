@@ -345,7 +345,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.equal(composedModel.errors?.length ?? 0, 0);
       assert.equal(composedModel.modelName, modelName);
       assert.ok(composedModel.properties);
-      assert.isTrue(composedModel.properties?.isComposed);
+      assert.isTrue(composedModel.properties?.isComposedModel);
 
       // Submodels
       assert.equal(composedModel.submodels?.length, 2);
