@@ -54,6 +54,7 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
+    appearance: original.appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",

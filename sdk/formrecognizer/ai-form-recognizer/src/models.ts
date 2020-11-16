@@ -16,7 +16,8 @@ import {
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
-  ModelStatus
+  ModelStatus,
+  Appearance
 } from "./generated/models";
 
 export {
@@ -32,7 +33,8 @@ export {
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
-  TrainingStatus
+  TrainingStatus,
+  Appearance
 };
 
 /**
@@ -106,6 +108,10 @@ export interface FormLine extends FormElementCommon {
    * List of words in the text line.
    */
   words: FormWord[];
+  /**
+   * Text appearance properties, such as style.
+   */
+  appearance?: Appearance;
 }
 
 /**
