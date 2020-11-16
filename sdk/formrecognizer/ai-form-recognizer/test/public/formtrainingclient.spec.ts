@@ -301,11 +301,13 @@ matrix([[true, false]] as const, async (useAad) => {
 
     // #endregion
 
-    it("compose model", async () => {
+    it("compose model", async function() {
       if (useAad) {
         // TODO
-        recorder.skip(undefined, "Deployment issue blocks support for compose on AAD");
+        this.test!.title = `${this.test?.title} (Issue with service deployment blocks AAD)`;
+        this.skip();
       }
+
       const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
 
       // Create two models using the same data set. This will still test our training
