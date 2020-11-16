@@ -132,7 +132,7 @@ export interface ServiceBusReceiver {
    */
   entityPath: string;
   /**
-   * ReceiveMode provided to the client.
+   * The receive mode used to create the receiver.
    */
   receiveMode: "peekLock" | "receiveAndDelete";
   /**

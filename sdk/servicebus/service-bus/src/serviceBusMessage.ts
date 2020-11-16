@@ -370,9 +370,9 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   readonly deadLetterErrorDescription?: string;
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
-   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
+   * `peekLock` receive mode. Locks are used internally settle messages as explained in the
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly
    */
@@ -399,7 +399,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * @property The UTC instant until which the message is held locked in the queue/subscription.
    * When the lock expires, the `deliveryCount` is incremented and the message is again available
    * for retrieval.
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    */
   lockedUntilUtc?: Date;
@@ -682,9 +682,9 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   scheduledEnqueueTimeUtc?: Date;
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
-   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
+   * `peekLock` receive mode. Locks are used internally settle messages as explained in the
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly
    */
@@ -711,7 +711,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * @property The UTC instant until which the message is held locked in the queue/subscription.
    * When the lock expires, the `deliveryCount` is incremented and the message is again available
    * for retrieval.
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    */
   lockedUntilUtc?: Date;
