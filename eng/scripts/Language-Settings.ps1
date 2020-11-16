@@ -38,6 +38,22 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
   return $npmVersionList.Contains($pkgVersion)
 }
 
+# make certain to always take the package json closest to the top
+function ResolvePkgJson($workFolder)
+{
+  $pathsWithComplexity = @()
+  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json"))
+  {
+    $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
+    $pathsWithComplexity += New-Object PSObject -Property @{
+      Path       = $file
+      Complexity = $complexity
+    }
+  }
+
+  return ($pathsWithComplexity | Sort-Object -Property Complexity)[0].Path
+}
+
 # Parse out package publishing information given a .tgz npm artifact
 function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 {
@@ -98,7 +114,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
     {
       $DocVersion = $dirList[0].Name
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-      $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
+      $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
     else
