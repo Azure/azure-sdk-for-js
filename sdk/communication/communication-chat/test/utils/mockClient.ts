@@ -3,13 +3,13 @@
 
 import { AzureCommunicationUserCredential } from "@azure/communication-common";
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import { ChatClient, ChatThreadMember } from "../../src";
+import { ChatClient, ChatParticipant } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { baseUri, generateToken } from "./connectionUtils";
 import { ChatThreadClient } from "../../src/chatThreadClient";
 
-export const mockMember: RestModel.ChatThreadMember = {
-  id: "memberId",
+export const mockParticipant: RestModel.ChatParticipant = {
+  id: "participantId",
   displayName: "displayName",
   shareHistoryTime: new Date("2020-05-26T18:06:06Z")
 };
@@ -19,28 +19,27 @@ export const mockThread: RestModel.ChatThread = {
   topic: "topic",
   createdBy: "createdBy",
   createdOn: new Date("2020-06-26T18:06:06Z"),
-  members: [mockMember]
+  participants: [mockParticipant]
 };
 
 export const mockThreadInfo: RestModel.ChatThreadInfo = {
   id: "threadid",
   topic: "topic",
-  isDeleted: true,
   lastMessageReceivedOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const mockRestModelMember: RestModel.ChatThreadMember = {
-  id: "memberId",
+export const mockRestModelParticipant: RestModel.ChatParticipant = {
+  id: "participantId",
   displayName: "displayName",
   shareHistoryTime: new Date("2020-05-26T18:06:06Z")
 };
 
-export const mockSdkModelMember: ChatThreadMember = {
+export const mockSdkModelParticipant: ChatParticipant = {
   user: {
-    communicationUserId: mockRestModelMember.id
+    communicationUserId: mockRestModelParticipant.id
   },
-  displayName: mockRestModelMember.displayName,
-  shareHistoryTime: mockRestModelMember.shareHistoryTime
+  displayName: mockRestModelParticipant.displayName,
+  shareHistoryTime: mockRestModelParticipant.shareHistoryTime
 };
 
 export const mockMessage: RestModel.ChatMessage = {
@@ -54,8 +53,8 @@ export const mockMessage: RestModel.ChatMessage = {
   deletedOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const mockReadReceipt: RestModel.ReadReceipt = {
-  senderId: mockRestModelMember.id,
+export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
+  senderId: mockRestModelParticipant.id,
   chatMessageId: mockMessage.id,
   readOn: new Date("2020-06-26T18:06:06Z")
 };

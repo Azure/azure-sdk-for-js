@@ -80,19 +80,19 @@ export type GetMessageOptions = OperationOptions;
 export type DeleteMessageOptions = OperationOptions;
 
 /**
- * Options to add a chat thread member.
+ * Options to add a chat participant.
  */
-export type AddMembersOptions = OperationOptions;
+export type AddParticipantsOptions = OperationOptions;
 
 /**
- * Options to list chat thread members.
+ * Options to list chat participants.
  */
-export type ListMembersOptions = OperationOptions;
+export type ListParticipantsOptions = OperationOptions;
 
 /**
- * Options to remove a chat thread member.
+ * Options to remove a chat participant.
  */
-export type RemoveMemberOptions = OperationOptions;
+export type RemoveParticipantOptions = OperationOptions;
 
 /**
  * Options to send typing notifications.

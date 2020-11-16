@@ -21,8 +21,8 @@ import {
   ChatApiClientListChatMessagesResponse,
   ChatApiClientGetChatMessageResponse,
   UpdateChatMessageRequest,
-  ChatApiClientListChatThreadMembersResponse,
-  AddChatThreadMembersRequest,
+  ChatApiClientListChatParticipantsResponse,
+  AddChatParticipantsRequest,
   CreateChatThreadRequest,
   ChatApiClientCreateChatThreadResponse,
   ChatApiClientListChatThreadsOptionalParams,
@@ -32,7 +32,7 @@ import {
   ChatApiClientListChatReadReceiptsNextResponse,
   ChatApiClientListChatMessagesNextOptionalParams,
   ChatApiClientListChatMessagesNextResponse,
-  ChatApiClientListChatThreadMembersNextResponse,
+  ChatApiClientListChatParticipantsNextResponse,
   ChatApiClientListChatThreadsNextOptionalParams,
   ChatApiClientListChatThreadsNextResponse
 } from "./models";
@@ -48,8 +48,8 @@ class ChatApiClient extends ChatApiClientContext {
   }
 
   /**
-   * Gets read receipts for a thread.
-   * @param chatThreadId Thread id to get the read receipts for.
+   * Gets chat message read receipts for a thread.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
    * @param options The options parameters.
    */
   listChatReadReceipts(
@@ -68,19 +68,19 @@ class ChatApiClient extends ChatApiClientContext {
   /**
    * Sends a read receipt event to a thread, on behalf of a user.
    * @param chatThreadId Thread id to send the read receipt event to.
-   * @param body Read receipt details.
+   * @param sendReadReceiptRequest Read receipt details.
    * @param options The options parameters.
    */
   sendChatReadReceipt(
     chatThreadId: string,
-    body: SendReadReceiptRequest,
+    sendReadReceiptRequest: SendReadReceiptRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, body, options: operationOptions },
+      { chatThreadId, sendReadReceiptRequest, options: operationOptions },
       sendChatReadReceiptOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -88,19 +88,19 @@ class ChatApiClient extends ChatApiClientContext {
   /**
    * Sends a message to a thread.
    * @param chatThreadId The thread id to send the message to.
-   * @param body Details of the message to send.
+   * @param sendChatMessageRequest Details of the message to send.
    * @param options The options parameters.
    */
   sendChatMessage(
     chatThreadId: string,
-    body: SendChatMessageRequest,
+    sendChatMessageRequest: SendChatMessageRequest,
     options?: coreHttp.OperationOptions
   ): Promise<ChatApiClientSendChatMessageResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, body, options: operationOptions },
+      { chatThreadId, sendChatMessageRequest, options: operationOptions },
       sendChatMessageOperationSpec
     ) as Promise<ChatApiClientSendChatMessageResponse>;
   }
@@ -147,20 +147,25 @@ class ChatApiClient extends ChatApiClientContext {
    * Updates a message.
    * @param chatThreadId The thread id to which the message was sent.
    * @param chatMessageId The message id.
-   * @param body Details of the request to update the message.
+   * @param updateChatMessageRequest Details of the request to update the message.
    * @param options The options parameters.
    */
   updateChatMessage(
     chatThreadId: string,
     chatMessageId: string,
-    body: UpdateChatMessageRequest,
+    updateChatMessageRequest: UpdateChatMessageRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, chatMessageId, body, options: operationOptions },
+      {
+        chatThreadId,
+        chatMessageId,
+        updateChatMessageRequest,
+        options: operationOptions
+      },
       updateChatMessageOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -204,77 +209,77 @@ class ChatApiClient extends ChatApiClientContext {
   }
 
   /**
-   * Gets the members of a thread.
-   * @param chatThreadId Thread id to get members for.
+   * Gets the participants of a thread.
+   * @param chatThreadId Thread id to get participants for.
    * @param options The options parameters.
    */
-  listChatThreadMembers(
+  listChatParticipants(
     chatThreadId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<ChatApiClientListChatThreadMembersResponse> {
+  ): Promise<ChatApiClientListChatParticipantsResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
       { chatThreadId, options: operationOptions },
-      listChatThreadMembersOperationSpec
-    ) as Promise<ChatApiClientListChatThreadMembersResponse>;
+      listChatParticipantsOperationSpec
+    ) as Promise<ChatApiClientListChatParticipantsResponse>;
   }
 
   /**
-   * Adds thread members to a thread. If members already exist, no change occurs.
-   * @param chatThreadId Id of the thread to add members to.
-   * @param body Thread members to be added to the thread.
+   * Adds thread participants to a thread. If participants already exist, no change occurs.
+   * @param chatThreadId Id of the thread to add participants to.
+   * @param addChatParticipantsRequest Thread participants to be added to the thread.
    * @param options The options parameters.
    */
-  addChatThreadMembers(
+  addChatParticipants(
     chatThreadId: string,
-    body: AddChatThreadMembersRequest,
+    addChatParticipantsRequest: AddChatParticipantsRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, body, options: operationOptions },
-      addChatThreadMembersOperationSpec
+      { chatThreadId, addChatParticipantsRequest, options: operationOptions },
+      addChatParticipantsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
-   * Remove a member from a thread.
-   * @param chatThreadId Thread id to remove the member from.
-   * @param chatMemberId Id of the thread member to remove from the thread.
+   * Remove a participant from a thread.
+   * @param chatThreadId Thread id to remove the participant from.
+   * @param chatParticipantId Id of the thread participant to remove from the thread.
    * @param options The options parameters.
    */
-  removeChatThreadMember(
+  removeChatParticipant(
     chatThreadId: string,
-    chatMemberId: string,
+    chatParticipantId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, chatMemberId, options: operationOptions },
-      removeChatThreadMemberOperationSpec
+      { chatThreadId, chatParticipantId, options: operationOptions },
+      removeChatParticipantOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
    * Creates a chat thread.
-   * @param body Request payload for creating a chat thread.
+   * @param createChatThreadRequest Request payload for creating a chat thread.
    * @param options The options parameters.
    */
   createChatThread(
-    body: CreateChatThreadRequest,
+    createChatThreadRequest: CreateChatThreadRequest,
     options?: coreHttp.OperationOptions
   ): Promise<ChatApiClientCreateChatThreadResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { body, options: operationOptions },
+      { createChatThreadRequest, options: operationOptions },
       createChatThreadOperationSpec
     ) as Promise<ChatApiClientCreateChatThreadResponse>;
   }
@@ -298,19 +303,19 @@ class ChatApiClient extends ChatApiClientContext {
   /**
    * Updates a thread's properties.
    * @param chatThreadId The id of the thread to update.
-   * @param body Request payload for updating a chat thread.
+   * @param updateChatThreadRequest Request payload for updating a chat thread.
    * @param options The options parameters.
    */
   updateChatThread(
     chatThreadId: string,
-    body: UpdateChatThreadRequest,
+    updateChatThreadRequest: UpdateChatThreadRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { chatThreadId, body, options: operationOptions },
+      { chatThreadId, updateChatThreadRequest, options: operationOptions },
       updateChatThreadOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -353,7 +358,7 @@ class ChatApiClient extends ChatApiClientContext {
 
   /**
    * ListChatReadReceiptsNext
-   * @param chatThreadId Thread id to get the read receipts for.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
    * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
    * @param options The options parameters.
    */
@@ -392,23 +397,23 @@ class ChatApiClient extends ChatApiClientContext {
   }
 
   /**
-   * ListChatThreadMembersNext
-   * @param chatThreadId Thread id to get members for.
-   * @param nextLink The nextLink from the previous successful call to the ListChatThreadMembers method.
+   * ListChatParticipantsNext
+   * @param chatThreadId Thread id to get participants for.
+   * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
    * @param options The options parameters.
    */
-  listChatThreadMembersNext(
+  listChatParticipantsNext(
     chatThreadId: string,
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<ChatApiClientListChatThreadMembersNextResponse> {
+  ): Promise<ChatApiClientListChatParticipantsNextResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
       { chatThreadId, nextLink, options: operationOptions },
-      listChatThreadMembersNextOperationSpec
-    ) as Promise<ChatApiClientListChatThreadMembersNextResponse>;
+      listChatParticipantsNextOperationSpec
+    ) as Promise<ChatApiClientListChatParticipantsNextResponse>;
   }
 
   /**
@@ -438,7 +443,7 @@ const listChatReadReceiptsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReadReceiptsCollection
+      bodyMapper: Mappers.ChatMessageReadReceiptsCollection
     },
     401: {
       bodyMapper: Mappers.ErrorModel
@@ -475,7 +480,7 @@ const sendChatReadReceiptOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.sendReadReceiptRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.contentType],
@@ -502,7 +507,7 @@ const sendChatMessageOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.sendChatMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.contentType],
@@ -561,7 +566,7 @@ const updateChatMessageOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}/messages/{chatMessageId}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
+    204: {},
     401: {
       bodyMapper: Mappers.ErrorModel
     },
@@ -575,10 +580,10 @@ const updateChatMessageOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.updateChatMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatMessageId],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -626,12 +631,12 @@ const sendTypingNotificationOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   serializer
 };
-const listChatThreadMembersOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/members",
+const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/participants",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadMembersCollection
+      bodyMapper: Mappers.ChatParticipantsCollection
     },
     401: {
       bodyMapper: Mappers.ErrorModel
@@ -650,11 +655,11 @@ const listChatThreadMembersOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   serializer
 };
-const addChatThreadMembersOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/members",
+const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/participants",
   httpMethod: "POST",
   responses: {
-    207: {},
+    201: {},
     401: {
       bodyMapper: Mappers.ErrorModel
     },
@@ -668,15 +673,15 @@ const addChatThreadMembersOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.addChatParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const removeChatThreadMemberOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/members/{chatMemberId}",
+const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
@@ -694,15 +699,15 @@ const removeChatThreadMemberOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatMemberId],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatParticipantId],
   serializer
 };
 const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads",
   httpMethod: "POST",
   responses: {
-    207: {
-      bodyMapper: Mappers.MultiStatusResponse
+    201: {
+      bodyMapper: Mappers.ChatThread
     },
     401: {
       bodyMapper: Mappers.ErrorModel
@@ -717,7 +722,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
@@ -752,7 +757,7 @@ const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
+    204: {},
     401: {
       bodyMapper: Mappers.ErrorModel
     },
@@ -766,10 +771,10 @@ const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.updateChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -824,7 +829,7 @@ const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReadReceiptsCollection
+      bodyMapper: Mappers.ChatMessageReadReceiptsCollection
     },
     401: {
       bodyMapper: Mappers.ErrorModel
@@ -867,12 +872,12 @@ const listChatMessagesNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
   serializer
 };
-const listChatThreadMembersNextOperationSpec: coreHttp.OperationSpec = {
+const listChatParticipantsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadMembersCollection
+      bodyMapper: Mappers.ChatParticipantsCollection
     },
     401: {
       bodyMapper: Mappers.ErrorModel

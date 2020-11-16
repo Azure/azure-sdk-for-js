@@ -39,7 +39,7 @@ import { GetChatThreadResponse, ListPageSettings, OperationResponse } from "./mo
 import {
   mapToChatThreadSdkModel,
   attachHttpResponse,
-  mapToChatThreadMemberRestModel
+  mapToChatParticipantRestModel
 } from "./models/mappers";
 import { ChatThreadInfo } from "./generated/src/models";
 import { CreateChatThreadRequest } from "./models/requests";
@@ -126,16 +126,13 @@ export class ChatClient {
       const response = await this.api.createChatThread(
         {
           topic: request.topic,
-          members: request.members?.map((member) => mapToChatThreadMemberRestModel(member))
+          participants: request.participants?.map((participant) => mapToChatParticipantRestModel(participant))
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      const multiStatusResponses = response.multipleStatus ?? [];
-      const threadId = multiStatusResponses.find((r) => r.type === "Thread" && r.statusCode === 201)
-        ?.id;
-      if (threadId) {
-        return this.getChatThreadClient(threadId);
+      if (response.id) {
+        return this.getChatThreadClient(response.id);
       }
 
       throw new Error("Chat thread creation failed.");
