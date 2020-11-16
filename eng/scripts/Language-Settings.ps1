@@ -94,7 +94,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
     if ($dirList.Length -eq 1)
     {
       $DocVersion = $dirList[0].Name
-      $pkgs, $parsePkgInfoFn = RetrievePackages "NPM" $PublicArtifactLocation
+      $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
       if ($pkgs -and $pkgs.Count -gt 0)
