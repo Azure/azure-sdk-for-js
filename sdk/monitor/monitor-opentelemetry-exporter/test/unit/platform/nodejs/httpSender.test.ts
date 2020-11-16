@@ -44,9 +44,13 @@ describe("HttpSender", () => {
     it("should send an invalid non-retriable envelope", async () => {
       const sender = new HttpSender();
       scope.reply(403, JSON.stringify(failedBreezeResponse(2, 403)));
-      const { result, statusCode } = await sender.send([envelope, envelope]);
-      assert.strictEqual(statusCode, 403);
-      assert.deepStrictEqual(JSON.parse(result), failedBreezeResponse(2, 403));
+
+      try {
+        await sender.send([envelope, envelope]);
+      } catch (error) {
+        assert.strictEqual(error.statusCode, 403);
+        assert.deepStrictEqual(error.details, failedBreezeResponse(2, 403));
+      }
     });
 
     it("should send a partially retriable envelope", async () => {

@@ -1,4 +1,4 @@
-import { RollupOptions, RollupWarning, WarningHandler } from "rollup";
+import { RollupWarning, WarningHandler } from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
@@ -56,7 +56,10 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 function makeBrowserTestConfig() {
   const config: RollupOptions = {
-    input: ["dist-esm/test/{,!(node)/**/}*.spec.js"],
+    input: {
+      include: ["dist-esm/test/**/*.spec.js"],
+      exclude: ["dist-esm/test/**/node/*.spec.js"]
+    },
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",

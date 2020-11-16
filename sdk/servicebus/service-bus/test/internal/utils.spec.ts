@@ -332,7 +332,7 @@ describe("utils", () => {
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
         },
         _amqpAnnotatedMessage: { body: "This is a test." }
@@ -357,7 +357,7 @@ describe("utils", () => {
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
-        properties: {
+        applicationProperties: {
           [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
         },
         _amqpAnnotatedMessage: { body: "This is a test." }

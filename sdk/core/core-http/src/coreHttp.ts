@@ -43,6 +43,7 @@ export {
   ProxySettings,
   ProxyOptions
 } from "./serviceClient";
+export { createSpanFunction, SpanConfig } from "./createSpan";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
@@ -125,3 +126,4 @@ export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
 
 export { parseXML, stringifyXML } from "./util/xml";
+export { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";

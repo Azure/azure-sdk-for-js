@@ -11,7 +11,7 @@ import {
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { Constants, TokenCredential } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 import { logger } from "./log";
 
 import {
@@ -19,7 +19,7 @@ import {
   Subscription,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
-import { isTokenCredential } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";

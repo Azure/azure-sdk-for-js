@@ -12,6 +12,7 @@ import { Pipeline } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
+import { Span } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
@@ -61,6 +62,12 @@ export interface CompositeMapperType {
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+// @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+    span: Span;
+    updatedOptions: T;
+};
 
 // @public
 export interface DeserializationContentTypes {
@@ -230,6 +237,7 @@ export interface OperationResponse {
 export interface OperationResponseMap {
     bodyMapper?: Mapper;
     headersMapper?: Mapper;
+    isError?: boolean;
 }
 
 // @public
@@ -327,6 +335,12 @@ export interface ServiceClientOptions {
 export interface SimpleMapperType {
     // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
+}
+
+// @public
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
 }
 
 

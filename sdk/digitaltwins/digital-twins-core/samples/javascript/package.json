@@ -1,0 +1,14 @@
+{
+  "name": "azure-digital-twins-core-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Samples for the azure/digital-twins-core client library for Javascript",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "main": "dt_create_digitaltwins_service_client.js",
+  "dependencies": {
+    "@azure/core-http": "^1.1.6",
+    "@azure/digital-twins-core": "file:../..",
+    "@azure/identity": "^1.1.0"
+  }
+}

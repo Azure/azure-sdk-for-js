@@ -1,8 +1,8 @@
 let nock = require('nock');
 
-module.exports.hash = "28db94ab7d39c22cf9310895bab6403f";
+module.exports.hash = "8fd89e6d3ab1c50fee8fe431cac9fcae";
 
-module.exports.testInfo = {"uniqueName":{"js-test-datafeed-":"js-test-datafeed-160037921653509878"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-08-01T00:00:00.000Z","endTime":"2020-09-01T00:00:00.000Z"})
@@ -12,17 +12,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '30adfffe-266e-490c-8ce2-f06e088dbf7c',
+  'a5bbc811-aa66-48b0-a741-d55a39efbe5b',
   'x-envoy-upstream-service-time',
-  '350',
+  '5437',
   'apim-request-id',
-  '30adfffe-266e-490c-8ce2-f06e088dbf7c',
+  'a5bbc811-aa66-48b0-a741-d55a39efbe5b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 17 Sep 2020 21:46:54 GMT',
-  'Connection',
-  'close'
+  'Fri, 13 Nov 2020 22:02:24 GMT'
 ]);

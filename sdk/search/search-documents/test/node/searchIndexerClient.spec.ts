@@ -109,8 +109,6 @@ describe("SearchIndexerClient", function() {
         assert.equal(indexer.dataSourceName, "my-data-source-1");
         assert.equal(indexer.targetIndexName, TEST_INDEX_NAME);
         assert.isFalse(indexer.isDisabled);
-      } catch (ex) {
-        throw ex;
       } finally {
         await indexerClient.deleteIndexer(indexer);
       }
@@ -178,8 +176,6 @@ describe("SearchIndexerClient", function() {
         assert.equal(dataSourceConnection.name, "my-data-source-3");
         assert.equal(dataSourceConnection.type, "cosmosdb");
         assert.equal(dataSourceConnection.container.name, "hotels");
-      } catch (ex) {
-        throw ex;
       } finally {
         await indexerClient.deleteDataSourceConnection(dataSourceConnection);
       }
@@ -267,8 +263,6 @@ describe("SearchIndexerClient", function() {
         assert.equal(skillSet.skills.length, 1);
         assert.equal(skillSet.skills[0].inputs.length, 2);
         assert.equal(skillSet.skills[0].outputs.length, 3);
-      } catch (ex) {
-        throw ex;
       } finally {
         await indexerClient.deleteSkillset(skillSet);
       }

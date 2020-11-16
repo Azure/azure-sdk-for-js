@@ -30,16 +30,16 @@ export function instrumentServiceBusMessage(
   message: ServiceBusMessage,
   span: Span
 ): ServiceBusMessage {
-  if (message.properties && message.properties[TRACEPARENT_PROPERTY]) {
+  if (message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return message;
   }
 
   // create a copy so the original isn't modified
-  message = { ...message, properties: { ...message.properties } };
+  message = { ...message, applicationProperties: { ...message.applicationProperties } };
 
   const traceParent = getTraceParentHeader(span.context());
   if (traceParent) {
-    message.properties![TRACEPARENT_PROPERTY] = traceParent;
+    message.applicationProperties![TRACEPARENT_PROPERTY] = traceParent;
   }
 
   return message;
@@ -54,11 +54,11 @@ export function instrumentServiceBusMessage(
 export function extractSpanContextFromServiceBusMessage(
   message: ServiceBusMessage
 ): SpanContext | undefined {
-  if (!message.properties || !message.properties[TRACEPARENT_PROPERTY]) {
+  if (!message.applicationProperties || !message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return;
   }
 
-  const diagnosticId = message.properties[TRACEPARENT_PROPERTY] as string;
+  const diagnosticId = message.applicationProperties[TRACEPARENT_PROPERTY] as string;
   return extractSpanContextFromTraceParentHeader(diagnosticId);
 }
 
@@ -99,7 +99,7 @@ export function createProcessingSpan(
   // NOTE: the connectionConfig also has an entityPath property but that only
   // represents the optional entityPath in their connection string which is NOT
   // what we want for tracing.
-  receiver: Pick<ServiceBusReceiver<any>, "entityPath">,
+  receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
   options?: OperationOptionsBase
 ): Span {
@@ -145,7 +145,7 @@ export function createProcessingSpan(
  */
 export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
-  receiver: Pick<ServiceBusReceiver<any>, "entityPath">,
+  receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
   options?: OperationOptionsBase
 ): void {

@@ -7,7 +7,9 @@ import {
   FormFieldsReport,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
+  KeyValueType,
   KeyValuePair as KeyValuePairModel,
+  SelectionMarkState,
   Language,
   LengthUnit,
   ModelsSummary,
@@ -21,7 +23,9 @@ export {
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
+  KeyValueType,
   KeyValuePairModel,
+  SelectionMarkState,
   Language,
   LengthUnit,
   ModelsSummary,
@@ -54,13 +58,13 @@ export interface FormElementCommon {
    */
   pageNumber: number;
   /**
-   * The text content of the word.
-   */
-  text: string;
-  /**
    * Bounding box of a recognized word.
    */
   boundingBox: Point2D[];
+  /**
+   * Optional text content of the form element.
+   */
+  text?: string;
 }
 
 /**
@@ -71,6 +75,10 @@ export interface FormWord extends FormElementCommon {
    * Element kind - "word"
    */
   kind: "word";
+  /**
+   * The text content of the word.
+   */
+  text: string;
   /**
    * Confidence value.
    */
@@ -91,27 +99,40 @@ export interface FormLine extends FormElementCommon {
    */
   // language?: Language;
   /**
+   * The text content of the line.
+   */
+  text: string;
+  /**
    * List of words in the text line.
    */
   words: FormWord[];
 }
 
 /**
- * Represents a recognized check box
+ * Represents a recognized selection mark.
+ *
+ * Selection marks include checkboxes, radio buttons, etc.
  */
-// export interface FormCheckBox extends FormElement {
-//   /**
-//    * Element kind - "checkbox"
-//    */
-//   kind: "checkbox";
-//   ...
-// }
+export interface FormSelectionMark extends FormElementCommon {
+  /**
+   * Element kind - "selectionMark"
+   */
+  kind: "selectionMark";
+  /**
+   * The state of the mark, either "selected" or "unselected".
+   */
+  state: SelectionMarkState;
+  /**
+   * Confidence value.
+   */
+  confidence?: number;
+}
 
 /**
  * Information about a recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormElement = FormWord | FormLine; // | FormCheckBox;
+export type FormElement = FormWord | FormLine | FormSelectionMark;
 
 /**
  * Represents a cell in recognized table
@@ -270,6 +291,10 @@ export type FormField = {
       value?: Record<string, FormField>;
       valueType?: "object";
     }
+  | {
+      value?: SelectionMarkState;
+      valueType?: "selectionMark";
+    }
 );
 
 /**
@@ -325,9 +350,13 @@ export interface FormPage {
    */
   lines?: FormLine[];
   /**
-   * List of data tables recognized form the page
+   * List of data tables recognized in the page
    */
   tables?: FormTable[];
+  /**
+   * List of selection marks recognized in the page
+   */
+  selectionMarks?: FormSelectionMark[];
 }
 
 /**
@@ -340,9 +369,19 @@ export interface FormPageArray extends Array<FormPage> {}
  */
 export interface RecognizedForm {
   /**
-   * Document type.
+   * The type of the form.
    */
   formType: string;
+  /**
+   * Confidence in the correctness of the form type.
+   *
+   * For unlabeled models, this value will always be undefined.
+   */
+  formTypeConfidence?: number;
+  /**
+   * The model ID used to analyze the contents of this document.
+   */
+  modelId?: string;
   /**
    * First and last page number where the document is found.
    */
@@ -398,6 +437,10 @@ export interface TrainingDocumentInfo {
    */
   name: string;
   /**
+   * The model ID associated with this training document
+   */
+  modelId?: string;
+  /**
    * Total number of pages trained.
    */
   pageCount: number;
@@ -412,6 +455,16 @@ export interface TrainingDocumentInfo {
 }
 
 /**
+ * Optional properties of a custom form model.
+ */
+export interface CustomFormModelProperties {
+  /**
+   * Indicates whether or not the model was composed.
+   */
+  isComposedModel?: boolean;
+}
+
+/**
  * Basic custom model information.
  */
 export interface CustomFormModelInfo {
@@ -419,6 +472,16 @@ export interface CustomFormModelInfo {
    * Model identifier.
    */
   modelId: string;
+  /**
+   * The name of the model that was provided during model training.
+   *
+   * Model names are not guaranteed to be unique.
+   */
+  modelName?: string;
+  /**
+   * Optional properties or flags associated with the model.
+   */
+  properties?: CustomFormModelProperties;
   /**
    * Status of the model.
    */
@@ -453,6 +516,10 @@ export interface CustomFormModelField {
  */
 export interface CustomFormSubmodel {
   /**
+   * The model ID associated with this submodel.
+   */
+  modelId?: string;
+  /**
    * Estimated extraction accuracy for this field.
    */
   accuracy?: number;
@@ -469,23 +536,7 @@ export interface CustomFormSubmodel {
 /**
  * Represents a model from training.
  */
-export interface CustomFormModel {
-  /**
-   * Model identifier.
-   */
-  modelId: string;
-  /**
-   * Status of the model.
-   */
-  status: CustomFormModelStatus;
-  /**
-   * Date and time (UTC) when the custom model training started.
-   */
-  trainingStartedOn: Date;
-  /**
-   * Date and time (UTC) when the training operation completed.
-   */
-  trainingCompletedOn: Date;
+export interface CustomFormModel extends CustomFormModelInfo {
   /**
    * List of document used to train the model and any errors reported for each document.
    */

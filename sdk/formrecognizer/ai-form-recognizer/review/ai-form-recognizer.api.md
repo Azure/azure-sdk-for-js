@@ -31,6 +31,11 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
+export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
@@ -47,13 +52,16 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & {
     updateIntervalInMs?: number;
     onProgress?: (state: TrainingOperationState) => void;
     resumeFrom?: string;
+    modelName?: string;
 };
 
 // @public
@@ -86,14 +94,10 @@ export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export interface CustomFormModel {
+export interface CustomFormModel extends CustomFormModelInfo {
     errors?: FormRecognizerError[];
-    modelId: string;
-    status: ModelStatus;
     submodels?: CustomFormSubmodel[];
-    trainingCompletedOn: Date;
     trainingDocuments?: TrainingDocumentInfo[];
-    trainingStartedOn: Date;
 }
 
 // @public (undocumented)
@@ -106,9 +110,16 @@ export interface CustomFormModelField {
 // @public
 export interface CustomFormModelInfo {
     modelId: string;
+    modelName?: string;
+    properties?: CustomFormModelProperties;
     status: ModelStatus;
     trainingCompletedOn: Date;
     trainingStartedOn: Date;
+}
+
+// @public
+export interface CustomFormModelProperties {
+    isComposedModel?: boolean;
 }
 
 // @public
@@ -116,6 +127,7 @@ export interface CustomFormSubmodel {
     accuracy?: number;
     fields: Record<string, CustomFormModelField>;
     formType: string;
+    modelId?: string;
 }
 
 // @public
@@ -133,13 +145,13 @@ export interface FieldData {
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
-export type FormElement = FormWord | FormLine;
+export type FormElement = FormWord | FormLine | FormSelectionMark;
 
 // @public
 export interface FormElementCommon {
     boundingBox: Point2D[];
     pageNumber: number;
-    text: string;
+    text?: string;
 }
 
 // @public
@@ -172,6 +184,9 @@ export type FormField = {
 } | {
     value?: Record<string, FormField>;
     valueType?: "object";
+} | {
+    value?: SelectionMarkState;
+    valueType?: "selectionMark";
 });
 
 // @public
@@ -183,6 +198,7 @@ export interface FormFieldsReport {
 // @public
 export interface FormLine extends FormElementCommon {
     kind: "line";
+    text: string;
     words: FormWord[];
 }
 
@@ -199,6 +215,7 @@ export interface FormPage {
     height: number;
     lines?: FormLine[];
     pageNumber: number;
+    selectionMarks?: FormSelectionMark[];
     tables?: FormTable[];
     textAngle: number;
     unit: LengthUnit;
@@ -221,6 +238,8 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
+    beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
@@ -246,6 +265,13 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 
 // @public
 export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
+
+// @public
+export interface FormSelectionMark extends FormElementCommon {
+    confidence?: number;
+    kind: "selectionMark";
+    state: SelectionMarkState;
+}
 
 // @public
 export interface FormTable {
@@ -288,6 +314,7 @@ export class FormTrainingClient {
 export interface FormWord extends FormElementCommon {
     confidence?: number;
     kind: "word";
+    text: string;
 }
 
 // @public
@@ -314,6 +341,7 @@ export interface KeyValueElementModel {
     boundingBox?: number[];
     elements?: string[];
     text: string;
+    type?: KeyValueType;
 }
 
 // @public
@@ -325,7 +353,10 @@ export interface KeyValuePairModel {
 }
 
 // @public
-export type Language = "en" | "es";
+export type KeyValueType = "string" | "selectionMark" | string;
+
+// @public
+export type Language = "en" | "es" | string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -390,6 +421,8 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 export interface RecognizedForm {
     fields: Record<string, FormField>;
     formType: string;
+    formTypeConfidence?: number;
+    modelId?: string;
     pageRange: FormPageRange;
     pages: FormPage[];
 }
@@ -399,9 +432,12 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
-export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
+export interface RecognizeFormsOperationState extends PollOperationState<RecognizedFormArray> {
+    expectedDocType?: string;
+    modelId?: string;
+    resultId?: string;
     status: OperationStatus;
-};
+}
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
@@ -411,8 +447,12 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
+export type SelectionMarkState = "selected" | "unselected" | string;
+
+// @public
 export interface TrainingDocumentInfo {
     errors: FormRecognizerError[];
+    modelId?: string;
     name: string;
     pageCount: number;
     status: TrainingStatus;

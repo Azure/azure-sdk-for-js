@@ -43,7 +43,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * `TokenCredential` implementations.  Throws an {@link AggregateAuthenticationError}
    * when one or more credentials throws an {@link AuthenticationError} and
    * no credentials have returned an access token.
-   * 
+   *
    * This method is called automatically by Azure SDK client libraries. You may call this method
    * directly, but you must also handle token caching and token refreshing.
    *
@@ -67,7 +67,7 @@ export class ChainedTokenCredential implements TokenCredential {
         if (err instanceof CredentialUnavailable) {
           errors.push(err);
         } else {
-          logger.getToken.info(formatError(err));
+          logger.getToken.info(formatError(scopes, err));
           throw err;
         }
       }
@@ -79,7 +79,7 @@ export class ChainedTokenCredential implements TokenCredential {
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     }
 

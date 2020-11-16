@@ -209,7 +209,7 @@ export class SchemaRegistryAvroSerializer {
     return entry;
   }
 
-  private getAvroTypeForSchema(schema: string) {
+  private getAvroTypeForSchema(schema: string): avro.Type {
     return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }

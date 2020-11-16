@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-cognitive-services
-urlFragment: ai-form-recognizer-typescript
----
-
 # Azure Form Recognizer client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.
@@ -17,6 +7,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeContent.ts][recognizecontent]                           | Recognize text and table structures of a document                                                                                                        |
 | [recognizeReceipt.ts][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                                                                  |
 | [recognizeReceiptFromUrl.ts][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                                                   |
+| [recognizeBusinessCard.ts][recognizebusinesscard]                 | Recognize data from a file of a business card using a prebuilt model                                                                                     |
 | [recognizeCustomForm.ts][recognizecustomform]                     | Recognize forms with your custom model                                                                                                                   |
 | [trainLabeledModel.ts][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                                                   |
 | [trainUnlabeledModel.ts][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                                                                 |
@@ -27,6 +18,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [copyModel.ts][copymodel]                                         | Copy a custom model from one Form Recognizer resource to another                                                                                         |
 | [stronglyTypingRecognizedForm.ts][stronglytypingrecognizedform]   | Create a strongly-typed interface representing a receipt, or any model with a known structure, and use it to refine the output type of model recognition |
 | [authenticationMethods.ts][authenticationmethods]                 | authenticates a service client using both Azure Active Directory and an API key                                                                          |
+| [deleteAllModels.ts][deleteallmodels]                             | Delete all models in a Form Recognizer account                                                                                                           |
 
 ## Prerequisites
 
@@ -72,6 +64,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceipt.ts
 [recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceiptFromUrl.ts
+[recognizebusinesscard]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeBusinessCard.ts
 [recognizecontent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeContent.ts
 [recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeCustomForm.ts
 [trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
@@ -83,6 +76,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [copymodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/copyModel.ts
 [stronglytypingrecognizedform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/stronglyTypingRecognizedForm.ts
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/authenticationMethods.ts
+[deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/deleteAllModels.ts
 [apiref]: https://aka.ms/azsdk/js/formrecognizer/docs
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

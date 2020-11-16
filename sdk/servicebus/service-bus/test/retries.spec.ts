@@ -5,7 +5,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import { ServiceBusReceivedMessageWithLock } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
@@ -17,13 +16,10 @@ import {
   ServiceBusSessionReceiver
 } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { InternalMessageHandlers } from "../src/models";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver | ServiceBusSessionReceiver;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
@@ -102,7 +98,7 @@ describe("Retries - ManagementClient", () => {
     it("Unpartitioned Queue: scheduleMessages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await mockManagementClientAndVerifyRetries(async () => {
-        await sender.scheduleMessages(new Date(), [TestMessage.getSample()]);
+        await sender.scheduleMessages([TestMessage.getSample()], new Date());
       });
     });
 
@@ -144,11 +140,11 @@ describe("Retries - ManagementClient", () => {
   });
 
   describe("Session Receiver Retries", () => {
-    let sessionReceiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+    let sessionReceiver: ServiceBusSessionReceiver;
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      sessionReceiver = receiver as ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+      sessionReceiver = receiver as ServiceBusSessionReceiver;
     });
     afterEach(async () => {
       await afterEachTest();
@@ -267,15 +263,15 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: createBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.createBatch();
+      await sender.createMessageBatch();
     });
   });
 
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      const batch = await sender.createBatch();
-      batch.tryAdd({
+      const batch = await sender.createMessageBatch();
+      batch.tryAddMessage({
         body: "hello"
       });
       await sender.sendMessages(batch);
@@ -292,15 +288,15 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: createBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.createBatch();
+      await sender.createMessageBatch();
     });
   });
 
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      const batch = await sender.createBatch();
-      batch.tryAdd({
+      const batch = await sender.createMessageBatch();
+      batch.tryAddMessage({
         body: "hello"
       });
       await sender.sendMessages(batch);
@@ -309,7 +305,7 @@ describe("Retries - MessageSender", () => {
 });
 
 describe("Retries - Receive methods", () => {
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
@@ -346,9 +342,7 @@ describe("Retries - Receive methods", () => {
 
     if (receiver instanceof ServiceBusSessionReceiverImpl) {
       // Mocking `_messageSession.receiveMessages()` to throw the error and fail
-      (receiver as ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>)[
-        "_messageSession"
-      ].receiveMessages = fakeFunction;
+      (receiver as ServiceBusSessionReceiverImpl)["_messageSession"].receiveMessages = fakeFunction;
     } else {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
@@ -361,9 +355,7 @@ describe("Retries - Receive methods", () => {
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
-      (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>)[
-        "_batchingReceiver"
-      ] = batchingReceiver;
+      (receiver as ServiceBusReceiverImpl)["_batchingReceiver"] = batchingReceiver;
     }
   }
 
@@ -413,93 +405,6 @@ describe("Retries - Receive methods", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await mockReceiveAndVerifyRetries(async () => {
       await receiver.getMessageIterator().next();
-    });
-  });
-});
-
-describe("Retries - onDetached", () => {
-  let sender: ServiceBusSender;
-  let receiver:
-    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
-    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
-  let serviceBusClient: ServiceBusClientForTests;
-  const defaultMaxRetries = 2;
-  let numberOfTimesOnDetachedInvoked: number;
-
-  before(() => {
-    serviceBusClient = createServiceBusClientForTests({
-      retryOptions: {
-        // Defaults
-        timeoutInMs: 10000,
-        maxRetries: defaultMaxRetries,
-        retryDelayInMs: 0
-      }
-    });
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
-  });
-
-  async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-
-    sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-    );
-    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
-  }
-
-  async function afterEachTest(): Promise<void> {
-    await sender.close();
-    await receiver.close();
-  }
-
-  const fakeFunction = async function() {
-    numberOfTimesOnDetachedInvoked++;
-    throw new MessagingError("Hello there, I'm an error");
-  };
-
-  async function mockOnDetachedAndVerifyRetries(func: Function) {
-    await func();
-    // Cannot verify the error thrown because onDetached logs the error and doesn't throw
-    should.equal(
-      numberOfTimesOnDetachedInvoked,
-      defaultMaxRetries + 1,
-      "Unexpected number of retries"
-    );
-  }
-
-  beforeEach(async () => {
-    numberOfTimesOnDetachedInvoked = 0;
-  });
-
-  afterEach(async () => {
-    await afterEachTest();
-  });
-
-  it("Unpartitioned Queue: streaming", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await mockOnDetachedAndVerifyRetries(async () => {
-      const subscribeInitializedPromise = new Promise<void>((resolve, reject) => {
-        receiver.subscribe({
-          async processInitialize() {
-            resolve();
-          },
-          async processMessage() {},
-          async processError(err) {
-            reject(err);
-          }
-        } as InternalMessageHandlers<ServiceBusReceivedMessageWithLock>);
-      });
-
-      await subscribeInitializedPromise;
-
-      const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_streamingReceiver"]!;
-      should.exist(streamingReceiver);
-
-      streamingReceiver["init"] = fakeFunction;
-      await streamingReceiver.onDetached(new MessagingError("Hello there, I'm an error"));
     });
   });
 });

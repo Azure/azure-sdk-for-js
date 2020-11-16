@@ -14,7 +14,8 @@ import {
 import {
   TrainRequest as TrainRequestMapper,
   SourcePath as SourcePathMapper,
-  CopyRequest as CopyRequestMapper
+  CopyRequest as CopyRequestMapper,
+  ComposeRequest as ComposeRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -34,6 +35,18 @@ export const trainRequest: OperationParameter = {
   mapper: TrainRequestMapper
 };
 
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -44,6 +57,18 @@ export const endpoint: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const modelId: OperationURLParameter = {
@@ -95,6 +120,18 @@ export const fileStream: OperationParameter = {
   }
 };
 
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType2: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
@@ -136,6 +173,33 @@ export const resultId: OperationURLParameter = {
 export const copyRequest: OperationParameter = {
   parameterPath: "copyRequest",
   mapper: CopyRequestMapper
+};
+
+export const composeRequest: OperationParameter = {
+  parameterPath: "composeRequest",
+  mapper: ComposeRequestMapper
+};
+
+export const accept3: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const locale: OperationQueryParameter = {
+  parameterPath: ["options", "locale"],
+  mapper: {
+    serializedName: "locale",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const op: OperationQueryParameter = {

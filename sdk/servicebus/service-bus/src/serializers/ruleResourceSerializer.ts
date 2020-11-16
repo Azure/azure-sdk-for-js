@@ -44,14 +44,17 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   } else {
     result = {
       correlationId: getStringOrUndefined(value["CorrelationId"]),
-      label: getStringOrUndefined(value["Label"]),
+      subject: getStringOrUndefined(value["Label"]),
       to: getStringOrUndefined(value["To"]),
       replyTo: getStringOrUndefined(value["ReplyTo"]),
       replyToSessionId: getStringOrUndefined(value["ReplyToSessionId"]),
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      properties: getKeyValuePairsOrUndefined(value["Properties"], "UserProperties")
+      applicationProperties: getKeyValuePairsOrUndefined(
+        value["Properties"],
+        "ApplicationProperties"
+      )
     };
   }
   return result;
@@ -143,7 +146,7 @@ export interface SqlRuleFilter {
    * SQL expression to use in the rule filter.
    * Defaults to creating a true filter if none specified
    */
-  sqlExpression?: string;
+  sqlExpression: string;
 
   /**
    * SQL parameters to the SQL expression in the rule filter.
@@ -189,14 +192,17 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 
         resource.Filter = {
           CorrelationId: correlationFilter.correlationId,
-          Label: correlationFilter.label,
+          Label: correlationFilter.subject,
           To: correlationFilter.to,
           ReplyTo: correlationFilter.replyTo,
           ReplyToSessionId: correlationFilter.replyToSessionId,
           ContentType: correlationFilter.contentType,
           SessionId: correlationFilter.sessionId,
           MessageId: correlationFilter.messageId,
-          Properties: buildInternalRawKeyValuePairs(correlationFilter.properties, "userProperties")
+          Properties: buildInternalRawKeyValuePairs(
+            correlationFilter.applicationProperties,
+            "applicationProperties"
+          )
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "CorrelationFilter",
@@ -246,24 +252,25 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * @internal
  * @ignore
  */
-const TypeMapForRequestSerialization: Record<string, string> = {
-  int: "l28:int",
-  string: "l28:string",
-  long: "l28:long",
-  date: "l28:dateTime",
-  boolean: "l28:boolean"
-};
+enum TypeMapForRequestSerialization {
+  double = "l28:double",
+  string = "l28:string",
+  long = "l28:long",
+  date = "l28:dateTime",
+  boolean = "l28:boolean"
+}
 
 /**
  * @internal
  * @ignore
  */
-const TypeMapForResponseDeserialization: Record<string, string> = {
-  number: "int",
-  string: "string",
-  boolean: "boolean",
-  date: "dateTime"
-};
+enum TypeMapForResponseDeserialization {
+  int = "int",
+  double = "double",
+  string = "string",
+  boolean = "boolean",
+  date = "dateTime"
+}
 
 /**
  * @internal
@@ -300,7 +307,7 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  */
 function getKeyValuePairsOrUndefined(
   value: any,
-  attribute: "UserProperties" | "SQLParameters"
+  attribute: "ApplicationProperties" | "SQLParameters"
 ): { [key: string]: any } | undefined {
   if (!value) {
     return undefined;
@@ -319,15 +326,20 @@ function getKeyValuePairsOrUndefined(
   }
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
+      const key = rawProperty.Key;
+      const value = rawProperty.Value["_"];
       const encodedValueType = rawProperty.Value["$"]["i:type"].toString().substring(5);
-      if (encodedValueType === TypeMapForResponseDeserialization.number) {
-        properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
+      if (
+        encodedValueType === TypeMapForResponseDeserialization.int ||
+        encodedValueType === TypeMapForResponseDeserialization.double
+      ) {
+        properties[key] = Number(value);
       } else if (encodedValueType === TypeMapForResponseDeserialization.string) {
-        properties[rawProperty.Key] = rawProperty.Value["_"];
+        properties[key] = value;
       } else if (encodedValueType === TypeMapForResponseDeserialization.boolean) {
-        properties[rawProperty.Key] = rawProperty.Value["_"] === "true" ? true : false;
+        properties[key] = value === "true" ? true : false;
       } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
-        properties[rawProperty.Key] = new Date(rawProperty.Value["_"]);
+        properties[key] = new Date(value);
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
@@ -353,7 +365,7 @@ function getKeyValuePairsOrUndefined(
  */
 export function buildInternalRawKeyValuePairs(
   parameters: { [key: string]: any } | undefined,
-  attribute: "userProperties" | "sqlParameters"
+  attribute: "applicationProperties" | "sqlParameters"
 ): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;
@@ -374,7 +386,7 @@ export function buildInternalRawKeyValuePairs(
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
     if (typeof value === "number") {
-      type = TypeMapForRequestSerialization.int;
+      type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {
       type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {

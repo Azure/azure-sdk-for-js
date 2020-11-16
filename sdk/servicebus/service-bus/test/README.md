@@ -9,7 +9,7 @@ The Azure Azure Service Bus client does not have any recorded tests and so, all 
 The Azure resource that is used by the tests in this project is:
 
 - A standard [Azure Service Bus namespace](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#namespaces) with listen, manage and send authorization rules.
-- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#AAD-based-authentication) for steps to register the application.
+- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#aad-based-authentication) for steps to register the application.
 
 To run the live tests, you will also need to set the below environment variables:
 

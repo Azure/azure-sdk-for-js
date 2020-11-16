@@ -52,18 +52,18 @@ export class Components {
 
   /**
    * Gets a list of Application Insights components within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -80,20 +80,20 @@ export class Components {
 
   /**
    * Deletes an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -112,20 +112,20 @@ export class Components {
 
   /**
    * Returns an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsGetResponse>
    */
   get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -145,7 +145,7 @@ export class Components {
   /**
    * Creates (or updates) an Application Insights component. Note: You cannot specify a different
    * value for InstrumentationKey nor AppId in the Put operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param insightProperties Properties that need to be specified to create an Application Insights
    * component.
@@ -154,7 +154,7 @@ export class Components {
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsCreateOrUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param insightProperties Properties that need to be specified to create an Application Insights
    * component.
@@ -162,7 +162,7 @@ export class Components {
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param insightProperties Properties that need to be specified to create an Application Insights
    * component.
@@ -184,7 +184,7 @@ export class Components {
 
   /**
    * Updates an existing component's tags. To update other fields use the CreateOrUpdate method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param componentTags Updated tag information to set into the component instance.
    * @param [options] The optional parameters
@@ -192,14 +192,14 @@ export class Components {
    */
   updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsUpdateTagsResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param componentTags Updated tag information to set into the component instance.
    * @param callback The callback
    */
   updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param componentTags Updated tag information to set into the component instance.
    * @param options The optional parameters
@@ -220,7 +220,13 @@ export class Components {
 
   /**
    * Purges data in an Application Insights component by a set of user-defined filters.
-   * @param resourceGroupName The name of the resource group.
+   *
+   * In order to manage system resources, purge requests are throttled at 50 requests per hour. You
+   * should batch the execution of purge requests by sending a single command whose predicate
+   * includes all user identities that require purging. Use the in operator to specify multiple
+   * identities. You should run the query prior to using for a purge request to verify that the
+   * results are expected.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param body Describes the body of a request to purge data in a single table of an Application
    * Insights component
@@ -229,7 +235,7 @@ export class Components {
    */
   purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsPurgeResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param body Describes the body of a request to purge data in a single table of an Application
    * Insights component
@@ -237,7 +243,7 @@ export class Components {
    */
   purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, callback: msRest.ServiceCallback<Models.ComponentPurgeResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param body Describes the body of a request to purge data in a single table of an Application
    * Insights component
@@ -259,7 +265,7 @@ export class Components {
 
   /**
    * Get status for an ongoing purge operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param purgeId In a purge status request, this is the Id of the operation the status of which is
    * returned.
@@ -268,7 +274,7 @@ export class Components {
    */
   getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsGetPurgeStatusResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param purgeId In a purge status request, this is the Id of the operation the status of which is
    * returned.
@@ -276,7 +282,7 @@ export class Components {
    */
   getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, callback: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param purgeId In a purge status request, this is the Id of the operation the status of which is
    * returned.
@@ -362,7 +368,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -386,7 +392,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -411,7 +417,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -435,7 +441,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -460,7 +466,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -474,6 +480,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ApplicationInsightsComponent
+    },
+    201: {
       bodyMapper: Mappers.ApplicationInsightsComponent
     },
     default: {
@@ -492,7 +501,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -506,6 +515,9 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ApplicationInsightsComponent
+    },
+    201: {
       bodyMapper: Mappers.ApplicationInsightsComponent
     },
     default: {
@@ -524,7 +536,7 @@ const purgeOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -557,7 +569,7 @@ const getPurgeStatusOperationSpec: msRest.OperationSpec = {
     Parameters.purgeId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

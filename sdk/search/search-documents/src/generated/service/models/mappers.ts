@@ -2120,6 +2120,67 @@ export const SoftDeleteColumnDeletionDetectionPolicy: coreHttp.CompositeMapper =
   }
 };
 
+export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
+  serializedName: "AzureActiveDirectoryApplicationCredentials",
+  type: {
+    name: "Composite",
+    className: "AzureActiveDirectoryApplicationCredentials",
+    modelProperties: {
+      applicationId: {
+        required: true,
+        serializedName: "applicationId",
+        type: {
+          name: "String"
+        }
+      },
+      applicationSecret: {
+        serializedName: "applicationSecret",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
+  serializedName: "SearchResourceEncryptionKey",
+  type: {
+    name: "Composite",
+    className: "SearchResourceEncryptionKey",
+    modelProperties: {
+      keyName: {
+        required: true,
+        serializedName: "keyVaultKeyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        required: true,
+        serializedName: "keyVaultKeyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      vaultUri: {
+        required: true,
+        serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      accessCredentials: {
+        serializedName: "accessCredentials",
+        type: {
+          name: "Composite",
+          className: "AzureActiveDirectoryApplicationCredentials"
+        }
+      }
+    }
+  }
+};
+
 export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
   serializedName: "SearchIndexerDataSource",
   type: {
@@ -2182,6 +2243,14 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }
@@ -2554,6 +2623,14 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }
@@ -3337,67 +3414,6 @@ export const Suggester: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
-  serializedName: "AzureActiveDirectoryApplicationCredentials",
-  type: {
-    name: "Composite",
-    className: "AzureActiveDirectoryApplicationCredentials",
-    modelProperties: {
-      applicationId: {
-        required: true,
-        serializedName: "applicationId",
-        type: {
-          name: "String"
-        }
-      },
-      applicationSecret: {
-        serializedName: "applicationSecret",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
-  serializedName: "SearchResourceEncryptionKey",
-  type: {
-    name: "Composite",
-    className: "SearchResourceEncryptionKey",
-    modelProperties: {
-      keyName: {
-        required: true,
-        serializedName: "keyVaultKeyName",
-        type: {
-          name: "String"
-        }
-      },
-      keyVersion: {
-        required: true,
-        serializedName: "keyVaultKeyVersion",
-        type: {
-          name: "String"
-        }
-      },
-      vaultUri: {
-        required: true,
-        serializedName: "keyVaultUri",
-        type: {
-          name: "String"
-        }
-      },
-      accessCredentials: {
-        serializedName: "accessCredentials",
-        type: {
-          name: "Composite",
-          className: "AzureActiveDirectoryApplicationCredentials"
-        }
-      }
-    }
-  }
-};
-
 export const SearchIndex: coreHttp.CompositeMapper = {
   serializedName: "SearchIndex",
   type: {
@@ -3788,6 +3804,14 @@ export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }

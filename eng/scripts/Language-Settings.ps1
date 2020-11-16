@@ -3,6 +3,7 @@ $LanguageShort = "js"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
@@ -35,6 +36,22 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
   }
   $npmVersionList = $npmVersions.split(",") | ForEach-Object { return $_.replace("[", "").replace("]", "").Trim() }
   return $npmVersionList.Contains($pkgVersion)
+}
+
+# make certain to always take the package json closest to the top
+function ResolvePkgJson($workFolder)
+{
+  $pathsWithComplexity = @()
+  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json"))
+  {
+    $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
+    $pathsWithComplexity += New-Object PSObject -Property @{
+      Path       = $file
+      Complexity = $complexity
+    }
+  }
+
+  return ($pathsWithComplexity | Sort-Object -Property Complexity)[0].Path
 }
 
 # Parse out package publishing information given a .tgz npm artifact
@@ -72,6 +89,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $resultObj = New-Object PSObject -Property @{
     PackageId      = $pkgId
     PackageVersion = $pkgVersion
+    ReleaseTag     = "$($pkgId)_$($pkgVersion)"
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
@@ -96,7 +114,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
     {
       $DocVersion = $dirList[0].Name
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-      $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
+      $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
     else
@@ -104,4 +122,16 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
       Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
     }
   }
+}
+
+function Get-javascript-GithubIoDocIndex()
+{
+  # Fetch out all package metadata from csv file.
+  $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
+  # Get the artifacts name from blob storage
+  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/azure-(.*)/$" -blobArtifactsReplacement "@azure/`${1}"
+  # Build up the artifact to service name mapping for GithubIo toc.
+  $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
+  # Generate yml/md toc files and build site.
+  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
 }

@@ -1,4 +1,4 @@
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -36,7 +36,7 @@ describe("Highlevel Node.js only", () => {
   const tempFolderPath = "temp";
   const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -539,6 +539,29 @@ describe("Highlevel Node.js only", () => {
       assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
+
+  it("upload ArrayBuffer and ArrayBufferView should succeed", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    await fileClient.upload(arrayBuf);
+    const res = await fileClient.readToBuffer();
+    assert.ok(res.equals(Buffer.from(arrayBuf)));
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await fileClient.upload(uint8ArrayPartial);
+    const res1 = await fileClient.readToBuffer();
+    assert.ok(res1.equals(Buffer.from(arrayBuf, 1, 3)));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await fileClient.upload(uint16Array);
+    const res2 = await fileClient.readToBuffer();
+    assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
+  });
 
   it("readToBuffer should work", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");

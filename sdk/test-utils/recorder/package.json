@@ -58,7 +58,7 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/core-http": "^1.1.6",
+    "@azure/core-http": "^1.2.0",
     "@opentelemetry/api": "^0.10.2",
     "fs-extra": "^8.1.0",
     "nise": "^4.0.3",

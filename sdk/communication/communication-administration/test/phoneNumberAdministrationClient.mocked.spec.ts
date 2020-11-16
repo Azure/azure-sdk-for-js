@@ -10,16 +10,16 @@ import {
   PhoneNumberAdministrationClient,
   PhoneNumberCapabilitiesUpdates
 } from "../src";
-import { SDK_VERSION } from "../src/phoneNumber/constants";
 import { NumberConfigurationPhoneNumber } from "../src/phoneNumber/generated/src/models";
+import { apiVersion } from "../src/phoneNumber/generated/src/models/parameters";
 import {
   baseHttpClient,
   getAreaCodesHttpClient,
-  getReleaseHttpClient,
-  phoneNumbersCapabilitiesHttpClient,
-  releasePhoneNumbersHttpClient
+  phoneNumbersCapabilitiesHttpClient
 } from "./utils/mockHttpClients";
 import { TestPhoneNumberAdministrationClient } from "./utils/testPhoneNumberAdministrationClient";
+
+const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("PhoneNumberAdministrationClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
@@ -120,37 +120,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/capabilities/${capabilitiesUpdateId}?api-version=${SDK_VERSION}`
-    );
-  });
-
-  it("sends list of phone numbers in releasePhoneNumbers request", async () => {
-    const client = new TestPhoneNumberAdministrationClient();
-    const phoneNumbers = ["+18005551234", "+1800555555"];
-    const spy = sinon.spy(releasePhoneNumbersHttpClient, "sendRequest");
-    const response = await client.releasePhoneNumbersTest(phoneNumbers);
-
-    assert.equal(response.releaseId, "1");
-    sinon.assert.calledOnce(spy);
-
-    const request = spy.getCall(0).args[0];
-    assert.deepEqual(JSON.parse(request.body), { phoneNumbers });
-  });
-
-  it("sends the releaseId in the url of getRelease request", async () => {
-    const client = new TestPhoneNumberAdministrationClient();
-    const releaseId = "1";
-    const spy = sinon.spy(getReleaseHttpClient, "sendRequest");
-    const response = await client.getReleaseTest(releaseId);
-
-    assert.equal(response.releaseId, releaseId);
-    assert.equal(response.status, "Complete");
-    sinon.assert.calledOnce(spy);
-
-    const request = spy.getCall(0).args[0];
-    assert.equal(
-      request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/releases/${releaseId}?api-version=${SDK_VERSION}`
+      `https://contoso.spool.azure.local/administration/phonenumbers/capabilities/${capabilitiesUpdateId}?api-version=${API_VERSION}`
     );
   });
 
@@ -177,7 +147,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}&api-version=${SDK_VERSION}`
+      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}&api-version=${API_VERSION}`
     );
   });
 });
