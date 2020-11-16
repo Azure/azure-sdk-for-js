@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ContextTagKeys, TelemetryItem as Envelope } from "./generated";
+import { ContextTagKeys } from "./generated";
 
 export type Tags = { [key in ContextTagKeys]: string };
 export type PropertyType = string | number | boolean | object | Array<PropertyType>;
@@ -11,7 +11,6 @@ export interface MSLink {
   id: string;
 }
 export type Measurements = { [key: string]: number };
-export type TelemetryProcessor = (envelope: Envelope) => boolean | void;
 export type SenderResult = { statusCode: number; result: string };
 
 export interface Sender {

@@ -18,43 +18,10 @@ export interface AzureExporterConfig {
 export class AzureMonitorTraceExporter implements SpanExporter {
     constructor(options?: Partial<AzureExporterConfig>);
     // (undocumented)
-    addTelemetryProcessor(processor: TelemetryProcessor): void;
-    // (undocumented)
-    clearTelemetryProcessors(): void;
-    // (undocumented)
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     // (undocumented)
     shutdown(): void;
-    }
-
-// @public
-export interface Envelope {
-    data?: MonitorBase;
-    instrumentationKey?: string;
-    name: string;
-    sampleRate?: number;
-    sequence?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    time: Date;
-    version?: number;
 }
-
-// @public
-export interface MonitorBase {
-    baseData?: MonitorDomain;
-    baseType?: string;
-}
-
-// @public
-export interface MonitorDomain {
-    [property: string]: any;
-    version: number;
-}
-
-// @public (undocumented)
-export type TelemetryProcessor = (envelope: Envelope) => boolean | void;
 
 
 // (No @packageDocumentation comment for this package)

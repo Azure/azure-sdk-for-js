@@ -11,7 +11,7 @@ import {
   AzureExporterConfig,
   AzureExporterInternalConfig
 } from "../config";
-import { TelemetryProcessor, PersistentStorage, Sender } from "../types";
+import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
@@ -25,8 +25,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _sender: Sender;
 
   private _retryTimer: NodeJS.Timer | null;
-
-  private _telemetryProcessors: TelemetryProcessor[];
 
   private readonly _options: AzureExporterInternalConfig;
 
@@ -57,7 +55,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       throw new Error(message);
     }
 
-    this._telemetryProcessors = [];
     this._sender = new HttpSender();
     this._persister = new FileSystemPersist(this._options);
     this._retryTimer = null;
@@ -73,8 +70,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     }
   }
 
-  private async exportEnvelopes(payload: Envelope[]): Promise<ExportResult> {
-    const envelopes = this._applyTelemetryProcessors(payload);
+  private async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     this._logger.info(`Exporting ${envelopes.length} envelope(s)`);
 
     try {
@@ -126,37 +122,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     resultCallback(await this.exportEnvelopes(envelopes));
   }
 
-  addTelemetryProcessor(processor: TelemetryProcessor): void {
-    this._telemetryProcessors.push(processor);
-  }
-
-  clearTelemetryProcessors(): void {
-    this._telemetryProcessors = [];
-  }
-
   shutdown(): void {
     this._logger.info("Azure Monitor Trace Exporter shutting down");
     this._sender.shutdown();
-  }
-
-  private _applyTelemetryProcessors(envelopes: Envelope[]): Envelope[] {
-    const filteredEnvelopes: Envelope[] = [];
-    for (const envelope of envelopes) {
-      let accepted = true;
-
-      for (const processor of this._telemetryProcessors) {
-        // Don't use CPU cycles if item is already rejected
-        if (accepted && processor(envelope) === false) {
-          accepted = false;
-        }
-      }
-
-      if (accepted) {
-        filteredEnvelopes.push(envelope);
-      }
-    }
-
-    return filteredEnvelopes;
   }
 
   private async _sendFirstPersistedFile(): Promise<void> {

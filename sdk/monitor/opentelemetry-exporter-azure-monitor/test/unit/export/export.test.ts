@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorTraceExporter } from "../../../src/export/trace";
-import { TelemetryProcessor } from "../../../src/types";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
@@ -126,97 +125,6 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.SUCCESS);
         assert.strictEqual(exporter["_retryTimer"], "foo");
-      });
-    });
-  });
-
-  describe("Telemetry Processors", () => {
-    const nameProcessor: TelemetryProcessor = (envelope: Envelope) => {
-      envelope.name = "processor1";
-    };
-
-    const rejectProcessor: TelemetryProcessor = () => {
-      return false;
-    };
-
-    describe("#addTelemetryProcessor()", () => {
-      it("should add telemetry processors", () => {
-        const exporter = new TestExporter();
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
-
-        exporter.addTelemetryProcessor(nameProcessor);
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 1);
-        assert.strictEqual(exporter.getTelemetryProcesors()[0], nameProcessor);
-
-        exporter.addTelemetryProcessor(rejectProcessor);
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 2);
-        assert.strictEqual(exporter.getTelemetryProcesors()[0], nameProcessor);
-        assert.strictEqual(exporter.getTelemetryProcesors()[1], rejectProcessor);
-      });
-    });
-
-    describe("#clearTelemetryProcessors()", () => {
-      it("should clear all telemetry processors", () => {
-        const exporter = new TestExporter();
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
-
-        exporter.addTelemetryProcessor(nameProcessor);
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 1);
-        assert.strictEqual(exporter.getTelemetryProcesors()[0], nameProcessor);
-
-        exporter.clearTelemetryProcessors();
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
-      });
-    });
-
-    describe("#_applyTelemetryProcessors()", () => {
-      it("should filter envelopes", () => {
-        const fooEnvelope = {
-          name: "foo",
-          time: new Date()
-        };
-        const barEnvelope = {
-          name: "bar",
-          time: new Date()
-        };
-
-        const exporter = new TestExporter();
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
-
-        exporter.addTelemetryProcessor((envelope) => {
-          return envelope.name === "bar";
-        });
-        const filtered = exporter["_applyTelemetryProcessors"]([fooEnvelope, barEnvelope]);
-        assert.strictEqual(filtered.length, 1);
-        assert.strictEqual(filtered[0], barEnvelope);
-      });
-
-      it("should filter modified envelopes", () => {
-        const fooEnvelope = {
-          name: "foo",
-          time: new Date()
-        };
-        const barEnvelope = {
-          name: "bar",
-          time: new Date()
-        };
-
-        const exporter = new TestExporter();
-        assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
-
-        exporter.addTelemetryProcessor((envelope) => {
-          if (envelope.name === "bar") {
-            envelope.name = "baz";
-          }
-        });
-
-        exporter.addTelemetryProcessor((envelope) => {
-          return envelope.name === "baz";
-        });
-
-        const filtered = exporter["_applyTelemetryProcessors"]([fooEnvelope, barEnvelope]);
-        assert.strictEqual(filtered.length, 1);
-        assert.strictEqual(filtered[0].name, "baz");
       });
     });
   });

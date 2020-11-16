@@ -13,7 +13,7 @@
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
     "build:node": "tsc -p .",
-    "build": "npm run build:node && npm run build:browser",
+    "build": "npm run build:node && npm run build:browser && api-extractor run --local",
     "extract-api": "tsc -p . && api-extractor run --local",
     "lint": "eslint . --ext .ts || exit 0",
     "test": "npm run test:node && npm run test:browser",
