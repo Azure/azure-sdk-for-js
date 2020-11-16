@@ -97,6 +97,13 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * you would like to override the service's default behavior and force the document to be processed using a specific language.
    */
   language?: string;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is provided, content information will only be provided for
+   * the selected pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to `["1", "3", "5-9"]`.
+   */
+  pages?: string[];
 };
 
 /**
