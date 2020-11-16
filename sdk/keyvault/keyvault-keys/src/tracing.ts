@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { RequestOptionsBase } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";

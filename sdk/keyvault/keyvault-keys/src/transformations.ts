@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { DeletedKeyBundle, KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
 import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation } from "./keysModels";
