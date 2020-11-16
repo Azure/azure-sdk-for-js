@@ -38,18 +38,15 @@ export async function main() {
 
   try {
     const subscription = receiver.subscribe({
+      // After executing this callback you provide, the receiver will remove the message from the queue if you
+      // have not already settled the message in your callback.
+      // You can disable this by passing `false` to the `autoCompleteMessages` option in the `subscribe()` method.
+      // If your callback _does_ throw an error before the message is settled, then it will be abandoned.
       processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
-
-        // autoComplete, which is enabled by default, will automatically call
-        // receiver.completeMessage() on your message after awaiting on your processMessage
-        // handler so long as your handler does not throw an error.
-        //
-        // If your handler _does_ throw an error then the message will automatically
-        // be abandoned using receiver.abandonMessage()
-        //
-        // autoComplete can be disabled in the options for subscribe().
       },
+      // This callback will be called for any error that occurs when either in the receiver when receiving the message
+      // or when executing your `processMessage` callback or when the receiver automatically completes or abandons the message.
       processError: async (args: ProcessErrorArgs) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
