@@ -85,6 +85,18 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
    */
   contentType?: FormContentType;
+  /**
+   * The BCP-47 language code of the text in the document.
+   *
+   * The supported languages are English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'),
+   * simplified Chinese ('zh-Hans') and Spanish ('es') are supported.
+   *
+   * Handwritten text is only supported in English ('en').
+   *
+   * Content recognition supports auto language identification and multi language documents, so only provide a language code if
+   * you would like to override the service's default behavior and force the document to be processed using a specific language.
+   */
+  language?: string;
 };
 
 /**

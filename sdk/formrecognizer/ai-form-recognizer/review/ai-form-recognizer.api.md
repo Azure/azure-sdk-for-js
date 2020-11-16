@@ -37,6 +37,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
     contentType?: FormContentType;
+    language?: string;
 };
 
 // @public

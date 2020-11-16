@@ -126,6 +126,35 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
       });
+
+      it("specifying language", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        // Just make sure that this doesn't throw
+        const poller = await client.beginRecognizeContentFromUrl(url, {
+          language: "en",
+          ...testPollingOptions
+        });
+
+        await poller.pollUntilDone();
+      });
+
+      it("invalid language throws", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        try {
+          // Just make sure that this doesn't throw
+          const poller = await client.beginRecognizeContentFromUrl(url, {
+            language: "thisIsNotAValidLanguage",
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid language.");
+        } catch {
+          // Intentionally left empty
+        }
+      });
     });
 
     describe("custom forms", () => {
