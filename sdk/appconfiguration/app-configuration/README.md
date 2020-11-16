@@ -47,7 +47,7 @@ Authentication via service principal is done by:
 
 - Creating a credential using the `@azure/identity` package.
 - Setting appropriate RBAC rules on your AppConfiguration resource.
-  More information on App Configuration roles can be found [here](https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
+  More information on App Configuration roles can be found [here](https://docs.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
