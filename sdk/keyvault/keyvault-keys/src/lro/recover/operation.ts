@@ -26,7 +26,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
   ) {
-    super(state, "Canceling the recovery of a deleted key is not supported.");
+    super(state, { cancelMessage: "Canceling the recovery of a deleted key is not supported." });
   }
 
   /**

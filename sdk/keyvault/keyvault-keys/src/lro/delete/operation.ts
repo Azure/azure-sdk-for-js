@@ -25,7 +25,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
   ) {
-    super(state, "Canceling the deletion of a key is not supported.");
+    super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
   }
 
   /**
