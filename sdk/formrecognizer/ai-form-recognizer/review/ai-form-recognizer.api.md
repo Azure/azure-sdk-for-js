@@ -32,11 +32,6 @@ export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & F
 };
 
 // @public
-export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
-    locale?: string;
-}
-
-// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
@@ -58,7 +53,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
     locale?: string;
 }
 
@@ -241,12 +236,17 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeBusinessCardsOptions" needs to be exported by the entry point index.d.ts
     beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeInvoicesOptions" needs to be exported by the entry point index.d.ts
+    beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
+    beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
+    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeReceiptsOptions" needs to be exported by the entry point index.d.ts
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;

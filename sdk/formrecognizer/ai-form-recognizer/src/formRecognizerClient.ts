@@ -48,6 +48,8 @@ import { RecognizeContentResultResponse } from "./internalModels";
 import { toRecognizeContentResultResponse } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
+// #region types
+
 /**
  * Options for content/layout recognition.
  */
@@ -145,9 +147,9 @@ export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOpt
 export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
 
 /**
- * Options for starting the receipt recognition operation
+ * Options for starting a the recognition operation using a prebuilt model.
  */
-export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
   /**
    * Locale of the document.
    *
@@ -157,16 +159,21 @@ export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOption
 }
 
 /**
+ * Options for starting the receipt recognition operation
+ */
+type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
+
+/**
  * Options for starting the Business Card recognition operation
  */
-export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
-  /**
-   * Locale of the document.
-   *
-   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
-   */
-  locale?: string;
-}
+type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
+
+/**
+ * Options for starting the Invoice recognition operation
+ */
+type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
+
+// #endregion
 
 /**
  * Client class for interacting with the Azure Form Recognizer service.
@@ -238,6 +245,8 @@ export class FormRecognizerClient {
 
     this.client = new GeneratedClient(this.endpointUrl, pipeline);
   }
+
+  // #region content
 
   /**
    * Recognizes content, including text and table structure from a form document.
@@ -359,10 +368,16 @@ export class FormRecognizerClient {
     }
   }
 
+  // #endregion
+
+  // #region customforms
+
   /**
    * Recognizes forms from a given document using a custom form model from training.
+   *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
+   *
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -495,8 +510,12 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  // #endregion
+
+  // #region prebuilt::businesscard
+
   /**
-   * Recognizes data from business cards using pre-built business card model, enabling you to extract structured data
+   * Recognizes data from business cards using a pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the
@@ -562,7 +581,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Recognizes business card information from a url using pre-built business card model, enabling you to extract structured data
+   * Recognizes business card information from a url using a pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
@@ -629,8 +648,150 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  // #endregion
+
+  // #region prebuilt::invoice
+
   /**
-   * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
+   * Recognizes data from invoices using a pre-built invoice model, enabling you to extract structured data
+   * from invoices such as customer address, vendor address, purchase order ID, etc.
+   *
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const path = "./Invoice_1.pdf";
+   * const readStream = fs.createReadStream(path);
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeInvoices(readStream, {
+   *   contentType: "application/pdf",
+   *   onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+   *
+   * const [invoice] = await poller.pollUntilDone();
+   * ```
+   *
+   * @summary Recognizes invoice information from a given document
+   * @param invoice Input document
+   * @param contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp";
+   * @param options Options for the recognition operation
+   */
+  public async beginRecognizeInvoices(
+    invoice: FormRecognizerRequestBody,
+    options: BeginRecognizeInvoicesOptions = {}
+  ): Promise<FormPollerLike> {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeInvoices", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:invoice",
+      createOperation: span("invoicesInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(invoice);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        return processOperationLocation(
+          await this.client.analyzeInvoiceAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
+        );
+      }),
+      getResult: span("getInvoices", async (finalOptions, resultId) =>
+        this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Recognizes invoice information from a URL using a pre-built invoice model, enabling you to extract structured data
+   * from invoices such as customer address, vendor address, purchase order ID, etc.
+   *
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const url = "<url to the invoice document>";
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeInvoicesFromUrl(url, {
+   *   includeFieldElements: true,
+   *   onProgress: (state) => {
+   *     console.log(`analyzing status: ${state.status}`);
+   *   }
+   * });
+   * const [receipt] = await poller.pollUntilDone();
+   * ```
+   *
+   * @summary Recognizes invoice information from a given accessible url to a document
+   * @param receiptUrl Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options Options for the recognition operation
+   */
+  public async beginRecognizeInvoicesFromUrl(
+    invoiceUrl: string,
+    options: BeginRecognizeInvoicesOptions = {}
+  ): Promise<FormPollerLike> {
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeInvoicesFromUrl", {
+      ...options,
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:invoice",
+      createOperation: span("invoicesInternal", async (finalOptions) => {
+        return processOperationLocation(
+          await this.client.analyzeInvoiceAsync("application/json", {
+            fileStream: {
+              source: invoiceUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          })
+        );
+      }),
+      getResult: span("getInvoices", async (finalOptions, resultId) =>
+        this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  // #endregion
+
+  // #region prebuilt::receipt
+
+  /**
+   * Recognizes data from receipts using a pre-built receipt model, enabling you to extract structured data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
@@ -656,9 +817,9 @@ export class FormRecognizerClient {
    * ```
    *
    * @summary Recognizes receipt information from a given document
-   * @param {FormRecognizerRequestBody} receipt Input document
-   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginRecognizeFormsOptions} [options] Options to start the receipt recognition operation
+   * @param receipt Input document
+   * @param contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp";
+   * @param options Options for the recognition operation
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
@@ -763,6 +924,8 @@ export class FormRecognizerClient {
     await poller.poll();
     return poller;
   }
+
+  // #endregion
 }
 
 /**

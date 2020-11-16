@@ -22,7 +22,7 @@ type MaybeTypedFormField<T extends FormField["valueType"]> =
   | Extract<FormField, { valueType?: T }>
   | undefined;
 
-matrix([[true, false]] as const, async (useAad) => {
+matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
     let client: FormRecognizerClient;
@@ -366,6 +366,90 @@ matrix([[true, false]] as const, async (useAad) => {
         try {
           // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeReceiptsFromUrl(url, {
+            locale: "thisIsNotAValidLocaleString",
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid locale.");
+        } catch {
+          // Intentionally left empty
+        }
+      });
+    });
+
+    describe("invoices", () => {
+      const expectedFieldValues: Record<string, unknown> = {
+        VendorName: "Contoso",
+        VendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
+        CustomerAddressRecipient: "Microsoft",
+        CustomerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+        CustomerName: "Microsoft",
+        InvoiceId: "34278587",
+        InvoiceTotal: 56651.49
+      };
+
+      const expectedDateValues: Record<string, Date> = {
+        InvoiceDate: new Date("June 18, 2017 00:00:00+0000"),
+        DueDate: new Date("June 24, 2017 00:00:00+0000")
+      };
+
+      it("pdf file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "invoice", "Invoice_1.pdf");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginRecognizeInvoices(stream, {
+          contentType: "application/pdf",
+          ...testPollingOptions
+        });
+        const invoices = await poller.pollUntilDone();
+
+        assert.ok(invoices && invoices.length > 0, `Expect no-empty pages but got ${invoices}`);
+        const [invoice] = invoices;
+
+        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
+          const field = invoice.fields[fieldName];
+          assert.equal(field?.value, expectedValue);
+        }
+
+        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
+          const { value: date } = invoice.fields[fieldName] as { value: Date };
+          assert.equal(date.getDay(), expectedDate.getDay());
+          assert.equal(date.getMonth(), expectedDate.getMonth());
+          assert.equal(date.getFullYear(), expectedDate.getFullYear());
+        }
+      });
+
+      it("url", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        const poller = await client.beginRecognizeInvoicesFromUrl(url, {
+          ...testPollingOptions
+        });
+        const invoices = await poller.pollUntilDone();
+
+        assert.ok(invoices && invoices.length > 0, `Expect no-empty pages but got ${invoices}`);
+        const [invoice] = invoices;
+
+        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
+          const field = invoice.fields[fieldName];
+          assert.equal(field?.value, expectedValue);
+        }
+
+        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
+          const { value: date } = invoice.fields[fieldName] as { value: Date };
+          assert.equal(date.getDay(), expectedDate.getDay());
+          assert.equal(date.getMonth(), expectedDate.getMonth());
+          assert.equal(date.getFullYear(), expectedDate.getFullYear());
+        }
+      });
+
+      it("invalid locale throws", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        try {
+          // Just make sure that this doesn't throw
+          const poller = await client.beginRecognizeInvoicesFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions
           });
