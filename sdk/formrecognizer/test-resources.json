@@ -32,7 +32,7 @@
     },
     "selectionMarkTrainingDataContainer": {
       "type": "string",
-      "defaultValue": "formselectionmark"
+      "defaultValue": "selectionmark"
     },
     "blobResourceId": {
       "type": "string",
