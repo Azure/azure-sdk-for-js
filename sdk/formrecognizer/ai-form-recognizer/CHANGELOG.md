@@ -2,6 +2,11 @@
 
 ## 3.1.0-beta.1 (Unreleased)
 
+- Added a `formTypeConfidence` property to `RecognizedForm` indicating the model's confidence in determining the correct form type (and therefore the correct model to use) during recognition.
+- Added a `properties` field to `CustomFormModelInfo` that may optionally contain extra properties. Currently, the only property is `isComposedModel` which will indicate whether the model is a composed model or a single trained model.
+- Added a `modelId` field to the `CustomFormSubmodel`, `TrainingDocumentInfo`, and `RecognizedForm` types containing the ID of the exact model that they are associated with (for example, in the context of a composed model, the `modelId` field can determine which specific component model is associated with the submodel, training document, or recognized form).
+- Added support for selection marks in form fields. In addition to the previously-existing variants of `FormField`, custom models can now return fields with `valueType: "selectionMark"` and their `value` will be the state of the selection mark.
+- Added a new page element `FormSelectionMark` that represents marks on a page that can be selected (such as checkboxes and radio buttons). The `selectionMarks` field of `FormPage` contains the selection marks that were recognized in the page. A selection mark has a state value that is either "checked" or "unchecked."
 - Made optimizations to the long-running operation infrastructure that should result in faster and more memory-efficient polling for results of custom form recognition, receipt recognition, and business card recognition.
 - Added an option for specifying the locale of a document to receipt and business card methods through the `locale` property of the options bag.
 - Added support for Business Card recognition through the `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl` methods, which mirror their receipt counterparts.

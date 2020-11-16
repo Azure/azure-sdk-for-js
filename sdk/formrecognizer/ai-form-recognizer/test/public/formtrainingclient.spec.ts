@@ -36,13 +36,6 @@ matrix([[true, false]] as const, async (useAad) => {
       await recorder.stop();
     });
 
-    const expectedDocumentInfo: TrainingDocumentInfo = {
-      name: "Form_1.jpg",
-      errors: [],
-      pageCount: 1,
-      status: "succeeded"
-    };
-
     // #region Model Training
 
     /*
@@ -98,6 +91,7 @@ matrix([[true, false]] as const, async (useAad) => {
             let _model: CustomFormModel;
 
             let modelName: string;
+            let expectedDocumentInfo: TrainingDocumentInfo;
 
             // We only want to create the model once, but because of the recorder's
             // precedence, we have to create it in a test, so one test will end up
@@ -115,6 +109,14 @@ matrix([[true, false]] as const, async (useAad) => {
                 _model = await poller.pollUntilDone();
 
                 assert.ok(_model.modelId);
+
+                expectedDocumentInfo = {
+                  name: "Form_1.jpg",
+                  modelId: _model.modelId,
+                  errors: [],
+                  pageCount: 1,
+                  status: "succeeded"
+                };
 
                 allModels.push(_model.modelId);
               }
@@ -136,15 +138,18 @@ matrix([[true, false]] as const, async (useAad) => {
               assert.isNotEmpty(model.submodels);
               const submodel = model.submodels![0];
 
-              const expectedFormType = `form-${useLabels ? model.modelId : "0"}`;
-
+              const expectedFormType = useLabels
+                ? `custom:${modelName}`
+                : `form-${useLabels ? model.modelId : "0"}`;
               assert.equal(submodel.formType, expectedFormType);
+
               if (useLabels) {
                 // When training with labels, we will have expectations for the names
                 assert.ok(
                   submodel.fields["Signature"],
                   "Expecting field with name 'Signature' to be valid"
                 );
+                assert.isNotTrue(model.properties?.isComposedModel);
                 // TODO: move this above this if statement, as it should work
                 // in unlabeled models pending a service fix.
                 assert.equal(model.modelName, modelName);
