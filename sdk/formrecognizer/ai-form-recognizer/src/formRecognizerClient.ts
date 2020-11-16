@@ -82,7 +82,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
   /**
@@ -692,7 +692,6 @@ export class FormRecognizerClient {
    *
    * @summary Recognizes invoice information from a given document
    * @param invoice Input document
-   * @param contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp";
    * @param options Options for the recognition operation
    */
   public async beginRecognizeInvoices(
@@ -830,7 +829,6 @@ export class FormRecognizerClient {
    *
    * @summary Recognizes receipt information from a given document
    * @param receipt Input document
-   * @param contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp";
    * @param options Options for the recognition operation
    */
   public async beginRecognizeReceipts(

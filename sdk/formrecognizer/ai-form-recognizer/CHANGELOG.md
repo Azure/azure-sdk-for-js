@@ -2,6 +2,7 @@
 
 ## 3.1.0-beta.1 (Unreleased)
 
+- Added support for the "image/bmp" content type. This content type is supported on all methods that accept a `FormRecognizerRequestBody` **except** for custom form recognition.
 - Added a `language` option to `BeginRecognizeContentOptions`. By default, when performing layout/content analysis, the service will attempt to detect the language of the document and supports multi-language inputs. The `language` parameter allows you to override this behavior and force the service to use a specific language.
 - Added support for Invoice recognition through the `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl` methods. The Invoice model is prebuilt and may be used without training a model.
 - Added support for creating composed models through the `beginCreateComposedModel` method of `FormTrainingClient`. It accepts a list of model IDs that refer to labeled custom models that should be composed into a new model.
