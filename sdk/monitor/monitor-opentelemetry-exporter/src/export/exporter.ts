@@ -146,8 +146,10 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
 
   private async _sendFirstPersistedFile(): Promise<void> {
     try {
-      const envelopes = (await this._persister.shift()) as Envelope[];
-      this._sender.send(envelopes);
+      const envelopes = (await this._persister.shift()) as Envelope[] | null;
+      if (envelopes) {
+        await this._sender.send(envelopes);
+      }
     } catch (err) {
       this._logger.warn(`Failed to fetch persisted file`, err);
     }

@@ -89,6 +89,20 @@ describe("FileSystemPersist", () => {
        * */
       await assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)));
     });
+
+    it("should store to disk several values", async () => {
+      const envelopes: Envelope[] = new Array(50).fill({
+        name: "name",
+        time: new Date()
+      });
+      const persister = new FileSystemPersist({ instrumentationKey });
+
+      const success = (
+        await Promise.all(new Array(500).fill(null).map(() => persister.push(envelopes)))
+      ).reduce((count, v) => (v === true ? count + 1 : count), 0);
+      assert.strictEqual(success, 500);
+      deleteFolderRecursive(tempDir);
+    });
   });
 
   describe("#shift()", () => {
