@@ -67,6 +67,8 @@ export interface InternalMessageHandlers extends MessageHandlers {
 
 /**
  * Represents the possible receive modes for the receiver.
+ * @internal
+ * @ignore
  */
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
@@ -93,7 +95,7 @@ export interface ServiceBusReceiverOptions {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveMode;
+  receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
@@ -191,7 +193,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveMode;
+  receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
