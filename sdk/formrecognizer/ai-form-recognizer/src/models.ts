@@ -197,6 +197,10 @@ export interface FormTable {
    */
   columnCount: number;
   /**
+   * The bounding box of the recognized table
+   */
+  boundingBox: Point2D[];
+  /**
    * List of cells in the data table
    */
   cells: FormTableCell[];

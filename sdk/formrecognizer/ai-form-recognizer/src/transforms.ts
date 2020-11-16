@@ -145,6 +145,7 @@ export function toFormTable(
   return {
     rowCount: original.rows,
     columnCount: original.columns,
+    boundingBox: toBoundingBox(original.boundingBox),
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
