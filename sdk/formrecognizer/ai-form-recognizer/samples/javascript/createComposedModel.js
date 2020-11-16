@@ -88,7 +88,7 @@ async function main() {
     console.log(`- ${model.formType} (${model.modelId}) - ${model.accuracy} accuracy`);
     console.log("  Fields:");
     for (const [name, field] of Object.entries(model.fields)) {
-      console.log(`  - ${name}: ${field.label} (${field.accuracy} accuracy)`);
+      console.log(`  - ${name} (${field.accuracy} accuracy)`);
     }
   }
 
