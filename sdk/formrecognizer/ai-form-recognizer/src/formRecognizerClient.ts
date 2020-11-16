@@ -180,17 +180,17 @@ export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOption
 /**
  * Options for starting the receipt recognition operation
  */
-type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
+export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
 
 /**
  * Options for starting the Business Card recognition operation
  */
-type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
 
 /**
  * Options for starting the Invoice recognition operation
  */
-type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
+export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 
 // #endregion
 

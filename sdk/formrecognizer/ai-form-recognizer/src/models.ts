@@ -17,7 +17,9 @@ import {
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  Appearance
+  Appearance,
+  Style,
+  TextStyle
 } from "./generated/models";
 
 export {
@@ -34,7 +36,9 @@ export {
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  Appearance
+  Appearance,
+  Style,
+  TextStyle
 };
 
 /**

@@ -21,6 +21,11 @@ export interface AccountProperties {
     customModelLimit: number;
 }
 
+// @public
+export interface Appearance {
+    style: Style;
+}
+
 export { AzureKeyCredential }
 
 // @public
@@ -32,12 +37,16 @@ export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & F
 };
 
 // @public
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
     contentType?: FormContentType;
     language?: string;
+    pages?: string[];
 };
 
 // @public
@@ -54,9 +63,15 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
+export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
+
+// @public
 export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
     locale?: string;
 }
+
+// @public
+export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & FormTrainingPollOperationOptions<TrainingOperationState> & {
@@ -196,6 +211,7 @@ export interface FormFieldsReport {
 
 // @public
 export interface FormLine extends FormElementCommon {
+    appearance?: Appearance;
     kind: "line";
     text: string;
     words: FormWord[];
@@ -237,17 +253,14 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeBusinessCardsOptions" needs to be exported by the entry point index.d.ts
     beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
-    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeInvoicesOptions" needs to be exported by the entry point index.d.ts
     beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
-    // Warning: (ae-forgotten-export) The symbol "BeginRecognizeReceiptsOptions" needs to be exported by the entry point index.d.ts
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
@@ -279,6 +292,7 @@ export interface FormSelectionMark extends FormElementCommon {
 
 // @public
 export interface FormTable {
+    boundingBox: Point2D[];
     cells: FormTableCell[];
     columnCount: number;
     pageNumber: number;
@@ -460,6 +474,15 @@ export { RestResponse }
 
 // @public
 export type SelectionMarkState = "selected" | "unselected" | string;
+
+// @public
+export interface Style {
+    confidence: number;
+    name: TextStyle;
+}
+
+// @public
+export type TextStyle = "other" | "handwriting" | string;
 
 // @public
 export interface TrainingDocumentInfo {
