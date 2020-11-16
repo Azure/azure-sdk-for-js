@@ -13,11 +13,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.1/FormRecognizer.json
+#input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/97ae1493ff37d947cc26e00a3a5abd096982517b/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.2/FormRecognizer.json
+input-file: ./2.1-preview.2.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20201013.1"
+  "@autorest/typescript": "6.0.0-dev.20201113.1"
 package-version: "3.1.0-beta.1"
 ```
 

@@ -106,7 +106,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * Options for starting the analyze form operation
+ * Shared options for starting form recognition operations.
  */
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
@@ -122,10 +122,22 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
 };
+
+/**
+ * Options for starting the custom form recognition operation.
+ */
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
+  /**
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   *
+   * "image/bmp" is not supported for custom form analysis.
+   */
+  contentType?: Exclude<FormContentType, "image/bmp">;
+}
 
 /**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
@@ -366,14 +378,14 @@ export class FormRecognizerClient {
    * const forms = await poller.pollUntilDone();
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
-   * @param {string} modelId Id of the custom form model to use
-   * @param {FormRecognizerRequestBody} form Input form document
-   * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
+   * @param modelId Id of the custom form model to use
+   * @param form Input form document
+   * @param options Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
     form: FormRecognizerRequestBody,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeCustomFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
@@ -443,7 +455,7 @@ export class FormRecognizerClient {
   public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
     formUrl: string,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeCustomFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");

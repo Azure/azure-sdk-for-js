@@ -402,6 +402,7 @@ describe("Transforms", () => {
     const originalTable: DataTableModel = {
       rows: 3,
       columns: 2,
+      boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
       cells: [
         {
           text: "r0c0",

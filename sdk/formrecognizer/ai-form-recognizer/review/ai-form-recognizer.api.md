@@ -45,6 +45,11 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
 };
 
 // @public
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
+    contentType?: Exclude<FormContentType, "image/bmp">;
+}
+
+// @public
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeFormsOperationState) => void;
@@ -140,7 +145,7 @@ export interface FieldData {
 }
 
 // @public
-export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
+export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
 
 // @public
 export type FormElement = FormWord | FormLine | FormSelectionMark;
@@ -240,8 +245,8 @@ export class FormRecognizerClient {
     beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
@@ -362,7 +367,7 @@ export interface KeyValuePairModel {
 export type KeyValueType = "string" | "selectionMark" | string;
 
 // @public
-export type Language = "en" | "es" | string;
+export type Language = "en" | "es" | "de" | "fr" | "it" | "nl" | "pt" | "zh-Hans" | string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
