@@ -84,22 +84,3 @@ describe("getRequestUrl", function() {
     );
   });
 });
-
-/**
- * const deleteOperationSpec: OperationSpec = {
-  path: "/Tables('{table}')",
-  httpMethod: "DELETE",
-  responses: {
-    204: {
-      headersMapper: Mappers.TableDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableDeleteExceptionHeaders
-    }
-  },
-  urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
-  serializer
-};
- */

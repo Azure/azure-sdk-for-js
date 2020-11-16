@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import {
   DefaultHttpsClient,
   HttpsClient,
@@ -402,16 +402,12 @@ export function createClientPipeline(options: ClientPipelineOptions = {}): Pipel
 
   const credential = options.credentialOptions?.credential;
   if (credential) {
-    if (isTokenCredential(credential)) {
-      pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential,
-          scopes: `${options.credentialOptions?.baseUri || ""}/.default`
-        })
-      );
-    } else {
-      throw new Error("The credential argument must implement the TokenCredential interface");
-    }
+    pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: `${options.credentialOptions?.baseUri || ""}/.default`
+      })
+    );
   }
 
   pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), { phase: "Serialize" });
