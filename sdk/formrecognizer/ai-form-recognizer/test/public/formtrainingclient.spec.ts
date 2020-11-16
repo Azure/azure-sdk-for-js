@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-invalid-this */
+
 import { assert } from "chai";
 import { Context } from "mocha";
 
@@ -28,7 +30,6 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
 
     beforeEach(function(this: Context) {
-      // eslint-disable-next-line no-invalid-this
       recorder = createRecorder(this);
     });
 
