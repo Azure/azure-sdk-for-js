@@ -37,7 +37,7 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
   FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
-    "https://storageaccount/formselectionmark?sastoken",
+    "https://storageaccount/selectionmark?sastoken",
   FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
   // fake resource id
   FORM_RECOGNIZER_TARGET_RESOURCE_ID:

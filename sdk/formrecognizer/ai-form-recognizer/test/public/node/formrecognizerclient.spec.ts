@@ -128,7 +128,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
     });
 
-    describe("custom forms", () => {
+    describe.only("custom forms", () => {
       let _model: CustomFormModel;
       let modelName: string;
 

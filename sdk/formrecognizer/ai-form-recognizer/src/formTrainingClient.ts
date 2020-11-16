@@ -509,9 +509,9 @@ export class FormTrainingClient {
    * indefinitely until the operation is completed.
    *
    * Notes:
-   * - the onProgress callback will not be invoked if the operation completes in the first
+   * - The onProgress callback will not be invoked if the operation completes in the first
    *   request, and attempting to cancel a completed copy will result in an error being thrown.
-   * - evena when the training operation fails, a model is still created in the Azure Form
+   * - Even when the training operation fails, a model is still created in the Azure Form
    *   Recognizer resource.
    *
    * Example usage:
