@@ -113,7 +113,7 @@ async function receiveMessage() {
       {
         autoCompleteMessages: false
       }
-    ); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    ); // Disabling autoCompleteMessages so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
