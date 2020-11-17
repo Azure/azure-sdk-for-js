@@ -7,7 +7,6 @@
   "license": "MIT",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "keywords": [
     "node",
     "azure",
