@@ -561,7 +561,7 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe(`Type validation errors on Correlation user property inputs`, function(): void {
+  describe(`Type validation errors on Correlation Rule Filter's applicationProperties inputs`, function(): void {
     const correlationUserPropsTestCases: {
       testCaseTitle: string;
       input: { filter: CorrelationRuleFilter };
