@@ -16,7 +16,9 @@ export {
   PeekMessagesOptions,
   ProcessErrorArgs,
   ReceiveMessagesOptions,
-  SubscribeOptions
+  SubscribeOptions,
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
