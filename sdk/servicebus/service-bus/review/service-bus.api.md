@@ -37,10 +37,7 @@ export type AuthorizationRule = {
 // @public
 export interface CorrelationRuleFilter {
     applicationProperties?: {
-        [key: string]: string | number | boolean | Date | {
-            val: string;
-            kind: "duration";
-        };
+        [key: string]: string | number | boolean | Date | ISO8601Duration;
     };
     contentType?: string;
     correlationId?: string;
@@ -139,6 +136,12 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase {
+}
+
+// @public
+export interface ISO8601Duration {
+    kind: "iso8601";
+    value: string;
 }
 
 // @public

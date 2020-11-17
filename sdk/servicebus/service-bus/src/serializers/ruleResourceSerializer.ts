@@ -147,14 +147,22 @@ export interface RuleDescription {
 
 /**
  * Meant to be used for the interoperability(to support the duration type in languages such as Java, .NET and Python)
- * - `value` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
- *    (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
- * - `kind` being "iso8601" duration type
  * @export
  * @interface ISO8601Duration
  */
 export interface ISO8601Duration {
+  /**
+   * `value` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *    (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
+   *
+   * @type {string}
+   */
   value: string;
+  /**
+   * `kind` being "iso8601" duration type
+   *
+   * @type {"iso8601"}
+   */
   kind: "iso8601";
 }
 
