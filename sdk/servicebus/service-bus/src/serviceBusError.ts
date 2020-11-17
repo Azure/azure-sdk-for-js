@@ -134,6 +134,11 @@ export class ServiceBusError extends MessagingError {
       }
 
       this.code = ServiceBusError.normalizeMessagingCode(messageOrError.code);
+      // For GeneralErrors, prefix the error message with the MessagingError code to provide
+      // more context to the user.
+      if (this.code === "GeneralError" && messageOrError.code) {
+        this.message = `${messageOrError.code}: ${this.message}`;
+      }
     }
 
     this.name = "ServiceBusError";
