@@ -8,7 +8,7 @@
   The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
 - Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
-- "applicationProperties" in the correlation rule filter now supports ISO-8601 duration strings with a custom type `{val:string, kind:"duration"}`.
+- "applicationProperties" in the correlation rule filter now supports ISO-8601 duration strings with a custom type `{value:string, kind:"duration"}`.
   [PR 12570](https://github.com/Azure/azure-sdk-for-js/pull/12570)
 - `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
   [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)

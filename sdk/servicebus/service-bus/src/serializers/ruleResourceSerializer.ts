@@ -186,8 +186,8 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    *
-   * Value can be of types string, number, boolean, Date or {val: string, kind: "duration"}
-   * Note: {val: string, kind: "duration"}
+   * Value can be of types string, number, boolean, Date or {value: string, kind: "duration"}
+   * Note: {value: string, kind: "duration"}
    *       Meant for interoperability(to support the duration type in languages such as Java, .NET and Python)
    *       `val` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *            (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
@@ -200,7 +200,7 @@ export interface CorrelationRuleFilter {
       | boolean
       | Date
       | {
-          val: string;
+          value: string;
           kind: "duration";
         };
   };
@@ -448,7 +448,7 @@ function getKeyValuePairsOrUndefined(
       } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
         properties[key] = new Date(value);
       } else if (encodedValueType === TypeMapForResponseDeserialization.duration) {
-        properties[key] = { val: value, kind: "duration" };
+        properties[key] = { value: value, kind: "duration" };
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`

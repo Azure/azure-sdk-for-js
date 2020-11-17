@@ -1802,7 +1802,7 @@ const createRuleTests: {
           randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate,
-          randomDuration: { val: "P1D", kind: "duration" }
+          randomDuration: { value: "P1D", kind: "duration" }
         }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
@@ -1825,7 +1825,7 @@ const createRuleTests: {
           randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate,
-          randomDuration: { val: "P1D", kind: "duration" }
+          randomDuration: { value: "P1D", kind: "duration" }
         }
       },
       action: {
