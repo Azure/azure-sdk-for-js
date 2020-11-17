@@ -30,7 +30,7 @@ of this package please look at our [migration guide to move from Service Bus V1 
 
 ### Install the package
 
-Install the preview version for the Azure Service Bus client library using npm.
+Install the latest version for the Azure Service Bus client library using npm.
 
 `npm install @azure/service-bus`
 
