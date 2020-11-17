@@ -189,8 +189,7 @@ export interface CreateSubscriptionOptions extends OperationOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Represents the options to create a rule for the subscription.
-   * If none provided, True Filter(1=1) is added.
+   * Represents the options to create the default rule for the subscription.
    */
   defaultRuleOptions?: {
     /**
