@@ -37,7 +37,10 @@ export type AuthorizationRule = {
 // @public
 export interface CorrelationRuleFilter {
     applicationProperties?: {
-        [key: string]: string | number | boolean | Date;
+        [key: string]: string | number | boolean | Date | {
+            val: string;
+            kind: "duration";
+        };
     };
     contentType?: string;
     correlationId?: string;
