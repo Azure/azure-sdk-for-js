@@ -20,7 +20,6 @@ import {
   HttpResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
 import {
   buildNamespace,
@@ -39,6 +38,7 @@ import {
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
+  CorrelationRuleFilter,
   CreateRuleOptions,
   isSqlRuleAction,
   RuleProperties,

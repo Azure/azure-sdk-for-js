@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import { CorrelationRuleFilter } from "../core/managementClient";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -121,6 +120,90 @@ export interface RuleProperties {
    * associated filter apply.
    */
   action: SqlRuleAction;
+}
+
+/**
+ * Represents a Rule on a Subscription that is used to filter the incoming message from the
+ * Subscription.
+ */
+export interface RuleDescription {
+  /**
+   * Filter expression used to match messages. Supports 2 types:
+   * - `string`: SQL-like condition expression that is evaluated against the messages'
+   * user-defined properties and system properties. All system properties will be prefixed with
+   * `sys.` in the condition expression.
+   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
+   */
+  filter?: string | CorrelationRuleFilter;
+  /**
+   * Action to perform if the message satisfies the filtering expression.
+   */
+  action?: string;
+  /**
+   * Represents the name of the rule.
+   */
+  name: string;
+}
+
+/**
+ * Represents the correlation filter expression.
+ * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
+ * of incoming messages from a Subscription.
+ */
+export interface CorrelationRuleFilter {
+  /**
+   * Value to be matched with the `correlationId` property of the incoming message.
+   */
+  correlationId?: string;
+  /**
+   * Value to be matched with the `messageId` property of the incoming message.
+   */
+  messageId?: string;
+  /**
+   * Value to be matched with the `to` property of the incoming message.
+   */
+  to?: string;
+  /**
+   * Value to be matched with the `replyTo` property of the incoming message.
+   */
+  replyTo?: string;
+  /**
+   * Value to be matched with the `subject` property of the incoming message.
+   */
+  subject?: string;
+  /**
+   * Value to be matched with the `sessionId` property of the incoming message.
+   */
+  sessionId?: string;
+  /**
+   * Value to be matched with the `replyToSessionId` property of the incoming message.
+   */
+  replyToSessionId?: string;
+  /**
+   * Value to be matched with the `contentType` property of the incoming message.
+   */
+  contentType?: string;
+  /**
+   * Value to be matched with the user properties of the incoming message.
+   *
+   * Value can be of types string, number, boolean, Date or {val: string, kind: "duration"}
+   * Note: {val: string, kind: "duration"}
+   *       Meant for interoperability(to support the duration type in languages such as Java, .NET and Python)
+   *       `val` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *            (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
+   *       `kind` represents the "duration" type
+   */
+  applicationProperties?: {
+    [key: string]:
+      | string
+      | number
+      | boolean
+      | Date
+      | {
+          val: string;
+          kind: "duration";
+        };
+  };
 }
 
 /**
@@ -253,11 +336,12 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * @ignore
  */
 enum TypeMapForRequestSerialization {
-  double = "l28:double",
-  string = "l28:string",
-  long = "l28:long",
-  date = "l28:dateTime",
-  boolean = "l28:boolean"
+  duration = "duration",
+  double = "double",
+  string = "string",
+  long = "long",
+  date = "dateTime",
+  boolean = "boolean"
 }
 
 /**
@@ -265,6 +349,7 @@ enum TypeMapForRequestSerialization {
  * @ignore
  */
 enum TypeMapForResponseDeserialization {
+  duration = "duration",
   int = "int",
   double = "double",
   string = "string",
@@ -340,6 +425,8 @@ function getKeyValuePairsOrUndefined(
         properties[key] = value === "true" ? true : false;
       } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
         properties[key] = new Date(value);
+      } else if (encodedValueType === TypeMapForResponseDeserialization.duration) {
+        properties[key] = { val: value, kind: "duration" };
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
@@ -385,6 +472,7 @@ export function buildInternalRawKeyValuePairs(
   const rawParameters: RawKeyValuePair[] = [];
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
+    console.log(value);
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {
@@ -394,6 +482,14 @@ export function buildInternalRawKeyValuePairs(
     } else if (value instanceof Date && !isNaN(value.valueOf())) {
       type = TypeMapForRequestSerialization.date;
       value = value.toJSON();
+    } else if (
+      value.val &&
+      typeof value.val === "string" &&
+      value.kind === TypeMapForRequestSerialization.duration
+    ) {
+      type = TypeMapForRequestSerialization.duration;
+      // Not doing any validation with regex for the expected ISO-8601 duration here
+      value = value.val;
     } else {
       throw new TypeError(
         `Unsupported type for the value in the ${attribute} for the key '${key}'`
@@ -404,7 +500,7 @@ export function buildInternalRawKeyValuePairs(
       Key: key,
       Value: {
         [Constants.XML_METADATA_MARKER]: {
-          "p4:type": type,
+          "p4:type": "l28:" + type,
           "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
         },
         [Constants.XML_VALUE_MARKER]: value
