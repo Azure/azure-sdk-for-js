@@ -83,6 +83,11 @@ export interface CreateSubscriptionOptions extends OperationOptions {
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
+    defaultRuleOptions?: {
+        name: string;
+        filter?: SqlRuleFilter | CorrelationRuleFilter;
+        action?: SqlRuleAction;
+    };
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -508,7 +513,7 @@ export interface SubscriptionProperties {
     status: EntityStatus;
     readonly subscriptionName: string;
     readonly topicName: string;
-    userMetadata: string;
+    userMetadata?: string;
 }
 
 // @public

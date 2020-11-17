@@ -12,13 +12,13 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateMessageBatchOptions,
-  ServiceBusReceiverOptions,
-  ServiceBusSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
-  ProcessErrorArgs,
   PeekMessagesOptions,
+  ProcessErrorArgs,
   ReceiveMessagesOptions,
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
@@ -44,19 +44,19 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  WithResponse,
-  ServiceBusAdministrationClient
+  ServiceBusAdministrationClient,
+  WithResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
   DeadLetterOptions,
-  ServiceBusReceivedMessage,
-  ServiceBusMessage
+  ServiceBusMessage,
+  ServiceBusReceivedMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
 export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
-export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
+export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
