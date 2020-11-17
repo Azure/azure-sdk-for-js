@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { CorrelationRuleFilter } from "..";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -20,8 +21,9 @@ import {
 } from "../util/utils";
 import {
   buildInternalRuleResource,
-  CreateRuleOptions,
-  InternalRuleOptions
+  InternalRuleOptions,
+  SqlRuleAction,
+  SqlRuleFilter
 } from "./ruleResourceSerializer";
 
 /**
@@ -190,7 +192,26 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    * Represents the options to create a rule for the subscription.
    * If none provided, True Filter(1=1) is added.
    */
-  defaultRuleOptions?: CreateRuleOptions;
+  defaultRuleOptions?: {
+    /**
+     * Name of the rule
+     */
+    name: string;
+
+    /**
+     * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+     * the expression string is interpreted as a SQL92 expression which must
+     * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+     * a `SqlRuleFilter` can be defined.
+     */
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+
+    /**
+     * The SQL like expression that can be executed on the message should the
+     * associated filter apply.
+     */
+    action?: SqlRuleAction;
+  };
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
