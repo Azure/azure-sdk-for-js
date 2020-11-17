@@ -9,17 +9,16 @@ export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
-export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateMessageBatchOptions,
-  ServiceBusReceiverOptions,
-  ServiceBusSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
-  ProcessErrorArgs,
   PeekMessagesOptions,
+  ProcessErrorArgs,
   ReceiveMessagesOptions,
   ReceiveMode,
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
@@ -32,7 +31,12 @@ export {
   QueueProperties,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
-export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
+export {
+  CorrelationRuleFilter,
+  RuleProperties,
+  SqlRuleAction,
+  SqlRuleFilter
+} from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
@@ -45,19 +49,19 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  WithResponse,
-  ServiceBusAdministrationClient
+  ServiceBusAdministrationClient,
+  WithResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
   DeadLetterOptions,
-  ServiceBusReceivedMessage,
-  ServiceBusMessage
+  ServiceBusMessage,
+  ServiceBusReceivedMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
 export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
-export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
+export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
