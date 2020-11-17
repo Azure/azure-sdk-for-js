@@ -254,6 +254,7 @@ export function throwErrorIfInvalidOperationOnMessage(
  * Error message for when the ServiceBusMessage provided by the user has different values
  * for partitionKey and sessionId.
  * @internal
+ * @ignore
  * @throw
  */
 export const PartitionKeySessionIdMismatchError =

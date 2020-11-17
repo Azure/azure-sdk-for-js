@@ -62,8 +62,8 @@ export interface ServiceBusMessageBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
