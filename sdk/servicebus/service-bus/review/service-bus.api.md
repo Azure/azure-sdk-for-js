@@ -77,13 +77,6 @@ export interface CreateQueueOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateRuleOptions {
-    action?: SqlRuleAction;
-    filter?: SqlRuleFilter | CorrelationRuleFilter;
-    name: string;
-}
-
-// @public
 export interface CreateSubscriptionOptions extends OperationOptions {
     autoDeleteOnIdle?: string;
     availabilityStatus?: EntityAvailabilityStatus;

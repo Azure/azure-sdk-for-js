@@ -31,12 +31,7 @@ export {
   QueueProperties,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
-export {
-  CreateRuleOptions,
-  RuleProperties,
-  SqlRuleAction,
-  SqlRuleFilter
-} from "./serializers/ruleResourceSerializer";
+export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,

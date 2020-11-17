@@ -75,6 +75,8 @@ function getRuleAction(value: any): SqlRuleAction {
 
 /**
  * Represents the options to create a rule for a subscription.
+ * @internal
+ * @ignore
  */
 export interface CreateRuleOptions {
   /**
