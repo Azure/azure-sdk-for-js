@@ -146,7 +146,7 @@ export interface RuleDescription {
 }
 
 /**
- * Meant to be used for the interoperability(to support the duration type in languages such as Java, .NET and Python)
+ * Meant to be used to support interoperability with the duration type in languages such as Java, .NET and Python.
  * @export
  * @interface ISO8601Duration
  */
