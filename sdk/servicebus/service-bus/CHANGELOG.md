@@ -10,6 +10,8 @@
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
 - "applicationProperties" in the correlation rule filter now supports ISO-8601 duration strings with a custom type `{val:string, kind:"duration"}`.
   [PR 12570](https://github.com/Azure/azure-sdk-for-js/pull/12570)
+- `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
+  [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
 
 ## 7.0.0-preview.8 (2020-11-04)
 

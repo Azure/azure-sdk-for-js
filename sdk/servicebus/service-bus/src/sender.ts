@@ -32,7 +32,7 @@ import { senderLogger as logger } from "./log";
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
+ * Use the `createSender` function on the ServiceBusClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
 export interface ServiceBusSender {
@@ -49,8 +49,9 @@ export interface ServiceBusSender {
    * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @return Promise<void>
+   * @throws `MessagingError` with the code `MessageTooLargeError` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while sending messages to the service.
+   * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
    */
   sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
@@ -65,7 +66,7 @@ export interface ServiceBusSender {
    *
    * @param {CreateMessageBatchOptions} [options]
    * @returns {Promise<ServiceBusMessageBatch>}
-   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws `ServiceBusError` if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
   createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
@@ -82,7 +83,7 @@ export interface ServiceBusSender {
   open(options?: OperationOptionsBase): Promise<void>;
 
   /**
-   * @property Returns `true` if either the sender or the client that created it has been closed
+   * @property Returns `true` if either the sender or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -98,7 +99,7 @@ export interface ServiceBusSender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while scheduling messages.
+   * @throws `ServiceBusError` if the service returns an error while scheduling messages.
    */
   scheduleMessages(
     messages: ServiceBusMessage | ServiceBusMessage[],
@@ -112,7 +113,7 @@ export interface ServiceBusSender {
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while canceling scheduled messages.
+   * @throws `ServiceBusError` if the service returns an error while canceling scheduled messages.
    */
   cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
