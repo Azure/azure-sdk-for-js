@@ -17,9 +17,9 @@ export {
   PeekMessagesOptions,
   ProcessErrorArgs,
   ReceiveMessagesOptions,
-  SubscribeOptions,
+  ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
-  ServiceBusReceiverOptions
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
@@ -53,6 +53,7 @@ export {
   WithResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
   DeadLetterOptions,
   ServiceBusMessage,
@@ -63,5 +64,4 @@ export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
-export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
