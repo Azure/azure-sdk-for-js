@@ -90,7 +90,11 @@ export interface CreateSubscriptionOptions extends OperationOptions {
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
-    defaultRuleOptions?: CreateRuleOptions;
+    defaultRuleOptions?: {
+        name: string;
+        filter?: SqlRuleFilter | CorrelationRuleFilter;
+        action?: SqlRuleAction;
+    };
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;

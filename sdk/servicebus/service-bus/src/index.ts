@@ -17,7 +17,9 @@ export {
   PeekMessagesOptions,
   ProcessErrorArgs,
   ReceiveMessagesOptions,
-  SubscribeOptions
+  SubscribeOptions,
+  ServiceBusSessionReceiverOptions,
+  ServiceBusReceiverOptions
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
@@ -62,3 +64,4 @@ export {
   ServiceBusConnectionStringProperties
 } from "./util/connectionStringUtils";
 export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
+export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
