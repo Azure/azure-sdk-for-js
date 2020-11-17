@@ -26,14 +26,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "files": [
-    "types/keyvault-common.d.ts",
-    "dist/",
-    "dist-browser/",
-    "dist-esm/keyvault-common/src",
-    "README.md",
-    "LICENSE"
-  ],
   "scripts": {
     "audit": "echo skipped",
     "build:samples": "echo skipped",
