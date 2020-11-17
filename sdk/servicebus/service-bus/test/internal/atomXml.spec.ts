@@ -17,7 +17,10 @@ import { QueueResourceSerializer } from "../../src/serializers/queueResourceSeri
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
 import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
+import {
+  CorrelationRuleFilter,
+  RuleResourceSerializer
+} from "../../src/serializers/ruleResourceSerializer";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -558,113 +561,175 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  [
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties has an array as value",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: {
-            message: ["hello"]
+  describe(`Type validation errors on Correlation user property inputs`, function(): void {
+    const correlationUserPropsTestCases: {
+      testCaseTitle: string;
+      input: { filter: CorrelationRuleFilter };
+      output: { testErrorMessage: string; testErrorType: any };
+    }[] = [
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties has an array as value",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: ["hello"]
+            }
           }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties has an empty object as value",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: {
-            message: {}
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties has an empty object as value",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: {}
+            }
           }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: {
-            message: undefined
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: undefined
+            }
           }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties an integer",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: 123
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported {val(number), kind}",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: { value: 123, kind: "duration" }
+            }
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported value for the applicationProperties 123, expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties a string",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: "abcd"
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported {val, kind(non-duration)}",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: { value: "123", kind: "randomKind" }
+            }
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported value for the applicationProperties "abcd", expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties an array",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: ["abcd"]
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported {val, kind}",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {
+              // @ts-expect-error
+              message: { value: undefined, kind: "duration" }
+            }
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported value for the applicationProperties ["abcd"], expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
-    },
-    {
-      testCaseTitle:
-        "Rule serializer throws Error if rule correlation filter input has user properties an empty object",
-      input: {
-        filter: {
-          correlationId: "abcd",
-          applicationProperties: {}
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties an integer",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            // @ts-expect-error
+            applicationProperties: 123
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported value for the applicationProperties 123, expected a JSON object with key-value pairs.`,
+          testErrorType: Error
         }
       },
-      output: {
-        testErrorMessage: `Unsupported value for the applicationProperties {}, expected a JSON object with key-value pairs.`,
-        testErrorType: Error
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties a string",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            // @ts-expect-error
+            applicationProperties: "abcd"
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported value for the applicationProperties "abcd", expected a JSON object with key-value pairs.`,
+          testErrorType: Error
+        }
+      },
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties an array",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            // @ts-expect-error
+            applicationProperties: ["abcd"]
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported value for the applicationProperties ["abcd"], expected a JSON object with key-value pairs.`,
+          testErrorType: Error
+        }
+      },
+      {
+        testCaseTitle:
+          "Rule serializer throws Error if rule correlation filter input has user properties an empty object",
+        input: {
+          filter: {
+            correlationId: "abcd",
+            applicationProperties: {}
+          }
+        },
+        output: {
+          testErrorMessage: `Unsupported value for the applicationProperties {}, expected a JSON object with key-value pairs.`,
+          testErrorType: Error
+        }
       }
-    }
-  ].forEach((testCase) => {
-    describe(`Type validation errors on Correlation user property inputs`, function(): void {
+    ];
+    correlationUserPropsTestCases.forEach((testCase) => {
       it(`${testCase.testCaseTitle}`, async () => {
         try {
           const request = new WebResource();
