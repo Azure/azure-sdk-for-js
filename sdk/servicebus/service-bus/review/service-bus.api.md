@@ -359,7 +359,7 @@ export type ServiceBusErrorCode =
 /**
  * The user doesn't have access to the entity.
  */
- | "Unauthorized";
+ | "UnauthorizedAccess";
 
 // @public
 export interface ServiceBusMessage {
