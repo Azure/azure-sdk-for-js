@@ -5,13 +5,11 @@
 ```ts
 
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
-import { AmqpError } from 'rhea-promise';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { MessagingErrorCodes } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -144,7 +142,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export function isServiceBusError(err: Error | AmqpError | ServiceBusError): err is ServiceBusError;
+export function isServiceBusError(err: any): err is ServiceBusError;
 
 // @public
 export interface MessageHandlers {
@@ -153,8 +151,6 @@ export interface MessageHandlers {
 }
 
 export { MessagingError }
-
-export { MessagingErrorCodes }
 
 // @public
 export interface NamespaceProperties {
@@ -228,9 +224,6 @@ export interface QueueRuntimeProperties {
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
-
-// @public
-export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 export { RetryOptions }
 
@@ -314,11 +307,11 @@ export interface ServiceBusConnectionStringProperties {
 // @public
 export class ServiceBusError extends MessagingError {
     constructor(messagingError: MessagingError);
-    reason: ServiceBusErrorReason;
-}
+    code: ServiceBusErrorCode;
+    }
 
 // @public
-export type ServiceBusErrorReason =
+export type ServiceBusErrorCode =
 /**
  * The exception was the result of a general error within the client library.
  */
@@ -451,7 +444,7 @@ export interface ServiceBusReceiver {
 // @public
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
@@ -482,7 +475,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 // @public
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
 }
 
 // @public

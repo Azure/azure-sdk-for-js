@@ -14,6 +14,10 @@ Install this library using npm as follows:
 npm install @azure/core-amqp
 ```
 
+### Prerequisites
+
+If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+
 ## Key concepts
 
 Some of the key features of Azure Core AMQP library are:

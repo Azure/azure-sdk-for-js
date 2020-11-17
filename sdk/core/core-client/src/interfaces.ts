@@ -467,3 +467,17 @@ export interface UrlParameterValue {
   value: string;
   skipUrlEncoding: boolean;
 }
+
+/**
+ * Configuration for creating a new Tracing Span
+ */
+export interface SpanConfig {
+  /**
+   * Package name prefix
+   */
+  packagePrefix: string;
+  /**
+   * Service namespace
+   */
+  namespace: string;
+}

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { createSerializer, MapperTypeNames } from "./serializer";
+export { createSpanFunction } from "./createSpan";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export {
   OperationSpec,
@@ -32,7 +33,8 @@ export {
   ParameterPath,
   OperationResponse,
   FullOperationResponse,
-  PolymorphicDiscriminator
+  PolymorphicDiscriminator,
+  SpanConfig
 } from "./interfaces";
 export {
   deserializationPolicy,

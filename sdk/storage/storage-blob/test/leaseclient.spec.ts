@@ -145,7 +145,7 @@ describe("LeaseClient from Blob", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

@@ -4,10 +4,9 @@
 import {
   ServiceBusMessage,
   toRheaMessage,
-  isServiceBusMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
-import { throwTypeErrorIfParameterMissing } from "./util/errors";
+import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
@@ -246,9 +245,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
-    if (!isServiceBusMessage(message)) {
-      throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
-    }
+    throwIfNotValidServiceBusMessage(
+      message,
+      "Provided value for 'message' must be of type ServiceBusMessage."
+    );
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(

@@ -1,4 +1,4 @@
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -36,7 +36,7 @@ describe("Highlevel Node.js only", () => {
   const tempFolderPath = "temp";
   const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

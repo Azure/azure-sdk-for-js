@@ -272,24 +272,25 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * @internal
  * @ignore
  */
-const TypeMapForRequestSerialization: Record<string, string> = {
-  int: "l28:int",
-  string: "l28:string",
-  long: "l28:long",
-  date: "l28:dateTime",
-  boolean: "l28:boolean"
-};
+enum TypeMapForRequestSerialization {
+  double = "l28:double",
+  string = "l28:string",
+  long = "l28:long",
+  date = "l28:dateTime",
+  boolean = "l28:boolean"
+}
 
 /**
  * @internal
  * @ignore
  */
-const TypeMapForResponseDeserialization: Record<string, string> = {
-  number: "int",
-  string: "string",
-  boolean: "boolean",
-  date: "dateTime"
-};
+enum TypeMapForResponseDeserialization {
+  int = "int",
+  double = "double",
+  string = "string",
+  boolean = "boolean",
+  date = "dateTime"
+}
 
 /**
  * @internal
@@ -345,15 +346,20 @@ function getKeyValuePairsOrUndefined(
   }
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
+      const key = rawProperty.Key;
+      const value = rawProperty.Value["_"];
       const encodedValueType = rawProperty.Value["$"]["i:type"].toString().substring(5);
-      if (encodedValueType === TypeMapForResponseDeserialization.number) {
-        properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
+      if (
+        encodedValueType === TypeMapForResponseDeserialization.int ||
+        encodedValueType === TypeMapForResponseDeserialization.double
+      ) {
+        properties[key] = Number(value);
       } else if (encodedValueType === TypeMapForResponseDeserialization.string) {
-        properties[rawProperty.Key] = rawProperty.Value["_"];
+        properties[key] = value;
       } else if (encodedValueType === TypeMapForResponseDeserialization.boolean) {
-        properties[rawProperty.Key] = rawProperty.Value["_"] === "true" ? true : false;
+        properties[key] = value === "true" ? true : false;
       } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
-        properties[rawProperty.Key] = new Date(rawProperty.Value["_"]);
+        properties[key] = new Date(value);
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
@@ -400,7 +406,7 @@ export function buildInternalRawKeyValuePairs(
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
     if (typeof value === "number") {
-      type = TypeMapForRequestSerialization.int;
+      type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {
       type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {

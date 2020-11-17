@@ -4,7 +4,7 @@
 import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
-import { ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ReceiveMode } from "../models";
 
 /**
@@ -17,6 +17,14 @@ import { ReceiveMode } from "../models";
  */
 export const entityPathMisMatchError =
   "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
+
+/**
+ * Error message for when maxMessageCount provided is invalid.
+ *
+ * @internal
+ * @ignore
+ */
+export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number greater than 0.";
 
 /**
  * @internal
@@ -108,6 +116,7 @@ export function throwTypeErrorIfParameterMissing(
  * @param parameterValue Value of the parameter to type check
  * @param expectedType Expected type of the parameter
  */
+
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
@@ -238,5 +247,29 @@ export function throwErrorIfInvalidOperationOnMessage(
       message.messageId
     );
     throw error;
+  }
+}
+
+/**
+ * Error message for when the ServiceBusMessage provided by the user has different values
+ * for partitionKey and sessionId.
+ * @internal
+ * @throw
+ */
+export const PartitionKeySessionIdMismatchError =
+  "The fields 'partitionKey' and 'sessionId' cannot have different values.";
+/**
+ * Throws error if the given object is not a valid ServiceBusMessage
+ * @internal
+ * @ignore
+ * @param msg The object that needs to be validated as a ServiceBusMessage
+ * @param errorMessageForWrongType The error message to use when given object is not a ServiceBusMessage
+ */
+export function throwIfNotValidServiceBusMessage(msg: any, errorMessageForWrongType: string): void {
+  if (!isServiceBusMessage(msg)) {
+    throw new TypeError(errorMessageForWrongType);
+  }
+  if (msg.partitionKey && msg.sessionId && msg.partitionKey !== msg.sessionId) {
+    throw new TypeError(PartitionKeySessionIdMismatchError);
   }
 }

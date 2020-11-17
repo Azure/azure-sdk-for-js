@@ -36,14 +36,12 @@ describe("shared", () => {
         {
           name: translatedError.name,
           code: translatedError.code,
-          reason: translatedError.reason,
           message: translatedError.message,
           retryable: translatedError.retryable
         },
         {
           name: "ServiceBusError",
-          code: messagingError.code, // the code is always just mirrored verbatim from whatever it was.
-          reason: "MessagingEntityNotFound",
+          code: "MessagingEntityNotFound",
           message: messagingError.message,
           retryable: messagingError.retryable
         } as ServiceBusError,
@@ -67,14 +65,12 @@ describe("shared", () => {
         {
           name: translatedError.name,
           code: translatedError.code,
-          reason: translatedError.reason,
           message: translatedError.message,
           retryable: translatedError.retryable
         },
         {
           name: "ServiceBusError",
-          code: messagingError.code, // the code is always just mirrored verbatim from whatever it was.
-          reason: "GeneralError",
+          code: "GeneralError",
           message: messagingError.message,
           retryable: messagingError.retryable
         } as ServiceBusError,
@@ -98,7 +94,7 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
             entityPath: args.entityPath,
             errorSource: args.errorSource,
-            reason: sbe.reason
+            code: sbe.code
           },
           {
             name: "ServiceBusError",
@@ -106,7 +102,7 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: "fully qualified namespace",
             entityPath: "entity path",
             errorSource: "renewLock",
-            reason: "ServiceCommunicationProblem"
+            code: "ServiceCommunicationProblem"
           }
         );
 

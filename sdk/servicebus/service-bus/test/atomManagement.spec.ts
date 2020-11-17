@@ -1797,7 +1797,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }
@@ -1817,7 +1819,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }
