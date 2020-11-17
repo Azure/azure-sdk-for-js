@@ -16,7 +16,6 @@ Resources for the v7.0.0 of `@azure/service-bus`:
 [Product documentation](https://azure.microsoft.com/services/service-bus/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
-
 Samples for v1 and documentation are still available here:
 
 [Source code or Readme for v1.1.10](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.10/sdk/servicebus/service-bus) |
