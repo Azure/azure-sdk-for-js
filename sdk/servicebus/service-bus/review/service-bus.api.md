@@ -220,9 +220,6 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
 
-// @public
-export type ReceiveMode = "peekLock" | "receiveAndDelete";
-
 export { RetryOptions }
 
 // @public
@@ -442,7 +439,7 @@ export interface ServiceBusReceiver {
 // @public
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
@@ -473,7 +470,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 // @public
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
 }
 
 // @public

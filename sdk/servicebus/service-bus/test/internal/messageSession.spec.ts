@@ -20,7 +20,8 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { ProcessErrorArgs } from "../../src";
+import { ReceiveMode } from "../../src/models";
 import { Constants } from "@azure/core-amqp";
 
 chai.use(chaiAsPromised);

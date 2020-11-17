@@ -29,7 +29,8 @@ import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   GeneratedClientTrainCustomModelAsyncResponse,
-  CopyAuthorizationResult
+  CopyAuthorizationResult,
+  GeneratedClientComposeCustomModelsAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -97,13 +98,31 @@ export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
 };
 
 /**
+ * Options for configuring long-running operations.
+ */
+export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
+  /**
+   * Interval (in milliseconds) between requests for status updates on the operation.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * Progress handler. The Poller will call this handler with the operation state
+   * after polling.
+   */
+  onProgress?: (state: TState) => void;
+  /**
+   * State of a previously-serialized poller to resume an operation.
+   *
+   * The state can be obtained from a poller using `poller.toString()`.
+   */
+  resumeFrom?: string;
+}
+
+/**
  * Options for begin copy model operation
  */
-export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-  updateIntervalInMs?: number;
-  onProgress?: (state: CopyModelOperationState) => void;
-  resumeFrom?: string;
-};
+export type BeginCopyModelOptions = FormRecognizerOperationOptions &
+  FormTrainingPollOperationOptions<CopyModelOperationState>;
 
 /**
  * Options for training models
@@ -126,15 +145,26 @@ export type TrainingOperationState = PollOperationState<CustomFormModelInfo> & {
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions = TrainingFileFilter & {
-  updateIntervalInMs?: number;
-  onProgress?: (state: TrainingOperationState) => void;
-  resumeFrom?: string;
-  /**
-   * An optional name to associate with the model
-   */
-  modelName?: string;
-};
+export type BeginTrainingOptions = TrainingFileFilter &
+  FormTrainingPollOperationOptions<TrainingOperationState> & {
+    /**
+     * An optional name to associate with the model
+     */
+    modelName?: string;
+  };
+
+/**
+ * Options for creating a composed model from submodels.
+ */
+export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions &
+  FormTrainingPollOperationOptions<TrainingOperationState> & {
+    /**
+     * An optional name to associate with the composed model.
+     *
+     * Individual models that are part of the composition will retain their original names.
+     */
+    modelName?: string;
+  };
 
 /**
  * Client class for training and managing custom form models.
@@ -468,12 +498,21 @@ export class FormTrainingClient {
 
   /**
    * Creates and trains a custom form model.
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the operation is completed.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
-   * Note that when training operation fails, a model is still created in Azure Form Recognizer resource.
+   * If the `useTrainingLabels` parameter is set to `true`, then the operation will search
+   * for label files in addition to the training documents, and it will create a labeled
+   * model with the field names specified by the labels. Otherwise, it will create an
+   * unlabeled model automatically that returns generated field names for the items it
+   * determines are fields within the document structure.
+   *
+   * This method returns a long-running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Notes:
+   * - The onProgress callback will not be invoked if the operation completes in the first
+   *   request, and attempting to cancel a completed copy will result in an error being thrown.
+   * - Even when the training operation fails, a model is still created in the Azure Form
+   *   Recognizer resource.
    *
    * Example usage:
    * ```ts
@@ -485,10 +524,11 @@ export class FormTrainingClient {
    * });
    * const model = await poller.pollUntilDone();
    * ```
-   * @summary Creates and trains a model
-   * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
-   * @param {boolean} useTrainingLabels specifies whether to training the model using label files
-   * @param {BeginTrainingOptions} [options] Options to start model training operation
+   *
+   * @summary Creates and trains a custom form model.
+   * @param trainingFilesUrl accessible url to an Azure Storage Blob container storing the training documents and optional label files
+   * @param useTrainingLabels specifies whether or not to search for and train using label files
+   * @param options options to start the model training operation
    */
   public async beginTraining(
     trainingFilesUrl: string,
@@ -499,15 +539,75 @@ export class FormTrainingClient {
       getCustomModel: (modelId: string, options: GetModelOptions) =>
         this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
-        source: string,
+        source: string | string[],
         _useLabelFile?: boolean,
         options?: BeginTrainingOptions
-      ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
+      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, options)
     };
 
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
-      source: trainingFilesUrl,
+      trainingInputs: trainingFilesUrl,
+      updateIntervalInMs: options.updateIntervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Combines pre-existing models with labels into a single composed model.
+   *
+   * The composed model will contain copies of all of its input submodels, and it will
+   * choose (using a machine learning algorithm) the most appropriate of its input models
+   * to use during form recognition.
+   *
+   * This method returns a long-running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Notes:
+   * - Only labeled models can be composed. Attempting to compose an unlabeled model will
+   *   result in an error.
+   * - the onProgress callback will not be invoked if the operation completes in the first
+   *   request, and attempting to cancel a completed copy will result in an error being thrown.
+   * - evena when the training operation fails, a model is still created in the Azure Form
+   *   Recognizer resource.
+   *
+   * Example usage:
+   * ```ts
+   * const modelIds = ["<model ID 1>", "<model ID 2>", "<model ID 3>"];
+   * const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
+   *
+   * const poller = await trainingClient.beginCreateComposedModel(modelIds, {
+   *   modelName: "<optional name for the composed model>",
+   *   onProgress: (state) => { console.log("training status: "); console.log(state); }
+   * });
+   * const composedModel = await poller.pollUntilDone();
+   * ```
+   *
+   * @summary Combines pre-existing models with labels into a single composed model.
+   * @param modelIds an array of model IDs within the Form Recognizer resouce to compose
+   * @param options Options to start the create composed model operation
+   */
+  public async beginCreateComposedModel(
+    modelIds: string[],
+    options: BeginCreateComposedModelOptions
+  ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
+    const composePollerClient: TrainPollerClient = {
+      getCustomModel: (modelId, options) => this.getCustomModel(modelId, options),
+      trainCustomModelInternal: (
+        sources: string | string[],
+        _?: boolean,
+        options?: BeginTrainingOptions
+      ) => composeModelInternal(this.client, sources as string[], options)
+    };
+
+    const poller = new BeginTrainingPoller({
+      client: composePollerClient,
+      trainingInputs: modelIds,
       updateIntervalInMs: options.updateIntervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
@@ -678,7 +778,37 @@ export class FormTrainingClient {
 }
 
 /**
- * @private
+ * @internal
+ */
+async function composeModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  modelIds: string[],
+  options?: BeginCreateComposedModelOptions
+): Promise<GeneratedClientComposeCustomModelsAsyncResponse> {
+  const { span, updatedOptions: finalOptions } = createSpan("composeModelInternal", options ?? {});
+
+  try {
+    return client.composeCustomModelsAsync(
+      {
+        modelIds,
+        modelName: options?.modelName
+      },
+      operationOptionsToRequestOptionsBase(finalOptions)
+    );
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
+/**
+ * @internal
  */
 async function trainCustomModelInternal(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
