@@ -97,10 +97,13 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
       $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
-      if ($pkgs -and $pkgs.Count -gt 0)
+      if ($pkgs -and $pkgs.Count -eq 1)
       {        
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
+      }
+      else{
+        Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
