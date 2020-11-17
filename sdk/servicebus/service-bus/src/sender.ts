@@ -32,7 +32,7 @@ import { senderLogger as logger } from "./log";
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
+ * Use the `createSender` function on the ServiceBusClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
 export interface ServiceBusSender {
@@ -82,7 +82,7 @@ export interface ServiceBusSender {
   open(options?: OperationOptionsBase): Promise<void>;
 
   /**
-   * @property Returns `true` if either the sender or the client that created it has been closed
+   * @property Returns `true` if either the sender or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;

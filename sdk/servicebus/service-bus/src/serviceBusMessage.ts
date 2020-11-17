@@ -425,7 +425,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly sequenceNumber?: Long;
   /**
-   * @property {string} [deadLetterSource] The name of the queue or subscription that this message
+   * @property The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
    * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
@@ -433,7 +433,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
-   * @property {AmqpAnnotatedMessage} _amqpAnnotatedMessage The underlying raw amqp message.
+   * @property The underlying raw amqp message.
    * @readonly
    */
   readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
