@@ -61,7 +61,7 @@ export type ServiceBusErrorCode =
   /**
    * The user doesn't have access to the entity.
    */
-  | "Unauthorized";
+  | "UnauthorizedAccess";
 
 /**
  * Translation between the MessagingErrorCodes into a ServiceBusCode
@@ -85,7 +85,7 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
   ["SessionLockLostError", "SessionLockLost"],
-  ["UnauthorizedError", "Unauthorized"]
+  ["UnauthorizedError", "UnauthorizedAccess"]
 ]);
 
 /**
@@ -108,7 +108,7 @@ export class ServiceBusError extends MessagingError {
    * - **ServiceCommunicationProblem**: There was a general communications error encountered when interacting with the Azure Service Bus service.
    * - **SessionCannotBeLocked**: The requested session cannot be locked.
    * - **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
-   * - **Unauthorized"**: The user doesn't have access to the entity.
+   * - **UnauthorizedAccess"**: The user doesn't have access to the entity.
    */
   // NOTE: make sure this list and the list above are properly kept in sync.
   code: ServiceBusErrorCode;
