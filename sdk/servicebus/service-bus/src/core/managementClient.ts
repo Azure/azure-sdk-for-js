@@ -10,7 +10,6 @@ import {
   generate_uuid,
   string_to_uuid,
   types,
-  Typed,
   ReceiverEvents,
   Message as RheaMessage
 } from "rhea-promise";
@@ -37,12 +36,10 @@ import { toBuffer } from "../util/utils";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
-  throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
-import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -56,94 +53,11 @@ import { defaultDataTransformer } from "../dataTransformer";
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
-   * The name of the sender or receiver link associated with the managmenet operations.
+   * The name of the sender or receiver link associated with the management operations.
    * This is used for service side optimization.
    */
   associatedLinkName?: string;
 }
-
-/**
- * Represents a Rule on a Subscription that is used to filter the incoming message from the
- * Subscription.
- */
-export interface RuleDescription {
-  /**
-   * Filter expression used to match messages. Supports 2 types:
-   * - `string`: SQL-like condition expression that is evaluated against the messages'
-   * user-defined properties and system properties. All system properties will be prefixed with
-   * `sys.` in the condition expression.
-   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
-   */
-  filter?: string | CorrelationRuleFilter;
-  /**
-   * Action to perform if the message satisfies the filtering expression.
-   */
-  action?: string;
-  /**
-   * Represents the name of the rule.
-   */
-  name: string;
-}
-
-/**
- * Represents the correlation filter expression.
- * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
- * of incoming messages from a Subscription.
- */
-export interface CorrelationRuleFilter {
-  /**
-   * Value to be matched with the `correlationId` property of the incoming message.
-   */
-  correlationId?: string;
-  /**
-   * Value to be matched with the `messageId` property of the incoming message.
-   */
-  messageId?: string;
-  /**
-   * Value to be matched with the `to` property of the incoming message.
-   */
-  to?: string;
-  /**
-   * Value to be matched with the `replyTo` property of the incoming message.
-   */
-  replyTo?: string;
-  /**
-   * Value to be matched with the `subject` property of the incoming message.
-   */
-  subject?: string;
-  /**
-   * Value to be matched with the `sessionId` property of the incoming message.
-   */
-  sessionId?: string;
-  /**
-   * Value to be matched with the `replyToSessionId` property of the incoming message.
-   */
-  replyToSessionId?: string;
-  /**
-   * Value to be matched with the `contentType` property of the incoming message.
-   */
-  contentType?: string;
-  /**
-   * Value to be matched with the user properties of the incoming message.
-   */
-  applicationProperties?: { [key: string]: string | number | boolean | Date };
-}
-
-/**
- * @internal
- * @ignore
- */
-const correlationProperties = [
-  "correlationId",
-  "messageId",
-  "to",
-  "replyTo",
-  "subject",
-  "sessionId",
-  "replyToSessionId",
-  "contentType",
-  "applicationProperties"
-];
 
 /**
  * @internal
@@ -285,15 +199,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
     });
     return rheaLink;
-  }
-
-  /**
-   * Given array of typed values, returns the element in given index
-   */
-  private _safelyGetTypedValueFromArray(data: Typed[], index: number): any {
-    return Array.isArray(data) && data.length > index && data[index]
-      ? data[index].value
-      : undefined;
   }
 
   private async _makeManagementRequest(
@@ -1090,243 +995,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`
-      );
-      throw error;
-    }
-  }
-
-  /**
-   * Get all the rules on the Subscription.
-   * @returns Promise<RuleDescription[]> A list of rules.
-   */
-  async getRules(
-    options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<RuleDescription[]> {
-    throwErrorIfConnectionClosed(this._context);
-    try {
-      const request: RheaMessage = {
-        body: {
-          top: types.wrap_int(max32BitNumber),
-          skip: types.wrap_int(0)
-        },
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.operations.enumerateRules
-        }
-      };
-      request.application_properties![Constants.trackingId] = generate_uuid();
-
-      managementClientLogger.verbose(
-        "%s Get rules request body: %O.",
-        this.logPrefix,
-        request.body
-      );
-      const response = await this._makeManagementRequest(request, managementClientLogger, options);
-      if (
-        response.application_properties!.statusCode === 204 ||
-        !response.body ||
-        !Array.isArray(response.body.rules)
-      ) {
-        return [];
-      }
-
-      // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
-      const result: { "rule-description": Typed }[] = response.body.rules || [];
-      const rules: RuleDescription[] = [];
-      result.forEach((x) => {
-        const ruleDescriptor = x["rule-description"];
-
-        // We use the first three elements of the `ruleDescriptor.value` to get filter, action, name
-        if (
-          !ruleDescriptor ||
-          !ruleDescriptor.descriptor ||
-          ruleDescriptor.descriptor.value !== Constants.descriptorCodes.ruleDescriptionList ||
-          !Array.isArray(ruleDescriptor.value) ||
-          ruleDescriptor.value.length < 3
-        ) {
-          return;
-        }
-
-        const filtersRawData: Typed = ruleDescriptor.value[0];
-        const actionsRawData: Typed = ruleDescriptor.value[1];
-        const rule: RuleDescription = {
-          name: ruleDescriptor.value[2].value
-        };
-
-        switch (filtersRawData.descriptor.value) {
-          case Constants.descriptorCodes.trueFilterList:
-            rule.filter = "1=1";
-            break;
-          case Constants.descriptorCodes.falseFilterList:
-            rule.filter = "1=0";
-            break;
-          case Constants.descriptorCodes.sqlFilterList:
-            rule.filter = this._safelyGetTypedValueFromArray(filtersRawData.value, 0);
-            break;
-          case Constants.descriptorCodes.correlationFilterList:
-            rule.filter = {
-              correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
-              messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
-              to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
-              replyTo: this._safelyGetTypedValueFromArray(filtersRawData.value, 3),
-              subject: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
-              sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
-              replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
-              contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
-            };
-            break;
-          default:
-            managementClientLogger.warning(
-              `${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
-            );
-            break;
-        }
-
-        if (
-          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
-          Array.isArray(actionsRawData.value) &&
-          actionsRawData.value.length
-        ) {
-          rule.action = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
-        }
-
-        rules.push(rule);
-      });
-
-      return rules;
-    } catch (err) {
-      const error = translateServiceBusError(err);
-      managementClientLogger.logError(
-        error,
-        `${this.logPrefix} An error occurred while sending the get rules request to $management endpoint`
-      );
-      throw error;
-    }
-  }
-
-  /**
-   * Removes the rule on the Subscription identified by the given rule name.
-   * @param ruleName
-   */
-  async removeRule(
-    ruleName: string,
-    options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "ruleName", ruleName);
-    ruleName = String(ruleName);
-    throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
-
-    try {
-      const request: RheaMessage = {
-        body: {
-          "rule-name": types.wrap_string(ruleName)
-        },
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.operations.removeRule
-        }
-      };
-      request.application_properties![Constants.trackingId] = generate_uuid();
-
-      managementClientLogger.verbose(
-        "%s Remove Rule request body: %O.",
-        this.logPrefix,
-        request.body
-      );
-      await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
-      const error = translateServiceBusError(err);
-      managementClientLogger.logError(
-        error,
-        `${this.logPrefix} An error occurred while sending the remove rule request to $management endpoint`
-      );
-      throw error;
-    }
-  }
-
-  /**
-   * Adds a rule on the subscription as defined by the given rule name, filter and action
-   * @param ruleName Name of the rule
-   * @param filter A Boolean, SQL expression or a Correlation filter
-   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression
-   */
-  async addRule(
-    ruleName: string,
-    filter: boolean | string | CorrelationRuleFilter,
-    sqlRuleActionExpression?: string,
-    options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context);
-
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "ruleName", ruleName);
-    ruleName = String(ruleName);
-    throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
-
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "filter", filter);
-    if (
-      typeof filter !== "boolean" &&
-      typeof filter !== "string" &&
-      !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
-    ) {
-      throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
-      );
-    }
-
-    try {
-      const ruleDescription: any = {};
-      switch (typeof filter) {
-        case "boolean":
-          ruleDescription["sql-filter"] = {
-            expression: filter ? "1=1" : "1=0"
-          };
-          break;
-        case "string":
-          ruleDescription["sql-filter"] = {
-            expression: filter
-          };
-          break;
-        default:
-          ruleDescription["correlation-filter"] = {
-            "correlation-id": filter.correlationId,
-            "message-id": filter.messageId,
-            to: filter.to,
-            "reply-to": filter.replyTo,
-            subject: filter.subject,
-            "session-id": filter.sessionId,
-            "reply-to-session-id": filter.replyToSessionId,
-            "content-type": filter.contentType,
-            applicationProperties: filter.applicationProperties
-          };
-          break;
-      }
-
-      if (sqlRuleActionExpression !== undefined) {
-        ruleDescription["sql-rule-action"] = {
-          expression: String(sqlRuleActionExpression)
-        };
-      }
-      const request: RheaMessage = {
-        body: {
-          "rule-name": types.wrap_string(ruleName),
-          "rule-description": types.wrap_map(ruleDescription)
-        },
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.operations.addRule
-        }
-      };
-      request.application_properties![Constants.trackingId] = generate_uuid();
-
-      managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
-      await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
-      const error = translateServiceBusError(err);
-      managementClientLogger.logError(
-        error,
-        `${this.logPrefix} An error occurred while sending the Add rule request to $management endpoint`
       );
       throw error;
     }
