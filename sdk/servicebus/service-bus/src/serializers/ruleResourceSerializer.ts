@@ -365,21 +365,8 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * @internal
  * @ignore
  */
-enum TypeMapForRequestSerialization {
-  duration = "duration",
-  double = "double",
-  string = "string",
-  long = "long",
-  date = "dateTime",
-  boolean = "boolean"
-}
-
-/**
- * @internal
- * @ignore
- */
-enum TypeMapForResponseDeserialization {
-  duration = "duration",
+enum TypeMapForAtomXMLRequests {
+  iso8601 = "duration",
   int = "int",
   double = "double",
   string = "string",
@@ -413,6 +400,7 @@ interface InternalRawKeyValuePairs {
  */
 const keyValuePairXMLTag = "KeyValueOfstringanyType";
 
+const iso8601String = "iso8601";
 /**
  * @internal
  * @ignore
@@ -445,18 +433,18 @@ function getKeyValuePairsOrUndefined(
       const value = rawProperty.Value["_"];
       const encodedValueType = rawProperty.Value["$"]["i:type"].toString().substring(5);
       if (
-        encodedValueType === TypeMapForResponseDeserialization.int ||
-        encodedValueType === TypeMapForResponseDeserialization.double
+        encodedValueType === TypeMapForAtomXMLRequests.int ||
+        encodedValueType === TypeMapForAtomXMLRequests.double
       ) {
         properties[key] = Number(value);
-      } else if (encodedValueType === TypeMapForResponseDeserialization.string) {
+      } else if (encodedValueType === TypeMapForAtomXMLRequests.string) {
         properties[key] = value;
-      } else if (encodedValueType === TypeMapForResponseDeserialization.boolean) {
+      } else if (encodedValueType === TypeMapForAtomXMLRequests.boolean) {
         properties[key] = value === "true" ? true : false;
-      } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
+      } else if (encodedValueType === TypeMapForAtomXMLRequests.date) {
         properties[key] = new Date(value);
-      } else if (encodedValueType === TypeMapForResponseDeserialization.duration) {
-        properties[key] = { value: value, kind: "duration" };
+      } else if (encodedValueType === TypeMapForAtomXMLRequests.iso8601) {
+        properties[key] = { value: value, kind: iso8601String };
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
@@ -503,23 +491,23 @@ export function buildInternalRawKeyValuePairs(
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
     if (typeof value === "number") {
-      type = TypeMapForRequestSerialization.double;
+      type = TypeMapForAtomXMLRequests.double;
     } else if (typeof value === "string") {
-      type = TypeMapForRequestSerialization.string;
+      type = TypeMapForAtomXMLRequests.string;
     } else if (typeof value === "boolean") {
-      type = TypeMapForRequestSerialization.boolean;
+      type = TypeMapForAtomXMLRequests.boolean;
     } else if (value instanceof Date && !isNaN(value.valueOf())) {
-      type = TypeMapForRequestSerialization.date;
+      type = TypeMapForAtomXMLRequests.date;
       value = value.toJSON();
     } else if (
       value &&
-      value.val &&
-      typeof value.val === "string" &&
-      value.kind === TypeMapForRequestSerialization.duration
+      value.value &&
+      typeof value.value === "string" &&
+      value.kind === iso8601String
     ) {
-      type = TypeMapForRequestSerialization.duration;
+      type = TypeMapForAtomXMLRequests.iso8601;
       // Not doing any validation with regex for the expected ISO-8601 duration here
-      value = value.val;
+      value = value.value;
     } else {
       throw new TypeError(
         `Unsupported type for the value in the ${attribute} for the key '${key}'`
