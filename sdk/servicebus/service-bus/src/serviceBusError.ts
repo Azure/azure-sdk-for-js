@@ -79,8 +79,6 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["QuotaExceededError", "QuotaExceeded"],
   ["ServerBusyError", "ServiceBusy"],
 
-  // not sure about these two.
-  ["MessageWaitTimeout", "ServiceTimeout"],
   ["OperationTimeoutError", "ServiceTimeout"],
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
