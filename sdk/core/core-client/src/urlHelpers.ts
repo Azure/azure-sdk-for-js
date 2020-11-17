@@ -34,7 +34,7 @@ export function getRequestUrl(
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
     } else {
-      requestUrl = appendPath(requestUrl, operationSpec.path);
+      requestUrl = appendPath(requestUrl, path);
     }
   }
 
@@ -87,21 +87,27 @@ function isAbsoluteUrl(url: string): boolean {
   return url.includes("://");
 }
 
-function appendPath(url: string, path?: string): string {
-  let result = url;
-  let toAppend = path;
-  if (toAppend) {
-    if (!result.endsWith("/")) {
-      result = `${result}/`;
-    }
-
-    if (toAppend.startsWith("/")) {
-      toAppend = toAppend.substring(1);
-    }
-
-    result = result + toAppend;
+function appendPath(url: string, pathToAppend?: string): string {
+  if (!pathToAppend) {
+    return url;
   }
-  return result;
+
+  const parsedUrl = new URL(url);
+  let newPath = parsedUrl.pathname;
+
+  if (!newPath.endsWith("/")) {
+    newPath = `${newPath}/`;
+  }
+
+  if (pathToAppend.startsWith("/")) {
+    pathToAppend = pathToAppend.substring(1);
+  }
+
+  newPath = newPath + pathToAppend;
+
+  parsedUrl.pathname = newPath;
+
+  return parsedUrl.toString();
 }
 
 function calculateQueryParameters(
@@ -176,17 +182,41 @@ function calculateQueryParameters(
   return result;
 }
 
+function simpleParseQueryParams(queryString: string): Array<[string, string]> {
+  if (!queryString || queryString[0] !== "?") {
+    return [];
+  }
+
+  // remove the leading ?
+  queryString = queryString.slice(1);
+
+  const pairs = queryString.split("&");
+
+  return pairs.map((pair) => {
+    const [name, value] = pair.split("=", 2);
+    return [name, value];
+  });
+}
+
 function appendQueryParams(url: string, queryParams: Map<string, string | string[]>): string {
+  if (queryParams.size === 0) {
+    return url;
+  }
+
   const parsedUrl = new URL(url);
 
-  const combinedParams = new Map<string, string | string[]>(queryParams);
+  // QUIRK: parsedUrl.searchParams will have their name/value pairs decoded, which
+  // can change their meaning to the server, such as in the case of a SAS signature.
+  // To avoid accidentally un-encoding a query param, we parse the key/values ourselves
+  const existingParams = simpleParseQueryParams(parsedUrl.search);
+  const combinedParams = new Map<string, string | string[]>(existingParams);
 
-  for (const [name, value] of parsedUrl.searchParams) {
+  for (const [name, value] of queryParams) {
     const existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
-      existingValue.push(value);
+      existingValue.push(...value);
     } else if (existingValue) {
-      combinedParams.set(name, [existingValue, value]);
+      combinedParams.set(name, [existingValue, ...value]);
     } else {
       combinedParams.set(name, value);
     }
