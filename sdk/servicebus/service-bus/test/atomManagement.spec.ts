@@ -1772,7 +1772,8 @@ const createRuleTests: {
           randomIntDisguisedAsDouble: 3.0,
           randomDouble: 12.4,
           randomBool: true,
-          randomDate: randomDate
+          randomDate: randomDate,
+          randomDuration: { val: "P1D", kind: "duration" }
         }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
@@ -1794,7 +1795,8 @@ const createRuleTests: {
           randomIntDisguisedAsDouble: 3.0,
           randomDouble: 12.4,
           randomBool: true,
-          randomDate: randomDate
+          randomDate: randomDate,
+          randomDuration: { val: "P1D", kind: "duration" }
         }
       },
       action: {
