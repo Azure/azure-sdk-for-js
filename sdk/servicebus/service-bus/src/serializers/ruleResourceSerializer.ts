@@ -482,6 +482,7 @@ export function buildInternalRawKeyValuePairs(
       type = TypeMapForRequestSerialization.date;
       value = value.toJSON();
     } else if (
+      value &&
       value.val &&
       typeof value.val === "string" &&
       value.kind === TypeMapForRequestSerialization.duration
