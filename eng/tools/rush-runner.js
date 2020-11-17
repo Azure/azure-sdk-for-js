@@ -66,9 +66,15 @@ const getPackageGraph = (baseDir) => {
   for (const filePath of packageJsons) {
     const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
     const pkgName = contents["name"];
-    if (!contents.hasOwnProperty("dependencies")) continue;
+    const dependencies = [];
+    if (contents.hasOwnProperty("dependencies")) {
+      for (const pkg in contents["dependencies"]) dependencies.push(pkg);
+    }
 
-    const dependencies = Object.keys(contents["dependencies"]);
+    if (contents.hasOwnProperty("devDependencies")) {
+      for (const pkg in contents["devDependencies"]) dependencies.push(pkg);
+    }
+
     // Process each package dependency and build dependency graph that links all packages that are dependent on current package
     for (let dependentPkg of dependencies) {
       if (!packageGraph.has(dependentPkg)) {
