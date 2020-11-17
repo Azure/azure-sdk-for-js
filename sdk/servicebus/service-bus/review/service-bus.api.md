@@ -303,6 +303,7 @@ export interface ServiceBusConnectionStringProperties {
 
 // @public
 export class ServiceBusError extends MessagingError {
+    constructor(message: string, code: ServiceBusErrorCode);
     constructor(messagingError: MessagingError);
     code: ServiceBusErrorCode;
     }
