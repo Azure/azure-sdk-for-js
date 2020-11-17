@@ -11,6 +11,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeCustomForm.ts][recognizecustomform]                     | Recognize forms with your custom model                                                                                                                   |
 | [trainLabeledModel.ts][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                                                   |
 | [trainUnlabeledModel.ts][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                                                                 |
+| [createComposedModel.ts][createcomposedmodel]                     | Create a composed model from several individual labeled models.                                                                                          |
 | [customModelManagement.ts][custommodelmanagement]                 | Manage the custom models in your account                                                                                                                 |
 | [iteratorModels.ts][iteratormodels]                               | List custom models using different ways                                                                                                                  |
 | [getBoundingBoxes.ts][getboundingboxes]                           | Get information to to visualize outlines of form content and field.                                                                                      |
@@ -69,6 +70,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeCustomForm.ts
 [trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
 [trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainUnlabeledModel.ts
+[createcomposedmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/createComposedModel.js
 [custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/customModelManagement.ts
 [iteratormodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/iteratorModels.ts
 [getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/getBoundingBoxes.ts

@@ -320,6 +320,8 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
 
 /**
  * Represents type of message count details in ATOM based management operations.
+ * @internal
+ * @ignore
  */
 export type MessageCountDetails = {
   activeMessageCount: number;

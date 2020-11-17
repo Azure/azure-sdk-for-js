@@ -24,10 +24,11 @@ export interface AccountProperties {
 export { AzureKeyCredential }
 
 // @public
-export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: CopyModelOperationState) => void;
-    resumeFrom?: string;
+export type BeginCopyModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<CopyModelOperationState>;
+
+// @public
+export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<TrainingOperationState> & {
+    modelName?: string;
 };
 
 // @public
@@ -57,10 +58,7 @@ export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOption
 }
 
 // @public
-export type BeginTrainingOptions = TrainingFileFilter & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: TrainingOperationState) => void;
-    resumeFrom?: string;
+export type BeginTrainingOptions = TrainingFileFilter & FormTrainingPollOperationOptions<TrainingOperationState> & {
     modelName?: string;
 };
 
@@ -300,6 +298,7 @@ export interface FormTableCell {
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>>;
+    beginCreateComposedModel(modelIds: string[], options: BeginCreateComposedModelOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
     beginTraining(trainingFilesUrl: string, useTrainingLabels: boolean, options?: BeginTrainingOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
@@ -309,6 +308,13 @@ export class FormTrainingClient {
     getFormRecognizerClient(): FormRecognizerClient;
     listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse>;
     }
+
+// @public
+export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
+    onProgress?: (state: TState) => void;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface FormWord extends FormElementCommon {
