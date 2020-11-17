@@ -212,7 +212,7 @@ export interface CorrelationRuleFilter {
    *       Meant for interoperability(to support the duration type in languages such as Java, .NET and Python)
    *       `value` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *            (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
-   *       `kind` represents the "duration" type
+   *       `kind` represents the "iso8601" duration type.
    */
   applicationProperties?: {
     [key: string]: string | number | boolean | Date | ISO8601Duration;
