@@ -146,6 +146,19 @@ export interface RuleDescription {
 }
 
 /**
+ * Meant to be used for the interoperability(to support the duration type in languages such as Java, .NET and Python)
+ * - `value` here is expected to be an ISO-8601 string representing the duration such as such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+ *    (More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations)
+ * - `kind` being "iso8601" duration type
+ * @export
+ * @interface ISO8601Duration
+ */
+export interface ISO8601Duration {
+  value: string;
+  kind: "iso8601";
+}
+
+/**
  * Represents the correlation filter expression.
  * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
  * of incoming messages from a Subscription.
@@ -194,15 +207,7 @@ export interface CorrelationRuleFilter {
    *       `kind` represents the "duration" type
    */
   applicationProperties?: {
-    [key: string]:
-      | string
-      | number
-      | boolean
-      | Date
-      | {
-          value: string;
-          kind: "duration";
-        };
+    [key: string]: string | number | boolean | Date | ISO8601Duration;
   };
 }
 

@@ -34,7 +34,8 @@ export {
   CorrelationRuleFilter,
   RuleProperties,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
+  ISO8601Duration
 } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
