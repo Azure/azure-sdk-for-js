@@ -33,7 +33,14 @@ export {
   PluginCurrentState,
   SparkErrorSource,
   SparkSessionResultType,
-  SparkStatementLanguageType
+  SparkStatementLanguageType,
+  KnownPluginCurrentState,
+  KnownSchedulerCurrentState,
+  KnownSparkBatchJobResultType,
+  KnownSparkErrorSource,
+  KnownSparkJobType,
+  KnownSparkSessionResultType,
+  KnownSparkStatementLanguageType
 } from "./generated/models";
 
 /**

@@ -1,4 +1,4 @@
-import * as coreHttp from '@azure/core-http'
+import * as coreHttp from "@azure/core-http";
 
 /**
  * Response for batch list operation.
@@ -309,61 +309,158 @@ export interface SparkStatementCancellationResult {
 }
 
 /**
- * Defines values for SparkJobType.
+ * Known values of {@link SparkJobType} that the service accepts.
  */
-export type SparkJobType = "SparkBatch" | "SparkSession" | string;
+export const enum KnownSparkJobType {
+  SparkBatch = "SparkBatch",
+  SparkSession = "SparkSession"
+}
+
 /**
- * Defines values for SparkBatchJobResultType.
+ * Defines values for SparkJobType. \
+ * {@link KnownSparkJobType} can be used interchangeably with SparkJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **SparkBatch** \
+ * **SparkSession**
  */
-export type SparkBatchJobResultType =
-  | "Uncertain"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled"
-  | string;
+export type SparkJobType = string;
+
 /**
- * Defines values for SchedulerCurrentState.
+ * Known values of {@link SparkBatchJobResultType} that the service accepts.
  */
-export type SchedulerCurrentState = "Queued" | "Scheduled" | "Ended" | string;
+export const enum KnownSparkBatchJobResultType {
+  Uncertain = "Uncertain",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled"
+}
+
 /**
- * Defines values for PluginCurrentState.
+ * Defines values for SparkBatchJobResultType. \
+ * {@link KnownSparkBatchJobResultType} can be used interchangeably with SparkBatchJobResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Uncertain** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled**
  */
-export type PluginCurrentState =
-  | "Preparation"
-  | "ResourceAcquisition"
-  | "Queued"
-  | "Submission"
-  | "Monitoring"
-  | "Cleanup"
-  | "Ended"
-  | string;
+export type SparkBatchJobResultType = string;
+
 /**
- * Defines values for SparkErrorSource.
+ * Known values of {@link SchedulerCurrentState} that the service accepts.
  */
-export type SparkErrorSource =
-  | "System"
-  | "User"
-  | "Unknown"
-  | "Dependency"
-  | string;
+export const enum KnownSchedulerCurrentState {
+  Queued = "Queued",
+  Scheduled = "Scheduled",
+  Ended = "Ended"
+}
+
 /**
- * Defines values for SparkSessionResultType.
+ * Defines values for SchedulerCurrentState. \
+ * {@link KnownSchedulerCurrentState} can be used interchangeably with SchedulerCurrentState,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Queued** \
+ * **Scheduled** \
+ * **Ended**
  */
-export type SparkSessionResultType =
-  | "Uncertain"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled"
-  | string;
+export type SchedulerCurrentState = string;
+
 /**
- * Defines values for SparkStatementLanguageType.
+ * Known values of {@link PluginCurrentState} that the service accepts.
  */
-export type SparkStatementLanguageType =
-  | "spark"
-  | "pyspark"
-  | "dotnetspark"
-  | "sql"
-  | string;
+export const enum KnownPluginCurrentState {
+  Preparation = "Preparation",
+  ResourceAcquisition = "ResourceAcquisition",
+  Queued = "Queued",
+  Submission = "Submission",
+  Monitoring = "Monitoring",
+  Cleanup = "Cleanup",
+  Ended = "Ended"
+}
+
+/**
+ * Defines values for PluginCurrentState. \
+ * {@link KnownPluginCurrentState} can be used interchangeably with PluginCurrentState,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Preparation** \
+ * **ResourceAcquisition** \
+ * **Queued** \
+ * **Submission** \
+ * **Monitoring** \
+ * **Cleanup** \
+ * **Ended**
+ */
+export type PluginCurrentState = string;
+
+/**
+ * Known values of {@link SparkErrorSource} that the service accepts.
+ */
+export const enum KnownSparkErrorSource {
+  System = "System",
+  User = "User",
+  Unknown = "Unknown",
+  Dependency = "Dependency"
+}
+
+/**
+ * Defines values for SparkErrorSource. \
+ * {@link KnownSparkErrorSource} can be used interchangeably with SparkErrorSource,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **System** \
+ * **User** \
+ * **Unknown** \
+ * **Dependency**
+ */
+export type SparkErrorSource = string;
+
+/**
+ * Known values of {@link SparkSessionResultType} that the service accepts.
+ */
+export const enum KnownSparkSessionResultType {
+  Uncertain = "Uncertain",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled"
+}
+
+/**
+ * Defines values for SparkSessionResultType. \
+ * {@link KnownSparkSessionResultType} can be used interchangeably with SparkSessionResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Uncertain** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled**
+ */
+export type SparkSessionResultType = string;
+
+/**
+ * Known values of {@link SparkStatementLanguageType} that the service accepts.
+ */
+export const enum KnownSparkStatementLanguageType {
+  Spark = "spark",
+  Pyspark = "pyspark",
+  Dotnetspark = "dotnetspark",
+  Sql = "sql"
+}
+
+/**
+ * Defines values for SparkStatementLanguageType. \
+ * {@link KnownSparkStatementLanguageType} can be used interchangeably with SparkStatementLanguageType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **spark** \
+ * **pyspark** \
+ * **dotnetspark** \
+ * **sql**
+ */
+export type SparkStatementLanguageType = string;
 
 /**
  * Optional parameters.

@@ -23,7 +23,12 @@ export const SparkBatchJobCollection: coreHttp.CompositeMapper = {
         serializedName: "sessions",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SparkBatchJob" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SparkBatchJob"
+            }
+          }
         }
       }
     }
@@ -109,7 +114,10 @@ export const SparkBatchJob: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SparkServiceError" }
+            type: {
+              name: "Composite",
+              className: "SparkServiceError"
+            }
           }
         }
       },
@@ -150,7 +158,11 @@ export const SparkBatchJob: coreHttp.CompositeMapper = {
         serializedName: "log",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -248,35 +260,55 @@ export const SparkRequest: coreHttp.CompositeMapper = {
         serializedName: "args",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       jars: {
         serializedName: "jars",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       pythonFiles: {
         serializedName: "pyFiles",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       files: {
         serializedName: "files",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       archives: {
         serializedName: "archives",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       configuration: {
@@ -473,35 +505,55 @@ export const SparkBatchJobOptions: coreHttp.CompositeMapper = {
         serializedName: "args",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       jars: {
         serializedName: "jars",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       pythonFiles: {
         serializedName: "pyFiles",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       files: {
         serializedName: "files",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       archives: {
         serializedName: "archives",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       configuration: {
@@ -568,7 +620,12 @@ export const SparkSessionCollection: coreHttp.CompositeMapper = {
         serializedName: "sessions",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SparkSession" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SparkSession"
+            }
+          }
         }
       }
     }
@@ -654,7 +711,10 @@ export const SparkSession: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SparkServiceError" }
+            type: {
+              name: "Composite",
+              className: "SparkServiceError"
+            }
           }
         }
       },
@@ -695,7 +755,11 @@ export const SparkSession: coreHttp.CompositeMapper = {
         serializedName: "log",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -819,35 +883,55 @@ export const SparkSessionOptions: coreHttp.CompositeMapper = {
         serializedName: "args",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       jars: {
         serializedName: "jars",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       pythonFiles: {
         serializedName: "pyFiles",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       files: {
         serializedName: "files",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       archives: {
         serializedName: "archives",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       configuration: {
@@ -907,7 +991,12 @@ export const SparkStatementCollection: coreHttp.CompositeMapper = {
         serializedName: "statements",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SparkStatement" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SparkStatement"
+            }
+          }
         }
       }
     }
@@ -989,7 +1078,11 @@ export const SparkStatementOutput: coreHttp.CompositeMapper = {
         serializedName: "traceback",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

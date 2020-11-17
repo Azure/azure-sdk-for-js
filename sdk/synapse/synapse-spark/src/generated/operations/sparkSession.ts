@@ -38,11 +38,11 @@ export class SparkSession {
   getSparkSessions(
     options?: SparkSessionGetSparkSessionsOptionalParams
   ): Promise<SparkSessionGetSparkSessionsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      operationArguments,
       getSparkSessionsOperationSpec
     ) as Promise<SparkSessionGetSparkSessionsResponse>;
   }
@@ -56,11 +56,12 @@ export class SparkSession {
     sparkSessionOptions: SparkSessionOptions,
     options?: SparkSessionCreateSparkSessionOptionalParams
   ): Promise<SparkSessionCreateSparkSessionResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sparkSessionOptions,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sparkSessionOptions, options: operationOptions },
+      operationArguments,
       createSparkSessionOperationSpec
     ) as Promise<SparkSessionCreateSparkSessionResponse>;
   }
@@ -74,11 +75,12 @@ export class SparkSession {
     sessionId: number,
     options?: SparkSessionGetSparkSessionOptionalParams
   ): Promise<SparkSessionGetSparkSessionResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, options: operationOptions },
+      operationArguments,
       getSparkSessionOperationSpec
     ) as Promise<SparkSessionGetSparkSessionResponse>;
   }
@@ -92,11 +94,12 @@ export class SparkSession {
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, options: operationOptions },
+      operationArguments,
       cancelSparkSessionOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -110,11 +113,12 @@ export class SparkSession {
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, options: operationOptions },
+      operationArguments,
       resetSparkSessionTimeoutOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -128,11 +132,12 @@ export class SparkSession {
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionGetSparkStatementsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, options: operationOptions },
+      operationArguments,
       getSparkStatementsOperationSpec
     ) as Promise<SparkSessionGetSparkStatementsResponse>;
   }
@@ -148,11 +153,13 @@ export class SparkSession {
     sparkStatementOptions: SparkStatementOptions,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionCreateSparkStatementResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      sparkStatementOptions,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, sparkStatementOptions, options: operationOptions },
+      operationArguments,
       createSparkStatementOperationSpec
     ) as Promise<SparkSessionCreateSparkStatementResponse>;
   }
@@ -168,11 +175,13 @@ export class SparkSession {
     statementId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionGetSparkStatementResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      statementId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, statementId, options: operationOptions },
+      operationArguments,
       getSparkStatementOperationSpec
     ) as Promise<SparkSessionGetSparkStatementResponse>;
   }
@@ -188,11 +197,13 @@ export class SparkSession {
     statementId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionCancelSparkStatementResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sessionId,
+      statementId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sessionId, statementId, options: operationOptions },
+      operationArguments,
       cancelSparkStatementOperationSpec
     ) as Promise<SparkSessionCancelSparkStatementResponse>;
   }
@@ -233,7 +244,7 @@ const createSparkSessionOperationSpec: coreHttp.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -311,7 +322,7 @@ const createSparkStatementOperationSpec: coreHttp.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

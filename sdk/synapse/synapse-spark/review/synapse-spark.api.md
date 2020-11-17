@@ -45,6 +45,90 @@ export interface GetSparkSessionOptions extends coreHttp.OperationOptions {
 // @public (undocumented)
 export type GetSparkStatementOptions = OperationOptions;
 
+// @public
+export const enum KnownPluginCurrentState {
+    // (undocumented)
+    Cleanup = "Cleanup",
+    // (undocumented)
+    Ended = "Ended",
+    // (undocumented)
+    Monitoring = "Monitoring",
+    // (undocumented)
+    Preparation = "Preparation",
+    // (undocumented)
+    Queued = "Queued",
+    // (undocumented)
+    ResourceAcquisition = "ResourceAcquisition",
+    // (undocumented)
+    Submission = "Submission"
+}
+
+// @public
+export const enum KnownSchedulerCurrentState {
+    // (undocumented)
+    Ended = "Ended",
+    // (undocumented)
+    Queued = "Queued",
+    // (undocumented)
+    Scheduled = "Scheduled"
+}
+
+// @public
+export const enum KnownSparkBatchJobResultType {
+    // (undocumented)
+    Cancelled = "Cancelled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Uncertain = "Uncertain"
+}
+
+// @public
+export const enum KnownSparkErrorSource {
+    // (undocumented)
+    Dependency = "Dependency",
+    // (undocumented)
+    System = "System",
+    // (undocumented)
+    Unknown = "Unknown",
+    // (undocumented)
+    User = "User"
+}
+
+// @public
+export const enum KnownSparkJobType {
+    // (undocumented)
+    SparkBatch = "SparkBatch",
+    // (undocumented)
+    SparkSession = "SparkSession"
+}
+
+// @public
+export const enum KnownSparkSessionResultType {
+    // (undocumented)
+    Cancelled = "Cancelled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Uncertain = "Uncertain"
+}
+
+// @public
+export const enum KnownSparkStatementLanguageType {
+    // (undocumented)
+    Dotnetspark = "dotnetspark",
+    // (undocumented)
+    Pyspark = "pyspark",
+    // (undocumented)
+    Spark = "spark",
+    // (undocumented)
+    Sql = "sql"
+}
+
 // @public (undocumented)
 export interface ListPageSettings {
     continuationToken?: string;
@@ -73,13 +157,13 @@ export interface OperationResponse {
 }
 
 // @public
-export type PluginCurrentState = "Preparation" | "ResourceAcquisition" | "Queued" | "Submission" | "Monitoring" | "Cleanup" | "Ended" | string;
+export type PluginCurrentState = string;
 
 // @public (undocumented)
 export type ResetSparkSessionTimeoutOptions = OperationOptions;
 
 // @public
-export type SchedulerCurrentState = "Queued" | "Scheduled" | "Ended" | string;
+export type SchedulerCurrentState = string;
 
 // @public (undocumented)
 export interface SparkBatchJob {
@@ -154,7 +238,7 @@ export interface SparkBatchJobOptions {
 }
 
 // @public
-export type SparkBatchJobResultType = "Uncertain" | "Succeeded" | "Failed" | "Cancelled" | string;
+export type SparkBatchJobResultType = string;
 
 // @public (undocumented)
 export interface SparkBatchJobState {
@@ -193,10 +277,10 @@ export interface SparkClientOptions extends PipelineOptions {
 }
 
 // @public
-export type SparkErrorSource = "System" | "User" | "Unknown" | "Dependency" | string;
+export type SparkErrorSource = string;
 
 // @public
-export type SparkJobType = "SparkBatch" | "SparkSession" | string;
+export type SparkJobType = string;
 
 // @public (undocumented)
 export interface SparkRequest {
@@ -360,7 +444,7 @@ export interface SparkSessionOptions {
 }
 
 // @public
-export type SparkSessionResultType = "Uncertain" | "Succeeded" | "Failed" | "Cancelled" | string;
+export type SparkSessionResultType = string;
 
 // @public (undocumented)
 export interface SparkSessionState {
@@ -414,7 +498,7 @@ export interface SparkStatementCollection {
 }
 
 // @public
-export type SparkStatementLanguageType = "spark" | "pyspark" | "dotnetspark" | "sql" | string;
+export type SparkStatementLanguageType = string;
 
 // @public (undocumented)
 export interface SparkStatementOptions {

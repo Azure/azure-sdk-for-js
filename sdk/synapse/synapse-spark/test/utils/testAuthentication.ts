@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 

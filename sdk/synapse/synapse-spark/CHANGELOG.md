@@ -4,4 +4,5 @@
 
 The first preview of the Azure Synapse Spark Client has the following features:
 
-- Manage Spark batch job and Spark session
+- Create a Synapse Spark Client
+- Manage Spark batch jobs and Spark sessions

@@ -33,11 +33,11 @@ export class SparkBatch {
   getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      operationArguments,
       getSparkBatchJobsOperationSpec
     ) as Promise<SparkBatchGetSparkBatchJobsResponse>;
   }
@@ -51,11 +51,12 @@ export class SparkBatch {
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      sparkBatchJobOptions,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { sparkBatchJobOptions, options: operationOptions },
+      operationArguments,
       createSparkBatchJobOperationSpec
     ) as Promise<SparkBatchCreateSparkBatchJobResponse>;
   }
@@ -69,11 +70,12 @@ export class SparkBatch {
     batchId: number,
     options?: SparkBatchGetSparkBatchJobOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      batchId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { batchId, options: operationOptions },
+      operationArguments,
       getSparkBatchJobOperationSpec
     ) as Promise<SparkBatchGetSparkBatchJobResponse>;
   }
@@ -87,11 +89,12 @@ export class SparkBatch {
     batchId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      batchId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { batchId, options: operationOptions },
+      operationArguments,
       cancelSparkBatchJobOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -132,7 +135,7 @@ const createSparkBatchJobOperationSpec: coreHttp.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

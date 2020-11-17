@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -7,12 +9,10 @@ import { getSparkpoolName } from "./utils/utils.common";
 import {
   CreateSparkSessionOptions,
   GetSparkSessionOptions,
-  ListSparkBatchJobsOptions,
+  ListSparkSessionsOptions,
   SparkSessionOptions
 } from "../src";
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 describe("Synapse Spark Client - Spark Session", () => {
   let client: SparkClient;
   let recorder: Recorder;
@@ -74,7 +74,7 @@ describe("Synapse Spark Client - Spark Session", () => {
   });
 
   it("successfully list Spark Session", async function() {
-    let options: ListSparkBatchJobsOptions = {
+    let options: ListSparkSessionsOptions = {
       fromParam: sessionId - 1,
       size: 2,
       detailed: true

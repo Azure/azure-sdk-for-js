@@ -104,18 +104,6 @@ export const sparkBatchJobOptions: OperationParameter = {
   mapper: SparkBatchJobOptionsMapper
 };
 
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const batchId: OperationURLParameter = {
   parameterPath: "batchId",
   mapper: {

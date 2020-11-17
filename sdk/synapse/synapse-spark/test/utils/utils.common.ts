@@ -1,7 +1,6 @@
-import { env } from "@azure/test-utils-recorder";
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { env } from "@azure/test-utils-recorder";
 
 export function getWorkspaceName(): string {
   const WorkspaceEnvVarName = "WORKSPACE_NAME";
