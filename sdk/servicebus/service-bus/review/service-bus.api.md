@@ -26,15 +26,10 @@ import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface AuthorizationRule {
-    // (undocumented)
     accessRights?: ("Manage" | "Send" | "Listen")[];
-    // (undocumented)
     claimType: string;
-    // (undocumented)
     keyName: string;
-    // (undocumented)
     primaryKey?: string;
-    // (undocumented)
     secondaryKey?: string;
 }
 
