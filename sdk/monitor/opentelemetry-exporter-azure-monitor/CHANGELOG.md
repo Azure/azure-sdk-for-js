@@ -3,6 +3,8 @@
 ## 1.0.0-beta.1 (Unreleased)
 
 - Rename package to `@microsoft/opentelemetry-exporter-azure-monitor`
+- [BREAKING] Deprecate all configuration options except for `connectionString`
+- [BREAKING] Removed support for `TelemetryProcessor`
 
 ## 1.0.0-preview.6 (2020-10-09)
 

@@ -6,8 +6,11 @@ import { DEFAULT_BREEZE_ENDPOINT } from "./Declarations/Constants";
 
 export interface AzureExporterConfig {
   // Setup String
-  instrumentationKey: string;
   connectionString?: string;
+}
+
+export interface AzureExporterInternalConfig {
+  instrumentationKey: string;
 
   // Exporter
   logger?: Logger;
@@ -17,12 +20,13 @@ export interface AzureExporterConfig {
 
   // Sender
   maxConsecutiveFailuresBeforeWarning: number;
+
   endpointUrl: string;
 }
 
-export const DEFAULT_EXPORTER_CONFIG: AzureExporterConfig = {
+export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
   instrumentationKey: "",
   endpointUrl: DEFAULT_BREEZE_ENDPOINT,
   batchSendRetryIntervalMs: 60_000,
-  maxConsecutiveFailuresBeforeWarning: 10,
+  maxConsecutiveFailuresBeforeWarning: 10
 };

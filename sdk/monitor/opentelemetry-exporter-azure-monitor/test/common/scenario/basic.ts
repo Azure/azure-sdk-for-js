@@ -17,7 +17,7 @@ const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
 };
 
 const exporter = new AzureMonitorTraceExporter({
-  instrumentationKey: COMMON_ENVELOPE_PARAMS.instrumentationKey
+  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`
 });
 const processor = new FlushSpanProcessor(exporter);
 
