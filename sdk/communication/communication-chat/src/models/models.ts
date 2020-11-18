@@ -7,15 +7,15 @@ import {
   SendChatMessageResult,
   ChatMessage as RestChatMessage,
   ChatThread as RestChatThread,
-  ChatThreadMember as RestChatThreadMember,
-  ReadReceipt as RestReadReceipt
+  ChatParticipant as RestChatParticipant,
+  ChatMessageReadReceipt as RestChatMessageReadReceipt
 } from "../generated/src/models";
 
 export {
   RestChatMessage,
   RestChatThread,
-  RestChatThreadMember,
-  RestReadReceipt,
+  RestChatParticipant,
+  RestChatMessageReadReceipt,
   SendChatMessageResult
 };
 
@@ -32,23 +32,23 @@ export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
 /**
  * An interface representing a chat thread.
  */
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"> {
+export interface ChatThread extends Omit<RestChatThread, "createdBy" | "participants"> {
   /**
    * The CommunicationUser that identifies this chat thread owner.
    */
   readonly createdBy?: CommunicationUser;
   /**
-   * Chat thread members.
+   * Chat participants.
    */
-  members?: ChatThreadMember[];
+  participants?: ChatParticipant[];
 }
 
 /**
- * A member of the chat thread.
+ * A participant of the chat thread.
  */
-export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
+export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
   /**
-   * The CommunicationUser that identifies this chat thread member.
+   * The CommunicationUser that identifies this chat participant.
    */
   user: CommunicationUser;
 }
@@ -56,7 +56,7 @@ export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
 /**
  * A read receipt indicates the time a chat message was read by a recipient.
  */
-export interface ReadReceipt extends Omit<RestReadReceipt, "senderId"> {
+export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
   /**
    * The CommunicationUser that identifies this Read receipt sender.
    */

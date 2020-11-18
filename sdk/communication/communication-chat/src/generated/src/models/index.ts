@@ -8,23 +8,23 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export interface ReadReceiptsCollection {
+export interface ChatMessageReadReceiptsCollection {
   /**
-   * Collection of read receipts.
+   * Collection of chat message read receipts.
    */
-  readonly value?: ReadReceipt[];
+  readonly value?: ChatMessageReadReceipt[];
   /**
-   * If there are more read receipts that can be retrieved, the next link will be populated.
+   * If there are more chat message read receipts that can be retrieved, the next link will be populated.
    */
   readonly nextLink?: string;
 }
 
 /**
- * A read receipt indicates the time a chat message was read by a recipient.
+ * A chat message read receipt indicates the time a chat message was read by a recipient.
  */
-export interface ReadReceipt {
+export interface ChatMessageReadReceipt {
   /**
-   * Read receipt sender id.
+   * Chat message read receipt sender id.
    */
   readonly senderId?: string;
   /**
@@ -32,15 +32,27 @@ export interface ReadReceipt {
    */
   readonly chatMessageId?: string;
   /**
-   * Read receipt timestamp. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * Chat message read receipt timestamp. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
   readonly readOn?: Date;
 }
 
 export interface ErrorModel {
+  /**
+   * Error code
+   */
   readonly code?: string;
+  /**
+   * Description of the error
+   */
   readonly message?: string;
+  /**
+   * If applicable, would be used to indicate the property causing the error
+   */
   readonly target?: string;
+  /**
+   * If applicable, inner errors would be returned for more details on the error
+   */
   readonly innerErrors?: ErrorModel[];
 }
 
@@ -157,45 +169,45 @@ export interface UpdateChatMessageRequest {
 }
 
 /**
- * Collection of thread members belong to a particular thread.
+ * Collection of participants belong to a particular thread.
  */
-export interface ChatThreadMembersCollection {
+export interface ChatParticipantsCollection {
   /**
-   * Chat thread members.
+   * Chat participants.
    */
-  value?: ChatThreadMember[];
+  value?: ChatParticipant[];
   /**
-   * If there are more chat threads that can be retrieved, the next link will be populated.
+   * If there are more chat participants that can be retrieved, the next link will be populated.
    */
   readonly nextLink?: string;
 }
 
 /**
- * A member of the chat thread.
+ * A participant of the chat thread.
  */
-export interface ChatThreadMember {
+export interface ChatParticipant {
   /**
-   * The id of the chat thread member in the format `8:acs:ResourceId_AcsUserId`.
+   * The id of the chat participant.
    */
   id: string;
   /**
-   * Display name for the chat thread member.
+   * Display name for the chat participant.
    */
   displayName?: string;
   /**
-   * Time from which the chat history is shared with the member. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * Time from which the chat history is shared with the participant. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
   shareHistoryTime?: Date;
 }
 
 /**
- * Thread members to be added to the thread.
+ * Participants to be added to the thread.
  */
-export interface AddChatThreadMembersRequest {
+export interface AddChatParticipantsRequest {
   /**
-   * Members to add to a chat thread.
+   * Participants to add to a chat thread.
    */
-  members: ChatThreadMember[];
+  participants: ChatParticipant[];
 }
 
 /**
@@ -207,42 +219,36 @@ export interface CreateChatThreadRequest {
    */
   topic: string;
   /**
-   * Members to be added to the chat thread.
+   * Participants to be added to the chat thread.
    */
-  members: ChatThreadMember[];
+  participants: ChatParticipant[];
 }
 
-export interface MultiStatusResponse {
+export interface ChatThread {
   /**
-   * The list of status information for each resource in the request.
-   */
-  readonly multipleStatus?: IndividualStatusResponse[];
-}
-
-export interface IndividualStatusResponse {
-  /**
-   * Identifies the resource to which the individual status corresponds.
+   * Chat thread id.
    */
   readonly id?: string;
   /**
-   * The status code of the resource operation.
-   *
-   * Possible values include:
-   *   200 for a successful update or delete,
-   *   201 for successful creation,
-   *   400 for a malformed input,
-   *   403 for lacking permission to execute the operation,
-   *   404 for resource not found.
+   * Chat thread topic.
    */
-  readonly statusCode?: number;
+  topic?: string;
   /**
-   * The message explaining why the operation failed for the resource identified by the key; null if the operation succeeded.
+   * The timestamp when the chat thread was created. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
-  readonly message?: string;
+  readonly createdOn?: Date;
   /**
-   * Identifies the type of the resource to which the individual status corresponds.
+   * Id of the chat thread owner.
    */
-  readonly type?: string;
+  readonly createdBy?: string;
+  /**
+   * The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   */
+  deletedOn?: Date;
+  /**
+   * Chat participants.
+   */
+  participants?: ChatParticipant[];
 }
 
 /**
@@ -269,9 +275,9 @@ export interface ChatThreadInfo {
    */
   topic?: string;
   /**
-   * Flag if a chat thread is soft deleted.
+   * The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
-  isDeleted?: boolean;
+  deletedOn?: Date;
   /**
    * The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
@@ -285,29 +291,6 @@ export interface UpdateChatThreadRequest {
   topic?: string;
 }
 
-export interface ChatThread {
-  /**
-   * Chat thread id.
-   */
-  readonly id?: string;
-  /**
-   * Chat thread topic.
-   */
-  topic?: string;
-  /**
-   * The timestamp when the chat thread was created. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
-   */
-  readonly createdOn?: Date;
-  /**
-   * Id of the chat thread owner.
-   */
-  readonly createdBy?: string;
-  /**
-   * Chat thread members.
-   */
-  members?: ChatThreadMember[];
-}
-
 /**
  * Defines values for ChatMessagePriority.
  */
@@ -316,7 +299,7 @@ export type ChatMessagePriority = "Normal" | "High";
 /**
  * Contains response data for the listChatReadReceipts operation.
  */
-export type ChatApiClientListChatReadReceiptsResponse = ReadReceiptsCollection & {
+export type ChatApiClientListChatReadReceiptsResponse = ChatMessageReadReceiptsCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -329,7 +312,7 @@ export type ChatApiClientListChatReadReceiptsResponse = ReadReceiptsCollection &
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ReadReceiptsCollection;
+    parsedBody: ChatMessageReadReceiptsCollection;
   };
 };
 
@@ -408,9 +391,9 @@ export type ChatApiClientGetChatMessageResponse = ChatMessage & {
 };
 
 /**
- * Contains response data for the listChatThreadMembers operation.
+ * Contains response data for the listChatParticipants operation.
  */
-export type ChatApiClientListChatThreadMembersResponse = ChatThreadMembersCollection & {
+export type ChatApiClientListChatParticipantsResponse = ChatParticipantsCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -423,14 +406,14 @@ export type ChatApiClientListChatThreadMembersResponse = ChatThreadMembersCollec
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ChatThreadMembersCollection;
+    parsedBody: ChatParticipantsCollection;
   };
 };
 
 /**
  * Contains response data for the createChatThread operation.
  */
-export type ChatApiClientCreateChatThreadResponse = MultiStatusResponse & {
+export type ChatApiClientCreateChatThreadResponse = ChatThread & {
   /**
    * The underlying HTTP response.
    */
@@ -443,7 +426,7 @@ export type ChatApiClientCreateChatThreadResponse = MultiStatusResponse & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: MultiStatusResponse;
+    parsedBody: ChatThread;
   };
 };
 
@@ -504,7 +487,7 @@ export type ChatApiClientGetChatThreadResponse = ChatThread & {
 /**
  * Contains response data for the listChatReadReceiptsNext operation.
  */
-export type ChatApiClientListChatReadReceiptsNextResponse = ReadReceiptsCollection & {
+export type ChatApiClientListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -517,7 +500,7 @@ export type ChatApiClientListChatReadReceiptsNextResponse = ReadReceiptsCollecti
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ReadReceiptsCollection;
+    parsedBody: ChatMessageReadReceiptsCollection;
   };
 };
 
@@ -556,9 +539,9 @@ export type ChatApiClientListChatMessagesNextResponse = ChatMessagesCollection &
 };
 
 /**
- * Contains response data for the listChatThreadMembersNext operation.
+ * Contains response data for the listChatParticipantsNext operation.
  */
-export type ChatApiClientListChatThreadMembersNextResponse = ChatThreadMembersCollection & {
+export type ChatApiClientListChatParticipantsNextResponse = ChatParticipantsCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -571,7 +554,7 @@ export type ChatApiClientListChatThreadMembersNextResponse = ChatThreadMembersCo
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ChatThreadMembersCollection;
+    parsedBody: ChatParticipantsCollection;
   };
 };
 

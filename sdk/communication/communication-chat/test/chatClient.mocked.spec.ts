@@ -29,22 +29,14 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("makes successful create thread request", async () => {
-    const mockHttpClient = generateHttpClient(207, {
-      multipleStatus: [
-        {
-          id: mockThread.id,
-          statusCode: 201,
-          type: "Thread"
-        }
-      ]
-    });
+    const mockHttpClient = generateHttpClient(201, mockThread);
 
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
       topic: mockThread.topic!,
-      members: []
+      participants: []
     };
 
     const sendOptions = {};
@@ -69,20 +61,20 @@ describe("[Mocked] ChatClient", async () => {
     const {
       createdBy: responseUser,
       _response,
-      members: responseMembers,
+      participants: responseParticipants,
       ...response
     } = await chatClient.getChatThread(mockThread.id!);
-    const { createdBy: expectedId, members: expectedMembers, ...expected } = mockThread;
+    const { createdBy: expectedId, participants: expectedParticipants, ...expected } = mockThread;
 
     sinon.assert.calledOnce(spy);
 
     assert.deepEqual(response, expected);
     assert.equal(responseUser?.communicationUserId, expectedId);
-    assert.equal(responseMembers?.length, expectedMembers?.length);
-    const { user, ...responseMember } = responseMembers![0];
-    const { id, ...expectedMember } = expectedMembers![0];
+    assert.equal(responseParticipants?.length, expectedParticipants?.length);
+    const { user, ...responseParticipant } = responseParticipants![0];
+    const { id, ...expectedParticipant } = expectedParticipants![0];
     assert.equal(user.communicationUserId, id);
-    assert.deepEqual(responseMember, expectedMember);
+    assert.deepEqual(responseParticipant, expectedParticipant);
 
     const request = spy.getCall(0).args[0];
 

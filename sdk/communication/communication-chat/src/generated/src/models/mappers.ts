@@ -8,17 +8,19 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const ReadReceiptsCollection: coreHttp.CompositeMapper = {
+export const ChatMessageReadReceiptsCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ReadReceiptsCollection",
+    className: "ChatMessageReadReceiptsCollection",
     modelProperties: {
       value: {
         serializedName: "value",
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ReadReceipt" } }
+          element: {
+            type: { name: "Composite", className: "ChatMessageReadReceipt" }
+          }
         }
       },
       nextLink: {
@@ -32,10 +34,10 @@ export const ReadReceiptsCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ReadReceipt: coreHttp.CompositeMapper = {
+export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ReadReceipt",
+    className: "ChatMessageReadReceipt",
     modelProperties: {
       senderId: {
         serializedName: "senderId",
@@ -278,18 +280,16 @@ export const UpdateChatMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadMembersCollection: coreHttp.CompositeMapper = {
+export const ChatParticipantsCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChatThreadMembersCollection",
+    className: "ChatParticipantsCollection",
     modelProperties: {
       value: {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ChatThreadMember" }
-          }
+          element: { type: { name: "Composite", className: "ChatParticipant" } }
         }
       },
       nextLink: {
@@ -303,10 +303,10 @@ export const ChatThreadMembersCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadMember: coreHttp.CompositeMapper = {
+export const ChatParticipant: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChatThreadMember",
+    className: "ChatParticipant",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -331,19 +331,17 @@ export const ChatThreadMember: coreHttp.CompositeMapper = {
   }
 };
 
-export const AddChatThreadMembersRequest: coreHttp.CompositeMapper = {
+export const AddChatParticipantsRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AddChatThreadMembersRequest",
+    className: "AddChatParticipantsRequest",
     modelProperties: {
-      members: {
-        serializedName: "members",
+      participants: {
+        serializedName: "participants",
         required: true,
         type: {
           name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ChatThreadMember" }
-          }
+          element: { type: { name: "Composite", className: "ChatParticipant" } }
         }
       }
     }
@@ -362,43 +360,22 @@ export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      members: {
-        serializedName: "members",
+      participants: {
+        serializedName: "participants",
         required: true,
         type: {
           name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ChatThreadMember" }
-          }
+          element: { type: { name: "Composite", className: "ChatParticipant" } }
         }
       }
     }
   }
 };
 
-export const MultiStatusResponse: coreHttp.CompositeMapper = {
+export const ChatThread: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MultiStatusResponse",
-    modelProperties: {
-      multipleStatus: {
-        serializedName: "multipleStatus",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "IndividualStatusResponse" }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const IndividualStatusResponse: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IndividualStatusResponse",
+    className: "ChatThread",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -407,25 +384,37 @@ export const IndividualStatusResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      statusCode: {
-        serializedName: "statusCode",
-        readOnly: true,
+      topic: {
+        serializedName: "topic",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      createdOn: {
+        serializedName: "createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        serializedName: "createdBy",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
+      deletedOn: {
+        serializedName: "deletedOn",
         type: {
-          name: "String"
+          name: "DateTime"
+        }
+      },
+      participants: {
+        serializedName: "participants",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "ChatParticipant" } }
         }
       }
     }
@@ -474,10 +463,10 @@ export const ChatThreadInfo: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      isDeleted: {
-        serializedName: "isDeleted",
+      deletedOn: {
+        serializedName: "deletedOn",
         type: {
-          name: "Boolean"
+          name: "DateTime"
         }
       },
       lastMessageReceivedOn: {
@@ -500,51 +489,6 @@ export const UpdateChatThreadRequest: coreHttp.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ChatThread: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatThread",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      topic: {
-        serializedName: "topic",
-        type: {
-          name: "String"
-        }
-      },
-      createdOn: {
-        serializedName: "createdOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      createdBy: {
-        serializedName: "createdBy",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      members: {
-        serializedName: "members",
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ChatThreadMember" }
-          }
         }
       }
     }

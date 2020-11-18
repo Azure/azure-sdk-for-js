@@ -14,7 +14,7 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
-import { SendMessageRequest, AddMembersRequest } from "./models/requests";
+import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
 import { SendReadReceiptRequest } from "./generated/src/models";
 import { OperationResponse } from "./models/models";
 import {
@@ -25,26 +25,26 @@ import {
   ListMessagesOptions,
   UpdateMessageOptions,
   UpdateThreadOptions,
-  AddMembersOptions,
-  ListMembersOptions,
-  RemoveMemberOptions,
+  AddParticipantsOptions,
+  ListParticipantsOptions,
+  RemoveParticipantOptions,
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
   ListReadReceiptsOptions
 } from "./models/options";
 import {
   ChatMessage,
-  ChatThreadMember,
+  ChatParticipant,
   GetChatMessageResponse,
-  ReadReceipt,
+  ChatMessageReadReceipt,
   ListPageSettings,
   SendChatMessageResponse
 } from "./models/models";
 import {
-  mapToAddChatThreadMembersRequestRestModel,
+  mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   attachHttpResponse,
-  mapToChatThreadMemberSdkModel,
+  mapToChatParticipantSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
 
@@ -315,20 +315,20 @@ export class ChatThreadClient {
   }
 
   /**
-   * Adds the details of thread members belonging to the thread identified by threadId.
-   * @param request Thread members' details to add in the thread roster
+   * Adds the details of chat participants belonging to the thread identified by threadId.
+   * @param request Thread participants' details to add in the thread roster
    * @param options Operation options.
    */
-  public async addMembers(
-    request: AddMembersRequest,
-    options: AddMembersOptions = {}
+  public async addParticipants(
+    request: AddChatParticipantsRequest,
+    options: AddParticipantsOptions = {}
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-AddMembers", options);
+    const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);
 
     try {
-      return await this.api.addChatThreadMembers(
+      return await this.api.addChatParticipants(
         this.threadId,
-        mapToAddChatThreadMembersRequestRestModel(request),
+        mapToAddChatParticipantsRequestRestModel(request),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -342,57 +342,54 @@ export class ChatThreadClient {
     }
   }
 
-  private async *listMembersPage(
+  private async *listParticipantsPage(
     continuationState: ListPageSettings,
-    options: ListMembersOptions = {}
-  ): AsyncIterableIterator<ChatThreadMember[]> {
+    options: ListParticipantsOptions = {}
+  ): AsyncIterableIterator<ChatParticipant[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatThreadMembers(
-        this.threadId,
-        requestOptions
-      );
+      const currentSetResponse = await this.api.listChatParticipants(this.threadId, requestOptions);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mapToChatThreadMemberSdkModel, this);
+        yield currentSetResponse.value.map(mapToChatParticipantSdkModel, this);
       }
     }
 
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatThreadMembersNext(
+      const currentSetResponse = await this.api.listChatParticipantsNext(
         this.threadId,
         continuationState.continuationToken,
         requestOptions
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mapToChatThreadMemberSdkModel, this);
+        yield currentSetResponse.value.map(mapToChatParticipantSdkModel, this);
       } else {
         break;
       }
     }
   }
 
-  private async *listMembersAll(
-    options: ListMembersOptions
-  ): AsyncIterableIterator<ChatThreadMember> {
-    for await (const page of this.listMembersPage({}, options)) {
+  private async *listParticipantsAll(
+    options: ListParticipantsOptions
+  ): AsyncIterableIterator<ChatParticipant> {
+    for await (const page of this.listParticipantsPage({}, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the members of the thread identified by threadId.
-   * Returns the lists of the members.
+   * Gets the participants of the thread identified by threadId.
+   * Returns the lists of the participants.
    * @param options Operation options.
    */
-  public listMembers(
-    options: ListMembersOptions = {}
-  ): PagedAsyncIterableIterator<ChatThreadMember> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-ListMembers", options);
+  public listParticipants(
+    options: ListParticipantsOptions = {}
+  ): PagedAsyncIterableIterator<ChatParticipant> {
+    const { span, updatedOptions } = createSpan("ChatThreadClient-ListParticipants", options);
 
     try {
-      const iter = this.listMembersAll(updatedOptions);
+      const iter = this.listParticipantsAll(updatedOptions);
       return {
         next() {
           return iter.next();
@@ -401,7 +398,7 @@ export class ChatThreadClient {
           return this;
         },
         byPage: (settings: ListPageSettings = {}) => {
-          return this.listMembersPage(settings, updatedOptions);
+          return this.listParticipantsPage(settings, updatedOptions);
         }
       };
     } catch (e) {
@@ -416,20 +413,20 @@ export class ChatThreadClient {
   }
 
   /**
-   * Removes member from the thread identified by threadId.
-   * @param member Thread member to remove from the thread roster
+   * Removes participant from the thread identified by threadId.
+   * @param participant Thread participant to remove from the thread roster
    * @param options Operation options.
    */
-  public async removeMember(
-    member: CommunicationUser,
-    options: RemoveMemberOptions = {}
+  public async removeParticipant(
+    participant: CommunicationUser,
+    options: RemoveParticipantOptions = {}
   ): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveMembers", options);
+    const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);
 
     try {
-      return await this.api.removeChatThreadMember(
+      return await this.api.removeChatParticipant(
         this.threadId,
-        member.communicationUserId,
+        participant.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -511,7 +508,7 @@ export class ChatThreadClient {
   private async *listReadReceiptsPage(
     continuationState: ListPageSettings,
     options: ListReadReceiptsOptions = {}
-  ): AsyncIterableIterator<ReadReceipt[]> {
+  ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.api.listChatReadReceipts(this.threadId, requestOptions);
@@ -538,7 +535,7 @@ export class ChatThreadClient {
 
   private async *listReadReceiptsAll(
     options: ListReadReceiptsOptions
-  ): AsyncIterableIterator<ReadReceipt> {
+  ): AsyncIterableIterator<ChatMessageReadReceipt> {
     for await (const page of this.listReadReceiptsPage({}, options)) {
       yield* page;
     }
@@ -551,7 +548,7 @@ export class ChatThreadClient {
    */
   public listReadReceipts(
     options: ListReadReceiptsOptions = {}
-  ): PagedAsyncIterableIterator<ReadReceipt> {
+  ): PagedAsyncIterableIterator<ChatMessageReadReceipt> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-ListChatReadReceipts", options);
 
     try {

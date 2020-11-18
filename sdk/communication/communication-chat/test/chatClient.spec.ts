@@ -47,7 +47,7 @@ describe("ChatClient", function() {
 
     const request = {
       topic: "test topic",
-      members: [{ user: testUser }, { user: testUser2 }]
+      participants: [{ user: testUser }, { user: testUser2 }]
     };
 
     chatThreadClient = await chatClient.createChatThread(request);
@@ -111,22 +111,24 @@ describe("ChatClient", function() {
     await chatThreadClient.deleteMessage(messageId);
   });
 
-  it("successfully adds members", async function() {
+  it("successfully adds participants", async function() {
     testUser3 = (await createTestUser()).user;
 
-    const request = { members: [{ user: testUser3 }] };
-    await chatThreadClient.addMembers(request);
+    const request = { participants: [{ user: testUser3 }] };
+    await chatThreadClient.addParticipants(request);
   });
 
-  it("successfully lists members", async function() {
+  it("successfully lists participants", async function() {
     const list: string[] = [];
-    for await (const member of chatThreadClient.listMembers()) {
-      list.push(member.user.communicationUserId!);
+    for await (const participant of chatThreadClient.listParticipants()) {
+      list.push(participant.user.communicationUserId!);
     }
   });
 
-  it("successfully remove a member", async function() {
-    await chatThreadClient.removeMember({ communicationUserId: testUser2.communicationUserId });
+  it("successfully remove a participant", async function() {
+    await chatThreadClient.removeParticipant({
+      communicationUserId: testUser2.communicationUserId
+    });
   });
 
   it("successfully lists read receipts", async function() {
