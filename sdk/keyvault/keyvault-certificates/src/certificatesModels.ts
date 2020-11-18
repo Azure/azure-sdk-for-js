@@ -21,63 +21,6 @@ export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
- * @internal
- * @ignore
- * An interface representing the CertificateClient. For internal use.
- */
-export interface CertificateClientInterface {
-  /**
-   * Creates a new certificate. If this is the first version, the certificate resource is created.
-   * Requires the certificates/create permission.
-   */
-  createCertificate(
-    certificateName: string,
-    certificatePolicy: CertificatePolicy,
-    options: CreateCertificateOptions
-  ): Promise<KeyVaultCertificate>;
-  /**
-   * Gets the certificate operation.
-   */
-  getPlainCertificateOperation(
-    certificateName: string,
-    options?: GetPlainCertificateOperationOptions
-  ): Promise<CertificateOperation>;
-  /**
-   * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault.
-   * Requires the certificate/recover permission.
-   */
-  recoverDeletedCertificate(
-    certificateName: string,
-    options?: RecoverDeletedCertificateOptions
-  ): Promise<KeyVaultCertificateWithPolicy>;
-  /**
-   * Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
-   */
-  cancelCertificateOperation(
-    certificateName: string,
-    options?: CancelCertificateOperationOptions
-  ): Promise<CertificateOperation>;
-  /**
-   * The get method gets a specified certificate and is applicable to any certificate stored in Azure Certificate Vault.
-   * This operation requires the certificates/get permission.
-   */
-  getCertificate(name: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
-  /**
-   * The delete operation applies to any certificate stored in Azure Certificate Vault. Individual versions
-   * of a certificate can not be deleted, only all versions of a given certificate at once.
-   */
-  deleteCertificate(name: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
-  /**
-   * The getDeletedCertificate method returns the specified deleted certificate along with its properties.
-   * This operation requires the certificates/get permission.
-   */
-  getDeletedCertificate(
-    name: string,
-    options?: GetDeletedCertificateOptions
-  ): Promise<DeletedCertificate>;
-}
-
-/**
  * The latest supported KeyVault service API version
  */
 export const LATEST_API_VERSION = "7.1";
@@ -536,7 +479,7 @@ export interface CertificatePollerOptions extends coreHttp.OperationOptions {
  */
 export interface BeginCreateCertificateOptions
   extends CreateCertificateOptions,
-    CertificatePollerOptions {}
+  CertificatePollerOptions { }
 
 /**
  * An interface representing the optional parameters that can be
@@ -560,7 +503,7 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
  */
 export interface CreateCertificateOptions
   extends CertificateProperties,
-    coreHttp.OperationOptions {}
+  coreHttp.OperationOptions { }
 
 /**
  * Options for {@link cancelCertificateOperation}.
@@ -708,7 +651,7 @@ export type CertificateTags = { [propertyName: string]: string };
  */
 export interface UpdateCertificatePropertiesOptions
   extends CertificateProperties,
-    coreHttp.OperationOptions {}
+  coreHttp.OperationOptions { }
 
 /**
  * Options for {@link updateCertificatePolicy}.
