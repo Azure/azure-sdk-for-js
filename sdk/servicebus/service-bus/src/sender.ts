@@ -33,7 +33,6 @@ import { ServiceBusError } from "./serviceBusError";
 export interface ServiceBusSender {
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
-   * Consider awaiting on open() beforehand to front load the work of link creation if needed.
    *
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.
@@ -66,16 +65,17 @@ export interface ServiceBusSender {
    */
   createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
 
-  /**
-   * Opens the AMQP link to Azure Service Bus from the sender.
-   *
-   * It is not necessary to call this method in order to use the sender. It is
-   * recommended to call this before your first sendMessages() call if you
-   * want to front load the work of setting up the AMQP link to the service.
-   *
-   * @param options - Options to configure tracing and the abortSignal.
-   */
-  open(options?: OperationOptionsBase): Promise<void>;
+  // TODO: Commented out to come up with an alternative name
+  // /**
+  //  * Opens the AMQP link to Azure Service Bus from the sender.
+  //  *
+  //  * It is not necessary to call this method in order to use the sender. It is
+  //  * recommended to call this before your first sendMessages() call if you
+  //  * want to front load the work of setting up the AMQP link to the service.
+  //  *
+  //  * @param options - Options to configure tracing and the abortSignal.
+  //  */
+  // open(options?: OperationOptionsBase): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed.
