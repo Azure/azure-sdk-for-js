@@ -258,7 +258,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
-    await receiver.close();
+
     const msgDeliveryLink = (msg as ServiceBusMessageImpl).delivery.link.name;
 
     if (entityNames.usesSessions) {

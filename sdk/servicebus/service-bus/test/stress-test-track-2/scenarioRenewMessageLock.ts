@@ -20,9 +20,11 @@ interface ScenarioRenewMessageLockOptions {
   completeMessageAfterDuration?: boolean;
 }
 
-function sanitizeOptions(
-  options: ScenarioRenewMessageLockOptions
-): Required<ScenarioRenewMessageLockOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioRenewMessageLockOptions> {
+  const options = parsedArgs<ScenarioRenewMessageLockOptions>(args, {
+    boolean: ["completeMessageAfterDuration"],
+    default: { completeMessageAfterDuration: true }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
@@ -31,15 +33,12 @@ function sanitizeOptions(
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    completeMessageAfterDuration: options.completeMessageAfterDuration || true
+    completeMessageAfterDuration: options.completeMessageAfterDuration
   };
 }
 
-// TODO: max lock renewal duration to be 70% of testDuration instead of 100%
-// TODO: stop sending messages after a 70% of test duration
-// TODO: Upon ending max lock renewal duration, pass an option to complete/ignore the message
 export async function main() {
-  const testOptions = sanitizeOptions(parsedArgs<ScenarioRenewMessageLockOptions>(process.argv));
+  const testOptions = sanitizeOptions(process.argv);
 
   const {
     testDurationInMs,
@@ -91,6 +90,7 @@ export async function main() {
       messages.map((msg) =>
         stressBase.renewMessageLockUntil(
           msg,
+          receiver,
           testDurationForLockRenewalInMs - elapsedTime,
           completeMessageAfterDuration
         )

@@ -222,7 +222,6 @@ export class StreamingReceiver extends MessageReceiver {
       }
 
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-        this._context.dataTransformer,
         context.message!,
         context.delivery!,
         true,

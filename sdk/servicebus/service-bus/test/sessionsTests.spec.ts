@@ -80,7 +80,7 @@ describe("session tests", () => {
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why we get two different errors.
         if (
           isServiceBusError(error) &&
-          (error.reason === "ServiceTimeout" || error.reason === "SessionCannotBeLocked")
+          (error.code === "ServiceTimeout" || error.code === "SessionCannotBeLocked")
         ) {
           expectedErrorThrown = true;
         } else {
@@ -107,7 +107,7 @@ describe("session tests", () => {
           "boo"
         );
       } catch (error) {
-        if (isServiceBusError(error) && error.reason === "SessionCannotBeLocked") {
+        if (isServiceBusError(error) && error.code === "SessionCannotBeLocked") {
           expectedErrorThrown = true;
         } else {
           unexpectedError = error;
@@ -192,7 +192,7 @@ describe("session tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);

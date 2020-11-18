@@ -1,4 +1,4 @@
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
@@ -25,7 +25,7 @@ describe("Highlevel browser only", () => {
   const tempFileLargeLength: number = 257 * MB - 1;
   let tempFileSmall: File;
   const tempFileSmallLength: number = 1 * MB - 1;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

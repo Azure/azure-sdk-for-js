@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d6dde586-5423-46f3-8e50-a8b19066655a",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e1349dd3-0c87-4f0c-8df7-0ce8d45be71b",
    "query": {},
    "requestBody": "{\"dataSourceType\":\"MongoDB\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mongodb-patch\",\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "6ab3573b-7215-4618-8c60-1d61fe078ec1",
+    "apim-request-id": "9c3377e1-ca5a-43da-840a-ec04fd4df848",
     "content-length": "0",
-    "date": "Tue, 20 Oct 2020 22:51:23 GMT",
+    "date": "Fri, 13 Nov 2020 23:12:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "625",
-    "x-request-id": "6ab3573b-7215-4618-8c60-1d61fe078ec1"
+    "x-envoy-upstream-service-time": "650",
+    "x-request-id": "9c3377e1-ca5a-43da-840a-ec04fd4df848"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d6dde586-5423-46f3-8e50-a8b19066655a",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e1349dd3-0c87-4f0c-8df7-0ce8d45be71b",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"d6dde586-5423-46f3-8e50-a8b19066655a\",\"dataFeedName\":\"js-test-postgreSqlFeed-160323426952308517\",\"metrics\":[{\"metricId\":\"c7260d4b-06d1-406f-ae2c-a2ef54f415c2\",\"metricName\":\"Metric1\",\"metricDisplayName\":\"Metric1\",\"metricDescription\":\"\"},{\"metricId\":\"6dba1a2f-afc2-4724-90d4-0786c73481f7\",\"metricName\":\"Metric2\",\"metricDisplayName\":\"Metric2\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"Dim1\",\"dimensionDisplayName\":\"Dim1 display\"},{\"dimensionName\":\"Dim2\",\"dimensionDisplayName\":\"Dim2 display\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MongoDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"yumeng@microsoft.com\"],\"viewers\":[],\"creator\":\"yumeng@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-10-20T22:51:23Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mongodb-patch\",\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
+   "response": "{\"dataFeedId\":\"e1349dd3-0c87-4f0c-8df7-0ce8d45be71b\",\"dataFeedName\":\"js-test-postgreSqlFeed-160530910574309567\",\"metrics\":[{\"metricId\":\"52eca045-77f2-4aad-ada6-d860731cb4cb\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"ab28b501-cbcb-4de3-a50f-6d1fa6cfa05f\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MongoDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2020-11-13T23:12:03Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mongodb-patch\",\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
    "responseHeaders": {
-    "apim-request-id": "4d84bb19-8117-4099-bdbc-c25efc50ea6f",
-    "content-length": "1386",
+    "apim-request-id": "79b30852-2432-456b-b149-3e5665ffc4b7",
+    "content-length": "1374",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 20 Oct 2020 22:51:23 GMT",
+    "date": "Fri, 13 Nov 2020 23:12:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "106",
-    "x-request-id": "4d84bb19-8117-4099-bdbc-c25efc50ea6f"
+    "x-envoy-upstream-service-time": "160",
+    "x-request-id": "79b30852-2432-456b-b149-3e5665ffc4b7"
    }
   }
  ],

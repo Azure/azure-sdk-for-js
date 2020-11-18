@@ -31,7 +31,7 @@ import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
-import { ReceiveMode } from "../../src";
+import { ReceiveMode } from "../../src/models";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];

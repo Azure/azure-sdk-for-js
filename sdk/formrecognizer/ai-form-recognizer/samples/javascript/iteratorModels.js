@@ -23,7 +23,7 @@ async function main() {
   console.log("Iteration using `for await`:");
   const result = client.listCustomModels();
   for await (const model of result) {
-    const name = model.modelName ?? "<unnamed>";
+    const name = model.modelName || "<unnamed>";
     console.log(`- Model: ${model.modelId} (${name})`);
   }
 
@@ -32,7 +32,7 @@ async function main() {
   let iter = client.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
-    const name = modelItem.value.modelName ?? "<unnamed>";
+    const name = modelItem.value.modelName || "<unnamed>";
     console.log(`- Model: ${modelItem.value.modelId} (${name})`);
     modelItem = await iter.next();
   }
@@ -41,7 +41,7 @@ async function main() {
   console.log("Iteration by page:");
   for await (const response of client.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList) {
-      const name = modelInfo.modelName ?? "<unnamed>";
+      const name = modelInfo.modelName || "<unnamed>";
       console.log(`- Model: ${modelInfo.modelId} (${name})`);
     }
   }

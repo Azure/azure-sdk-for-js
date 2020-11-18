@@ -90,18 +90,6 @@ N/A
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-#### Special bundling notes for IE11
-
-Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
-
-If `Parcel` is used then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
-
-Assuming `bundled-output.js` is the result from `Rollup`:
-
-```bash
-tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
-```
-
 ### CORS
 
 You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).

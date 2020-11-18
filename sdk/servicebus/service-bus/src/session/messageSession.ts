@@ -603,7 +603,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
 
     // If explicitly set to false then autoComplete is false else true (default).
-    this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
+    this.autoComplete =
+      options.autoCompleteMessages === false ? options.autoCompleteMessages : true;
     this._onMessage = onMessage;
     this._onError = onError;
 
@@ -621,7 +622,6 @@ export class MessageSession extends LinkEntity<Receiver> {
         }
 
         const bMessage = new ServiceBusMessageImpl(
-          this._context.dataTransformer,
           context.message!,
           context.delivery!,
           true,

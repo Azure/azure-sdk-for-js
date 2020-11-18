@@ -7,11 +7,13 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpMethods } from '@azure/core-https';
 import { HttpsClient } from '@azure/core-https';
+import { InternalPipelineOptions } from '@azure/core-https';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
+import { Span } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
@@ -31,6 +33,15 @@ export interface BaseMapper {
     xmlName?: string;
     xmlNamespace?: string;
     xmlNamespacePrefix?: string;
+}
+
+// @public
+export interface ClientPipelineOptions extends InternalPipelineOptions {
+    credentialOptions?: {
+        baseUri?: string;
+        credential?: TokenCredential;
+    };
+    deserializationOptions?: DeserializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -58,9 +69,18 @@ export interface CompositeMapperType {
 }
 
 // @public
+export function createClientPipeline(options?: ClientPipelineOptions): Pipeline;
+
+// @public
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+// @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+    span: Span;
+    updatedOptions: T;
+};
 
 // @public
 export interface DeserializationContentTypes {
@@ -317,6 +337,9 @@ export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
     httpsClient?: HttpsClient;
+    parseXML?: (str: string, opts?: {
+        includeRoot?: boolean;
+    }) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
     stringifyXML?: (obj: any, opts?: {
@@ -328,6 +351,12 @@ export interface ServiceClientOptions {
 export interface SimpleMapperType {
     // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
+}
+
+// @public
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
 }
 
 

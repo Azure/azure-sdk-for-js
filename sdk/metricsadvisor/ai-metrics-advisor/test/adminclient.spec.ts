@@ -39,7 +39,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
   describe("Ingestion", function() {
     it("lists ingestion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 1)),
         new Date(Date.UTC(2020, 8, 1))
       );
@@ -51,7 +51,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("lists ingestion status with datetime strings", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         "2020-08-01T00:00:00.000Z",
         "2020-09-01T00:00:00.000Z"
       );
@@ -64,7 +64,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 1)),
           new Date(Date.UTC(2020, 8, 1))
         )
@@ -77,7 +77,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("gets ingestion progress", async function() {
       const result = await client.getDataFeedIngestionProgress(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
       );
 
       assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
@@ -86,7 +86,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("refreshes ingesetion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 22)),
         new Date(Date.UTC(2020, 7, 23))
       );
@@ -94,13 +94,13 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       if (result.value.status === "Succeeded") {
         await client.refreshDataFeedIngestion(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
 
         const iterator2 = client.listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
@@ -123,7 +123,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
         name: expectedDetectionConfigName,
         description: "fresh detection",
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         wholeSeriesDetectionCondition: {
           conditionOperator: "AND",
           changeThresholdCondition: {
@@ -183,7 +183,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         },
         seriesGroupDetectionConditions: [
           {
-            group: { Dim1: "Common Lime" },
+            group: { city: "Mumbai" },
             hardThresholdCondition: {
               anomalyDetectorDirection: "Up",
               upperBound: 400,
@@ -193,7 +193,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { Dim1: "Common Beech", Dim2: "Ant" },
+            series: { city: "Kolkata", category: "Handmade" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,
@@ -248,7 +248,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("lists detection configurations", async function() {
-      const iterator = client.listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1);
+      const iterator = client.listDetectionConfigs(
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
+      );
       let result = await iterator.next();
 
       assert.ok(result.value.id, "Expecting first detection config");
@@ -258,7 +260,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("lists detection configurations by page", async function() {
       const iterator = client
-        .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
         .byPage();
       const result = await iterator.next();
       assert.ok(result.value.length > 1, "Expecting more than one entries in page");
