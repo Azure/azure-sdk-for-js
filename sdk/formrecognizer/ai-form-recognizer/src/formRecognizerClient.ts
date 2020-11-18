@@ -166,7 +166,7 @@ export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOpt
 export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
 
 /**
- * Options for starting a the recognition operation using a prebuilt model.
+ * Options for starting a recognition operation using a prebuilt model.
  */
 export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
   /**
@@ -758,11 +758,11 @@ export class FormRecognizerClient {
    *     console.log(`analyzing status: ${state.status}`);
    *   }
    * });
-   * const [receipt] = await poller.pollUntilDone();
+   * const [invoice] = await poller.pollUntilDone();
    * ```
    *
    * @summary Recognizes invoice information from a given accessible url to a document
-   * @param receiptUrl Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param invoiceUrl Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
    * @param options Options for the recognition operation
    */
   public async beginRecognizeInvoicesFromUrl(
