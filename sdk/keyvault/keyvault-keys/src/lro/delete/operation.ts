@@ -6,33 +6,31 @@ import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { DeleteKeyResponse, GetDeletedKeyResponse } from "../../generated/models";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> {}
+export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> { }
 
 export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   DeleteKeyPollOperationState,
   DeletedKey
-> {
-  constructor(
-    public state: DeleteKeyPollOperationState,
-    private vaultUrl: string,
-    private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
-  ) {
-    super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
-  }
+  > {
+    constructor(
+      public state: DeleteKeyPollOperationState,
+      private vaultUrl: string,
+      private client: KeyVaultClient,
+      private requestOptions: RequestOptionsBase = {}
+    ) {
+      super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
+    }
 
   /**
    * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
-   * @param {string} name The name of the Key Vault Key.
-   * @param {DeleteKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -55,9 +53,6 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   /**
    * The getDeletedKey method returns the specified deleted key along with its properties.
    * This operation requires the keys/get permission.
-   * @summary Gets the specified deleted key.
-   * @param {string} name The name of the key.
-   * @param {GetDeletedKeyOptions} [options] The optional parameters.
    */
   private async getDeletedKey(
     name: string,
@@ -81,8 +76,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   }
 
   /**
-   * @summary Reaches to the service and updates the delete key's poll operation.
-   * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+   * Reaches to the service and updates the delete key's poll operation.
    */
   public async update(
     options: {

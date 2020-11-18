@@ -6,7 +6,7 @@ import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { GetKeyResponse, RecoverDeletedKeyResponse } from "../../generated/models";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
@@ -14,12 +14,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
+  extends KeyVaultKeyPollOperationState<KeyVaultKey> { }
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,
   KeyVaultKey
-> {
+  > {
   constructor(
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,
@@ -32,9 +32,6 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   /**
    * The getKey method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
-   * @summary Get a specified key from a given key vault.
-   * @param {string} name The name of the key.
-   * @param {GetKeyOptions} [options] The optional parameters.
    */
   private async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -58,8 +55,6 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   /**
    * Sends a request to recover a deleted Key Vault Key based on the given name.
    * Since the Key Vault Key won't be immediately recover the deleted key, we have {@link beginRecoverDeletedKey}.
-   * @param {string} name The name of the Key Vault Key.
-   * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async recoverDeletedKey(
     name: string,
@@ -83,8 +78,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   }
 
   /**
-   * @summary Reaches to the service and updates the delete key's poll operation.
-   * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+   * Reaches to the service and updates the delete key's poll operation.
    */
   public async update(
     options: {

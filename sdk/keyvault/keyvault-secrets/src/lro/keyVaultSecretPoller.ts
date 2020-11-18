@@ -33,13 +33,11 @@ export interface KeyVaultSecretPollOperationState<TResult> extends PollOperation
 export abstract class KeyVaultSecretPoller<TState, TResult> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof DeleteKeyPoller
    */
   public intervalInMs: number = 2000;
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

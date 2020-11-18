@@ -1,41 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
 import {
-  RecoverDeletedCertificatePollOperationState,
-  makeRecoverDeletedCertificatePollOperation
+  RecoverDeletedCertificatePollOperation,
+  RecoverDeletedCertificatePollOperationState
 } from "./operation";
 import {
-  KeyVaultCertificateWithPolicy,
-  CertificateClientInterface
+  KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
+import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
 
-export interface RecoverDeletedCertificatePollerOptions {
-  client: CertificateClientInterface;
-  certificateName: string;
-  requestOptions?: RequestOptionsBase;
-  intervalInMs?: number;
-  resumeFrom?: string;
-}
+export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions { }
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
- * @internal
  */
-export class RecoverDeletedCertificatePoller extends Poller<
+export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   RecoverDeletedCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-> {
-  /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof RecoverDeletedCertificatePoller
-   */
-  public intervalInMs: number;
-
+  > {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
-    const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { vaultUrl, client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedCertificatePollOperationState | undefined;
 
@@ -43,23 +28,18 @@ export class RecoverDeletedCertificatePoller extends Poller<
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeRecoverDeletedCertificatePollOperation({
-      ...state,
-      certificateName,
-      requestOptions,
-      client
-    });
+    const operation = new RecoverDeletedCertificatePollOperation(
+      {
+        ...state,
+        certificateName
+      },
+      vaultUrl,
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   * @memberof RecoverDeletedCertificatePoller
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }

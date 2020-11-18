@@ -14,7 +14,7 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { GetSecretResponse } from "../../generated/models";
 import { getSecretFromSecretBundle } from "../../transformations";
 
@@ -22,7 +22,7 @@ import { getSecretFromSecretBundle } from "../../transformations";
  * An interface representing the state of a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<SecretProperties> {}
+  extends KeyVaultSecretPollOperationState<SecretProperties> { }
 
 /**
  * An interface representing a delete secret's poll operation
@@ -30,7 +30,7 @@ export interface RecoverDeletedSecretPollOperationState
 export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperation<
   RecoverDeletedSecretPollOperationState,
   SecretProperties
-> {
+  > {
   constructor(
     public state: RecoverDeletedSecretPollOperationState,
     private vaultUrl: string,
@@ -43,9 +43,6 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
   /**
    * The getSecret method returns the specified secret along with its properties.
    * This operation requires the secrets/get permission.
-   * @summary Gets the specified secret.
-   * @param {string} name The name of the secret.
-   * @param {GetDeletedKeyOptions} [options] The optional parameters.
    */
   private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
@@ -68,9 +65,6 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
   /**
    * The recoverDeletedSecret method recovers the specified deleted secret along with its properties.
    * This operation requires the secrets/recover permission.
-   * @summary Recovers the specified deleted secret.
-   * @param {string} name The name of the deleted secret.
-   * @param {GetDeletedKeyOptions} [options] The optional parameters.
    */
   private async recoverDeletedSecret(
     name: string,
@@ -94,8 +88,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
   }
 
   /**
-   * @summary Reaches to the service and updates the delete secret's poll operation.
-   * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+   * Reaches to the service and updates the delete secret's poll operation.
    */
   async update(
     this: RecoverDeletedSecretPollOperation,

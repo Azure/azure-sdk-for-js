@@ -29,7 +29,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy, createSpan, setParentSpan } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -55,7 +55,6 @@ import {
   LATEST_API_VERSION
 } from "./secretsModels";
 import { parseKeyVaultSecretId, KeyVaultSecretId } from "./identifier";
-import { createSpan, setParentSpan } from "./tracing";
 import { getSecretFromSecretBundle } from "./transformations";
 
 export {
