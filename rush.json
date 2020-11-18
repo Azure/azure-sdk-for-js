@@ -438,8 +438,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "packageName": "@microsoft/opentelemetry-exporter-azure-monitor",
+      "projectFolder": "sdk/monitor/opentelemetry-exporter-azure-monitor",
       "versionPolicyName": "client"
     },
     {
