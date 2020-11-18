@@ -24,17 +24,17 @@ type MaybeTypedFormField<T extends FormField["valueType"]> =
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
-    const ASSET_PATH = path.join(__dirname, "..", "..", "..", "test-assets")
+    const ASSET_PATH = path.join(__dirname, "..", "..", "..", "..", "test-assets");
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // eslint-disable-next-line no-invalid-this
       recorder = createRecorder(this);
       client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       if (recorder) {
         await recorder.stop();
       }
@@ -47,7 +47,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeContent(stream, {
           contentType: "application/pdf",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const pages = await poller.pollUntilDone();
 
@@ -62,7 +62,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeContent(stream, {
           contentType: "image/png",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const pages = await poller.pollUntilDone();
 
@@ -75,7 +75,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeContent(stream, {
           contentType: "image/jpeg",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const pages = await poller.pollUntilDone();
 
@@ -88,7 +88,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeContent(stream, {
           contentType: "image/tiff",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const pages = await poller.pollUntilDone();
 
@@ -146,7 +146,7 @@ matrix([[true, false]] as const, async (useAad) => {
             true,
             {
               modelName,
-              ...testPollingOptions
+              ...testPollingOptions,
             }
           );
           _model = await poller.pollUntilDone();
@@ -190,7 +190,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeReceipts(stream, {
           contentType: "image/png",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const receipts = await poller.pollUntilDone();
 
@@ -213,7 +213,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeReceipts(stream, {
           contentType: "image/jpeg",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const receipts = await poller.pollUntilDone();
 
@@ -240,7 +240,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginRecognizeReceipts(stream, {
           contentType: "application/pdf",
           includeFieldElements: true,
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const receipts = await poller.pollUntilDone();
 
@@ -255,7 +255,7 @@ matrix([[true, false]] as const, async (useAad) => {
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeReceiptsFromUrl(url, {
           locale: "en-IN",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
 
         await poller.pollUntilDone();
@@ -268,7 +268,7 @@ matrix([[true, false]] as const, async (useAad) => {
           // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeReceiptsFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
-            ...testPollingOptions
+            ...testPollingOptions,
           });
 
           await poller.pollUntilDone();
@@ -287,7 +287,7 @@ matrix([[true, false]] as const, async (useAad) => {
         Websites: "https://www.contoso.com/",
         // TODO: known service issue where phone numbers are not populated
         Addresses: "2 Kingdom Street Paddington, London, W2 6BD",
-        CompanyNames: "Contoso"
+        CompanyNames: "Contoso",
       };
 
       it("jpg file stream", async () => {
@@ -296,7 +296,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginRecognizeBusinessCards(stream, {
           contentType: "image/jpeg",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const businessCards = await poller.pollUntilDone();
 
@@ -324,7 +324,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.png");
 
         const poller = await client.beginRecognizeBusinessCardsFromUrl(url, {
-          ...testPollingOptions
+          ...testPollingOptions,
         });
         const businessCards = await poller.pollUntilDone();
 
@@ -354,7 +354,7 @@ matrix([[true, false]] as const, async (useAad) => {
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeReceiptsFromUrl(url, {
           locale: "en-IN",
-          ...testPollingOptions
+          ...testPollingOptions,
         });
 
         await poller.pollUntilDone();
@@ -367,7 +367,7 @@ matrix([[true, false]] as const, async (useAad) => {
           // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeReceiptsFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
-            ...testPollingOptions
+            ...testPollingOptions,
           });
 
           await poller.pollUntilDone();
