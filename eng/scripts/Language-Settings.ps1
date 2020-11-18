@@ -149,7 +149,7 @@ function Get-javascript-GithubIoDocIndex()
 # Updates a js CI configuration json.
 # For "latest", we simply set a target package name
 # For "preview", we add @next to the target package name
-function UpdateParamsJsonJS($pkgs, $ciRepo, $locationInDocRepo)
+function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null)
 {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
   
