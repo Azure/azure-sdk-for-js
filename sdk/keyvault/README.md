@@ -4,22 +4,23 @@
 
 ## Libraries for resource management
 
-To manage your Azure Key Vault resources via the Azure Resource Manager, you would use the below library.
+To manage your Azure Key Vault resources via the Azure Resource Manager, you would use the below package.
 
-| NPM Package | Reference |
-|--------------------------------------|---------------------------------------------------------------|
-|    [@azure/arm-keyvault](http://npmjs.com/package/@azure/arm-keyvault)    |    [API Reference](https://docs.microsoft.com/en-us/javascript/api/@azure/arm-keyvault)    |
+| NPM Package                                                         | Reference                                                                                                    |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [@azure/arm-keyvault](http://npmjs.com/package/@azure/arm-keyvault) | [API Reference for @azure/arm-keyvault](https://docs.microsoft.com/en-us/javascript/api/@azure/arm-keyvault) |
 
 ## Libraries for data access
 
-There are three packages to work with Key Vault keys, secrets and certificates and a fourth package for administrative tasks on your Key Vault instance.
+There are three packages to work with Key Vault keys, secrets and certificates respectively.
+A fourth package is also available for administrative tasks on your Key Vault instance.
 
-| NPM Package | Reference | Samples |
-|--------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------|
-|    [@azure/keyvault-keys](http://npmjs.com/package/@azure/keyvault-keys)    |    [API Reference](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-keys)    | [Samples for working with keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
-|    [@azure/keyvault-secrets](http://npmjs.com/package/@azure/keyvault-secrets)    |    [API Reference](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-secrets)    | [Samples for working with secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
-|    [@azure/keyvault-certificates](http://npmjs.com/package/@azure/keyvault-certificates)    |    [API Reference](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-certificates)    | [Samples for working with certificates](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
-|    [@azure/keyvault-admin](http://npmjs.com/package/@azure/keyvault-admin)    |    [API Reference](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-admin)    | [Samples for administrative tasks](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples)
+| NPM Package                                                                           | Reference                                                                                                                      | Samples                                                                                                                                   |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| [@azure/keyvault-keys](http://npmjs.com/package/@azure/keyvault-keys)                 | [API Reference for @azure/keyvault-keys](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-keys)                 | [Samples for working with keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)                 |
+| [@azure/keyvault-secrets](http://npmjs.com/package/@azure/keyvault-secrets)           | [API Reference for @azure/keyvault-secrets](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-secrets)           | [Samples for working with secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)           |
+| [@azure/keyvault-certificates](http://npmjs.com/package/@azure/keyvault-certificates) | [API Reference for @azure/keyvault-certificates](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-certificates) | [Samples for working with certificates](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples) |
+| [@azure/keyvault-admin](http://npmjs.com/package/@azure/keyvault-admin)               | [API Reference for @azure/keyvault-admin](https://docs.microsoft.com/en-us/javascript/api/@azure/keyvault-admin)               | [Samples for administrative tasks](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples)             |
 
 ### Features
 
