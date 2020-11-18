@@ -335,10 +335,35 @@ export type MessageCountDetails = {
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
 export interface AuthorizationRule {
+  /**
+   * The claim type.
+   *
+   * @type {string}
+   */
   claimType: string;
+  /**
+   * The list of rights("Manage" | "Send" | "Listen").
+   *
+   * @type {(("Manage" | "Send" | "Listen")[])}
+   */
   accessRights?: ("Manage" | "Send" | "Listen")[];
+  /**
+   * The authorization rule key name.
+   *
+   * @type {string}
+   */
   keyName: string;
+  /**
+   * The primary key for the authorization rule.
+   *
+   * @type {string}
+   */
   primaryKey?: string;
+  /**
+   * The secondary key for the authorization rule.
+   *
+   * @type {string}
+   */
   secondaryKey?: string;
 }
 
