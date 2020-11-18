@@ -10,6 +10,8 @@
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
 - `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
   [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
+- `claimValue` property under `AuthorizationRule` has been removed since it is not settable.
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
 
 ## 7.0.0-preview.8 (2020-11-04)
 
