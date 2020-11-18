@@ -64,12 +64,12 @@ export interface ServiceClientOptions {
   /**
    * A method that is able to turn an XML object model into a string.
    */
-  stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
+  stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 
   /**
    * A method that is able to parse XML.
    */
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
 }
 
 /**
@@ -91,7 +91,7 @@ export class ServiceClient {
   /**
    * Decoupled method for processing XML into a string.
    */
-  private readonly _stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
+  private readonly _stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 
   /**
    * The HTTP client that will be used to send requests.
@@ -391,7 +391,7 @@ function createDefaultPipeline(
   options: {
     baseUri?: string;
     credential?: TokenCredential;
-    parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
   } = {}
 ): Pipeline {
   return createClientPipeline({
