@@ -119,7 +119,8 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
       }
-      else{
+      else
+      {
         Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
@@ -143,4 +144,58 @@ function Get-javascript-GithubIoDocIndex()
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
   GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
+}
+
+# Updates a js CI configuration json.
+# For "latest", we simply set a target package name
+# For "preview", we add @next to the target package name
+function UpdateParamsJsonJS($pkgs, $ciRepo, $locationInDocRepo)
+{
+  $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
+  
+  if (-not (Test-Path $pkgJsonLoc))
+  {
+    Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
+    exit(1)
+  }
+
+  $allJson = Get-Content $pkgJsonLoc | ConvertFrom-Json
+
+  $visibleInCI = @{}
+
+  for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++)
+  {
+    $pkgDef = $allJson.npm_package_sources[$i]
+    $accessor = ($pkgDef.name).Replace("`@next", "")
+    $visibleInCI[$accessor] = $i
+  }
+
+  foreach ($releasingPkg in $pkgs)
+  {
+    $name = $releasingPkg.PackageId
+
+    if ($releasingPkg.IsPrerelease)
+    {
+      $name += "`@next"
+    }
+
+    if ($visibleInCI.ContainsKey($releasingPkg.PackageId))
+    {
+      $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
+      $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
+      $existingPackageDef.name = $name
+    }
+    else
+    {
+      $newItem = New-Object PSObject -Property @{ 
+        name = $name
+      }
+
+      if ($newItem) { $allJson.npm_package_sources += $newItem }
+    }
+  }
+
+  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | ForEach-Object { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
+
+  Set-Content -Path $pkgJsonLoc -Value $jsonContent
 }
