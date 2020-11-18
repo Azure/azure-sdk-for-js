@@ -895,7 +895,8 @@ export type State =
   | "rejected"
   | "cancelled"
   | "cancelling"
-  | "partiallyCompleted";
+  | "partiallyCompleted"
+  | "partiallySucceeded";
 /**
  * Defines values for DocumentSentimentLabel.
  */

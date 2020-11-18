@@ -11,7 +11,7 @@
 - Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 - Healthcare Analysis
-- Batch Analysis
+- Batch Processing
 
 Use the client library to:
 
@@ -492,6 +492,10 @@ async function main() {
 
 main();
 ```
+
+## Known Issues
+
+- Currently, the `beginAnalyze` API accepts `includeStatistics` in its options bag, a feature that was not yet supported by the service at the time of the current release. This feature is expected to be supported soon after the release.
 
 ## Troubleshooting
 

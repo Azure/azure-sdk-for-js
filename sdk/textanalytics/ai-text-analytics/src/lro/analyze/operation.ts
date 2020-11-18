@@ -236,6 +236,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       switch (response.status) {
+        case "partiallySucceeded":
         case "succeeded": {
           return {
             done: true,

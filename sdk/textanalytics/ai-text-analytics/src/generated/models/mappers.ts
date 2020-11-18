@@ -464,7 +464,8 @@ export const JobMetadata: coreHttp.CompositeMapper = {
             "rejected",
             "cancelled",
             "cancelling",
-            "partiallyCompleted"
+            "partiallyCompleted",
+            "partiallySucceeded"
           ]
         }
       }
@@ -599,7 +600,8 @@ export const TaskState: coreHttp.CompositeMapper = {
             "rejected",
             "cancelled",
             "cancelling",
-            "partiallyCompleted"
+            "partiallyCompleted",
+            "partiallySucceeded"
           ]
         }
       }
