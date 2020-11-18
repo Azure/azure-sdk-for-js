@@ -24,7 +24,7 @@ type MaybeTypedFormField<T extends FormField["valueType"]> =
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
-    const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
+    const ASSET_PATH = path.join(__dirname, "..", "..", "..", "test-assets")
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
