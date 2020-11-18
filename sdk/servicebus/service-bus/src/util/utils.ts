@@ -334,13 +334,13 @@ export type MessageCountDetails = {
 /**
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
-export type AuthorizationRule = {
+export interface AuthorizationRule {
   claimType: string;
   accessRights?: ("Manage" | "Send" | "Listen")[];
   keyName: string;
   primaryKey?: string;
   secondaryKey?: string;
-};
+}
 
 /**
  * @internal
