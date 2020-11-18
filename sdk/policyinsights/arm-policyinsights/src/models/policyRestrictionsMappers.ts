@@ -7,19 +7,19 @@
  */
 
 export {
-  ComplianceDetail,
-  ComponentStateDetails,
+  CheckRestrictionsRequest,
+  CheckRestrictionsResourceDetails,
+  CheckRestrictionsResult,
+  CheckRestrictionsResultContentEvaluationResult,
+  ErrorDefinition,
+  ErrorResponse,
   ExpressionEvaluationDetails,
+  FieldRestriction,
+  FieldRestrictions,
   IfNotExistsEvaluationDetails,
-  PolicyAssignmentSummary,
-  PolicyDefinitionSummary,
+  PendingField,
   PolicyEvaluationDetails,
-  PolicyGroupSummary,
-  PolicyState,
-  PolicyStatesQueryResults,
-  QueryFailure,
-  QueryFailureError,
-  SummarizeResults,
-  Summary,
-  SummaryResults
+  PolicyEvaluationResult,
+  PolicyReference,
+  TypedErrorInfo
 } from "../models/mappers";
