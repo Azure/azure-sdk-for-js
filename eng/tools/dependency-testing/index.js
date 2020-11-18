@@ -331,7 +331,7 @@ async function main(argv) {
   const sourceDir = argv["source-dir"];
   const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
-
+  console.dir(argv);
   const packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
   const targetPackage = await getPackageFromRush(repoRoot, packageName);
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
