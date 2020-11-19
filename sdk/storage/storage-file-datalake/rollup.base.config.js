@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import replace from "@rollup/plugin-replace";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
@@ -50,6 +51,7 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],

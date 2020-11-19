@@ -321,25 +321,41 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the {@link ShareClient.setAccessTier} operation.
+ * Options to configure the {@link ShareClient.setProperties} operation.
  *
  * @export
- * @interface ShareSetAccessTierOptions
+ * @interface ShareSetPropertiesOptions
  */
-export interface ShareSetAccessTierOptions extends CommonOptions {
+export interface ShareSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof ShareSetAccessTierOptions
+   * @memberof ShareSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
+   * 'Hot', 'Cool'.
+   *
+   * @type {ShareAccessTier}
+   * @memberof ShareSetPropertiesOptions
+   */
+  accessTier?: ShareAccessTier;
+
+  /**
+   * Specifies the maximum size of the share, in gigabytes.
+   * @type {number}
+   * @memberof ShareSetPropertiesOptions
+   */
+  quotaInGB?: number;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
    *
    * @type {LeaseAccessConditions}
-   * @memberof ShareSetAccessTierOptions
+   * @memberof ShareSetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -1252,6 +1268,8 @@ export class ShareClient extends StorageClient {
   /**
    * Sets quota for the specified share.
    *
+   * @deprecated Use {@link ShareClient.setProperties} instead.
+   *
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @param {ShareSetQuotaOptions} [option] Options to Share Set Quota operation.
    * @returns {Promise<ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
@@ -1263,11 +1281,6 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetQuotaResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setQuota", options.tracingOptions);
     try {
-      if (quotaInGB <= 0 || quotaInGB > 5120) {
-        throw new RangeError(
-          `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
-        );
-      }
       return await this.context.setProperties({
         ...options,
         quota: quotaInGB,
@@ -1285,22 +1298,20 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Sets access tier of the share.
+   * Sets properties of the share.
    *
-   * @param {ShareAccessTier} accessTier Access tier to set on the share.
-   * @param {ShareSetAccessTierOptions} [option] Options to Share Set Quota operation.
-   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Get Quota operation.
+   * @param {ShareSetPropertiesOptions} [option] Options to Share Set Properties operation.
+   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Set Properties operation.
    * @memberof ShareClient
    */
-  public async setAccessTier(
-    accessTier: ShareAccessTier,
-    options: ShareSetAccessTierOptions = {}
+  public async setProperties(
+    options: ShareSetPropertiesOptions = {}
   ): Promise<ShareSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setAccessTier", options.tracingOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setProperties", options.tracingOptions);
     try {
       return await this.context.setProperties({
         ...options,
-        accessTier,
+        quota: options.quotaInGB,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
@@ -1408,17 +1419,6 @@ export class ShareClient extends StorageClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Get a {@link ShareLeaseClient} that manages leases on the share.
-   *
-   * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {ShareLeaseClient} A new ShareLeaseClient object for managing leases on the share.
-   * @memberof ShareClient
-   */
-  public getShareLeaseClient(proposeLeaseId?: string) {
-    return new ShareLeaseClient(this, proposeLeaseId);
   }
 }
 
@@ -2347,7 +2347,10 @@ export class ShareDirectoryClient extends StorageClient {
         ...res
       };
     } catch (e) {
-      if (e.details?.errorCode === "ResourceNotFound") {
+      if (
+        e.details?.errorCode === "ResourceNotFound" ||
+        e.details?.errorCode === "ParentNotFound"
+      ) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a directory only if it exists."
@@ -4335,7 +4338,10 @@ export class ShareFileClient extends StorageClient {
         ...res
       };
     } catch (e) {
-      if (e.details?.errorCode === "ResourceNotFound") {
+      if (
+        e.details?.errorCode === "ResourceNotFound" ||
+        e.details?.errorCode === "ParentNotFound"
+      ) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a file only if it exists."
@@ -4823,10 +4829,20 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
     try {
-      if (isNode && data instanceof Buffer) {
-        return this.uploadBuffer(
-          (offset, count) => data.slice(offset, offset + count),
-          data.byteLength,
+      if (isNode) {
+        let buffer: Buffer;
+        if (data instanceof Buffer) {
+          buffer = data;
+        } else if (data instanceof ArrayBuffer) {
+          buffer = Buffer.from(data);
+        } else {
+          data = data as ArrayBufferView;
+          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+        }
+
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          buffer.byteLength,
           {
             ...options,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
@@ -4834,10 +4850,8 @@ export class ShareFileClient extends StorageClient {
         );
       } else {
         const browserBlob = new Blob([data]);
-        return this.uploadSeekableBlob(
-          (offset: number, size: number): Blob => {
-            return browserBlob.slice(offset, offset + size);
-          },
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
@@ -4874,58 +4888,10 @@ export class ShareFileClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      if (!options.rangeSize) {
-        options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
-      }
-      if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
-        throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
-      }
-
-      if (!options.fileHttpHeaders) {
-        options.fileHttpHeaders = {};
-      }
-
-      if (!options.concurrency) {
-        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
-      }
-      if (options.concurrency < 0) {
-        throw new RangeError(`options.concurrency cannot less than 0.`);
-      }
-
-      // Create the file
-      await this.create(size, {
-        abortSignal: options.abortSignal,
-        fileHttpHeaders: options.fileHttpHeaders,
-        metadata: options.metadata,
-        leaseAccessConditions: options.leaseAccessConditions,
+      return this.uploadSeekableInternal(blobFactory, size, {
+        ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
-
-      const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
-      let transferProgress: number = 0;
-
-      const batch = new Batch(options.concurrency);
-      for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const start = options.rangeSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
-            const contentLength = end - start;
-            await this.uploadRange(blobFactory(start, contentLength), start, contentLength, {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.leaseAccessConditions,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
-            });
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            // TODO: Hook with convenience layer progress event in finer level
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
-            }
-          }
-        );
-      }
-      return await batch.do();
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -4954,13 +4920,15 @@ export class ShareFileClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadResetableStream(
-        (offset, count) =>
-          fsCreateReadStream(filePath, {
-            autoClose: true,
-            end: count ? offset + count - 1 : Infinity,
-            start: offset
-          }),
+      return await this.uploadSeekableInternal(
+        (offset, count) => {
+          return () =>
+            fsCreateReadStream(filePath, {
+              autoClose: true,
+              end: count ? offset + count - 1 : Infinity,
+              start: offset
+            });
+        },
         size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
@@ -5000,62 +4968,13 @@ export class ShareFileClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      if (!options.rangeSize) {
-        options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
-      }
-      if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
-        throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
-      }
-
-      if (!options.fileHttpHeaders) {
-        options.fileHttpHeaders = {};
-      }
-
-      if (!options.concurrency) {
-        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
-      }
-      if (options.concurrency < 0) {
-        throw new RangeError(`options.concurrency cannot less than 0.`);
-      }
-
-      // Create the file
-      await this.create(size, {
-        abortSignal: options.abortSignal,
-        fileHttpHeaders: options.fileHttpHeaders,
-        metadata: options.metadata,
-        leaseAccessConditions: options.leaseAccessConditions,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
-
-      const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
-      let transferProgress: number = 0;
-      const batch = new Batch(options.concurrency);
-
-      for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const start = options.rangeSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
-            const contentLength = end - start;
-            await this.uploadRange(
-              () => streamFactory(start, contentLength),
-              start,
-              contentLength,
-              {
-                abortSignal: options.abortSignal,
-                leaseAccessConditions: options.leaseAccessConditions,
-                tracingOptions: { ...options!.tracingOptions, spanOptions }
-              }
-            );
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
-            }
-          }
-        );
-      }
-      return await batch.do();
+      return await this.uploadSeekableInternal(
+        (offset: number, count?: number) => {
+          return () => streamFactory(offset, count);
+        },
+        size,
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -5068,23 +4987,20 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * @export
-   * @param {(offset: number, count: number) => Buffer} bufferChunk Returns a Node.js Buffer chunk starting
-   *                                                                  from the offset defined till the count
+   * @param {(offset: number, count: number) => HttpRequestBody} bodyFactory
    * @param {number} size Size of the Azure file
    * @param {ShareFileClient} fileClient ShareFileClient
    * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
-  private async uploadBuffer(
-    bufferChunk: (offset: number, count: number) => Buffer,
+  private async uploadSeekableInternal(
+    bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadBuffer",
+      "ShareFileClient-uploadSeekableInternal",
       options.tracingOptions
     );
     try {
@@ -5125,7 +5041,7 @@ export class ShareFileClient extends StorageClient {
             const start = options.rangeSize! * i;
             const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
             const contentLength = end - start;
-            await this.uploadRange(bufferChunk(start, contentLength), start, contentLength, {
+            await this.uploadRange(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
@@ -5860,7 +5776,7 @@ export class ShareLeaseClient {
    * @param {string} leaseId Initial proposed lease id.
    * @memberof ShareLeaseClient
    */
-  constructor(client: ShareFileClient | ShareClient, leaseId?: string) {
+  constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
       SERVICE_VERSION,
       client.url,

@@ -431,6 +431,224 @@ describe("deserializationPolicy", function() {
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
       }
     });
+
+    it(`with non default error response headers`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = createSerializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          500: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+            isError: true
+          }
+        },
+        serializer
+      };
+
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
+          bodyAsText: '{"message": "InvalidResourceNameBody"}',
+          status: 500
+        });
+        assert.fail();
+      } catch (e) {
+        assert.exists(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
+      }
+    });
+
+    it(`should throw when the response code is not defined in the operationSpec`, async function() {
+      const serializer = createSerializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {}
+        },
+        serializer
+      };
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: {},
+          bodyAsText: '{"message": "InternalServerError"}',
+          status: 400
+        });
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.statusCode, 400);
+        assert.include(e.message, "InternalServerError");
+      }
+    });
+
+    it(`with non default complex error response`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message1: {
+              type: {
+                name: "String"
+              }
+            },
+            message2: {
+              type: {
+                name: "String"
+              }
+            },
+            message3: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = createSerializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          503: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+            isError: true
+          }
+        },
+        serializer
+      };
+
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
+          bodyAsText:
+            '{"message1": "InvalidResourceNameBody1", "message2": "InvalidResourceNameBody2", "message3": "InvalidResourceNameBody3"}',
+          status: 503
+        });
+        assert.fail();
+      } catch (e) {
+        assert.exists(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
+        assert.strictEqual(e.response.parsedBody.message2, "InvalidResourceNameBody2");
+        assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
+      }
+    });
+
+    it(`with default error response body`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "StorageError",
+        type: {
+          name: "Composite",
+          className: "StorageError",
+          modelProperties: {
+            code: {
+              xmlName: "Code",
+              serializedName: "Code",
+              type: {
+                name: "String"
+              }
+            },
+            message: {
+              xmlName: "Message",
+              serializedName: "Message",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = createSerializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: {},
+          bodyAsText:
+            '{"Code": "ContainerAlreadyExists", "Message": "The specified container already exists."}',
+          status: 500
+        });
+        assert.fail();
+      } catch (e) {
+        assert.exists(e);
+        assert.strictEqual(e.code, "ContainerAlreadyExists");
+        assert.strictEqual(e.message, "The specified container already exists.");
+        assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
+        assert.strictEqual(
+          e.response.parsedBody.message,
+          "The specified container already exists."
+        );
+      }
+    });
   });
 });
 

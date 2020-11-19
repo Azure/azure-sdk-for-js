@@ -12,12 +12,16 @@ export {
   BackupPatch,
   BackupPolicy,
   BackupPolicyDetails,
+  BackupPolicyPatch,
   BaseResource,
   CapacityPool,
   CapacityPoolList,
   CapacityPoolPatch,
   CloudError,
+  DailySchedule,
   ExportPolicyRule,
+  HourlySchedule,
+  MonthlySchedule,
   MountTargetProperties,
   NetAppAccount,
   NetAppAccountPatch,
@@ -33,5 +37,6 @@ export {
   VolumePatchPropertiesExportPolicy,
   VolumePropertiesDataProtection,
   VolumePropertiesExportPolicy,
-  VolumeSnapshotProperties
+  VolumeSnapshotProperties,
+  WeeklySchedule
 } from "../models/mappers";

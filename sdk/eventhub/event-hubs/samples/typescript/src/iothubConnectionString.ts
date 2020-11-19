@@ -131,7 +131,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   });
 }
 
-async function main() {
+export async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
@@ -151,7 +151,7 @@ async function main() {
         }
       },
       processError: async (err, context) => {
-        console.log(`Error : ${err}`);
+        console.log(`Error on partition "${context.partitionId}" : ${err}`);
       }
     },
     { startPosition: earliestEventPosition }

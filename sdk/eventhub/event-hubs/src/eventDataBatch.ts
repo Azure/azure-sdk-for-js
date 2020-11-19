@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { AmqpMessage } from "@azure/core-amqp";
-import { MessageAnnotations, message } from "rhea-promise";
+import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -256,7 +256,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @param annotations The message annotations to set on the batch.
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
-    const batchEnvelope: AmqpMessage = {
+    const batchEnvelope: RheaMessage = {
       body: message.data_sections(encodedEvents)
     };
     if (annotations) {
@@ -302,9 +302,9 @@ export class EventDataBatchImpl implements EventDataBatch {
       messageSpan.end();
     }
 
-    // Convert EventData to AmqpMessage.
-    const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
-    amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
+    // Convert EventData to RheaMessage.
+    const amqpMessage = toRheaMessage(eventData, this._partitionKey);
+    amqpMessage.body = defaultDataTransformer.encode(eventData.body);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

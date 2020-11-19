@@ -10,6 +10,7 @@ import {
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   RegexFlags,
+  SearchIndexer as GeneratedSearchIndexer,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
   SearchIndexerSkillUnion,
   LexicalTokenizerUnion,
@@ -42,6 +43,7 @@ import {
   TokenFilter,
   LexicalTokenizer,
   SynonymMap,
+  SearchIndexer,
   SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
@@ -283,7 +285,7 @@ export function convertSimilarityToPublic(
     return similarity;
   }
 
-  if (similarity.odatatype == "#Microsoft.Azure.Search.ClassicSimilarity") {
+  if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
     return similarity as ClassicSimilarity;
   } else {
     return similarity as BM25Similarity;
@@ -370,7 +372,9 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedSearchResult[]) {
+export function generatedSearchResultToPublicSearchResult<T>(
+  results: GeneratedSearchResult[]
+): SearchResult<T>[] {
   const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
     const { _score, _highlights, ...restProps } = result;
     const doc: { [key: string]: any } = {
@@ -440,7 +444,8 @@ export function generatedSkillsetToPublicSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
-    etag: generatedSkillset.etag
+    etag: generatedSkillset.etag,
+    encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey)
   };
 }
 
@@ -454,7 +459,8 @@ export function publicSkillsetToGeneratedSkillset(
     skills: skillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
-    )
+    ),
+    encryptionKey: convertEncryptionKeyToGenerated(skillset.encryptionKey)
   };
 }
 
@@ -486,6 +492,42 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
   return result;
 }
 
+export function publicSearchIndexerToGeneratedSearchIndexer(
+  indexer: SearchIndexer
+): GeneratedSearchIndexer {
+  return {
+    ...indexer,
+    encryptionKey: convertEncryptionKeyToGenerated(indexer.encryptionKey)
+  };
+}
+
+export function generatedSearchIndexerToPublicSearchIndexer(
+  indexer: GeneratedSearchIndexer
+): SearchIndexer {
+  return {
+    ...indexer,
+    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey)
+  };
+}
+
+export function publicDataSourceToGeneratedDataSource(
+  dataSource: SearchIndexerDataSourceConnection
+): GeneratedSearchIndexerDataSourceConnection {
+  return {
+    name: dataSource.name,
+    description: dataSource.description,
+    type: dataSource.type,
+    credentials: {
+      connectionString: dataSource.connectionString
+    },
+    container: dataSource.container,
+    etag: dataSource.etag,
+    dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
+    dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
+    encryptionKey: convertEncryptionKeyToGenerated(dataSource.encryptionKey)
+  };
+}
+
 export function generatedDataSourceToPublicDataSource(
   dataSource: GeneratedSearchIndexerDataSourceConnection
 ): SearchIndexerDataSourceConnection {
@@ -501,7 +543,8 @@ export function generatedDataSourceToPublicDataSource(
     ),
     dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
       dataSource.dataDeletionDetectionPolicy
-    )
+    ),
+    encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey)
   };
 }
 
@@ -530,4 +573,15 @@ export function convertDataDeletionDetectionPolicyToPublic(
   }
 
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
+}
+
+export function getRandomIntegerInclusive(min: number, max: number): number {
+  // Make sure inputs are integers.
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  // Pick a random offset from zero to the size of the range.
+  // Since Math.random() can never return 1, we have to make the range one larger
+  // in order to be inclusive of the maximum value after we take the floor.
+  const offset = Math.floor(Math.random() * (max - min + 1));
+  return offset + min;
 }

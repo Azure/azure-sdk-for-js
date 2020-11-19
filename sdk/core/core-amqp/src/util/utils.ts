@@ -7,6 +7,9 @@ import { WebSocketImpl } from "rhea-promise";
 
 export { AsyncLock };
 /**
+ * @internal
+ * @ignore
+ *
  * Describes the options that can be provided to create an async lock.
  */
 export interface AsyncLockOptions {
@@ -52,53 +55,13 @@ export interface WebSocketOptions {
 }
 
 /**
+ * @internal
+ * @ignore
+ *
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
-
-/**
- * Describes the servicebus connection string model.
- */
-export interface ServiceBusConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the eventhub connection string model.
- */
-export interface EventHubConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the storage connection string model.
- */
-export interface StorageConnectionStringModel {
-  DefaultEndpointsProtocol: string;
-  AccountName: string;
-  AccountKey: string;
-  EndpointSuffix: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the iothub connection string model.
- */
-export interface IotHubConnectionStringModel {
-  HostName: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  DeviceId?: string;
-}
 
 /**
  * Defines an object with possible properties defined in T.
@@ -153,6 +116,9 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 }
 
 /**
+ * @internal
+ * @ignore
+ *
  * Gets a new instance of the async lock with desired settings.
  * @param {AsyncLockOptions} [options] The async lock options.
  * @returns {AsyncLock} AsyncLock
@@ -167,6 +133,9 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
+ * @internal
+ * @ignore
+ *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
  * @class Timeout
@@ -266,6 +235,9 @@ export function delay<T>(
 }
 
 /**
+ * @internal
+ * @ignore
+ *
  * Generates a random number between the given interval
  * @param {number} min Min number of the range (inclusive).
  * @param {number} max Max number of the range (inclusive).
@@ -275,12 +247,18 @@ export function randomNumberFromInterval(min: number, max: number): number {
 }
 
 /**
+ * @internal
+ * @ignore
+ *
  * Type declaration for a Function type where T is the input to the function and V is the output
  * of the function.
  */
 export type Func<T, V> = (a: T) => V;
 
-/*
+/**
+ * @internal
+ * @ignore
+ *
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
  *
@@ -303,6 +281,9 @@ export function executePromisesSequentially(
 }
 
 /**
+ * @internal
+ * @ignore
+ *
  * Determines whether the given connection string is an iothub connection string.
  * @param {string} connectionString The connection string.
  * @return {boolean} boolean.

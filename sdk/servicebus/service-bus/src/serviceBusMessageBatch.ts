@@ -3,18 +3,17 @@
 
 import {
   ServiceBusMessage,
-  toAmqpMessage,
-  isServiceBusMessage,
+  toRheaMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
-import { throwTypeErrorIfParameterMissing } from "./util/errors";
+import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
-  message as RheaMessageUtil
+  message as RheaMessageUtil,
+  Message as RheaMessage
 } from "rhea-promise";
-import { AmqpMessage } from "@azure/core-amqp";
 import { SpanContext } from "@opentelemetry/api";
 import {
   instrumentServiceBusMessage,
@@ -22,6 +21,7 @@ import {
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
@@ -62,8 +62,8 @@ export interface ServiceBusMessageBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
@@ -182,7 +182,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     applicationProperties?: { [key: string]: any },
     messageProperties?: { [key: string]: string }
   ): Buffer {
-    const batchEnvelope: AmqpMessage = {
+    const batchEnvelope: RheaMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
       message_annotations: annotations,
       application_properties: applicationProperties
@@ -245,9 +245,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
-    if (!isServiceBusMessage(message)) {
-      throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
-    }
+    throwIfNotValidServiceBusMessage(
+      message,
+      "Provided value for 'message' must be of type ServiceBusMessage."
+    );
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
@@ -262,8 +263,8 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     }
 
     // Convert ServiceBusMessage to AmqpMessage.
-    const amqpMessage = toAmqpMessage(message);
-    amqpMessage.body = this._context.dataTransformer.encode(message.body);
+    const amqpMessage = toRheaMessage(message);
+    amqpMessage.body = defaultDataTransformer.encode(message.body);
 
     let encodedMessage: Buffer;
     try {

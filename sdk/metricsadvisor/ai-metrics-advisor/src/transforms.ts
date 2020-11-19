@@ -10,7 +10,9 @@ import {
   PeriodFeedback as ServicePeriodFeedback,
   MetricFeedbackUnion as ServiceMetricFeedbackUnion,
   DataFeedDetailUnion as ServiceDataFeedDetailUnion,
+  AnomalyScope as ServiceAnomalyScope,
   HookInfoUnion as ServiceHookInfoUnion,
+  Granularity as ServiceGranularity,
   WebhookHookInfo,
   EmailHookInfo,
   NeedRollupEnum,
@@ -21,8 +23,6 @@ import {
   MetricAnomalyFeedback,
   AnomalyDetectionConfiguration,
   MetricDetectionCondition,
-  MetricSeriesGroupDetectionCondition,
-  MetricSingleSeriesDetectionCondition,
   MetricChangePointFeedback,
   MetricCommentFeedback,
   MetricPeriodFeedback,
@@ -39,14 +39,17 @@ import {
   MySqlDataFeedSource,
   PostgreSqlDataFeedSource,
   SQLServerDataFeedSource,
-  HookUnion,
+  NotificationHookUnion,
   DataFeedRollupSettings,
   MetricFeedbackCommon,
-  HookCommon,
+  NotificationHook,
   ElasticsearchDataFeedSource,
   AnomalyAlertConfiguration,
   MetricAnomalyAlertScope,
-  MetricBoundaryCondition
+  MetricBoundaryCondition,
+  HardThresholdConditionUnion,
+  ChangeThresholdConditionUnion,
+  DataFeedGranularity
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -60,26 +63,123 @@ export function fromServiceAnomalyDetectionConfiguration(
     description: original.description,
     metricId: original.metricId,
     wholeSeriesDetectionCondition: original.wholeMetricConfiguration as MetricDetectionCondition,
-    seriesGroupDetectionConditions: original.dimensionGroupOverrideConfigurations?.map(
-      (c) => c as MetricSeriesGroupDetectionCondition
-    ),
-    seriesDetectionConditions: original.seriesOverrideConfigurations?.map(
-      (c) => c as MetricSingleSeriesDetectionCondition
-    )
+    seriesGroupDetectionConditions: original.dimensionGroupOverrideConfigurations?.map((c) => {
+      const {
+        group,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        group: group.dimension,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
+        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion
+      };
+    }),
+    seriesDetectionConditions: original.seriesOverrideConfigurations?.map((c) => {
+      const {
+        series,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        series: series.dimension,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
+        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion
+      };
+    })
   };
 }
 
 export function toServiceAnomalyDetectionConfiguration(
-  from: AnomalyDetectionConfiguration
+  from: Omit<AnomalyDetectionConfiguration, "id">
 ): ServiceAnomalyDetectionConfiguration {
   return {
-    anomalyDetectionConfigurationId: from.id,
+    name: from.name,
+    metricId: from.metricId,
+    description: from.description,
+    wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
+    dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
+      const {
+        group,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        group: { dimension: group },
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      };
+    }),
+    seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
+      const {
+        series,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        series: { dimension: series },
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      };
+    })
+  };
+}
+
+export function toServiceAnomalyDetectionConfigurationPatch(
+  from: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>
+): Partial<Omit<ServiceAnomalyDetectionConfiguration, "id" | "metricId">> {
+  return {
     name: from.name,
     description: from.description,
-    metricId: from.metricId,
     wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
-    dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions,
-    seriesOverrideConfigurations: from.seriesDetectionConditions
+    dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
+      const {
+        group,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        group: { dimension: group },
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      };
+    }),
+    seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
+      const {
+        series,
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      } = c;
+      return {
+        series: { dimension: series },
+        conditionOperator,
+        smartDetectionCondition,
+        hardThresholdCondition,
+        changeThresholdCondition
+      };
+    })
   };
 }
 
@@ -88,10 +188,10 @@ export function fromServiceMetricFeedbackUnion(
 ): MetricFeedbackUnion {
   const common: MetricFeedbackCommon = {
     id: original.feedbackId,
-    createdTime: original.createdTime,
+    createdOn: original.createdTime,
     userPrincipal: original.userPrincipal,
     metricId: original.metricId,
-    dimensionFilter: original.dimensionFilter
+    dimensionKey: original.dimensionFilter.dimension
   };
   switch (original.feedbackType) {
     case "Anomaly": {
@@ -201,12 +301,43 @@ export function toServiceRollupSettings(
   }
 }
 
+function fromServiceGranularity(original: ServiceGranularity, value?: number): DataFeedGranularity {
+  switch (original) {
+    case "Minutely":
+      return { granularityType: "PerMinute" };
+    case "Secondly":
+      return { granularityType: "PerSecond" };
+    case "Custom":
+      return { granularityType: "Custom", customGranularityValue: value! };
+    default:
+      return { granularityType: original };
+  }
+}
+
+export function toServiceGranularity(
+  model: DataFeedGranularity
+): {
+  granularityName: ServiceGranularity;
+  granularityAmount?: number;
+} {
+  switch (model.granularityType) {
+    case "Custom":
+      return { granularityName: "Custom", granularityAmount: model.customGranularityValue };
+    case "PerMinute":
+      return { granularityName: "Minutely" };
+    case "PerSecond":
+      return { granularityName: "Secondly" };
+    default:
+      return { granularityName: model.granularityType };
+  }
+}
+
 export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
   const common = {
     id: original.dataFeedId!,
     name: original.dataFeedName,
     metricIds: original.metrics.map((c) => c.id!),
-    createdTime: original.createdTime!,
+    createdOn: original.createdTime!,
     status: original.status!,
     isAdmin: original.isAdmin!,
     creator: original.creator!,
@@ -215,13 +346,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       dimensions: original.dimension,
       timestampColumn: original.timestampColumn
     },
-    granularity:
-      original.granularityName === "Custom"
-        ? {
-            granularityType: original.granularityName,
-            customGranularityValue: original.granularityAmount!
-          }
-        : { granularityType: original.granularityName },
+    granularity: fromServiceGranularity(original.granularityName, original.granularityAmount),
     ingestionSettings: {
       ingestionStartTime: original.dataStartFrom,
       ingestionStartOffsetInSeconds: original.startOffsetInSeconds,
@@ -229,23 +354,21 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       ingestionRetryDelayInSeconds: original.minRetryIntervalInSeconds,
       stopRetryAfterInSeconds: original.stopRetryAfterInSeconds
     },
-    options: {
-      dataFeedDescription: original.dataFeedDescription,
-      actionLinkTemplate: original.actionLinkTemplate,
-      rollupSettings: toRollupSettings(original),
-      missingDataPointFillSettings:
-        original.fillMissingPointType === "CustomValue"
-          ? {
-              fillType: original.fillMissingPointType!,
-              customFillValue: original.fillMissingPointValue!
-            }
-          : {
-              fillType: original.fillMissingPointType!
-            },
-      accessMode: original.viewMode,
-      admins: original.admins,
-      viewers: original.viewers
-    }
+    description: original.dataFeedDescription,
+    actionLinkTemplate: original.actionLinkTemplate,
+    rollupSettings: toRollupSettings(original),
+    missingDataPointFillSettings:
+      original.fillMissingPointType === "CustomValue"
+        ? {
+            fillType: original.fillMissingPointType!,
+            customFillValue: original.fillMissingPointValue!
+          }
+        : {
+            fillType: original.fillMissingPointType!
+          },
+    accessMode: original.viewMode,
+    adminEmails: original.admins,
+    viewerEmails: original.viewers
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
@@ -392,22 +515,28 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result13;
     }
     default:
-      throw new Error(`Unrecognized datasource type ${original.dataSourceType}`);
+      return {
+        ...common,
+        source: {
+          dataSourceType: "Unknown",
+          dataSourceParameter: (original as any).dataSourceParameter
+        }
+      };
   }
 }
 
-export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUnion {
-  const common: HookCommon = {
+export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): NotificationHookUnion {
+  const common: NotificationHook = {
     id: original.id,
     name: original.name,
     description: original.description,
     externalLink: original.externalLink,
-    admins: original.admins
+    adminEmails: original.admins
   };
   switch (original.hookType) {
     case "Email": {
       const orig1 = original as EmailHookInfo;
-      const result1: HookUnion = {
+      const result1: NotificationHookUnion = {
         ...common,
         hookType: "Email",
         hookParameter: orig1.hookParameter
@@ -416,7 +545,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): HookUn
     }
     case "Webhook": {
       const orig2 = original as WebhookHookInfo;
-      const result2: HookUnion = {
+      const result2: NotificationHookUnion = {
         ...common,
         hookType: "Webhook",
         hookParameter: orig2.hookParameter
@@ -434,7 +563,7 @@ export function toServiceMetricFeedbackUnion(
   const common = {
     feedbackId: from.id,
     metricId: from.metricId,
-    dimensionFilter: from.dimensionFilter
+    dimensionFilter: { dimension: from.dimensionKey }
   };
   switch (from.feedbackType) {
     case "Anomaly":
@@ -492,7 +621,7 @@ export function fromServiceAlertConfiguration(
         c.anomalyScopeType === "All"
           ? { scopeType: "All" }
           : c.anomalyScopeType === "Dimension"
-          ? { scopeType: "Dimension", dimensionAnomalyScope: c.dimensionAnomalyScope! }
+          ? { scopeType: "Dimension", dimensionAnomalyScope: c.dimensionAnomalyScope!.dimension }
           : { scopeType: "TopN", topNAnomalyScope: c.topNAnomalyScope! };
       return {
         detectionConfigurationId: c.anomalyDetectionConfigurationId,
@@ -503,6 +632,70 @@ export function fromServiceAlertConfiguration(
           severityCondition: c.severityFilter,
           metricBoundaryCondition: c.valueFilter as MetricBoundaryCondition
         }
+      };
+    })
+  };
+}
+
+export function toServiceAlertConfiguration(
+  from: Omit<AnomalyAlertConfiguration, "id">
+): ServiceAnomalyAlertingConfiguration {
+  return {
+    name: from.name,
+    hookIds: from.hookIds,
+    description: from.description,
+    crossMetricsOperator: from.crossMetricsOperator,
+    metricAlertingConfigurations: from.metricAlertConfigurations.map((c) => {
+      const alertScope =
+        c.alertScope.scopeType === "All"
+          ? { anomalyScopeType: "All" }
+          : c.alertScope.scopeType === "Dimension"
+          ? {
+              anomalyScopeType: "Dimension",
+              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+            }
+          : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
+      return {
+        anomalyDetectionConfigurationId: c.detectionConfigurationId,
+        anomalyScopeType: alertScope.anomalyScopeType as ServiceAnomalyScope,
+        dimensionAnomalyScope: alertScope.dimensionAnomalyScope,
+        topNAnomalyScope: alertScope.topNAnomalyScope,
+        negationOperation: c.negationOperation,
+        snoozeFilter: c.snoozeCondition,
+        severityFilter: c.alertConditions?.severityCondition,
+        valueFilter: c.alertConditions?.metricBoundaryCondition
+      };
+    })
+  };
+}
+
+export function toServiceAlertConfigurationPatch(
+  from: Partial<Omit<AnomalyAlertConfiguration, "id">>
+): Partial<ServiceAnomalyAlertingConfiguration> {
+  return {
+    name: from.name,
+    hookIds: from.hookIds,
+    description: from.description,
+    crossMetricsOperator: from.crossMetricsOperator,
+    metricAlertingConfigurations: from.metricAlertConfigurations?.map((c) => {
+      const alertScope =
+        c.alertScope.scopeType === "All"
+          ? { anomalyScopeType: "All" }
+          : c.alertScope.scopeType === "Dimension"
+          ? {
+              anomalyScopeType: "Dimension",
+              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+            }
+          : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
+      return {
+        anomalyDetectionConfigurationId: c.detectionConfigurationId,
+        anomalyScopeType: alertScope.anomalyScopeType as ServiceAnomalyScope,
+        dimensionAnomalyScope: alertScope.dimensionAnomalyScope,
+        topNAnomalyScope: alertScope.topNAnomalyScope,
+        negationOperation: c.negationOperation,
+        snoozeFilter: c.snoozeCondition,
+        severityFilter: c.alertConditions?.severityCondition,
+        valueFilter: c.alertConditions?.metricBoundaryCondition
       };
     })
   };

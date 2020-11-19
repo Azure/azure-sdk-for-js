@@ -122,3 +122,13 @@ directive:
     transform: >
       $["x-ms-parameter-location"] = "method";
 ```
+
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
+```

@@ -11,12 +11,12 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
   let containerClient: ContainerClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {

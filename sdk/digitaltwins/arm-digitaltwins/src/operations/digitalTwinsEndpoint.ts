@@ -300,7 +300,9 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.DigitalTwinsEndpointResource
+    },
     202: {
       bodyMapper: Mappers.DigitalTwinsEndpointResource
     },

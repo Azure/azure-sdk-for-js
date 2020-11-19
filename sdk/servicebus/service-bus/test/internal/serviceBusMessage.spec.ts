@@ -2,25 +2,23 @@
 // Licensed under the MIT license.
 
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ConnectionContext } from "../../src/connectionContext";
-import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import {
+  Delivery,
+  uuid_to_string,
+  MessageAnnotations,
+  DeliveryAnnotations,
+  Message as RheaMessage
+} from "rhea-promise";
 import chai from "chai";
-import { AmqpMessage, Constants } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 const assert = chai.assert;
 
-const fakeContext = {
-  dataTransformer: {
-    encode: (data) => data,
-    decode: (data) => data
-  }
-} as ConnectionContext;
-const fakeEntityPath = "dummy";
 const fakeDelivery = {} as Delivery;
 
 describe("ServiceBusMessageImpl LockToken unit tests", () => {
   const message_annotations: MessageAnnotations = {};
   message_annotations[Constants.enqueuedTime] = Date.now();
-  const amqpMessage: AmqpMessage = {
+  const amqpMessage: RheaMessage = {
     body: "hello",
     message_annotations
   };
@@ -33,8 +31,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in peekLock mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
-      fakeEntityPath,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -46,8 +42,6 @@ describe("ServiceBusMessageImpl LockToken unit tests", () => {
 
   it("Lock token in receiveAndDelete mode", () => {
     const sbMessage = new ServiceBusMessageImpl(
-      fakeContext,
-      fakeEntityPath,
       amqpMessage,
       { tag: fakeDeliveryTag } as Delivery,
       false,
@@ -62,7 +56,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   const message_annotations: MessageAnnotations = {};
   message_annotations[Constants.enqueuedTime] = Date.now();
   message_annotations[Constants.partitionKey] = "dummy-partition-key";
-  message_annotations[Constants.viaPartitionKey] = "dummy-via-partition-key";
+  //message_annotations[Constants.viaPartitionKey] = "dummy-via-partition-key";
   message_annotations["random-msg-annotation-key"] = "random-msg-annotation-value";
 
   const delivery_annotations: DeliveryAnnotations = {
@@ -71,7 +65,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     delivery_annotations_three: "delivery_annotations_three_value"
   };
 
-  const amqpMessage: AmqpMessage = {
+  const amqpMessage: RheaMessage = {
     body: "hello",
     message_annotations,
     delivery_annotations,
@@ -95,14 +89,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
     user_id: "random_user_id"
   };
 
-  const sbMessage = new ServiceBusMessageImpl(
-    fakeContext,
-    fakeEntityPath,
-    amqpMessage,
-    fakeDelivery,
-    false,
-    "peekLock"
-  );
+  const sbMessage = new ServiceBusMessageImpl(amqpMessage, fakeDelivery, false, "peekLock");
 
   it("headers match", () => {
     assert.equal(sbMessage._amqpAnnotatedMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
@@ -135,11 +122,12 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
       message_annotations[Constants.partitionKey],
       "Unexpected Partition Key"
     );
-    assert.equal(
-      sbMessage.viaPartitionKey,
-      message_annotations[Constants.viaPartitionKey],
-      "Unexpected Via Partition Key"
-    );
+
+    // assert.equal(
+    //   sbMessage.viaPartitionKey,
+    //   message_annotations[Constants.viaPartitionKey],
+    //   "Unexpected Via Partition Key"
+    // );
   });
 
   it("delivery annotations match", () => {
@@ -189,7 +177,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
       amqpMessage.group_sequence
     );
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, amqpMessage.subject);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.userId, amqpMessage.user_id);
+    // assert.equal(sbMessage._amqpAnnotatedMessage.properties?.userId, amqpMessage.user_id);
 
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.messageId, sbMessage.messageId);
     assert.equal(sbMessage._amqpAnnotatedMessage.properties?.replyTo, sbMessage.replyTo);

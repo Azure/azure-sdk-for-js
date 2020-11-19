@@ -91,10 +91,7 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err) {
-      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) {
-        // not found
-        assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
-      }
+      assert.ok(err.message.startsWith("The access tier is not supported for this blob type."));
     }
   });
 
@@ -264,7 +261,12 @@ describe("PageBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        )
+      ) {
         exceptionCaught = true;
       }
     }

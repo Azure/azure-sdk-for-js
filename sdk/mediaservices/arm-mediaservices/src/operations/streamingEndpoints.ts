@@ -28,7 +28,7 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Lists the StreamingEndpoints in the account.
+   * Lists the streaming endpoints in the account.
    * @summary List StreamingEndpoints
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -61,11 +61,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Gets a StreamingEndpoint.
+   * Gets a streaming endpoint.
    * @summary Get StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsGetResponse>
    */
@@ -73,14 +73,14 @@ export class StreamingEndpoints {
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, streamingEndpointName: string, callback: msRest.ServiceCallback<Models.StreamingEndpoint>): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -98,12 +98,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Creates a StreamingEndpoint.
+   * Creates a streaming endpoint.
    * @summary Create StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint properties needed for creation.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsCreateResponse>
    */
@@ -113,12 +113,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Updates a existing StreamingEndpoint.
+   * Updates a existing streaming endpoint.
    * @summary Update StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint properties needed for creation.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsUpdateResponse>
    */
@@ -128,11 +128,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Deletes a StreamingEndpoint.
+   * Deletes a streaming endpoint.
    * @summary Delete StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -142,11 +142,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Starts an existing StreamingEndpoint.
+   * Starts an existing streaming endpoint.
    * @summary Start StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -156,11 +156,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Stops an existing StreamingEndpoint.
+   * Stops an existing streaming endpoint.
    * @summary Stop StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -170,12 +170,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Scales an existing StreamingEndpoint.
+   * Scales an existing streaming endpoint.
    * @summary Scale StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint scale parameters
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint scale parameters
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -185,12 +185,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Creates a StreamingEndpoint.
+   * Creates a streaming endpoint.
    * @summary Create StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint properties needed for creation.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -208,12 +208,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Updates a existing StreamingEndpoint.
+   * Updates a existing streaming endpoint.
    * @summary Update StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint properties needed for creation.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -231,11 +231,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Deletes a StreamingEndpoint.
+   * Deletes a streaming endpoint.
    * @summary Delete StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -252,11 +252,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Starts an existing StreamingEndpoint.
+   * Starts an existing streaming endpoint.
    * @summary Start StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -273,11 +273,11 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Stops an existing StreamingEndpoint.
+   * Stops an existing streaming endpoint.
    * @summary Stop StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -294,12 +294,12 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Scales an existing StreamingEndpoint.
+   * Scales an existing streaming endpoint.
    * @summary Scale StreamingEndpoint
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param streamingEndpointName The name of the StreamingEndpoint.
-   * @param parameters StreamingEndpoint scale parameters
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param parameters Streaming endpoint scale parameters
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -317,7 +317,7 @@ export class StreamingEndpoints {
   }
 
   /**
-   * Lists the StreamingEndpoints in the account.
+   * Lists the streaming endpoints in the account.
    * @summary List StreamingEndpoints
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -427,7 +427,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StreamingEndpoint
     },
-    202: {
+    201: {
       bodyMapper: Mappers.StreamingEndpoint
     },
     default: {

@@ -203,7 +203,7 @@ export function prepareXMLRootList(
     return { [elementName]: obj };
   }
 
-  return { [elementName]: obj, $: {[xmlNamespaceKey]: xmlNamespace} };
+  return { [elementName]: obj, $: { [xmlNamespaceKey]: xmlNamespace } };
 }
 
 /**

@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, parseConnectionString } from "@azure/core-amqp";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
+import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
-import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import {
+  CreateSubscriptionOptions,
+  SubscriptionProperties
+} from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
+import {
+  ServiceBusAdministrationClient,
+  WithResponse
+} from "../src/serviceBusAtomManagementClient";
+import { EntityStatus, EntityAvailabilityStatus, isNode } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -31,9 +37,9 @@ const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new Servi
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
-const endpointWithProtocol = (parseConnectionString(
+const endpointWithProtocol = parseServiceBusConnectionString(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-) as any).Endpoint;
+).endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -62,17 +68,9 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
-  });
-
-  it("Create queue response", async () => {
-    const response = await serviceBusAtomManagementClient.createQueue("random");
-    // @ts-expect-error
-    response.authorizationRules = "";
-    // @ts-expect-error
-    response.maxDeliveryCount = undefined;
   });
 });
 
@@ -268,10 +266,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
-        .Endpoint;
-      const host = endpoint.match(".*://([^/]*)")[1];
-
+      const connectionStringProperties = parseServiceBusConnectionString(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+      );
+      const host = connectionStringProperties.fullyQualifiedNamespace;
+      const endpoint = connectionStringProperties.endpoint;
       const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
@@ -316,7 +315,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        host.match("(.*).servicebus.windows.net")[1],
+        (host.match("(.*).servicebus.windows.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -1329,75 +1328,94 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Subscription tests
-[
-  {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
-      forwardDeadLetteredMessagesTo: undefined,
-      enableBatchedOperations: true,
-      forwardTo: undefined,
-      userMetadata: undefined,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      requiresSession: false,
-      status: "Active",
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
-    }
-  },
-  {
-    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
-    input: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus
+describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  const createSubscriptionTestCases: {
+    testCaseTitle: string;
+    input?: CreateSubscriptionOptions;
+    output: SubscriptionProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined subscription options",
+      input: undefined,
+      output: {
+        autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+        deadLetteringOnMessageExpiration: false,
+        deadLetteringOnFilterEvaluationExceptions: true,
+        defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+        forwardDeadLetteredMessagesTo: undefined,
+        enableBatchedOperations: true,
+        forwardTo: undefined,
+        userMetadata: undefined,
+        lockDuration: "PT1M",
+        maxDeliveryCount: 10,
+        requiresSession: false,
+        status: "Active",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     },
-    output: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled",
-
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
+    {
+      testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+      input: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled" as EntityStatus,
+        availabilityStatus: "Available" as EntityAvailabilityStatus
+      },
+      output: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        forwardDeadLetteredMessagesTo: undefined,
+        forwardTo: undefined,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     }
-  }
-].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
-    beforeEach(async () => {
-      await createEntity(EntityType.TOPIC, managementTopic1);
-    });
+  ];
+  createSubscriptionTestCases.push({
+    testCaseTitle: "case-2 with defaultRuleOptions",
+    input: {
+      ...createSubscriptionTestCases[1].input,
+      defaultRuleOptions: {
+        name: "rule",
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'", sqlParameters: undefined }
+      }
+    },
+    output: { ...createSubscriptionTestCases[1].output }
+  });
 
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+  beforeEach(async () => {
+    await createEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+
+  createSubscriptionTestCases.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
+      const response: WithResponse<SubscriptionProperties> = await createEntity(
         EntityType.SUBSCRIPTION,
         managementSubscription1,
         managementTopic1,
@@ -1413,12 +1431,16 @@ describe("Atom management - Authentication", function(): void {
         managementSubscription1,
         "Subscription name mismatch"
       );
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdAt",
-        "modifiedAt",
-        "accessedAt"
-      ]);
+      assert.deepEqual(response, testCase.output);
+
+      if (testCase.input?.defaultRuleOptions) {
+        const ruleResponse = await serviceBusAtomManagementClient.getRule(
+          response.topicName,
+          response.subscriptionName,
+          testCase.input.defaultRuleOptions.name
+        );
+        assert.deepEqual(ruleResponse, testCase.input.defaultRuleOptions);
+      }
     });
   });
 });
@@ -1775,7 +1797,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }
@@ -1795,7 +1819,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }

@@ -8,6 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -319,6 +320,8 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
 
 /**
  * Represents type of message count details in ATOM based management operations.
+ * @internal
+ * @ignore
  */
 export type MessageCountDetails = {
   activeMessageCount: number;
@@ -611,3 +614,19 @@ export function formatUserAgentPrefix(prefix?: string): string {
   userAgentPrefix = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
   return `${userAgentPrefix}${libInfo}`;
 }
+
+/**
+ * @internal
+ * @ignore
+ * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
+ * @returns {HttpResponse}
+ */
+export const getHttpResponseOnly = ({
+  request,
+  status,
+  headers
+}: HttpOperationResponse): HttpResponse => ({
+  request,
+  status,
+  headers
+});

@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AzureActiveDirectoryApplicationCredentials,
   FieldMapping,
   FieldMappingFunction,
   IndexerExecutionResult,
@@ -20,5 +21,6 @@ export {
   SearchIndexerError,
   SearchIndexerLimits,
   SearchIndexerStatus,
-  SearchIndexerWarning
+  SearchIndexerWarning,
+  SearchResourceEncryptionKey
 } from "../models/mappers";

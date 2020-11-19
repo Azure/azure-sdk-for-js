@@ -922,8 +922,10 @@ export class DataLakePathClient extends StorageClient {
 
     const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
 
-    const renameSource = `/${this.fileSystemName}/${this.name}`; // TODO: Confirm number of /
-    const renameDestination = `/${destinationFileSystem}/${destinationPath}`; // TODO: Confirm encoding
+    // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
+    // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
+    const renameSource = `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
+    const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
 
     const destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
@@ -1537,7 +1539,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     );
     try {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadData(
+      return await this.uploadSeekableInternal(
         (offset: number, size: number) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -1574,20 +1576,29 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
     try {
-      if (isNode && data instanceof Buffer) {
-        return this.uploadData(
-          (offset: number, size: number): Buffer => {
-            return data.slice(offset, offset + size);
-          },
-          data.length,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+      if (isNode) {
+        let buffer: Buffer;
+        if (data instanceof Buffer) {
+          buffer = data;
+        } else if (data instanceof ArrayBuffer) {
+          buffer = Buffer.from(data);
+        } else {
+          data = data as ArrayBufferView;
+          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+        }
+
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          buffer.length,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
         );
       } else {
         const browserBlob = new Blob([data]);
-        return this.uploadData(
-          (offset: number, size: number): Blob => {
-            return browserBlob.slice(offset, offset + size);
-          },
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
@@ -1603,11 +1614,8 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
   }
 
-  private async uploadData(
-    contentFactory:
-      | ((offset: number, size: number) => Buffer)
-      | ((offset: number, size: number) => Blob)
-      | ((offset: number, size: number) => () => NodeJS.ReadableStream),
+  private async uploadSeekableInternal(
+    bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
@@ -1671,7 +1679,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 
       // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
       if (size <= options.singleUploadThreshold) {
-        await this.append(contentFactory(0, size), 0, size, {
+        await this.append(bodyFactory(0, size), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           onProgress: options.onProgress,
@@ -1704,7 +1712,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             const start = options.chunkSize! * i;
             const end = i === numBlocks - 1 ? size : start + options.chunkSize!;
             const contentLength = end - start;
-            await this.append(contentFactory(start, contentLength), start, contentLength, {
+            await this.append(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }

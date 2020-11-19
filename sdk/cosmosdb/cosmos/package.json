@@ -17,6 +17,7 @@
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
+  "react-native": "./dist-esm/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
@@ -108,6 +109,7 @@
     "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.8.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",

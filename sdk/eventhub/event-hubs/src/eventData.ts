@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message, MessageAnnotations } from "rhea-promise";
+import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**
@@ -131,7 +131,7 @@ const messagePropertiesMap = {
  * @param msg The AMQP message that needs to be converted to EventData.
  * @ignore
  */
-export function fromAmqpMessage(msg: Message): EventDataInternal {
+export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
   const data: EventDataInternal = {
     body: msg.body
   };
@@ -193,8 +193,8 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
  * @param partitionKey An optional key to determine the partition that this event should land in.
  * @ignore
  */
-export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
-  const msg: Message = {
+export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessage {
+  const msg: RheaMessage = {
     body: data.body
   };
   // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,

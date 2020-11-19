@@ -1,7 +1,13 @@
 # Release History
 
-## 12.3.0-beta.2 (Unreleased)
+## 12.3.1 (Unreleased)
 
+
+## 12.3.0 (2020-11-10)
+
+- Removed ability to create a ShareLeaseClient for a Share or Share Snapshot. This feature has been rescheduled for future release.
+- Replaced `ShareClient.setAccessTier()` with `ShareClient.setProperties()`, which can be used to set both Share Tier and Share Quota.
+- Fixed a bug where `ShareDirectoryClient.deleteIfExists()` and `ShareFileClient.deleteIfExists()` would throw an exception if the directory or file's parent directory doesn't exist.
 
 ## 12.3.0-beta.1 (2020-10-13)
 
