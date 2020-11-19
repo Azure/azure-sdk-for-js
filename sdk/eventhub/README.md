@@ -1,6 +1,6 @@
 # Azure Event Hubs client libraries for JavaScript
 
-[Azure Event Hubs](https://azure.microsoft.com/services/service-bus/) is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications.
+[Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/) is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications.
 
 ## Libraries for resource management
 
