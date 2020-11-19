@@ -11,7 +11,10 @@ import {
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../tracing";
 import { BeginBackupOptions } from "../../backupClientModels";
-import { KeyVaultAdminPollOperation, KeyVaultAdminPollOperationState } from "../keyVaultAdminPoller";
+import {
+  KeyVaultAdminPollOperation,
+  KeyVaultAdminPollOperationState
+} from "../keyVaultAdminPoller";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -38,7 +41,7 @@ export interface BackupPollOperationState extends KeyVaultAdminPollOperationStat
 export class BackupPollOperation extends KeyVaultAdminPollOperation<
   BackupPollOperationState,
   string
-  > {
+> {
   constructor(
     public state: BackupPollOperationState,
     private vaultUrl: string,

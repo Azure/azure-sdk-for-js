@@ -10,13 +10,15 @@ import {
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../tracing";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
-import { KeyVaultAdminPollOperation, KeyVaultAdminPollOperationState } from "../keyVaultAdminPoller";
+import {
+  KeyVaultAdminPollOperation,
+  KeyVaultAdminPollOperationState
+} from "../keyVaultAdminPoller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
-}
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
@@ -40,14 +42,19 @@ export interface RestorePollOperationState extends KeyVaultAdminPollOperationSta
 /**
  * An interface representing a restore Key Vault's poll operation.
  */
-export class RestorePollOperation extends KeyVaultAdminPollOperation<RestorePollOperationState, string> {
+export class RestorePollOperation extends KeyVaultAdminPollOperation<
+  RestorePollOperationState,
+  string
+> {
   constructor(
     public state: RestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
   ) {
-    super(state, { cancelMessage: "Cancelling the restoration full Key Vault backup is not supported." });
+    super(state, {
+      cancelMessage: "Cancelling the restoration full Key Vault backup is not supported."
+    });
   }
 
   /**
@@ -156,5 +163,4 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<RestorePoll
 
     return this;
   }
-
 }

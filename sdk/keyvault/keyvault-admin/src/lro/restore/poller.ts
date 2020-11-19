@@ -4,7 +4,7 @@
 import {
   RestorePollOperation,
   RestoreOperationState,
-  RestorePollOperationState,
+  RestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 
@@ -36,12 +36,13 @@ export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, un
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new RestorePollOperation({
-      ...state,
-      blobStorageUri,
-      sasToken,
-      folderName,
-    },
+    const operation = new RestorePollOperation(
+      {
+        ...state,
+        blobStorageUri,
+        sasToken,
+        folderName
+      },
       vaultUrl,
       client,
       requestOptions

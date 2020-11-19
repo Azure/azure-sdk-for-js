@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  BackupPollOperation,
-  BackupOperationState,
-  BackupPollOperationState
-} from "./operation";
+import { BackupPollOperation, BackupOperationState, BackupPollOperationState } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 
 export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
@@ -34,11 +30,12 @@ export class BackupPoller extends KeyVaultAdminPoller<BackupOperationState, stri
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new BackupPollOperation({
-      ...state,
-      blobStorageUri,
-      sasToken,
-    },
+    const operation = new BackupPollOperation(
+      {
+        ...state,
+        blobStorageUri,
+        sasToken
+      },
       vaultUrl,
       client,
       requestOptions

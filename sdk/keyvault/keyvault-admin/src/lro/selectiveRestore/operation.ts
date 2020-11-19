@@ -14,18 +14,22 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../tracing";
-import { KeyVaultAdminPollOperation, KeyVaultAdminPollOperationState } from "../keyVaultAdminPoller";
+import {
+  KeyVaultAdminPollOperation,
+  KeyVaultAdminPollOperationState
+} from "../keyVaultAdminPoller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
-}
+export interface SelectiveRestoreOperationState
+  extends KeyVaultAdminPollOperationState<undefined> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  */
-export interface SelectiveRestorePollOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface SelectiveRestorePollOperationState
+  extends KeyVaultAdminPollOperationState<undefined> {
   /**
    * The name of a Key Vault Key.
    */
@@ -47,8 +51,10 @@ export interface SelectiveRestorePollOperationState extends KeyVaultAdminPollOpe
 /**
  * The selective restore Key Vault's poll operation.
  */
-export class SelectiveRestorePollOperation
-  extends KeyVaultAdminPollOperation<SelectiveRestorePollOperationState, string> {
+export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
+  SelectiveRestorePollOperationState,
+  string
+> {
   constructor(
     public state: SelectiveRestorePollOperationState,
     private vaultUrl: string,
@@ -171,5 +177,4 @@ export class SelectiveRestorePollOperation
 
     return this;
   }
-
 }

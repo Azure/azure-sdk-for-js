@@ -65,7 +65,10 @@ export function cleanState<TState extends KeyVaultAdminPollOperationState<TResul
 /**
  * Common properties and methods of the Key Vault Admin Pollers.
  */
-export abstract class KeyVaultAdminPoller<TState extends KeyVaultAdminPollOperationState<TResult>, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultAdminPoller<
+  TState extends KeyVaultAdminPollOperationState<TResult>,
+  TResult
+> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -80,8 +83,8 @@ export abstract class KeyVaultAdminPoller<TState extends KeyVaultAdminPollOperat
   }
 
   /**
- * Gets the public state of the polling operation
- */
+   * Gets the public state of the polling operation
+   */
   public getOperationState(): TState {
     return cleanState(this.operation.state) as TState;
   }

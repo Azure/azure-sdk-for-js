@@ -4,7 +4,7 @@
 import {
   SelectiveRestorePollOperation,
   SelectiveRestoreOperationState,
-  SelectiveRestorePollOperationState,
+  SelectiveRestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 
@@ -18,7 +18,10 @@ export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOption
 /**
  * Class that creates a poller that waits until a key of a Key Vault backup ends up being restored.
  */
-export class SelectiveRestorePoller extends KeyVaultAdminPoller<SelectiveRestoreOperationState, undefined> {
+export class SelectiveRestorePoller extends KeyVaultAdminPoller<
+  SelectiveRestoreOperationState,
+  undefined
+> {
   constructor(options: SelectiveRestorePollerOptions) {
     const {
       client,
@@ -38,13 +41,14 @@ export class SelectiveRestorePoller extends KeyVaultAdminPoller<SelectiveRestore
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new SelectiveRestorePollOperation({
-      ...state,
-      keyName,
-      blobStorageUri,
-      sasToken,
-      folderName,
-    },
+    const operation = new SelectiveRestorePollOperation(
+      {
+        ...state,
+        keyName,
+        blobStorageUri,
+        sasToken,
+        folderName
+      },
       vaultUrl,
       client,
       requestOptions
