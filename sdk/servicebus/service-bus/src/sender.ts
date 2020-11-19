@@ -314,20 +314,20 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     return retry<void>(config);
   }
 
-  async open(options?: OperationOptionsBase): Promise<void> {
-    this._throwIfSenderOrConnectionClosed();
+  // async open(options?: OperationOptionsBase): Promise<void> {
+  //   this._throwIfSenderOrConnectionClosed();
 
-    const config: RetryConfig<void> = {
-      // TODO: Pass tracing options too
-      operation: () => this._sender.open(undefined, options?.abortSignal),
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.senderLink,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
+  //   const config: RetryConfig<void> = {
+  //     // TODO: Pass tracing options too
+  //     operation: () => this._sender.open(undefined, options?.abortSignal),
+  //     connectionId: this._context.connectionId,
+  //     operationType: RetryOperationType.senderLink,
+  //     retryOptions: this._retryOptions,
+  //     abortSignal: options?.abortSignal
+  //   };
 
-    return retry<void>(config);
-  }
+  //   return retry<void>(config);
+  // }
 
   async close(): Promise<void> {
     try {
