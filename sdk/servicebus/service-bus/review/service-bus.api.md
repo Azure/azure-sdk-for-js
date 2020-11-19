@@ -25,14 +25,13 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AuthorizationRule = {
-    claimType: string;
-    claimValue: string;
+export interface AuthorizationRule {
     accessRights?: ("Manage" | "Send" | "Listen")[];
+    claimType: string;
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
-};
+}
 
 // @public
 export interface CorrelationRuleFilter {
@@ -453,7 +452,6 @@ export interface ServiceBusSender {
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    open(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }

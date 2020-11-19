@@ -32,7 +32,7 @@ We now have methods with similar names, signature and location to create senders
 
 We have a variety of new features in the version 7 of the Service Bus library.
 
-- A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resouce Manager APIs but had the drawback of not supporting connection strings.
+- A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resource Manager APIs but had the drawback of not supporting connection strings.
 - Ability to configure the retry policy used by the operations on the client, sender and receivers.
 - Ability to cancel async operations on the client, sender and receivers using the abort signal from `@azure/abort-controller`
 
