@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  RestorePollOperation,
   RestoreOperationState,
   RestorePollOperationState,
 } from "./operation";
