@@ -40,12 +40,12 @@ export async function main() {
     for (const doc of keyPhrasesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        console.log("  Key phrases:");
+        console.log("\tKey phrases:");
         for (const phrase of doc.keyPhrases) {
-          console.log(`    ${phrase}`);
+          console.log(`\t- ${phrase}`);
         }
       } else {
-        console.error("  Error:", doc.error);
+        console.error("\tError:", doc.error);
       }
     }
 
@@ -53,9 +53,9 @@ export async function main() {
     for (const doc of entitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        console.log("  Entities:");
+        console.log("\tEntities:");
         for (const entity of doc.entities) {
-          console.log("    ", JSON.stringify(entity));
+          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
         }
       } else {
         console.error("  Error:", doc.error);
@@ -66,12 +66,12 @@ export async function main() {
     for (const doc of piiEntitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        console.log("  Pii Entities:");
+        console.log("\tPii Entities:");
         for (const entity of doc.entities) {
-          console.log("    ", JSON.stringify(entity));
+          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
         }
       } else {
-        console.error("  Error:", doc.error);
+        console.error("\tError:", doc.error);
       }
     }
   }
