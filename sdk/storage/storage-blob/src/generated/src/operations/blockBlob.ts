@@ -340,6 +340,7 @@ const putBlobFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
+    Parameters.sourceContentMD5,
     Parameters.blobTagsString,
     Parameters.copySource,
     Parameters.copySourceBlobProperties,

@@ -3223,6 +3223,10 @@ export interface BlockBlobPutBlobFromUrlOptionalParams extends coreHttp.RequestO
    */
   requestId?: string;
   /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
    * Optional.  Used to set blob tags in various blob operations.
    */
   blobTagsString?: string;
