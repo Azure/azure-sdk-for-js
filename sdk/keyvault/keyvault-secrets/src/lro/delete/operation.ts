@@ -17,7 +17,7 @@ import { getSecretFromSecretBundle } from "../../transformations";
  * An interface representing the state of a delete secret's poll operation
  */
 export interface DeleteSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<DeletedSecret> { }
+  extends KeyVaultSecretPollOperationState<DeletedSecret> {}
 
 /**
  * An interface representing a delete secret's poll operation
@@ -25,7 +25,7 @@ export interface DeleteSecretPollOperationState
 export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
   DeleteSecretPollOperationState,
   DeletedSecret
-  > {
+> {
   constructor(
     public state: DeleteSecretPollOperationState,
     private vaultUrl: string,

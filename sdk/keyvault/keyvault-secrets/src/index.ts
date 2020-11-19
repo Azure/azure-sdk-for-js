@@ -29,7 +29,11 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy, createSpan, setParentSpan } from "../../keyvault-common/src";
+import {
+  challengeBasedAuthenticationPolicy,
+  createSpan,
+  setParentSpan
+} from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
