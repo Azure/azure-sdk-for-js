@@ -11,7 +11,7 @@
     "preintegration-test:node": "cd ../../ ",
     "postintegration-test:node": "cd test/public",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter test/public/mocha-multi-reporter.js --timeout 250000 --full-trace 'test/publicdist/**/*.js' --exit",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter test/public/mocha-multi-reporter.js --timeout 250000 --full-trace 'test/public/dist/**/*.js' --exit",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser"
   },
   "repository": {
