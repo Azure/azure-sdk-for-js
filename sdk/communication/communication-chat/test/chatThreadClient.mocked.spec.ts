@@ -10,7 +10,8 @@ import {
   SendMessageRequest,
   SendMessageOptions,
   UpdateMessageOptions,
-  AddChatParticipantsRequest
+  AddChatParticipantsRequest,
+  AddChatParticipantRequest
 } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
@@ -211,6 +212,37 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(sendRequest.participants[0].displayName, requestJson.participants[0].displayName);
     assert.equal(
       sendRequest.participants[0].shareHistoryTime?.toDateString(),
+      new Date(requestJson.participants[0].shareHistoryTime).toDateString()
+    );
+  });
+
+  it("makes successful add chat participant request", async () => {
+    const mockHttpClient = generateHttpClient(201);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const sendRequest: AddChatParticipantRequest = {
+      participant: mockSdkModelParticipant
+    };
+
+    await chatThreadClient.addParticipant(sendRequest);
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/participants?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "POST");
+    const requestJson = JSON.parse(request.body);
+    assert.equal(
+      sendRequest.participant.user.communicationUserId,
+      requestJson.participants[0].id
+    );
+    assert.equal(sendRequest.participant.displayName, requestJson.participants[0].displayName);
+    assert.equal(
+      sendRequest.participant.shareHistoryTime?.toDateString(),
       new Date(requestJson.participants[0].shareHistoryTime).toDateString()
     );
   });
