@@ -5,8 +5,7 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  RetryOptions,
-  translate
+  RetryOptions
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
@@ -19,6 +18,7 @@ import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -162,7 +162,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
-    this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
+    this.autoComplete =
+      options.autoCompleteMessages === false ? options.autoCompleteMessages : true;
     this._lockRenewer = options.lockRenewer;
   }
 
@@ -206,7 +207,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
-      err = translate(err);
+      err = translateServiceBusError(err);
       logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
@@ -277,7 +278,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
             "Operation to settle the message has timed out. The disposition of the " +
             "message may or may not be successful"
         };
-        return reject(translate(e));
+        return reject(translateServiceBusError(e));
       }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,

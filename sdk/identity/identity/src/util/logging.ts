@@ -48,14 +48,18 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
  * Formatting the success event on the credentials
  */
 export function formatSuccess(scope: string | string[]): string {
-  return `SUCCESS: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+  return `SUCCESS. Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
 }
 
 /**
  * Formatting the success event on the credentials
  */
-export function formatError(error: Error | string): string {
-  return `ERROR: ${typeof error === "string" ? error : error.message}`;
+export function formatError(scope: string | string[] | undefined, error: Error | string): string {
+  let message = "ERROR.";
+  if (scope?.length) {
+    message += ` Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
+  }
+  return `${message} Error message: ${typeof error === "string" ? error : error.message}.`;
 }
 
 /**

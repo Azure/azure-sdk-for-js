@@ -1,11 +1,33 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
+## 2.0.1 (Unreleased)
+
+
+## 2.0.0 (2020-11-12)
+
+- This release marks the general availability of the `@azure/core-amqp` version 2 package.
+
+### Breaking changes
+
+- Continuing our work to clean the public API surface that we started in 2.0.0-beta.1 we no longer export
+
+  - `DataTransformer` and `DefaultDataTransformer`.
+    `dataTransformer` has been removed from `ConnectionContextBase` and `ConnectionContextBaseParameters`.
+    This allows us to consider other forms of implementing serializers in the future.
+  - `ConditionStatusMapper` and `MessagingErrorCodes` as these are only used internally by this package.
+
+- Previously, `ConnectionConfig.validate()` overridden entityPath if `undefined` with `String(undefined) = "undefined"`. This has been updated to retain `undefined` in the validation.
+  [PR 12321](https://github.com/Azure/azure-sdk-for-js/pull/12321)
+
+## 2.0.0-beta.1 (2020-11-03)
 
 - `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
 
 ### Breaking changes
+
+- `satusDescription` in `CbsResponse` which is the output for `CbsClient.negotiateClaim()` is renamed to `statusDescription` to fix the spelling error.
+- The `CbsClient.negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
 
 We are cleaning the public API surface by
 
@@ -19,7 +41,6 @@ We are cleaning the public API surface by
   - Timeout
 - moving the clases/methods/interfaces that are very specific to Event Hubs/Service Bus to their corresponding packages.
   - SharedKeyCredential
-    - As part of this move the `negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
   - EventHubConnectionConfig
 - avoid re-exporting things from `rhea-promise` and `@azure/core-auth`
   - Dictionary

@@ -9,7 +9,9 @@ import jssha from "jssha";
 
 /**
  * @class SharedKeyCredential
- * Defines the SharedKeyCredential .
+ * @internal
+ * @ignore
+ * Defines the SharedKeyCredential.
  */
 export class SharedKeyCredential {
   /**

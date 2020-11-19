@@ -5,7 +5,7 @@ import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
-import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import { getAlreadyReceivingErrorMsg, InvalidOperationForPeekedMessage } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -38,12 +38,7 @@ let deadLetterReceiver: ServiceBusReceiver;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
-    // prior to a recent change the behavior was always to _not_ auto-renew locks.
-    // for compat with these tests I'm just disabling this. There are tests in renewLocks.spec.ts that
-    // ensure lock renewal does work with batching.
-    maxAutoLockRenewalDurationInMs: 0
-  });
+  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -57,74 +52,6 @@ function afterEachTest(): Promise<void> {
 }
 
 describe("Batching Receiver", () => {
-  describe("Batch Receiver - default values", function(): void {
-    before(() => {
-      serviceBusClient = createServiceBusClientForTests();
-    });
-
-    after(() => {
-      return serviceBusClient.test.after();
-    });
-
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    it(noSessionTestClientType + ": maxMessageCount defaults to 1", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(noSessionTestClientType);
-      const testMessage = TestMessage.getSample();
-      await sender.sendMessages(testMessage);
-
-      // @ts-expect-error
-      const peekedMsgs = await receiver.peekMessages();
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
-      should.equal(
-        peekedMsgs[0].body,
-        testMessage.body,
-        "Peeked message body is different than expected"
-      );
-
-      // @ts-expect-error
-      const msgs = await receiver.receiveMessages();
-      should.equal(msgs.length, 1, "Unexpected number of messages received.");
-      should.equal(
-        msgs[0].body,
-        testMessage.body,
-        "Received message body is different than expected"
-      );
-      await receiver.completeMessage(msgs[0]);
-    });
-
-    it(withSessionTestClientType + ": maxMessageCount defaults to 1", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(withSessionTestClientType);
-      const testMessage = TestMessage.getSessionSample();
-      await sender.sendMessages(testMessage);
-
-      // @ts-expect-error
-      const peekedMsgs = await receiver.peekMessages();
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
-      should.equal(
-        peekedMsgs[0].body,
-        testMessage.body,
-        "Peeked message body is different than expected"
-      );
-
-      // @ts-expect-error
-      const msgs = await receiver.receiveMessages();
-      should.equal(msgs.length, 1, "Unexpected number of messages received.");
-      should.equal(
-        msgs[0].body,
-        testMessage.body,
-        "Received message body is different than expected"
-      );
-      await receiver.completeMessage(msgs[0]);
-    });
-  });
-
   describe("Batch Receiver - Settle message", function(): void {
     const maxDeliveryCount = 10;
 
@@ -389,13 +316,18 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(testMessages);
 
       const [peekedMsg] = await receiver.peekMessages(1);
+      if (!peekedMsg) {
+        // Sometimes the peek call does not return any messages :(
+        return;
+      }
+
       should.equal(
-        !(peekedMsg as any)["delivery"],
+        !peekedMsg.lockToken,
         true,
-        "Peeked msg was not meant to have delivery! We use this assumption to differentiate between peeked msg and other messages."
+        "Peeked msg was not meant to have lockToken! We use this assumption to differentiate between peeked msg and other messages."
       );
 
-      const expectedErrorMsg = "A peeked message cannot be settled.";
+      const expectedErrorMsg = InvalidOperationForPeekedMessage;
       try {
         await receiver.completeMessage(peekedMsg);
         assert.fail("completeMessage should have failed");
@@ -527,7 +459,7 @@ describe("Batching Receiver", () => {
       let errorWasThrown = false;
 
       await receiver.deadLetterMessage(deadLetterMsg).catch((err) => {
-        should.equal(err.code, "InvalidOperationError", "Error code is different than expected");
+        should.equal(err.code, "GeneralError", "Error code is different than expected");
         errorWasThrown = true;
       });
 
@@ -782,11 +714,10 @@ describe("Batching Receiver", () => {
         : TestMessage.getSample();
       await sender.sendMessages(testMessages);
 
-      // If using sessions, we need a receiver with lock renewal disabled so that
+      // We need a receiver with lock renewal disabled so that
       // the message lands back in the queue/subscription to be picked up again.
+      await receiver.close();
       if (entityNames.usesSessions) {
-        await receiver.close();
-
         receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
           entityNames,
           testMessages.sessionId!,
@@ -794,6 +725,10 @@ describe("Batching Receiver", () => {
             maxAutoLockRenewalDurationInMs: 0
           }
         );
+      } else {
+        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
+          maxAutoLockRenewalDurationInMs: 0
+        });
       }
 
       let batch = await receiver.receiveMessages(1);

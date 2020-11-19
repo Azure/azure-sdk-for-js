@@ -1288,7 +1288,9 @@ export class BlockBlobClient extends BlobClient {
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
     syncUploadFromURL(sourceURL: string, options?: BlockBlobSyncUploadFromURLOptions): Promise<BlockBlobPutBlobFromUrlResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
+    // @deprecated
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;

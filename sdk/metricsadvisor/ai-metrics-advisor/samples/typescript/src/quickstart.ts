@@ -14,7 +14,10 @@ import {
   AnomalyAlert,
   GetDataFeedResponse,
   MetricsAdvisorClient,
-  WebNotificationHook
+  WebNotificationHook,
+  DataFeedDescriptor,
+  AnomalyAlertConfiguration,
+  AnomalyDetectionConfiguration
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -87,7 +90,7 @@ async function createDataFeed(
   sqlServerQuery: string
 ): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
-  const dataFeed = {
+  const dataFeed: DataFeedDescriptor = {
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
       dataSourceType: "SqlServer",
@@ -125,18 +128,16 @@ async function createDataFeed(
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@microsoft.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@microsoft.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -151,11 +152,8 @@ async function checkIngestionStatus(
 ) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  for await (const status of adminClient.listDataFeedIngestionStatus(
-    datafeedId,
-    startTime,
-    endTime
-  )) {
+  const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
+  for await (const status of listIterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }
 }
@@ -165,7 +163,7 @@ async function configureAnomalyDetectionConfiguration(
   metricId: string
 ) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  const anomalyConfig = {
+  const anomalyConfig: Omit<AnomalyDetectionConfiguration, "id"> = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
     wholeSeriesDetectionCondition: {
@@ -180,7 +178,7 @@ async function configureAnomalyDetectionConfiguration(
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(anomalyConfig);
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 
 async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
@@ -207,7 +205,7 @@ async function configureAlertConfiguration(
   hookIds: string[]
 ) {
   console.log("Creating a new alerting configuration...");
-  const anomalyAlert = {
+  const anomalyAlert: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [
@@ -232,7 +230,7 @@ async function configureAlertConfiguration(
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlert);
+  return await adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(
@@ -245,12 +243,8 @@ async function queryAlerts(
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
   let alerts: AnomalyAlert[] = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
+  const listIterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
+  for await (const alert of listIterator) {
     alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
@@ -260,13 +254,13 @@ async function queryAlerts(
   // alternatively we could list results by pages
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
+    .listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.table(result.value.alerts);
+    console.table(result.value);
     result = await iterator.next();
   }
 
@@ -277,7 +271,8 @@ async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: Anomal
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomalies(alert)) {
+  const listIterator = client.listAnomalies(alert);
+  for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

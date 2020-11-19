@@ -7,9 +7,7 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
-  ServiceBusClientOptions,
-  ServiceBusReceiverOptions,
-  ServiceBusSessionReceiverOptions
+  ServiceBusClientOptions
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -23,6 +21,7 @@ import {
 } from "./managementUtils";
 import chai from "chai";
 import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../src/serviceBusMessage";
+import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../src/models";
 
 dotenv.config();
 const env = getEnvVars();

@@ -4,6 +4,7 @@
 import chai from "chai";
 import Long from "long";
 const should = chai.should();
+const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
@@ -21,6 +22,8 @@ describe("invalid parameters", () => {
   after(() => {
     return serviceBusClient.test.after();
   });
+
+  const invalidMessageCounts = [-100, 0, "boo", undefined, null];
 
   describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: ServiceBusSender;
@@ -71,52 +74,57 @@ describe("invalid parameters", () => {
       );
     });
 
-    it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages(-100);
-      should.equal(peekedMessages.length, 0);
-    });
-
-    it("Peek: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        // @ts-expect-error
-        await receiver.peekMessages("somestring");
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "maxMessageCount" should be of type "number"`
-      );
-    });
-
-    it("PeekBySequenceNumber: Invalid maxMessageCount in SessionReceiver", async function(): Promise<
-      void
-    > {
-      const peekedMessages = await receiver.peekMessages(-100, {
-        fromSequenceNumber: Long.ZERO
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`ReceiveMessages: ${inputValue} as maxMessageCount in SessionReceiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.receiveMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
       });
-      should.equal(peekedMessages.length, 0);
     });
 
-    it("PeekBySequenceNumber: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        // @ts-expect-error
-        await receiver.peekMessages("somestring", {
-          fromSequenceNumber: Long.ZERO
-        });
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "maxMessageCount" should be of type "number"`
-      );
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`Peek: ${inputValue} as maxMessageCount in SessionReceiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.peekMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
+      });
+    });
+
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`PeekBySequenceNumber: ${inputValue} maxMessageCount in SessionReceiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.peekMessages(inputValue, {
+            fromSequenceNumber: Long.ZERO
+          });
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
+      });
     });
 
     it("PeekBySequenceNumber: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
@@ -243,50 +251,55 @@ describe("invalid parameters", () => {
       );
     });
 
-    it("Peek: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages(-100);
-      should.equal(peekedMessages.length, 0);
-    });
-
-    it("Peek: Wrong type maxMessageCount for Queue", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        // @ts-expect-error
-        await receiver.peekMessages("somestring");
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "maxMessageCount" should be of type "number"`
-      );
-    });
-
-    it("PeekBySequenceNumber: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages(-100, {
-        fromSequenceNumber: Long.ZERO
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`ReceiveMessages: ${inputValue} as maxMessageCount in Receiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.receiveMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
       });
-      should.equal(peekedMessages.length, 0);
     });
 
-    it("PeekBySequenceNumber: Wrong type maxMessageCount for Queue", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        // @ts-expect-error
-        await receiver.peekMessages("somestring", {
-          fromSequenceNumber: Long.ZERO
-        });
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "maxMessageCount" should be of type "number"`
-      );
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`Peek: ${inputValue} as maxMessageCount in Receiver`, async function(): Promise<void> {
+        try {
+          // @ts-expect-error
+          await receiver.peekMessages(inputValue);
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
+      });
+    });
+
+    invalidMessageCounts.forEach((inputValue) => {
+      it(`PeekBySequenceNumber: ${inputValue} maxMessageCount in Receiver`, async function(): Promise<
+        void
+      > {
+        try {
+          // @ts-expect-error
+          await receiver.peekMessages(inputValue, {
+            fromSequenceNumber: Long.ZERO
+          });
+          chai.assert.fail("This should not have passed.");
+        } catch (error) {
+          should.equal(error && error.name, "TypeError");
+          expect(error.message, "Validation error for maxMessageCount not thrown").includes(
+            "maxMessageCount"
+          );
+        }
+      });
     });
 
     it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue", async function(): Promise<

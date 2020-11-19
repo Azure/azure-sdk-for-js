@@ -46,7 +46,7 @@ async function main() {
 
 async function getDetectionConfig(adminClient, detectionConfigId) {
   console.log("Retrieving an existing detection configuration...");
-  const result = await adminClient.getMetricAnomalyDetectionConfiguration(detectionConfigId);
+  const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
   return result;
 }
@@ -110,7 +110,7 @@ async function createDetectionConfig(adminClient, metricId) {
     seriesDetectionConditions
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createMetricAnomalyDetectionConfiguration(config);
+  return await adminClient.createDetectionConfig(config);
 }
 
 // updating an detection configuration
@@ -160,20 +160,21 @@ async function updateDetectionConfig(adminClient, configId) {
   };
 
   console.log(`Updating existing detection configuration '${configId}'`);
-  const result = await adminClient.updateMetricAnomalyDetectionConfiguration(configId, patch);
+  const result = await adminClient.updateDetectionConfig(configId, patch);
   console.log(result);
   return result;
 }
 
 async function deleteDetectionConfig(adminClient, detectionConfigId) {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
-  await adminClient.deleteMetricAnomalyDetectionConfiguration(detectionConfigId);
+  await adminClient.deleteDetectionConfig(detectionConfigId);
 }
 
 async function listDetectionConfig(adminClient, metricId) {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
-  for await (const config of adminClient.listMetricAnomalyDetectionConfigurations(metricId)) {
+  const iterator = adminClient.listDetectionConfigs(metricId);
+  for await (const config of iterator) {
     console.log(`  detection configuration ${i++}`);
     console.log(config);
   }

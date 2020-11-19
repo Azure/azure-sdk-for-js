@@ -4,10 +4,9 @@
 import {
   ServiceBusMessage,
   toRheaMessage,
-  isServiceBusMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
-import { throwTypeErrorIfParameterMissing } from "./util/errors";
+import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
@@ -22,6 +21,7 @@ import {
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
@@ -62,8 +62,8 @@ export interface ServiceBusMessageBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
@@ -245,9 +245,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
-    if (!isServiceBusMessage(message)) {
-      throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
-    }
+    throwIfNotValidServiceBusMessage(
+      message,
+      "Provided value for 'message' must be of type ServiceBusMessage."
+    );
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
@@ -263,7 +264,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message);
-    amqpMessage.body = this._context.dataTransformer.encode(message.body);
+    amqpMessage.body = defaultDataTransformer.encode(message.body);
 
     let encodedMessage: Buffer;
     try {

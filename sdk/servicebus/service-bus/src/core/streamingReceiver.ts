@@ -19,7 +19,6 @@ import {
   RetryConfig,
   retry,
   MessagingError,
-  translate,
   RetryOptions,
   ConditionErrorNameMapper
 } from "@azure/core-amqp";
@@ -28,6 +27,7 @@ import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
@@ -190,7 +190,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onAmqpError = (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError) as MessagingError;
+        const sbError = translateServiceBusError(receiverError) as MessagingError;
         logger.logError(
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
@@ -201,7 +201,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onSessionError = (context: EventContext) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError) as MessagingError;
+        const sbError = translateServiceBusError(sessionError) as MessagingError;
         logger.logError(
           sbError,
           `${this.logPrefix} 'session_error' event occurred. The associated error is`
@@ -222,7 +222,6 @@ export class StreamingReceiver extends MessageReceiver {
       }
 
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-        this._context,
         context.message!,
         context.delivery!,
         true,
@@ -261,7 +260,7 @@ export class StreamingReceiver extends MessageReceiver {
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
         this._lockRenewer?.stop(this, bMessage);
-        const error = translate(err) as MessagingError;
+        const error = translateServiceBusError(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
@@ -281,7 +280,7 @@ export class StreamingReceiver extends MessageReceiver {
             );
             await abandonMessage(bMessage, this._context, entityPath);
           } catch (abandonError) {
-            const translatedError = translate(abandonError);
+            const translatedError = translateServiceBusError(abandonError);
             logger.logError(
               translatedError,
               "%s An error occurred while abandoning the message with id '%s' on the " +
@@ -318,7 +317,7 @@ export class StreamingReceiver extends MessageReceiver {
           );
           await completeMessage(bMessage, this._context, entityPath);
         } catch (completeError) {
-          const translatedError = translate(completeError);
+          const translatedError = translateServiceBusError(completeError);
           logger.logError(
             translatedError,
             "%s An error occurred while completing the message with id '%s' on the " +
@@ -362,26 +361,6 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   /**
-   * Returns a wrapped function that makes any thrown errors retryable (_except_  for AbortError) by
-   * wrapping them in a StreamingReceiverError .
-   */
-  private static wrapRetryOperation(fn: () => Promise<void>) {
-    return async () => {
-      try {
-        await fn();
-      } catch (err) {
-        if (err.name === "AbortError") {
-          throw err;
-        }
-
-        // once we're at this point where we can spin up a connection we're past the point
-        // of fatal errors like the connection string just outright being malformed, for instance.
-        throw new StreamingReceiverError(err);
-      }
-    };
-  }
-
-  /**
    * Initializes the link. This method will retry infinitely until a connection is established.
    *
    * The retries are broken up into cycles. For each cycle we do a set of retries, using the user's
@@ -405,7 +384,7 @@ export class StreamingReceiver extends MessageReceiver {
       ++numRetryCycles;
 
       const config: RetryConfig<void> = {
-        operation: StreamingReceiver.wrapRetryOperation(() => this._initOnce(args)),
+        operation: () => this._initOnce(args),
         connectionId: args.connectionId,
         operationType: RetryOperationType.receiverLink,
         // even though we're going to loop infinitely we allow them to control the pattern we use on each
@@ -418,11 +397,6 @@ export class StreamingReceiver extends MessageReceiver {
         await this._retry<void>(config);
         break;
       } catch (err) {
-        if (StreamingReceiverError.isStreamingReceiverError(err)) {
-          // report the original error to the user
-          err = err.originalError;
-        }
-
         // we only report the error here - this avoids spamming the user with too many
         // redundant reports of errors while still providing them incremental status on failures.
         args.onError({
@@ -510,7 +484,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._isDetaching = true;
 
-    const translatedError = receiverError ? translate(receiverError) : receiverError;
+    const translatedError = receiverError ? translateServiceBusError(receiverError) : receiverError;
     logger.logError(
       translatedError,
       `${this.logPrefix} onDetached: Reinitializing receiver because of error`
@@ -543,30 +517,5 @@ export class StreamingReceiver extends MessageReceiver {
     } finally {
       this._isDetaching = false;
     }
-  }
-}
-
-/**
- * Wraps an error thrown from the operation for retry<>.
- *
- * Used so we don't have to worry about modifying the errors that
- * also might have originated from the user's processMessage handler,
- * which they rightfully own.
- *
- * @internal
- * @ignore
- */
-export class StreamingReceiverError extends Error {
-  constructor(public originalError: Error | MessagingError) {
-    super(originalError.message);
-    this.name = "StreamingReceiverError";
-  }
-
-  retryable: boolean = true;
-
-  static isStreamingReceiverError(
-    err: Error | StreamingReceiverError
-  ): err is StreamingReceiverError {
-    return err.name === "StreamingReceiverError";
   }
 }

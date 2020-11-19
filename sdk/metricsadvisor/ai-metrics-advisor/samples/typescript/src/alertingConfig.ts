@@ -11,7 +11,6 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  MetricAlertConfiguration,
   AnomalyAlertConfiguration
 } from "@azure/ai-metrics-advisor";
 
@@ -51,7 +50,7 @@ async function createAlertConfig(
   detectionConfigId: string
 ) {
   console.log("Creating a new alerting configuration...");
-  const alertConfig = {
+  const alertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "js alerting config name " + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
     metricAlertConfigurations: [
@@ -72,7 +71,7 @@ async function createAlertConfig(
     hookIds: [],
     description: "alerting config description"
   };
-  const result = await adminClient.createAnomalyAlertConfiguration(alertConfig);
+  const result = await adminClient.createAlertConfig(alertConfig);
   console.log(result);
   return result;
 }
@@ -100,13 +99,16 @@ async function updateAlertConfig(
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          dimensionAnomalyScope: { city: "Kolkata", category: "Shoes Handbags & Sunglasses" }
+          dimensionAnomalyScope: {
+            city: "Kolkata",
+            category: "Shoes Handbags & Sunglasses"
+          }
         }
       }
     ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
-  const updated = await adminClient.updateAnomalyAlertConfiguration(alertConfigId, patch);
+  const updated = await adminClient.updateAlertConfig(alertConfigId, patch);
   return updated;
 }
 
@@ -115,7 +117,7 @@ async function deleteAlertConfig(
   alertConfigId: string
 ) {
   console.log(`Deleting alerting configuration ${alertConfigId}`);
-  await adminClient.deleteAnomalyAlertConfiguration(alertConfigId);
+  await adminClient.deleteAlertConfig(alertConfigId);
 }
 
 async function listAlertConfig(
@@ -124,7 +126,8 @@ async function listAlertConfig(
 ) {
   console.log(`Listing alert configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
-  for await (const config of adminClient.listAnomalyAlertConfigurations(detectdionConfigId)) {
+  const iterator = adminClient.listAlertConfigs(detectdionConfigId);
+  for await (const config of iterator) {
     console.log(`Alert configuration ${i++}`);
     console.log(config);
   }

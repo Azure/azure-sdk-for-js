@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/45fff2a8-4c55-4b4c-b89a-8d6be1195545",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"45fff2a8-4c55-4b4c-b89a-8d6be1195545\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-02T18:27:11Z\",\"lastUpdatedDateTime\":\"2020-11-02T18:27:25Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Ft Lauderdale, FL Phone:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "responseHeaders": {
+    "apim-request-id": "1d140dab-6a31-455e-9714-c5662c837d39",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 02 Nov 2020 18:27:26 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "14"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "8958de38e506973813cd3c4312b8ae74"
+}

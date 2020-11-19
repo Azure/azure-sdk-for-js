@@ -895,6 +895,13 @@ export const StorageError: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      code: {
+        xmlName: "Code",
+        serializedName: "Code",
+        type: {
+          name: "String"
+        }
       }
     }
   }

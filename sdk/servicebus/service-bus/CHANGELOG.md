@@ -1,44 +1,54 @@
 # Release History
 
-## 7.0.0-preview.8 (Unreleased)
+## 7.0.0 (Unreleased)
+
+### Breaking changes
+
+- The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
+  The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
+- Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
+  [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
+- `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
+  [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
+
+## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:
 
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entityPath details from the connection string.
+  [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
+- All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
 - Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-- The `processError` passed to `Receiver.subscribe` now receives a `ProcessErrorArgs` instead of just an error. This parameter provides additional context that can make it simpler to distinguish
-  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorArgs`) as well as giving you some information about the entity that generated the error.
-  [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
-- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus.
-  [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
-- `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard".
-  [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
-- `NamespaceProperties` interface property "namespaceType" has been removed.
-  [PR 11995](https://github.com/Azure/azure-sdk-for-js/pull/11995)
 - Internal improvement - For the operations depending on `$management` link such as peek or lock renewals, the listeners for the "sender_error" and "receiver_error" events were added to the link for each new request made before the link is initialized which would have resulted in too many listeners and a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 sender_error listeners added to [Sender]. Use emittr.setMaxListeners() to increase limit`(same for `receiver_error`). This has been improved such that the listeners are reused.
   [PR 11738](https://github.com/Azure/azure-sdk-for-js/pull/11738)
-- All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
 
 ### Breaking changes
 
+- The `processError` passed to `Receiver.subscribe` now receives a `ProcessErrorArgs` instead of just an error. This parameter provides additional context that can make it simpler to distinguish
+  errors that were thrown from your callback (via the `errorSource` member of `ProcessErrorArgs`) as well as giving you some information about the entity that generated the error.
+  [PR 11927](https://github.com/Azure/azure-sdk-for-js/pull/11927)
 - The methods to complete, abandon, defer and deadletter a message along with the method to renew message lock have been moved from the message to the receiver. With this, we now have additional validation to ensure that a peeked message cannot be used with these methods.
-- The word "Message" is added to all methods and interfaces related to creating and sending a batch of messages for clarity based on user studies:
-  - The `createBatch` method on the sender is renamed to `createMessageBatch`.
-  - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
-  - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
-- Renames to `ServiceBusMessage` and `CorrelationRuleFilter` fields to better align with the AMQP spec:
-  - "properties" renamed to "applicationProperties".
+- Method and interface renames based on user studies and internal reviews:
+
+  - The word "Message" is added to all methods and interfaces related to creating and sending a batch of messages for clarity based on user studies:
+    - The `createBatch` method on the sender is renamed to `createMessageBatch`.
+    - The interface `CreateBatchOptions` followed by the options that are passed to the `createBatch` method is renamed to `CreateMessageBatchOptions`.
+    - The `tryAdd` method on the message batch object is renamed to `tryAddMessage`.
+  - Renames to `ServiceBusMessage` and `CorrelationRuleFilter` fields to better align with the AMQP spec:
+    - "properties" renamed to "applicationProperties".
   - "label" renamed to "subject".
+  - The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`.
+  - The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
+  - The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs` to be consistent with a similar option for renewing messages.
+  - The property `subQueue` in the options passed to the `createReceiver()` method is renamed to `subQueueType` to reflect that the value is restricted and not meant to contain any queue names. The corresponding type `SubQueue` is removed in favor of inlining the string literals that represent valid values.
+
 - `SqlRuleFilter` interface "sqlExpression" changed from optional to required.
-- The interface `CreateReceiverOptions` followed by options that are passed to `ServiceBusClient.createReceiver` method is renamed to `ServiceBusReceiverOptions`.
-- The interface `AcceptSessionOptions` followed by options that are passed to `ServiceBusClient` `acceptSession` and `acceptNextSession` methods is renamed to `ServiceBusSessionReceiverOptions`.
-- The property `maxAutoRenewLockDurationInMs` of interface `ServiceBusSessionReceiverOptions` is renamed to `maxAutoLockRenewalDurationInMs` to be consistent with a similar option for renewing messages.
 - `ServiceBusSender.scheduleMessages` method signature updated: `scheduledEnqueueTimeUtc` and `messages` parameters are swapped as the messages are the primary object that is being worked with.
 - `NamespaceProperties` interface property "messageSku" type changed from "string" to string literal type "Basic" | "Premium" | "Standard" to reflect the limited types it supports.
 - `NamespaceProperties` interface property "namespaceType" has been removed as it does not provide any value.
-- The property `subQueue` in the options passed to the `createReceiver()` method is renamed to `subQueueType` to reflect that the value is restricted and not meant to contain any queue names. The corresponding type `SubQueue` is removed in favor of inlining the string literals that represent valid values.
 - Interfaces corresponding to the returned responses from the methods under the `ServiceBusAdministrationClient` such as `NamespacePropertiesResponse`, `QueueResponse`, `TopicRuntimePropertiesResponse` have been removed in favor of using generic type `WithResponse<T>` for a cleaner API surface.
   [PR 10491](https://github.com/Azure/azure-sdk-for-js/pull/10491)
 - Updated the `update{Entity}` methods under `ServiceBusAdministrationClient` with relevant param names and types, more docs.

@@ -8,6 +8,7 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -303,7 +304,7 @@ export class EventDataBatchImpl implements EventDataBatch {
 
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(eventData, this._partitionKey);
-    amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
+    amqpMessage.body = defaultDataTransformer.encode(eventData.body);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

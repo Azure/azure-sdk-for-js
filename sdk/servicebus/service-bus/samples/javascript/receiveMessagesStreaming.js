@@ -12,7 +12,7 @@ For samples using the current stable version (v1) of the package, please use the
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-const { delay, isMessagingError, ServiceBusClient } = require("@azure/service-bus");
+const { delay, isServiceBusError, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -30,27 +30,24 @@ async function main() {
 
   try {
     const subscription = receiver.subscribe({
+      // After executing this callback you provide, the receiver will remove the message from the queue if you
+      // have not already settled the message in your callback.
+      // You can disable this by passing `false` to the `autoCompleteMessages` option in the `subscribe()` method.
+      // If your callback _does_ throw an error before the message is settled, then it will be abandoned.
       processMessage: async (brokeredMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
-
-        // autoComplete, which is enabled by default, will automatically call
-        // receiver.completeMessage() on your message after awaiting on your processMessage
-        // handler so long as your handler does not throw an error.
-        //
-        // If your handler _does_ throw an error then the message will automatically
-        // be abandoned using receiver.abandonMessage()
-        //
-        // autoComplete can be disabled in the options for subscribe().
       },
+      // This callback will be called for any error that occurs when either in the receiver when receiving the message
+      // or when executing your `processMessage` callback or when the receiver automatically completes or abandons the message.
       processError: async (args) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
         // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.
-        if (isMessagingError(args.error)) {
+        if (isServiceBusError(args.error)) {
           switch (args.error.code) {
-            case "MessagingEntityDisabledError":
-            case "MessagingEntityNotFoundError":
-            case "UnauthorizedError":
+            case "MessagingEntityDisabled":
+            case "MessagingEntityNotFound":
+            case "Unauthorized":
               // It's possible you have a temporary infrastructure change (for instance, the entity being
               // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
               // what is considered fatal for your program.
@@ -60,10 +57,10 @@ async function main() {
               );
               await subscription.close();
               break;
-            case "MessageLockLostError":
+            case "MessageLockLost":
               console.log(`Message lock lost for message`, args.error);
               break;
-            case "ServerBusyError":
+            case "ServiceBusy":
               // choosing an arbitrary amount of time to wait.
               await delay(1000);
               break;

@@ -7,15 +7,19 @@ import { assert } from "chai";
 import {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyFeedback as ServiceAnomalyFeedback,
+  DataFeedDetailUnion as ServiceDataFeedDetailUnion,
+  Granularity as ServiceGranularity,
   ChangePointFeedback as ServiceChangePointFeedback,
   CommentFeedback as ServiceCommentFeedback,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration
 } from "../src/generated/models";
-import { MetricDetectionCondition } from "../src/models";
+import { DataFeedGranularity, MetricDetectionCondition } from "../src/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
-  fromServiceMetricFeedbackUnion
+  fromServiceDataFeedDetailUnion,
+  fromServiceMetricFeedbackUnion,
+  toServiceGranularity
 } from "../src/transforms";
 
 describe("Transforms", () => {
@@ -88,7 +92,7 @@ describe("Transforms", () => {
     const actual = fromServiceMetricFeedbackUnion(anomalyFeedback);
 
     assert.equal(actual.id, feedbackCommon.feedbackId);
-    assert.equal(actual.createdTime, feedbackCommon.createdTime);
+    assert.equal(actual.createdOn, feedbackCommon.createdTime);
     assert.equal(actual.userPrincipal, feedbackCommon.userPrincipal);
     assert.equal(actual.dimensionKey, feedbackCommon.dimensionFilter.dimension);
     assert.equal(actual.feedbackType, "Anomaly");
@@ -159,5 +163,79 @@ describe("Transforms", () => {
       assert.equal(actual.periodValue, feedback.value.periodValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
+  });
+
+  it("fromServiceDataFeedDetailUnion()", () => {
+    const serviceDataFeed: ServiceDataFeedDetailUnion = {
+      dataSourceType: "AzureBlob",
+      dataFeedName: "name",
+      metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
+      dimension: [{ name: "d1", displayName: "d1 display" }],
+      granularityName: "Daily",
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+    };
+
+    const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
+
+    assert.strictEqual(actual.name, serviceDataFeed.dataFeedName);
+    assert.deepStrictEqual(actual.schema.dimensions, serviceDataFeed.dimension);
+    assert.deepStrictEqual(actual.schema.metrics, serviceDataFeed.metrics);
+    assert.strictEqual(actual.source.dataSourceType, serviceDataFeed.dataSourceType);
+  });
+
+  it("fromServiceDataFeedDetailUnion() for future data source types", () => {
+    const serviceDataFeed: ServiceDataFeedDetailUnion = {
+      dataSourceType: "Future Source" as any,
+      dataSourceParameter: { futureConnectionString: "xyz", futureQuery: "someQuery" } as any,
+      dataFeedName: "name",
+      metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
+      dimension: [{ name: "d1", displayName: "d1 display" }],
+      granularityName: "Daily",
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+    };
+
+    const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
+    assert.strictEqual(actual.source.dataSourceType, "Unknown");
+    assert.deepStrictEqual(actual.source.dataSourceParameter, serviceDataFeed.dataSourceParameter);
+  });
+
+  [
+    { original: "Yearly", expected: "Yearly" },
+    { original: "Daily", expected: "Daily" },
+    { original: "Secondly", expected: "PerSecond" },
+    { original: "Minutely", expected: "PerMinute" }
+  ].forEach((granularity) => {
+    it(`fromServiceDataFeedDetailUnion() on granularity ${granularity.original}`, () => {
+      const serviceDataFeed: ServiceDataFeedDetailUnion = {
+        dataSourceType: "AzureBlob",
+        dataFeedName: "name",
+        metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
+        dimension: [{ name: "d1", displayName: "d1 display" }],
+        granularityName: granularity.original as ServiceGranularity,
+        dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+      };
+
+      const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
+      assert.deepStrictEqual(actual.granularity, {
+        granularityType: granularity.expected
+      } as DataFeedGranularity);
+    });
+  });
+
+  [
+    { original: "Yearly", expected: "Yearly" },
+    { original: "Daily", expected: "Daily" },
+    { original: "PerSecond", expected: "Secondly" },
+    { original: "PerMinute", expected: "Minutely" }
+  ].forEach((granularity) => {
+    it(`toServiceGranularity() on granularity ${granularity.original}`, () => {
+      const from = {
+        granularityType: granularity.original
+      } as DataFeedGranularity;
+
+      const actual = toServiceGranularity(from);
+
+      assert.strictEqual(actual.granularityName, granularity.expected);
+    });
   });
 });
