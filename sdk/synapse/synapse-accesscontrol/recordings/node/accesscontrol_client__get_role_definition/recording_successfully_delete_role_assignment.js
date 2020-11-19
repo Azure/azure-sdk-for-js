@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "5d67dbe0f9db42f83000696f2b8e136c";
+module.exports.hash = "cb197560fdf2234dfbeac80d081c98be";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,21 +22,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8d1040ec-fbd9-42aa-8cf1-d1f2bb450600',
+  'b0572c05-8ffc-43fd-8f57-a89a1d220200',
   'x-ms-ests-server',
-  '2.1.11239.6 - SEASLR1 ProdSlices',
+  '2.1.11251.20 - EASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AhfwASOYxjhMn3xH8KNMIQc; expires=Sun, 13-Dec-2020 06:36:52 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ani6VASsK0dNgGajTl5BXxtJ0eYvAQAAANF_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:54 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 13 Nov 2020 06:36:51 GMT'
+  'Fri, 20 Nov 2020 09:13:53 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .delete('/rbac/roleAssignments/roll_id-principal_id')
+  .delete('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247')
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -48,7 +48,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'dd4f49a8-5e54-43f9-b6b0-62df14c8974f',
+  '7b5c799a-56ae-4e70-bb3c-4377bd12c1a2',
   'Date',
-  'Fri, 13 Nov 2020 06:36:52 GMT'
+  'Fri, 20 Nov 2020 09:13:54 GMT'
 ]);

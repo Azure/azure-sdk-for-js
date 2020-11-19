@@ -11,35 +11,36 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 06:37:02 GMT",
+    "date": "Fri, 20 Nov 2020 09:14:05 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11239.6 - SEASLR1 ProdSlices",
-    "x-ms-request-id": "80bc70d3-4c78-43c8-bdbc-eac40a3e0600"
+    "x-ms-ests-server": "2.1.11251.20 - EASLR2 ProdSlices",
+    "x-ms-request-id": "6bc46273-a7df-4d05-b20b-3a7794370200"
    }
   },
   {
    "method": "GET",
-   "url": "https://workspace_name.dev.azuresynapse.net/rbac/roleAssignments",
+   "url": "https://workspace_name.dev.azuresynapse.net/roleAssignments",
    "query": {
-    "api-version": "2020-02-01-preview"
+    "api-version": "2020-08-01-preview",
+    "roleId": "roll_id"
    },
    "requestBody": null,
    "status": 200,
-   "response": "[{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-6ae2ff4b-4939-4952-a097-d234aad383a3\",\"roleId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"6ae2ff4b-4939-4952-a097-d234aad383a3\"},{\"id\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleId\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-e64a6f06-c0ef-4564-ab5d-ac006d710db5\",\"roleId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"e64a6f06-c0ef-4564-ab5d-ac006d710db5\"},{\"id\":\"roll_id-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleId\":\"roll_id\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\"},{\"id\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1-principal_id\",\"roleId\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1\",\"principalId\":\"principal_id\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-principal_id\",\"roleId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"principal_id\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\"},{\"id\":\"roll_id-principal_id\",\"roleId\":\"roll_id\",\"principalId\":\"principal_id\"}]",
+   "response": "{\"count\":2,\"value\":[{\"id\":\"roll_id-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleDefinitionId\":\"roll_id\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"scope\":\"workspaces/workspace_name\"},{\"id\":\"37f0b7d7-7dae-0df0-6bb9-8b5444826339\",\"roleDefinitionId\":\"roll_id\",\"principalId\":\"principal_id\",\"scope\":\"workspaces/workspace_name\"}]}",
    "responseHeaders": {
-    "content-length": "1473",
+    "content-length": "456",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 06:37:02 GMT",
+    "date": "Fri, 20 Nov 2020 09:14:06 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-ms-continuation": "",
-    "x-ms-request-id": "da8298a0-aa34-4b52-8069-468dc0f50642"
+    "x-ms-request-id": "5d8416ea-e5c5-4218-9a2f-a2dd2e683a1d"
    }
   }
  ],
@@ -47,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a692dc13ce4d1216d9c837f814dd19d9"
+ "hash": "0d5baabb6b9d29b100683991c91dfdf7"
 }

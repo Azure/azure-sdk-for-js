@@ -4,26 +4,34 @@
 
 ```ts
 
+import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public (undocumented)
 export class AccessControlClient {
     constructor(workspaceEndpoint: string, credential: TokenCredential, pipelineOptions?: AccesscontrolClientOptions);
-    createRoleAssignment(roleId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<WithResponse<RoleAssignmentDetails>>;
-    deleteRoleAssignmentById(roleAssignmentId: string, options?: DeleteRoleAssignmentOptions): Promise<OperationResponse>;
-    getCallerRoleAssignments(options?: GetCallerRoleAssignmentsOptions): Promise<WithResponse<string[]>>;
+    checkPrincipalAccess(subject: SubjectInfo, actions: Action[], scope: string, options?: CheckPrincipalAccessOptions): Promise<WithResponse<CheckPrincipalAccessResponse>>;
+    createRoleAssignment(roleAssignmentId: string, roleId: string, principalId: string, scope: string, options?: CreateRoleAssignmentOptions): Promise<WithResponse<RoleAssignmentDetails>>;
+    deleteRoleAssignmentById(roleAssignmentId: string, options?: DeleteRoleAssignmentByIdOptions): Promise<OperationResponse>;
     getRoleAssignmentById(roleAssignmentId: string, options?: GetRoleAssignmentOptions): Promise<WithResponse<RoleAssignmentDetails>>;
-    getRoleDefinitionById(roleId: string, options?: GetRoleDefinitionOptions): Promise<WithResponse<SynapseRole>>;
-    listRoleAssignments(roleId?: string, principalId?: string, options?: OperationOptions): Promise<WithResponse<RoleAssignmentDetails[]>>;
-    listRoleDefinitions(options?: ListRoleDefinitionOptions): PagedAsyncIterableIterator<SynapseRole>;
-    }
+    getRoleDefinitionById(roleId: string, options?: GetRoleDefinitionOptions): Promise<WithResponse<SynapseRoleDefinition>>;
+    listRoleAssignments(options?: ListRoleAssignmentsOptions): Promise<WithResponse<RoleAssignmentDetailsList>>;
+    listRoleDefinitions(options?: ListRoleDefinitionOptions): Promise<WithResponse<SynapseRoleDefinition[]>>;
+    listScopes(options?: ListScopesOptions): Promise<WithResponse<string[]>>;
+}
 
 // @public
-export interface AccesscontrolClientOptions extends PipelineOptions {
+export interface AccesscontrolClientOptions extends coreHttp.PipelineOptions {
+    apiVersion?: string;
+    endpoint?: string;
+}
+
+// @public
+export interface Action {
+    id: string;
+    isDataAction: boolean;
 }
 
 // @public
@@ -32,14 +40,37 @@ export const attachHttpResponse: <T>(model: T, httpResponse: HttpResponse & {
     parsedBody: any;
 }) => WithResponse<T>;
 
-// @public (undocumented)
-export type CreateRoleAssignmentOptions = OperationOptions;
+// @public
+export interface CheckAccessDecision {
+    accessDecision?: string;
+    actionId?: string;
+    roleAssignment?: RoleAssignmentDetails;
+}
 
 // @public (undocumented)
-export type DeleteRoleAssignmentOptions = OperationOptions;
+export type CheckPrincipalAccessOptions = OperationOptions;
+
+// @public
+export interface CheckPrincipalAccessRequest {
+    actions: Action[];
+    scope: string;
+    subject: SubjectInfo;
+}
+
+// @public
+export interface CheckPrincipalAccessResponse {
+    accessDecisions?: CheckAccessDecision[];
+}
 
 // @public (undocumented)
-export type GetCallerRoleAssignmentsOptions = OperationOptions;
+export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
+    principalType?: string;
+}
+
+// @public (undocumented)
+export interface DeleteRoleAssignmentByIdOptions extends coreHttp.OperationOptions {
+    scope?: string;
+}
 
 // @public (undocumented)
 export type GetRoleAssignmentOptions = OperationOptions;
@@ -47,13 +78,27 @@ export type GetRoleAssignmentOptions = OperationOptions;
 // @public (undocumented)
 export type GetRoleDefinitionOptions = OperationOptions;
 
-// @public
-export interface ListPageSettings {
+// @public (undocumented)
+export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
     continuationToken?: string;
+    principalId?: string;
+    roleId?: string;
+    scope?: string;
+}
+
+// @public
+export interface ListRoleDefinitionOptions extends coreHttp.OperationOptions {
+    isBuiltIn?: boolean;
+    scope?: string;
 }
 
 // @public (undocumented)
-export type ListRoleDefinitionOptions = OperationOptions;
+export type ListScopesOptions = OperationOptions;
+
+// @public
+export interface OperationResponse {
+    _response: HttpResponse;
+}
 
 // @public
 export interface OperationResponse {
@@ -64,14 +109,48 @@ export interface OperationResponse {
 export interface RoleAssignmentDetails {
     id?: string;
     principalId?: string;
-    roleId?: string;
+    principalType?: string;
+    roleDefinitionId?: string;
+    scope?: string;
 }
 
 // @public
-export interface SynapseRole {
+export interface RoleAssignmentDetailsList {
+    count?: number;
+    value?: RoleAssignmentDetails[];
+}
+
+// @public
+export interface RoleAssignmentRequest {
+    principalId: string;
+    principalType?: string;
+    roleId: string;
+    scope: string;
+}
+
+// @public
+export interface SubjectInfo {
+    groupIds?: string[];
+    principalId: string;
+}
+
+// @public
+export interface SynapseRbacPermission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface SynapseRoleDefinition {
+    availabilityStatus?: string;
+    description?: string;
     id?: string;
-    isBuiltIn: boolean;
+    isBuiltIn?: boolean;
     name?: string;
+    permissions?: SynapseRbacPermission[];
+    scopes?: string[];
 }
 
 // @public

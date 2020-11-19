@@ -35,3 +35,14 @@ export function getPrincipalId(): string {
 
   return PrincipalId;
 }
+
+export function getScope(): string {
+  const ScopeEnv = "RBAC_SCOPE";
+  const scope: string | undefined = env[ScopeEnv];
+
+  if (!scope) {
+    throw new Error(`${ScopeEnv} environment variable not specified.`);
+  }
+
+  return scope;
+}

@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,25 +22,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8c5bf2d4-2333-4edc-b278-5971483a0600',
+  'f2e9c6b9-52b4-49b3-8ddc-3f50e09c0200',
   'x-ms-ests-server',
-  '2.1.11239.6 - SEASLR2 ProdSlices',
+  '2.1.11251.20 - EASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AvSgIGmrHpFDnVo_OIoYz8RJ0eYvAQAAAHsgQNcOAAAA; expires=Sun, 13-Dec-2020 06:36:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtoS1WOyW79IiqeEE6nCZvM; expires=Sun, 20-Dec-2020 09:13:44 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 13 Nov 2020 06:36:43 GMT'
+  'Fri, 20 Nov 2020 09:13:43 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .get('/rbac/roles/roll_id')
+  .get('/roleDefinitions/roll_id')
   .query(true)
-  .reply(200, {"id":"roll_id","name":"Sql Admin","isBuiltIn":true}, [
+  .reply(200, {"name":"Sql Admin","description":"Can read info about SQL pools and SQL endpoints. Can do CRUD operations on SQL scripts.","id":"roll_id","isBuiltIn":true,"permissions":[{"actions":[],"notActions":[],"dataActions":["Microsoft.Synapse/workspaces/read","Microsoft.Synapse/workspaces/artifacts/read","Microsoft.Synapse/workspaces/sqlScripts/write","Microsoft.Synapse/workspaces/linkedServices/write","Microsoft.Synapse/workspaces/credentials/write","Microsoft.Synapse/workspaces/sqlScripts/delete","Microsoft.Synapse/workspaces/linkedServices/delete","Microsoft.Synapse/workspaces/credentials/delete","Microsoft.Synapse/workspaces/libraries/delete","Microsoft.Synapse/workspaces/libraries/write"],"notDataActions":[]}],"scopes":["workspaces/{workspaceName}"],"availabilityStatus":"Available"}, [
   'Content-Length',
-  '81',
+  '819',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -50,9 +50,9 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ae324c45-37ca-48dd-863f-cd02c6250236',
+  '19d864b9-a19c-4413-9885-5f558c9dacb9',
   'x-ms-request-id',
-  'ae324c45-37ca-48dd-863f-cd02c6250236',
+  '19d864b9-a19c-4413-9885-5f558c9dacb9',
   'Date',
-  'Fri, 13 Nov 2020 06:36:44 GMT'
+  'Fri, 20 Nov 2020 09:13:45 GMT'
 ]);

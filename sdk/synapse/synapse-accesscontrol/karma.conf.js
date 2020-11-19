@@ -56,6 +56,7 @@ module.exports = function(config) {
       "WORKSPACE_NAME",
       "ROLL_ID",
       "PRINCIPAL_ID",
+      "RBAC_SCOPE",
       "TEST_MODE"
     ],
 
@@ -127,7 +128,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 180000,
+    browserNoActivityTimeout: 500000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -139,7 +140,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "180000"
+        timeout: "500000"
       }
     }
   });

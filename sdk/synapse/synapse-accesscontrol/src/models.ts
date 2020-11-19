@@ -1,37 +1,89 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { HttpResponse } from "@azure/core-http";
-
-export { RoleAssignmentDetails, SynapseRole } from "./generated/models";
+import * as coreHttp from "@azure/core-http";
+export {
+  CheckPrincipalAccessRequest,
+  SubjectInfo,
+  Action,
+  SynapseRbacPermission,
+  CheckAccessDecision,
+  RoleAssignmentDetails,
+  SynapseRoleDefinition,
+  RoleAssignmentRequest,
+  RoleAssignmentDetailsList,
+  CheckPrincipalAccessResponse
+} from "./generated/models";
 
 /**
  * Options to create accesscontrol client.
  */
-export interface AccesscontrolClientOptions extends PipelineOptions {}
+// export interface AccesscontrolClientOptions extends PipelineOptions {}
+
+// export interface ListRoleDefinitionOptions extends RoleDefinitionsListRoleDefinitionsOptionalParams {}
+
+export interface ListRoleDefinitionOptions extends coreHttp.OperationOptions {
+  /**
+   * Is a Synapse Built-In Role or not.
+   */
+  isBuiltIn?: boolean;
+  /**
+   * Scope of the Synapse Built-in Role.
+   */
+  scope?: string;
+}
+
+export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
+  /**
+   * Type of the principal Id: User, Group or ServicePrincipal
+   */
+  principalType?: string;
+}
+
+export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
+  /**
+   * Scope of the Synapse Built-in Role.
+   */
+  scope?: string;
+  /**
+   * Synapse Built-In Role Id.
+   */
+  roleId?: string;
+  /**
+   * Object ID of the AAD principal or security-group.
+   */
+  principalId?: string;
+  /**
+   * Continuation token.
+   */
+  continuationToken?: string;
+}
+
+export interface DeleteRoleAssignmentByIdOptions extends coreHttp.OperationOptions {
+  /**
+   * Scope of the Synapse Built-in Role.
+   */
+  scope?: string;
+}
 
 export type GetRoleDefinitionOptions = OperationOptions;
 
+export type ListScopesOptions = OperationOptions;
+
 export type GetRoleAssignmentOptions = OperationOptions;
 
-export type ListRoleDefinitionOptions = OperationOptions;
-
-export type CreateRoleAssignmentOptions = OperationOptions;
-
-export type DeleteRoleAssignmentOptions = OperationOptions;
-
-export type GetCallerRoleAssignmentsOptions = OperationOptions;
+export type CheckPrincipalAccessOptions = OperationOptions;
 
 /**
- * Arguments for retrieving the next page of search results.
+ * Represents the repsonse for operations
  */
-export interface ListPageSettings {
+export interface OperationResponse {
   /**
-   * A token used for retrieving the next page of results when the server
-   * enforces pagination.
+   * The underlying HTTP response containing both raw and deserialized response data.
    */
-  continuationToken?: string;
+  _response: HttpResponse;
 }
 
 /**
@@ -76,3 +128,17 @@ export const attachHttpResponse = <T>(
     value: r
   });
 };
+
+/**
+ * Optional parameters.
+ */
+export interface AccesscontrolClientOptions extends coreHttp.PipelineOptions {
+  /**
+   * Api Version
+   */
+  apiVersion?: string;
+  /**
+   * Overrides client endpoint.
+   */
+  endpoint?: string;
+}

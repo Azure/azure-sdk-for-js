@@ -5,30 +5,33 @@
 import {
   TokenCredential,
   createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy,
-  OperationOptions
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 
 import { SynapseAccessControl } from "./generated";
 import { logger } from "./logger";
 import { DEFAULT_SYNAPSE_SCOPE, SDK_VERSION } from "./constants";
 import { createSpan, getCanonicalCode } from "./tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import {
-  AccesscontrolClientOptions,
-  attachHttpResponse,
-  CreateRoleAssignmentOptions,
-  DeleteRoleAssignmentOptions,
-  GetCallerRoleAssignmentsOptions,
-  GetRoleAssignmentOptions,
-  GetRoleDefinitionOptions,
-  ListPageSettings,
-  ListRoleDefinitionOptions,
+  SubjectInfo,
+  Action,
+  CheckPrincipalAccessResponse,
+  CheckPrincipalAccessOptions,
   OperationResponse,
+  DeleteRoleAssignmentByIdOptions,
+  RoleAssignmentDetailsList,
+  GetRoleDefinitionOptions,
+  ListRoleAssignmentsOptions,
+  CreateRoleAssignmentOptions,
+  AccesscontrolClientOptions,
+  ListRoleDefinitionOptions,
+  ListScopesOptions,
+  attachHttpResponse,
+  WithResponse,
+  SynapseRoleDefinition,
   RoleAssignmentDetails,
-  SynapseRole,
-  WithResponse
+  GetRoleAssignmentOptions
 } from "./models";
 
 export class AccessControlClient {
@@ -61,7 +64,9 @@ export class AccessControlClient {
   constructor(
     workspaceEndpoint: string,
     credential: TokenCredential,
-    pipelineOptions: AccesscontrolClientOptions = {}
+    pipelineOptions: AccesscontrolClientOptions = {
+      apiVersion: "2020-08-01-preview"
+    }
   ) {
     const libInfo = `azsdk-js-synapse-accesscontrol/${SDK_VERSION}`;
 
@@ -99,11 +104,13 @@ export class AccessControlClient {
   public async getRoleDefinitionById(
     roleId: string,
     options: GetRoleDefinitionOptions = {}
-  ): Promise<WithResponse<SynapseRole>> {
+  ): Promise<WithResponse<SynapseRoleDefinition>> {
     const { span, updatedOptions } = createSpan("Synapse-GetRoleDefinition", options);
-
     try {
-      const response = await this.client.getRoleDefinitionById(roleId, updatedOptions);
+      const response = await this.client.roleDefinitions.getRoleDefinitionById(
+        roleId,
+        updatedOptions
+      );
       return response;
     } catch (e) {
       span.setStatus({
@@ -116,62 +123,37 @@ export class AccessControlClient {
     }
   }
 
-  private async *listRoleDefinitionsPage(
-    continuationState: ListPageSettings,
-    options: ListRoleDefinitionOptions = {}
-  ): AsyncIterableIterator<SynapseRole[]> {
-    const requestOptions = options;
-    if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getRoleDefinitions(requestOptions);
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getRoleDefinitionsNext(
-        continuationState.continuationToken,
-        requestOptions
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listRoleDefinitionsAll(
-    options: ListRoleDefinitionOptions
-  ): AsyncIterableIterator<SynapseRole> {
-    for await (const page of this.listRoleDefinitionsPage({}, options)) {
-      yield* page;
-    }
-  }
-
   /**
    * List roles.
    * @param options The options parameters.
    */
-  public listRoleDefinitions(
+  public async listRoleDefinitions(
     options: ListRoleDefinitionOptions = {}
-  ): PagedAsyncIterableIterator<SynapseRole> {
+  ): Promise<WithResponse<SynapseRoleDefinition[]>> {
     const { span, updatedOptions } = createSpan("Synapse-ListRoleDefinition", options);
     try {
-      const iter = this.listRoleDefinitionsAll(updatedOptions);
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: ListPageSettings = {}) => {
-          return this.listRoleDefinitionsPage(settings, updatedOptions);
-        }
-      };
+      const response = await this.client.roleDefinitions.listRoleDefinitions(updatedOptions);
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * List rbac scopes.
+   * @param options The options parameters.
+   */
+  public async listScopes(options: ListScopesOptions = {}): Promise<WithResponse<string[]>> {
+    const { span, updatedOptions } = createSpan("Synapse-listScopes", options);
+    try {
+      const response = await this.client.roleDefinitions.listScopes(updatedOptions);
+      return attachHttpResponse(response._response.parsedBody, response._response);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -190,18 +172,19 @@ export class AccessControlClient {
    * @param options The options parameters.
    */
   public async createRoleAssignment(
+    roleAssignmentId: string,
     roleId: string,
     principalId: string,
+    scope: string,
     options: CreateRoleAssignmentOptions = {}
   ): Promise<WithResponse<RoleAssignmentDetails>> {
     const { span, updatedOptions } = createSpan("Synapse-CreateRoleAssignment", options);
-
     try {
-      const response = await this.client.createRoleAssignment(
-        {
-          roleId: roleId,
-          principalId: principalId
-        },
+      const response = await this.client.roleAssignments.createRoleAssignment(
+        roleAssignmentId,
+        roleId,
+        principalId,
+        scope,
         updatedOptions
       );
       return response;
@@ -223,24 +206,11 @@ export class AccessControlClient {
    * @param options The options parameters.
    */
   public async listRoleAssignments(
-    roleId?: string,
-    principalId?: string,
-    options: OperationOptions = {}
-  ): Promise<WithResponse<RoleAssignmentDetails[]>> {
-    const internalOptions = {
-      ...options,
-      ...{
-        roleOptions: {
-          roleId: roleId,
-          principalId: principalId
-        }
-      }
-    };
-
-    const { span, updatedOptions } = createSpan("Synapse-ListRoleAssignments", internalOptions);
-
+    options: ListRoleAssignmentsOptions = {}
+  ): Promise<WithResponse<RoleAssignmentDetailsList>> {
+    const { span, updatedOptions } = createSpan("Synapse-ListRoleAssignments", options);
     try {
-      const response = await this.client.getRoleAssignments(updatedOptions);
+      const response = await this.client.roleAssignments.listRoleAssignments(updatedOptions);
       return response;
     } catch (e) {
       span.setStatus({
@@ -265,7 +235,10 @@ export class AccessControlClient {
     const { span, updatedOptions } = createSpan("Synapse-GetRoleAssignmentById", options);
 
     try {
-      const response = await this.client.getRoleAssignmentById(roleAssignmentId, updatedOptions);
+      const response = await this.client.roleAssignments.getRoleAssignmentById(
+        roleAssignmentId,
+        updatedOptions
+      );
       return response;
     } catch (e) {
       span.setStatus({
@@ -285,12 +258,15 @@ export class AccessControlClient {
    */
   public async deleteRoleAssignmentById(
     roleAssignmentId: string,
-    options: DeleteRoleAssignmentOptions = {}
+    options: DeleteRoleAssignmentByIdOptions = {}
   ): Promise<OperationResponse> {
     const { span, updatedOptions } = createSpan("Synapse-DeleteRoleAssignmentById", options);
 
     try {
-      const response = await this.client.deleteRoleAssignmentById(roleAssignmentId, updatedOptions);
+      const response = await this.client.roleAssignments.deleteRoleAssignmentById(
+        roleAssignmentId,
+        updatedOptions
+      );
       return response;
     } catch (e) {
       span.setStatus({
@@ -307,14 +283,23 @@ export class AccessControlClient {
    * List role assignments of the caller.
    * @param options The options parameters.
    */
-  public async getCallerRoleAssignments(
-    options: GetCallerRoleAssignmentsOptions = {}
-  ): Promise<WithResponse<string[]>> {
+  public async checkPrincipalAccess(
+    subject: SubjectInfo,
+    actions: Action[],
+    scope: string,
+    options: CheckPrincipalAccessOptions = {}
+  ): Promise<WithResponse<CheckPrincipalAccessResponse>> {
     const { span, updatedOptions } = createSpan("Synapse-GetCallerRoleAssignments", options);
 
     try {
-      const response = await this.client.getCallerRoleAssignments(updatedOptions);
-      return attachHttpResponse(response._response.parsedBody, response._response);
+      const response = await this.client.checkPrincipalAccess(
+        subject,
+        actions,
+        scope,
+        updatedOptions
+      );
+      return response;
+      //return attachHttpResponse(response._response.parsedBody, response._response);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),

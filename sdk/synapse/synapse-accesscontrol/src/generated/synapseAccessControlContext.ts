@@ -47,6 +47,6 @@ export class SynapseAccessControlContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-02-01-preview";
+    this.apiVersion = options.apiVersion || "2020-08-01-preview";
   }
 }

@@ -3,18 +3,48 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
-import { RoleAssignmentOptions as RoleAssignmentOptionsMapper } from "../models/mappers";
+import {
+  CheckPrincipalAccessRequest as CheckPrincipalAccessRequestMapper,
+  RoleAssignmentRequest as RoleAssignmentRequestMapper
+} from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "application/json, text/json",
     isConstant: true,
     serializedName: "Accept",
     type: {
       name: "String"
     }
   }
+};
+
+export const subject: OperationParameter = {
+  parameterPath: "subject",
+  mapper: CheckPrincipalAccessRequestMapper
+};
+
+export const actions: OperationParameter = {
+  parameterPath: "actions",
+  mapper: CheckPrincipalAccessRequestMapper
+};
+
+export const scope: OperationParameter = {
+  parameterPath: "scope",
+  mapper: CheckPrincipalAccessRequestMapper
 };
 
 export const endpoint: OperationURLParameter = {
@@ -32,7 +62,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-02-01-preview",
+    defaultValue: "2020-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -41,10 +71,30 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const roleId: OperationURLParameter = {
-  parameterPath: "roleId",
+export const isBuiltIn: OperationQueryParameter = {
+  parameterPath: ["options", "isBuiltIn"],
   mapper: {
-    serializedName: "roleId",
+    serializedName: "isBuiltIn",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: ["options", "scope"],
+  mapper: {
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const roleDefinitionId: OperationURLParameter = {
+  parameterPath: "roleDefinitionId",
+  mapper: {
+    serializedName: "roleDefinitionId",
     required: true,
     type: {
       name: "String"
@@ -52,36 +102,7 @@ export const roleId: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createRoleAssignmentOptions: OperationParameter = {
-  parameterPath: "createRoleAssignmentOptions",
-  mapper: RoleAssignmentOptionsMapper
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const roleId1: OperationQueryParameter = {
+export const roleId: OperationQueryParameter = {
   parameterPath: ["options", "roleId"],
   mapper: {
     serializedName: "roleId",
@@ -111,6 +132,26 @@ export const continuationToken: OperationParameter = {
   }
 };
 
+export const roleId1: OperationParameter = {
+  parameterPath: "roleId",
+  mapper: RoleAssignmentRequestMapper
+};
+
+export const principalId1: OperationParameter = {
+  parameterPath: "principalId",
+  mapper: RoleAssignmentRequestMapper
+};
+
+export const scope2: OperationParameter = {
+  parameterPath: "scope",
+  mapper: RoleAssignmentRequestMapper
+};
+
+export const principalType: OperationParameter = {
+  parameterPath: ["options", "principalType"],
+  mapper: RoleAssignmentRequestMapper
+};
+
 export const roleAssignmentId: OperationURLParameter = {
   parameterPath: "roleAssignmentId",
   mapper: {
@@ -123,16 +164,4 @@ export const roleAssignmentId: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };

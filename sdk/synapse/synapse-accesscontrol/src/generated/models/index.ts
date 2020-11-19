@@ -1,35 +1,103 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * A list of Synapse roles available.
+ * Check access request details
  */
-export interface RolesListResponse {
+export interface CheckPrincipalAccessRequest {
   /**
-   * List of Synapse roles.
+   * Subject details
    */
-  value: SynapseRole[];
+  subject: SubjectInfo;
   /**
-   * The link to the next page of results, if any remaining results exist.
+   * List of actions.
    */
-  nextLink?: string;
+  actions: Action[];
+  /**
+   * Scope at which the check access is done.
+   */
+  scope: string;
 }
 
 /**
- * Synapse role details
+ * Subject details
  */
-export interface SynapseRole {
+export interface SubjectInfo {
   /**
-   * Role ID
+   * Principal Id
+   */
+  principalId: string;
+  /**
+   * List of group Ids that the principalId is part of.
+   */
+  groupIds?: string[];
+}
+
+/**
+ * Action Info
+ */
+export interface Action {
+  /**
+   * Action Id.
+   */
+  id: string;
+  /**
+   * Is a data action or not.
+   */
+  isDataAction: boolean;
+}
+
+/**
+ * Check access response details
+ */
+export interface CheckPrincipalAccessResponse {
+  /**
+   * Check access response details
+   */
+  accessDecisions?: CheckAccessDecision[];
+}
+
+/**
+ * Check access response details
+ */
+export interface CheckAccessDecision {
+  /**
+   * Access Decision.
+   */
+  accessDecision?: string;
+  /**
+   * Action Id.
+   */
+  actionId?: string;
+  /**
+   * Role Assignment response details
+   */
+  roleAssignment?: RoleAssignmentDetails;
+}
+
+/**
+ * Role Assignment response details
+ */
+export interface RoleAssignmentDetails {
+  /**
+   * Role Assignment ID
    */
   id?: string;
   /**
-   * Name of the Synapse role
+   * Role ID of the Synapse Built-In Role
    */
-  name?: string;
+  roleDefinitionId?: string;
   /**
-   * Is a built-in role or not
+   * Object ID of the AAD principal or security-group
    */
-  isBuiltIn: boolean;
+  principalId?: string;
+  /**
+   * Scope at the role assignment is created
+   */
+  scope?: string;
+  /**
+   * Type of the principal Id: User, Group or ServicePrincipal
+   */
+  principalType?: string;
 }
 
 /**
@@ -56,9 +124,79 @@ export interface ErrorDetail {
 }
 
 /**
+ * Synapse role definition details
+ */
+export interface SynapseRoleDefinition {
+  /**
+   * Role Definition ID
+   */
+  id?: string;
+  /**
+   * Name of the Synapse role
+   */
+  name?: string;
+  /**
+   * Is a built-in role or not
+   */
+  isBuiltIn?: boolean;
+  /**
+   * Description for the Synapse role
+   */
+  description?: string;
+  /**
+   * Permissions for the Synapse role
+   */
+  permissions?: SynapseRbacPermission[];
+  /**
+   * Allowed scopes for the Synapse role
+   */
+  scopes?: string[];
+  /**
+   * Availability of the Synapse role
+   */
+  availabilityStatus?: string;
+}
+
+/**
+ * Synapse role definition details
+ */
+export interface SynapseRbacPermission {
+  /**
+   * List of actions
+   */
+  actions?: string[];
+  /**
+   * List of Not actions
+   */
+  notActions?: string[];
+  /**
+   * List of data actions
+   */
+  dataActions?: string[];
+  /**
+   * List of Not data actions
+   */
+  notDataActions?: string[];
+}
+
+/**
+ * Role Assignment response details
+ */
+export interface RoleAssignmentDetailsList {
+  /**
+   * Number of role assignments
+   */
+  count?: number;
+  /**
+   * A list of role assignments
+   */
+  value?: RoleAssignmentDetails[];
+}
+
+/**
  * Role Assignment request details
  */
-export interface RoleAssignmentOptions {
+export interface RoleAssignmentRequest {
   /**
    * Role ID of the Synapse Built-In Role
    */
@@ -67,30 +205,20 @@ export interface RoleAssignmentOptions {
    * Object ID of the AAD principal or security-group
    */
   principalId: string;
+  /**
+   * Scope at which the role assignment is created
+   */
+  scope: string;
+  /**
+   * Type of the principal Id: User, Group or ServicePrincipal
+   */
+  principalType?: string;
 }
 
 /**
- * Role Assignment response details
+ * Defines headers for RoleAssignments_listRoleAssignments operation.
  */
-export interface RoleAssignmentDetails {
-  /**
-   * Role Assignment ID
-   */
-  id?: string;
-  /**
-   * Role ID of the Synapse Built-In Role
-   */
-  roleId?: string;
-  /**
-   * Object ID of the AAD principal or security-group
-   */
-  principalId?: string;
-}
-
-/**
- * Defines headers for SynapseAccessControl_getRoleAssignments operation.
- */
-export interface SynapseAccessControlGetRoleAssignmentsHeaders {
+export interface RoleAssignmentsListRoleAssignmentsHeaders {
   /**
    * If the number of role assignments to be listed exceeds the maxResults limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the list operation to continue listing the role assignments.
    */
@@ -98,9 +226,9 @@ export interface SynapseAccessControlGetRoleAssignmentsHeaders {
 }
 
 /**
- * Contains response data for the getRoleDefinitions operation.
+ * Contains response data for the checkPrincipalAccess operation.
  */
-export type SynapseAccessControlGetRoleDefinitionsResponse = RolesListResponse & {
+export type SynapseAccessControlCheckPrincipalAccessResponse = CheckPrincipalAccessResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -113,98 +241,29 @@ export type SynapseAccessControlGetRoleDefinitionsResponse = RolesListResponse &
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: RolesListResponse;
-  };
-};
-
-/**
- * Contains response data for the getRoleDefinitionById operation.
- */
-export type SynapseAccessControlGetRoleDefinitionByIdResponse = SynapseRole & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SynapseRole;
-  };
-};
-
-/**
- * Contains response data for the createRoleAssignment operation.
- */
-export type SynapseAccessControlCreateRoleAssignmentResponse = RoleAssignmentDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RoleAssignmentDetails;
+    parsedBody: CheckPrincipalAccessResponse;
   };
 };
 
 /**
  * Optional parameters.
  */
-export interface SynapseAccessControlGetRoleAssignmentsOptionalParams
+export interface RoleDefinitionsListRoleDefinitionsOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Synapse Built-In Role Id.
+   * Is a Synapse Built-In Role or not.
    */
-  roleId?: string;
+  isBuiltIn?: boolean;
   /**
-   * Object ID of the AAD principal or security-group.
+   * Scope of the Synapse Built-in Role.
    */
-  principalId?: string;
-  /**
-   * Continuation token.
-   */
-  continuationToken?: string;
+  scope?: string;
 }
 
 /**
- * Contains response data for the getRoleAssignments operation.
+ * Contains response data for the listRoleDefinitions operation.
  */
-export type SynapseAccessControlGetRoleAssignmentsResponse = SynapseAccessControlGetRoleAssignmentsHeaders &
-  RoleAssignmentDetails[] & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentDetails[];
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SynapseAccessControlGetRoleAssignmentsHeaders;
-    };
-  };
-
-/**
- * Contains response data for the getRoleAssignmentById operation.
- */
-export type SynapseAccessControlGetRoleAssignmentByIdResponse = RoleAssignmentDetails & {
+export type RoleDefinitionsListRoleDefinitionsResponse = SynapseRoleDefinition[] & {
   /**
    * The underlying HTTP response.
    */
@@ -217,14 +276,34 @@ export type SynapseAccessControlGetRoleAssignmentByIdResponse = RoleAssignmentDe
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: RoleAssignmentDetails;
+    parsedBody: SynapseRoleDefinition[];
   };
 };
 
 /**
- * Contains response data for the getCallerRoleAssignments operation.
+ * Contains response data for the getRoleDefinitionById operation.
  */
-export type SynapseAccessControlGetCallerRoleAssignmentsResponse = {
+export type RoleDefinitionsGetRoleDefinitionByIdResponse = SynapseRoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SynapseRoleDefinition;
+  };
+};
+
+/**
+ * Contains response data for the listScopes operation.
+ */
+export type RoleDefinitionsListScopesResponse = {
   /**
    * The parsed response body.
    */
@@ -247,9 +326,68 @@ export type SynapseAccessControlGetCallerRoleAssignmentsResponse = {
 };
 
 /**
- * Contains response data for the getRoleDefinitionsNext operation.
+ * Optional parameters.
  */
-export type SynapseAccessControlGetRoleDefinitionsNextResponse = RolesListResponse & {
+export interface RoleAssignmentsListRoleAssignmentsOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Scope of the Synapse Built-in Role.
+   */
+  scope?: string;
+  /**
+   * Synapse Built-In Role Id.
+   */
+  roleId?: string;
+  /**
+   * Object ID of the AAD principal or security-group.
+   */
+  principalId?: string;
+  /**
+   * Continuation token.
+   */
+  continuationToken?: string;
+}
+
+/**
+ * Contains response data for the listRoleAssignments operation.
+ */
+export type RoleAssignmentsListRoleAssignmentsResponse = RoleAssignmentsListRoleAssignmentsHeaders &
+  RoleAssignmentDetailsList & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentDetailsList;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: RoleAssignmentsListRoleAssignmentsHeaders;
+    };
+  };
+
+/**
+ * Optional parameters.
+ */
+export interface RoleAssignmentsCreateRoleAssignmentOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Type of the principal Id: User, Group or ServicePrincipal
+   */
+  principalType?: string;
+}
+
+/**
+ * Contains response data for the createRoleAssignment operation.
+ */
+export type RoleAssignmentsCreateRoleAssignmentResponse = RoleAssignmentDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -262,9 +400,40 @@ export type SynapseAccessControlGetRoleDefinitionsNextResponse = RolesListRespon
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: RolesListResponse;
+    parsedBody: RoleAssignmentDetails;
   };
 };
+
+/**
+ * Contains response data for the getRoleAssignmentById operation.
+ */
+export type RoleAssignmentsGetRoleAssignmentByIdResponse = RoleAssignmentDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentDetails;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Scope of the Synapse Built-in Role.
+   */
+  scope?: string;
+}
 
 /**
  * Optional parameters.

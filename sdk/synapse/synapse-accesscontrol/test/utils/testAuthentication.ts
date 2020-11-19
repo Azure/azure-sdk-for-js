@@ -16,7 +16,8 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_TENANT_ID: "azure_tenant_id",
       WORKSPACE_NAME: "workspace_name",
       ROLL_ID: "roll_id",
-      PRINCIPAL_ID: "principal_id"
+      PRINCIPAL_ID: "principal_id",
+      RBAC_SCOPE: "rbac_scope"
     },
     customizationsOnRecordings: [
       (recording: any): any =>

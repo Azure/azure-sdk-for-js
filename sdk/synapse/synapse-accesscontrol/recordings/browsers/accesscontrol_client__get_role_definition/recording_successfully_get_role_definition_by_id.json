@@ -11,34 +11,34 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 06:36:59 GMT",
+    "date": "Fri, 20 Nov 2020 09:14:03 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11239.6 - SEASLR2 ProdSlices",
-    "x-ms-request-id": "0eac83b3-62d6-4ae1-b74f-9ba1594a0600"
+    "x-ms-ests-server": "2.1.11251.20 - EASLR1 ProdSlices",
+    "x-ms-request-id": "36d1fe63-f961-4735-81c7-dc4b0f900200"
    }
   },
   {
    "method": "GET",
-   "url": "https://workspace_name.dev.azuresynapse.net/rbac/roles/roll_id",
+   "url": "https://workspace_name.dev.azuresynapse.net/roleDefinitions/roll_id",
    "query": {
-    "api-version": "2020-02-01-preview"
+    "api-version": "2020-08-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"roll_id\",\"name\":\"Sql Admin\",\"isBuiltIn\":true}",
+   "response": "{\"name\":\"Sql Admin\",\"description\":\"Can read info about SQL pools and SQL endpoints. Can do CRUD operations on SQL scripts.\",\"id\":\"roll_id\",\"isBuiltIn\":true,\"permissions\":[{\"actions\":[],\"notActions\":[],\"dataActions\":[\"Microsoft.Synapse/workspaces/read\",\"Microsoft.Synapse/workspaces/artifacts/read\",\"Microsoft.Synapse/workspaces/sqlScripts/write\",\"Microsoft.Synapse/workspaces/linkedServices/write\",\"Microsoft.Synapse/workspaces/credentials/write\",\"Microsoft.Synapse/workspaces/sqlScripts/delete\",\"Microsoft.Synapse/workspaces/linkedServices/delete\",\"Microsoft.Synapse/workspaces/credentials/delete\",\"Microsoft.Synapse/workspaces/libraries/delete\",\"Microsoft.Synapse/workspaces/libraries/write\"],\"notDataActions\":[]}],\"scopes\":[\"workspaces/{workspaceName}\"],\"availabilityStatus\":\"Available\"}",
    "responseHeaders": {
-    "content-length": "81",
+    "content-length": "819",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 13 Nov 2020 06:37:01 GMT",
+    "date": "Fri, 20 Nov 2020 09:14:03 GMT",
     "server": "Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "9fc47f38-b819-465f-84b6-a815822e442f, 9fc47f38-b819-465f-84b6-a815822e442f"
+    "x-ms-request-id": "caebe2e6-9f4a-40a9-bcdf-5ad894c8890c, caebe2e6-9f4a-40a9-bcdf-5ad894c8890c"
    }
   }
  ],

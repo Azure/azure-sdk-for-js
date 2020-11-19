@@ -4,7 +4,8 @@ import { AccessControlClient } from "../src/AccessControlClient";
 import { assert } from "chai";
 import { authenticate } from "./utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
-import { getRollId, getPrincipalId } from "./utils/utils.common";
+import { getRollId, getPrincipalId, getScope } from "./utils/utils.common";
+import { Guid } from "guid-typescript";
 
 describe("AccessControl Client - get role definition", () => {
   let client: AccessControlClient;
@@ -36,7 +37,8 @@ describe("AccessControl Client - get role definition", () => {
 
   it("successfully list role definitions", async function() {
     const list: string[] = [];
-    for await (const roleDefinition of client.listRoleDefinitions()) {
+    let listResult = await client.listRoleDefinitions();
+    for (const roleDefinition of listResult) {
       list.push(roleDefinition.id!);
     }
     assert.include(
@@ -47,32 +49,33 @@ describe("AccessControl Client - get role definition", () => {
   });
 
   it("successfully create role assignment", async function() {
-    let createResult = await client.createRoleAssignment(roleId, principalId);
-    assert.equal(
-      createResult.roleId,
+    roleAssignmentId = Guid.create().toString();
+    let createResult = await client.createRoleAssignment(
+      roleAssignmentId,
       roleId,
-      "Failed to create expected role assignment by createRoleAssignment."
+      principalId,
+      getScope()
     );
-    assert.isNotNull(
+    assert.equal(
       createResult.id,
+      roleAssignmentId,
       "Failed to create expected role assignment by createRoleAssignment."
     );
-    roleAssignmentId = createResult.id as string;
   });
 
   it("successfully get role assignment", async function() {
     let getResult = await client.getRoleAssignmentById(roleAssignmentId);
     assert.equal(
-      getResult.roleId,
+      getResult.roleDefinitionId,
       roleId,
       "Failed to get expected role assignment by getRoleAssignmentById."
     );
   });
 
   it("successfully list role assignment", async function() {
-    let listResult = await client.listRoleAssignments(roleId);
+    let listResult = await client.listRoleAssignments({ roleId });
     const list: string[] = [];
-    for (const roleAssignment of listResult) {
+    for (const roleAssignment of listResult.value!) {
       list.push(roleAssignment.id!);
     }
     assert.include(
@@ -82,20 +85,27 @@ describe("AccessControl Client - get role definition", () => {
     );
   });
 
-  it("successfully list caller's role assignment", async function() {
-    let listResult = await client.getCallerRoleAssignments();
-    const list: string[] = [];
-    for (const roleAssignment of listResult) {
-      list.push(roleAssignment);
-    }
-    assert.include(
-      list,
-      getRollId(),
-      "Failed to fetch expected role definition by getCallerRoleAssignments."
+  it("successfully check principal access", async function() {
+    let listResult = await client.checkPrincipalAccess(
+      {
+        principalId: principalId
+      },
+      [
+        {
+          id: "Microsoft.Synapse/workspaces/read",
+          isDataAction: true
+        }
+      ],
+      getScope()
+    );
+    assert.equal(
+      listResult.accessDecisions![0].accessDecision,
+      "Allowed",
+      "Failed to fetch expected access decision by checkPrincipalAccess."
     );
   });
 
   it("successfully delete role assignment", async function() {
-    await client.deleteRoleAssignmentById(roleAssignmentId);
+    await client.deleteRoleAssignmentById(roleAssignmentId, { scope: getScope() });
   });
 });

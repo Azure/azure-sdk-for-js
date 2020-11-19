@@ -48,6 +48,7 @@
     "eslint": "^6.1.0",
     "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
+    "guid-typescript": "^1.0.9",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -115,7 +116,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js --timeout 500000",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"

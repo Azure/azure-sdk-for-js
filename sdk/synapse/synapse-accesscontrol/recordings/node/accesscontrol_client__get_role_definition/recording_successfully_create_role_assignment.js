@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "74c3eb942d9ac08b641a2f1552870a8b";
+module.exports.hash = "9e64519c365d5f39d4f999a359e102f3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,27 +22,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '80bc70d3-4c78-43c8-bdbc-eac4cb3d0600',
+  '3f425264-e570-4487-a0ff-2ddc4a0f0200',
   'x-ms-ests-server',
-  '2.1.11239.6 - SEASLR1 ProdSlices',
+  '2.1.11251.20 - EASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=Au8druuHi5tEv4mdMFHT1ZBJ0eYvAQAAAH0gQNcOAAAA; expires=Sun, 13-Dec-2020 06:36:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AiNQ32B3--ZEqReActcW-iZJ0eYvAQAAAMt_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 13 Nov 2020 06:36:46 GMT',
+  'Fri, 20 Nov 2020 09:13:47 GMT',
   'Content-Length',
   '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .post('/rbac/roleAssignments', {"roleId":"roll_id","principalId":"principal_id"})
+  .put('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247', {"roleId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"})
   .query(true)
-  .reply(200, {"id":"roll_id-principal_id","roleId":"roll_id","principalId":"principal_id"}, [
+  .reply(200, {"id":"0580006c-09cd-6245-9658-df2cc9581247","roleDefinitionId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"}, [
   'Content-Length',
-  '183',
+  '198',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -50,7 +50,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e2381d7a-67e0-4556-bd4c-1fbcdb0bcbbd',
+  '30adc830-0414-4eee-8ba0-a9bb138aa347',
   'Date',
-  'Fri, 13 Nov 2020 06:36:47 GMT'
+  'Fri, 20 Nov 2020 09:13:48 GMT'
 ]);

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "db274502c52ec86e0252daeb5877f233";
+module.exports.hash = "3a25442134d653f952bd91690f5f569c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,27 +24,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6a71c322-5736-4100-97eb-c63575b00600',
+  'ee9aac52-4196-43fa-b10c-e4cb1ef70100',
   'x-ms-ests-server',
-  '2.1.11239.6 - EASLR1 ProdSlices',
+  '2.1.11251.20 - EASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AsWIb_FQ7IZBlSABmm9dAfM; expires=Sun, 13-Dec-2020 06:36:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmSPWWjfr9pCultkA-SFDvNJ0eYvAQAAAMx_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 13 Nov 2020 06:36:47 GMT',
-  'Content-Length',
-  '1322'
+  'Fri, 20 Nov 2020 09:13:49 GMT'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .get('/rbac/roleAssignments/roll_id-principal_id')
+  .get('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247')
   .query(true)
-  .reply(200, {"id":"roll_id-principal_id","roleId":"roll_id","principalId":"principal_id"}, [
+  .reply(200, {"id":"0580006c-09cd-6245-9658-df2cc9581247","roleDefinitionId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"}, [
   'Content-Length',
-  '183',
+  '198',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -50,7 +50,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c49e7d44-77a7-4fd8-9ab7-77473f020efa',
+  '562fe35c-2260-41f5-8abc-1f6c29a81b10',
   'Date',
-  'Fri, 13 Nov 2020 06:36:49 GMT'
+  'Fri, 20 Nov 2020 09:13:50 GMT'
 ]);
