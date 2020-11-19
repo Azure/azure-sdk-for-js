@@ -41,7 +41,7 @@ import {
   ShareDeleteResponse,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
-  ShareGetPropertiesResponse,
+  ShareGetPropertiesResponseModel,
   ShareGetStatisticsResponseModel,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
@@ -90,7 +90,8 @@ import {
   validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
   ShareProtocols,
-  toShareProtocolsString
+  toShareProtocolsString,
+  toShareProtocols
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -571,6 +572,24 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
 }
 
 /**
+ * Contains response data for the {@link ShareClient.getProperties} operation.
+ *
+ * @export
+ * @interface ShareGetPropertiesResponse
+ */
+export type ShareGetPropertiesResponse = Omit<
+  ShareGetPropertiesResponseModel,
+  "enabledProtocols"
+> & {
+  /**
+   * The protocols that have been enabled on the share.
+   * @type {ShareProtocols}
+   * @memberof ShareGetPropertiesResponse
+   */
+  protocols?: ShareProtocols;
+};
+
+/**
  * A ShareClient represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
  *
  * @export
@@ -1020,10 +1039,16 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
-      return await this.context.getProperties({
+      const res = await this.context.getProperties({
         ...options,
         spanOptions
       });
+
+      // parse protocols
+      const protocols = toShareProtocols(res.enabledProtocols);
+      delete res.enabledProtocols;
+      (res as any).protocols = protocols;
+      return res;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

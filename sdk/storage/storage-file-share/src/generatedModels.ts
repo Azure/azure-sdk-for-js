@@ -43,7 +43,7 @@ export {
   ShareDeleteResponse,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
-  ShareGetPropertiesResponse,
+  ShareGetPropertiesResponse as ShareGetPropertiesResponseModel,
   ShareGetStatisticsResponse as ShareGetStatisticsResponseModel,
   ShareItemInternal,
   ShareSetAccessPolicyResponse,

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
+import { logger } from "./log";
+
 export interface Metadata {
   [propertyName: string]: string;
 }
@@ -185,12 +187,6 @@ export interface ShareProtocols {
 }
 
 /**
- * String values of protocols to enable on the share.
- * @interface shareEnabledProtocolsItems
- */
-let shareEnabledProtocolsItems = ["SMB", "NFS"];
-
-/**
  * Convert protocols from joined string to ShareProtocols.
  *
  * @export
@@ -203,11 +199,15 @@ export function toShareProtocols(protocolsString?: string): ShareProtocols | und
   }
 
   const protocolStrArray = protocolsString.split(";");
-  let protocols = {};
-  for (const str of protocolStrArray) {
-    (protocols as any)[str] = true;
+  const protocols: ShareProtocols = {};
+  for (const protocol of protocolStrArray) {
+    if (protocol === "SMB") {
+      protocols.smbEnabled = true;
+    } else if (protocol === "NFS") {
+      protocols.nfsEnabled = true;
+    }
   }
-  return protocols as ShareProtocols;
+  return protocols;
 }
 
 /**
@@ -218,17 +218,18 @@ export function toShareProtocols(protocolsString?: string): ShareProtocols | und
  * @returns {string | undefined}
  */
 export function toShareProtocolsString(protocols: ShareProtocols = {}): string | undefined {
-  const protocolStrArray: string[] = [];
-  for (const item of shareEnabledProtocolsItems) {
-    if ((protocols as any)[item] === true) {
-      protocolStrArray.push(item);
-    }
-  }
+  let protocolStr = undefined;
 
-  if (protocolStrArray.length === 0) {
-    return undefined;
+  if (protocols.smbEnabled === true) {
+    protocolStr = "SMB";
   }
-  return protocolStrArray.join(";");
+  if (protocols.nfsEnabled === true) {
+    logger.info(
+      `Using "NFS" in favor of "SMB" for the share protocol as currently they can't be supported at the same time.`
+    );
+    protocolStr = "NFS";
+  }
+  return protocolStr;
 }
 
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {

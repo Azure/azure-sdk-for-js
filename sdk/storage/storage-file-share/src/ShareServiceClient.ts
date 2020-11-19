@@ -183,6 +183,11 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
  * @interface ShareProperties
  */
 export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+  /**
+   * The protocols that have been enabled on the share.
+   * @type {ShareProtocols}
+   * @memberof ShareProperties
+   */
   protocols?: ShareProtocols;
 };
 
@@ -674,6 +679,7 @@ export class ShareServiceClient extends StorageClient {
       if (res.shareItems) {
         for (let i = 0; i < res.shareItems.length; i++) {
           const protocolsStr = res.shareItems[i].properties.enabledProtocols;
+          delete res.shareItems[i].properties.enabledProtocols;
           (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
         }
       }
