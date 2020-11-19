@@ -6,31 +6,26 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
 /**
- * Common parameters to a Key Vault Key Poller.
+ * Common parameters to a Key Vault Admin Poller.
  */
-export interface KeyVaultKeyPollerOptions {
+export interface KeyVaultAdminPollerOptions {
   vaultUrl: string;
   client: KeyVaultClient;
-  name: string;
   requestOptions?: RequestOptionsBase;
   intervalInMs?: number;
   resumeFrom?: string;
 }
 
 /**
- * An interface representing the state of a Key Vault Key Poller's operation.
+ * An interface representing the state of a Key Vault Admin Poller's operation.
  */
-export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationState<TResult> {
-  /**
-   * The name of the key.
-   */
-  name: string;
+export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
 }
 
 /**
- * Common properties and methods of the Key Vault Key Pollers.
+ * Common properties and methods of the Key Vault Admin Pollers.
  */
-export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultAdminPoller<TState, TResult> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -38,6 +33,7 @@ export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, 
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
+   * @memberof DeleteKeyPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
@@ -45,19 +41,19 @@ export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, 
 }
 
 /**
- * Optional parameters to the KeyVaultKeyPollOperation
+ * Optional parameters to the KeyVaultAdminPollOperation
  */
-export interface KeyVaultKeyPollOperationOptions {
+export interface KeyVaultAdminPollOperationOptions {
   cancelMessage: string;
 }
 
 /**
- * Common properties and methods of the Key Vault Key Poller operations.
+ * Common properties and methods of the Key Vault Admin Poller operations.
  */
-export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
+export class KeyVaultAdminPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
   private cancelMessage: string;
 
-  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions) {
+  constructor(public state: TState, options: KeyVaultAdminPollOperationOptions) {
     this.cancelMessage = options.cancelMessage;
   }
 
