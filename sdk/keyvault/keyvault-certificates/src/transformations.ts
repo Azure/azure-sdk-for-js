@@ -1,5 +1,30 @@
-import { ArrayOneOrMore, CertificateContentType, CertificateOperation, CertificateIssuer, CertificateKeyType, CertificatePolicy, CertificateProperties, DeletedCertificate, KeyVaultCertificate, KeyVaultCertificateWithPolicy, SubjectAlternativeNames, CertificateContact } from "./certificatesModels";
-import { CertificateAttributes, CertificateBundle, CertificatePolicy as CoreCertificatePolicy, DeletedCertificateBundle, DeletedCertificateItem, IssuerAttributes, IssuerBundle, SubjectAlternativeNames as CoreSubjectAlternativeNames, X509CertificateProperties, CertificateOperation as CoreCertificateOperation, Contacts as CoreContacts } from "./generated/models";
+import {
+  ArrayOneOrMore,
+  CertificateContentType,
+  CertificateOperation,
+  CertificateIssuer,
+  CertificateKeyType,
+  CertificatePolicy,
+  CertificateProperties,
+  DeletedCertificate,
+  KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
+  SubjectAlternativeNames,
+  CertificateContact
+} from "./certificatesModels";
+import {
+  CertificateAttributes,
+  CertificateBundle,
+  CertificatePolicy as CoreCertificatePolicy,
+  DeletedCertificateBundle,
+  DeletedCertificateItem,
+  IssuerAttributes,
+  IssuerBundle,
+  SubjectAlternativeNames as CoreSubjectAlternativeNames,
+  X509CertificateProperties,
+  CertificateOperation as CoreCertificateOperation,
+  Contacts as CoreContacts
+} from "./generated/models";
 import { parseKeyVaultCertificateId } from "./identifier";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
@@ -31,12 +56,12 @@ export function toCorePolicy(
     id,
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
-        action: { actionType: action.action },
-        trigger: {
-          lifetimePercentage: action.lifetimePercentage,
-          daysBeforeExpiry: action.daysBeforeExpiry
-        }
-      }))
+          action: { actionType: action.action },
+          trigger: {
+            lifetimePercentage: action.lifetimePercentage,
+            daysBeforeExpiry: action.daysBeforeExpiry
+          }
+        }))
       : undefined,
     keyProperties: {
       keyType: policy.keyType,
@@ -95,10 +120,10 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
   const certificatePolicy: CertificatePolicy = {
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
-        action: action.action ? action.action.actionType : undefined,
-        daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-        lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
-      }))
+          action: action.action ? action.action.actionType : undefined,
+          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
+          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+        }))
       : undefined,
     contentType: policy.secretProperties
       ? (policy.secretProperties.contentType as CertificateContentType)
@@ -151,16 +176,15 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     publicIssuer.organizationId = issuer.organizationDetails.id;
     publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails
       ? issuer.organizationDetails.adminDetails.map((x) => ({
-        email: x.emailAddress,
-        phone: x.phone,
-        firstName: x.firstName,
-        lastName: x.lastName
-      }))
+          email: x.emailAddress,
+          phone: x.phone,
+          firstName: x.firstName,
+          lastName: x.lastName
+        }))
       : undefined;
   }
   return publicIssuer;
 }
-
 
 export function getCertificateFromCertificateBundle(
   certificateBundle: CertificateBundle
@@ -306,8 +330,8 @@ export function getCertificateOperationFromCoreOperation(
 export function coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
   return contacts.contactList
     ? contacts.contactList.map(
-      (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
-    )
+        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+      )
     : [];
 }
 

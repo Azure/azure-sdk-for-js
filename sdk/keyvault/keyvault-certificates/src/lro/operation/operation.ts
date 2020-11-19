@@ -10,11 +10,22 @@ import {
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import { cleanState, KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
+import {
+  cleanState,
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
+import {
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle
+} from "../../transformations";
 import { setParentSpan, createSpan } from "../../../../keyvault-common";
-import { GetCertificateOperationResponse, GetCertificateResponse, UpdateCertificateOperationResponse } from "../../generated/models";
+import {
+  GetCertificateOperationResponse,
+  GetCertificateResponse,
+  UpdateCertificateOperationResponse
+} from "../../generated/models";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
@@ -41,12 +52,10 @@ export interface CertificateOperationPollOperationState
 /**
  * An interface representing a create certificate's poll operation
  */
-export class
-  CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
+export class CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
   CertificateOperationPollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
-
+> {
   constructor(
     public state: CertificateOperationPollOperationState,
     private vaultUrl: string,
@@ -86,8 +95,8 @@ export class
   }
 
   /**
- * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
- */
+   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
+   */
   private async getCertificate(
     certificateName: string,
     options: GetCertificateOptions = {}
@@ -112,8 +121,8 @@ export class
   }
 
   /**
- * Gets the certificate operation.
- */
+   * Gets the certificate operation.
+   */
   private async getPlainCertificateOperation(
     certificateName: string,
     options?: GetPlainCertificateOperationOptions
@@ -138,7 +147,6 @@ export class
       result._response.parsedBody
     );
   }
-
 
   /**
    * Reaches to the service and updates the create certificate's poll operation.
@@ -211,10 +219,9 @@ export class
     const state: CertificateOperationState = {
       certificateOperation: this.state.certificateOperation,
       ...cleanState(this.state)
-    }
+    };
     return JSON.stringify({
       state
     });
   }
-
 }

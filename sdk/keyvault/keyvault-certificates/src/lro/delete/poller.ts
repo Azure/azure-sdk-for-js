@@ -3,9 +3,12 @@
 
 import { DeleteCertificatePollOperation, DeleteCertificatePollOperationState } from "./operation";
 import { DeletedCertificate } from "../../certificatesModels";
-import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
+import {
+  KeyVaultCertificatePoller,
+  KeyVaultCertificatePollerOptions
+} from "../keyVaultCertificatePoller";
 
-export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions { }
+export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -14,9 +17,16 @@ export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePolle
 export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
   DeleteCertificatePollOperationState,
   DeletedCertificate
-  > {
+> {
   constructor(options: DeleteCertificatePollerOptions) {
-    const { vaultUrl, client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const {
+      vaultUrl,
+      client,
+      certificateName,
+      requestOptions,
+      intervalInMs = 2000,
+      resumeFrom
+    } = options;
 
     let state: DeleteCertificatePollOperationState | undefined;
 
@@ -27,11 +37,11 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
     const operation = new DeleteCertificatePollOperation(
       {
         ...state,
-        certificateName,
+        certificateName
       },
       vaultUrl,
       client,
-      requestOptions,
+      requestOptions
     );
 
     super(operation);

@@ -6,26 +6,29 @@ import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure
 import { createSpan, setParentSpan } from "../../../../keyvault-common";
 import {
   GetCertificateOptions,
-  KeyVaultCertificateWithPolicy, RecoverDeletedCertificateOptions
+  KeyVaultCertificateWithPolicy,
+  RecoverDeletedCertificateOptions
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { GetCertificateResponse, RecoverDeletedCertificateResponse } from "../../generated/models";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
 
 /**
  * Deprecated: Public representation of the recover delete certificate poll operation
  */
-export interface RecoverDeletedCertificateState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
-}
+export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * An interface representing the state of a recover delete certificate poll operation
  */
 export interface RecoverDeletedCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
-}
+  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {}
 
 /**
  * An interface representing a delete certificate's poll operation
@@ -33,7 +36,7 @@ export interface RecoverDeletedCertificatePollOperationState
 export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificatePollOperation<
   RecoverDeletedCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: RecoverDeletedCertificatePollOperationState,
     private vaultUrl: string,
@@ -44,8 +47,8 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
   }
 
   /**
-* Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
-*/
+   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
+   */
   private async getCertificate(
     certificateName: string,
     options: GetCertificateOptions = {}
@@ -94,7 +97,6 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
 
     return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
   }
-
 
   /**
    * Reaches to the service and updates the delete certificate's poll operation.

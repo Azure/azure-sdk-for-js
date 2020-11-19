@@ -5,12 +5,13 @@ import {
   RecoverDeletedCertificatePollOperation,
   RecoverDeletedCertificatePollOperationState
 } from "./operation";
+import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
-  KeyVaultCertificateWithPolicy
-} from "../../certificatesModels";
-import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
+  KeyVaultCertificatePoller,
+  KeyVaultCertificatePollerOptions
+} from "../keyVaultCertificatePoller";
 
-export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions { }
+export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -18,9 +19,16 @@ export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertific
 export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   RecoverDeletedCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
-    const { vaultUrl, client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const {
+      vaultUrl,
+      client,
+      certificateName,
+      requestOptions,
+      intervalInMs = 2000,
+      resumeFrom
+    } = options;
 
     let state: RecoverDeletedCertificatePollOperationState | undefined;
 

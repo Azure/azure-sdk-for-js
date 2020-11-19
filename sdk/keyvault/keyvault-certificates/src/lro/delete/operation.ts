@@ -3,8 +3,15 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
-import { DeleteCertificateOptions, DeletedCertificate, GetDeletedCertificateOptions } from "../../certificatesModels";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
+import {
+  DeleteCertificateOptions,
+  DeletedCertificate,
+  GetDeletedCertificateOptions
+} from "../../certificatesModels";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
 import { DeleteCertificateResponse, GetDeletedCertificateResponse } from "../../generated/models";
@@ -20,8 +27,7 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
  * @internal
  */
 export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {
-}
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
 
 /**
  * An interface representing a delete certificate's poll operation
@@ -29,7 +35,7 @@ export interface DeleteCertificatePollOperationState
 export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOperation<
   DeleteCertificatePollOperationState,
   DeletedCertificate
-  > {
+> {
   constructor(
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
@@ -40,9 +46,9 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
   }
 
   /**
- * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
- * to an individual version of a certificate. This operation requires the certificates/delete permission.
- */
+   * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
+   * to an individual version of a certificate. This operation requires the certificates/delete permission.
+   */
   private async deleteCertificate(
     certificateName: string,
     options: DeleteCertificateOptions = {}
@@ -66,9 +72,9 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
   }
 
   /**
- * retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
- * current deletion recovery level. This operation requires the certificates/get permission.
- */
+   * retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
+   * current deletion recovery level. This operation requires the certificates/get permission.
+   */
   public async getDeletedCertificate(
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
@@ -133,4 +139,4 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 
     return this;
   }
-};
+}

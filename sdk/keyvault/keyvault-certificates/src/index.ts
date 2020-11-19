@@ -30,7 +30,6 @@ import {
   BeginCreateCertificateOptions,
   BeginDeleteCertificateOptions,
   BeginRecoverDeletedCertificateOptions,
-  CancelCertificateOperationOptions,
   CertificateIssuer,
   CertificateContact,
   CertificateContentType,
@@ -81,7 +80,8 @@ import {
   PolicySubjectProperties,
   DefaultCertificatePolicy,
   CertificateClientOptions,
-  LATEST_API_VERSION
+  LATEST_API_VERSION,
+  CancelCertificateOperationOptions
 } from "./certificatesModels";
 
 import {
@@ -109,7 +109,6 @@ import {
   GetCertificatePolicyResponse,
   UpdateCertificatePolicyResponse,
   UpdateCertificateResponse,
-  UpdateCertificateOperationResponse,
   DeleteCertificateOperationResponse,
   MergeCertificateResponse,
   BackupCertificateResponse,
@@ -123,7 +122,11 @@ import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy, createSpan, setParentSpan } from "../../keyvault-common/src";
+import {
+  challengeBasedAuthenticationPolicy,
+  createSpan,
+  setParentSpan
+} from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -134,7 +137,20 @@ import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
 import { parseKeyVaultCertificateId, KeyVaultCertificateId } from "./identifier";
-import { coreContactsToCertificateContacts, getCertificateFromCertificateBundle, getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle, getDeletedCertificateFromDeletedCertificateBundle, getDeletedCertificateFromItem, getPropertiesFromCertificateBundle, toCoreAttributes, toCorePolicy, toPublicIssuer, toPublicPolicy } from "./transformations";
+import {
+  coreContactsToCertificateContacts,
+  getCertificateFromCertificateBundle,
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle,
+  getDeletedCertificateFromDeletedCertificateBundle,
+  getDeletedCertificateFromItem,
+  getPropertiesFromCertificateBundle,
+  toCoreAttributes,
+  toCorePolicy,
+  toPublicIssuer,
+  toPublicPolicy
+} from "./transformations";
+import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
 
 export {
   CertificateClientOptions,
@@ -212,7 +228,9 @@ export {
   UpdateCertificatePolicyOptions,
   WellKnownIssuerNames as WellKnownIssuer,
   X509CertificateProperties,
-  logger
+  logger,
+  CancelCertificateOperationOptions,
+  KeyVaultCertificatePollOperationState
 };
 
 /**
@@ -770,11 +788,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -844,11 +862,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -1259,42 +1277,6 @@ export class CertificateClient {
     }
 
     return getCertificateFromCertificateBundle(result._response.parsedBody);
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
-   *
-   * @summary Cancels a certificate's operation
-   * @param certificateName The name of the certificate
-   * @param cancel Whether to cancel the operation or not
-   * @param {CancelCertificateOperationOptions} [options] The optional parameters
-   */
-  private async cancelCertificateOperation(
-    certificateName: string,
-    options: CancelCertificateOperationOptions = {}
-  ): Promise<CertificateOperation> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("cancelCertificateOperation", requestOptions);
-
-    let result: UpdateCertificateOperationResponse;
-    try {
-      result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
   }
 
   /**

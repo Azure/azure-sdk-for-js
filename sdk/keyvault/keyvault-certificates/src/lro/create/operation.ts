@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
+import { PollOperationState } from "@azure/core-lro";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import {
   KeyVaultCertificateWithPolicy,
@@ -12,10 +12,24 @@ import {
   GetPlainCertificateOperationOptions,
   CancelCertificateOperationOptions
 } from "../../certificatesModels";
-import { CertificateOperation, CreateCertificateResponse, GetCertificateOperationResponse, GetCertificateResponse, UpdateCertificateOperationResponse } from "../../generated/models";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
+import {
+  CertificateOperation,
+  CreateCertificateResponse,
+  GetCertificateOperationResponse,
+  GetCertificateResponse,
+  UpdateCertificateOperationResponse
+} from "../../generated/models";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle, toCoreAttributes, toCorePolicy } from "../../transformations";
+import {
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle,
+  toCoreAttributes,
+  toCorePolicy
+} from "../../transformations";
 import { createSpan } from "../../../../keyvault-common";
 import { setParentSpan } from "../../../../keyvault-common";
 
@@ -50,7 +64,7 @@ export interface CreateCertificatePollOperationState
 export class CreateCertificatePollOperation extends KeyVaultCertificatePollOperation<
   CreateCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: CreateCertificatePollOperationState,
     private vaultUrl: string,

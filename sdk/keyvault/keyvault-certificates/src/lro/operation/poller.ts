@@ -3,14 +3,15 @@
 
 import {
   CertificateOperationPollOperation,
-  CertificateOperationPollOperationState,
+  CertificateOperationPollOperationState
 } from "./operation";
+import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
-  KeyVaultCertificateWithPolicy
-} from "../../certificatesModels";
-import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
+  KeyVaultCertificatePoller,
+  KeyVaultCertificatePollerOptions
+} from "../keyVaultCertificatePoller";
 
-export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions { }
+export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -19,9 +20,16 @@ export interface CertificateOperationPollerOptions extends KeyVaultCertificatePo
 export class CertificateOperationPoller extends KeyVaultCertificatePoller<
   CertificateOperationPollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(options: CertificateOperationPollerOptions) {
-    const { vaultUrl, client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const {
+      vaultUrl,
+      client,
+      certificateName,
+      requestOptions,
+      intervalInMs = 2000,
+      resumeFrom
+    } = options;
 
     let state: CertificateOperationPollOperationState | undefined;
 

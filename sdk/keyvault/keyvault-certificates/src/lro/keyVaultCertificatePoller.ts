@@ -20,7 +20,8 @@ export interface KeyVaultCertificatePollerOptions {
 /**
  * An interface representing the state of a Key Vault Certificate Poller's operation.
  */
-export interface KeyVaultCertificatePollOperationState<TResult> extends PollOperationState<TResult> {
+export interface KeyVaultCertificatePollOperationState<TResult>
+  extends PollOperationState<TResult> {
   /**
    * The name of the certificate.
    */
@@ -30,7 +31,10 @@ export interface KeyVaultCertificatePollOperationState<TResult> extends PollOper
 /**
  * Common properties and methods of the Key Vault Certificate Pollers.
  */
-export abstract class KeyVaultCertificatePoller<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultCertificatePoller<
+  TState extends KeyVaultCertificatePollOperationState<TResult>,
+  TResult
+> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -51,7 +55,9 @@ export interface KeyVaultCertificatePollOperationOptions {
   cancelMessage?: string;
 }
 
-export function cleanState<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>(state: TState): KeyVaultCertificatePollOperationState<TResult> {
+export function cleanState<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>(
+  state: TState
+): KeyVaultCertificatePollOperationState<TResult> {
   const cleanState: KeyVaultCertificatePollOperationState<TResult> = {
     certificateName: state.certificateName,
     isStarted: state.isStarted,
@@ -59,15 +65,17 @@ export function cleanState<TState extends KeyVaultCertificatePollOperationState<
     isCompleted: state.isCompleted,
     error: state.error,
     result: state.result
-  }
+  };
   return cleanState;
 }
 
 /**
  * Common properties and methods of the Key Vault Certificate Poller operations.
  */
-export class KeyVaultCertificatePollOperation<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>
-  implements PollOperation<TState, TResult> {
+export class KeyVaultCertificatePollOperation<
+  TState extends KeyVaultCertificatePollOperationState<TResult>,
+  TResult
+> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(public state: TState, options: KeyVaultCertificatePollOperationOptions = {}) {
