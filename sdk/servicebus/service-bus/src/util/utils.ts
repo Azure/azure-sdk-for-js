@@ -461,6 +461,8 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
   const rawAuthorizationRule: any = {
     ClaimType: authorizationRule.claimType,
+    // ClaimValue is not settable by the users, but service expects the value for PUT requests
+    ClaimValue: "None",
     Rights: {
       AccessRights: authorizationRule.accessRights
     },
