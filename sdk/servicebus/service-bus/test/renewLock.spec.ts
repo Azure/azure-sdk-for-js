@@ -301,7 +301,7 @@ describe("Message Lock Renewal", () => {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
     await delay(10000);
@@ -387,7 +387,7 @@ describe("Message Lock Renewal", () => {
               processError: async (err) => reject(err)
             },
             {
-              autoComplete: false
+              autoCompleteMessages: false
             }
           );
         });

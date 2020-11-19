@@ -157,7 +157,7 @@ describe("ServiceClient", function() {
     await testSendOperationRequest(["1", "2", "3"], "Multi", false, "?q=1&q=2&q=3");
     await testSendOperationRequest(["1,2", "3,4", "5"], "Multi", false, "?q=1%2C2&q=3%2C4&q=5");
     await testSendOperationRequest(["1,2", "3,4", "5"], "Multi", true, "?q=1,2&q=3,4&q=5");
-    await testSendOperationRequest([], "Multi", true, "https://example.com/");
+    await testSendOperationRequest([], "Multi", true, "https://example.com");
   });
 
   it("should deserialize response bodies", async function() {

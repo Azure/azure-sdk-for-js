@@ -83,6 +83,11 @@ export interface CreateSubscriptionOptions extends OperationOptions {
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
+    defaultRuleOptions?: {
+        name: string;
+        filter?: SqlRuleFilter | CorrelationRuleFilter;
+        action?: SqlRuleAction;
+    };
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -298,6 +303,7 @@ export interface ServiceBusConnectionStringProperties {
 
 // @public
 export class ServiceBusError extends MessagingError {
+    constructor(message: string, code: ServiceBusErrorCode);
     constructor(messagingError: MessagingError);
     code: ServiceBusErrorCode;
     }
@@ -359,7 +365,7 @@ export type ServiceBusErrorCode =
 /**
  * The user doesn't have access to the entity.
  */
- | "Unauthorized";
+ | "UnauthorizedAccess";
 
 // @public
 export interface ServiceBusMessage {
@@ -488,7 +494,7 @@ export interface SqlRuleFilter {
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase {
-    autoComplete?: boolean;
+    autoCompleteMessages?: boolean;
     maxConcurrentCalls?: number;
 }
 
@@ -508,7 +514,7 @@ export interface SubscriptionProperties {
     status: EntityStatus;
     readonly subscriptionName: string;
     readonly topicName: string;
-    userMetadata: string;
+    userMetadata?: string;
 }
 
 // @public

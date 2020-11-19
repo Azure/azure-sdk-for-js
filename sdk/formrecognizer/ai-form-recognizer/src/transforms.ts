@@ -379,7 +379,6 @@ function flattenTrainingDocuments(
       }))
     );
 
-    // Fold these together using a simple reduce
     return ([] as TrainingDocumentInfo[]).concat(...mappedResultDocuments);
   } else if (original.trainResult) {
     // Normal training scenario with only one trainResult

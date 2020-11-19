@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { receiverLogger as logger } from "../log";
-import { MessagingError } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -21,7 +20,7 @@ import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -347,7 +346,10 @@ export class BatchingReceiverLite {
             `${loggingPrefix} '${eventType}' event occurred. Received an error`
           );
         } else {
-          error = new MessagingError("An error occurred while receiving messages.");
+          error = new ServiceBusError(
+            "An error occurred while receiving messages.",
+            "GeneralError"
+          );
         }
         reject(error);
       };

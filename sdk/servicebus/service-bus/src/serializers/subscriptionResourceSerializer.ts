@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { CorrelationRuleFilter } from "..";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -18,6 +19,12 @@ import {
   getStringOrUndefined,
   getDate
 } from "../util/utils";
+import {
+  buildInternalRuleResource,
+  InternalRuleOptions,
+  SqlRuleAction,
+  SqlRuleFilter
+} from "./ruleResourceSerializer";
 
 /**
  * @internal
@@ -40,6 +47,9 @@ export function buildSubscriptionOptions(
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscription.deadLetteringOnFilterEvaluationExceptions
     ),
+    DefaultRuleDescription: subscription.defaultRuleOptions
+      ? buildInternalRuleResource(subscription.defaultRuleOptions)
+      : undefined,
     MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
     Status: getStringOrUndefined(subscription.status),
@@ -177,6 +187,30 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    * in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
+
+  /**
+   * Represents the options to create the default rule for the subscription.
+   */
+  defaultRuleOptions?: {
+    /**
+     * Name of the rule
+     */
+    name: string;
+
+    /**
+     * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+     * the expression string is interpreted as a SQL92 expression which must
+     * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+     * a `SqlRuleFilter` can be defined.
+     */
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+
+    /**
+     * The SQL like expression that can be executed on the message should the
+     * associated filter apply.
+     */
+    action?: SqlRuleAction;
+  };
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -327,7 +361,7 @@ export interface SubscriptionProperties {
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Absolute URL or the name of the queue or topic the dead-lettered
@@ -458,6 +492,8 @@ export interface InternalSubscriptionOptions {
    * Availability status of the messaging entity.
    */
   EntityAvailabilityStatus?: string;
+
+  DefaultRuleDescription?: InternalRuleOptions;
 }
 
 /**
