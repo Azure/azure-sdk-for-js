@@ -16,6 +16,7 @@ const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
+  "Microsoft was founded by Bill Gates and Paul Allen.",
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
   "The employee's SSN is 555-55-5555.",

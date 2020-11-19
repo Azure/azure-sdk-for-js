@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0-beta.3 (Unreleased)
+## 5.1.0-beta.3 (11/20/2020)
 
 - We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.
 - We now have added support for performing multiple analyses at once with the introduction of the `beginAnalyze` API.

@@ -496,6 +496,7 @@ main();
 ## Known Issues
 
 - Currently, the `beginAnalyze` API accepts `includeStatistics` in its options bag, a feature that was not yet supported by the service at the time of the current release. This feature is expected to be supported soon after the release.
+- `beginAnalyzeHealthcare` is still in gated preview and can not be used with AAD credentials.
 
 ## Troubleshooting
 
