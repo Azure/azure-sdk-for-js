@@ -403,15 +403,15 @@ ruleTester.run("ts-versioning-semver", rule, {
       ]
     },
     // beta violations
-    {
-      code: '{"version": "1.0.0-preview.1"}',
-      filename: "package.json",
-      errors: [
-        {
-          message: "unrecognized version syntax: preview.1"
-        }
-      ]
-    },
+    // {
+    //   code: '{"version": "1.0.0-preview.1"}',
+    //   filename: "package.json",
+    //   errors: [
+    //     {
+    //       message: "unrecognized version syntax: preview.1"
+    //     }
+    //   ]
+    // },
     {
       code: '{"version": "1.0.0-Beta-1"}',
       filename: "package.json",
@@ -449,15 +449,15 @@ ruleTester.run("ts-versioning-semver", rule, {
       ]
     },
     // alpha violations
-    {
-      code: '{"version": "1.0.0-dev.20200728.1"}',
-      filename: "package.json",
-      errors: [
-        {
-          message: "unrecognized version syntax: dev.20200728.1"
-        }
-      ]
-    },
+    // {
+    //   code: '{"version": "1.0.0-dev.20200728.1"}',
+    //   filename: "package.json",
+    //   errors: [
+    //     {
+    //       message: "unrecognized version syntax: dev.20200728.1"
+    //     }
+    //   ]
+    // },
     {
       code: '{"version": "1.0.0-Alpha-1"}',
       filename: "package.json",

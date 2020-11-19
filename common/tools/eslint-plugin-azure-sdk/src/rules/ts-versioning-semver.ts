@@ -66,7 +66,8 @@ export = {
             if (secondPart === undefined) {
               return;
             }
-            const ver = secondPart.match(/^(alpha|beta)(.*)/);
+            // FIXME: remove dev and preview
+            const ver = secondPart.match(/^(dev|preview|alpha|beta)(.*)/);
             if (ver === null) {
               context.report({
                 node: nodeValue,
