@@ -31,7 +31,7 @@ export class HttpSender implements Sender {
       const { _response: res } = await this._appInsightsClient.track(envelopes);
       return { statusCode: res.status, result: res.bodyAsText ?? "" };
     } catch (e) {
-      return { statusCode: 0, result: e?.message ?? "Error serializing envelope" };
+      throw e;
     }
   }
 
