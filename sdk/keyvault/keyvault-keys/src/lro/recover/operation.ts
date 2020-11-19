@@ -14,12 +14,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> { }
+  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,
   KeyVaultKey
-  > {
+> {
   constructor(
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,

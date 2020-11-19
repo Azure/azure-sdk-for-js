@@ -13,20 +13,20 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> { }
+export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> {}
 
 export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   DeleteKeyPollOperationState,
   DeletedKey
-  > {
-    constructor(
-      public state: DeleteKeyPollOperationState,
-      private vaultUrl: string,
-      private client: KeyVaultClient,
-      private requestOptions: RequestOptionsBase = {}
-    ) {
-      super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
-    }
+> {
+  constructor(
+    public state: DeleteKeyPollOperationState,
+    private vaultUrl: string,
+    private client: KeyVaultClient,
+    private requestOptions: RequestOptionsBase = {}
+  ) {
+    super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
+  }
 
   /**
    * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
