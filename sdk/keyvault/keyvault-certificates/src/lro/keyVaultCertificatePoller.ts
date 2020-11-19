@@ -50,7 +50,7 @@ export function cleanState<TState extends KeyVaultCertificatePollOperationState<
 export abstract class KeyVaultCertificatePoller<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult
-  > extends Poller<TState, TResult> {
+> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -64,8 +64,8 @@ export abstract class KeyVaultCertificatePoller<
   }
 
   /**
- * Gets the public state of the polling operation
- */
+   * Gets the public state of the polling operation
+   */
   public getOperationState(): TState {
     return cleanState(this.operation.state) as TState;
   }
@@ -84,7 +84,7 @@ export interface KeyVaultCertificatePollOperationOptions {
 export class KeyVaultCertificatePollOperation<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult
-  > implements PollOperation<TState, TResult> {
+> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(public state: TState, options: KeyVaultCertificatePollOperationOptions = {}) {
@@ -113,6 +113,6 @@ export class KeyVaultCertificatePollOperation<
   public toString(): string {
     return JSON.stringify({
       state: cleanState(this.state)
-    }); a
+    });
   }
 }

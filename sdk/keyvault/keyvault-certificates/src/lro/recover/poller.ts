@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  RecoverDeletedCertificatePollOperation, RecoverDeletedCertificateState
+  RecoverDeletedCertificatePollOperation,
+  RecoverDeletedCertificateState
 } from "./operation";
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
@@ -10,7 +11,7 @@ import {
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
 
-export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions { }
+export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -18,7 +19,7 @@ export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertific
 export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
     const {
       vaultUrl,

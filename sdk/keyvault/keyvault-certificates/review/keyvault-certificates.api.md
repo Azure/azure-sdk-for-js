@@ -211,7 +211,7 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {

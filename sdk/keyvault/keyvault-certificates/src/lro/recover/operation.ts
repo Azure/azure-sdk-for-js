@@ -30,7 +30,7 @@ export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationSta
 export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificatePollOperation<
   RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,

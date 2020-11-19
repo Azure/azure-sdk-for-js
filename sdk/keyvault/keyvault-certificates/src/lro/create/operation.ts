@@ -35,7 +35,9 @@ import { setParentSpan } from "../../../../keyvault-common";
 /**
  * The public representation of the CreateCertificatePoller operation state.
  */
-export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = KeyVaultCertificatePollOperationState<
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * An interface representing the state of a create certificate's poll operation
@@ -62,7 +64,7 @@ export interface CreateCertificatePollOperationState
 export class CreateCertificatePollOperation extends KeyVaultCertificatePollOperation<
   CreateCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: CreateCertificatePollOperationState,
     private vaultUrl: string,

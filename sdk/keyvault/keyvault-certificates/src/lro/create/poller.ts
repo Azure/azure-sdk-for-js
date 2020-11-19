@@ -23,7 +23,7 @@ export interface CreateCertificatePollerOptions extends KeyVaultCertificatePolle
 export class CreateCertificatePoller extends KeyVaultCertificatePoller<
   CreateCertificateState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(options: CreateCertificatePollerOptions) {
     const {
       vaultUrl,

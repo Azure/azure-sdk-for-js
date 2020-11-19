@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CertificateOperationPollOperation,
-  CertificateOperationState
-} from "./operation";
+import { CertificateOperationPollOperation, CertificateOperationState } from "./operation";
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
 
-export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions { }
+export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -20,7 +17,7 @@ export interface CertificateOperationPollerOptions extends KeyVaultCertificatePo
 export class CertificateOperationPoller extends KeyVaultCertificatePoller<
   CertificateOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(options: CertificateOperationPollerOptions) {
     const {
       vaultUrl,

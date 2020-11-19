@@ -44,7 +44,7 @@ export interface CertificateOperationState
 export class CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
   CertificateOperationState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: CertificateOperationState,
     private vaultUrl: string,
