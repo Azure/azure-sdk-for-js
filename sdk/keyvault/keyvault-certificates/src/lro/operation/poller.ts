@@ -5,7 +5,8 @@ import { CertificateOperationPollOperation, CertificateOperationState } from "./
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
+  KeyVaultCertificatePollerOptions,
+  cleanState
 } from "../keyVaultCertificatePoller";
 
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
@@ -47,5 +48,15 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
     super(operation);
 
     this.intervalInMs = intervalInMs;
+  }
+
+  /**
+   * Gets the public state of the polling operation
+   */
+  public getOperationState(): CertificateOperationState {
+    return {
+      ...cleanState(this.operation.state),
+      certificateOperation: this.operation.state.certificateOperation
+    };
   }
 }
