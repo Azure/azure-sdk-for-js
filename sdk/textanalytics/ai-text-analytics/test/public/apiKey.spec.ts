@@ -7,9 +7,9 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, testEnv } from "./utils/recordedClient";
-import { TextAnalyticsClient, AzureKeyCredential } from "../src/";
-import { assertAllSuccess } from "./utils/resultHelper";
+import { createRecordedClient, testEnv } from "../utils/recordedClient";
+import { TextAnalyticsClient, AzureKeyCredential } from "../../src";
+import { assertAllSuccess } from "../utils/resultHelper";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
