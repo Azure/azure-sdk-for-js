@@ -35,3 +35,14 @@ export interface AddChatParticipantsRequest
    */
   participants: ChatParticipant[];
 }
+
+/**
+ * Thread participant to be added to the thread.
+ */
+export interface AddChatParticipantRequest
+  extends Omit<RestAddChatParticipantsRequest, "participants"> {
+  /**
+   * Participant to add to a chat thread.
+   */
+  participant: ChatParticipant;
+}

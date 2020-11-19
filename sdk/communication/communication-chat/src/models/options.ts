@@ -80,9 +80,14 @@ export type GetMessageOptions = OperationOptions;
 export type DeleteMessageOptions = OperationOptions;
 
 /**
- * Options to add a chat participant.
+ * Options to add chat participants.
  */
 export type AddParticipantsOptions = OperationOptions;
+
+/**
+ * Options to add a chat participant.
+ */
+export type AddParticipantOptions = OperationOptions;
 
 /**
  * Options to list chat participants.

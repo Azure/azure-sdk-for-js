@@ -14,7 +14,11 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
-import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
+import {
+  SendMessageRequest,
+  AddChatParticipantsRequest,
+  AddChatParticipantRequest
+} from "./models/requests";
 import { SendReadReceiptRequest } from "./generated/src/models";
 import { OperationResponse } from "./models/models";
 import {
@@ -30,7 +34,8 @@ import {
   RemoveParticipantOptions,
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
-  ListReadReceiptsOptions
+  ListReadReceiptsOptions,
+  AddParticipantOptions
 } from "./models/options";
 import {
   ChatMessage,
@@ -329,6 +334,38 @@ export class ChatThreadClient {
       return await this.api.addChatParticipants(
         this.threadId,
         mapToAddChatParticipantsRequestRestModel(request),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Adds the details of a single chat participant belonging to the thread identified by threadId.
+   * @param request Thread participant's details to add.
+   * @param options Operation options.
+   */
+  public async addParticipant(
+    request: AddChatParticipantRequest,
+    options: AddParticipantOptions = {}
+  ): Promise<OperationResponse> {
+    const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipant", options);
+
+    const addParticipantsRequest = {
+      participants: [request.participant]
+    };
+
+    try {
+      return await this.api.addChatParticipants(
+        this.threadId,
+        mapToAddChatParticipantsRequestRestModel(addParticipantsRequest),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
