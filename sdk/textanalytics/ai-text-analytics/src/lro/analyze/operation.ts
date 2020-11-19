@@ -109,6 +109,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
 > {
   constructor(
     public state: BeginAnalyzePollState,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
     private tasks: JobManifestTasks,
@@ -285,7 +286,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         ...operationOptionsToRequestOptionsBase(finalOptions)
       });
     } catch (e) {
-      let exception = handleInvalidDocumentBatch(e);
+      const exception = handleInvalidDocumentBatch(e);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: exception.message

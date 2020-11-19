@@ -767,6 +767,7 @@ describe("[AAD] TextAnalyticsClient", function() {
   describe("#analyze", () => {
     let pollingInterval = 2000;
     if (isRecordMode() || process.env.TEST_MODE === "live") {
+      // eslint-disable-next-line no-invalid-this
       this.timeout(1000000);
     } else {
       pollingInterval = 0;
@@ -1494,9 +1495,9 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       );
       const result = await poller.pollUntilDone();
-      let docCount = 0,
-        pageCount = 0,
-        pageSize = 10;
+      let docCount = 0;
+      let pageCount = 0;
+      const pageSize = 10;
       for await (const page of result.byPage({ maxPageSize: pageSize })) {
         const entitiesTaskDocs = page.entitiesRecognitionResults![0];
         ++pageCount;

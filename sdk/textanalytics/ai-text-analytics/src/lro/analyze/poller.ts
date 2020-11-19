@@ -30,6 +30,7 @@ export class BeginAnalyzePoller extends AnalysisPoller<
   BeginAnalyzePollState,
   PaginatedAnalyzeResults
 > {
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: AnalyzePollerOptions) {
     const {
       client,

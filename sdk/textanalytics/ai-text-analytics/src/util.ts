@@ -34,7 +34,7 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
     );
   }
 
-  let result: U[] = [];
+  const result: U[] = [];
   for (const sortedItem of sortedArray) {
     const item = unsortedMap.get(sortedItem.id);
     if (item) {
@@ -118,7 +118,7 @@ export function getJobID(operationLocation: string): string {
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error the incoming error
  */
-export function handleInvalidDocumentBatch(error: any) {
+export function handleInvalidDocumentBatch(error: any): any {
   const innerCode = error.response?.parsedBody?.error?.innererror?.code;
   const innerMessage = error.response?.parsedBody?.error?.innererror?.message;
   return innerCode === "InvalidDocumentBatch"

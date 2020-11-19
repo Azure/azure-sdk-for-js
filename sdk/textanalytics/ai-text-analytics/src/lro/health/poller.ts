@@ -31,6 +31,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
   BeginAnalyzeHealthcarePollState,
   PaginatedHealthcareEntities
 > {
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: AnalysisPollerOptions) {
     const {
       client,

@@ -105,6 +105,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
 > {
   constructor(
     public state: BeginAnalyzeHealthcarePollState,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
     private options: BeginAnalyzeHealthcareOptions = {},
@@ -274,7 +275,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     } catch (e) {
-      let exception = handleInvalidDocumentBatch(e);
+      const exception = handleInvalidDocumentBatch(e);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: exception.message
