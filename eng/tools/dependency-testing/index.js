@@ -191,18 +191,9 @@ async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
 async function insertTsConfigJson(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   var tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
-  var tsConfigTestsJson = await packageUtils.readFileJson("./templates/tsconfig.tests.json");
-
-  const originalTsConfigPath = path.join(targetPackagePath, "tsconfig.json");
-  var originalTsConfig = await packageUtils.readFileJson(originalTsConfigPath);
-  tsConfigTestsJson.extends = originalTsConfig.extends;
-  tsConfigTestsJson.compilerOptions = originalTsConfig.compilerOptions;
 
   const tsConfigPath = path.join(testPath, "tsconfig.json");
-  const tsConfigTestsPath = path.join(targetPackagePath, "tsconfig.tests.json");
-  console.log(tsConfigTestsJson);
   await packageUtils.writePackageJson(tsConfigPath, tsConfigJson);
-  await packageUtils.writePackageJson(tsConfigTestsPath, tsConfigTestsJson);
 }
 
 async function readAndReplaceSourceReferences(filePath, packageName) {
