@@ -19,7 +19,7 @@ import {
   OpinionSentiment
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
-import { PiiEntityDomainType } from "../src/textAnalyticsClient";
+import { PiiEntityDomainType } from "../src/";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",

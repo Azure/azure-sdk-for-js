@@ -8,7 +8,7 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
-import { TextAnalyticsClient, AzureKeyCredential } from "../src/index";
+import { TextAnalyticsClient, AzureKeyCredential } from "../src/";
 import { assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
