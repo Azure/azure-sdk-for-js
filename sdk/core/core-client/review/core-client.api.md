@@ -342,14 +342,10 @@ export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
     httpsClient?: HttpsClient;
-    parseXML?: (str: string, opts?: {
-        includeRoot?: boolean;
-    }) => Promise<any>;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
-    stringifyXML?: (obj: any, opts?: {
-        rootName?: string;
-    }) => string;
+    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public (undocumented)
