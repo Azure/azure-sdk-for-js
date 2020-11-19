@@ -24,10 +24,9 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
 
 /**
  * An interface representing the state of a delete certificate's poll operation
- * @internal
  */
 export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> { }
 
 /**
  * An interface representing a delete certificate's poll operation
@@ -35,7 +34,7 @@ export interface DeleteCertificatePollOperationState
 export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOperation<
   DeleteCertificatePollOperationState,
   DeletedCertificate
-> {
+  > {
   constructor(
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
@@ -72,7 +71,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
   }
 
   /**
-   * retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
+   * Retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
    * current deletion recovery level. This operation requires the certificates/get permission.
    */
   public async getDeletedCertificate(

@@ -39,25 +39,14 @@ export interface CertificateOperationState
 }
 
 /**
- * An interface representing the state of a create certificate's poll operation
- */
-export interface CertificateOperationPollOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
-  /**
-   * The operation of the certificate
-   */
-  certificateOperation?: CertificateOperation;
-}
-
-/**
  * An interface representing a create certificate's poll operation
  */
 export class CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
-  CertificateOperationPollOperationState,
+  CertificateOperationState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(
-    public state: CertificateOperationPollOperationState,
+    public state: CertificateOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
@@ -154,7 +143,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: CertificateOperationPollOperationState) => void;
+      fireProgress?: (state: CertificateOperationState) => void;
     } = {}
   ): Promise<CertificateOperationPollOperation> {
     const state = this.state;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CreateCertificatePollOperation, CreateCertificatePollOperationState } from "./operation";
+import { CreateCertificatePollOperation, CreateCertificateState } from "./operation";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
@@ -19,12 +19,11 @@ export interface CreateCertificatePollerOptions extends KeyVaultCertificatePolle
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
- * @internal
  */
 export class CreateCertificatePoller extends KeyVaultCertificatePoller<
-  CreateCertificatePollOperationState,
+  CreateCertificateState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(options: CreateCertificatePollerOptions) {
     const {
       vaultUrl,
@@ -37,7 +36,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
       resumeFrom
     } = options;
 
-    let state: CreateCertificatePollOperationState | undefined;
+    let state: CreateCertificateState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

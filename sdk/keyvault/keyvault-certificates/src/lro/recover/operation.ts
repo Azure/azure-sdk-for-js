@@ -25,20 +25,14 @@ export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationSta
 >;
 
 /**
- * An interface representing the state of a recover delete certificate poll operation
- */
-export interface RecoverDeletedCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {}
-
-/**
  * An interface representing a delete certificate's poll operation
  */
 export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificatePollOperation<
-  RecoverDeletedCertificatePollOperationState,
+  RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(
-    public state: RecoverDeletedCertificatePollOperationState,
+    public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
@@ -104,7 +98,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: RecoverDeletedCertificatePollOperationState) => void;
+      fireProgress?: (state: RecoverDeletedCertificateState) => void;
     } = {}
   ): Promise<RecoverDeletedCertificatePollOperation> {
     const state = this.state;

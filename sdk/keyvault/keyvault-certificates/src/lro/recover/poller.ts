@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  RecoverDeletedCertificatePollOperation,
-  RecoverDeletedCertificatePollOperationState
+  RecoverDeletedCertificatePollOperation, RecoverDeletedCertificateState
 } from "./operation";
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
@@ -11,15 +10,15 @@ import {
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
 
-export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
+export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions { }
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
-  RecoverDeletedCertificatePollOperationState,
+  RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
     const {
       vaultUrl,
@@ -30,7 +29,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
       resumeFrom
     } = options;
 
-    let state: RecoverDeletedCertificatePollOperationState | undefined;
+    let state: RecoverDeletedCertificateState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

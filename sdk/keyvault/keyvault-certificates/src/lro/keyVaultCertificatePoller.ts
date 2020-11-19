@@ -18,7 +18,7 @@ export interface KeyVaultCertificatePollerOptions {
 }
 
 /**
- * An interface representing the state of a Key Vault Certificate Poller's operation.
+ * An interface representing the public shape of the state of a Key Vault Certificate Poller's operations.
  */
 export interface KeyVaultCertificatePollOperationState<TResult>
   extends PollOperationState<TResult> {
@@ -29,12 +29,28 @@ export interface KeyVaultCertificatePollOperationState<TResult>
 }
 
 /**
+ * Generates a version of the state with only public properties. At least those common for all of the Key Vault Certificates pollers.
+ */
+export function cleanState<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>(
+  state: TState
+): KeyVaultCertificatePollOperationState<TResult> {
+  return {
+    certificateName: state.certificateName,
+    isStarted: state.isStarted,
+    isCancelled: state.isCancelled,
+    isCompleted: state.isCompleted,
+    error: state.error,
+    result: state.result
+  };
+}
+
+/**
  * Common properties and methods of the Key Vault Certificate Pollers.
  */
 export abstract class KeyVaultCertificatePoller<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult
-> extends Poller<TState, TResult> {
+  > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -46,6 +62,13 @@ export abstract class KeyVaultCertificatePoller<
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+ * Gets the public state of the polling operation
+ */
+  public getOperationState(): TState {
+    return cleanState(this.operation.state) as TState;
+  }
 }
 
 /**
@@ -55,27 +78,13 @@ export interface KeyVaultCertificatePollOperationOptions {
   cancelMessage?: string;
 }
 
-export function cleanState<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>(
-  state: TState
-): KeyVaultCertificatePollOperationState<TResult> {
-  const cleanState: KeyVaultCertificatePollOperationState<TResult> = {
-    certificateName: state.certificateName,
-    isStarted: state.isStarted,
-    isCancelled: state.isCancelled,
-    isCompleted: state.isCompleted,
-    error: state.error,
-    result: state.result
-  };
-  return cleanState;
-}
-
 /**
  * Common properties and methods of the Key Vault Certificate Poller operations.
  */
 export class KeyVaultCertificatePollOperation<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult
-> implements PollOperation<TState, TResult> {
+  > implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(public state: TState, options: KeyVaultCertificatePollOperationOptions = {}) {
@@ -85,28 +94,25 @@ export class KeyVaultCertificatePollOperation<
   }
 
   /**
-   * @summary Meant to reach to the service and update the Poller operation.
-   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+   * Meant to reach to the service and update the Poller operation.
    */
   public async update(): Promise<PollOperation<TState, TResult>> {
     throw new Error("Operation not supported.");
   }
 
   /**
-   * @summary Meant to reach to the service and cancel the Poller operation.
-   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+   * Meant to reach to the service and cancel the Poller operation.
    */
   public async cancel(): Promise<PollOperation<TState, TResult>> {
     throw new Error(this.cancelMessage);
   }
 
   /**
-   * @summary Serializes the create certificate's poll operation
-   * @internal
+   * Serializes the create certificate's poll operation
    */
   public toString(): string {
     return JSON.stringify({
       state: cleanState(this.state)
-    });
+    }); a
   }
 }

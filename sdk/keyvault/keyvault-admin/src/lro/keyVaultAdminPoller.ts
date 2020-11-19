@@ -20,12 +20,52 @@ export interface KeyVaultAdminPollerOptions {
  * An interface representing the state of a Key Vault Admin Poller's operation.
  */
 export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
+  /**
+   * Identifier for the full restore operation.
+   */
+  jobId?: string;
+  /**
+   * Status of the restore operation.
+   */
+  status?: string;
+  /**
+   * The status details of restore operation.
+   */
+  statusDetails?: string;
+  /**
+   * The start time of the restore operation in UTC
+   */
+  startTime?: Date;
+  /**
+   * The end time of the restore operation in UTC
+   */
+  endTime?: Date;
+}
+
+/**
+ * Generates a version of the state with only public properties. At least those common for all of the Key Vault Certificates pollers.
+ */
+export function cleanState<TState extends KeyVaultAdminPollOperationState<TResult>, TResult>(
+  state: TState
+): KeyVaultAdminPollOperationState<TResult> {
+  return {
+    jobId: state.jobId,
+    status: state.status,
+    statusDetails: state.statusDetails,
+    startTime: state.startTime,
+    endTime: state.endTime,
+    isStarted: state.isStarted,
+    isCancelled: state.isCancelled,
+    isCompleted: state.isCompleted,
+    error: state.error,
+    result: state.result
+  };
 }
 
 /**
  * Common properties and methods of the Key Vault Admin Pollers.
  */
-export abstract class KeyVaultAdminPoller<TState, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultAdminPoller<TState extends KeyVaultAdminPollOperationState<TResult>, TResult> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -37,6 +77,13 @@ export abstract class KeyVaultAdminPoller<TState, TResult> extends Poller<TState
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  /**
+ * Gets the public state of the polling operation
+ */
+  public getOperationState(): TState {
+    return cleanState(this.operation.state) as TState;
   }
 }
 
@@ -76,7 +123,7 @@ export class KeyVaultAdminPollOperation<TState, TResult> implements PollOperatio
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: cleanState(this.state)
     });
   }
 }

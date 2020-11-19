@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { PollOperationState } from "@azure/core-lro";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import {
   KeyVaultCertificateWithPolicy,
@@ -36,11 +35,10 @@ import { setParentSpan } from "../../../../keyvault-common";
 /**
  * The public representation of the CreateCertificatePoller operation state.
  */
-export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 /**
  * An interface representing the state of a create certificate's poll operation
- * @internal
  */
 export interface CreateCertificatePollOperationState
   extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
@@ -64,7 +62,7 @@ export interface CreateCertificatePollOperationState
 export class CreateCertificatePollOperation extends KeyVaultCertificatePollOperation<
   CreateCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(
     public state: CreateCertificatePollOperationState,
     private vaultUrl: string,
