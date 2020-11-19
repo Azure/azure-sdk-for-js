@@ -105,8 +105,7 @@ export interface ServiceBusReceiverOptions {
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled(or once the user
-   * provided processMessage handler completes its execution if used `ServiceBusReceiver.subscribe()` method).
+   * by the sdk automatically. This auto renewal stops once the message is settled.
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
