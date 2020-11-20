@@ -14,7 +14,7 @@ import {
 export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
- * Class that deletes a poller that waits until a certificate finishes being deleted
+ * Class that creates a poller that waits until a deleted certificate is fully recovered.
  */
 export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   RecoverDeletedCertificateState,

@@ -43,7 +43,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 }
 
 /**
- * Generates a version of the state with only public properties. At least those common for all of the Key Vault Certificates pollers.
+ * Generates a version of the state with only public properties. At least those common for all of the Key Vault Admin pollers.
  */
 export function cleanState<TState extends KeyVaultAdminPollOperationState<TResult>, TResult>(
   state: TState

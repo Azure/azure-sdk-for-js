@@ -8,7 +8,7 @@ import {
   KeyVaultClientFullRestoreOperationOptionalParams,
   KeyVaultClientRestoreStatusResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,

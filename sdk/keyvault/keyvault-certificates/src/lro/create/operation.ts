@@ -59,7 +59,7 @@ export interface CreateCertificatePollOperationState
 }
 
 /**
- * An interface representing a delete secret's poll operation
+ * An interface representing a create certificate's poll operation
  */
 export class CreateCertificatePollOperation extends KeyVaultCertificatePollOperation<
   CreateCertificatePollOperationState,

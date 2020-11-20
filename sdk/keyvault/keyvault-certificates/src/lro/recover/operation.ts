@@ -18,26 +18,28 @@ import {
 } from "../keyVaultCertificatePoller";
 
 /**
- * Deprecated: Public representation of the recover delete certificate poll operation
+ * Deprecated: Public representation of the recovery of a deleted certificate poll operation
  */
 export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<
   KeyVaultCertificateWithPolicy
 >;
 
 /**
- * An interface representing a delete certificate's poll operation
+ * An interface representing the recovery of a deleted certificate's poll operation
  */
 export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificatePollOperation<
   RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-> {
+  > {
   constructor(
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
   ) {
-    super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
+    super(state, {
+      cancelMessage: "Canceling the recovery of a deleted certificate is not supported."
+    });
   }
 
   /**
@@ -93,7 +95,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
   }
 
   /**
-   * Reaches to the service and updates the delete certificate's poll operation.
+   * Reaches to the service and updates the poll operation.
    */
   async update(
     options: {

@@ -13,7 +13,7 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
@@ -101,7 +101,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
   }
 
   /**
-   * Reaches to the service and updates the delete key's poll operation.
+   * Reaches to the service and updates the selective restore poll operation.
    */
   async update(
     options: {

@@ -12,8 +12,7 @@ import {
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
- * Class that deletes a poller that waits until a certificate finishes being deleted
- * @internal
+ * Class that creates a poller that waits until a certificate finishes being created
  */
 export class CertificateOperationPoller extends KeyVaultCertificatePoller<
   CertificateOperationState,

@@ -9,7 +9,7 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../tracing";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,

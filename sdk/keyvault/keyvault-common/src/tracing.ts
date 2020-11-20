@@ -6,8 +6,6 @@ import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 
 /**
- * @internal
- * @ignore
  * Creates a span using the tracer that was set by the user
  * @param {string} methodName The name of the method creating the span.
  * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.

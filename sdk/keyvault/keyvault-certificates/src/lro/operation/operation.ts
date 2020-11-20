@@ -39,7 +39,8 @@ export interface CertificateOperationState
 }
 
 /**
- * An interface representing a create certificate's poll operation
+ * An interface representing the active operation of a certificate's creation,
+ * which is represented locally as the "operation" of an active LRO Poller.
  */
 export class CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
   CertificateOperationState,
@@ -138,7 +139,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   }
 
   /**
-   * Reaches to the service and updates the create certificate's poll operation.
+   * Reaches to the service and updates the poll operation.
    */
   async update(
     options: {
@@ -179,7 +180,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   }
 
   /**
-   * Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
+   * Reaches to the service and cancels the certificate's operation, also updating the poll operation.
    */
   async cancel(
     this: CertificateOperationPollOperation,
@@ -202,7 +203,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   }
 
   /**
-   * Serializes the create certificate's poll operation
+   * Serializes the certificate's poll operation
    */
   public toString(): string {
     const state: CertificateOperationState = {
