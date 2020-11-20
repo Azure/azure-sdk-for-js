@@ -9,9 +9,9 @@
   "scripts": {
     "build": "tsc -p .",
     "integration-test:browser": "karma start --single-run",
-    "preintegration-test:node": "cd ../..",
+    "preintegration-test:node": "cd ../../..",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter test/public/node/mocha-multi-reporter.js --timeout 250000 --full-trace 'test/public/node/dist/**/*.js' --exit",
-    "postintegration-test:node" : "cd test/public/node",
+    "postintegration-test:node": "cd test/public/node",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser"
   },
   "repository": {
