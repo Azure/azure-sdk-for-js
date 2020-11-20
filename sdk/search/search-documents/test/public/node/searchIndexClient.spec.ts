@@ -4,16 +4,16 @@
 /* eslint-disable no-invalid-this */
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { SearchIndexClient, SynonymMap, SearchIndex } from "../../src";
-import { Hotel } from "../utils/interfaces";
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
+import { Hotel } from "../../utils/interfaces";
+import { createClients, environmentSetup } from "../../utils/recordedClient";
 import {
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
   createRandomIndexName
-} from "../utils/setup";
+} from "../../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";

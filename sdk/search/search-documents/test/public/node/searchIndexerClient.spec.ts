@@ -10,9 +10,9 @@ import {
   SearchIndexerDataSourceConnection,
   SearchIndexerSkillset,
   SearchIndexer
-} from "../../src";
-import { Hotel } from "../utils/interfaces";
-import { createClients, environmentSetup } from "../utils/recordedClient";
+} from "../../../src";
+import { Hotel } from "../../utils/interfaces";
+import { createClients, environmentSetup } from "../../utils/recordedClient";
 import {
   createIndex,
   createDataSourceConnections,
@@ -23,7 +23,7 @@ import {
   deleteIndexers,
   WAIT_TIME,
   createRandomIndexName
-} from "../utils/setup";
+} from "../../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";

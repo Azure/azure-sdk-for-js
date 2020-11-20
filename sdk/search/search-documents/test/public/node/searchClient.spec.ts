@@ -7,15 +7,15 @@ import { assert } from "chai";
 
 import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { createClients, environmentSetup } from "../../utils/recordedClient";
 import {
   SearchClient,
   SearchIndexClient,
   AutocompleteResult,
   IndexDocumentsBatch
-} from "../../src";
-import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
+} from "../../../src";
+import { Hotel } from "../../utils/interfaces";
+import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
