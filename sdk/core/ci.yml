@@ -24,8 +24,10 @@ pr:
     include:
       - sdk/core/
       - eng/
-      - common/config/rush/
+      - common/
       - rush.json
+    exclude:
+      - common/smoke-test/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
