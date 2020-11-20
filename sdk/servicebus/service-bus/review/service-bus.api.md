@@ -400,7 +400,6 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
-    readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
@@ -410,6 +409,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
+    readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long;
 }
 
