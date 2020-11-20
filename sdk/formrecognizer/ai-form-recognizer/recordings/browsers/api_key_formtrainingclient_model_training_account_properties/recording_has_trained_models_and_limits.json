@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models",
+   "query": {
+    "op": "summary"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"summary\":{\"count\":13,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-11-20T14:33:15Z\"}}",
+   "responseHeaders": {
+    "apim-request-id": "244dfd45-ddfe-43c6-a266-cf50e9f3d83e",
+    "content-length": "82",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 14:33:14 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "11"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "19632fa443ea0383f00a24821835fd51"
+}
