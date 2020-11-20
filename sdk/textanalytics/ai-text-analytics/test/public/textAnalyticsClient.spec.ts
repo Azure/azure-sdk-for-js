@@ -30,9 +30,9 @@ const testDataEn = [
 
 const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
-  "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
+  "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", function () {
+describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
@@ -41,7 +41,7 @@ describe("[AAD] TextAnalyticsClient", function () {
   // eslint-disable-next-line no-invalid-this
   this.timeout(10000);
 
-  beforeEach(function () {
+  beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
     ({ client, recorder } = createRecordedClient(this));
     let nextId = 0;
@@ -51,7 +51,7 @@ describe("[AAD] TextAnalyticsClient", function () {
     };
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -88,10 +88,10 @@ describe("[AAD] TextAnalyticsClient", function () {
         "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
         "I had a great unobstructed view of the Microsoft campus.",
         "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
-        "The toilet smelled.",
+        "The toilet smelled."
       ];
       const results = await client.analyzeSentiment(documents, "en", {
-        includeOpinionMining: true,
+        includeOpinionMining: true
       });
       const result1 = results[0];
       const result6 = results[5];
@@ -142,14 +142,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           language: "en",
-          text,
+          text
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           language: "es",
-          text,
+          text
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -172,7 +172,7 @@ describe("[AAD] TextAnalyticsClient", function () {
         },
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        includeOpinionMining: true,
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);
@@ -217,7 +217,7 @@ describe("[AAD] TextAnalyticsClient", function () {
         },
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        includeOpinionMining: true,
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);
@@ -272,7 +272,7 @@ describe("[AAD] TextAnalyticsClient", function () {
         },
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        includeOpinionMining: true,
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);
@@ -335,14 +335,14 @@ describe("[AAD] TextAnalyticsClient", function () {
       const enInputs = testDataEn.map(
         (text): DetectLanguageInput => ({
           id: getId(),
-          text,
+          text
         })
       );
       const esInputs = testDataEs.map(
         (text): DetectLanguageInput => ({
           id: getId(),
           countryHint: "mx",
-          text,
+          text
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -388,14 +388,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -410,14 +410,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -480,14 +480,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -548,14 +548,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -624,14 +624,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -646,14 +646,14 @@ describe("[AAD] TextAnalyticsClient", function () {
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "en",
+          language: "en"
         })
       );
       const esInputs = testDataEs.map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
-          language: "es",
+          language: "es"
         })
       );
       const allInputs = enInputs.concat(esInputs);
@@ -675,7 +675,7 @@ describe("[AAD] TextAnalyticsClient", function () {
   describe("#String encoding", () => {
     it("emoji", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
@@ -685,7 +685,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("emoji with skin tone modifier", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 10);
@@ -695,7 +695,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("family emoji", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 17);
@@ -705,7 +705,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("family emoji wit skin tone modifier", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 25);
@@ -715,7 +715,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("diacritics nfc", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "año SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 9);
@@ -725,7 +725,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("diacritics nfd", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "año SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 10);
@@ -735,7 +735,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("korean nfc", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
@@ -745,7 +745,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("korean nfd", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 8);
@@ -755,7 +755,7 @@ describe("[AAD] TextAnalyticsClient", function () {
 
     it("zalgo", async () => {
       const [result] = await client.recognizePiiEntities([
-        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" },
+        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
         assert.equal(result.entities[0].offset, 121);
