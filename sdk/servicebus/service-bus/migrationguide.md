@@ -36,7 +36,6 @@ We have a variety of new features in the version 7 of the Service Bus library.
 - Ability to create a batch of messages with the smarter `ServiceBusSender.createBatch()` and `ServiceBusMessageBatch.tryAddMessage()` APIs. This will help you manage the messages to be sent in the most optimal way.
 - Ability to configure the retry policy used by the operations on the client, sender and receivers.
 - Ability to cancel async operations on the client, sender and receivers and the management operations using the abort signal from `@azure/abort-controller`.
-- Ability to perform tracing with `[@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md)`
 - Authentication with AAD credentials using `@azure/identity`.
   Refer to the [Changelog.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/CHANGELOG.md) for more new features, changes and bug fixes.
 
