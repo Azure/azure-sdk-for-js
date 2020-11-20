@@ -18,9 +18,17 @@ import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
+export interface AddChatParticipantRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
+    participant: ChatParticipant;
+}
+
+// @public
 export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
     participants: ChatParticipant[];
 }
+
+// @public
+export type AddParticipantOptions = OperationOptions;
 
 // @public
 export type AddParticipantsOptions = OperationOptions;
@@ -78,6 +86,7 @@ export interface ChatThread extends Omit<RestChatThread, "createdBy" | "particip
 // @public
 export class ChatThreadClient {
     constructor(threadId: string, url: string, credential: CommunicationUserCredential, options?: ChatThreadClientOptions);
+    addParticipant(request: AddChatParticipantRequest, options?: AddParticipantOptions): Promise<OperationResponse>;
     addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<OperationResponse>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
     dispose(): void;
