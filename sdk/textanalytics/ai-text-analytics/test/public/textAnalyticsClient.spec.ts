@@ -25,7 +25,7 @@ const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
   "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
   "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-  "I didn't like the last book I read at all.",
+  "I didn't like the last book I read at all."
 ];
 
 const testDataEs = [
