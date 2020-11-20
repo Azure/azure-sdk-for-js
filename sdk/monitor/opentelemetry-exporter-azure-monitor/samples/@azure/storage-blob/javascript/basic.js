@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Setup tracing before importing anything else
 require("./tracing");
 
@@ -9,9 +12,6 @@ require("./tracing");
 */
 
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
-
-// Load the .env file if it exists
-require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key

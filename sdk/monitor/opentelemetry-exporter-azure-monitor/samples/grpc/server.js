@@ -1,11 +1,14 @@
-'use strict';
+"use strict";
 
-const tracer = require('./tracer')(('example-grpc-server'));
+// Load the .env file if it exists
+require("dotenv").config();
+
+const tracer = require("./tracer")("example-grpc-server");
 // eslint-disable-next-line import/order
-const grpc = require('grpc');
+const grpc = require("grpc");
 
-const messages = require('./helloworld_pb');
-const services = require('./helloworld_grpc_pb');
+const messages = require("./helloworld_pb");
+const services = require("./helloworld_grpc_pb");
 
 const PORT = 50051;
 
@@ -23,10 +26,10 @@ function sayHello(call, callback) {
   const currentSpan = tracer.getCurrentSpan();
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.context().traceId}`);
-  const span = tracer.startSpan('server.js:sayHello()', {
+  const span = tracer.startSpan("server.js:sayHello()", {
     parent: currentSpan,
     kind: 1, // server
-    attributes: { key: 'value' },
+    attributes: { key: "value" }
   });
   span.addEvent(`invoking sayHello() to ${call.request.getName()}`);
   const reply = new messages.HelloReply();

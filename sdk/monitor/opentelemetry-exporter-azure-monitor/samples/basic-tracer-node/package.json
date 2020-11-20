@@ -8,7 +8,7 @@
     "build": "echo 'nothing to build'",
     "test": "echo 'nothing to test'",
     "lint": "echo 'nothing to lint'",
-    "start": "cross-env APPINSIGHTS_INSTRUMENTATIONKEY=ikey node --inspect ./index.js"
+    "start": "node --inspect ./index.js"
   },
   "repository": {
     "type": "git",
@@ -26,13 +26,11 @@
   "bugs": {
     "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
   },
-  "devDependencies": {
-    "cross-env": "^7.0.2"
-  },
   "dependencies": {
-    "@azure/monitor-opentelemetry-exporter": "latest",
+    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/api": "latest",
-    "@opentelemetry/tracing": "latest"
+    "@opentelemetry/tracing": "latest",
+    "dotenv": "^8.2.0"
   },
   "homepage": "https://github.com/open-telemetry/opentelemetry-js#readme"
 }

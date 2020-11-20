@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const opentelemetry = require('@opentelemetry/api');
-const { NodeTracerProvider } = require('@opentelemetry/node');
-const { BatchSpanProcessor } = require('@opentelemetry/tracing');
-const { AzureMonitorTraceExporter } = require('@azure/monitor-opentelemetry-exporter');
-const { ConsoleLogger, LogLevel } = require('@opentelemetry/core');
+const opentelemetry = require("@opentelemetry/api");
+const { NodeTracerProvider } = require("@opentelemetry/node");
+const { BatchSpanProcessor } = require("@opentelemetry/tracing");
+const { AzureMonitorTraceExporter } = require("@microsoft/opentelemetry-exporter-azure-monitor");
+const { ConsoleLogger, LogLevel } = require("@opentelemetry/core");
 
 module.exports = () => {
   const provider = new NodeTracerProvider({
@@ -13,26 +13,29 @@ module.exports = () => {
     plugins: {
       grpc: {
         enabled: true,
-        path: '@opentelemetry/plugin-grpc',
+        path: "@opentelemetry/plugin-grpc"
       },
       https: {
         // Ignore Application Insights Ingestion Server
-        ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)],
+        ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)]
       }
-    },
+    }
   });
 
   const exporter = new AzureMonitorTraceExporter({
-    logger: provider.logger,
+    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<connection string>",
+    logger: provider.logger
   });
 
-  provider.addSpanProcessor(new BatchSpanProcessor(exporter, {
-    bufferTimeout: 1000,
-    bufferSize: 1000,
-  }));
+  provider.addSpanProcessor(
+    new BatchSpanProcessor(exporter, {
+      bufferTimeout: 1000,
+      bufferSize: 1000
+    })
+  );
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
 
-  return opentelemetry.trace.getTracer('https-example');
+  return opentelemetry.trace.getTracer("https-example");
 };

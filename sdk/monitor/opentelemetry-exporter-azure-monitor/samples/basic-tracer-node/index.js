@@ -1,14 +1,18 @@
-'use strict';
+"use strict";
 
-const opentelemetry = require('@opentelemetry/api');
-const { BasicTracerProvider, SimpleSpanProcessor } = require('@opentelemetry/tracing');
-const { AzureMonitorTraceExporter } = require('@azure/monitor-opentelemetry-exporter');
+// Load the .env file if it exists
+require("dotenv").config();
+
+const opentelemetry = require("@opentelemetry/api");
+const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/tracing");
+const { AzureMonitorTraceExporter } = require("@microsoft/opentelemetry-exporter-azure-monitor");
 
 const provider = new BasicTracerProvider();
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
-  logger: provider.logger,
+  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>",
+  logger: provider.logger
 });
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 
@@ -22,10 +26,10 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
  * methods will recieve no-op implementations.
  */
 provider.register();
-const tracer = opentelemetry.trace.getTracer('example-basic-tracer-node');
+const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
 // Create a span. A span must be closed.
-const parentSpan = tracer.startSpan('main');
+const parentSpan = tracer.startSpan("main");
 for (let i = 0; i < 10; i += 1) {
   doWork(parentSpan);
 }
@@ -38,8 +42,8 @@ exporter.shutdown();
 function doWork(parent) {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
-  const span = tracer.startSpan('doWork', {
-    parent,
+  const span = tracer.startSpan("doWork", {
+    parent
   });
 
   // simulate some random work.
@@ -48,10 +52,10 @@ function doWork(parent) {
   }
 
   // Set attributes to the span.
-  span.setAttribute('key', 'value');
+  span.setAttribute("key", "value");
 
   // Annotate our span to capture metadata about our operation
-  span.addEvent('invoking doWork');
+  span.addEvent("invoking doWork");
 
   span.end();
 }

@@ -8,8 +8,8 @@
     "build": "echo 'nothing to build'",
     "test": "echo 'nothing to test'",
     "lint": "echo 'nothing to lint'",
-    "server": "cross-env APPINSIGHTS_INSTRUMENTATIONKEY=ikey node ./server.js",
-    "client": "cross-env APPINSIGHTS_INSTRUMENTATIONKEY=ikey node ./client.js"
+    "server": "node ./server.js",
+    "client": "node ./client.js"
   },
   "repository": {
     "type": "git",
@@ -28,16 +28,14 @@
   "bugs": {
     "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
   },
-  "devDependencies": {
-    "cross-env": "^7.0.2"
-  },
   "dependencies": {
-    "@azure/monitor-opentelemetry-exporter": "latest",
+    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/api": "latest",
     "@opentelemetry/core": "latest",
     "@opentelemetry/node": "latest",
     "@opentelemetry/plugin-grpc": "latest",
     "@opentelemetry/tracing": "latest",
+    "dotenv": "^8.2.0",
     "google-protobuf": "^3.11.4",
     "grpc": "^1.24.2",
     "node-pre-gyp": "^0.15.0"

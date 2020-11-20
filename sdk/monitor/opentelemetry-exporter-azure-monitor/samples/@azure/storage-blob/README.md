@@ -2,7 +2,7 @@
 
 Code cloned from [azure-sdk-for-js/storage-blob/samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples).
 
-## `@azure/monitor-opentelemetry-exporter`
+## `@microsoft/opentelemetry-exporter-azure-monitor`
 
 All changes required to enable exporting trace data to Azure Monitor were made in `tracing.ts` / `tracing.js`.
 
@@ -36,16 +36,10 @@ If you don't have Typescript installed, then use `npm` to install it first.
 npm install -g typescript
 ```
 
-One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
+One way to run Typescript samples is to use `ts-node`. To run `ts-node`, run the below in your sample folder
 
 ```bash
-npm install -g ts-node
-```
-
-Copy the sample to your samples folder and use `ts-node` to run it.
-
-```bash
-ts-node sample.ts
+npx ts-node sample.ts
 ```
 
 ## Browser sample

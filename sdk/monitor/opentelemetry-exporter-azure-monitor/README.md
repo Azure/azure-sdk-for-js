@@ -61,7 +61,7 @@ Coming Soon
 
 ## Examples
 
-Coming soon // TODO: Update this with link to samples when we have some
+For complete samples of a few champion scenarios, see the [`samples/`](./samples) folder.
 
 ## Key concepts
 

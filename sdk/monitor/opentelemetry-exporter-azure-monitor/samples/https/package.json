@@ -33,13 +33,14 @@
     "cross-env": "^7.0.2"
   },
   "dependencies": {
-    "@azure/monitor-opentelemetry-exporter": "latest",
+    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/api": "latest",
     "@opentelemetry/core": "latest",
     "@opentelemetry/node": "latest",
     "@opentelemetry/plugin-http": "latest",
     "@opentelemetry/plugin-https": "latest",
     "@opentelemetry/tracing": "latest",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "homepage": "https://github.com/open-telemetry/opentelemetry-js#readme"
