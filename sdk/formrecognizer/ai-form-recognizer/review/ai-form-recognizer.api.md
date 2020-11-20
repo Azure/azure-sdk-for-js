@@ -292,7 +292,7 @@ export interface FormSelectionMark extends FormElementCommon {
 
 // @public
 export interface FormTable {
-    boundingBox: Point2D[];
+    boundingBox?: Point2D[];
     cells: FormTableCell[];
     columnCount: number;
     pageNumber: number;

@@ -208,8 +208,11 @@ export interface FormTable {
   columnCount: number;
   /**
    * The bounding box of the recognized table
+   *
+   * Note: This may be `undefined` for FormTables recognized from from custom models trained
+   * without labels.
    */
-  boundingBox: Point2D[];
+  boundingBox?: Point2D[];
   /**
    * List of cells in the data table
    */
@@ -222,8 +225,8 @@ export interface FormTable {
 
 /**
  * Represents recognized elements of label-value pairs.
- * For example, "Work Address" is the label of
- * "Work Address: One Microsoft Way, Redmond, WA"
+ *
+ * For example, "Work Address" is the label of "Work Address: One Microsoft Way, Redmond, WA"
  */
 export interface FieldData {
   /**

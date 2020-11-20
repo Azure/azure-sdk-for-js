@@ -179,7 +179,6 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeContentFromUrl(url, {
             language: "thisIsNotAValidLanguage",
             ...testPollingOptions
@@ -187,6 +186,35 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
+        } catch {
+          // Intentionally left empty
+        }
+      });
+
+      it("specifying pages", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        // Just make sure that this doesn't throw
+        const poller = await client.beginRecognizeContentFromUrl(url, {
+          pages: ["1"],
+          ...testPollingOptions
+        });
+
+        await poller.pollUntilDone();
+      });
+
+      it("invalid pages throws", async () => {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        try {
+          const poller = await client.beginRecognizeContentFromUrl(url, {
+            // No page 2 in document
+            pages: ["2"],
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid pages.");
         } catch {
           // Intentionally left empty
         }
@@ -337,7 +365,6 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         try {
-          // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeReceiptsFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions
@@ -437,7 +464,6 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.jpg");
 
         try {
-          // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeReceiptsFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions
@@ -535,7 +561,6 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          // Just make sure that this doesn't throw
           const poller = await client.beginRecognizeInvoicesFromUrl(url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions

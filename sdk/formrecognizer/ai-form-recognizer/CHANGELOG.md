@@ -4,7 +4,7 @@
 
 - Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.
 - Added an `appearance` property to `FormLine` that contains information about the appearance of the line, such as style (e.g. "handwritten").
-- Added a `boundingBox` property to `FormTable` that has a bounding box that contains the entire table.
+- Added an optional `boundingBox` property to `FormTable` that has a bounding box that contains the entire table.
 - Added support for the "image/bmp" content type. This content type is supported on all methods that accept a `FormRecognizerRequestBody` **except** for custom form recognition.
 - Added a `language` option to `BeginRecognizeContentOptions`. By default, when performing layout/content analysis, the service will attempt to detect the language of the document and supports multi-language inputs. The `language` parameter allows you to override this behavior and force the service to use a specific language.
 - Added support for Invoice recognition through the `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl` methods. The Invoice model is prebuilt and may be used without training a model.
