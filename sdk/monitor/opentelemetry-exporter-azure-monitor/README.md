@@ -61,7 +61,7 @@ Coming Soon
 
 ## Examples
 
-For complete samples of a few champion scenarios, see the [`samples/`](./samples) folder.
+For complete samples of a few champion scenarios, see the [`samples/`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor/samples/) folder.
 
 ## Key concepts
 
