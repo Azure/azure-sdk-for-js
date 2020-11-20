@@ -11,8 +11,7 @@ const provider = new BasicTracerProvider();
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
-  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>",
-  logger: provider.logger
+  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>"
 });
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 

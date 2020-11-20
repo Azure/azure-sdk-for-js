@@ -6,8 +6,7 @@ import * as azureSdkTracing from "@azure/core-tracing";
 const provider = new NodeTracerProvider();
 
 const azureExporter = new AzureMonitorTraceExporter({
-  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "ikey",
-  logger: provider.logger
+  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "ikey"
 });
 
 provider.addSpanProcessor(

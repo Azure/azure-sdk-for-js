@@ -6,8 +6,7 @@ import * as azureSdkTracing from "@azure/core-tracing";
 const provider = new NodeTracerProvider();
 
 const azureExporter = new AzureMonitorTraceExporter({
-  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<connection string>",
-  logger: provider.logger
+  connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<connection string>"
 });
 
 provider.addSpanProcessor(
@@ -21,8 +20,6 @@ provider.register();
 
 const tracer = provider.getTracer("example tracer");
 
-azureSdkTracing.setTracer(
-  tracer as any // cast to any until expected type uses @opentelemetry/api
-);
+azureSdkTracing.setTracer(tracer);
 
 export default tracer;

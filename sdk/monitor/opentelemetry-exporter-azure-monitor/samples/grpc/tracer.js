@@ -23,8 +23,7 @@ module.exports = () => {
   });
 
   const exporter = new AzureMonitorTraceExporter({
-    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<connection string>",
-    logger: provider.logger
+    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<connection string>"
   });
 
   provider.addSpanProcessor(

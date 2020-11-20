@@ -38,7 +38,6 @@ provider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
-  logger: provider.logger,
   instrumentationKey: "ikey"
 });
 
