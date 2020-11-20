@@ -34,6 +34,18 @@ stages:
               OSVmImage: "windows-2019"
               NodeTestVersion: "8.x"
               TestType: "node"
+            Windows_Node10:
+              OSVmImage: "windows-2019"
+              NodeTestVersion: "10.x"
+              TestType: "node"
+            Windows_Node12:
+              OSVmImage: "windows-2019"
+              NodeTestVersion: "12.x"
+              TestType: "node"
+            Windows_Node14:
+              OSVmImage: "windows-2019"
+              NodeTestVersion: "14.x"
+              TestType: "node"
           PreIntegrationSteps: cosmos-integration-public
           PostIntegrationSteps: cosmos-additional-steps
           EnvVars:
