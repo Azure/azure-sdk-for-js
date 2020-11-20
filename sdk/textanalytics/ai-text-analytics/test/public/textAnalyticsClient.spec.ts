@@ -30,7 +30,7 @@ const testDataEn = [
 
 const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
-  "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
+  "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
