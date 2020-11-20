@@ -38,16 +38,20 @@ export class FileSystemPersist implements PersistentStorage {
     }
   }
 
-  async push(value: unknown[]): Promise<boolean> {
+  push(value: unknown[]): Promise<boolean> {
     this._logger.debug("Pushing value to persistent storage", value.toString());
     return this._storeToDisk(JSON.stringify(value));
   }
 
   async shift(): Promise<unknown> {
     this._logger.debug("Searching for filesystem persisted files");
-    const buffer = await this._getFirstFileOnDisk();
-    if (buffer) {
-      return JSON.parse(buffer.toString("utf8"));
+    try {
+      const buffer = await this._getFirstFileOnDisk();
+      if (buffer) {
+        return JSON.parse(buffer.toString("utf8"));
+      }
+    } catch (e) {
+      this._logger.debug("Failed to read persisted file", e);
     }
     return null;
   }

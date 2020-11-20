@@ -103,6 +103,17 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.strictEqual(persistedEnvelopes, null);
       });
 
+      it("should not persist when an error is caught", async () => {
+        const exporter = new TestExporter();
+        scope.reply(1, ""); // httpSender will throw
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
+
+        const persistedEnvelopes = await exporter["_persister"].shift();
+        assert.strictEqual(persistedEnvelopes, null);
+      });
+
       it("should start retry timer when telemetry is successfully sent", async () => {
         const exporter = new TestExporter();
         const response = successfulBreezeResponse(1);

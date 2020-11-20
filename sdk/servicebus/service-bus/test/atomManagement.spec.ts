@@ -1573,7 +1573,6 @@ describe(`createSubscription() using different variations to the input parameter
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1581,7 +1580,6 @@ describe(`createSubscription() using different variations to the input parameter
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1607,7 +1605,6 @@ describe(`createSubscription() using different variations to the input parameter
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1615,7 +1612,6 @@ describe(`createSubscription() using different variations to the input parameter
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1882,7 +1878,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1890,7 +1885,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1914,7 +1908,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1922,7 +1915,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1958,7 +1950,6 @@ createRuleTests.forEach((testCase) => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1966,7 +1957,6 @@ createRuleTests.forEach((testCase) => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2025,7 +2015,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2033,7 +2022,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2450,7 +2438,6 @@ async function createEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2680,7 +2667,6 @@ async function updateEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
