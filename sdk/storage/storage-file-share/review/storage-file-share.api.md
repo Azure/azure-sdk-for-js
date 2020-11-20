@@ -1655,7 +1655,12 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
+export type ShareGetPropertiesResponse = Omit<ShareGetPropertiesResponseModel, "enabledProtocols"> & {
+    protocols?: ShareProtocols;
+};
+
+// @public
+export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPropertiesHeaders;
     };

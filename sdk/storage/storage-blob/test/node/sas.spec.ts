@@ -1173,10 +1173,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Wait for indexing tags
     await sleep(2);
 
+    const expectedTags1: Tags = {};
+    expectedTags1[key1] = tags1[key1];
     for await (const blob of serviceClientWithSAS.findBlobsByTags(`${key1}='${tags1[key1]}'`)) {
       assert.deepStrictEqual(blob.containerName, containerName);
       assert.deepStrictEqual(blob.name, blobName1);
-      // assert.deepStrictEqual(blob.tagValue, tags1[key1]);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
     }
     await containerClient.delete();
   });

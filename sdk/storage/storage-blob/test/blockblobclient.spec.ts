@@ -407,7 +407,7 @@ describe("BlockBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.only("syncUploadFromURL with timeout", async () => {
+  it.skip("syncUploadFromURL with timeout", async () => {
     let exceptionCaught = false;
     try {
       await blockBlobClient.syncUploadFromURL(
