@@ -342,6 +342,7 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
+  await replaceSourceReferences(targetPackagePath, targetPackage.packageName, "test/utils");
   await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   await updateCommonVersions(repoRoot, allowedVersionList);
