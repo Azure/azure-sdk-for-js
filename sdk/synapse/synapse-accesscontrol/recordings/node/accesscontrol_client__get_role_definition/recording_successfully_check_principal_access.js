@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "55ce85a11941ab89c7eff5a81aa230a4";
+module.exports.hash = "4027a81006611c05dc9c2be1a4cac5f3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,25 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bebd40e8-ec91-435d-9f9d-2333fae80100',
+  '2b7f6c6b-e8f3-479b-a064-dfff53180300',
   'x-ms-ests-server',
-  '2.1.11251.20 - SEASLR1 ProdSlices',
+  '2.1.11251.20 - EASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=Ah9dii-imU5Lrd23_nPeWS9J0eYvAQAAANB_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:53 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmVVE2kJl6ZEoTyCN7lpA7g; expires=Sun, 20-Dec-2020 13:44:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 09:13:52 GMT',
+  'Fri, 20 Nov 2020 13:44:19 GMT',
   'Content-Length',
   '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .post('/checkAccessSynapseRbac', {"subject":{"principalId":"principal_id"},"actions":[{"id":"Microsoft.Synapse/workspaces/read","isDataAction":true}],"scope":"workspaces/workspace_name"})
+  .post('/checkAccessSynapseRbac', {"subject":{"principalId":"00000000-0000-0000-0000-000000000000"},"actions":[{"id":"Microsoft.Synapse/workspaces/read","isDataAction":true}],"scope":"workspaces/workspace_name"})
   .query(true)
-  .reply(200, {"AccessDecisions":[{"accessDecision":"Allowed","actionId":"Microsoft.Synapse/workspaces/read","roleAssignment":{"id":"b798b0bc-87d3-46a8-b467-9097905a0008","roleDefinitionId":"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78","principalId":"principal_id","scope":"workspaces/workspace_name","principalType":"0"}}]}, [
+  .reply(200, {"AccessDecisions":[{"accessDecision":"Allowed","actionId":"Microsoft.Synapse/workspaces/read","roleAssignment":{"id":"86966c4e-b585-47f4-94d5-4b56ff76e292","roleDefinitionId":"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78","principalId":"00000000-0000-0000-0000-000000000000","scope":"workspaces/workspace_name","principalType":"0"}}]}, [
   'Content-Length',
   '333',
   'Content-Type',
@@ -50,7 +50,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '16a955a7-a8e0-4845-a8cd-35ff2df69a22',
+  '68f2b052-582a-48de-b45a-f3b10fead791',
   'Date',
-  'Fri, 20 Nov 2020 09:13:54 GMT'
+  'Fri, 20 Nov 2020 13:44:20 GMT'
 ]);

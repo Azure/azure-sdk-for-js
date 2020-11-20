@@ -4,8 +4,7 @@ import { AccessControlClient } from "../src/AccessControlClient";
 import { assert } from "chai";
 import { authenticate } from "./utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
-import { getRollId, getPrincipalId, getScope } from "./utils/utils.common";
-import { Guid } from "guid-typescript";
+import { getRollId, getPrincipalId, getScope, getRoleAssignmentId } from "./utils/utils.common";
 
 describe("AccessControl Client - get role definition", () => {
   let client: AccessControlClient;
@@ -49,7 +48,7 @@ describe("AccessControl Client - get role definition", () => {
   });
 
   it("successfully create role assignment", async function() {
-    roleAssignmentId = Guid.create().toString();
+    roleAssignmentId = getRoleAssignmentId();
     let createResult = await client.createRoleAssignment(
       roleAssignmentId,
       roleId,

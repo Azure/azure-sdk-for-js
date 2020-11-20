@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:04 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:50 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,26 +19,26 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11251.20 - EASLR2 ProdSlices",
-    "x-ms-request-id": "ea7837e7-4a43-404e-b6a4-f5643c570200"
+    "x-ms-request-id": "b0572c05-8ffc-43fd-8f57-a89a7fff0200"
    }
   },
   {
    "method": "PUT",
-   "url": "https://workspace_name.dev.azuresynapse.net/roleAssignments/37f0b7d7-7dae-0df0-6bb9-8b5444826339",
+   "url": "https://workspace_name.dev.azuresynapse.net/roleAssignments/00000000-1111-0000-0000-000000000000",
    "query": {
     "api-version": "2020-08-01-preview"
    },
-   "requestBody": "{\"roleId\":\"roll_id\",\"principalId\":\"principal_id\",\"scope\":\"workspaces/workspace_name\"}",
+   "requestBody": "{\"roleId\":\"00000000-0000-0000-0000-000000000000\",\"principalId\":\"00000000-0000-0000-0000-000000000000\",\"scope\":\"workspaces/workspace_name\"}",
    "status": 200,
-   "response": "{\"id\":\"37f0b7d7-7dae-0df0-6bb9-8b5444826339\",\"roleDefinitionId\":\"roll_id\",\"principalId\":\"principal_id\",\"scope\":\"workspaces/workspace_name\"}",
+   "response": "{\"id\":\"00000000-1111-0000-0000-000000000000\",\"roleDefinitionId\":\"00000000-0000-0000-0000-000000000000\",\"principalId\":\"00000000-0000-0000-0000-000000000000\",\"scope\":\"workspaces/workspace_name\"}",
    "responseHeaders": {
     "content-length": "198",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:05 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:51 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "1a56e909-916f-400e-bebd-6fd9943ac6c7"
+    "x-ms-request-id": "18609d9d-ed86-48d5-8112-34747f127f45"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1887b736e1c6038305071da0eca93152"
+ "hash": "c36a4b24e89692826391767917763029"
 }

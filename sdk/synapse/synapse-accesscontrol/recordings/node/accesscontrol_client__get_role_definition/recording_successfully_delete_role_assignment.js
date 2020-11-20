@@ -22,23 +22,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b0572c05-8ffc-43fd-8f57-a89a1d220200',
+  '6546a972-e318-4728-98d3-a114c4aa0200',
   'x-ms-ests-server',
-  '2.1.11251.20 - EASLR2 ProdSlices',
+  '2.1.11251.20 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=Ani6VASsK0dNgGajTl5BXxtJ0eYvAQAAANF_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Al7x-44JPy5NnoMdRDidxc4; expires=Sun, 20-Dec-2020 13:44:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 09:13:53 GMT',
+  'Fri, 20 Nov 2020 13:44:21 GMT',
   'Content-Length',
   '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .delete('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247')
+  .delete('/roleAssignments/00000000-1111-0000-0000-000000000000')
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -48,7 +48,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7b5c799a-56ae-4e70-bb3c-4377bd12c1a2',
+  'c21fa993-0534-4bef-9bec-c96b760dfd9e',
   'Date',
-  'Fri, 20 Nov 2020 09:13:54 GMT'
+  'Fri, 20 Nov 2020 13:44:22 GMT'
 ]);

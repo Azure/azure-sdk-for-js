@@ -15,9 +15,10 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
       WORKSPACE_NAME: "workspace_name",
-      ROLL_ID: "roll_id",
-      PRINCIPAL_ID: "principal_id",
-      RBAC_SCOPE: "rbac_scope"
+      ROLL_ID: "00000000-0000-0000-0000-000000000000",
+      PRINCIPAL_ID: "00000000-0000-0000-0000-000000000000",
+      ROLEASSIGNMENTID_ID: "00000000-1111-0000-0000-000000000000",
+      RBAC_SCOPE: "workspaces/workspace_name"
     },
     customizationsOnRecordings: [
       (recording: any): any =>

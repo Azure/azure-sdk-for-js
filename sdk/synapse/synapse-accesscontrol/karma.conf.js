@@ -57,6 +57,7 @@ module.exports = function(config) {
       "ROLL_ID",
       "PRINCIPAL_ID",
       "RBAC_SCOPE",
+      "ROLEASSIGNMENTID_ID",
       "TEST_MODE"
     ],
 

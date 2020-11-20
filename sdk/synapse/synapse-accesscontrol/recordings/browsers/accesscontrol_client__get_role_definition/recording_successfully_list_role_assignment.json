@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:05 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:51 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11251.20 - EASLR2 ProdSlices",
-    "x-ms-request-id": "6bc46273-a7df-4d05-b20b-3a7794370200"
+    "x-ms-request-id": "b0572c05-8ffc-43fd-8f57-a89a80ff0200"
    }
   },
   {
@@ -27,20 +27,20 @@
    "url": "https://workspace_name.dev.azuresynapse.net/roleAssignments",
    "query": {
     "api-version": "2020-08-01-preview",
-    "roleId": "roll_id"
+    "roleId": "00000000-0000-0000-0000-000000000000"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"count\":2,\"value\":[{\"id\":\"roll_id-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleDefinitionId\":\"roll_id\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"scope\":\"workspaces/workspace_name\"},{\"id\":\"37f0b7d7-7dae-0df0-6bb9-8b5444826339\",\"roleDefinitionId\":\"roll_id\",\"principalId\":\"principal_id\",\"scope\":\"workspaces/workspace_name\"}]}",
+   "response": "{\"count\":2,\"value\":[{\"id\":\"00000000-0000-0000-0000-000000000000-23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"roleDefinitionId\":\"00000000-0000-0000-0000-000000000000\",\"principalId\":\"23a9b13a-a58b-4d8e-a58a-ff4c351fae61\",\"scope\":\"workspaces/workspace_name\"},{\"id\":\"00000000-1111-0000-0000-000000000000\",\"roleDefinitionId\":\"00000000-0000-0000-0000-000000000000\",\"principalId\":\"00000000-0000-0000-0000-000000000000\",\"scope\":\"workspaces/workspace_name\"}]}",
    "responseHeaders": {
     "content-length": "456",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:06 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:51 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-ms-continuation": "",
-    "x-ms-request-id": "5d8416ea-e5c5-4218-9a2f-a2dd2e683a1d"
+    "x-ms-request-id": "e2305e87-1c31-4288-8cc5-1e8197996148"
    }
   }
  ],

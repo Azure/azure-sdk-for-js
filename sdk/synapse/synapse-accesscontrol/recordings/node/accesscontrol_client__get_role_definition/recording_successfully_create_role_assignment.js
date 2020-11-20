@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "9e64519c365d5f39d4f999a359e102f3";
+module.exports.hash = "06d82541bc2a1f09fbcb350954736645";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,25 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '3f425264-e570-4487-a0ff-2ddc4a0f0200',
+  'f2e9c6b9-52b4-49b3-8ddc-3f5090920300',
   'x-ms-ests-server',
-  '2.1.11251.20 - EASLR2 ProdSlices',
+  '2.1.11251.20 - EASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AiNQ32B3--ZEqReActcW-iZJ0eYvAQAAAMt_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnGZ7QbD8_pBsAkFH3Z_yz9J0eYvAQAAAC2_SdcOAAAA; expires=Sun, 20-Dec-2020 13:44:14 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 09:13:47 GMT',
+  'Fri, 20 Nov 2020 13:44:13 GMT',
   'Content-Length',
   '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .put('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247', {"roleId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"})
+  .put('/roleAssignments/00000000-1111-0000-0000-000000000000', {"roleId":"00000000-0000-0000-0000-000000000000","principalId":"00000000-0000-0000-0000-000000000000","scope":"workspaces/workspace_name"})
   .query(true)
-  .reply(200, {"id":"0580006c-09cd-6245-9658-df2cc9581247","roleDefinitionId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"}, [
+  .reply(200, {"id":"00000000-1111-0000-0000-000000000000","roleDefinitionId":"00000000-0000-0000-0000-000000000000","principalId":"00000000-0000-0000-0000-000000000000","scope":"workspaces/workspace_name"}, [
   'Content-Length',
   '198',
   'Content-Type',
@@ -50,7 +50,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '30adc830-0414-4eee-8ba0-a9bb138aa347',
+  '6ce28ff4-db26-4982-833e-83e015076b1d',
   'Date',
-  'Fri, 20 Nov 2020 09:13:48 GMT'
+  'Fri, 20 Nov 2020 13:44:15 GMT'
 ]);

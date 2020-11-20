@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,23 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bac05f78-fd4c-4785-8992-793eb5860200',
+  '9f0e984f-dd07-4f5a-a98c-98ba42370300',
   'x-ms-ests-server',
-  '2.1.11251.20 - EASLR1 ProdSlices',
+  '2.1.11251.20 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AggzPda1Mq9FkUyvPAfbEfFJ0eYvAQAAAM5_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArxnG-tSejFMviarBfucazo; expires=Sun, 20-Dec-2020 13:44:18 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 09:13:51 GMT'
+  'Fri, 20 Nov 2020 13:44:17 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
   .get('/roleAssignments')
   .query(true)
-  .reply(200, {"count":2,"value":[{"id":"roll_id-23a9b13a-a58b-4d8e-a58a-ff4c351fae61","roleDefinitionId":"roll_id","principalId":"23a9b13a-a58b-4d8e-a58a-ff4c351fae61","scope":"workspaces/workspace_name"},{"id":"0580006c-09cd-6245-9658-df2cc9581247","roleDefinitionId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"}]}, [
+  .reply(200, {"count":2,"value":[{"id":"00000000-0000-0000-0000-000000000000-23a9b13a-a58b-4d8e-a58a-ff4c351fae61","roleDefinitionId":"00000000-0000-0000-0000-000000000000","principalId":"23a9b13a-a58b-4d8e-a58a-ff4c351fae61","scope":"workspaces/workspace_name"},{"id":"00000000-1111-0000-0000-000000000000","roleDefinitionId":"00000000-0000-0000-0000-000000000000","principalId":"00000000-0000-0000-0000-000000000000","scope":"workspaces/workspace_name"}]}, [
   'Content-Length',
   '456',
   'Content-Type',
@@ -52,7 +52,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'x-ms-continuation',
   '',
   'x-ms-request-id',
-  'a08e0ba5-67c9-4524-916a-c38213669bd4',
+  '494aaca8-0d60-4758-b688-d2a67a758d57',
   'Date',
-  'Fri, 20 Nov 2020 09:13:52 GMT'
+  'Fri, 20 Nov 2020 13:44:18 GMT'
 ]);

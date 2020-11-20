@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:06 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11251.20 - EASLR1 ProdSlices",
-    "x-ms-request-id": "f2e9c6b9-52b4-49b3-8ddc-3f504c9d0200"
+    "x-ms-ests-server": "2.1.11251.20 - EASLR2 ProdSlices",
+    "x-ms-request-id": "b0572c05-8ffc-43fd-8f57-a89a82ff0200"
    }
   },
   {
@@ -28,17 +28,17 @@
    "query": {
     "api-version": "2020-08-01-preview"
    },
-   "requestBody": "{\"subject\":{\"principalId\":\"principal_id\"},\"actions\":[{\"id\":\"Microsoft.Synapse/workspaces/read\",\"isDataAction\":true}],\"scope\":\"workspaces/workspace_name\"}",
+   "requestBody": "{\"subject\":{\"principalId\":\"00000000-0000-0000-0000-000000000000\"},\"actions\":[{\"id\":\"Microsoft.Synapse/workspaces/read\",\"isDataAction\":true}],\"scope\":\"workspaces/workspace_name\"}",
    "status": 200,
-   "response": "{\"AccessDecisions\":[{\"accessDecision\":\"Allowed\",\"actionId\":\"Microsoft.Synapse/workspaces/read\",\"roleAssignment\":{\"id\":\"5f029217-8aad-4524-8bee-c210232d9c2b\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"principal_id\",\"scope\":\"workspaces/workspace_name\",\"principalType\":\"0\"}}]}",
+   "response": "{\"AccessDecisions\":[{\"accessDecision\":\"Allowed\",\"actionId\":\"Microsoft.Synapse/workspaces/read\",\"roleAssignment\":{\"id\":\"8f15fd80-2472-439f-9518-651e59e504fd\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"00000000-0000-0000-0000-000000000000\",\"scope\":\"workspaces/workspace_name\",\"principalType\":\"0\"}}]}",
    "responseHeaders": {
     "content-length": "333",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 09:14:06 GMT",
+    "date": "Fri, 20 Nov 2020 13:45:52 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "e62cafd0-2e38-4d33-be23-8ffd2fc5690a"
+    "x-ms-request-id": "e939e780-9a3b-4abd-9712-0c25124e3f1f"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "faf3bcea5072a6b2e1ab89d12bfc7abc"
+ "hash": "f033ab3456d1eee3b6c155b9afb6a61e"
 }

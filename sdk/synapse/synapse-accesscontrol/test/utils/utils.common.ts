@@ -36,6 +36,17 @@ export function getPrincipalId(): string {
   return PrincipalId;
 }
 
+export function getRoleAssignmentId(): string {
+  const RoleAssignmentIdEnv = "ROLEASSIGNMENTID_ID";
+  const RoleAssignmentId: string | undefined = env[RoleAssignmentIdEnv];
+
+  if (!RoleAssignmentId) {
+    throw new Error(`${RoleAssignmentIdEnv} environment variable not specified.`);
+  }
+
+  return RoleAssignmentId;
+}
+
 export function getScope(): string {
   const ScopeEnv = "RBAC_SCOPE";
   const scope: string | undefined = env[ScopeEnv];

@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,23 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ee9aac52-4196-43fa-b10c-e4cb1ef70100',
+  '3f425264-e570-4487-a0ff-2ddc76e00200',
   'x-ms-ests-server',
   '2.1.11251.20 - EASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AmSPWWjfr9pCultkA-SFDvNJ0eYvAQAAAMx_SdcOAAAA; expires=Sun, 20-Dec-2020 09:13:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuU8ObLtxdBIrc1dtnsehmxJ0eYvAQAAAC-_SdcOAAAA; expires=Sun, 20-Dec-2020 13:44:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 09:13:49 GMT'
+  'Fri, 20 Nov 2020 13:44:15 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":true})
-  .get('/roleAssignments/0580006c-09cd-6245-9658-df2cc9581247')
+  .get('/roleAssignments/00000000-1111-0000-0000-000000000000')
   .query(true)
-  .reply(200, {"id":"0580006c-09cd-6245-9658-df2cc9581247","roleDefinitionId":"roll_id","principalId":"principal_id","scope":"workspaces/workspace_name"}, [
+  .reply(200, {"id":"00000000-1111-0000-0000-000000000000","roleDefinitionId":"00000000-0000-0000-0000-000000000000","principalId":"00000000-0000-0000-0000-000000000000","scope":"workspaces/workspace_name"}, [
   'Content-Length',
   '198',
   'Content-Type',
@@ -50,7 +50,7 @@ nock('https://workspace_name.dev.azuresynapse.net:443', {"encodedQueryParams":tr
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '562fe35c-2260-41f5-8abc-1f6c29a81b10',
+  '965359e8-cbf3-4d20-a4df-e30b92f9c1be',
   'Date',
-  'Fri, 20 Nov 2020 09:13:50 GMT'
+  'Fri, 20 Nov 2020 13:44:17 GMT'
 ]);
