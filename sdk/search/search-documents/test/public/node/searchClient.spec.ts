@@ -13,7 +13,7 @@ import {
   SearchIndexClient,
   AutocompleteResult,
   IndexDocumentsBatch
-} from "../../src/index";
+} from "../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
 import { delay } from "@azure/core-http";

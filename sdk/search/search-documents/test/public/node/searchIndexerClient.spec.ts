@@ -10,7 +10,7 @@ import {
   SearchIndexerDataSourceConnection,
   SearchIndexerSkillset,
   SearchIndexer
-} from "../../src/index";
+} from "../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import {

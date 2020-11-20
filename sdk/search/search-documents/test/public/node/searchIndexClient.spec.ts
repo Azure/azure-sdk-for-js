@@ -4,7 +4,7 @@
 /* eslint-disable no-invalid-this */
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { SearchIndexClient, SynonymMap, SearchIndex } from "../../src/index";
+import { SearchIndexClient, SynonymMap, SearchIndex } from "../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import {

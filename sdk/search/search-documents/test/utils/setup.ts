@@ -8,7 +8,7 @@ import {
   GeographyPoint,
   SearchIndex,
   KnownAnalyzerNames
-} from "../../src/index";
+} from "../../src";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 import { assert } from "chai";

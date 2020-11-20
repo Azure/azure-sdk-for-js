@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { odata } from "../src/odata";
+import { odata } from "../src";
 
 describe("odata", () => {
   it("simple string isn't changed", () => {
