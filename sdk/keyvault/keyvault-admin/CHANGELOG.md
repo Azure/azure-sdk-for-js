@@ -2,6 +2,7 @@
 
 ## 4.0.0-beta.2 (Unreleased)
 
+- Updated the Key Vault Admin Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 
 ## 4.0.0-beta.1 (2020-09-11)
 
