@@ -2318,6 +2318,40 @@ export interface KeyVaultSecretExpiredEventData {
 }
 
 /**
+ * Schema of the Data property of an EventGridEvent for an VaultAccessPolicyChanged event.
+ */
+export interface KeyVaultAccessPolicyChangedEventData {
+  /**
+   * The id of the object that triggered this event.
+   */
+  id?: string;
+  /**
+   * Key vault name of the object that triggered this event.
+   */
+  vaultName?: string;
+  /**
+   * The type of the object that triggered this event
+   */
+  objectType?: string;
+  /**
+   * The name of the object that triggered this event
+   */
+  objectName?: string;
+  /**
+   * The version of the object that triggered this event
+   */
+  version?: string;
+  /**
+   * Not before date of the object that triggered this event
+   */
+  nbf?: number;
+  /**
+   * The expiration date of the object that triggered this event
+   */
+  exp?: number;
+}
+
+/**
  * Schema of the Data property of an EventGridEvent for an Microsoft.MachineLearningServices.ModelRegistered event.
  */
 export interface MachineLearningServicesModelRegisteredEventData {
@@ -3238,7 +3272,7 @@ export type ACSChatMemberRemovedFromThreadWithUserEventData = ACSChatThreadEvent
 /**
  * Schema of common properties of all SMS events
  */
-export interface AcssmsEventBase {
+export interface AcsSmsEventBase {
   /**
    * The identity of the SMS message
    */
@@ -3256,7 +3290,7 @@ export interface AcssmsEventBase {
 /**
  * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.SMSDeliveryReportReceived event.
  */
-export type AcssmsDeliveryReportReceivedEventData = AcssmsEventBase & {
+export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
   /**
    * Status of Delivery
    */
@@ -3268,7 +3302,7 @@ export type AcssmsDeliveryReportReceivedEventData = AcssmsEventBase & {
   /**
    * List of details of delivery attempts made
    */
-  deliveryAttempts?: AcssmsDeliveryAttempt[];
+  deliveryAttempts?: AcsSmsDeliveryAttempt[];
   /**
    * The time at which the SMS delivery report was received
    */
@@ -3278,7 +3312,7 @@ export type AcssmsDeliveryReportReceivedEventData = AcssmsEventBase & {
 /**
  * Schema for details of a delivery attempt
  */
-export interface AcssmsDeliveryAttempt {
+export interface AcsSmsDeliveryAttempt {
   /**
    * TimeStamp when delivery was attempted
    */
@@ -3296,7 +3330,7 @@ export interface AcssmsDeliveryAttempt {
 /**
  * Schema of the Data property of an EventGridEvent for an Microsoft.Communication.SMSReceived event.
  */
-export type AcssmsReceivedEventData = AcssmsEventBase & {
+export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   /**
    * The SMS content
    */

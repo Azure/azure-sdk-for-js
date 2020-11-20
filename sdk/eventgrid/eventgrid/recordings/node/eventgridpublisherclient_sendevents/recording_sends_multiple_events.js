@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "b8c32c266a21a9129c07d237cc8e3d2b";
 
-module.exports.testInfo = {"uniqueName":{"multiEventId1":"multiEventId1159588373643900701","multiEventId2":"multiEventId2159588373643900216"},"newDate":{"multiEventDate1":"2020-07-27T21:02:16.439Z","multiEventDate2":"2020-07-27T21:02:16.439Z"}}
+module.exports.testInfo = {"uniqueName":{"multiEventId1":"multiEventId1160161957303904323","multiEventId2":"multiEventId2160161957303900629"},"newDate":{"multiEventDate1":"2020-10-02T06:19:33.039Z","multiEventDate2":"2020-10-02T06:19:33.039Z"}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"multiEventId1159588373643900701","subject":"Multiple 1","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2020-07-27T21:02:16.439Z","dataVersion":"1.0"},{"id":"multiEventId2159588373643900216","subject":"Multiple 2","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2020-07-27T21:02:16.439Z","dataVersion":"1.0"}])
+  .post('/api/events', [{"id":"multiEventId1160161957303904323","subject":"Multiple 1","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2020-10-02T06:19:33.039Z","dataVersion":"1.0"},{"id":"multiEventId2160161957303900629","subject":"Multiple 2","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2020-10-02T06:19:33.039Z","dataVersion":"1.0"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  '2ea7f5e7-f8cf-4051-8b39-353aaa531c12',
+  'dfdb4176-a8de-4aa4-a900-c5b21303284f',
   'Date',
-  'Mon, 27 Jul 2020 21:02:16 GMT'
+  'Fri, 02 Oct 2020 06:19:34 GMT'
 ]);

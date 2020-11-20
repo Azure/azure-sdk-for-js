@@ -16,8 +16,8 @@ import {
 } from "../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
+import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 import {
   Receiver as RheaReceiver,
   ReceiverEvents,
@@ -30,6 +30,8 @@ import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
+import { ReceiveMode } from "../../src/models";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -52,7 +54,8 @@ describe("BatchingReceiver unit tests", () => {
       const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
       let wasCalled = false;
 
@@ -62,9 +65,9 @@ describe("BatchingReceiver unit tests", () => {
             _maxMessageCount: number,
             _maxWaitTimeInMs: number,
             _maxTimeAfterFirstMessageMs: number,
-            abortSignal?: AbortSignalLike
+            options?: OperationOptionsBase
           ): Promise<ServiceBusMessageImpl[]> {
-            assert.equal(abortSignal, origAbortSignal);
+            assert.equal(options?.abortSignal, origAbortSignal);
             wasCalled = true;
             return [];
           }
@@ -84,11 +87,14 @@ describe("BatchingReceiver unit tests", () => {
       abortController.abort();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: InternalReceiveMode.peekLock
+        receiveMode: "peekLock",
+        lockRenewer: undefined
       });
 
       try {
-        await receiver.receive(1, 60 * 1000, 60 * 1000, abortController.signal);
+        await receiver.receive(1, 60 * 1000, 60 * 1000, {
+          abortSignal: abortController.signal
+        });
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -100,7 +106,8 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: InternalReceiveMode.peekLock
+        receiveMode: "peekLock",
+        lockRenewer: undefined
       });
       closeables.push(receiver);
 
@@ -147,7 +154,7 @@ describe("BatchingReceiver unit tests", () => {
       };
 
       try {
-        await receiver.receive(1, 60 * 1000, 60 * 1000, abortController.signal);
+        await receiver.receive(1, 60 * 1000, 60 * 1000, { abortSignal: abortController.signal });
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -166,8 +173,10 @@ describe("BatchingReceiver unit tests", () => {
    * 2. We've waited 'max wait time'
    * 3. We've received 1 message and _now_ have exceeded 'max wait time past first message'
    */
-  [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
-    describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
+  const receiveModes: ReceiveMode[] = ["peekLock", "receiveAndDelete"];
+
+  receiveModes.forEach((lockMode) => {
+    describe(`${lockMode} receive, exit paths`, () => {
       const bigTimeout = 60 * 1000;
       const littleTimeout = 30 * 1000;
       let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -185,7 +194,8 @@ describe("BatchingReceiver unit tests", () => {
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
-            receiveMode: lockMode
+            receiveMode: lockMode,
+            lockRenewer: undefined
           }
         );
         closeables.push(receiver);
@@ -194,7 +204,7 @@ describe("BatchingReceiver unit tests", () => {
           receiver
         );
 
-        const receivePromise = receiver.receive(1, bigTimeout, bigTimeout);
+        const receivePromise = receiver.receive(1, bigTimeout, bigTimeout, {});
         await receiveIsReady;
 
         // batch fulfillment is checked when we receive a message...
@@ -218,14 +228,15 @@ describe("BatchingReceiver unit tests", () => {
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
-            receiveMode: lockMode
+            receiveMode: lockMode,
+            lockRenewer: undefined
           }
         );
         closeables.push(receiver);
 
         const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
-        const receivePromise = receiver.receive(1, littleTimeout, bigTimeout);
+        const receivePromise = receiver.receive(1, littleTimeout, bigTimeout, {});
 
         await receiveIsReady;
 
@@ -242,14 +253,15 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this check.
-      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === "peekLock" ? it : it.skip)(
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
           const receiver = new BatchingReceiver(
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              lockRenewer: undefined
             }
           );
           closeables.push(receiver);
@@ -258,7 +270,7 @@ describe("BatchingReceiver unit tests", () => {
             receiver
           );
 
-          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
+          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout, {});
           await receiveIsReady;
 
           // batch fulfillment is checked when we receive a message...
@@ -293,70 +305,69 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-      (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
-        `3b. (without idle timeout)`,
-        async () => {
-          const receiver = new BatchingReceiver(
-            createConnectionContextForTests(),
-            "dummyEntityPath",
-            {
-              receiveMode: lockMode
-            }
-          );
-          closeables.push(receiver);
+      (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
+        const receiver = new BatchingReceiver(
+          createConnectionContextForTests(),
+          "dummyEntityPath",
+          {
+            receiveMode: lockMode,
+            lockRenewer: undefined
+          }
+        );
+        closeables.push(receiver);
 
-          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
-            receiver
-          );
+        const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
+          receiver
+        );
 
-          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
-          await receiveIsReady;
+        const receivePromise = receiver.receive(3, bigTimeout, littleTimeout, {});
+        await receiveIsReady;
 
-          // batch fulfillment is checked when we receive a message...
-          emitter.emit(ReceiverEvents.message, {
-            message: {
-              body: "the first message"
-            } as RheaMessage
-          } as EventContext);
+        // batch fulfillment is checked when we receive a message...
+        emitter.emit(ReceiverEvents.message, {
+          message: {
+            body: "the first message"
+          } as RheaMessage
+        } as EventContext);
 
-          // In the peekLock algorithm we would've resolved the promise here but_ we disable
-          // that in receiveAndDelete. So we'll advance here....
-          clock.tick(littleTimeout);
+        // In the peekLock algorithm we would've resolved the promise here but_ we disable
+        // that in receiveAndDelete. So we'll advance here....
+        clock.tick(littleTimeout);
 
-          // ...and emit another message _after_ the idle timer would have fired. Now when we advance
-          // the time all the way....
-          emitter.emit(ReceiverEvents.message, {
-            message: {
-              body: "the second message"
-            } as RheaMessage
-          } as EventContext);
+        // ...and emit another message _after_ the idle timer would have fired. Now when we advance
+        // the time all the way....
+        emitter.emit(ReceiverEvents.message, {
+          message: {
+            body: "the second message"
+          } as RheaMessage
+        } as EventContext);
 
-          clock.tick(bigTimeout);
+        clock.tick(bigTimeout);
 
-          // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
-          // timer fired.
-          const messages = await receivePromise;
-          assert.deepEqual(
-            messages.map((m) => m.body),
-            ["the first message", "the second message"]
-          );
+        // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
+        // timer fired.
+        const messages = await receivePromise;
+        assert.deepEqual(
+          messages.map((m) => m.body),
+          ["the first message", "the second message"]
+        );
 
-          assert.isEmpty(remainingRegisteredListeners);
-        }
-      ).timeout(5 * 1000);
+        assert.isEmpty(remainingRegisteredListeners);
+      }).timeout(5 * 1000);
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can enable this test for all modes.
-      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === "peekLock" ? it : it.skip)(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
           const receiver = new BatchingReceiver(
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              lockRenewer: undefined
             }
           );
           closeables.push(receiver);
@@ -385,7 +396,7 @@ describe("BatchingReceiver unit tests", () => {
             };
           };
 
-          const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2);
+          const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2, {});
           await receiveIsReady;
 
           emitter.emit(ReceiverEvents.message, {
@@ -558,12 +569,12 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ConnectionContext,
+        createConnectionContextForTests(),
         "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
         },
-        InternalReceiveMode.peekLock
+        "peekLock"
       );
 
       assert.isFalse(receiver.isReceivingMessages);
@@ -592,7 +603,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        InternalReceiveMode.peekLock
+        "peekLock"
       );
 
       assert.notExists(receiver["_closeHandler"]);
@@ -620,12 +631,12 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ConnectionContext,
+        createConnectionContextForTests(),
         "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
         },
-        InternalReceiveMode.peekLock
+        "peekLock"
       );
 
       assert.notExists(receiver["_closeHandler"]);

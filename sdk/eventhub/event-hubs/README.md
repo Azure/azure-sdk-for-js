@@ -149,7 +149,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub](#consume-events-from-an-event-hub)
-- [Use EventHubConsumerClient to work with IotHub](#use-eventHubConsumerClient-to-work-with-IotHub)
+- [Use EventHubConsumerClient to work with IotHub](#use-eventhubconsumerclient-to-work-with-iothub)
 
 ### Inspect an Event Hub
 
@@ -263,10 +263,10 @@ async function main() {
 
   const subscription = client.subscribe(
     {
-      processEvents: (events, context) => {
+      processEvents: async(events, context) => {
         // event processing code goes here
       },
-      processError: (err, context) => {
+      processError: async(err, context) => {
         // error reporting/handling code here
       }
     },
@@ -394,10 +394,10 @@ async function main() {
   const subscription = client.subscribe(
     partitionIds[0],
     {
-      processEvents: (events, context) => {
+      processEvents: async(events, context) => {
         // event processing code goes here
       },
-      processError: (err, context) => {
+      processError: async(err, context) => {
         // error reporting/handling code here
       }
     },
@@ -448,7 +448,7 @@ main();
 
 ### AMQP Dependencies
 
-The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs
 

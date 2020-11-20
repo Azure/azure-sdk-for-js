@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.4",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   "types": "types/latest/data-tables.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.1 --version=3.0.6267 --v3=true",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-beta.4 --version=3.0.6267 --v3=true",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
@@ -65,7 +65,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-http": "^1.1.6",
+    "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/logger": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
@@ -82,6 +82,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
+    "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -107,6 +108,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
+    "sinon": "^9.0.2",
     "typescript": "~3.9.3",
     "util": "^0.12.1",
     "dotenv": "^8.2.0",

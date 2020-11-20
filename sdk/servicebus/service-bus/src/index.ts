@@ -4,34 +4,24 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export {
-  delay,
-  MessagingError,
-  RetryOptions,
-  TokenCredential,
-  TokenType,
-  WebSocketOptions
-} from "@azure/core-amqp";
+export { delay, MessagingError, RetryOptions, TokenType, WebSocketOptions } from "@azure/core-amqp";
+export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  CreateBatchOptions,
-  CreateReceiverOptions,
-  AcceptSessionOptions,
+  CreateMessageBatchOptions,
   GetMessageIteratorOptions,
-  MessageHandlerOptions,
-  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
+  ProcessErrorArgs,
   ReceiveMessagesOptions,
-  ReceiveMode,
-  SessionSubscribeOptions,
-  SubQueue,
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
   SubscribeOptions
 } from "./models";
-export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
 export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
 export { ServiceBusSender } from "./sender";
@@ -54,26 +44,19 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  NamespacePropertiesResponse,
-  QueueResponse,
-  QueueRuntimePropertiesResponse,
-  Response,
-  RuleResponse,
   ServiceBusAdministrationClient,
-  SubscriptionResponse,
-  SubscriptionRuntimePropertiesResponse,
-  TopicResponse,
-  TopicRuntimePropertiesResponse
+  WithResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
-  AmqpAnnotatedMessage,
-  AmqpMessageHeader,
-  AmqpMessageProperties,
   DeadLetterOptions,
-  ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
-  ServiceBusMessage
+  ServiceBusMessage,
+  ServiceBusReceivedMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";
+export {
+  parseServiceBusConnectionString,
+  ServiceBusConnectionStringProperties
+} from "./util/connectionStringUtils";
+export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";

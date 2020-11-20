@@ -154,8 +154,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  // SAS in test pipeline need to support the new permission.
-  it.skip("uploadBrowserDataToBlockBlob should work with tags", async function() {
+  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
@@ -209,5 +208,33 @@ describe("Highlevel", () => {
       maxSingleShotSize: 256 * 1024
     });
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
+  });
+
+  it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    const blob = new Blob([arrayBuf]);
+    await blockBlobClient.uploadData(blob);
+    const downloadedBlob = await (await blockBlobClient.download()).blobBody;
+    assert.deepStrictEqual(downloadedBlob, blob);
+
+    await blockBlobClient.uploadData(arrayBuf);
+    const downloadedBlob1 = await (await blockBlobClient.download()).blobBody;
+    assert.deepStrictEqual(downloadedBlob1, blob);
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await blockBlobClient.uploadData(uint8ArrayPartial);
+    const downloadedBlob2 = await (await blockBlobClient.download()).blobBody!;
+    assert.deepStrictEqual(downloadedBlob2, new Blob([uint8ArrayPartial]));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await blockBlobClient.uploadData(uint16Array);
+    const downloadedBlob3 = await (await blockBlobClient.download()).blobBody!;
+    assert.deepStrictEqual(downloadedBlob3, new Blob([uint16Array]));
   });
 });

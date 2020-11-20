@@ -305,20 +305,45 @@ export interface SignedIdentifier {
 }
 
 // @public
+export interface TableBatch {
+    createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+    createEntity: <T extends object>(entity: TableEntity<T>) => void;
+    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+    partitionKey: string;
+    submitBatch: () => Promise<TableBatchResponse>;
+    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
+}
+
+// @public
+export interface TableBatchEntityResponse {
+    etag?: string;
+    rowKey?: string;
+    status: number;
+}
+
+// @public
+export interface TableBatchResponse {
+    getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+    status: number;
+    subResponses: TableBatchEntityResponse[];
+}
+
+// @public
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+    createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
-    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
+    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
+    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
-}
+    }
 
 // @public
 export interface TableCreateHeaders {
@@ -373,6 +398,14 @@ export interface TableEntityQueryResponse {
         [propertyName: string]: any;
     }[];
 }
+
+// @public
+export type TableEntityResult<T> = T & {
+    etag: string;
+    partitionKey?: string;
+    rowKey?: string;
+    timestamp?: string;
+};
 
 // @public
 export interface TableGetAccessPolicyHeaders {
@@ -532,7 +565,7 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
     sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResourceLike): WebResource;
+    signRequest(request: WebResourceLike): WebResource;
 }
 
 // @public

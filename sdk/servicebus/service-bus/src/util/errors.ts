@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../log";
+import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
-import { AmqpError } from "rhea-promise";
+import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { ReceiveMode } from "../models";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -16,6 +17,14 @@ import { AmqpError } from "rhea-promise";
  */
 export const entityPathMisMatchError =
   "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
+
+/**
+ * Error message for when maxMessageCount provided is invalid.
+ *
+ * @internal
+ * @ignore
+ */
+export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number greater than 0.";
 
 /**
  * @internal
@@ -107,6 +116,7 @@ export function throwTypeErrorIfParameterMissing(
  * @param parameterValue Value of the parameter to type check
  * @param expectedType Expected type of the parameter
  */
+
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
@@ -191,36 +201,76 @@ export function throwTypeErrorIfParameterIsEmptyString(
 /**
  * @internal
  * @ignore
- * Gets error message for when an operation is not supported in ReceiveAndDelete mode
- * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
- * that is not supported in ReceiveAndDelete mode
+ * The error message for operations on the receiver that are invalid for a message received in receiveAndDelete mode.
  */
-export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
-  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
-}
+export const InvalidOperationInReceiveAndDeleteMode =
+  "The operation is not supported in 'receiveAndDelete' receive mode.";
 
 /**
  * @internal
  * @ignore
+ * The error message for operations on the receiver that are invalid for a peeked message.
  */
-export function logError(err: Error | AmqpError | undefined, ...args: any[]): void {
-  let l: typeof logger.info;
+export const InvalidOperationForPeekedMessage =
+  "This operation is not supported for peeked messages. Only messages received using 'receiveMessages()', 'subscribe()' and 'getMessageIterator()' methods on the receiver in 'peekLock' receive mode can be settled.";
 
-  if (isError(err) && err.name === "AbortError") {
-    l = logger.info;
-  } else {
-    l = logger.warning;
+/**
+ * @internal
+ * @ignore
+ * The error message for when one attempts to settle an already settled message.
+ */
+export const MessageAlreadySettled = "The message has either been deleted or already settled";
+
+/**
+ * Throws error if the ServiceBusReceivedMessage cannot be settled.
+ * @internal
+ * @ignore
+ */
+export function throwErrorIfInvalidOperationOnMessage(
+  message: ServiceBusReceivedMessage,
+  receiveMode: ReceiveMode,
+  connectionId: string
+) {
+  let error: Error | undefined;
+
+  if (receiveMode === "receiveAndDelete") {
+    error = new Error(InvalidOperationInReceiveAndDeleteMode);
+  } else if (!message.lockToken) {
+    error = new Error(InvalidOperationForPeekedMessage);
   }
 
-  l(...args);
-
-  logErrorStackTrace(err);
+  if (error) {
+    receiverLogger.logError(
+      error,
+      "[%s] An error occurred for message with id '%s'",
+      connectionId,
+      message.messageId
+    );
+    throw error;
+  }
 }
 
 /**
+ * Error message for when the ServiceBusMessage provided by the user has different values
+ * for partitionKey and sessionId.
  * @internal
  * @ignore
+ * @throw
  */
-function isError(err: Error | AmqpError | undefined): err is Error {
-  return err != null && (err as any).name != null;
+export const PartitionKeySessionIdMismatchError =
+  "The fields 'partitionKey' and 'sessionId' cannot have different values.";
+/**
+ * Throws error if the given object is not a valid ServiceBusMessage
+ * @internal
+ * @ignore
+ * @param msg The object that needs to be validated as a ServiceBusMessage
+ * @param errorMessageForWrongType The error message to use when given object is not a ServiceBusMessage
+ */
+export function throwIfNotValidServiceBusMessage(msg: any, errorMessageForWrongType: string): void {
+  if (!isServiceBusMessage(msg)) {
+    throw new TypeError(errorMessageForWrongType);
+  }
+  if (msg.partitionKey && msg.sessionId && msg.partitionKey !== msg.sessionId) {
+    throw new TypeError(PartitionKeySessionIdMismatchError);
+  }
 }

@@ -113,6 +113,13 @@ export const StorageError: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      code: {
+        xmlName: "Code",
+        serializedName: "Code",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -476,6 +483,13 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "RehydratePriority",
         type: {
           name: "String"
+        }
+      },
+      lastAccessedOn: {
+        xmlName: "LastAccessTime",
+        serializedName: "LastAccessTime",
+        type: {
+          name: "DateTimeRfc1123"
         }
       }
     }
@@ -1198,6 +1212,72 @@ export const JsonTextConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
+export const ArrowField: coreHttp.CompositeMapper = {
+  xmlName: "Field",
+  serializedName: "ArrowField",
+  type: {
+    name: "Composite",
+    className: "ArrowField",
+    modelProperties: {
+      type: {
+        xmlName: "Type",
+        required: true,
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        xmlName: "Name",
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      precision: {
+        xmlName: "Precision",
+        serializedName: "Precision",
+        type: {
+          name: "Number"
+        }
+      },
+      scale: {
+        xmlName: "Scale",
+        serializedName: "Scale",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ArrowConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "ArrowConfiguration",
+  type: {
+    name: "Composite",
+    className: "ArrowConfiguration",
+    modelProperties: {
+      schema: {
+        xmlIsWrapped: true,
+        xmlName: "Schema",
+        xmlElementName: "Field",
+        required: true,
+        serializedName: "Schema",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArrowField"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ListContainersSegmentResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListContainersSegmentResponse",
@@ -1649,7 +1729,8 @@ export const QueryFormat: coreHttp.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "delimited",
-            "json"
+            "json",
+            "arrow"
           ]
         }
       },
@@ -1667,6 +1748,14 @@ export const QueryFormat: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "JsonTextConfiguration"
+        }
+      },
+      arrowConfiguration: {
+        xmlName: "ArrowConfiguration",
+        serializedName: "ArrowConfiguration",
+        type: {
+          name: "Composite",
+          className: "ArrowConfiguration"
         }
       }
     }
@@ -3902,6 +3991,12 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      lastAccessed: {
+        serializedName: "x-ms-last-access-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       contentCrc64: {
         serializedName: "x-ms-content-crc64",
         type: {
@@ -4230,6 +4325,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-rehydrate-priority",
         type: {
           name: "String"
+        }
+      },
+      lastAccessed: {
+        serializedName: "x-ms-last-access-time",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       errorCode: {

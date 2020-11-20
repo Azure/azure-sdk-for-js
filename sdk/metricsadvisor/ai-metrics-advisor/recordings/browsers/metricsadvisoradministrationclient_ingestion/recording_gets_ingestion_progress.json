@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"latestSuccessTimestamp\":\"2020-11-12T00:00:00Z\",\"latestActiveTimestamp\":\"2020-11-12T00:00:00Z\"}",
+   "responseHeaders": {
+    "apim-request-id": "f91d041a-26f7-4589-8040-0c414195f160",
+    "content-length": "96",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:03:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "284",
+    "x-request-id": "f91d041a-26f7-4589-8040-0c414195f160"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3772c4cc3bbdd255e6ab7b60b8dbc9c8"
+}

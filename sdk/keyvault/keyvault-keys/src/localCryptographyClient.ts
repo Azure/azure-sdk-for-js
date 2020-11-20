@@ -3,8 +3,10 @@
 
 import { isNode } from "@azure/core-http";
 
-import { LocalCryptographyUnsupportedError } from "./localCryptography/models";
-import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
+import {
+  LocalCryptographyUnsupportedError,
+  LocalSupportedAlgorithmName
+} from "./localCryptography/models";
 
 import { JsonWebKey } from "./keysModels";
 import {

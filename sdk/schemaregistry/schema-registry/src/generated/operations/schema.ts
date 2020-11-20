@@ -56,14 +56,14 @@ export class Schema {
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
    * @param schemaName Name of the registered schema.
-   * @param xSchemaType Serialization type for the schema being registered.
-   * @param schemaContent String representation of the registered schema.
+   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaContent String representation (UTF-8) of the registered schema.
    * @param options The options parameters.
    */
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    xSchemaType: SerializationType,
+    serializationType: SerializationType,
     schemaContent: string,
     options?: coreHttp.OperationOptions
   ): Promise<SchemaQueryIdByContentResponse> {
@@ -74,7 +74,7 @@ export class Schema {
       {
         groupName,
         schemaName,
-        xSchemaType,
+        serializationType,
         schemaContent,
         options: operationOptions
       },
@@ -90,14 +90,14 @@ export class Schema {
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
    * @param schemaName Name of schema being registered.
-   * @param xSchemaType Serialization type for the schema being registered.
-   * @param schemaContent String representation of the schema being registered.
+   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.
    */
   register(
     groupName: string,
     schemaName: string,
-    xSchemaType: SerializationType,
+    serializationType: SerializationType,
     schemaContent: string,
     options?: coreHttp.OperationOptions
   ): Promise<SchemaRegisterResponse> {
@@ -108,7 +108,7 @@ export class Schema {
       {
         groupName,
         schemaName,
-        xSchemaType,
+        serializationType,
         schemaContent,
         options: operationOptions
       },
@@ -134,6 +134,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.schemaId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const queryIdByContentOperationSpec: coreHttp.OperationSpec = {
@@ -155,8 +156,12 @@ const queryIdByContentOperationSpec: coreHttp.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.contentType, Parameters.xSchemaType],
-  mediaType: "json",
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.serializationType
+  ],
+  mediaType: "text",
   serializer
 };
 const registerOperationSpec: coreHttp.OperationSpec = {
@@ -178,7 +183,11 @@ const registerOperationSpec: coreHttp.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.contentType, Parameters.xSchemaType],
-  mediaType: "json",
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.serializationType
+  ],
+  mediaType: "text",
   serializer
 };

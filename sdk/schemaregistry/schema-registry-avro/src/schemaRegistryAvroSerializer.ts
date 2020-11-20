@@ -22,8 +22,6 @@ import * as avro from "avsc";
 //      - UTF-8 hexadecimal representation of GUID.
 //      - 32 hex digits, no hyphens.
 //      - Same format and byte order as string from Schema Registry service.
-//      - This will soon be revised to an 8 byte long value with the format
-//        indicator bumped.
 //
 // - [Remaining bytes: Avro payload (in general, format-specific payload)]
 //     - Avro Binary Encoding
@@ -171,11 +169,11 @@ export class SchemaRegistryAvroSerializer {
     const schemaResponse = await this.registry.getSchemaById(schemaId);
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
       );
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schemaResponse.content));
+    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
     return this.cache(schemaId, schemaResponse.content, avroType);
   }
 
@@ -185,7 +183,7 @@ export class SchemaRegistryAvroSerializer {
       return cached;
     }
 
-    const avroType = avro.Type.forSchema(JSON.parse(schema));
+    const avroType = this.getAvroTypeForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -209,5 +207,9 @@ export class SchemaRegistryAvroSerializer {
     this.cacheByContent.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
+  }
+
+  private getAvroTypeForSchema(schema: string): avro.Type {
+    return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }

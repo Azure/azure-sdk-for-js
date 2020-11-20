@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "../log";
+import { senderLogger as logger } from "../log";
 import {
   AmqpError,
   AwaitableSender,
@@ -9,10 +9,10 @@ import {
   EventContext,
   OnAmqpEvent,
   message as RheaMessageUtil,
-  messageProperties
+  messageProperties,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
@@ -20,22 +20,23 @@ import {
   RetryOperationType,
   RetryOptions,
   delay,
-  retry,
-  translate
+  retry
 } from "@azure/core-amqp";
 import {
   ServiceBusMessage,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage
+  toRheaMessage
 } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
-import { logError, throwErrorIfConnectionClosed } from "../util/errors";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateBatchOptions } from "../models";
+import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { translateServiceBusError } from "../serviceBusError";
+import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
@@ -68,36 +69,34 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _onSessionClose: OnAmqpEvent;
   private _retryOptions: RetryOptions;
 
-  constructor(context: ConnectionContext, private _entityPath: string, retryOptions: RetryOptions) {
-    super(_entityPath, context, "s", {
-      address: _entityPath,
-      audience: `${context.config.endpoint}${_entityPath}`
+  constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
+    super(entityPath, entityPath, context, "sender", logger, {
+      address: entityPath,
+      audience: `${context.config.endpoint}${entityPath}`
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
-      logError(
+      logger.logError(
         senderError,
-        "[%s] 'sender_error' event occurred on the sender '%s' with address '%s'. " +
-          "The associated error is: %O",
-        this._context.connectionId,
+        "%s 'sender_error' event occurred on the sender '%s' with address '%s'. " +
+          "The associated error",
+        this.logPrefix,
         this.name,
-        this.address,
-        senderError
+        this.address
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
     this._onSessionError = (context: EventContext) => {
       const sessionError = context.session && context.session.error;
-      logError(
+      logger.logError(
         sessionError,
-        "[%s] 'session_error' event occurred on the session of sender '%s' with address '%s'. " +
-          "The associated error is: %O",
-        this._context.connectionId,
+        "%s 'session_error' event occurred on the session of sender '%s' with address '%s'. " +
+          "The associated error",
+        this.logPrefix,
         this.name,
-        this.address,
-        sessionError
+        this.address
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
@@ -105,17 +104,15 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     this._onAmqpClose = async (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
 
-      logError(
+      logger.logError(
         senderError,
-        `${this.logPrefix} 'sender_close' event occurred. The associated error is: %O`,
-        senderError
+        `${this.logPrefix} 'sender_close' event occurred. The associated error is`
       );
 
       await this.onDetached().catch((err) => {
-        logError(
+        logger.logError(
           err,
-          `${this.logPrefix} error when closing sender after 'sender_close' event: %O`,
-          err
+          `${this.logPrefix} error when closing sender after 'sender_close' event`
         );
       });
     };
@@ -123,24 +120,22 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     this._onSessionClose = async (context: EventContext) => {
       const sessionError = context.session && context.session.error;
 
-      logError(
+      logger.logError(
         sessionError,
-        `${this.logPrefix} 'session_close' event occurred. The associated error is: %O`,
-        sessionError
+        `${this.logPrefix} 'session_close' event occurred. The associated error is`
       );
 
       await this.onDetached().catch((err) => {
-        logError(
+        logger.logError(
           err,
-          `${this.logPrefix} error when closing sender after 'session_close' event: %O`,
-          err
+          `${this.logPrefix} error when closing sender after 'session_close' event`
         );
       });
     };
   }
 
   private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
-    if (newName) this.name = getUniqueName(this._entityPath);
+    if (newName) this.name = getUniqueName(this.baseName);
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
@@ -152,7 +147,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
-    logger.verbose("Creating sender with options: %O", srOptions);
+    logger.verbose(`${this.logPrefix} Creating sender with options: %O`, srOptions);
     return srOptions;
   }
 
@@ -193,13 +188,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 `to operation timeout.`
             });
           } catch (err) {
-            err = translate(err);
-            logError(
+            err = translateServiceBusError(err);
+            logger.logError(
               err,
-              "[%s] An error occurred while creating the sender %s",
-              this._context.connectionId,
-              this.name,
-              err
+              "%s An error occurred while creating the sender",
+              this.logPrefix,
+              this.name
             );
             return reject(err);
           }
@@ -209,8 +203,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           const timeTakenByInit = Date.now() - initStartTime;
 
           logger.verbose(
-            "[%s] Sender '%s', credit: %d available: %d",
-            this._context.connectionId,
+            "%s Sender '%s', credit: %d available: %d",
+            this.logPrefix,
             this.name,
             this.link?.credit,
             this.link?.session?.outgoing?.available()
@@ -218,16 +212,16 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
           if (!this.link?.sendable()) {
             logger.verbose(
-              "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
-              this._context.connectionId,
+              "%s Sender '%s', waiting for 1 second for sender to become sendable",
+              this.logPrefix,
               this.name
             );
 
             await delay(1000);
 
             logger.verbose(
-              "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
-              this._context.connectionId,
+              "%s Sender '%s' after waiting for a second, credit: %d available: %d",
+              this.logPrefix,
               this.name,
               this.link?.credit,
               this.link?.session?.outgoing?.available()
@@ -236,7 +230,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           if (this.link?.sendable()) {
             if (timeoutInMs <= timeTakenByInit) {
               const desc: string =
-                `[${this._context.connectionId}] Sender "${this.name}" ` +
+                `${this.logPrefix} Sender "${this.name}" ` +
                 `with address "${this.address}", was not able to send the message right now, due ` +
                 `to operation timeout.`;
               logger.warning(desc);
@@ -244,7 +238,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 condition: ErrorNameConditionMapper.ServiceUnavailableError,
                 description: desc
               };
-              return reject(translate(e));
+              return reject(translateServiceBusError(e));
             }
             try {
               this.link.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
@@ -254,33 +248,31 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 sendBatch ? 0x80013700 : 0
               );
               logger.verbose(
-                "[%s] Sender '%s', sent message with delivery id: %d",
-                this._context.connectionId,
+                "%s Sender '%s', sent message with delivery id: %d",
+                this.logPrefix,
                 this.name,
                 delivery.id
               );
               return resolve();
             } catch (error) {
-              error = translate(error.innerError || error);
-              logError(
+              error = translateServiceBusError(error.innerError || error);
+              logger.logError(
                 error,
-                "[%s] An error occurred while sending the message",
-                this._context.connectionId,
-                error
+                `${this.logPrefix} An error occurred while sending the message`
               );
               return reject(error);
             }
           } else {
             // let us retry to send the message after some time.
             const msg =
-              `[${this._context.connectionId}] Sender "${this.name}", ` +
+              `[${this.logPrefix}] Sender "${this.name}", ` +
               `cannot send the message right now. Please try later.`;
             logger.warning(msg);
             const amqpError: AmqpError = {
               condition: ErrorNameConditionMapper.SenderBusyError,
               description: msg
             };
-            reject(translate(amqpError));
+            reject(translateServiceBusError(amqpError));
           }
         } catch (err) {
           reject(err);
@@ -317,14 +309,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
       await this.initLink(options, abortSignal);
     } catch (err) {
-      err = translate(err);
-      logError(
-        err,
-        "[%s] An error occurred while creating the sender %s",
-        this._context.connectionId,
-        this.name,
-        err
-      );
+      err = translateServiceBusError(err);
+      logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((err as MessagingError).code === "OperationTimeoutError") {
         err.message = "Failed to create a sender within allocated time and retry attempts.";
@@ -351,8 +337,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   isOpen(): boolean {
     const result: boolean = this.link == null ? false : this.link.isOpen();
     logger.verbose(
-      "[%s] Sender '%s' with address '%s' is open? -> %s",
-      this._context.connectionId,
+      "%s Sender '%s' with address '%s' is open? -> %s",
+      this.logPrefix,
       this.name,
       this.address,
       result
@@ -369,8 +355,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const amqpMessage = toAmqpMessage(data);
-      amqpMessage.body = this._context.dataTransformer.encode(data.body);
+      const amqpMessage = toRheaMessage(data);
+      amqpMessage.body = defaultDataTransformer.encode(data.body);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
       let encodedMessage;
@@ -386,21 +372,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         }
         throw error;
       }
-      logger.verbose(
-        "[%s] Sender '%s', trying to send message: %O",
-        this._context.connectionId,
-        this.name,
-        data
-      );
+      logger.verbose("%s Sender '%s', trying to send message: %O", this.logPrefix, this.name, data);
       return await this._trySend(encodedMessage, false, options);
     } catch (err) {
-      logError(
+      logger.logError(
         err,
-        "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
-        this._context.connectionId,
-        this.name,
-        data,
-        err
+        "%s An error occurred while sending the message: %O\nError",
+        this.logPrefix,
+        data
       );
       throw err;
     }
@@ -425,17 +404,17 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         inputMessages = [inputMessages];
       }
       logger.verbose(
-        "[%s] Sender '%s', trying to send Message[]: %O",
-        this._context.connectionId,
+        "%s Sender '%s', trying to send Message[]: %O",
+        this.logPrefix,
         this.name,
         inputMessages
       );
-      const amqpMessages: AmqpMessage[] = [];
+      const amqpMessages: RheaMessage[] = [];
       const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toAmqpMessage(inputMessages[i]);
-        amqpMessage.body = this._context.dataTransformer.encode(inputMessages[i].body);
+        const amqpMessage = toRheaMessage(inputMessages[i]);
+        amqpMessage.body = defaultDataTransformer.encode(inputMessages[i].body);
         amqpMessages[i] = amqpMessage;
         try {
           encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
@@ -448,7 +427,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
 
       // Convert every encoded message to amqp data section
-      const batchMessage: AmqpMessage = {
+      const batchMessage: RheaMessage = {
         body: RheaMessageUtil.data_sections(encodedMessages)
       };
       // Set message_annotations, application_properties and properties of the first message as
@@ -469,20 +448,19 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
 
       logger.verbose(
-        "[%s]Sender '%s', sending encoded batch message.",
-        this._context.connectionId,
+        "%s Sender '%s', sending encoded batch message.",
+        this.logPrefix,
         this.name,
         encodedBatchMessage
       );
       return await this._trySend(encodedBatchMessage, true, options);
     } catch (err) {
-      logError(
+      logger.logError(
         err,
-        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
-        this._context.connectionId,
+        "%s Sender '%s': An error occurred while sending the messages: %O\nError",
+        this.logPrefix,
         this.name,
-        inputMessages,
-        err
+        inputMessages
       );
       throw err;
     }
@@ -531,7 +509,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     });
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
@@ -556,20 +534,19 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     throwErrorIfConnectionClosed(this._context);
     try {
       logger.verbose(
-        "[%s]Sender '%s', sending encoded batch message.",
-        this._context.connectionId,
+        "%s Sender '%s', sending encoded batch message.",
+        this.logPrefix,
         this.name,
         batchMessage
       );
       return await this._trySend(batchMessage._generateMessage(), true, options);
     } catch (err) {
-      logError(
+      logger.logError(
         err,
-        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
-        this._context.connectionId,
+        "%s Sender '%s': An error occurred while sending the messages: %O\nError",
+        this.logPrefix,
         this.name,
-        batchMessage,
-        err
+        batchMessage
       );
       throw err;
     }

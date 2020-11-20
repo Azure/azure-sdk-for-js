@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ServiceBusClient } from "../src";
+import { ServiceBusMessage, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import {
@@ -19,8 +19,10 @@ import {
   getRandomTestClientType
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
+import { SpanGraph, TestSpan } from "@azure/core-tracing";
+import { setTracerForTest } from "./utils/misc";
+import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentServiceBusMessage";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -28,7 +30,7 @@ const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -72,7 +74,7 @@ describe("Sender Tests", () => {
       entityName.isPartitioned
     );
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -130,8 +132,8 @@ describe("Sender Tests", () => {
       );
     }
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -152,7 +154,7 @@ describe("Sender Tests", () => {
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
 
-    await sender.scheduleMessages(scheduleTime, testMessage);
+    await sender.scheduleMessages(testMessage, scheduleTime);
 
     const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -167,7 +169,7 @@ describe("Sender Tests", () => {
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
-    await msgs[0].complete();
+    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -177,7 +179,7 @@ describe("Sender Tests", () => {
       ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
       : [TestMessage.getSample(), TestMessage.getSample()];
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await sender.scheduleMessages(scheduleTime, testMessages);
+    await sender.scheduleMessages(testMessages, scheduleTime);
 
     const msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -208,11 +210,20 @@ describe("Sender Tests", () => {
       "MessageId of second message is different than expected"
     );
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
+
+  it(
+    anyRandomTestClientType + ": Schedule with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      const sequenceNumbers = await sender.scheduleMessages([], new Date());
+      should.equal(sequenceNumbers.length, 0);
+    }
+  );
 
   it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
@@ -229,7 +240,7 @@ describe("Sender Tests", () => {
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
+    const [sequenceNumber] = await sender.scheduleMessages(testMessage, scheduleTime);
 
     await delay(2000);
 
@@ -246,10 +257,10 @@ describe("Sender Tests", () => {
       : TestMessage.getSample;
 
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
-      getTestMessage(),
-      getTestMessage()
-    ]);
+    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(
+      [getTestMessage(), getTestMessage()],
+      scheduleTime
+    );
 
     await delay(2000);
 
@@ -259,6 +270,14 @@ describe("Sender Tests", () => {
     await delay(30000);
     await testReceivedMsgsLength(receiver, 0);
   }
+
+  it(
+    anyRandomTestClientType + ": Cancel Scheduled message with empty input does not throw error",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await sender.cancelScheduledMessages([]);
+    }
+  );
 
   it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
     void
@@ -290,9 +309,9 @@ describe("Sender Tests", () => {
     ];
     const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
-      sender.scheduleMessages(date, messages[0]),
-      sender.scheduleMessages(date, messages[1]),
-      sender.scheduleMessages(date, messages[2])
+      sender.scheduleMessages(messages[0], date),
+      sender.scheduleMessages(messages[1], date),
+      sender.scheduleMessages(messages[2], date)
     ]);
     const sequenceNumbers = [result1[0], result2[0], result3[0]];
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
@@ -323,14 +342,14 @@ describe("Sender Tests", () => {
         messages[sequenceNumbers.indexOf(seqNum)].body,
         "Message body did not match though the sequence numbers matched!"
       );
-      await msgWithSeqNum?.complete();
+      await receiver.completeMessage(msgWithSeqNum!);
     }
 
     await testPeekMsgsLength(receiver, 0);
   });
 
   async function testReceivedMsgsLength(
-    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
@@ -351,7 +370,7 @@ describe("Sender Tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await sender.scheduleMessages(new Date(), [TestMessage.getSample()], {
+        await sender.scheduleMessages([TestMessage.getSample()], new Date(), {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -380,12 +399,17 @@ describe("Sender Tests", () => {
 });
 
 describe("ServiceBusMessage validations", function(): void {
-  let sbClient: ServiceBusClient;
+  let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
 
-  before(() => {
-    sbClient = new ServiceBusClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;");
-    sender = sbClient.createSender("dummyQueue");
+  before(async () => {
+    sbClient = createServiceBusClientForTests();
+    const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+    sender = sbClient.createSender(entityName.queue!);
+  });
+
+  after(async () => {
+    await sbClient.close();
   });
 
   const longString =
@@ -399,10 +423,10 @@ describe("ServiceBusMessage validations", function(): void {
     {
       message: { body: "", contentType: 1 as any },
       expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
-      title: "contenType is of invalid type"
+      title: "contentType is of invalid type"
     },
     {
-      message: { body: "", label: 1 as any },
+      message: { body: "", subject: 1 as any },
       expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
       title: "label is of invalid type"
     },
@@ -438,12 +462,12 @@ describe("ServiceBusMessage validations", function(): void {
         "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
       title: "partitionKey is longer than 128 characters"
     },
-    {
-      message: { body: "", viaPartitionKey: longString },
-      expectedErrorMessage:
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
-      title: "viaPartitionKey is longer than 128 characters"
-    },
+    // {
+    //   message: { body: "", viaPartitionKey: longString },
+    //   expectedErrorMessage:
+    //     "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+    //   title: "viaPartitionKey is longer than 128 characters"
+    // },
     {
       message: { body: "", sessionId: longString },
       expectedErrorMessage:
@@ -513,11 +537,308 @@ describe("ServiceBusMessage validations", function(): void {
     it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
       let actualErrorMsg = "";
       let actualErr;
-      await sender.scheduleMessages(new Date(), testInput.message).catch((err) => {
+      await sender.scheduleMessages(testInput.message, new Date()).catch((err) => {
         actualErr = err;
         actualErrorMsg = err.message;
       });
       should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
     });
+  });
+});
+
+describe("Tracing for send", function(): void {
+  let sbClient: ServiceBusClientForTests;
+  let sender: ServiceBusSender;
+  let entityName: EntityName;
+
+  before(() => {
+    sbClient = createServiceBusClientForTests();
+  });
+
+  after(() => {
+    return sbClient.test.after();
+  });
+
+  beforeEach(async () => {
+    entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+
+    sender = sbClient.test.addToCleanup(
+      sbClient.createSender(entityName.queue ?? entityName.topic!)
+    );
+  });
+
+  it("add messages with tryAdd - can be manually traced", async function(): Promise<void> {
+    const { tracer, resetTracer } = setTracerForTest();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const list = [{ name: "Albert" }, { name: "Marie" }];
+
+    const batch = await sender.createMessageBatch();
+
+    for (let i = 0; i < 2; i++) {
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+    }
+    await sender.sendMessages(batch);
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(2, "Should only have two root spans.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
+  });
+
+  it("add messages with tryAdd - will not instrument already instrumented messages", async function(): Promise<
+    void
+  > {
+    const { tracer, resetTracer } = setTracerForTest();
+
+    const rootSpan = tracer.startSpan("test");
+
+    const list = [
+      { name: "Albert" },
+      {
+        name: "Marie",
+        applicationProperties: {
+          [TRACEPARENT_PROPERTY]: "foo"
+        }
+      }
+    ];
+
+    const batch = await sender.createMessageBatch();
+
+    for (let i = 0; i < 2; i++) {
+      batch.tryAddMessage(
+        { body: `${list[i].name}`, applicationProperties: list[i].applicationProperties },
+        { parentSpan: rootSpan }
+      );
+    }
+    await sender.sendMessages(batch);
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(2, "Should only have two root spans.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
+  });
+
+  it("will support tracing batch and send", async function(): Promise<void> {
+    const { tracer, resetTracer } = setTracerForTest();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const list = [{ name: "Albert" }, { name: "Marie" }];
+
+    const batch = await sender.createMessageBatch();
+    for (let i = 0; i < 2; i++) {
+      batch.tryAddMessage({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+    }
+    await sender.sendMessages(batch, {
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan.context()
+        }
+      }
+    });
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(1, "Should only have one root span.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.send",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
+  });
+
+  it("array of messages - can be manually traced", async function(): Promise<void> {
+    const { tracer, resetTracer } = setTracerForTest();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const messages = [];
+    for (let i = 0; i < 5; i++) {
+      messages.push({ body: `multiple messages - manual trace propagation: ${i}` });
+    }
+    await sender.sendMessages(messages, {
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan.context()
+        }
+      }
+    });
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(1, "Should only have one root spans.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.send",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+    const knownSendSpans = tracer
+      .getKnownSpans()
+      .filter((span: TestSpan) => span.name === "Azure.ServiceBus.send");
+    knownSendSpans.length.should.equal(1, "There should have been one send span.");
+    knownSendSpans[0].attributes.should.deep.equal({
+      "az.namespace": "Microsoft.ServiceBus",
+      "message_bus.destination": sender.entityPath,
+      "peer.address": sbClient.fullyQualifiedNamespace
+    });
+    resetTracer();
+  });
+
+  it("array of messages - skips already instrumented messages when manually traced", async function(): Promise<
+    void
+  > {
+    const { tracer, resetTracer } = setTracerForTest();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const messages: ServiceBusMessage[] = [];
+    for (let i = 0; i < 5; i++) {
+      messages.push({ body: `multiple messages - manual trace propgation: ${i}` });
+    }
+    messages[0].applicationProperties = { [TRACEPARENT_PROPERTY]: "foo" };
+    await sender.sendMessages(messages, {
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan.context()
+        }
+      }
+    });
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(1, "Should only have one root spans.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.message",
+              children: []
+            },
+            {
+              name: "Azure.ServiceBus.send",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
   });
 });

@@ -14,8 +14,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
-import { ConditionErrorNameMapper } from "@azure/core-amqp";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -69,10 +68,10 @@ describe("Send Batch", () => {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
@@ -100,30 +99,26 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      for (let i = 0; i < 1000; i++) {
-        messagesToSend.push({
-          body: Buffer.alloc(2000),
-          messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined,
-          partitionKey: useSessions ? `someSession ${i}` : undefined
-        });
-      }
-      return messagesToSend;
-    }
-
     async function testSendBatch(
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+      // Size of each message will be > 20000 bytes, maxMessageSize/20000 would exceed the limit
+      const numberOfMessagesToSend =
+        (await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize()) / 20000;
+
+      for (let i = 0; i < numberOfMessagesToSend; i++) {
+        const messageToSend = {
+          body: Buffer.alloc(20000),
+          messageId: `message ${i}`,
+          sessionId: entityNames.usesSessions ? `someSession ${i}` : undefined,
+          partitionKey: entityNames.usesSessions ? `someSession ${i}` : undefined
+        };
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
@@ -191,10 +186,10 @@ describe("Send Batch", () => {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
@@ -236,10 +231,10 @@ describe("Send Batch", () => {
       // Prepare messages to send
       const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch();
+      const batchMessage = await sender.createMessageBatch();
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
@@ -300,10 +295,10 @@ describe("Send Batch", () => {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
@@ -362,25 +357,25 @@ describe("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(entityNames.usesSessions);
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       should.equal(
-        batchMessage.tryAdd(messagesToSend[0]),
+        batchMessage.tryAddMessage(messagesToSend[0]),
         true,
         "tryAdd should not have failed for the first message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[1]),
+        batchMessage.tryAddMessage(messagesToSend[1]),
         false,
         "tryAdd should have failed for the second message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[2]),
+        batchMessage.tryAddMessage(messagesToSend[2]),
         false,
         "tryAdd should have failed for the third message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[3]),
+        batchMessage.tryAddMessage(messagesToSend[3]),
         false,
         "tryAdd should have failed for the fourth message"
       );
@@ -409,11 +404,12 @@ describe("Send Batch", () => {
     async function testSendBatch(maxSizeInBytes?: number): Promise<void> {
       let errorIsThrown = false;
       try {
-        await sender.createBatch({ maxSizeInBytes });
+        await sender.createMessageBatch({ maxSizeInBytes });
       } catch (error) {
+        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
         should.equal(
           error.message,
-          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (262144 bytes) on the AMQP sender link.`,
+          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
           "Unexpected error message when tried to create a batch of size > maximum message size."
         );
         errorIsThrown = true;
@@ -455,7 +451,8 @@ describe("Send Batch", () => {
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
         err.message
       );
-      should.equal(ConditionErrorNameMapper["amqp:link:message-size-exceeded"], err.code);
+      should.equal(err.code, "MessageSizeExceeded");
+      should.equal(err.name, "ServiceBusError");
     }
   });
 
@@ -463,10 +460,10 @@ describe("Send Batch", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     const messagesToSend = [{ body: "hello" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (const message of messagesToSend) {
-      if (!batch.tryAdd(message)) {
+      if (!batch.tryAddMessage(message)) {
         throw new Error("We do actually want to send all the events.");
       }
     }

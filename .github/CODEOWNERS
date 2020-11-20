@@ -38,13 +38,16 @@
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 # PRLabel: %Batch
-/sdk/batch/ @xingwu1 @matthchr @bgklein @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @RezaJooyandeh @DominikMe @0rland0Wats0n
+/sdk/communication/ @RezaJooyandeh @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
+
+# PRLabel: %Digital Twins
+/sdk/digitaltwins/ @zolvarga
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ramya-rao-a @ellismg
@@ -64,6 +67,9 @@
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
+# PRLabel: %Synapse
+/sdk/synapse/ @jonathandturner
+
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
@@ -78,11 +84,14 @@
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @willmtemple
 
+# PRLabel: %Cognitive - Metrics Advisor
+/sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
+
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
-/sdk/applicationinsights/applicationinsights-query/ @divya-jay @geneh @alongafni
-/sdk/operationalinsights/loganalytics/ @divya-jay @geneh @alongafni
+/sdk/applicationinsights/applicationinsights-query/ @divyajay @geneh @alongafni
+/sdk/operationalinsights/loganalytics/ @divyajay @geneh @alongafni
 
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
@@ -94,6 +103,7 @@
 /sdk/**/review/*api.md @bterlson @xirzec
 
 # Management Plane
+# PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor

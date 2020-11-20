@@ -4,7 +4,7 @@ An ESLint plugin enforcing [design guidelines for the JavaScript/TypeScript Azur
 
 ## Installation
 
-You'll first need to install [ESLint](http://eslint.org):
+You'll first need to install [ESLint](https://eslint.org):
 
 ```shell
 npm i eslint --save-dev

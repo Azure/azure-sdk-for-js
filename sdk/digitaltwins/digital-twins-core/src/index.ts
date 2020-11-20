@@ -1,0 +1,48 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+export { DigitalTwinsClient, DigitalTwinsClientOptions } from "./digitalTwinsClient";
+
+export {
+  DigitalTwinsAddOptionalParams,
+  DigitalTwinsAddHeaders,
+  DigitalTwinsAddResponse,
+  DigitalTwinsGetByIdResponse,
+  DigitalTwinsUpdateOptionalParams,
+  DigitalTwinsUpdateHeaders,
+  DigitalTwinsDeleteOptionalParams,
+  DigitalTwinsGetByIdHeaders,
+  DigitalTwinsAddRelationshipOptionalParams,
+  DigitalTwinsAddRelationshipHeaders,
+  DigitalTwinsAddRelationshipResponse,
+  DigitalTwinsUpdateRelationshipOptionalParams,
+  DigitalTwinsUpdateRelationshipResponse,
+  DigitalTwinsUpdateRelationshipHeaders,
+  DigitalTwinsDeleteRelationshipOptionalParams,
+  DigitalTwinsListRelationshipsResponse,
+  RelationshipCollection,
+  DigitalTwinsListIncomingRelationshipsResponse,
+  IncomingRelationship,
+  IncomingRelationshipCollection,
+  DigitalTwinsGetRelationshipByIdHeaders,
+  DigitalTwinsGetRelationshipByIdResponse,
+  DigitalTwinsUpdateComponentOptionalParams,
+  DigitalTwinsUpdateComponentHeaders,
+  DigitalTwinsGetComponentHeaders,
+  DigitalTwinsUpdateComponentResponse,
+  DigitalTwinsGetComponentResponse,
+  DigitalTwinModelsGetByIdResponse,
+  DigitalTwinModelsListResponse,
+  DigitalTwinModelsAddResponse,
+  DigitalTwinsUpdateResponse,
+  EventRoute,
+  EventRouteCollection,
+  EventRoutesGetByIdResponse,
+  EventRoutesListNextResponse,
+  DigitalTwinsModelData,
+  QueryQueryTwinsHeaders,
+  QueryQueryTwinsResponse,
+  QueryResult,
+  QuerySpecification,
+  PagedDigitalTwinsModelDataCollection
+} from "./generated/models";

@@ -6,26 +6,21 @@ import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 
 if (isNode) {
   dotenv.config();
 }
 
-export interface RecordedClient {
-  client: CommunicationIdentityClient;
+export interface RecordedClient<T> {
+  client: T;
   recorder: Recorder;
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  INCLUDE_PHONENUMBER_LIVE_TESTS: "false"
 };
-
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -51,19 +46,35 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       );
     },
     (recording: string): string =>
-      recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized")
+      recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized"),
+    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
+    (recording: string): string =>
+      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],
   queryParametersToSkip: []
 };
 
 export function createRecordedCommunicationIdentityClient(
-  context: Context,
-  connectionString: string = testEnv.COMMUNICATION_CONNECTION_STRING
-): RecordedClient {
+  context: Context
+): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new CommunicationIdentityClient(connectionString),
+    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder
+  };
+}
+
+export function createRecordedPhoneNumberAdministrationClient(
+  context: Context
+): RecordedClient<PhoneNumberAdministrationClient> & {
+  includePhoneNumberLiveTests: boolean;
+} {
+  const recorder = record(context, environmentSetup);
+
+  return {
+    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    recorder,
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }

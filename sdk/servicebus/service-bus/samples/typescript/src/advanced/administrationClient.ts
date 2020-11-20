@@ -2,8 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the ServiceBusAdministrationClient can be used to manage the resources of a service bus namespace.
@@ -21,7 +21,7 @@ dotenv.config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-async function main() {
+export async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
@@ -43,7 +43,7 @@ async function main() {
   console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
   const namespaceInfo = await serviceBusAdministrationClient.getNamespaceProperties();
-  console.log("Type of the namespace - ", namespaceInfo.namespaceType);
+  console.log("Name of the namespace - ", namespaceInfo.name);
 
   await serviceBusAdministrationClient.deleteQueue(queueName);
   const queueExists = await serviceBusAdministrationClient.queueExists(queueName);
@@ -56,4 +56,5 @@ async function main() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

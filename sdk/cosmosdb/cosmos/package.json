@@ -17,6 +17,7 @@
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
+  "react-native": "./dist-esm/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
@@ -91,7 +92,7 @@
     "semaphore": "^1.0.5",
     "tslib": "^2.0.0",
     "universal-user-agent": "^6.0.0",
-    "uuid": "^8.1.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -108,17 +109,11 @@
     "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^2.8.0",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.8.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-no-null": "^1.0.2",
-    "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
     "execa": "^3.3.0",
     "mocha": "^7.1.1",

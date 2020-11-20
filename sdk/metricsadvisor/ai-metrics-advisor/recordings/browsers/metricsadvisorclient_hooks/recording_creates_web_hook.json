@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {},
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookName\":\"js-test-webHook-160530509848001407\",\"description\":\"description\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "5a85b12a-2653-4594-bb3e-df4997c5ed6f",
+    "content-length": "0",
+    "date": "Fri, 13 Nov 2020 22:04:59 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/5039ea6c-fd43-49c2-8420-aa71c2dd92c4",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "754",
+    "x-request-id": "5a85b12a-2653-4594-bb3e-df4997c5ed6f"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/5039ea6c-fd43-49c2-8420-aa71c2dd92c4",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"hookId\":\"5039ea6c-fd43-49c2-8420-aa71c2dd92c4\",\"hookName\":\"js-test-webHook-160530509848001407\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "responseHeaders": {
+    "apim-request-id": "9ac48de2-f03e-4fd1-9af2-9870d21a354c",
+    "content-length": "349",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:05:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "219",
+    "x-request-id": "9ac48de2-f03e-4fd1-9af2-9870d21a354c"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9fb31b274dcf7357844cc891cc39b251"
+}

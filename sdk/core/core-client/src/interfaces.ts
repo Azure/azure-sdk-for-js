@@ -171,6 +171,11 @@ export interface OperationResponseMap {
    * The mapper that will be used to deserialize the response body.
    */
   bodyMapper?: Mapper;
+
+  /**
+   * Indicates if this is an error response
+   */
+  isError?: boolean;
 }
 
 /**
@@ -461,4 +466,18 @@ export interface EnumMapper extends BaseMapper {
 export interface UrlParameterValue {
   value: string;
   skipUrlEncoding: boolean;
+}
+
+/**
+ * Configuration for creating a new Tracing Span
+ */
+export interface SpanConfig {
+  /**
+   * Package name prefix
+   */
+  packagePrefix: string;
+  /**
+   * Service namespace
+   */
+  namespace: string;
 }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @file Rule to force package.json's files value to contain paths to the package contents.
+ * @file Rule to force package.json's files value to contain paths to the package contents and excludes source code files.
  * @author Arpan Laha
  */
 
@@ -13,6 +13,45 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+
+const requiredPatternSuggestionMap: Map<string, string | undefined> = new Map();
+function addRequiredPattern(pattern: string, suggestion?: string): void {
+  requiredPatternSuggestionMap.set(pattern, suggestion);
+}
+
+/**
+ * The rule is configurable by those two vars, where badPatterns is the list of
+ * patterns that should not be in package.json's files list and requiredPatterns
+ * is the list of patterns that should be.
+ */
+const badPatterns = ["src"];
+addRequiredPattern("dist");
+addRequiredPattern("dist-esm", "src");
+const requiredPatterns = Array.from(requiredPatternSuggestionMap.keys());
+
+/**
+ * Creates the more specific and recommended pattern that will be added to the
+ * files list by the fixer.
+ * @param pat - A pattern that is missing from the files list
+ */
+function buildFixRequiredPattern(pat: string): string {
+  return requiredPatternSuggestionMap.get(pat) !== undefined
+    ? `${pat}/${requiredPatternSuggestionMap.get(pat)}`
+    : pat;
+}
+
+/**
+ * Updates the patterns in the input list to be the more specific and
+ * recommended patterns.
+ * @param currRequiredPatterns - A list of patterns that are required
+ * but missing from the files list
+ */
+function updateFixRequiredPatterns(currRequiredPatterns: string[]): void {
+  for (let i = 0; i < currRequiredPatterns.length; ++i) {
+    const pat = currRequiredPatterns[i];
+    currRequiredPatterns[i] = buildFixRequiredPattern(pat);
+  }
+}
 
 export = {
   meta: getRuleMetaData(
@@ -31,7 +70,6 @@ export = {
           // check to see if files exists at the outermost level
           "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check that files contains dist, dist-esm, and src
           "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
             node: Property
           ): void => {
@@ -44,41 +82,73 @@ export = {
               return;
             }
 
+            // sorting the patterns descendingly so in cases of overlap between
+            // pattern (e.g. dist and dist-esm), the regex tries to match the
+            // longer first.
+            const regExprStr = `^(?:.\/)?(${badPatterns
+              .concat(requiredPatterns)
+              .sort()
+              .reverse()
+              .join("|")})(?:\/)?(?:.+)?`;
+
             const nodeValue = node.value;
-            const elements = nodeValue.elements as Literal[];
-            const elementValues = elements.map((element: Literal): unknown => element.value);
+            let filesList = (nodeValue.elements as Literal[]).map(
+              (element): unknown => element.value
+            );
 
-            // looks for 'dist' with optional leading './' and optional trailing '/'
-            if (
-              elements.every(
-                (element: Literal): boolean =>
-                  !/^(.\/)?((dist\/)|(dist$))/.test(element.value as string)
-              )
-            ) {
-              context.report({
-                node: nodeValue,
-                message: "dist is not included in files",
-                fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  elementValues.push("dist");
-                  return fixer.replaceText(nodeValue, arrayToString(elementValues));
+            const currBadPatterns: string[] = [];
+            const currRequiredPatterns = [...requiredPatterns];
+            const fullMatchIndex = 0;
+            const patternRootMatchIndex = 1;
+            // Looking for both required and bad patterns
+            for (const filePattern of filesList) {
+              const patternMatchResult = (filePattern as string).match(regExprStr);
+              if (patternMatchResult !== null) {
+                const patternRoot = patternMatchResult[patternRootMatchIndex];
+                if (badPatterns.indexOf(patternRoot) >= 0) {
+                  currBadPatterns.push(patternMatchResult[fullMatchIndex]);
+                } else if (requiredPatterns.indexOf(patternRoot) >= 0) {
+                  const deletedItemsCount = 1;
+                  currRequiredPatterns.splice(
+                    currRequiredPatterns.indexOf(patternRoot),
+                    deletedItemsCount
+                  );
                 }
-              });
+              }
             }
-
-            // looks for 'dist-esm/src' with optional leading './' and optional trailing '/'
-            if (
-              elements.every(
-                (element: Literal): boolean =>
-                  !/^(.\/)?dist-esm\/((src\/)|(src$))/.test(element.value as string)
-              )
-            ) {
+            let errorMessage = "";
+            // Make sure there are no bad patterns, but if there are, create
+            // a meaningful error message for them and remove them from the
+            // files list
+            if (currBadPatterns.length > 0) {
+              const unitLength = 1;
+              errorMessage = `${currBadPatterns.join()} ${
+                currBadPatterns.length === unitLength ? "is" : "are"
+              } included in files`;
+              filesList = filesList.filter(
+                (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0
+              );
+            }
+            // If there are required patterns missing from the files' list,
+            // create a meaningful error message and add them to the list (with
+            // the default suggestion)
+            if (currRequiredPatterns.length > 0) {
+              updateFixRequiredPatterns(currRequiredPatterns);
+              filesList = filesList.concat(currRequiredPatterns);
+              if (errorMessage.length > 0) {
+                errorMessage = `${errorMessage} and `;
+              }
+              const unitLength = 1;
+              errorMessage = `${errorMessage}${currRequiredPatterns.join()} ${
+                currRequiredPatterns.length === unitLength ? "is" : "are"
+              } not included in files`;
+            }
+            if (errorMessage.length > 0) {
               context.report({
                 node: nodeValue,
-                message: "dist-esm/src is not included in files",
-                fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  elementValues.push("dist-esm/src");
-                  return fixer.replaceText(nodeValue, arrayToString(elementValues));
-                }
+                message: errorMessage,
+                fix: (fixer: Rule.RuleFixer): Rule.Fix =>
+                  fixer.replaceText(nodeValue, arrayToString(filesList))
               });
             }
           }

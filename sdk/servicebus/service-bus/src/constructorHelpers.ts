@@ -1,17 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InternalReceiveMode } from "./serviceBusMessage";
-import {
-  ConnectionConfig,
-  RetryOptions,
-  SharedKeyCredential,
-  TokenCredential,
-  WebSocketOptions
-} from "@azure/core-amqp";
+import { ConnectionConfig, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
-import { ReceiveMode } from "./models";
+import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -36,21 +30,6 @@ export interface ServiceBusClientOptions {
  * @internal
  * @ignore
  *
- * @param {ConnectionConfig} config
- */
-function validate(config: ConnectionConfig) {
-  // TODO: workaround - core-amqp's validate string-izes "undefined"
-  // the timing of this particular call happens in a spot where we might not have an
-  // entity path so it's perfectly legitimate for it to be empty.
-  config.entityPath = config.entityPath ?? "";
-
-  ConnectionConfig.validate(config);
-}
-
-/**
- * @internal
- * @ignore
- *
  * @param {string} connectionString
  * @param {(SharedKeyCredential | TokenCredential)} credential
  * @param {ServiceBusClientOptions} options
@@ -66,7 +45,6 @@ export function createConnectionContext(
   config.webSocketEndpointPath = "$servicebus/websocket";
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
-  validate(config);
   return ConnectionContext.create(config, credential, options);
 }
 
@@ -122,21 +100,5 @@ export function getEntityNameFromConnectionString(connectionString: string): str
     return entityPathMatch[1];
   } else {
     throw new Error("No entity name present in the connection string");
-  }
-}
-
-/**
- * Temporary bit of conversion code until we can eliminate external usage of this
- * enum.
- * @param receiveMode
- * @internal
- * @ignore
- */
-export function convertToInternalReceiveMode(receiveMode: ReceiveMode): InternalReceiveMode {
-  switch (receiveMode) {
-    case "peekLock":
-      return InternalReceiveMode.peekLock;
-    case "receiveAndDelete":
-      return InternalReceiveMode.receiveAndDelete;
   }
 }

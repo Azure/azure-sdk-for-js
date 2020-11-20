@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getGenericBSU
 } from "./utils";
-import { record, delay, isLiveMode } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -33,7 +33,7 @@ describe("BlobClient", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -55,11 +55,6 @@ describe("BlobClient", () => {
   });
 
   it("Set blob tags should work", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -85,11 +80,6 @@ describe("BlobClient", () => {
   });
 
   it("Get blob tags should work with a snapshot", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -104,11 +94,6 @@ describe("BlobClient", () => {
   });
 
   it("Create block blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     await blockBlobClient.delete();
 
     const tags = {
@@ -122,11 +107,6 @@ describe("BlobClient", () => {
   });
 
   it("Create append blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -141,11 +121,6 @@ describe("BlobClient", () => {
   });
 
   it("Create page blob should work with tags", async function() {
-    if (!isNode) {
-      // SAS in test pipeline need to support the new permission.
-      this.skip();
-    }
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -348,6 +323,8 @@ describe("BlobClient", () => {
     result3.segment.blobItems![0].properties.accessTier = result3.segment.blobItems![1].properties.accessTier = undefined;
     // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTierInferred = result3.segment.blobItems![1].properties.accessTierInferred = undefined;
+    // tslint:disable-next-line:max-line-length
+    result3.segment.blobItems![0].properties.lastAccessedOn = result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,
@@ -828,6 +805,25 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
+  it("lastAccessed returned", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it's not working in live tests pipeline.
+      this.skip();
+    }
+    const downloadRes = await blockBlobClient.download();
+    assert.ok(downloadRes.lastAccessed);
+
+    const getPropertiesRes = await blockBlobClient.getProperties();
+    assert.ok(getPropertiesRes.lastAccessed);
+
+    for await (const blobItem of containerClient.listBlobsFlat({ prefix: blobName })) {
+      if (blobItem.name === blobName) {
+        assert.ok(blobItem.properties.lastAccessedOn);
+        break;
+      }
+    }
+  });
+
   describe("conditional tags", () => {
     const tags = {
       tag1: "val1",
@@ -838,10 +834,6 @@ describe("BlobClient", () => {
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
     beforeEach(async function() {
-      if (!isNode) {
-        // SAS in test pipeline need to support the new permission.
-        this.skip();
-      }
       await blobClient.setTags(tags);
     });
 
@@ -1281,7 +1273,7 @@ describe("BlobClient - Object Replication", () => {
   let destContainerClient: ContainerClient;
   let srcBlobClient: BlobClient;
   let destBlobClient: BlobClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const expectedObjectReplicateSourceProperties = [
     {

@@ -1,7 +1,19 @@
 # Release History
 
-## 12.2.2 (Unreleased)
+## 12.3.1 (Unreleased)
 
+
+## 12.3.0 (2020-11-10)
+
+- Added `BlockBlobClient.uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options)` for parallel uploading. It's avaiable in both Node.js and browsers.
+- Added new SAS permissions Move(m) and Execute(e) for Blob and Container. Also supports specifying an authorized object ID via `saoid` and a correlation ID via `scid` for user delegation SAS.
+
+## 12.3.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Blob Last Access Time tracking.
+- Added support for Blob Query Arrow output format.
+- Added support for Container Soft Delete.
 
 ## 12.2.1 (2020-09-17)
 

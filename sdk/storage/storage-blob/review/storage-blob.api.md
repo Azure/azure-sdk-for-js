@@ -527,6 +527,7 @@ export interface BlobDownloadHeaders {
     etag?: string;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -654,6 +655,7 @@ export interface BlobGetPropertiesHeaders {
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -868,6 +870,8 @@ export interface BlobProperties {
     // (undocumented)
     isSealed?: boolean;
     // (undocumented)
+    lastAccessedOn?: Date;
+    // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -880,6 +884,23 @@ export interface BlobProperties {
     // (undocumented)
     tagCount?: number;
 }
+
+// @public
+export interface BlobQueryArrowConfiguration {
+    kind: "arrow";
+    schema: BlobQueryArrowField[];
+}
+
+// @public
+export interface BlobQueryArrowField {
+    name?: string;
+    precision?: number;
+    scale?: number;
+    type: BlobQueryArrowFieldType;
+}
+
+// @public
+export type BlobQueryArrowFieldType = "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
 
 // @public
 export interface BlobQueryCsvTextConfiguration {
@@ -978,6 +999,8 @@ export class BlobSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
+    move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     tag: boolean;
@@ -994,10 +1017,12 @@ export interface BlobSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
@@ -1024,6 +1049,10 @@ export class BlobServiceClient extends StorageClient {
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
+        containerClient: ContainerClient;
+        containerUndeleteResponse: ContainerUndeleteResponse;
+    }>;
 }
 
 // @public
@@ -1258,7 +1287,9 @@ export class BlockBlobClient extends BlobClient {
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
+    // @deprecated
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
@@ -1355,7 +1386,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
     onError?: (error: BlobQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
-    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
 }
 
 // @public
@@ -1815,7 +1846,9 @@ export class ContainerSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
     list: boolean;
+    move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;
     tag: boolean;
@@ -1870,6 +1903,23 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
 export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ContainerSetMetadataHeaders;
+    };
+};
+
+// @public
+export interface ContainerUndeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type ContainerUndeleteResponse = ContainerUndeleteHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerUndeleteHeaders;
     };
 };
 
@@ -2573,16 +2623,19 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -2591,6 +2644,27 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
 }
 
 // @public
@@ -2725,6 +2799,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGet
 // @public
 export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     prefix?: string;
 }
@@ -2792,6 +2867,12 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
         parsedHeaders: ServiceSubmitBatchHeaders;
     };
 };
+
+// @public
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    destinationContainerName?: string;
+}
 
 // @public
 export interface SignedIdentifier {

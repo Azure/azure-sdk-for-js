@@ -11,83 +11,61 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 19 Aug 2020 14:57:58 GMT",
+    "date": "Mon, 05 Oct 2020 21:31:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10963.12 - WUS2 ProdSlices",
-    "x-ms-request-id": "c0655f2e-bcde-41e6-8dfd-28d9a9f62400"
+    "x-ms-ests-server": "2.1.11086.7 - SCUS ProdSlices",
+    "x-ms-request-id": "150c77df-d7b2-402f-bb17-73fa02212101"
    }
   },
   {
    "method": "PUT",
    "url": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022",
    "query": {
-    "api-version": "2017-04"
+    "api-version": "2020-09-01-preview"
    },
-   "requestBody": "\"{\\\"type\\\":\\\"record\\\",\\\"name\\\":\\\"User\\\",\\\"namespace\\\":\\\"com.azure.schemaregistry.samples\\\",\\\"fields\\\":[{\\\"name\\\":\\\"name\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"favoriteNumber\\\",\\\"type\\\":\\\"int\\\"}]}\"",
+   "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 200,
-   "response": "{\"id\":\"35c8c3d0438c48c09602b6b765c6d8dd\"}",
+   "response": "{\"id\":\"228b2b0ea7f74b55a80f6651d6641b59\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 19 Aug 2020 14:57:59 GMT",
-    "location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/3?api-version=2017-04",
+    "date": "Mon, 05 Oct 2020 21:31:53 GMT",
+    "location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/43?api-version=2020-09-01-preview",
+    "schema-id": "228b2b0ea7f74b55a80f6651d6641b59",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/228b2b0ea7f74b55a80f6651d6641b59?api-version=2020-09-01-preview",
+    "schema-version": "43",
+    "schema-versions-location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2020-09-01-preview",
+    "serialization-type": "Avro",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked",
-    "x-schema-id": "35c8c3d0438c48c09602b6b765c6d8dd",
-    "x-schema-id-location": "https://endpoint/$schemagroups/getschemabyid/35c8c3d0438c48c09602b6b765c6d8dd?api-version=2017-04",
-    "x-schema-type": "Avro",
-    "x-schema-version": "3",
-    "x-schema-versions-location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2017-04"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1321",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 19 Aug 2020 14:57:58 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10963.12 - NCUS ProdSlices",
-    "x-ms-request-id": "c71e49e2-e297-4e03-a148-9ab730ed1c00"
+    "transfer-encoding": "chunked"
    }
   },
   {
    "method": "PUT",
    "url": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022",
    "query": {
-    "api-version": "2017-04"
+    "api-version": "2020-09-01-preview"
    },
-   "requestBody": "\"{\\\"type\\\":\\\"record\\\",\\\"fullName\\\":\\\"User\\\",\\\"namespace\\\":\\\"com.azure.schemaregistry.samples\\\",\\\"fields\\\":[{\\\"name\\\":\\\"name\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"favoriteNumber\\\",\\\"type\\\":\\\"int\\\"}]}\"",
+   "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"secondFavoriteNumber\",\"type\":\"int\"}]}",
    "status": 200,
-   "response": "{\"id\":\"92a2b39babd44463bcbeed50d4e8b6b1\"}",
+   "response": "{\"id\":\"b19dc4f576434e94be7607c4a74bf358\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 19 Aug 2020 14:57:59 GMT",
-    "location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/4?api-version=2017-04",
+    "date": "Mon, 05 Oct 2020 21:31:54 GMT",
+    "location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/44?api-version=2020-09-01-preview",
+    "schema-id": "b19dc4f576434e94be7607c4a74bf358",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/b19dc4f576434e94be7607c4a74bf358?api-version=2020-09-01-preview",
+    "schema-version": "44",
+    "schema-versions-location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2020-09-01-preview",
+    "serialization-type": "Avro",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked",
-    "x-schema-id": "92a2b39babd44463bcbeed50d4e8b6b1",
-    "x-schema-id-location": "https://endpoint/$schemagroups/getschemabyid/92a2b39babd44463bcbeed50d4e8b6b1?api-version=2017-04",
-    "x-schema-type": "Avro",
-    "x-schema-version": "4",
-    "x-schema-versions-location": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2017-04"
+    "transfer-encoding": "chunked"
    }
   }
  ],
@@ -95,5 +73,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "d70a4e54d26ef37c305961658b4abf4f"
+ "hash": "ed82d361a9cc87c17fc3152f41086443"
 }

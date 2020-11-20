@@ -3,7 +3,7 @@
 
 import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
-import { AcceptSessionOptions } from "../../src/models";
+import { ServiceBusSessionReceiverOptions } from "../../src/models";
 import { entityPathMisMatchError } from "../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
@@ -27,9 +27,7 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions:
-    | AcceptSessionOptions<"peekLock">
-    | AcceptSessionOptions<"receiveAndDelete"> = {};
+  const sessionReceiverOptions: ServiceBusSessionReceiverOptions = {};
 
   const testEntities = [
     { queue: "thequeue", entityPath: "thequeue" },
@@ -49,14 +47,22 @@ describe("serviceBusClient unit tests", () => {
       try {
         const abortSignalStuff = createAbortSignal();
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("a session id");
+        const origConnectionContext = client["_connectionContext"];
 
-        let sessionReceiver: ServiceBusSessionReceiver<any>;
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
+          "a session id",
+          {
+            ...origConnectionContext.config,
+            entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+          }
+        );
+
+        let sessionReceiver: ServiceBusSessionReceiver;
 
         if (testEntity.queue) {
           sessionReceiver = await client.acceptSession(testEntity.queue, "a session id", {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -67,7 +73,7 @@ describe("serviceBusClient unit tests", () => {
             "a session id",
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }
@@ -78,7 +84,7 @@ describe("serviceBusClient unit tests", () => {
         assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
         assert.equal(sessionReceiver.sessionId, "a session id");
 
-        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl;
         assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
 
         assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);
@@ -97,14 +103,19 @@ describe("serviceBusClient unit tests", () => {
       try {
         const abortSignalStuff = createAbortSignal();
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id");
+        const origConnectionContext = client["_connectionContext"];
 
-        let sessionReceiver: ServiceBusSessionReceiver<any>;
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+        });
+
+        let sessionReceiver: ServiceBusSessionReceiver;
 
         if (testEntity.queue) {
           sessionReceiver = await client.acceptNextSession(testEntity.queue, {
             abortSignal: abortSignalStuff.signal,
-            maxAutoRenewLockDurationInMs: 101,
+            maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
             receiveMode: "receiveAndDelete"
           });
@@ -114,7 +125,7 @@ describe("serviceBusClient unit tests", () => {
             testEntity.subscription!,
             {
               abortSignal: abortSignalStuff.signal,
-              maxAutoRenewLockDurationInMs: 101,
+              maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete"
             }
@@ -125,7 +136,7 @@ describe("serviceBusClient unit tests", () => {
         assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
         assert.equal(sessionReceiver.sessionId, "session id");
 
-        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl;
         assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
 
         assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);
@@ -309,16 +320,6 @@ describe("serviceBusClient unit tests", () => {
         });
         validateWebsocketInfo(connectionContext, options);
       });
-
-      it("undefined entity path is translated to ''", () => {
-        const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
-        const connectionContext = createConnectionContextForConnectionString(connString, {});
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
-      });
     });
 
     describe("createConnectionContextForTokenCredential", () => {
@@ -336,19 +337,6 @@ describe("serviceBusClient unit tests", () => {
           { webSocketOptions: { webSocketConstructorOptions: options } }
         );
         validateWebsocketInfo(connectionContext, options);
-      });
-
-      it("undefined entity path is translated to ''", () => {
-        const connectionContext = createConnectionContextForTokenCredential(
-          pseudoTokenCred,
-          endpoint,
-          {}
-        );
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
       });
     });
   });

@@ -1,7 +1,17 @@
 # Release History
 
-## 4.2.0-beta.2 (Unreleased)
 
+## 4.2.0-beta.3 (Unreleased)
+
+
+## 4.2.0-beta.2 (2020-10-06)
+
+- Added the `oct-HSM` type to `KeyType`.
+- Added encryption, decryption, wrapping and unwrapping service support for the algorithms "A128GCM", "A192GCM", "A256GCM", "A128KW", "A192KW", "A256KW", "A128CBC", "A192CBC", "A256CBC", "A128CBCPAD", "A192CBCPAD", "A256CBCPAD".
+- The encryption, decryption, wrapping and unwrapping operations now support the following optional parameters:
+  - `additionalAuthenticatedData`, Additional data to authenticate but not encrypt/decrypt when using authenticated cryptography algorithms.
+  - `iv`, the initialization vector for symmetric algorithms.
+  - `tag`, the tag to authenticate when performing decryption with an authenticated algorithm.
 
 ## 4.2.0-beta.1 (2020-09-11)
 

@@ -24,8 +24,15 @@ import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { MessageSession } from "../../src/session/messageSession";
+import { ProcessErrorArgs } from "../../src";
+import { ReceiveMode } from "../../src/models";
 
 describe("AbortSignal", () => {
+  const defaultOptions = {
+    lockRenewer: undefined,
+    receiveMode: <ReceiveMode>"peekLock"
+  };
+
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
@@ -253,7 +260,8 @@ describe("AbortSignal", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -273,7 +281,8 @@ describe("AbortSignal", () => {
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath"
+        "fakeEntityPath",
+        defaultOptions
       );
       closeables.push(messageReceiver);
 
@@ -304,7 +313,7 @@ describe("AbortSignal", () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
@@ -346,8 +355,8 @@ describe("AbortSignal", () => {
         session.subscribe(
           {
             processMessage: async (_msg) => {},
-            processError: async (err) => {
-              receivedErrors.push(err);
+            processError: async (args) => {
+              receivedErrors.push(args.error);
             }
           },
           {
@@ -366,7 +375,8 @@ describe("AbortSignal", () => {
       const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "entityPath",
-        "peekLock"
+        "peekLock",
+        1
       );
 
       try {
@@ -377,9 +387,9 @@ describe("AbortSignal", () => {
           receiver.subscribe(
             {
               processMessage: async (_msg: any) => {},
-              processError: async (err: Error) => {
+              processError: async (args: ProcessErrorArgs) => {
                 resolve();
-                receivedErrors.push(err);
+                receivedErrors.push(args.error);
               }
             },
             {

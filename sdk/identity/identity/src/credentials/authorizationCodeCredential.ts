@@ -8,6 +8,8 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -97,6 +99,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
     redirectUriOrOptions: string | TokenCredentialOptions | undefined,
     options?: TokenCredentialOptions
   ) {
+    checkTenantId(logger, tenantId);
+
     this.clientId = clientId;
     this.tenantId = tenantId;
 
@@ -156,8 +160,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       if (tokenResponse === null) {
+        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
         const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
           method: "POST",
           disableJsonStringifyOnBody: true,
           deserializationMapper: undefined,
@@ -192,7 +197,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AzureActiveDirectoryApplicationCredentials,
   CognitiveServicesAccount,
   CognitiveServicesAccountKey,
   ConditionalSkill,
@@ -24,6 +25,7 @@ export {
   SearchError,
   SearchIndexerSkill,
   SearchIndexerSkillset,
+  SearchResourceEncryptionKey,
   SentimentSkill,
   ShaperSkill,
   SplitSkill,

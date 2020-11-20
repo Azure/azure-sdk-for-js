@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
+   "query": {
+    "$top": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Tianjin\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "3ff9c4f0-a180-4f0e-80b9-38b8464eee90",
+    "content-length": "498",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:04:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "219",
+    "x-request-id": "3ff9c4f0-a180-4f0e-80b9-38b8464eee90"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
+   "query": {
+    "$top": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Los Angeles\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "9d1c13cd-bbd4-40fe-8303-2bff80699479",
+    "content-length": "509",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:04:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "150",
+    "x-request-id": "9d1c13cd-bbd4-40fe-8303-2bff80699479"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "db83fe1e9349272e0c5690d5db11a694"
+}

@@ -18,6 +18,7 @@ import {
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
+import { DefaultAzureCredential } from "@azure/identity";
 
 dotenv.config();
 
@@ -98,6 +99,25 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
+export function getTokenBSUWithDefaultCredential(
+  pipelineOptions: StoragePipelineOptions = {},
+  accountType: string = "",
+  accountNameSuffix: string = ""
+): BlobServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  let accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = new DefaultAzureCredential();
+  const pipeline = newPipeline(credential, {
+    ...pipelineOptions
+  });
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
 export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
   return getGenericBSU("", undefined, pipelineOptions);
 }
@@ -119,7 +139,7 @@ export function getConnectionStringFromEnvironment(): string {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment

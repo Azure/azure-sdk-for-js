@@ -6,17 +6,13 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import {
-  ServiceBusReceivedMessage,
-  ServiceBusReceivedMessageWithLock,
-  ServiceBusReceiver
-} from "../src";
+import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusReceivedMessageWithLock;
+  let deadLetterReceiver: ServiceBusReceiver;
+  let receiver: ServiceBusReceiver;
+  let receivedMessage: ServiceBusReceivedMessage;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -47,7 +43,7 @@ describe("dead lettering", () => {
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
       serviceBusClient.createReceiver(entityNames.queue, {
         receiveMode: "receiveAndDelete",
-        subQueue: "deadLetter"
+        subQueueType: "deadLetter"
       })
     );
 
@@ -72,13 +68,13 @@ describe("dead lettering", () => {
   it("dead lettering a deferred message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.deadLetter({
+    await receiver.deadLetterMessage(deferredMessage, {
       deadLetterErrorDescription: "this is the dead letter error description (was deferred)",
       deadLetterReason: "this is the dead letter reason (was deferred)",
       customProperty: "hello, setting this custom property"
@@ -94,7 +90,7 @@ describe("dead lettering", () => {
 
   it("dead lettering a typical received message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await receivedMessage.deadLetter({
+    await receiver.deadLetterMessage(receivedMessage, {
       deadLetterErrorDescription: "this is the dead letter error description",
       deadLetterReason: "this is the dead letter reason",
       customProperty: "hello, setting this custom property"
@@ -114,13 +110,13 @@ describe("dead lettering", () => {
   it("dead lettering a deferred message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.deadLetter({
+    await receiver.deadLetterMessage(deferredMessage, {
       deadLetterErrorDescription: "this is the dead letter error description (was deferred)",
       deadLetterReason: "this is the dead letter reason (was deferred)",
       customProperty: "hello, setting this custom property"
@@ -136,7 +132,7 @@ describe("dead lettering", () => {
 
   it("dead lettering a typical received message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await receivedMessage.deadLetter({
+    await receiver.deadLetterMessage(receivedMessage, {
       deadLetterErrorDescription: "this is the dead letter error description",
       deadLetterReason: "this is the dead letter reason",
       customProperty: "hello, setting this custom property"
@@ -160,7 +156,7 @@ describe("dead lettering", () => {
 
     const reason = deadLetterMessages[0].deadLetterReason;
     const description = deadLetterMessages[0].deadLetterErrorDescription;
-    const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
+    const customProperty = deadLetterMessages[0]!.applicationProperties!["customProperty"];
 
     should.equal(reason, expected.reason);
     should.equal(description, expected.description);
@@ -170,8 +166,8 @@ describe("dead lettering", () => {
 
 describe("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver;
+  let receivedMessage: ServiceBusReceivedMessage;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -216,13 +212,13 @@ describe("abandoning", () => {
   it("abandoning a deferred message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.abandon({
+    await receiver.abandonMessage(deferredMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -236,7 +232,7 @@ describe("abandoning", () => {
 
   it("abandoning a typical received message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await receivedMessage.abandon({
+    await receiver.abandonMessage(receivedMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -249,13 +245,13 @@ describe("abandoning", () => {
   it("abandoning a deferred message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.abandon({
+    await receiver.abandonMessage(deferredMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -269,7 +265,7 @@ describe("abandoning", () => {
 
   it("abandoning a typical received message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await receivedMessage.abandon({
+    await receiver.abandonMessage(receivedMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -280,12 +276,12 @@ describe("abandoning", () => {
   });
 
   async function checkAbandonedMessage(
-    abandonedMessage: ServiceBusReceivedMessageWithLock,
+    abandonedMessage: ServiceBusReceivedMessage,
     expected: { customProperty?: string }
   ) {
     should.exist(abandonedMessage);
 
-    const customProperty = abandonedMessage.properties!["customProperty"];
+    const customProperty = abandonedMessage.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }
@@ -293,8 +289,8 @@ describe("abandoning", () => {
 
 describe("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver;
+  let receivedMessage: ServiceBusReceivedMessage;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -339,13 +335,13 @@ describe("deferring", () => {
   it("deferring a deferred message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.defer({
+    await receiver.deferMessage(deferredMessage!, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -356,7 +352,7 @@ describe("deferring", () => {
 
   it("deferring a typical received message", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await receivedMessage.defer({
+    await receiver.deferMessage(receivedMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -368,13 +364,13 @@ describe("deferring", () => {
   it("deferring a deferred message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     // defer this message so we can pick it up via the management API
-    await receivedMessage.defer();
+    await receiver.deferMessage(receivedMessage);
 
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );
 
-    await deferredMessage!.defer({
+    await receiver.deferMessage(deferredMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -385,7 +381,7 @@ describe("deferring", () => {
 
   it("deferring a typical received message - sessions", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await receivedMessage.defer({
+    await receiver.deferMessage(receivedMessage, {
       customProperty: "hello, setting this custom property"
     });
 
@@ -401,7 +397,7 @@ describe("deferring", () => {
 
     should.exist(deferredMessage);
 
-    const customProperty = deferredMessage!.properties!["customProperty"];
+    const customProperty = deferredMessage!.applicationProperties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }

@@ -1,7 +1,17 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
+
+## 1.0.0-beta.3 (2020-11-12)
+
+### Breaking Changes
+
+- Provide more idiomatic names for System properties, rename `odata.etag` to `etag` and `Timestamp` to `timestamp` [#12060](https://github.com/Azure/azure-sdk-for-js/pull/12060)
+
+## 1.0.0-beta.2 (2020-10-06)
+
+- Add support for Entity Group Transactions (Batch) [#11551](https://github.com/Azure/azure-sdk-for-js/pull/11551).
 
 ## 1.0.0-beta.1 (2020-09-08)
 

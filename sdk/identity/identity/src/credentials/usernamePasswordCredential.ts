@@ -8,6 +8,8 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -42,6 +44,8 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options?: TokenCredentialOptions
   ) {
+    checkTenantId(logger, tenantIdOrName);
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
     this.clientId = clientId;
@@ -68,8 +72,9 @@ export class UsernamePasswordCredential implements TokenCredential {
       options
     );
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
@@ -101,7 +106,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

@@ -5,6 +5,16 @@ to migrate their application to V5 of the same library.
 
 For users new to the JavaScript SDK for Event Hubs, please see the [readme file for the @azure/event-hubs package](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md).
 
+## Migration benefits
+
+A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
+
+There were several areas of consistent feedback expressed across the Azure client library ecosystem. One of the most important is that the client libraries for different Azure services have not had a consistent approach to organization, naming, and API structure. Additionally, many developers have felt that the learning curve was difficult, and the APIs did not offer a good, approachable, and consistent onboarding story for those learning Azure or exploring a specific Azure service.
+
+To try and improve the development experience across Azure services, including Event Hubs, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript specific guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that these libraries have a natural and idiomatic feel. Further details are available in the guidelines for those interested.
+
+The new version 5 of the Event Hubs library provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as using the new `@azure/identity` library to share a single authentication between clients and a unified diagnostics pipeline offering a common view of the activities across each of the client libraries.
+
 ## General changes
 
 Version 5 of the `@azure/event-hubs` package is a result of our efforts to

@@ -3,37 +3,150 @@
 
 import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { assert } from "chai";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/core-http";
 
-/**
- * NOTE: For running this tests with a TEST_MODE different to "playback", you will need to make
- * sure that the storage account these tests are run against meets the following requirements
- *
- * 1) Have a CORS rule to allow connections from browser tests
- * 2) Have 7000 entities in total of which
- *    2.1) 1000 are in this form {foo: "testEntity"} - partitionKey and rowKey don't have any specific requirements
- *    2.1) 1 {RowKey: "binary1", foo: Buffer.from("Bar")} - partitionKey doesn't have any specific requirements
- *
- * With Issue #10918 we'll have ARM templates that should make running live tests locally much easier
- */
 describe("TableClient", () => {
   let client: TableClient;
   let recorder: Recorder;
-  const suffix = isNode ? "_node" : "_browser";
+  const suffix = isNode ? "node" : "browser";
+  const tableName = `tableClientTest${suffix}`;
+  const listPartitionKey = "listEntitiesTest";
+  // Cannot use SharedKey auth when using recordings since the signature uses the current date
+  // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
+  const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  describe("createEntity and getEntity", () => {
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
-      recorder = record(this, recordedEnvironmentSetup);
-      const tableName = "integration";
-      client = createTableClient(tableName);
+  beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
+    recorder = record(this, recordedEnvironmentSetup);
+
+    client = createTableClient(tableName, authMode);
+  });
+
+  before(async () => {
+    if (!isPlaybackMode()) {
+      client = createTableClient(tableName, authMode);
+      await client.create();
+    }
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  after(async () => {
+    if (!isPlaybackMode()) {
+      await client.delete();
+    }
+  });
+
+  describe("listEntities", () => {
+    // Create required entities for testing list operations
+    before(async () => {
+      if (!isPlaybackMode()) {
+        await client.createEntity({
+          partitionKey: listPartitionKey,
+          rowKey: "binary1",
+          foo: new Uint8Array([66, 97, 114])
+        });
+
+        for (let i = 0; i < 20; i++) {
+          await client.createEntity({
+            partitionKey: listPartitionKey,
+            rowKey: `${i}`,
+            foo: "testEntity"
+          });
+        }
+      }
+    });
+    type StringEntity = { foo: string };
+    type NumberEntity = { foo: number };
+    type DateEntity = { foo: Date };
+    type BooleanEntity = { foo: boolean };
+    type Int64Entity = { foo: Edm<"Int64"> };
+    type Int32Entity = { foo: Edm<"Int32"> };
+    type BinaryEntity = { foo: Uint8Array };
+    type TestEntity =
+      | TableEntity<StringEntity>
+      | TableEntity<NumberEntity>
+      | TableEntity<DateEntity>
+      | TableEntity<BooleanEntity>
+      | TableEntity<Int64Entity>
+      | TableEntity<Int32Entity>
+      | TableEntity<BinaryEntity>;
+
+    it("should list all", async function() {
+      const totalItems = 21;
+      const entities = client.listEntities<TestEntity>({
+        queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
+      });
+      const all: TestEntity[] = [];
+      for await (const entity of entities) {
+        all.push(entity);
+      }
+
+      assert.lengthOf(all, totalItems);
     });
 
-    afterEach(async function() {
-      await recorder.stop();
+    it("should list by page", async function() {
+      const totalItems = 21;
+      const maxPageSize = 5;
+      const entities = client.listEntities<TestEntity>({
+        queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
+      });
+      let all: TestEntity[] = [];
+      let i = 0;
+      for await (const entity of entities.byPage({
+        maxPageSize
+      })) {
+        i++;
+        all = [...all, ...entity];
+      }
+
+      assert.lengthOf(all, totalItems);
+      assert.equal(i, Math.ceil(totalItems / maxPageSize));
     });
+
+    it("should list with filter", async function() {
+      const barItems = 20;
+      const strValue = "testEntity";
+      const entities = client.listEntities<TableEntity<StringEntity>>({
+        queryOptions: { filter: odata`foo eq ${strValue}` }
+      });
+      let all: TableEntity<StringEntity>[] = [];
+      for await (const entity of entities) {
+        all = [...all, entity];
+      }
+
+      assert.lengthOf(all, barItems);
+    });
+
+    it("should list binary with filter", async function() {
+      const strValue = "binary1";
+      const entities = client.listEntities<TableEntity<BinaryEntity>>({
+        queryOptions: { filter: odata`RowKey eq ${strValue}` }
+      });
+      let all: TableEntity<BinaryEntity>[] = [];
+      for await (const entity of entities) {
+        assert.isDefined(entity.timestamp, "Expected timestamp to be defined in the entity");
+        assert.isDefined(entity.etag, "Expected etag");
+        all = [...all, entity];
+      }
+
+      assert.lengthOf(all, 1);
+
+      if (isNode) {
+        assert.deepEqual(all[0].foo, Buffer.from("Bar"));
+      }
+
+      if (!isNode) {
+        assert.deepEqual(String.fromCharCode(...all[0].foo), "Bar");
+      }
+    });
+  });
+
+  describe("createEntity, getEntity and delete", () => {
     it("should createEntity with only primitives", async () => {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
@@ -43,7 +156,9 @@ describe("TableClient", () => {
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
@@ -60,7 +175,9 @@ describe("TableClient", () => {
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
@@ -83,7 +200,9 @@ describe("TableClient", () => {
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
@@ -105,7 +224,9 @@ describe("TableClient", () => {
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testInt64);
@@ -134,7 +255,9 @@ describe("TableClient", () => {
         testEntity.partitionKey,
         testEntity.rowKey
       );
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
 
       assert.equal(result.partitionKey, testEntity.partitionKey);
@@ -166,7 +289,9 @@ describe("TableClient", () => {
         testEntity.partitionKey,
         testEntity.rowKey
       );
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.testField, true);
@@ -196,7 +321,9 @@ describe("TableClient", () => {
         testEntity.partitionKey,
         testEntity.rowKey
       );
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testDate);
@@ -212,104 +339,14 @@ describe("TableClient", () => {
       };
       const createResult = await client.createEntity(testEntity, {});
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
+      assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.integerNumber, 3);
       assert.equal(result.floatingPointNumber, 3.14);
-    });
-  });
-
-  describe("listEntities", () => {
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
-      recorder = record(this, recordedEnvironmentSetup);
-      const tableName = "list";
-      client = createTableClient(tableName);
-    });
-
-    afterEach(async function() {
-      await recorder.stop();
-    });
-
-    type StringEntity = { foo: string };
-    type NumberEntity = { foo: number };
-    type DateEntity = { foo: Date };
-    type BooleanEntity = { foo: boolean };
-    type Int64Entity = { foo: Edm<"Int64"> };
-    type Int32Entity = { foo: Edm<"Int32"> };
-    type BinaryEntity = { foo: Uint8Array };
-    type TestEntity =
-      | TableEntity<StringEntity>
-      | TableEntity<NumberEntity>
-      | TableEntity<DateEntity>
-      | TableEntity<BooleanEntity>
-      | TableEntity<Int64Entity>
-      | TableEntity<Int32Entity>
-      | TableEntity<BinaryEntity>;
-
-    it("should list all", async function() {
-      const totalItems = 7000;
-      const entities = client.listEntities<TestEntity>();
-      const all: TestEntity[] = [];
-      for await (const entity of entities) {
-        all.push(entity);
-      }
-
-      assert.lengthOf(all, totalItems);
-    }).timeout(60000);
-
-    it("should list by page", async function() {
-      const totalItems = 7000;
-      const maxPageSize = 500;
-      const entities = client.listEntities<TestEntity>();
-      let all: TestEntity[] = [];
-      let i = 0;
-      for await (const entity of entities.byPage({
-        maxPageSize
-      })) {
-        i++;
-        all = [...all, ...entity];
-      }
-
-      assert.lengthOf(all, 7000);
-      assert.equal(i, totalItems / maxPageSize);
-    }).timeout(60000);
-
-    it("should list with filter", async function() {
-      const barItems = 1000;
-      const strValue = "testEntity";
-      const entities = client.listEntities<TableEntity<StringEntity>>({
-        queryOptions: { filter: odata`foo eq ${strValue}` }
-      });
-      let all: TableEntity<StringEntity>[] = [];
-      for await (const entity of entities) {
-        all = [...all, entity];
-      }
-
-      assert.lengthOf(all, barItems);
-    });
-
-    it("should list binary with filter", async function() {
-      const strValue = "binary1";
-      const entities = client.listEntities<TableEntity<BinaryEntity>>({
-        queryOptions: { filter: odata`RowKey eq ${strValue}` }
-      });
-      let all: TableEntity<BinaryEntity>[] = [];
-      for await (const entity of entities) {
-        all = [...all, entity];
-      }
-
-      assert.lengthOf(all, 1);
-
-      if (isNode) {
-        assert.deepEqual(all[0].foo, Buffer.from("Bar"));
-      }
-
-      if (!isNode) {
-        assert.deepEqual(String.fromCharCode(...all[0].foo), "Bar");
-      }
     });
   });
 });

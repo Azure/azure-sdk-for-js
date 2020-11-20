@@ -4,6 +4,7 @@ import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
@@ -98,13 +99,32 @@ export function getDataLakeServiceClient(
   return getGenericDataLakeServiceClient("DFS_", undefined, pipelineOptions);
 }
 
+export function getDataLakeServiceClientWithDefaultCredential(
+  accountType: string = "DFS_",
+  pipelineOptions: StoragePipelineOptions = {},
+  accountNameSuffix: string = ""
+): DataLakeServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  let accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = new DefaultAzureCredential();
+  const pipeline = newPipeline(credential, {
+    ...pipelineOptions
+  });
+  const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net/`;
+  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+}
+
 export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
   return getGenericDataLakeServiceClient("SECONDARY_", "-secondary");
 }
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment

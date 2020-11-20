@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import {
   DefaultHttpsClient,
   HttpsClient,
@@ -10,7 +10,8 @@ import {
   Pipeline,
   createPipelineRequest,
   createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions
 } from "@azure/core-https";
 import {
   OperationResponse,
@@ -27,7 +28,7 @@ import { MapperTypeNames } from "./serializer";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
-import { deserializationPolicy } from "./deserializationPolicy";
+import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -60,6 +61,11 @@ export interface ServiceClientOptions {
    * A method that is able to turn an XML object model into a string.
    */
   stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
+
+  /**
+   * A method that is able to parse XML.
+   */
+  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
 }
 
 /**
@@ -100,10 +106,14 @@ export class ServiceClient {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
+    this._stringifyXML = options.stringifyXML;
     this._pipeline =
       options.pipeline ||
-      createDefaultPipeline({ baseUri: this._baseUri, credential: options.credential });
-    this._stringifyXML = options.stringifyXML;
+      createDefaultPipeline({
+        baseUri: this._baseUri,
+        credential: options.credential,
+        parseXML: options.parseXML
+      });
   }
 
   /**
@@ -351,22 +361,56 @@ function getXmlValueWithNamespace(
 }
 
 function createDefaultPipeline(
-  options: { baseUri?: string; credential?: TokenCredential } = {}
+  options: {
+    baseUri?: string;
+    credential?: TokenCredential;
+    parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
+  } = {}
 ): Pipeline {
-  const pipeline = createPipelineFromOptions({});
-
-  const credential = options.credential;
-  if (credential) {
-    if (isTokenCredential(credential)) {
-      pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({ credential, scopes: `${options.baseUri || ""}/.default` })
-      );
-    } else {
-      throw new Error("The credential argument must implement the TokenCredential interface");
+  return createClientPipeline({
+    credentialOptions: options,
+    deserializationOptions: {
+      parseXML: options.parseXML
     }
+  });
+}
+
+/**
+ * Options for creating a Pipeline to use with ServiceClient.
+ * Mostly for customizing the auth policy (if using token auth) or
+ * the deserialization options when using XML.
+ */
+export interface ClientPipelineOptions extends InternalPipelineOptions {
+  /**
+   * Options to customize bearerTokenAuthenticationPolicy.
+   */
+  credentialOptions?: { baseUri?: string; credential?: TokenCredential };
+  /**
+   * Options to customize deserializationPolicy.
+   */
+  deserializationOptions?: DeserializationPolicyOptions;
+}
+
+/**
+ * Creates a new Pipeline for use with a Service Client.
+ * Adds in deserializationPolicy by default.
+ * Also adds in bearerTokenAuthenticationPolicy if passed a TokenCredential.
+ * @param options Options to customize the created pipeline.
+ */
+export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
+  const pipeline = createPipelineFromOptions(options ?? {});
+
+  const credential = options.credentialOptions?.credential;
+  if (credential) {
+    pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: `${options.credentialOptions?.baseUri || ""}/.default`
+      })
+    );
   }
 
-  pipeline.addPolicy(deserializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), { phase: "Serialize" });
 
   return pipeline;
 }

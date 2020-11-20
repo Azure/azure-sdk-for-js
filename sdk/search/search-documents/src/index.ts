@@ -3,6 +3,11 @@
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
+  DEFAULT_BATCH_SIZE,
+  DEFAULT_FLUSH_WINDOW,
+  DEFAULT_RETRY_COUNT
+} from "./searchIndexingBufferedSenderImpl";
+export {
   AutocompleteRequest,
   AutocompleteOptions,
   CountDocumentsOptions,
@@ -25,8 +30,15 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
-  UploadDocumentsOptions
+  UploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderDeleteDocumentsOptions,
+  SearchIndexingBufferedSenderFlushDocumentsOptions,
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
+export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
@@ -97,7 +109,8 @@ export {
   AnalyzeRequest,
   SearchResourceEncryptionKey,
   SearchIndexStatistics,
-  SearchServiceStatistics
+  SearchServiceStatistics,
+  SearchIndexer
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -200,7 +213,6 @@ export {
   VisualFeature,
   KeyPhraseExtractionSkillLanguage,
   OcrSkillLanguage,
-  SearchIndexer,
   FieldMapping,
   IndexingParameters,
   IndexingSchedule,
