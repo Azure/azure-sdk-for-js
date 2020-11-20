@@ -44,7 +44,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     options: DeleteSecretOptions = {}
   ): Promise<DeletedSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("deleteKey", requestOptions);
+    const span = createSpan("generatedClient.deleteKey", requestOptions);
 
     let response: DeleteSecretResponse;
     try {
@@ -69,7 +69,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getDeletedSecret", responseOptions);
+    const span = createSpan("generatedClient.getDeletedSecret", responseOptions);
 
     let response: GetDeletedSecretResponse;
     try {

@@ -22,7 +22,7 @@ import { getSecretFromSecretBundle } from "../../transformations";
  * An interface representing the state of a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<SecretProperties> { }
+  extends KeyVaultSecretPollOperationState<SecretProperties> {}
 
 /**
  * An interface representing a delete secret's poll operation
@@ -30,7 +30,7 @@ export interface RecoverDeletedSecretPollOperationState
 export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperation<
   RecoverDeletedSecretPollOperationState,
   SecretProperties
-  > {
+> {
   constructor(
     public state: RecoverDeletedSecretPollOperationState,
     private vaultUrl: string,
@@ -46,7 +46,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    */
   private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getSecret", responseOptions);
+    const span = createSpan("generatedClient.getSecret", responseOptions);
 
     let response: GetSecretResponse;
     try {
@@ -72,7 +72,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("recoverDeletedSecret", responseOptions);
+    const span = createSpan("generatedClient.recoverDeletedSecret", responseOptions);
 
     let response: GetSecretResponse;
     try {
@@ -108,7 +108,6 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     if (!state.isStarted) {
       try {
         state.result = (await this.getSecret(name, this.requestOptions)).properties;
-        // state.isStarted = true; // ???
         state.isCompleted = true;
       } catch {
         // Nothing to do here.

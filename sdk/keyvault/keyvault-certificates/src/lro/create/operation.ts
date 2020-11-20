@@ -83,7 +83,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("createCertificate", requestOptions);
+    const span = createSpan("generatedClient.createCertificate", requestOptions);
 
     const id = options.id;
     const certificateAttributes = toCoreAttributes(options);
@@ -114,7 +114,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getCertificate", requestOptions);
+    const span = createSpan("generatedClient.getCertificate", requestOptions);
 
     let result: GetCertificateResponse;
 
@@ -139,7 +139,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options?: GetPlainCertificateOperationOptions
   ): Promise<CertificateOperation> {
-    const span = createSpan("getPlainCertificateOperation", options);
+    const span = createSpan("generatedClient.getPlainCertificateOperation", options);
 
     let result: GetCertificateOperationResponse;
 
@@ -168,7 +168,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("cancelCertificateOperation", requestOptions);
+    const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
 
     let result: UpdateCertificateOperationResponse;
     try {

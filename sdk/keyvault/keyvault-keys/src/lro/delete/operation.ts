@@ -13,12 +13,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> {}
+export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> { }
 
 export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   DeleteKeyPollOperationState,
   DeletedKey
-> {
+  > {
   constructor(
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
@@ -34,7 +34,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("deleteKey", requestOptions);
+    const span = createSpan("generatedClient.deleteKey", requestOptions);
 
     let response: DeleteKeyResponse;
     try {
@@ -59,7 +59,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     options: GetDeletedKeyOptions = {}
   ): Promise<DeletedKey> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getDeletedKey", responseOptions);
+    const span = createSpan("generatedClient.getDeletedKey", responseOptions);
 
     let response: GetDeletedKeyResponse;
     try {

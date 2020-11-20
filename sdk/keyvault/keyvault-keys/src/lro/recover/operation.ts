@@ -14,12 +14,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
+  extends KeyVaultKeyPollOperationState<KeyVaultKey> { }
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,
   KeyVaultKey
-> {
+  > {
   constructor(
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,
@@ -35,7 +35,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
    */
   private async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getKey", requestOptions);
+    const span = createSpan("generatedClient.getKey", requestOptions);
 
     let response: GetKeyResponse;
     try {
@@ -61,7 +61,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("recoverDeletedKey", requestOptions);
+    const span = createSpan("generatedClient.recoverDeletedKey", requestOptions);
 
     let response: RecoverDeletedKeyResponse;
     try {

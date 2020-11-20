@@ -30,7 +30,7 @@ export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationSta
 export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificatePollOperation<
   RecoverDeletedCertificateState,
   KeyVaultCertificateWithPolicy
-  > {
+> {
   constructor(
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
@@ -50,7 +50,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getCertificate", requestOptions);
+    const span = createSpan("generatedClient.getCertificate", requestOptions);
 
     let result: GetCertificateResponse;
 
@@ -77,7 +77,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("recoverDeletedCertificate", requestOptions);
+    const span = createSpan("generatedClient.recoverDeletedCertificate", requestOptions);
 
     let result: RecoverDeletedCertificateResponse;
 

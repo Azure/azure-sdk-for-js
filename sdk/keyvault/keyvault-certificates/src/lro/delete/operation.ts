@@ -26,7 +26,7 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> { }
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
 
 /**
  * An interface representing a delete certificate's poll operation
@@ -34,7 +34,7 @@ export interface DeleteCertificatePollOperationState
 export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOperation<
   DeleteCertificatePollOperationState,
   DeletedCertificate
-  > {
+> {
   constructor(
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
@@ -54,7 +54,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
   ): Promise<DeletedCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    const span = createSpan("deleteCertificate", requestOptions);
+    const span = createSpan("generatedClient.deleteCertificate", requestOptions);
 
     let response: DeleteCertificateResponse;
     try {
@@ -79,7 +79,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getDeletedCertificate", requestOptions);
+    const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
 
     let result: GetDeletedCertificateResponse;
     try {

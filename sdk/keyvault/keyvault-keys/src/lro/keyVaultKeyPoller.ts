@@ -30,7 +30,7 @@ export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationSta
 /**
  * Common properties and methods of the Key Vault Key Pollers.
  */
-export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultKeyPoller<TState extends KeyVaultKeyPollOperationState<TResult>, TResult> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -48,17 +48,19 @@ export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, 
  * Optional parameters to the KeyVaultKeyPollOperation
  */
 export interface KeyVaultKeyPollOperationOptions {
-  cancelMessage: string;
+  cancelMessage?: string;
 }
 
 /**
  * Common properties and methods of the Key Vault Key Poller operations.
  */
 export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
-  private cancelMessage: string;
+  private cancelMessage: string = "";
 
-  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions) {
-    this.cancelMessage = options.cancelMessage;
+  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions = {}) {
+    if (options.cancelMessage) {
+      this.cancelMessage = options.cancelMessage;
+    }
   }
 
   /**
