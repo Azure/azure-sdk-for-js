@@ -16,7 +16,7 @@ import {
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
   MinedOpinion,
-  OpinionSentiment,
+  OpinionSentiment
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
 import { PiiEntityDomainType } from "../../src";
@@ -25,7 +25,7 @@ const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
   "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
   "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-  "I didn't like the last book I read at all.",
+  "I didn't like the last book I read at all."
 ];
 
 const testDataEs = [
@@ -168,8 +168,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         {
           text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
           id: "0",
-          language: "en",
-        },
+          language: "en"
+        }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
         includeOpinionMining: true
@@ -213,8 +213,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         {
           text: "The food and service is not good",
           id: "0",
-          language: "en",
-        },
+          language: "en"
+        }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
         includeOpinionMining: true
@@ -268,8 +268,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         {
           text: "today is a hot day",
           id: "0",
-          language: "en",
-        },
+          language: "en"
+        }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
         includeOpinionMining: true
@@ -315,7 +315,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           (input): DetectLanguageInput => ({
             id: getId(),
             countryHint: "none",
-            text: input,
+            text: input
           })
         )
       );
@@ -468,7 +468,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
     it("service reports warning for long words", async () => {
       const results = await client.extractKeyPhrases([
-        "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.",
+        "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
       ]);
       assertAllSuccess(results);
       const result = results[0] as ExtractKeyPhrasesSuccessResult;
@@ -572,8 +572,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           {
             id: "0",
             text: "I work at Microsoft and my phone number is 333-333-3333",
-            language: "en",
-          },
+            language: "en"
+          }
         ],
         { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
       );
