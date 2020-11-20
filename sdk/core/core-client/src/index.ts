@@ -39,7 +39,11 @@ export {
   OperationResponse,
   FullOperationResponse,
   PolymorphicDiscriminator,
-  SpanConfig
+  SpanConfig,
+  XML_ATTRKEY,
+  XML_CHARKEY,
+  XmlOptions,
+  SerializerOptions
 } from "./interfaces";
 export {
   deserializationPolicy,
