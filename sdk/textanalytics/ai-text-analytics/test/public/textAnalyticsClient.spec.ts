@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "../utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -17,9 +17,9 @@ import {
   SentenceSentiment,
   MinedOpinion,
   OpinionSentiment
-} from "../src/index";
-import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
-import { PiiEntityDomainType } from "../src/textAnalyticsClient";
+} from "../../src";
+import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
+import { PiiEntityDomainType } from "../../src";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",

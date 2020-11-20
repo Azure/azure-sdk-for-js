@@ -32,9 +32,19 @@ We now have methods with similar names, signature and location to create senders
 
 We have a variety of new features in the version 7 of the Service Bus library.
 
-- A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resouce Manager APIs but had the drawback of not supporting connection strings.
+- A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resource Manager APIs but had the drawback of not supporting connection strings.
+- Ability to create a batch of messages with the smarter `ServiceBusSender.createBatch()` and `ServiceBusMessageBatch.tryAddMessage()` APIs. This will help you manage the messages to be sent in the most optimal way.
 - Ability to configure the retry policy used by the operations on the client, sender and receivers.
-- Ability to cancel async operations on the client, sender and receivers using the abort signal from `@azure/abort-controller`
+- Ability to cancel async operations on the client, sender and receivers and the management operations using the abort signal from `@azure/abort-controller`.
+- Authentication with AAD credentials using `@azure/identity`.
+  Refer to the [Changelog.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/CHANGELOG.md) for more new features, changes and bug fixes.
+
+### Performance Improvements
+
+Notable performance improvements:
+
+- Number of messages that can be sent in a certain duration using a single sender has been improved 4-5 times from v1.x (excluding the effects of batch message API).
+- Memory usage for message lock renewals, session lock renewals and peeking has been made more efficient.
 
 ### Client constructors
 
@@ -187,5 +197,11 @@ Additionally, since a message cannot be settled if the receiver that was used to
   await serviceBusAdministrationClient.getRules();
   await serviceBusAdministrationClient.deleteRule();
   ```
+
+### Upcoming features
+
+- [Transactions](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transactions-in-service-bus) to group two or more operations together into an execution scope to ensure that all operations belonging to a given group of operations either succeed or fail jointly.
+- Optional [prefetch](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-prefetch) support to speed up the message flow by having a message readily available for local retrieval when and before the application asks for one.
+- An optional method on `ServiceBusSender` to allow pre-initializing the sender link to remove the upfront cost from the first send operation.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)

@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { makeTextAnalyticsErrorResult } from "../src/textAnalyticsResult";
+import { makeTextAnalyticsErrorResult } from "../../src/textAnalyticsResult";
 
 describe("makeTextAnalyticsErrorResult", function() {
   it("single-layer error is transposed", () => {

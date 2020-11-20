@@ -8,8 +8,8 @@ import {
   DetectLanguageResultArray,
   DetectLanguageSuccessResult,
   AzureKeyCredential
-} from "../src";
-import { testEnv } from "./utils/recordedClient";
+} from "../../src";
+import { testEnv } from "../utils/recordedClient";
 
 import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 

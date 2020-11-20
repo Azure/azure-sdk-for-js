@@ -67,6 +67,9 @@
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
+# PRLabel: %Synapse
+/sdk/synapse/ @jonathandturner
+
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
