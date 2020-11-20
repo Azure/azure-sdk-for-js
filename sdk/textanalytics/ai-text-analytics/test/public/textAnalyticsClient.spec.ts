@@ -51,7 +51,7 @@ describe("[AAD] TextAnalyticsClient", function() {
     };
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
