@@ -11,6 +11,7 @@ import { createRecordedClient, testEnv } from "../utils/recordedClient";
 import { TextAnalyticsClient, AzureKeyCredential } from "../../src";
 import { assertAllSuccess } from "../utils/resultHelper";
 
+
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
   "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
