@@ -5,7 +5,7 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 $IndexHtmlLoc = "index.html"
-$AppTitle = "Azure SDK for JavaScript"
+$AppTitleLang = "JavaScript"
 $PackageRegex = "/\@(.*)\//i"
 $PackageReplacement = "`$1-"
 
@@ -123,7 +123,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 
 function Get-javascript-GithubIoDocIndex() {
   # Fill in language specific information using script.
-  UpdateDocIndexFiles -appTitle $AppTitle -lang $Language -indexhtmlloc $IndexHtmlLoc -packageRegex $PackageRegex -regexReplacement $PackageReplacement
+  UpdateDocIndexFiles -appTitleLang $AppTitleLang -lang $Language -indexhtmlloc $IndexHtmlLoc -packageRegex $PackageRegex -regexReplacement $PackageReplacement
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
