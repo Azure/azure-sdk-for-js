@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0 (2012-11-23)
+## 7.0.0 (2020-11-23)
 
 - This release marks the general availability of the `@azure/service-bus` package.
 
