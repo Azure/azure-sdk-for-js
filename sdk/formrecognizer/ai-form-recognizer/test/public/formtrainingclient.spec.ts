@@ -25,7 +25,7 @@ const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS
 /*
  * Run the entire battery of tests using both AAD and API Key.
  */
-matrix([[/* TODO: true,*/ false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormTrainingClient`, () => {
     let recorder: Recorder;
 
@@ -135,7 +135,6 @@ matrix([[/* TODO: true,*/ false]] as const, async (useAad) => {
               assert.ok(model, "Expecting valid response");
               assert.ok(model.status === "ready", "Expecting status to be 'ready'");
               assert.ok(model.modelId);
-              assert.equal(model.modelName, modelName);
 
               assert.isNotEmpty(model.submodels);
               const submodel = model.submodels![0];
@@ -152,6 +151,9 @@ matrix([[/* TODO: true,*/ false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
+                // TODO: move this above as a known issue prevents unlabeled models from receiving
+                // modelName
+                assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
                 assert.ok(
@@ -309,12 +311,6 @@ matrix([[/* TODO: true,*/ false]] as const, async (useAad) => {
     // #endregion
 
     it("compose model", async function() {
-      if (useAad) {
-        // TODO
-        this.test!.title = `${this.test?.title} (Issue with service deployment blocks AAD)`;
-        this.skip();
-      }
-
       const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
 
       // Create two models using the same data set. This will still test our training
