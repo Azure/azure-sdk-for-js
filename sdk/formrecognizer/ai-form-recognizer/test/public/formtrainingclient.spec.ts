@@ -135,6 +135,7 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
               assert.ok(model, "Expecting valid response");
               assert.ok(model.status === "ready", "Expecting status to be 'ready'");
               assert.ok(model.modelId);
+              assert.equal(model.modelName, modelName);
 
               assert.isNotEmpty(model.submodels);
               const submodel = model.submodels![0];
@@ -151,9 +152,6 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
-                // TODO: move this above this if statement, as it should work
-                // in unlabeled models pending a service fix.
-                assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
                 assert.ok(
@@ -197,6 +195,12 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
                   lastPageNumber: 1
                 });
                 assert.isNotEmpty(form.pages);
+
+                const [page] = form.pages;
+                assert.isNotEmpty(page.tables);
+                const [table] = page.tables!;
+                assert.ok(table.boundingBox);
+                assert.equal(table.pageNumber, 1);
 
                 if (useLabels) {
                   assert.ok(form.fields);

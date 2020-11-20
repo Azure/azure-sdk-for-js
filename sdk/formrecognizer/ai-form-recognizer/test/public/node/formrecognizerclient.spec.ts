@@ -52,8 +52,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const pages = await poller.pollUntilDone();
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+        assert.isNotEmpty(pages);
 
-        // TODO: verify table rows column cells etc.
+        const [page] = pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
       });
 
       it("png file stream", async () => {
@@ -79,7 +84,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         });
         const pages = await poller.pollUntilDone();
 
-        assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+        assert.isNotEmpty(pages);
+
+        const [page] = pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
       });
 
       it("tiff file stream", async () => {
@@ -92,7 +103,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         });
         const pages = await poller.pollUntilDone();
 
-        assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+        assert.isNotEmpty(pages);
+
+        const [page] = pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
       });
 
       it("pdf file stream without passing content type", async () => {
@@ -102,7 +119,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const poller = await client.beginRecognizeContent(stream, testPollingOptions);
         const pages = await poller.pollUntilDone();
 
-        assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+        assert.isNotEmpty(pages);
+
+        const [page] = pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
       });
 
       it("url", async () => {
@@ -111,7 +134,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
         const pages = await poller.pollUntilDone();
 
-        assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+        assert.isNotEmpty(pages);
+
+        const [page] = pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
       });
 
       it("with selection marks", async () => {
@@ -122,6 +151,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const [page] = await poller.pollUntilDone();
 
         assert.ok(page);
+
+        /* TODO: layout regression
+          assert.isNotEmpty(page.tables);
+          const [table] = page.tables!;
+          assert.ok(table.boundingBox);
+          assert.equal(table.pageNumber, 1);
+          */
 
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
@@ -206,6 +242,13 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         const [page] = result.pages;
 
         assert.ok(page);
+
+        /* TODO: layout regression
+          assert.isNotEmpty(page.tables);
+          const [table] = page.tables!;
+          assert.ok(table.boundingBox);
+          assert.equal(table.pageNumber, 1);
+          */
 
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
@@ -334,6 +377,7 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
           `Expect no-empty pages but got ${businessCards}`
         );
         const [businessCard] = businessCards;
+
         const contactNames = businessCard.fields["ContactNames"] as MaybeTypedFormField<"array">;
         assert.equal(contactNames?.valueType, "array");
         assert.equal(contactNames?.value?.length, 1);
@@ -433,8 +477,15 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         });
         const invoices = await poller.pollUntilDone();
 
-        assert.ok(invoices && invoices.length > 0, `Expect no-empty pages but got ${invoices}`);
+        assert.isNotEmpty(invoices);
         const [invoice] = invoices;
+
+        assert.isNotEmpty(invoice.pages);
+        const [page] = invoice.pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
 
         for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
           const field = invoice.fields[fieldName];
@@ -457,8 +508,15 @@ matrix([[/*TODO: true,*/ false]] as const, async (useAad) => {
         });
         const invoices = await poller.pollUntilDone();
 
-        assert.ok(invoices && invoices.length > 0, `Expect no-empty pages but got ${invoices}`);
+        assert.isNotEmpty(invoices);
         const [invoice] = invoices;
+
+        assert.isNotEmpty(invoice.pages);
+        const [page] = invoice.pages;
+        assert.isNotEmpty(page.tables);
+        const [table] = page.tables!;
+        assert.ok(table.boundingBox);
+        assert.equal(table.pageNumber, 1);
 
         for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
           const field = invoice.fields[fieldName];
