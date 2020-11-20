@@ -4,16 +4,17 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
+$IndexHtmlLoc = "index.html"
+$AppTitle = "Azure SDK for JavaScript"
+$PackageRegex = "/\@(.*)\//i"
+$PackageReplacement = "`$1-"
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
-{
+function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName) {
   $projectPath = Join-Path $pkgPath "package.json"
-  if (Test-Path $projectPath)
-  {
+  if (Test-Path $projectPath) {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -eq "$jsStylePkgName")
-    {
+    if ($pkgName -eq "$jsStylePkgName") {
       return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
     }
   }
@@ -21,14 +22,11 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
 }
 
 # Returns the npm publish status of a package id and version.
-function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
-{
+function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   $npmVersions = (npm show $pkgId versions)
-  if ($LastExitCode -ne 0)
-  {
+  if ($LastExitCode -ne 0) {
     npm ping
-    if ($LastExitCode -eq 0)
-    {
+    if ($LastExitCode -eq 0) {
       return $False
     }
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
@@ -39,11 +37,9 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
 }
 
 # make certain to always take the package json closest to the top
-function ResolvePkgJson($workFolder)
-{
+function ResolvePkgJson($workFolder) {
   $pathsWithComplexity = @()
-  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json"))
-  {
+  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json")) {
     $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
     $pathsWithComplexity += New-Object PSObject -Property @{
       Path       = $file
@@ -55,8 +51,7 @@ function ResolvePkgJson($workFolder)
 }
 
 # Parse out package publishing information given a .tgz npm artifact
-function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
-{
+function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
   $workFolder = "$workingDirectory$($pkg.Basename)"
   $origFolder = Get-Location
   $releaseNotes = ""
@@ -72,14 +67,12 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
-  if ($changeLogLoc)
-  {
+  if ($changeLogLoc) {
     $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogLoc -VersionString $pkgVersion
   }
 
   $readmeContentLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "README.md") | Select-Object -Last 1
-  if ($readmeContentLoc)
-  {
+  if ($readmeContentLoc) {
     $readmeContent = Get-Content -Raw $readmeContentLoc
   }
 
@@ -99,43 +92,38 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 }
 
 # Stage and Upload Docs to blob Storage
-function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
-{
+function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation) {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
-  foreach ($Item in $PublishedDocs) 
-  {    
+  foreach ($Item in $PublishedDocs) {    
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
-    if ($dirList.Length -eq 1)
-    {
+    if ($dirList.Length -eq 1) {
       $DocVersion = $dirList[0].Name
       $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
-      if ($pkgs -and $pkgs.Count -eq 1)
-      {        
+      if ($pkgs -and $pkgs.Count -eq 1) {        
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
       }
-      else
-      {
+      else {
         Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
-    else
-    {
+    else {
       Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
     }
   }
 }
 
-function Get-javascript-GithubIoDocIndex()
-{
+function Get-javascript-GithubIoDocIndex() {
+  # Fill in language specific information using script.
+  UpdateDocIndexFiles -appTitle $AppTitle -lang $Language -indexhtmlloc $IndexHtmlLoc -packageRegex $PackageRegex -regexReplacement $PackageReplacement
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
@@ -149,12 +137,10 @@ function Get-javascript-GithubIoDocIndex()
 # Updates a js CI configuration json.
 # For "latest", we simply set a target package name
 # For "preview", we add @next to the target package name
-function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null)
-{
+function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null) {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
   
-  if (-not (Test-Path $pkgJsonLoc))
-  {
+  if (-not (Test-Path $pkgJsonLoc)) {
     Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
     exit(1)
   }
@@ -163,30 +149,25 @@ function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $moniker
 
   $visibleInCI = @{}
 
-  for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++)
-  {
+  for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++) {
     $pkgDef = $allJson.npm_package_sources[$i]
     $accessor = ($pkgDef.name).Replace("`@next", "")
     $visibleInCI[$accessor] = $i
   }
 
-  foreach ($releasingPkg in $pkgs)
-  {
+  foreach ($releasingPkg in $pkgs) {
     $name = $releasingPkg.PackageId
 
-    if ($releasingPkg.IsPrerelease)
-    {
+    if ($releasingPkg.IsPrerelease) {
       $name += "`@next"
     }
 
-    if ($visibleInCI.ContainsKey($releasingPkg.PackageId))
-    {
+    if ($visibleInCI.ContainsKey($releasingPkg.PackageId)) {
       $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
       $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
       $existingPackageDef.name = $name
     }
-    else
-    {
+    else {
       $newItem = New-Object PSObject -Property @{ 
         name = $name
       }
