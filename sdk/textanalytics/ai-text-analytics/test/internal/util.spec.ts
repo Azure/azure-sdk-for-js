@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { sortResponseIdObjects } from "../src/util";
+import { sortResponseIdObjects } from "../../src/util";
 
 describe("util.sortByPreviousOrder", () => {
   it("should sort outputs correctly", () => {

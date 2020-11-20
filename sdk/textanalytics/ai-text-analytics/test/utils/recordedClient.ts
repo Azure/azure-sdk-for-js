@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
-import { AzureKeyCredential, TextAnalyticsClient } from "../../src/index";
+import { AzureKeyCredential, TextAnalyticsClient } from "../../src/";
 
 dotenv.config();
 
