@@ -2,7 +2,7 @@ import { join } from "path";
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 
-import { packageVersion } from "../src/appConfigurationClient";
+import { packageVersion } from "../../src/appConfigurationClient";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above

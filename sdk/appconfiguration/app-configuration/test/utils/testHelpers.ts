@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient } from "../../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
+import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
@@ -12,7 +12,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { InternalAppConfigurationClientOptions } from "../src/appConfigurationClient";
+import { InternalAppConfigurationClientOptions } from "../../src";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;

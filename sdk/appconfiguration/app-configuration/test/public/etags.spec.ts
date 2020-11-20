@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient } from "../../src";
 import {
   startRecorder,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
-} from "./testHelpers";
+} from "../utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 
