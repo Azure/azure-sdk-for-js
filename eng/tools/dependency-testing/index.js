@@ -208,7 +208,7 @@ async function insertTsConfigJson(targetPackagePath, testFolder) {
 async function readAndReplaceSourceReferences(filePath, packageName) {
   var fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
-  textAssetsContent = fileContent.replace('path.resolve(path.join(process.cwd(), "test-assets"))','path.resolve(path.join(process.cwd(),"..","..","..", "test-assets"))');
+  textAssetsContent = fileContent.replace('path.resolve(path.join(process.cwd(), "test-assets"))','path.resolve(path.join(process.cwd(),"..","..", "test-assets"))');
   // Regex for internal references = /* ["']+[../]*src[/a-z]+["'] */
   var internalrefs = textAssetsContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
   var writeContent = "";
