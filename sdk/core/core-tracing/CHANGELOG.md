@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.0-preview.10 (Unreleased)
+## 1.0.0-beta.10 (Unreleased)
 
+- Change version from `1.0.0-preview.10` to `1.0.0-beta.10` as we now deprecate support of preview and dev version numbers
 
 ## 1.0.0-preview.9 (2020-08-04)
 
