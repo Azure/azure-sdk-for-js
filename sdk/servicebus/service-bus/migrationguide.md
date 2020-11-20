@@ -42,7 +42,7 @@ We have a variety of new features in the version 7 of the Service Bus library.
 
 ### Performance Improvements
 
-Notable performance improvements.
+Notable performance improvements:
 
 - Number of messages that can be sent in a certain duration using a single sender has been improved by about 4-5 folds(excluding the effects of batch message API).
 - Proper cleanup and better listener management affecting workflows in multiple areas such as message lock renewals, session lock renewals, peeking into messages would improve the memory usage and avoids potential memory leaks.
