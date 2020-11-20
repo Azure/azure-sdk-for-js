@@ -33,29 +33,34 @@ export class StorageBlobDownloadTest extends PerfStressTest<string> {
     `https://${this.account}.blob.core.windows.net`,
     this.sharedKeyCredential
   );
-  containerName = `newcontainer${new Date().getTime()}`;
-  blobName = `newblob${new Date().getTime()}`;
+  protected static containerName = `newcontainer${new Date().getTime()}`;
+  protected static blobName = `newblob${new Date().getTime()}`;
 
   public async globalSetup() {
-    const containerClient = this.blobServiceClient.getContainerClient(this.containerName);
+    const containerClient = this.blobServiceClient.getContainerClient(
+      StorageBlobDownloadTest.containerName
+    );
 
     const createContainerResponse = await containerClient.create();
     console.log(
-      `Create container ${this.containerName} successfully`,
+      `Create container ${StorageBlobDownloadTest.containerName} successfully`,
       createContainerResponse.requestId
     );
 
     // Create a blob
     const content = "hello world";
-    const blockBlobClient = containerClient.getBlockBlobClient(this.blobName);
+    const blockBlobClient = containerClient.getBlockBlobClient(StorageBlobDownloadTest.blobName);
     const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
-    console.log(`Upload block blob ${this.blobName} successfully`, uploadBlobResponse.requestId);
+    console.log(
+      `Upload block blob ${StorageBlobDownloadTest.blobName} successfully`,
+      uploadBlobResponse.requestId
+    );
   }
 
   async runAsync(): Promise<void> {
     await this.blobServiceClient
-      .getContainerClient(this.containerName)
-      .getBlockBlobClient(this.blobName)
+      .getContainerClient(StorageBlobDownloadTest.containerName)
+      .getBlockBlobClient(StorageBlobDownloadTest.blobName)
       .download(0);
     console.log("success");
   }
