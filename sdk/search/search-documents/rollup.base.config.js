@@ -93,9 +93,9 @@ export function browserConfig(test = false) {
           chai: ["assert"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
-      })
+      }),
       // disable the plugin in the rollup config to cut-out errors
-      //viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 
