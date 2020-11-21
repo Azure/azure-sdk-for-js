@@ -7,8 +7,8 @@ import {
   SearchIndexerClient,
   GeographyPoint,
   SearchIndex,
-  KnownAnalyzerNames
-} from "../../src";
+  KnownAnalyzerNames,
+} from "../../../src";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 import { assert } from "chai";
@@ -25,26 +25,26 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "hotelId",
         key: true,
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.String",
         name: "hotelName",
         searchable: true,
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.EnLucene
+        analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.FrLucene
+        analyzerName: KnownAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -52,48 +52,48 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         searchable: true,
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Collection(Edm.String)",
         name: "tags",
         searchable: true,
         filterable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Boolean",
         name: "parkingIncluded",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Boolean",
         name: "smokingAllowed",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.DateTimeOffset",
         name: "lastRenovationDate",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Double",
         name: "rating",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.GeographyPoint",
         name: "location",
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.ComplexType",
@@ -102,7 +102,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
           {
             type: "Edm.String",
             name: "streetAddress",
-            searchable: true
+            searchable: true,
           },
           {
             type: "Edm.String",
@@ -110,7 +110,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -118,7 +118,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -126,7 +126,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -134,9 +134,9 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
-          }
-        ]
+            facetable: true,
+          },
+        ],
       },
       {
         type: "Collection(Edm.ComplexType)",
@@ -146,61 +146,61 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.EnLucene
+            analyzerName: KnownAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.FrLucene
+            analyzerName: KnownAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",
             name: "type",
             searchable: true,
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Double",
             name: "baseRate",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
             name: "bedOptions",
             searchable: true,
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Int32",
             name: "sleepsCount",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Boolean",
             name: "smokingAllowed",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Collection(Edm.String)",
             name: "tags",
             searchable: true,
             filterable: true,
-            facetable: true
-          }
-        ]
-      }
+            facetable: true,
+          },
+        ],
+      },
     ],
     suggesters: [
       {
         name: "sg",
-        sourceFields: ["description", "hotelName"]
-      }
+        sourceFields: ["description", "hotelName"],
+      },
     ],
     scoringProfiles: [
       {
@@ -213,16 +213,16 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             boost: 2,
             parameters: {
               referencePointParameter: "myloc",
-              boostingDistance: 100
-            }
-          }
-        ]
-      }
+              boostingDistance: 100,
+            },
+          },
+        ],
+      },
     ],
     corsOptions: {
       // for browser tests
-      allowedOrigins: ["*"]
-    }
+      allowedOrigins: ["*"],
+    },
   };
   await client.createIndex(hotelIndex);
 }
@@ -249,7 +249,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
-      location: new GeographyPoint(47.678581, -122.131577)
+      location: new GeographyPoint(47.678581, -122.131577),
     },
     {
       hotelId: "2",
@@ -262,7 +262,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: true,
       lastRenovationDate: new Date(1982, 3, 28),
       rating: 1,
-      location: new GeographyPoint(49.678581, -122.131577)
+      location: new GeographyPoint(49.678581, -122.131577),
     },
     {
       hotelId: "3",
@@ -275,7 +275,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
-      location: new GeographyPoint(46.678581, -122.131577)
+      location: new GeographyPoint(46.678581, -122.131577),
     },
     {
       hotelId: "4",
@@ -288,7 +288,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
-      location: new GeographyPoint(46.678581, -122.131577)
+      location: new GeographyPoint(46.678581, -122.131577),
     },
     {
       hotelId: "5",
@@ -301,25 +301,25 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(2012, 7, 12),
       rating: 4,
-      location: new GeographyPoint(48.678581, -122.131577)
+      location: new GeographyPoint(48.678581, -122.131577),
     },
     {
       hotelId: "6",
       description: "Surprisingly expensive. Model suites have an ocean-view.",
-      lastRenovationDate: null
+      lastRenovationDate: null,
     },
     {
       hotelId: "7",
       description: "Modern architecture, very polite staff and very clean. Also very affordable.",
       descriptionFr: "Architecture moderne, personnel poli et très propre. Aussi très abordable.",
-      hotelName: "Modern Stay"
+      hotelName: "Modern Stay",
     },
     {
       hotelId: "8",
       description:
         "Has some road noise and is next to the very police station. Bathrooms had morel coverings.",
       descriptionFr:
-        "Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles."
+        "Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles.",
     },
     {
       hotelId: "9",
@@ -340,7 +340,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
         city: "New York",
         stateProvince: "NY",
         country: "USA",
-        postalCode: "10022"
+        postalCode: "10022",
       },
       rooms: [
         {
@@ -351,7 +351,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
           bedOptions: "1 Queen Bed",
           sleepsCount: 2,
           smokingAllowed: true,
-          tags: ["vcr/dvd"]
+          tags: ["vcr/dvd"],
         },
         {
           description: "Budget Room, 1 King Bed (Mountain View)",
@@ -361,9 +361,9 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
           bedOptions: "1 King Bed",
           sleepsCount: 2,
           smokingAllowed: true,
-          tags: ["vcr/dvd", "jacuzzi tub"]
-        }
-      ]
+          tags: ["vcr/dvd", "jacuzzi tub"],
+        },
+      ],
     },
     {
       hotelId: "10",
@@ -384,7 +384,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
         city: "Durham",
         stateProvince: "NC",
         country: "USA",
-        postalCode: "27713"
+        postalCode: "27713",
       },
       rooms: [
         {
@@ -395,7 +395,7 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
           bedOptions: "1 King Bed",
           sleepsCount: 2,
           smokingAllowed: true,
-          tags: ["coffee maker"]
+          tags: ["coffee maker"],
         },
         {
           description: "Budget Room, 1 Queen Bed (Amenities)",
@@ -405,10 +405,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
           bedOptions: "1 Queen Bed",
           sleepsCount: 2,
           smokingAllowed: false,
-          tags: ["coffee maker"]
-        }
-      ]
-    }
+          tags: ["coffee maker"],
+        },
+      ],
+    },
   ];
 
   await client.uploadDocuments(testDocuments);
@@ -448,9 +448,9 @@ export async function createDataSourceConnections(client: SearchIndexerClient): 
       name: `my-data-source-${i}`,
       type: "cosmosdb",
       container: {
-        name: "hotels"
+        name: "hotels",
       },
-      connectionString: connectionString
+      connectionString: connectionString,
     });
   }
 }
@@ -491,25 +491,25 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
           inputs: [
             {
               name: "text",
-              source: "/document/merged_content"
+              source: "/document/merged_content",
             },
             {
               name: "languageCode",
-              source: "/document/language"
-            }
+              source: "/document/language",
+            },
           ],
           outputs: [
             {
               name: "persons",
-              targetName: "people"
+              targetName: "people",
             },
             {
               name: "locations",
-              targetName: "locations"
-            }
-          ]
-        }
-      ]
+              targetName: "locations",
+            },
+          ],
+        },
+      ],
     });
   }
 }
@@ -549,7 +549,7 @@ export async function createIndexers(
       description: "Description for Sample Indexer",
       dataSourceName: "my-data-source-1",
       targetIndexName: targetIndexName,
-      isDisabled: false
+      isDisabled: false,
     });
   }
 }
@@ -581,7 +581,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
   for (let i = 1; i <= 2; i++) {
     await client.createSynonymMap({
       name: `my-azure-synonymmap-${i}`,
-      synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+      synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
     });
   }
 }
@@ -599,19 +599,19 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
       {
         type: "Edm.String",
         name: "id",
-        key: true
+        key: true,
       },
       {
         type: "Edm.Double",
         name: "awesomenessLevel",
         sortable: true,
         filterable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.String",
         name: "description",
-        searchable: true
+        searchable: true,
       },
       {
         type: "Edm.ComplexType",
@@ -620,16 +620,16 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
           {
             type: "Collection(Edm.String)",
             name: "tags",
-            searchable: true
-          }
-        ]
+            searchable: true,
+          },
+        ],
       },
       {
         type: "Edm.Int32",
         name: "hiddenWeight",
-        hidden: true
-      }
-    ]
+        hidden: true,
+      },
+    ],
   };
   await client.createIndex(index);
 }
