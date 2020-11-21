@@ -7,21 +7,21 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { PhoneNumberRestClientOptionalParams } from "./models";
+import { IdentityRestClientOptionalParams } from "./models";
 
-const packageName = "azure-communication-administration-phoneNumber";
+const packageName = "azure-communication-administration-identity";
 const packageVersion = "1.0.0-beta.4";
 
-export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
+export class IdentityRestClientContext extends coreHttp.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the PhoneNumberRestClientContext class.
-   * @param endpoint The endpoint of the Azure Communication resource.
+   * Initializes a new instance of the IdentityRestClientContext class.
+   * @param endpoint Auth and Identity endpoint
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: PhoneNumberRestClientOptionalParams) {
+  constructor(endpoint: string, options?: IdentityRestClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -46,6 +46,6 @@ export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-07-20-preview1";
+    this.apiVersion = options.apiVersion || "2020-07-20-preview2";
   }
 }
