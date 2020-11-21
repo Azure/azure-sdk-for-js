@@ -4,7 +4,7 @@ module.exports.hash = "4b427873de34ae854dc48bf530c6fb5d";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/countries/US/phoneplangroups")
   .query(true)
   .reply(
@@ -48,7 +48,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans")
   .query(true)
   .reply(
@@ -90,7 +90,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .post("/administration/phonenumbers/countries/US/areacodes", {
     locationOptions: [
       { labelId: "state", optionsValue: "AL" },

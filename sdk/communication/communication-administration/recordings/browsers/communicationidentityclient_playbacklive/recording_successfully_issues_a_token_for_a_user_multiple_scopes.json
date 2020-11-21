@@ -8,7 +8,7 @@
       },
       "requestBody": "{\"scopes\":[\"chat\",\"pstn\"]}",
       "status": 200,
-      "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2020-11-22T03:44:03.2490806+00:00\"}",
+      "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2020-11-22T05:32:40.5869361+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }

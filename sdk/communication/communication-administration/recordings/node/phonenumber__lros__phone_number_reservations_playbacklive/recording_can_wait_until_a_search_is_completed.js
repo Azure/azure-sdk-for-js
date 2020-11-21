@@ -4,7 +4,7 @@ module.exports.hash = "fd962706f04666033b74b57c93441245";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .post("/administration/phonenumbers/searches", {
     displayName: "LRO Test Search",
     description: "Test search for JS phone number admin SDK.",
@@ -28,7 +28,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     "Sat, 21 Nov 2020 05:15:46 GMT"
   ]);
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(
@@ -61,7 +61,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(
@@ -94,7 +94,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(
@@ -127,7 +127,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(
@@ -160,7 +160,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(

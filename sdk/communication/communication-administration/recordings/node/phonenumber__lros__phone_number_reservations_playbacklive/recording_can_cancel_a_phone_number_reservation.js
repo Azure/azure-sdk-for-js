@@ -4,7 +4,7 @@ module.exports.hash = "c446e1d89cbc81f3f996599c90011619";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .post("/administration/phonenumbers/searches/sanitized/cancel")
   .query(true)
   .reply(202, "", [
@@ -20,7 +20,7 @@ nock("https://endpoint", { encodedQueryParams: true})
     "0"
   ]);
 
-nock("https://endpoint", { encodedQueryParams: true})
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/searches/sanitized")
   .query(true)
   .reply(
