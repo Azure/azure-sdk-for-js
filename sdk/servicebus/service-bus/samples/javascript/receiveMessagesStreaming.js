@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-
   This sample demonstrates how the receive() function can be used to receive Service Bus messages
   in a stream.
 
@@ -47,7 +43,7 @@ async function main() {
           switch (args.error.code) {
             case "MessagingEntityDisabled":
             case "MessagingEntityNotFound":
-            case "Unauthorized":
+            case "UnauthorizedAccess":
               // It's possible you have a temporary infrastructure change (for instance, the entity being
               // temporarily disabled). The handler will continue to retry if `close()` is not called on the subscription - it is completely up to you
               // what is considered fatal for your program.
