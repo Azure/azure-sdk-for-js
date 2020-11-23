@@ -63,7 +63,6 @@ export function nodeConfig(test = false, perfTest = false) {
     }
   };
 
-
   if (perfTest) {
     // entry point is every perf-test file
     baseConfig.input = [
@@ -74,7 +73,7 @@ export function nodeConfig(test = false, perfTest = false) {
     // different output file
     baseConfig.output.file = "dist-test/perf/index.node.js";
   }
-  
+
   if (test) {
     // entry point is every test file
     baseConfig.input = [
@@ -86,8 +85,8 @@ export function nodeConfig(test = false, perfTest = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
   }
-  
-  if(test || perfTest){
+
+  if (test || perfTest) {
     baseConfig.plugins.unshift(multiEntry());
 
     // mark assert as external

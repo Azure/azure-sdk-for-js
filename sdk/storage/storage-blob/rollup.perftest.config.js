@@ -3,4 +3,4 @@
 
 import * as base from "./rollup.base.config";
 
-export default [base.nodeConfig(false, true) ];
+export default [base.nodeConfig(false, true)];
