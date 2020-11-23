@@ -54,6 +54,7 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
+    appearance: original.appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",
@@ -145,6 +146,7 @@ export function toFormTable(
   return {
     rowCount: original.rows,
     columnCount: original.columns,
+    boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,

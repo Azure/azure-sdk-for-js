@@ -303,6 +303,10 @@ export interface TextLine {
    * List of words in the text line.
    */
   words: TextWord[];
+  /**
+   * Text appearance properties.
+   */
+  appearance?: Appearance;
 }
 
 /**
@@ -321,6 +325,30 @@ export interface TextWord {
    * Confidence value.
    */
   confidence?: number;
+}
+
+/**
+ * An object representing the appearance of the text line.
+ */
+export interface Appearance {
+  /**
+   * An object representing the style of the text line.
+   */
+  style: Style;
+}
+
+/**
+ * An object representing the style of the text line.
+ */
+export interface Style {
+  /**
+   * The text line style name, including handwriting and other.
+   */
+  name: TextStyle;
+  /**
+   * The confidence of text line style.
+   */
+  confidence: number;
 }
 
 /**
@@ -423,6 +451,10 @@ export interface DataTable {
    * List of cells contained in the table.
    */
   cells: DataTableCell[];
+  /**
+   * Bounding box of the table.
+   */
+  boundingBox: number[];
 }
 
 /**
@@ -747,6 +779,16 @@ export interface GeneratedClientAnalyzeBusinessCardAsyncHeaders {
 }
 
 /**
+ * Defines headers for GeneratedClient_analyzeInvoiceAsync operation.
+ */
+export interface GeneratedClientAnalyzeInvoiceAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
+  operationLocation?: string;
+}
+
+/**
  * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
  */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
@@ -769,7 +811,20 @@ export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
 /**
  * Defines values for Language.
  */
-export type Language = "en" | "es" | string;
+export type Language =
+  | "en"
+  | "es"
+  | "de"
+  | "fr"
+  | "it"
+  | "nl"
+  | "pt"
+  | "zh-Hans"
+  | string;
+/**
+ * Defines values for TextStyle.
+ */
+export type TextStyle = "other" | "handwriting" | string;
 /**
  * Defines values for SelectionMarkState.
  */
@@ -783,6 +838,10 @@ export type KeyValueType = "string" | "selectionMark" | string;
  */
 export type FieldValueSelectionMark = "selected" | "unselected" | string;
 /**
+ * Defines values for Locale.
+ */
+export type Locale = "en-AU" | "en-CA" | "en-GB" | "en-IN" | "en-US" | string;
+/**
  * Defines values for ModelStatus.
  */
 export type ModelStatus = "creating" | "ready" | "invalid";
@@ -795,6 +854,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
  */
 export type ContentType =
   | "application/pdf"
+  | "image/bmp"
   | "image/jpeg"
   | "image/png"
   | "image/tiff";
@@ -1012,9 +1072,9 @@ export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
    */
   includeTextDetails?: boolean;
   /**
-   * Locale of the business card. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
    */
-  locale?: string;
+  locale?: Locale;
 }
 
 /**
@@ -1031,9 +1091,9 @@ export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
    */
   includeTextDetails?: boolean;
   /**
-   * Locale of the business card. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
    */
-  locale?: string;
+  locale?: Locale;
 }
 
 /**
@@ -1074,6 +1134,75 @@ export type GeneratedClientGetAnalyzeBusinessCardResultResponse = AnalyzeOperati
 /**
  * Optional parameters.
  */
+export interface GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Contains response data for the analyzeInvoiceAsync operation.
+ */
+export type GeneratedClientAnalyzeInvoiceAsyncResponse = GeneratedClientAnalyzeInvoiceAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientAnalyzeInvoiceAsyncHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getAnalyzeInvoiceResult operation.
+ */
+export type GeneratedClientGetAnalyzeInvoiceResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
@@ -1081,9 +1210,9 @@ export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
    */
   includeTextDetails?: boolean;
   /**
-   * Locale of the receipt. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
    */
-  locale?: string;
+  locale?: Locale;
 }
 
 /**
@@ -1100,9 +1229,9 @@ export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
    */
   includeTextDetails?: boolean;
   /**
-   * Locale of the receipt. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
    */
-  locale?: string;
+  locale?: Locale;
 }
 
 /**
@@ -1144,7 +1273,16 @@ export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationRes
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreHttp.OperationOptions {
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
+   */
+  language?: Language;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
+   */
+  pages?: string[];
+}
 
 /**
  * Optional parameters.
@@ -1155,6 +1293,14 @@ export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
   fileStream?: SourcePath;
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
+   */
+  language?: Language;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
+   */
+  pages?: string[];
 }
 
 /**
