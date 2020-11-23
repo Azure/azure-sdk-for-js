@@ -19,7 +19,10 @@ export class NodeFetchTest extends PerfStressTest<string> {
     url: {
       required: true,
       description: "Required option",
-      shortName: "u"
+      shortName: "u",
+      longName: "url",
+      defaultValue: "http://bing.com",
+      value: "http://bing.com"
     }
   };
 
