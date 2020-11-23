@@ -65,15 +65,15 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/alternativeDocumentInput.js
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentiment.js
-[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentimentWithOpinionMining.js
+[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentimentWithOpinionMining.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/authenticationMethods.js
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/detectLanguage.js
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/extractKeyPhrases.js
-[recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
+[recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeEntities.js
-[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/blob/61e8b8357ea6d61a005f61ab497560cab18106cc/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyze.js
-[beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/blob/61e8b8357ea6d61a005f61ab497560cab18106cc/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeHealthcare.js
+[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyze.js
+[beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeHealthcare.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
