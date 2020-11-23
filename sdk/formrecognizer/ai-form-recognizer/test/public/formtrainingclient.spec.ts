@@ -151,8 +151,8 @@ matrix([[true, false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
-                // TODO: move this above this if statement, as it should work
-                // in unlabeled models pending a service fix.
+                // TODO: move this above as a known issue prevents unlabeled models from receiving
+                // modelName
                 assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
@@ -197,6 +197,14 @@ matrix([[true, false]] as const, async (useAad) => {
                   lastPageNumber: 1
                 });
                 assert.isNotEmpty(form.pages);
+
+                const [page] = form.pages;
+                assert.isNotEmpty(page.tables);
+                const [table] = page.tables!;
+                /* TODO: service bug where boundingBox not defined for unlabeled model
+                 * assert.ok(table.boundingBox);
+                 */
+                assert.equal(table.pageNumber, 1);
 
                 if (useLabels) {
                   assert.ok(form.fields);
@@ -303,12 +311,6 @@ matrix([[true, false]] as const, async (useAad) => {
     // #endregion
 
     it("compose model", async function() {
-      if (useAad) {
-        // TODO
-        this.test!.title = `${this.test?.title} (Issue with service deployment blocks AAD)`;
-        this.skip();
-      }
-
       const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
 
       // Create two models using the same data set. This will still test our training
