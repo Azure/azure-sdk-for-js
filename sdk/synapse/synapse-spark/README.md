@@ -1,6 +1,6 @@
 # Azure Synapse Spark client library for JavaScript
 
-Azure Synapse is a limitless analytics service that brings together enterprise data warehousing and Big Data analytics. It gives you the freedom to query data on your terms, using either serverless on-demand or provisioned resources—at scale. Azure Synapse brings these two worlds together with a unified experience to ingest, prepare, manage, and serve data for immediate BI and machine learning needs.If you would like to know more about Azure Synapse, you may want to review: [What is Azure Synapse?](https://docs.microsoft.com/en-us/azure/synapse-analytics/overview-what-is)
+Azure Synapse is a limitless analytics service that brings together enterprise data warehousing and Big Data analytics. It gives you the freedom to query data on your terms, using either serverless on-demand or provisioned resources—at scale. Azure Synapse brings these two worlds together with a unified experience to ingest, prepare, manage, and serve data for immediate BI and machine learning needs.If you would like to know more about Azure Synapse, you may want to review: [What is Azure Synapse?](https://docs.microsoft.com/azure/synapse-analytics/overview-what-is)
 
 Azure Synapse Spark allows you to conveniently and quickly manage spark job under specified Synapse workspace.Including batch jobs, sesssions and statements.
 
@@ -10,14 +10,12 @@ Use the client library for Azure Synapse Spark to:
 - Create, get, list and cancel spark session.
 - Create, get, list and cancel spark statement under a specified spark session.
 
-[Source code]() | [Package (npm)]() | [API Reference Documentation]() | [Product documentation](https://docs.microsoft.com/en-us/azure/synapse-analytics/overview-what-is) | [Samples]()
-
 ## Getting started
 
 ### Prerequisites:
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/),
-[Synapse workspace resource](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-create-workspace) and an [Apache Spark pool](https://docs.microsoft.com/en-us/azure/synapse-analytics/quickstart-create-apache-spark-pool-portal) to use this package.
+[Synapse workspace resource](https://docs.microsoft.com/azure/synapse-analytics/get-started-create-workspace) and an [Apache Spark pool](https://docs.microsoft.com/azure/synapse-analytics/quickstart-create-apache-spark-pool-portal) to use this package.
 
 ### Installing
 
@@ -170,7 +168,7 @@ client.cancelSparkSession();
 
 ## Next steps
 
-- [Analyze with Apache Spark](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-spark)
+- [Analyze with Apache Spark](https://docs.microsoft.com/azure/synapse-analytics/get-started-analyze-spark)
 
 ## Contributing
 
