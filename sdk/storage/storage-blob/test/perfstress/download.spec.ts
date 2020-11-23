@@ -5,9 +5,9 @@ import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-pe
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "../../src";
 
-// Load the .env file if it exists
+// Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
+dotenv.config();
 
 type OptionNames = "url";
 
