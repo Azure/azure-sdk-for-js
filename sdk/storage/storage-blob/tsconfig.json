@@ -4,7 +4,8 @@
     "target": "es5",
     "declarationDir": "./typings/latest",
     "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "module": "commonjs"
   },
   "compileOnSave": true,
   "exclude": [
