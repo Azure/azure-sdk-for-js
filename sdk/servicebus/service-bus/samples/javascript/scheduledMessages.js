@@ -49,7 +49,7 @@ async function sendScheduledMessages(sbClient) {
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
-    label: "Scientist"
+    subject: "Scientist"
   }));
 
   const timeNowUtc = new Date(Date.now());
