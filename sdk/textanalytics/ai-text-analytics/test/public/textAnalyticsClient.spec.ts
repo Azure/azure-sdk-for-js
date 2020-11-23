@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "../utils/recordedClient";
 import {
@@ -760,6 +760,794 @@ describe("[AAD] TextAnalyticsClient", function() {
       if (!result.error) {
         assert.equal(result.entities[0].offset, 121);
         assert.equal(result.entities[0].text.length, 11);
+      }
+    });
+  });
+
+  describe("#analyze", () => {
+    let pollingInterval = 2000;
+    if (isRecordMode() || process.env.TEST_MODE === "live") {
+      // eslint-disable-next-line no-invalid-this
+      this.timeout(1000000);
+    } else {
+      pollingInterval = 0;
+    }
+    it("single entity recognition task", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
+        { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          for (const result of task) {
+            if (!result.error) {
+              assert.ok(result.id);
+              assert.ok(result.entities);
+            } else {
+              assert.fail("did not expect document errors but got one.");
+            }
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+      }
+    });
+
+    it("single key phrases task", async () => {
+      const docs = [
+        { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
+        { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const task = keyPhrasesResult[0];
+          assert.equal(task.length, 2);
+          for (const result of task) {
+            if (!result.error) {
+              assert.include(result.keyPhrases, "Paul Allen");
+              assert.include(result.keyPhrases, "Bill Gates");
+              assert.include(result.keyPhrases, "Microsoft");
+              assert.ok(result.id);
+            }
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("single entities recognition task", async () => {
+      const docs = [
+        {
+          id: "1",
+          text: "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.",
+          language: "en"
+        },
+        {
+          id: "2",
+          text: "Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.",
+          language: "es"
+        },
+        {
+          id: "3",
+          text: "Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegründet.",
+          language: "de"
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          assert.equal(task.length, 3);
+          for (const doc of task) {
+            if (!doc.error) {
+              assert.equal(doc.entities.length, 4);
+              for (const entity of doc.entities) {
+                assert.isDefined(entity.text);
+                assert.isDefined(entity.category);
+                assert.isDefined(entity.offset);
+                assert.isDefined(entity.confidenceScore);
+              }
+            }
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+      }
+    });
+
+    it("single pii entities recognition task", async () => {
+      const docs = [
+        { id: "1", text: "My SSN is 859-98-0987." },
+        {
+          id: "2",
+          text:
+            "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+        },
+        { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.piiEntitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const task = entitiesResult[0];
+          assert.equal(task.length, 3);
+          const doc1 = task[0];
+          const doc2 = task[1];
+          const doc3 = task[2];
+          if (!doc1.error) {
+            assert.equal(doc1.entities[0].text, "859-98-0987");
+            assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
+          }
+          if (!doc2.error) {
+            assert.equal(doc2.entities[0].text, "111000025");
+            // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
+          }
+          if (!doc3.error) {
+            assert.equal(doc3.entities[0].text, "998.214.865-68");
+            assert.equal(doc3.entities[0].category, "Brazil CPF Number");
+          }
+          for (const doc of task) {
+            if (!doc.error) {
+              for (const entity of doc.entities) {
+                assert.isDefined(entity.text);
+                assert.isDefined(entity.category);
+                assert.isDefined(entity.offset);
+                assert.isDefined(entity.confidenceScore);
+              }
+            }
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+      }
+    });
+
+    it("bad request empty string", async () => {
+      const docs = [""];
+      try {
+        const poller = await client.beginAnalyze(
+          docs,
+          {
+            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+          },
+          "en",
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            }
+          }
+        );
+        await poller.pollUntilDone();
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+      }
+    });
+
+    /**
+     * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
+     */
+    it.skip("some documents with errors and multiple tasks", async () => {
+      const docs = [
+        { id: "1", language: "", text: "" },
+        {
+          id: "2",
+          language: "english",
+          text: "I did not like the hotel we stayed at. It was too expensive."
+        },
+        {
+          id: "3",
+          language: "en",
+          text: "The restaurant had really good food. I recommend you try it."
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isUndefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    /**
+     * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
+     */
+    it.skip("all documents with errors and multiple tasks", async () => {
+      const docs = [
+        { id: "1", language: "", text: "" },
+        {
+          id: "2",
+          language: "english",
+          text: "I did not like the hotel we stayed at. It was too expensive."
+        },
+        {
+          id: "3",
+          language: "en",
+          text: ""
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 3);
+          assert.isDefined(docs[0].error);
+          assert.isDefined(docs[1].error);
+          assert.isDefined(docs[2].error);
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("output order is same as the input's one with multiple tasks", async () => {
+      const docs = [
+        { id: "1", text: "one" },
+        { id: "2", text: "two" },
+        { id: "3", text: "three" },
+        { id: "4", text: "four" },
+        { id: "5", text: "five" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 1;
+          for (const doc of docs) {
+            assert.equal(parseInt(doc.id), i++);
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    it("out of order input IDs with multiple tasks", async () => {
+      const docs = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "w" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const in_order = ["56", "0", "22", "19", "1"];
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults;
+        if (entitiesResult && entitiesResult.length === 1) {
+          const docs = entitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of entities results but did not get one.");
+        }
+
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+        if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const docs = piiEntitiesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of pii entities results but did not get one.");
+        }
+
+        const keyPhrasesResult = page.keyPhrasesExtractionResults;
+        if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const docs = keyPhrasesResult[0];
+          assert.equal(docs.length, 5);
+          let i = 0;
+          for (const doc of docs) {
+            assert.equal(doc.id, in_order[i++]);
+          }
+        } else {
+          assert.fail("expected an array of key phrases results but did not get one.");
+        }
+      }
+    });
+
+    /**
+     * The service does not returns statistics
+     */
+    it.skip("statistics", async () => {
+      const docs = [
+        { id: "56", text: ":)" },
+        { id: "0", text: ":(" },
+        { id: "22", text: "" },
+        { id: "19", text: ":P" },
+        { id: "1", text: ":D" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          analyze: { includeStatistics: true },
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      assert.equal(result.statistics?.documentCount, 5);
+      assert.equal(result.statistics?.transactionCount, 4);
+      assert.equal(result.statistics?.validDocumentCount, 4);
+      assert.equal(result.statistics?.erroneousDocumentCount, 1);
+    });
+
+    it("whole batch language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "en",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("whole batch with no language hint", async () => {
+      const docs = [
+        "This was the best day of my life.",
+        "I did not like the hotel we stayed at. It was too expensive.",
+        "The restaurant was not as good as I hoped."
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("each doc has a language hint", async () => {
+      const docs = [
+        { id: "1", language: "", text: "I will go to the park." },
+        { id: "2", language: "", text: "I did not like the hotel we stayed at." },
+        { id: "3", text: "The restaurant had really good food." }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("whole batch input with a language hint", async () => {
+      const docs = [
+        { id: "1", text: "I will go to the park." },
+        { id: "2", text: "Este es un document escrito en Español." },
+        { id: "3", text: "猫は幸せ" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const entitiesResult = page.entitiesRecognitionResults!;
+        assert.equal(entitiesResult.length, 1);
+        for (const docs of entitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+          }
+        }
+      }
+    });
+
+    it("invalid language hint", async () => {
+      const docs = ["This should fail because we're passing in an invalid language hint"];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "notalanguage",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+      for (const doc of entitiesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+      const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+      for (const doc of piiEntitiesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+      const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+      for (const doc of keyPhrasesTaskDocs) {
+        assert.equal(doc.error?.code, "InvalidArgument");
+      }
+    });
+
+    it.skip("bad model", async () => {
+      const docs = [
+        {
+          id: "1",
+          language: "en",
+          text: "This should fail because we're passing in an invalid language hint"
+        }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "bad" }],
+          entityRecognitionPiiTasks: [{ modelVersion: "bad" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "bad" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      const firstResult = (await result.next()).value;
+      const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+      for (const doc of entitiesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+      const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+      for (const doc of piiEntitiesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+      const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+      for (const doc of keyPhrasesTaskDocs) {
+        assert.equal(doc.error?.code, "UnknownError");
+      }
+    });
+
+    it("paged results with custom page size", async () => {
+      const totalDocs = 25;
+      const docs = Array(totalDocs - 1).fill("random text");
+      docs.push("Microsoft was founded by Bill Gates and Paul Allen");
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionTasks: [{ modelVersion: "latest" }],
+          keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+        },
+        "en",
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      let docCount = 0;
+      let pageCount = 0;
+      const pageSize = 10;
+      for await (const page of result.byPage({ maxPageSize: pageSize })) {
+        const entitiesTaskDocs = page.entitiesRecognitionResults![0];
+        ++pageCount;
+        for (const doc of entitiesTaskDocs) {
+          assert.isUndefined(doc.error);
+          ++docCount;
+          if (!doc.error) {
+            if (docCount === totalDocs) {
+              assert.equal(doc.entities.length, 3);
+            } else {
+              assert.equal(doc.entities.length, 0);
+            }
+          }
+        }
+      }
+      assert.equal(docs.length, docCount);
+      assert.equal(Math.ceil(docs.length / pageSize), pageCount);
+    });
+
+    it("pii redacted test is not empty", async () => {
+      const docs = [
+        { id: "1", text: "I will go to the park." },
+        { id: "2", text: "Este es un document escrito en Español." },
+        { id: "3", text: "猫は幸せ" }
+      ];
+
+      const poller = await client.beginAnalyze(
+        docs,
+        {
+          entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+        },
+        {
+          polling: {
+            updateIntervalInMs: pollingInterval
+          }
+        }
+      );
+      const result = await poller.pollUntilDone();
+      for await (const page of result) {
+        const piiEntitiesResult = page.piiEntitiesRecognitionResults!;
+        assert.equal(piiEntitiesResult.length, 1);
+        for (const docs of piiEntitiesResult) {
+          assert.equal(docs.length, 3);
+          for (const doc of docs) {
+            assert.isUndefined(doc.error);
+            if (!doc.error) {
+              assert.isNotEmpty(doc.redactedText);
+            }
+          }
+        }
       }
     });
   });

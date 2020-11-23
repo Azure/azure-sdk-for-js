@@ -1,0 +1,64 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"Patient does not suffer from high blood pressure.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Prescribed 100mg ibuprofen, taken twice daily.\",\"language\":\"en\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "f6d8f546-03da-4536-9d08-58175d057acf",
+    "date": "Fri, 20 Nov 2020 00:36:39 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/5c25264d-dcd5-4e1c-8205-784274a2ec3b",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "82"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/5c25264d-dcd5-4e1c-8205-784274a2ec3b",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"5c25264d-dcd5-4e1c-8205-784274a2ec3b\",\"lastUpdateDateTime\":\"2020-11-20T00:36:39Z\",\"createdDateTime\":\"2020-11-20T00:36:39Z\",\"expirationDateTime\":\"2020-11-21T00:36:39Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "f2556d06-1965-4414-80c5-e49f69d2c55a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/5c25264d-dcd5-4e1c-8205-784274a2ec3b",
+   "query": {},
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "f0a82231-e175-427c-bcbf-6cdc2a2a7400",
+    "date": "Fri, 20 Nov 2020 00:36:39 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/5c25264d-dcd5-4e1c-8205-784274a2ec3b",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "20"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c0e14d196f50dc18aa99a4bf28fbb85f"
+}

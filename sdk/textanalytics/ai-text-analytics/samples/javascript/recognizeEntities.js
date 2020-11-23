@@ -31,11 +31,11 @@ async function main() {
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("  Recognized Entities:");
+      console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
-        console.log(`    - Entity ${entity.text} of type ${entity.category}`);
+        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
       }
-    } else console.error("  Error:", result.error);
+    } else console.error("\tError:", result.error);
   }
 }
 

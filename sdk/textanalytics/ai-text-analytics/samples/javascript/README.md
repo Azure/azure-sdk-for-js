@@ -24,6 +24,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [recognizeLinkedEntities.js][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
+| [beginAnalyzeHealthcare.js][beginanalyzehealthcare]                       | detects healthcare entities of a piece of text                                                     |
+| [beginAnalyze.js][beginanalyze]                                           | applies multiple tasks at once                                                                     |
 
 ## Prerequisites
 
@@ -70,6 +72,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeEntities.js
+[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/blob/61e8b8357ea6d61a005f61ab497560cab18106cc/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyze.js
+[beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/blob/61e8b8357ea6d61a005f61ab497560cab18106cc/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeHealthcare.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
