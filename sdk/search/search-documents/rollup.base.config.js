@@ -39,7 +39,8 @@ export function nodeConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/public/*.spec.js",
       "dist-esm/test/internal/*.spec.js",
-      "dist-esm/test/**/node/*.spec.js"
+      "dist-esm/test/public/node/*.spec.js",
+      "dist-esm/test/internal/node/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
@@ -108,7 +109,8 @@ export function browserConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/public/*.spec.js",
       "dist-esm/test/internal/*.spec.js",
-      "dist-esm/test/**/browser/*.spec.js"
+      "dist-esm/test/public/browser/*.spec.js",
+      "dist-esm/test/internal/browser/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
