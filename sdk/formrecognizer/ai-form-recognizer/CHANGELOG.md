@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.0-beta.1 (Unreleased)
+## 3.1.0-beta.1 (2020-11-23)
 
 - Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.
 - Added an `appearance` property to `FormLine` that contains information about the appearance of the line, such as style (e.g. "handwritten").
