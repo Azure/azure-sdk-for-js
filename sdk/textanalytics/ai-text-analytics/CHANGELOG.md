@@ -1,10 +1,10 @@
 # Release History
 
-## 5.1.0-beta.3 (2020-11-20)
+## 5.1.0-beta.3 (2020-11-23)
 
 - We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.
-- We now have added support for performing multiple analyses at once with the introduction of the `beginAnalyze` API.
-- We now have added support for the recognition of healthcare entities with the introduction of the `beginAnalyzeHealthcare` API.
+- We introduced the `beginAnalyze` API which supports long-running batch process of Named Entity Recognition, Personally identifiable Information, and Key Phrase Extraction.
+- We now have added support for the recognition of healthcare entities with the introduction of the `beginAnalyzeHealthcare` API. Since the Health API is currently only available in a gated preview, you need to have your subscription on the service's allow list. Note that since this is a gated preview, AAD is not supported. More information (here)[https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview].
 
 ## 5.1.0-beta.2 (2020-10-06)
 
