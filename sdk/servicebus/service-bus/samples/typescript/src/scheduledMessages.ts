@@ -54,10 +54,12 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
-  const messages: ServiceBusMessage[] = listOfScientists.map((scientist) => ({
-    body: `${scientist.firstName} ${scientist.lastName}`,
-    label: "Scientist"
-  }));
+  const messages: ServiceBusMessage[] = listOfScientists.map(
+    (scientist): ServiceBusMessage => ({
+      body: `${scientist.firstName} ${scientist.lastName}`,
+      subject: "Scientist"
+    })
+  );
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
