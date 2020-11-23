@@ -1,5 +1,5 @@
 import { AbortController } from "@azure/abort-controller";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -25,7 +25,7 @@ describe("DataLakePathClient Node.js only", () => {
   const content = "Hello World";
   let serviceClient: DataLakeServiceClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -376,7 +376,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   const content = "Hello World";
   let serviceClient: DataLakeServiceClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

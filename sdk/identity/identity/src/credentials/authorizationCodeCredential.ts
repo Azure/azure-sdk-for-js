@@ -197,7 +197,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

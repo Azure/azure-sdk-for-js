@@ -209,7 +209,7 @@ export interface DataFeedOptions {
   rollupSettings?: DataFeedRollupSettings;
 
   /**
-   * settings to control how missing data apoints are filled
+   * settings to control how missing data points are filled
    */
   missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
 
@@ -258,7 +258,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export interface DataFeed {
+export type DataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -270,13 +270,13 @@ export interface DataFeed {
   /**
    * Time when the data feed is created
    */
-  createdTime: Date;
+  createdOn: Date;
   /**
    * Status of the data feed.
    */
   status: DataFeedStatus;
   /**
-   * Indicates whether the current user is an aministrator of the data feed.
+   * Indicates whether the current user is an administrator of the data feed.
    */
   isAdmin: boolean;
   /**
@@ -299,11 +299,7 @@ export interface DataFeed {
    * Ingestion settings for the data feed.
    */
   ingestionSettings: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions;
-}
+} & DataFeedOptions;
 
 /**
  * Represents an Azure Application Insights data source.
@@ -402,6 +398,14 @@ export type MongoDBDataFeedSource = {
 };
 
 /**
+ * Represents an Unknown data source.
+ */
+export type UnknownDataFeedSource = {
+  dataSourceType: "Unknown";
+  dataSourceParameter: unknown;
+};
+
+/**
  * Represents a SQL Server data source.
  */
 export type SQLServerDataFeedSource = {
@@ -425,12 +429,13 @@ export type DataFeedSource =
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
   | SQLServerDataFeedSource
-  | MongoDBDataFeedSource;
+  | MongoDBDataFeedSource
+  | UnknownDataFeedSource;
 
 /**
  * Represents the input type to the Update Data Feed operation.
  */
-export interface DataFeedPatch {
+export type DataFeedPatch = {
   /**
    * Name of the data feed
    */
@@ -452,16 +457,12 @@ export interface DataFeedPatch {
    * Ingestion settings for the data feed.
    */
   ingestionSettings?: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions & {
+} & DataFeedOptions & {
     /**
      * Status of the data feed.
      */
     status?: DataFeedDetailStatus;
   };
-}
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
@@ -530,7 +531,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
 };
 
 /**
- * Detection condidtion for a specific time series.
+ * Detection condition for a specific time series.
  */
 export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
@@ -574,7 +575,7 @@ export type HardThresholdConditionUnion =
        */
       anomalyDetectorDirection: "Both";
       /**
-       * supress condition
+       * suppress condition
        */
       suppressCondition: SuppressCondition;
     };
@@ -635,7 +636,7 @@ export interface MetricFeedbackCommon {
   /**
    * feedback created time
    */
-  readonly createdTime?: Date;
+  readonly createdOn?: Date;
   /**
    * user who gives this feedback
    */

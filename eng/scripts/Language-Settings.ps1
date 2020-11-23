@@ -11,8 +11,8 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
   if (Test-Path $projectPath)
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
-    $jsStylePkgName = $pkgName.replace("azure-", "@azure/")
-    if ($projectJson.name -eq "$jsStylePkgName")
+    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+    if ($pkgName -eq "$jsStylePkgName")
     {
       return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
     }
@@ -36,6 +36,22 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
   }
   $npmVersionList = $npmVersions.split(",") | ForEach-Object { return $_.replace("[", "").replace("]", "").Trim() }
   return $npmVersionList.Contains($pkgVersion)
+}
+
+# make certain to always take the package json closest to the top
+function ResolvePkgJson($workFolder)
+{
+  $pathsWithComplexity = @()
+  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json"))
+  {
+    $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
+    $pathsWithComplexity += New-Object PSObject -Property @{
+      Path       = $file
+      Complexity = $complexity
+    }
+  }
+
+  return ($pathsWithComplexity | Sort-Object -Property Complexity)[0].Path
 }
 
 # Parse out package publishing information given a .tgz npm artifact
@@ -73,6 +89,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $resultObj = New-Object PSObject -Property @{
     PackageId      = $pkgId
     PackageVersion = $pkgVersion
+    ReleaseTag     = "$($pkgId)_$($pkgVersion)"
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
@@ -87,17 +104,27 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
   foreach ($Item in $PublishedDocs) 
-  {
-    $PkgName = "azure-$($Item.BaseName)"
-    Write-Host $PkgName
+  {    
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
     if ($dirList.Length -eq 1)
     {
       $DocVersion = $dirList[0].Name
+      $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
+      # set default package name
+      $PkgName = "azure-$($Item.BaseName)"
+      if ($pkgs -and $pkgs.Count -eq 1)
+      {        
+        $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
+        $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
+      }
+      else
+      {
+        Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
+      }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-      $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
+      $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
     else
@@ -107,13 +134,68 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
   }
 }
 
-function Get-javascript-GithubIoDocIndex() {
+function Get-javascript-GithubIoDocIndex()
+{
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
-  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/azure-(.*)/$" -blobArtifactsReplacement "@azure/`${1}"
+  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/([a-z]*)-(.*)/$" -blobArtifactsReplacement "@`${1}/`${2}"
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
   GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
+}
+
+# Updates a js CI configuration json.
+# For "latest", we simply set a target package name
+# For "preview", we add @next to the target package name
+function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null)
+{
+  $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
+  
+  if (-not (Test-Path $pkgJsonLoc))
+  {
+    Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
+    exit(1)
+  }
+
+  $allJson = Get-Content $pkgJsonLoc | ConvertFrom-Json
+
+  $visibleInCI = @{}
+
+  for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++)
+  {
+    $pkgDef = $allJson.npm_package_sources[$i]
+    $accessor = ($pkgDef.name).Replace("`@next", "")
+    $visibleInCI[$accessor] = $i
+  }
+
+  foreach ($releasingPkg in $pkgs)
+  {
+    $name = $releasingPkg.PackageId
+
+    if ($releasingPkg.IsPrerelease)
+    {
+      $name += "`@next"
+    }
+
+    if ($visibleInCI.ContainsKey($releasingPkg.PackageId))
+    {
+      $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
+      $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
+      $existingPackageDef.name = $name
+    }
+    else
+    {
+      $newItem = New-Object PSObject -Property @{ 
+        name = $name
+      }
+
+      if ($newItem) { $allJson.npm_package_sources += $newItem }
+    }
+  }
+
+  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | ForEach-Object { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
+
+  Set-Content -Path $pkgJsonLoc -Value $jsonContent
 }

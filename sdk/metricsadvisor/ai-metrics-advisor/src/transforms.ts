@@ -188,7 +188,7 @@ export function fromServiceMetricFeedbackUnion(
 ): MetricFeedbackUnion {
   const common: MetricFeedbackCommon = {
     id: original.feedbackId,
-    createdTime: original.createdTime,
+    createdOn: original.createdTime,
     userPrincipal: original.userPrincipal,
     metricId: original.metricId,
     dimensionKey: original.dimensionFilter.dimension
@@ -337,7 +337,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     id: original.dataFeedId!,
     name: original.dataFeedName,
     metricIds: original.metrics.map((c) => c.id!),
-    createdTime: original.createdTime!,
+    createdOn: original.createdTime!,
     status: original.status!,
     isAdmin: original.isAdmin!,
     creator: original.creator!,
@@ -354,23 +354,21 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       ingestionRetryDelayInSeconds: original.minRetryIntervalInSeconds,
       stopRetryAfterInSeconds: original.stopRetryAfterInSeconds
     },
-    options: {
-      description: original.dataFeedDescription,
-      actionLinkTemplate: original.actionLinkTemplate,
-      rollupSettings: toRollupSettings(original),
-      missingDataPointFillSettings:
-        original.fillMissingPointType === "CustomValue"
-          ? {
-              fillType: original.fillMissingPointType!,
-              customFillValue: original.fillMissingPointValue!
-            }
-          : {
-              fillType: original.fillMissingPointType!
-            },
-      accessMode: original.viewMode,
-      adminEmails: original.admins,
-      viewerEmails: original.viewers
-    }
+    description: original.dataFeedDescription,
+    actionLinkTemplate: original.actionLinkTemplate,
+    rollupSettings: toRollupSettings(original),
+    missingDataPointFillSettings:
+      original.fillMissingPointType === "CustomValue"
+        ? {
+            fillType: original.fillMissingPointType!,
+            customFillValue: original.fillMissingPointValue!
+          }
+        : {
+            fillType: original.fillMissingPointType!
+          },
+    accessMode: original.viewMode,
+    adminEmails: original.admins,
+    viewerEmails: original.viewers
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
@@ -517,7 +515,13 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result13;
     }
     default:
-      throw new Error(`Unrecognized datasource type ${original.dataSourceType}`);
+      return {
+        ...common,
+        source: {
+          dataSourceType: "Unknown",
+          dataSourceParameter: (original as any).dataSourceParameter
+        }
+      };
   }
 }
 

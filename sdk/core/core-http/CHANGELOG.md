@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.1 (Unreleased)
+
+
 ## 1.2.0 (2020-11-05)
 
 - Explicitly set `manual` redirect handling for node fetch. And fixing redirectPipeline [PR 11863](https://github.com/Azure/azure-sdk-for-js/pull/11863)

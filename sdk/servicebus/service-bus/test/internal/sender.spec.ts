@@ -7,6 +7,7 @@ import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
 import { createConnectionContextForTests } from "./unittestUtils";
+import { PartitionKeySessionIdMismatchError } from "../../src/util/errors";
 
 const assert = chai.assert;
 
@@ -29,18 +30,38 @@ describe("sender unit tests", () => {
     return new ServiceBusMessageBatchImpl(fakeContext, 100);
   };
 
-  ["hello", {}, 123, null, undefined, ["hello"]].forEach((invalidValue) => {
+  const partitionKeySessionIdMismatchMsg = {
+    body: "boooo",
+    sessionId: "my-sessionId",
+    partitionKey: "my-partitionKey"
+  };
+  const badMessages = [
+    "hello",
+    {},
+    123,
+    null,
+    undefined,
+    ["hello"],
+    partitionKeySessionIdMismatchMsg
+  ];
+
+  badMessages.forEach((invalidValue) => {
     it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
       }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
+      }
+
       try {
         await sender.sendMessages(
           // @ts-expect-error
           invalidValue
         );
+        assert.fail("You should not be seeing this.");
       } catch (err) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);
@@ -48,18 +69,23 @@ describe("sender unit tests", () => {
     });
   });
 
-  ["hello", {}, null, undefined].forEach((invalidValue) => {
+  badMessages.forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
       const batch = await sender.createMessageBatch();
       let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "message"`;
       }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
+      }
+
       try {
         batch.tryAddMessage(
           // @ts-expect-error
           invalidValue
         );
+        assert.fail("You should not be seeing this.");
       } catch (err) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);
@@ -67,12 +93,15 @@ describe("sender unit tests", () => {
     });
   });
 
-  ["hello", {}, null, undefined, ["hello"]].forEach((invalidValue) => {
+  badMessages.forEach((invalidValue) => {
     it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
+      }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
       }
 
       try {
@@ -81,6 +110,7 @@ describe("sender unit tests", () => {
           invalidValue,
           new Date()
         );
+        assert.fail("You should not be seeing this.");
       } catch (err) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);

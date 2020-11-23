@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.3 (Unreleased)
+
+
+## 1.0.0-beta.2 (2020-11-10)
 
 - [Breaking] Combine `listAnomaliesForDetectionConfiguration()` and `listAnomaliesForAlert()` into overloads of `listAnomalies()`
 - [Breaking] Combine `listIncidentsForDetectionConfiguration()` and `listIncidentsForAlert()` into overloads of `listIncidents()`
@@ -45,7 +48,10 @@
   - `EnrichmentStatus.timestamp`
   - `IngestionStatus.timestamp`
   - `latestSuccessTimestamp` and `latestActiveTimestamp` in the return type of `getDataFeedIngestionProgress()`.
+- [Breaking] property `createdTime` on `DataFeed` and `MetricFeedbackCommon` to `createdOn`.
+- [Breaking] Remove the wrapping data feed `options` property from `DataFeed` and `DataFeedPatch` and flatten its child properties.
 - Parameters of `Date` type now also accept strings. No validation is done for the strings. The SDK calls `new Date()` to convert them to `Date`.
+- Handle potential new data feed source types gracefully
 
 ## 1.0.0-beta.1 (2020-10-07)
 

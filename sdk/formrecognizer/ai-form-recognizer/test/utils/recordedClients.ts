@@ -36,6 +36,8 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
+  FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
+    "https://storageaccount/selectionmark?sastoken",
   FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
   // fake resource id
   FORM_RECOGNIZER_TARGET_RESOURCE_ID:
@@ -75,7 +77,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       return recording
         .replace(/\?sv[^"]*"/, `?sastoken"`)
-        .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
+        .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`)
+        .replace(/\?sp[^"]*"/, `?sastoken"`)
+        .replace(/\?sp[^\\"]*\\"/, `?sastoken\\"`);
     }
   ],
   queryParametersToSkip: []

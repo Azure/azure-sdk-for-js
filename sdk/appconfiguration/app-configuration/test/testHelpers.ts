@@ -31,7 +31,7 @@ export function startRecorder(that: any) {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id"
+      AZURE_TENANT_ID: "azuretenantid"
     },
     customizationsOnRecordings: [
       (recording: any): any =>

@@ -83,7 +83,7 @@ async function receiveFromNextSession(serviceBusClient) {
   } catch (err) {
     if (
       isServiceBusError(err) &&
-      (err.reason === "SessionCannotBeLocked" || err.reason === "ServiceTimeout")
+      (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
