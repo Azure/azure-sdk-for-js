@@ -52,7 +52,7 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o storage-blob-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "perfstress-test:node": "rushx build && npm run build:es6 && rollup -c rollup.perftest.config.js 2>&1 && node dist-esm/storage-blob/test/perfstress/index.spec.js",
+    "perfstress-test:node": "npm run build && cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/perfstress/index.spec.ts",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
