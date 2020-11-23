@@ -23,7 +23,7 @@ const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
-export function nodeConfig(test = false, perfTest = false) {
+export function nodeConfig(test = false) {
   const externalNodeBuiltins = [
     "@azure/core-http",
     "crypto",
@@ -63,17 +63,6 @@ export function nodeConfig(test = false, perfTest = false) {
     }
   };
 
-  if (perfTest) {
-    // entry point is every perf-test file
-    baseConfig.input = [
-      "dist-esm/storage-blob/test/perfstress/*.spec.js",
-      "dist-esm/storage-blob/src/index.js"
-    ];
-
-    // different output file
-    baseConfig.output.file = "dist-test/perf/index.node.js";
-  }
-
   if (test) {
     // entry point is every test file
     baseConfig.input = [
@@ -81,13 +70,10 @@ export function nodeConfig(test = false, perfTest = false) {
       "dist-esm/storage-blob/test/node/*.spec.js",
       "dist-esm/storage-blob/src/index.js"
     ];
+    baseConfig.plugins.unshift(multiEntry());
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
-  }
-
-  if (test || perfTest) {
-    baseConfig.plugins.unshift(multiEntry());
 
     // mark assert as external
     baseConfig.external.push("assert", "fs", "path", "buffer", "zlib");
