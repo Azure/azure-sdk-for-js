@@ -1,37 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
-import {
-  RecoverDeletedKeyPollOperationState,
-  makeRecoverDeletedKeyPollOperation
-} from "./operation";
-import { KeyVaultKey, KeyClientInterface } from "../../keysModels";
-
-export interface RecoverDeletedKeyPollerOptions {
-  client: KeyClientInterface;
-  name: string;
-  requestOptions?: RequestOptionsBase;
-  intervalInMs?: number;
-  resumeFrom?: string;
-}
+import { RecoverDeletedKeyPollOperation, RecoverDeletedKeyPollOperationState } from "./operation";
+import { KeyVaultKey } from "../../keysModels";
+import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller";
 
 /**
  * Class that deletes a poller that waits until a key finishes being deleted
  */
-export class RecoverDeletedKeyPoller extends Poller<
+export class RecoverDeletedKeyPoller extends KeyVaultKeyPoller<
   RecoverDeletedKeyPollOperationState,
   KeyVaultKey
 > {
-  /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof RecoverDeletedKeyPoller
-   */
-  public intervalInMs: number;
-
-  constructor(options: RecoverDeletedKeyPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+  constructor(options: KeyVaultKeyPollerOptions) {
+    const { vaultUrl, client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedKeyPollOperationState | undefined;
 
@@ -39,23 +21,18 @@ export class RecoverDeletedKeyPoller extends Poller<
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeRecoverDeletedKeyPollOperation({
-      ...state,
-      name,
-      requestOptions,
-      client
-    });
+    const operation = new RecoverDeletedKeyPollOperation(
+      {
+        ...state,
+        name
+      },
+      vaultUrl,
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   * @memberof RecoverDeletedKeyPoller
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }

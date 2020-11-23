@@ -14,13 +14,7 @@ import {
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
-import {
-  MessagingError,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry
-} from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import {
   createSendSpan,
   getParentSpan,
@@ -28,6 +22,7 @@ import {
 } from "./modelsToBeSharedWithEventHubs";
 import { CanonicalCode } from "@opentelemetry/api";
 import { senderLogger as logger } from "./log";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -38,7 +33,6 @@ import { senderLogger as logger } from "./log";
 export interface ServiceBusSender {
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
-   * Consider awaiting on open() beforehand to front load the work of link creation if needed.
    *
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.
@@ -49,7 +43,7 @@ export interface ServiceBusSender {
    * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @return Promise<void>
-   * @throws `MessagingError` with the code `MessageTooLargeError` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
+   * @throws `ServiceBusError` with the code `MessageSizeExceeded` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
    */
@@ -71,16 +65,17 @@ export interface ServiceBusSender {
    */
   createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
 
-  /**
-   * Opens the AMQP link to Azure Service Bus from the sender.
-   *
-   * It is not necessary to call this method in order to use the sender. It is
-   * recommended to call this before your first sendMessages() call if you
-   * want to front load the work of setting up the AMQP link to the service.
-   *
-   * @param options - Options to configure tracing and the abortSignal.
-   */
-  open(options?: OperationOptionsBase): Promise<void>;
+  // TODO: Commented out to come up with an alternative name
+  // /**
+  //  * Opens the AMQP link to Azure Service Bus from the sender.
+  //  *
+  //  * It is not necessary to call this method in order to use the sender. It is
+  //  * recommended to call this before your first sendMessages() call if you
+  //  * want to front load the work of setting up the AMQP link to the service.
+  //  *
+  //  * @param options - Options to configure tracing and the abortSignal.
+  //  */
+  // open(options?: OperationOptionsBase): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed.
@@ -202,11 +197,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
         if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
-          const error = new MessagingError(
-            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
+          throw new ServiceBusError(
+            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
+            "MessageSizeExceeded"
           );
-          error.code = "MessageTooLargeError";
-          throw error;
         }
       }
     }
@@ -320,20 +314,20 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     return retry<void>(config);
   }
 
-  async open(options?: OperationOptionsBase): Promise<void> {
-    this._throwIfSenderOrConnectionClosed();
+  // async open(options?: OperationOptionsBase): Promise<void> {
+  //   this._throwIfSenderOrConnectionClosed();
 
-    const config: RetryConfig<void> = {
-      // TODO: Pass tracing options too
-      operation: () => this._sender.open(undefined, options?.abortSignal),
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.senderLink,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
+  //   const config: RetryConfig<void> = {
+  //     // TODO: Pass tracing options too
+  //     operation: () => this._sender.open(undefined, options?.abortSignal),
+  //     connectionId: this._context.connectionId,
+  //     operationType: RetryOperationType.senderLink,
+  //     retryOptions: this._retryOptions,
+  //     abortSignal: options?.abortSignal
+  //   };
 
-    return retry<void>(config);
-  }
+  //   return retry<void>(config);
+  // }
 
   async close(): Promise<void> {
     try {

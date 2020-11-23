@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TextDocumentBatchStatistics,
-  TextDocumentInput,
-  GeneratedClientEntitiesRecognitionPiiResponse
-} from "./generated/models";
+import { TextDocumentBatchStatistics, TextDocumentInput, PiiResult } from "./generated/models";
 import {
   RecognizePiiEntitiesResult,
   makeRecognizePiiEntitiesResult,
@@ -33,7 +29,7 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
 
 export function makeRecognizePiiEntitiesResultArray(
   input: TextDocumentInput[],
-  response: GeneratedClientEntitiesRecognitionPiiResponse
+  response: PiiResult
 ): RecognizePiiEntitiesResultArray {
   const { documents, errors, statistics, modelVersion } = response;
   const unsortedResult = documents

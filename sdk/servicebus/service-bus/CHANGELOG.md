@@ -1,6 +1,8 @@
 # Release History
 
-## 7.0.0 (Unreleased)
+## 7.0.0 (2020-11-23)
+
+- This release marks the general availability of the `@azure/service-bus` package.
 
 ### Breaking changes
 
@@ -10,6 +12,12 @@
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
 - `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
   [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
+- `_amqpAnnotatedMessage` under `ServiceBusReceivedMessage` has been renamed to `_rawAmqpMessage`.
+  [PR 12635](https://github.com/Azure/azure-sdk-for-js/pull/12635)
+- `claimValue` property under `AuthorizationRule` has been removed since it is not settable.
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
+- `ServiceBusSender.open()` method has been removed in favor of adding it back in the future with better semantics
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
 
 ## 7.0.0-preview.8 (2020-11-04)
 

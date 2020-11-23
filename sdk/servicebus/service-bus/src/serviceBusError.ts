@@ -79,8 +79,6 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["QuotaExceededError", "QuotaExceeded"],
   ["ServerBusyError", "ServiceBusy"],
 
-  // not sure about these two.
-  ["MessageWaitTimeout", "ServiceTimeout"],
   ["OperationTimeoutError", "ServiceTimeout"],
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
@@ -114,17 +112,34 @@ export class ServiceBusError extends MessagingError {
   code: ServiceBusErrorCode;
 
   /**
+   * @param message The error message that provides more information about the error.
+   * @param code The reason for the failure.
+   */
+  constructor(message: string, code: ServiceBusErrorCode);
+  /**
    * @param messagingError An error whose properties will be copied to the ServiceBusError.
    */
-  constructor(messagingError: MessagingError) {
-    super(messagingError.message);
+  constructor(messagingError: MessagingError);
+  constructor(messageOrError: string | MessagingError, code?: ServiceBusErrorCode) {
+    const message = typeof messageOrError === "string" ? messageOrError : messageOrError.message;
+    super(message);
 
-    for (const prop in messagingError) {
-      (this as any)[prop] = (messagingError as any)[prop];
+    if (typeof messageOrError === "string") {
+      this.code = code ?? "GeneralError";
+    } else {
+      for (const prop in messageOrError) {
+        (this as any)[prop] = (messageOrError as any)[prop];
+      }
+
+      this.code = ServiceBusError.normalizeMessagingCode(messageOrError.code);
+      // For GeneralErrors, prefix the error message with the MessagingError code to provide
+      // more context to the user.
+      if (this.code === "GeneralError" && messageOrError.code) {
+        this.message = `${messageOrError.code}: ${this.message}`;
+      }
     }
 
     this.name = "ServiceBusError";
-    this.code = ServiceBusError.normalizeMessagingCode(messagingError.code);
   }
 
   private static normalizeMessagingCode(oldCode?: string): ServiceBusErrorCode {

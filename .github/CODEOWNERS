@@ -67,6 +67,9 @@
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
+# PRLabel: %Synapse
+/sdk/synapse/ @jonathandturner
+
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
@@ -109,17 +112,17 @@
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @KarishmaGhiya @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
 /**/tests.yml   @danieljurek
 /**/ci.yml      @mitchdenny
 
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @KarishmaGhiya @deyaaeldeen
-/common/ @mikeharder @KarishmaGhiya
+/.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan
 /common/config/rush/pnpm-lock.yaml @bterlson
 /common/git-hooks/ @deyaaeldeen
-/rush.json @mikeharder @KarishmaGhiya
-/tsconfig.json @mikeharder @KarishmaGhiya
+/rush.json @mikeharder @praveenkuttappan
+/tsconfig.json @mikeharder @praveenkuttappan
 /**/tsconfig.json @bterlson
