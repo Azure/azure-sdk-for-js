@@ -113,7 +113,7 @@ function getTypedObject(value: any, type: string): any {
     case Edm.String:
       return value;
     case Edm.DateTime:
-      return new Date(value);
+      return { value, type: "DateTime" };
     case Edm.Int64:
       return { value, type: "Int64" };
     case Edm.Guid:

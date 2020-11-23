@@ -1,0 +1,1276 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:32 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11251.20 - WUS2 ProdSlices",
+    "x-ms-request-id": "7d37ce26-f30a-4e22-bcda-c8b012522200"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze",
+   "query": {},
+   "requestBody": "{\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"This should fail because we're passing in an invalid language hint\",\"language\":\"notalanguage\"}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "782db630-d3ad-4d74-9ca8-4b81dd331868",
+    "date": "Fri, 20 Nov 2020 18:50:33 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "529"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:33Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:33Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "responseHeaders": {
+    "apim-request-id": "5cb58f39-2d34-4841-9440-1f4f2e20a71e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:33 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:33Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:33Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "responseHeaders": {
+    "apim-request-id": "897fc11a-1b12-4f65-8c3c-2a51fd3a458b",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:33 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "responseHeaders": {
+    "apim-request-id": "4bbb0035-097c-4bfc-8036-745c84d9f6a0",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:35 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "78"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "responseHeaders": {
+    "apim-request-id": "749745f2-4138-437e-bd12-9b87a16ee4d5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:37 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "141"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "03c3bd57-5cbe-46ca-b1b9-6e2bd12f7ecb",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "133"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "3d509ebc-28a5-46a0-b356-ba16db6ca6c2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "173"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "08c5e3f4-6a3b-4a64-bf92-0d1f3eb8a9bf",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:44 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "134"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c93bd424-42c6-4106-ac7a-a5d36d1cb198",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:46 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "174"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6ead2f45-1610-4ec7-bfcc-a51d84b9c107",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "135"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "20e03df4-e148-41b4-b806-7d5f48bf0807",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "103"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f0507de9-c10e-446f-9ede-ba4c0baed50c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "108"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fe5c9478-0c9b-40b8-a068-f7f8ec784750",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:55 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "125"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "98d8a670-f37c-437a-bbae-11b62fb3d63f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:50:57 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "141"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "462f4d44-db32-4011-ab2c-8b042b0d5622",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "178"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "3a996e55-51dc-41b6-96e9-11012acff04d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:02 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "236"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:04 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11251.20 - SCUS ProdSlices",
+    "x-ms-request-id": "f6ade650-ad53-4e81-87ff-a24a68df1900"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "be53af8e-a56a-448e-a650-38c9d7adb360",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "df6db21c-c35c-4312-9bb5-aefdea9651e3",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "135"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "691f44ed-b4a2-40ab-872a-f3d981ecb980",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "141"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e69e0e3c-d6e0-40ab-aafa-48566ddedd64",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "141"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d20e0a0e-bae6-4aa8-aefd-0e3d4047a17a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:13 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "178"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "882dad44-43b7-4b0d-88dd-38993d04d3ce",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:15 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "122"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "3a4809c4-5c4b-45f9-beba-d10af0ca2e14",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "184"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "973f707c-c4df-4009-afe2-0f58080c136f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "160"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "bab17273-2bb5-490c-bafa-4195be74f517",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:22 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "194"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e308f55e-a93d-4e20-a8d1-347f398e261a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "177"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6bbb2cea-ae26-4204-b922-be65ddcd1bbb",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:26 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "108"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f835ce94-ce26-49db-ac5a-b88bf70d267f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:28 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "184"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e26791d1-69ee-4cba-8486-f648eb9de5c0",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "159"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8560af75-b834-4e2d-8b1c-8182dccbea9c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:33 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "185"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:35 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11251.20 - WUS2 ProdSlices",
+    "x-ms-request-id": "508e47b3-1f36-4dba-96bd-9a3f6d582200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fb71d17f-83c4-44c7-9066-79f92766fb52",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:35 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "173"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "452778c7-0cfc-4017-a1a1-6ac33a05de09",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:37 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "107"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "31f40bc7-acee-4470-8c37-ff9d717a42d6",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "134"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "53127fbd-fdf4-467b-a1e5-26d9c780cf72",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "217"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "662bd507-9274-4d63-8e05-e76789125886",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "188"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "511bcca3-372c-4bc1-91d3-02d5457a362b",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "227"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "df89077e-2db9-4f14-9acb-dc86a98c05ce",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "168"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "af1d0915-7441-4825-8c03-ac8260f31172",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:51 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "282"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "13832ae8-919b-4eee-9cd1-54f46220d6cb",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "121"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "123c8ca1-fadb-4fad-932d-87c6cc870211",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "182"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c2d0410f-a000-4763-8f83-39be0a12728c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:51:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "205"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "47a4e5a0-fe29-4d60-a0a5-d7147789bb99",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "190"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2983b719-f7b2-448e-95f2-46b151dc4f83",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:02 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "178"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "595d1e98-3824-4914-9449-feeb9845bc2a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "467"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:06 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11251.20 - SCUS ProdSlices",
+    "x-ms-request-id": "f8e5610c-1b58-4c90-bed7-f710d5b21b00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "bb94be71-6b1d-4b72-9ead-0af99b92f08c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "250"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "734dfa58-35c0-422f-ad5e-c0fcdd297f70",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "346"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "4e6b3fbc-e36f-4569-90a9-472339ce6c70",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "144"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "117f52e8-4018-49d6-b912-a2939286b265",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:14 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "123"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7e09fcb4-fed4-43ed-a1af-15a1644a5f66",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "161"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c48c14bd-6b87-4432-aa66-97d301497974",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "219"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ab20c470-a311-41a1-8471-2edf1d213aba",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "183"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d674df7f-4cc4-4b5f-9083-cbb2afb08537",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:22 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "160"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e26afbc0-10b9-4cb2-ae16-6e059a875f42",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "169"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7577f355-c4ff-4d48-aeea-9473ffb78578",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:28 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "142"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8f680dda-507c-4422-aed1-bf5f1e897e85",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "150"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f4970eff-093d-4d08-a09d-ae41ee14215a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "301"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "30874a1b-c053-4730-8cfa-a2360461fb24",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "199"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "4a42036a-8c0a-49f9-82b3-7fa33c53204e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:36 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "265"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:39 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11251.20 - EUS ProdSlices",
+    "x-ms-request-id": "5eb89f49-87a9-4e87-ba41-1822a0b41a00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "589bdd37-e335-4df6-88e8-a3b798cb2f0a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "119"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en\"}}],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b8cbf667-45ad-4520-927b-8cab1c77472d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "156"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"a83590b8-7f6b-4f05-b6a2-edf020f75b52_637414272000000000\",\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\",\"createdDateTime\":\"2020-11-20T18:50:33Z\",\"expirationDateTime\":\"2020-11-21T18:50:33Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-11-20T18:50:35Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr\"}}],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: en\"}}],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-11-20T18:50:35.1526279Z\",\"results\":{\"inTerminalState\":true,\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv\"}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "15fe1ce8-5992-4d58-aea1-891ec74a471e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 18:52:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "461"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "1644821283f508167909d6d3df2ba30e"
+}

@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
-__Note:__ This SDK targets Azure Text Analytics service API version 3.1.0-preview.2.
+**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.2.
 
 - Language Detection
 - Sentiment Analysis
@@ -10,13 +10,16 @@ __Note:__ This SDK targets Azure Text Analytics service API version 3.1.0-previe
 - Named Entity Recognition
 - Recognition of Personally Identifiable Information
 - Linked Entity Recognition
+- Healthcare Analysis
+- Batch Processing
 
 Use the client library to:
 
 - Detect what language input text is written in.
 - Determine what customers think of your brand or topic by analyzing raw text for clues about positive or negative sentiment.
 - Automatically extract key phrases to quickly identify the main points.
-- Identify and categorize entities in your text as people, places, organizations, date/time, quantities, percentages, currencies, and more.
+- Identify and categorize entities in your text as people, places, organizations, date/time, quantities, percentages, currencies, healthcare specific, and more.
+- Perform multiple of the above tasks at once.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics) |
@@ -113,7 +116,7 @@ For example, each document can be passed as a string in an array, e.g.
 const documents = [
   "I hated the movie. It was so slow!",
   "The movie made it into my top ten favorites.",
-  "What a great movie!",
+  "What a great movie!"
 ];
 ```
 
@@ -123,7 +126,7 @@ or, if you wish to pass in a per-item document `id` or `language`/`countryHint`,
 const textDocumentInputs = [
   { id: "1", language: "en", text: "I hated the movie. It was so slow!" },
   { id: "2", language: "en", text: "The movie made it into my top ten favorites." },
-  { id: "3", language: "en", text: "What a great movie!" },
+  { id: "3", language: "en", text: "What a great movie!" }
 ];
 ```
 
@@ -186,7 +189,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "I did not like the restaurant. The food was too spicy.",
   "The restaurant was decorated beautifully. The atmosphere was unlike any other restaurant I've been to.",
-  "The food was yummy. :)",
+  "The food was yummy. :)"
 ];
 
 async function main() {
@@ -221,7 +224,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
-  "Jeff bought three dozen eggs because there was a 50% discount.",
+  "Jeff bought three dozen eggs because there was a 50% discount."
 ];
 
 async function main() {
@@ -284,7 +287,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
-  "I use Azure Functions to develop my product.",
+  "I use Azure Functions to develop my product."
 ];
 
 async function main() {
@@ -296,7 +299,13 @@ async function main() {
       for (const entity of result.entities) {
         console.log(entity.name, "(URL:", entity.url, ", Source:", entity.dataSource, ")");
         for (const match of entity.matches) {
-          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.confidenceScore, ")");
+          console.log(
+            "  Occurrence:",
+            '"' + match.text + '"',
+            "(Score:",
+            match.confidenceScore,
+            ")"
+          );
         }
       }
     } else {
@@ -320,7 +329,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
-  "I will travel to South America in the summer.",
+  "I will travel to South America in the summer."
 ];
 
 async function main() {
@@ -381,6 +390,113 @@ async function main() {
 
 main();
 ```
+
+### Analyze Healthcare Entities
+
+Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
+
+```javascript
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "Prescribed 100mg ibuprofen, taken twice daily.",
+  "Patient does not suffer from high blood pressure."
+];
+
+async function main() {
+  const poller = await client.beginAnalyzeHealthcare(documents);
+  const results = await poller.pollUntilDone();
+
+  for await (const result of results) {
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      console.log("\tRecognized Entities:");
+      for (const entity of result.entities) {
+        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+      }
+    } else console.error("\tError:", result.error);
+  }
+}
+
+main();
+```
+
+### Analyze
+
+Analyze enables the application of multiple analyses at once.
+
+```javascript
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "Microsoft was founded by Bill Gates and Paul Allen.",
+  "The employee's SSN is 555-55-5555.",
+  "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
+  "I use Azure Functions to develop my product."
+];
+
+async function main() {
+  const tasks = {
+    entityRecognitionTasks: [{ modelVersion: "latest" }],
+    entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
+    keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+  };
+  const poller = await client.beginAnalyze(documents, tasks);
+  const resultPages = await poller.pollUntilDone();
+
+  for await (const page of resultPages) {
+    const keyPhrasesResults = page.keyPhrasesExtractionResults[0];
+    for (const doc of keyPhrasesResults) {
+      console.log(`- Document ${doc.id}`);
+      if (!doc.error) {
+        console.log("\tKey phrases:");
+        for (const phrase of doc.keyPhrases) {
+          console.log(`\t- ${phrase}`);
+        }
+      } else {
+        console.error("\tError:", doc.error);
+      }
+    }
+
+    const entitiesResults = page.entitiesRecognitionResults[0];
+    for (const doc of entitiesResults) {
+      console.log(`- Document ${doc.id}`);
+      if (!doc.error) {
+        console.log("\tEntities:");
+        for (const entity of doc.entities) {
+          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+        }
+      } else {
+        console.error("\tError:", doc.error);
+      }
+    }
+
+    const piiEntitiesResults = page.piiEntitiesRecognitionResults[0];
+    for (const doc of piiEntitiesResults) {
+      console.log(`- Document ${doc.id}`);
+      if (!doc.error) {
+        console.log("\tPii Entities:");
+        for (const entity of doc.entities) {
+          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+        }
+      } else {
+        console.error("\tError:", doc.error);
+      }
+    }
+  }
+}
+
+main();
+```
+
+## Known Issues
+
+- Currently, the `beginAnalyze` API accepts `includeStatistics` in its options bag, a feature that was not yet supported by the service at the time of the current release. This feature is expected to be supported soon after the release.
+- `beginAnalyzeHealthcare` is still in gated preview and can not be used with AAD credentials. For more information, see (the Text Analytics for Health documentation)[https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview].
 
 ## Troubleshooting
 

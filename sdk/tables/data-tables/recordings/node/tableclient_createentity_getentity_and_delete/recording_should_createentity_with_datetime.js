@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "45a503815008d0a93ed1c23b7485cdfa";
+module.exports.hash = "5ecfde59f77d9fc9785b51fc9d62d08e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
-  .post('/tableClientTestnode', {"PartitionKey":"P7_node","RowKey":"R7","testField":"2020-09-17T00:00:00.000Z","testField@odata.type":"Edm.DateTime"})
+  .post('/tableClientTestnode', {"PartitionKey":"P7_node","RowKey":"R7","testField":"2020-09-17T00:00:00.99999Z","testField@odata.type":"Edm.DateTime"})
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -13,15 +13,15 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Content-Length',
   '0',
   'ETag',
-  `W/"datetime'2020-10-01T00%3A38%3A38.2994773Z'"`,
+  `W/"datetime'2020-11-20T20%3A39%3A32.4994263Z'"`,
   'Location',
   "https://fakestorageaccount.table.core.windows.net/tableClientTestnode(PartitionKey='P7_node',RowKey='R7')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f29ad480-e002-0043-568b-978310000000',
+  'b2eb0e9a-6002-0016-487d-bf6867000000',
   'x-ms-client-request-id',
-  '466a47b1-9a38-4e50-8bf0-376f15608475',
+  '79589036-b885-418f-9c9d-47f90b623959',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -31,13 +31,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'DataServiceId',
   "https://fakestorageaccount.table.core.windows.net/tableClientTestnode(PartitionKey='P7_node',RowKey='R7')",
   'Date',
-  'Thu, 01 Oct 2020 00:38:38 GMT'
+  'Fri, 20 Nov 2020 20:39:31 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestnode(PartitionKey=%27P7_node%27,RowKey=%27R7%27)')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestnode/@Element","odata.etag":"W/\"datetime'2020-10-01T00%3A38%3A38.2994773Z'\"","PartitionKey":"P7_node","RowKey":"R7","Timestamp":"2020-10-01T00:38:38.2994773Z","testField@odata.type":"Edm.DateTime","testField":"2020-09-17T00:00:00Z"}, [
+  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestnode/@Element","odata.etag":"W/\"datetime'2020-11-20T20%3A39%3A32.4994263Z'\"","PartitionKey":"P7_node","RowKey":"R7","Timestamp":"2020-11-20T20:39:32.4994263Z","testField@odata.type":"Edm.DateTime","testField":"2020-09-17T00:00:00.99999Z"}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -45,13 +45,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'ETag',
-  `W/"datetime'2020-10-01T00%3A38%3A38.2994773Z'"`,
+  `W/"datetime'2020-11-20T20%3A39%3A32.4994263Z'"`,
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f29ad486-e002-0043-5a8b-978310000000',
+  'b2eb0ebb-6002-0016-677d-bf6867000000',
   'x-ms-client-request-id',
-  '03d98c40-557c-4ea4-a9e4-e53d0b1b6fc1',
+  '09f3b6db-a037-4360-9bbe-eed53b3b3544',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -61,7 +61,7 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:38 GMT'
+  'Fri, 20 Nov 2020 20:39:31 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -75,13 +75,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f29ad489-e002-0043-5d8b-978310000000',
+  'b2eb0ecb-6002-0016-777d-bf6867000000',
   'x-ms-client-request-id',
-  'de84d211-378f-43df-99e0-af754f8201ad',
+  '79e449ee-5b1d-449f-86f9-a92f6f4d46e4',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 01 Oct 2020 00:38:38 GMT'
+  'Fri, 20 Nov 2020 20:39:31 GMT'
 ]);

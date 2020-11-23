@@ -27,8 +27,12 @@ export class HttpSender implements Sender {
   }
 
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const { _response: res } = await this._appInsightsClient.track(envelopes);
-    return { statusCode: res.status, result: res.bodyAsText || "" };
+    try {
+      const { _response: res } = await this._appInsightsClient.track(envelopes);
+      return { statusCode: res.status, result: res.bodyAsText ?? "" };
+    } catch (e) {
+      throw e;
+    }
   }
 
   shutdown(): void {
