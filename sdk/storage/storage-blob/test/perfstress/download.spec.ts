@@ -7,7 +7,7 @@ import { BlobServiceClient, StorageSharedKeyCredential } from "../../src";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../../.env" });
 
 type OptionNames = "url";
 
