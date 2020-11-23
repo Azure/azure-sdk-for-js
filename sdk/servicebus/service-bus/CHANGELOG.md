@@ -3,8 +3,12 @@
 ## 7.0.0 (2020-11-23)
 
 - This release marks the general availability of the `@azure/service-bus` package.
+- If you are using version 1.1.10 or lower and want to migrate to the latest version
+of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md)
 
 ### Breaking changes
+**Note:** The following breaking changes are with respect to version `7.0.0-preview.8`.
+If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md).
 
 - The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
   The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
