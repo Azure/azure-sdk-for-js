@@ -3,7 +3,7 @@
 
 import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "../../src";
+import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
