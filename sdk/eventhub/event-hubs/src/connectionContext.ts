@@ -7,13 +7,13 @@
 import { logger, logErrorStackTrace } from "./log";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { packageJsonInfo } from "./util/constants";
+import { parseEventHubConnectionString } from "./util/connectionStringUtils";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  parseConnectionString,
   ConnectionConfig
 } from "@azure/core-amqp";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -447,9 +447,12 @@ export function createConnectionContext(
   hostOrConnectionString = String(hostOrConnectionString);
 
   if (!isTokenCredential(credentialOrOptions)) {
-    const parsedCS = parseConnectionString<{ EntityPath?: string }>(hostOrConnectionString);
+    const parsedCS = parseEventHubConnectionString(hostOrConnectionString);
     if (
-      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
+      !(
+        parsedCS.eventHubName ||
+        (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
+      )
     ) {
       throw new TypeError(
         `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
@@ -457,13 +460,13 @@ export function createConnectionContext(
       );
     }
     if (
-      parsedCS.EntityPath &&
+      parsedCS.eventHubName &&
       typeof eventHubNameOrOptions === "string" &&
       eventHubNameOrOptions &&
-      parsedCS.EntityPath !== eventHubNameOrOptions
+      parsedCS.eventHubName !== eventHubNameOrOptions
     ) {
       throw new TypeError(
-        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
+        `The event hub name "${parsedCS.eventHubName}" in connectionString: "${hostOrConnectionString}" ` +
           `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
       );
     }

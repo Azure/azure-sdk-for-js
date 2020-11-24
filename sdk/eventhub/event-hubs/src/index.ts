@@ -38,3 +38,7 @@ export { CloseReason } from "./models/public";
 export { MessagingError, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
 export { logger } from "./log";
+export {
+  parseEventHubConnectionString,
+  EventHubConnectionStringProperties
+} from "./util/connectionStringUtils";
