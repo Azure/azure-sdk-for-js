@@ -4,12 +4,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import chalk from "chalk";
-import path from "path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
 export type Fn<T = void> = (...values: any[]) => T;
 export type ModeMap<T> = { [k in typeof printModes[number]]: T };
+
+const DEV_TOOL_PATH = __dirname.split("dev-tool")[0];
 
 /**
  * The interface that describes the Printer produced by {@link createPrinter}
@@ -99,11 +100,9 @@ const finalLogger: ModeMap<Fn> = {
   debug(...values: string[]) {
     if (process.env.DEBUG) {
       const caller = getCaller();
-      const fileName = caller
-        ?.getFileName()
-        ?.split(path.join("azure-sdk-for-js", "common", "tools", "dev-tool"));
+      const fileName = caller?.getFileName()?.split(DEV_TOOL_PATH)?.[1];
       const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
-        "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
+        "<anonymous>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
       backend.error(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },

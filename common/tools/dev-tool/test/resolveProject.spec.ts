@@ -24,7 +24,7 @@ describe("Project Resolution", async () => {
     assert.equal(packageInfo.name, "@azure/dev-tool");
     assert.match(
       packageInfo.path,
-      new RegExp(`.*${path.sep}${path.join("azure-sdk-for-js", "common", "tools", "dev-tool")}`)
+      new RegExp(`.*${path.sep}${path.join("common", "tools", "dev-tool")}`)
     );
   });
 });
