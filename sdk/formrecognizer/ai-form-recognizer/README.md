@@ -137,7 +137,7 @@ The following section provides several JavaScript code snippets illustrating com
 
 - [Recognize Forms Using a Custom Model](#recognize-forms-using-a-custom-model)
 - [Recognize Content](#recognize-content)
-- [Use Prebuilt Models](#use-prebuilt-models)
+- [Use Prebuilt Models](#using-prebuilt-models)
 - [Train a Model](#train-a-model)
 - [Listing All Models](#listing-all-models)
 
