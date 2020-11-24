@@ -10,7 +10,7 @@ export interface EventHubConnectionStringProperties {
   /**
    * The fully qualified Event Hub namespace extracted from the "Endpoint" in the
    * connection string. This is likely to be similar to "{yournamespace}.servicebus.windows.net".
-   * This is typically used to construct the ServiceBusClient.
+   * This is typically used to construct the EventHub{Producer|Consumer}Client.
    */
   fullyQualifiedNamespace: string;
   /**
@@ -18,8 +18,7 @@ export interface EventHubConnectionStringProperties {
    */
   endpoint: string;
   /**
-   * The value for "EntityPath" in the connection string which would be the name of the queue or
-   * topic associated with the connection string.
+   * The value for "EntityPath" in the connection string.
    * Connection string from a Shared Access Policy created at the namespace level
    * will not have the EntityPath in it.
    */
@@ -48,7 +47,7 @@ export interface EventHubConnectionStringProperties {
  * Parses given connection string into the different properties applicable to Azure Event Hubs.
  * The properties are useful to then construct an EventHub{Producer|Consumer}Client.
  * @param connectionString The connection string associated with the Shared Access Policy created
- * for the Service Bus namespace, queue or topic.
+ * for the Event Hubs namespace.
  */
 export function parseEventHubConnectionString(
   connectionString: string
@@ -82,6 +81,10 @@ export function parseEventHubConnectionString(
   return output;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 type GenericConnectionStringProperties = {
   Endpoint: string;
   EntityPath?: string;
@@ -90,6 +93,10 @@ type GenericConnectionStringProperties = {
   SharedAccessKeyName?: string;
 };
 
+/**
+ * @internal
+ * @ignore
+ */
 type ConnectionStringValidationResult =
   | { isValid: true }
   | {
@@ -97,6 +104,10 @@ type ConnectionStringValidationResult =
       message: string;
     };
 
+/**
+ * @internal
+ * @ignore
+ */
 function validate(
   parsedResult: GenericConnectionStringProperties
 ): ConnectionStringValidationResult {
