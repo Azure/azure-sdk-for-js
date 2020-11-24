@@ -45,18 +45,11 @@ var crossSpawn = require("cross-spawn");
 function outputTestPath(projectFolderPath, sourceDir, testFolder) {
   const projectPath = path.join(sourceDir, projectFolderPath);
   const testPath = path.join(projectPath, testFolder);
-  console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`);
-  console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`);
+  console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`)
+  console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`)
 }
 
-async function insertPackageJson(
-  repoRoot,
-  packageJsonContents,
-  targetPackagePath,
-  targetPackageName,
-  versionType,
-  testFolder
-) {
+async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   var templateJson = await packageUtils.readFileJson("./templates/package.json");
   var testPackageJson = templateJson;
@@ -66,17 +59,12 @@ async function insertPackageJson(
   var projectFolder = path.basename(targetPackagePath);
   var projectDir = path.basename(path.dirname(targetPackagePath));
   var allowedVersionList = {};
-  depList[targetPackageName] = packageJsonContents.version; //works
+  depList[targetPackageName] = packageJsonContents.version;//works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const package of Object.keys(packageJsonContents.dependencies)) {
     depList[package] = packageJsonContents.dependencies[package];
     if (package.startsWith("@azure/")) {
-      depList[package] = await findAppropriateVersion(
-        package,
-        packageJsonContents.dependencies[package],
-        repoRoot,
-        versionType
-      );
+      depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, versionType);
       if (packageJsonContents.dependencies[package] !== depList[package]) {
         console.log(package);
         allowedVersionList[package] = depList[package];
@@ -89,20 +77,11 @@ async function insertPackageJson(
   for (const package of Object.keys(packageJsonContents.devDependencies)) {
     testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
     if (package.startsWith("@azure/")) {
-      console.log(
-        "packagejson version before func call = " + packageJsonContents.devDependencies[package]
-      );
+      console.log("packagejson version before func call = " + packageJsonContents.devDependencies[package]);
       var packageVersion = packageJsonContents.devDependencies[package];
-      testPackageJson.devDependencies[package] = await findAppropriateVersion(
-        package,
-        packageVersion,
-        repoRoot,
-        versionType
-      );
+      testPackageJson.devDependencies[package] = await findAppropriateVersion(package, packageVersion, repoRoot, versionType);
       console.log("packagejson version = " + packageJsonContents.devDependencies[package]);
-      if (
-        packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]
-      ) {
+      if (packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]) {
         console.log(package);
         allowedVersionList[package] = testPackageJson.devDependencies[package];
         console.log(allowedVersionList[package]);
@@ -115,6 +94,7 @@ async function insertPackageJson(
   console.log(allowedVersionList);
   return allowedVersionList;
 }
+
 
 async function isPackageAUtility(package, repoRoot) {
   var thisPackage = await getPackageFromRush(repoRoot, package);
@@ -130,44 +110,39 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   var isUtility = await isPackageAUtility(package, repoRoot);
   if (isUtility) {
     return packageJsonDepVersion;
-  } else {
+  }
+  else {
     var allNPMVersions = await getVersions(package);
     if (allNPMVersions) {
       console.log(versionType);
       if (versionType === "min") {
-        var minVersion = await semver.minSatisfying(
-          JSON.parse(allNPMVersions),
-          packageJsonDepVersion
-        );
+        var minVersion = await semver.minSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
         if (minVersion) {
           return minVersion;
-        } else {
+        }
+        else {
           //issue a warning
-          console.warn(
-            `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
-          );
+          console.warn(`No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
           var version = await getPackageVersion(repoRoot, package);
           console.log(version);
           return version;
         }
-      } else if (versionType === "max") {
+      }
+      else if (versionType === "max") {
         console.log("calling semver max satisfying");
-        var maxVersion = await semver.maxSatisfying(
-          JSON.parse(allNPMVersions),
-          packageJsonDepVersion
-        );
+        var maxVersion = await semver.maxSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
         if (maxVersion) {
           return maxVersion;
-        } else {
+        }
+        else {
           //issue a warning
-          console.warn(
-            `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
-          );
+          console.warn(`No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
           var version = await getPackageVersion(repoRoot, package);
           console.log(version);
           return version;
         }
-      } else if (versionType === "same") {
+      }
+      else if (versionType === "same") {
         return packageJsonDepVersion;
       }
     }
@@ -196,13 +171,14 @@ function fromDir(startPath, filter, resList) {
     var stat = fs.lstatSync(filename);
     if (stat.isDirectory()) {
       resList = fromDir(filename, filter, resList); //recurse
-    } else if (filename.indexOf(filter) >= 0) {
-      console.log("-- found: ", filename);
-      resList.push(filename);
     }
-  }
+    else if (filename.indexOf(filter) >= 0) {
+      console.log('-- found: ', filename);
+      resList.push(filename);
+    };
+  };
   return resList;
-}
+};
 
 async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
@@ -230,8 +206,9 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
     console.log("internal refs = ");
     console.log(internalrefs);
     console.log("This file has internal references will be replaced by empty content");
-  } else {
-    var replaceText = '"' + packageName + '"';
+  }
+  else {
+    var replaceText = "\"" + packageName + "\"";
     //Regex for public api references to be replaced by package name
     writeContent = fileContent.replace(/[\"\']+[..//]*src[\"\']+/g, replaceText);
   }
@@ -241,7 +218,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
 async function replaceSourceReferences(targetPackagePath, packageName, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   var resList = [];
-  resList = fromDir(testPath, ".ts", resList);
+  resList = fromDir(testPath, '.ts', resList);
   console.dir(resList);
   var resPromises = [];
   for (var eachFile of resList) {
@@ -252,14 +229,18 @@ async function replaceSourceReferences(targetPackagePath, packageName, testFolde
 
 async function getVersions(packageName) {
   const promise = new Promise(async (res, rej) => {
-    let npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
-      stdout: "inherit"
-    });
+    let npmProcess = crossSpawn('npm', ['view', packageName, 'versions', '--json'], { stdout: 'inherit' });
     let stdOut = "";
     let stdErr = "";
-    npmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
-    npmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
-    npmProcess.on("close", (code) => {
+    npmProcess.stdout.on(
+      "data",
+      data => (stdOut = stdOut + data.toString())
+    );
+    npmProcess.stderr.on(
+      "data",
+      data => (stdErr = stdErr + data.toString())
+    );
+    npmProcess.on("close", code => {
       console.log("`npm view " + packageName + " versions` process exit code:" + code);
       if (code !== 0) {
         rej("Process exits with code " + code);
@@ -275,9 +256,10 @@ async function getVersions(packageName) {
       return false;
     }
     if (res["stdOut"]) {
-      return res["stdOut"];
+      return (res["stdOut"]);
     }
-  } catch (ex) {
+  }
+  catch (ex) {
     console.error("Error:", ex);
   }
 }
@@ -290,9 +272,9 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   var testPackageJson = await packageUtils.readFileJson(testPackageJsonPath);
   var testProjectFolder = targetPackage.projectFolder + "/" + testFolder;
   const testPackageEntry = {
-    packageName: testPackageJson.name,
-    projectFolder: testProjectFolder,
-    versionPolicyName: "client"
+    "packageName": testPackageJson.name,
+    "projectFolder": testProjectFolder,
+    "versionPolicyName": "client"
   };
   rushSpec.projects.push(testPackageEntry);
   rushSpec.projectFolderMaxDepth = 5;
@@ -312,19 +294,15 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
     console.log(allowedVersionList[package]);
     if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
       allowedAlternativeVersions[package] = [allowedVersionList[package]];
-    } else if (
-      allowedVersionList[package] &&
-      !allowedAlternativeVersions[package].includes(allowedVersionList[package])
-    ) {
+    }
+    else if (allowedVersionList[package] && !allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
       allowedAlternativeVersions[package].push(allowedVersionList[package]);
     }
   }
   console.dir(allowedAlternativeVersions);
   var newConfig = commonVersionsConfig;
   newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
-  const commonVersionsPath = path.resolve(
-    path.join(repoRoot, "/common/config/rush/common-versions.json")
-  );
+  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
   console.log(newConfig);
   await packageUtils.writePackageJson(commonVersionsPath, newConfig);
 }
@@ -332,7 +310,7 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
 async function getPackageFromRush(repoRoot, packageName) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName == packageName
+    packageSpec => packageSpec.packageName == packageName
   );
   return targetPackage;
 }
@@ -354,15 +332,10 @@ async function main(argv) {
 
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
-  const allowedVersionList = await insertPackageJson(
-    repoRoot,
-    packageJsonContents,
-    targetPackagePath,
-    targetPackage.packageName,
-    versionType,
-    testFolder
+  const packageJsonContents = await packageUtils.readFileJson(
+    packageJsonLocation
   );
+  const allowedVersionList = await insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackage.packageName, versionType, testFolder);
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (dryRun) {
     console.log("Dry run only, no changes");
