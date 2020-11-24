@@ -85,8 +85,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "azurecorelro",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       sourcemap: true
     },
