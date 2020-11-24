@@ -7,13 +7,7 @@
  */
 
 export {
-  AvailableOperations,
+  AvailableRuntimeVersions,
   CloudError,
-  LogSpecification,
-  MetricDimension,
-  MetricSpecification,
-  OperationDetail,
-  OperationDisplay,
-  OperationProperties,
-  ServiceSpecification
+  SupportedRuntimeVersion
 } from "../models/mappers";
