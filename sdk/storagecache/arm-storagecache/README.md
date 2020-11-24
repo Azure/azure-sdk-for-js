@@ -15,7 +15,7 @@ npm install @azure/arm-storagecache
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
+#### nodejs - client creation and list operations as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,11 +26,10 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { StorageCacheManagementClient, StorageCacheManagementModels, StorageCacheManagementMappers } from "@azure/arm-storagecache";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
