@@ -17,7 +17,7 @@ describe("parseEventHubConnectionString", () => {
   const endpoint = "sb://my.servicebus.windows.net";
   const eventHubName = "event-hub-name";
 
-  describe("parsing", () => {
+  describe("with valid data", () => {
     it("parses a full connection string correctly", () => {
       const expected: EventHubConnectionStringProperties = {
         fullyQualifiedNamespace: namespace,
@@ -44,7 +44,8 @@ describe("parseEventHubConnectionString", () => {
       assert.deepEqual(parseEventHubConnectionString(connectionString), expected);
     });
   });
-  describe("validation", () => {
+
+  describe("with invalid data", () => {
     it("throws when Endpoint is missing", () => {
       const connectionString = `SharedAccessSignature=${sharedAccessSignature}`;
       assert.throws(() => {
