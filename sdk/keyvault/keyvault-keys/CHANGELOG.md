@@ -3,6 +3,7 @@
 
 ## 4.2.0-beta.3 (Unreleased)
 
+- Removed `dist-browser` from the output folders. To bundle the Azure SDK libraries, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ## 4.2.0-beta.2 (2020-10-06)
 
