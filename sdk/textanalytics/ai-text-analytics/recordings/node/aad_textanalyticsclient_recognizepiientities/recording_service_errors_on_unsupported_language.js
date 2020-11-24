@@ -1,18 +1,16 @@
 let nock = require('nock');
 
-module.exports.hash = "bdad024e4cd3eaf0f15fd5b047909395";
+module.exports.hash = "9579a6dab5215d0b41721ea9408e6f63";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,21 +22,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5cc92cd3-316f-4555-8011-c96258612800',
+  '3afcabbe-c91a-4cac-9914-1f20f1e94200',
   'x-ms-ests-server',
-  '2.1.11021.16 - CHI ProdSlices',
+  '2.1.11251.18 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsQzFfjTxKdFhvpt1figJhTIIHRUAQAAAJCX9dYOAAAA; expires=Sat, 17-Oct-2020 17:44:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjpN3oHuOs1NrZczW7eXGiRz_bg1AQAAAEsBSdcOAAAA; expires=Sun, 20-Dec-2020 00:14:03 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 17 Sep 2020 17:44:48 GMT'
+  'Fri, 20 Nov 2020 00:14:03 GMT',
+  'Content-Length',
+  '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.2/entities/recognition/pii', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
+  .post('/text/analytics/v3.1-preview.3/entities/recognition/pii', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
   .query(true)
   .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en"}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
@@ -48,11 +48,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '3',
   'apim-request-id',
-  '538ae4fb-cec7-44c4-810a-36efce11ec0c',
+  'b905ee04-fa46-476b-abf5-2ca44d4f8862',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 17 Sep 2020 17:44:49 GMT'
+  'Fri, 20 Nov 2020 00:14:03 GMT'
 ]);

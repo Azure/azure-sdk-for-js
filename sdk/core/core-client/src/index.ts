@@ -3,7 +3,12 @@
 
 export { createSerializer, MapperTypeNames } from "./serializer";
 export { createSpanFunction } from "./createSpan";
-export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export {
+  ServiceClient,
+  ServiceClientOptions,
+  createClientPipeline,
+  ClientPipelineOptions
+} from "./serviceClient";
 export {
   OperationSpec,
   OperationArguments,
@@ -34,7 +39,11 @@ export {
   OperationResponse,
   FullOperationResponse,
   PolymorphicDiscriminator,
-  SpanConfig
+  SpanConfig,
+  XML_ATTRKEY,
+  XML_CHARKEY,
+  XmlOptions,
+  SerializerOptions
 } from "./interfaces";
 export {
   deserializationPolicy,

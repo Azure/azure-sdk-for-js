@@ -25,14 +25,13 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AuthorizationRule = {
-    claimType: string;
-    claimValue: string;
+export interface AuthorizationRule {
     accessRights?: ("Manage" | "Send" | "Listen")[];
+    claimType: string;
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
-};
+}
 
 // @public
 export interface CorrelationRuleFilter {
@@ -303,6 +302,7 @@ export interface ServiceBusConnectionStringProperties {
 
 // @public
 export class ServiceBusError extends MessagingError {
+    constructor(message: string, code: ServiceBusErrorCode);
     constructor(messagingError: MessagingError);
     code: ServiceBusErrorCode;
     }
@@ -399,7 +399,6 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
-    readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
@@ -409,6 +408,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
+    readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long;
 }
 
@@ -452,7 +452,6 @@ export interface ServiceBusSender {
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    open(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }

@@ -7,18 +7,18 @@ import {
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase,
-  OperationOptions,
-  RestError
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
+  JobManifestTasks as GeneratedJobManifestTasks,
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
+  PiiTaskParametersDomain,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -48,7 +48,38 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { addStrEncodingParam } from "./util";
+import {
+  addEncodingParamToTask,
+  AddParamsToTask,
+  addStrEncodingParam,
+  handleInvalidDocumentBatch
+} from "./util";
+import {
+  BeginAnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcarePoller,
+  HealthPollerLike
+} from "./lro/health/poller";
+import { BeginAnalyzeHealthcareOptions, HealthcareJobOptions } from "./lro/health/operation";
+import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import {
+  AnalyzePollerLike,
+  BeginAnalyzeOperationState,
+  BeginAnalyzePoller
+} from "./lro/analyze/poller";
+import { AnalyzeJobOptions, BeginAnalyzeOptions } from "./lro/analyze/operation";
+import { PollingOptions } from "./lro/poller";
+
+export {
+  BeginAnalyzeOptions,
+  AnalyzePollerLike,
+  BeginAnalyzeOperationState,
+  BeginAnalyzeHealthcareOptions,
+  HealthPollerLike,
+  AnalyzeJobOptions,
+  PollingOptions,
+  HealthcareJobOptions,
+  BeginAnalyzeHealthcareOperationState
+};
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -65,23 +96,6 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
    * The default language to use. Defaults to "en".
    */
   defaultLanguage?: string;
-}
-
-/**
- * Options common to all text analytics operations.
- */
-export interface TextAnalyticsOperationOptions extends OperationOptions {
-  /**
-   * This value indicates which model will be used for scoring. If a model-version is
-   * not specified, the API should default to the latest, non-preview version.
-   * For supported model versions, see operation-specific documentation, for example:
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
-   */
-  modelVersion?: string;
-  /**
-   * If set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
 }
 
 /**
@@ -141,6 +155,62 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
+/**
+ * Options for an entities recognition task.
+ */
+export type EntitiesTask = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+};
+
+/**
+ * Options for a Pii entities recognition task.
+ */
+export type PiiTask = {
+  /**
+   * Filters entities to ones only included in the specified domain (e.g., if
+   * set to 'PHI', entities in the Protected Healthcare Information domain will
+   * only be returned). See https://aka.ms/tanerpii for more information.
+   */
+  domain?: PiiTaskParametersDomain;
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+};
+
+/**
+ * Options for a key phrases recognition task.
+ */
+export interface KeyPhrasesTask {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Description of collection of tasks for the analyze API to perform on input documents
+ */
+export interface JobManifestTasks {
+  /**
+   * A collection of descriptions of entities recognition tasks.
+   */
+  entityRecognitionTasks?: EntitiesTask[];
+  /**
+   * A collection of descriptions of Pii entities recognition tasks.
+   */
+  entityRecognitionPiiTasks?: PiiTask[];
+  /**
+   * A collection of descriptions of key phrases recognition tasks.
+   */
+  keyPhraseExtractionTasks?: KeyPhrasesTask[];
+}
 /**
  * Client class for interacting with Azure Text Analytics.
  */
@@ -393,7 +463,6 @@ export class TextAnalyticsClient {
         result.statistics
       );
     } catch (e) {
-      let backwardCompatibleException;
       /**
        * This special logic handles REST exception with code
        * InvalidDocumentBatch and is needed to maintain backward compatability
@@ -402,13 +471,7 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
-      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
-      if (innerCode === "InvalidDocumentBatch") {
-        backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
-      } else {
-        backwardCompatibleException = e;
-      }
+      const backwardCompatibleException = handleInvalidDocumentBatch(e);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: backwardCompatibleException.message
@@ -748,6 +811,134 @@ export class TextAnalyticsClient {
       span.end();
     }
   }
+
+  /**
+   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents Collection of documents to analyze.
+   * @param language The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.
+        If set to an empty string, the service will apply a model
+        where the lanuage is explicitly set to "None".
+   * @param options The options parameters.
+   */
+  async beginAnalyzeHealthcare(
+    documents: string[],
+    language?: string,
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike>;
+  /**
+   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents Collection of documents to analyze.
+   * @param options The options parameters.
+   */
+  async beginAnalyzeHealthcare(
+    documents: TextDocumentInput[],
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike>;
+
+  async beginAnalyzeHealthcare(
+    documents: string[] | TextDocumentInput[],
+    languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike> {
+    let realOptions: BeginAnalyzeHealthcareOptions;
+    let realInputs: TextDocumentInput[];
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options || {};
+    } else {
+      realInputs = documents;
+      realOptions = (languageOrOptions as BeginAnalyzeHealthcareOptions) || {};
+    }
+
+    const poller = new BeginAnalyzeHealthcarePoller({
+      client: this.client,
+      documents: realInputs,
+      analysisOptions: realOptions.health,
+      ...realOptions.polling
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * @param documents Collection of documents to analyze
+   * @param tasks Tasks to execute.
+   * @param language The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.
+        If set to an empty string, the service will apply a model
+        where the lanuage is explicitly set to "None".
+   * @param options The options parameters.
+   */
+  public async beginAnalyze(
+    documents: string[],
+    tasks: JobManifestTasks,
+    language?: string,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike>;
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * @param documents Collection of documents to analyze
+   * @param tasks Tasks to execute.
+   * @param options The options parameters.
+   */
+  public async beginAnalyze(
+    documents: TextDocumentInput[],
+    tasks: JobManifestTasks,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike>;
+  public async beginAnalyze(
+    documents: string[] | TextDocumentInput[],
+    tasks: JobManifestTasks,
+    languageOrOptions?: string | BeginAnalyzeOptions,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike> {
+    let realOptions: BeginAnalyzeOptions;
+    let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options || {};
+    } else {
+      realInputs = documents;
+      realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
+    }
+    const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
+    const poller = new BeginAnalyzePoller({
+      client: this.client,
+      documents: realInputs,
+      tasks: compiledTasks,
+      analysisOptions: realOptions.analyze,
+      ...realOptions.polling
+    });
+
+    await poller.poll();
+    return poller;
+  }
+}
+
+function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
+  return {
+    entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    entityRecognitionTasks: tasks.entityRecognitionTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
+  };
 }
 
 function isStringArray(documents: any[]): documents is string[] {

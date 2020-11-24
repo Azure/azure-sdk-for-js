@@ -4,7 +4,7 @@
   "author": "Microsoft Corporation",
   "version": "7.0.0",
   "license": "MIT",
-  "description": "Azure Service Bus SDK for Node.js",
+  "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [

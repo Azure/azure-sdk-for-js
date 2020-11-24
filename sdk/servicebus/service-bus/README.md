@@ -1,4 +1,4 @@
-# Azure Service Bus client library for Javascript (Preview)
+# Azure Service Bus client library for Javascript
 
 [Azure Service Bus](https://azure.microsoft.com/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
@@ -24,7 +24,7 @@ Samples for v1 and documentation are still available here:
 [Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
-of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
+of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
 
 ## Getting Started
 

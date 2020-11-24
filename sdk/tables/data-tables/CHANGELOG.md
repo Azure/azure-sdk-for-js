@@ -2,6 +2,9 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Breaking Changes
+
+- Don't deserialize DateTime into a JavaScript Date to avoid losing precision [#12650](https://github.com/Azure/azure-sdk-for-js/pull/12650)
 
 ## 1.0.0-beta.3 (2020-11-12)
 

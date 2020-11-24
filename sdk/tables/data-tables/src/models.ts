@@ -398,8 +398,6 @@ export interface Edm<T extends EdmTypes> {
     ? Uint8Array
     : T extends "Boolean"
     ? boolean
-    : T extends "DateTime"
-    ? Date
     : T extends "Double"
     ? number
     : T extends "Int32"

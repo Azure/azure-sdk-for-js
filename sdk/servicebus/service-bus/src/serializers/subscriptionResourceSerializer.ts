@@ -143,7 +143,9 @@ export function buildSubscriptionRuntimeProperties(
 export interface CreateSubscriptionOptions extends OperationOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -286,7 +288,9 @@ export interface SubscriptionProperties {
 
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -394,7 +398,9 @@ export interface SubscriptionProperties {
 export interface InternalSubscriptionOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
