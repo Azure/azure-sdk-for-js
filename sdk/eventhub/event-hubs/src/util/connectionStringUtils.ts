@@ -52,7 +52,7 @@ export interface EventHubConnectionStringProperties {
  */
 export function parseEventHubConnectionString(
   connectionString: string
-): EventHubConnectionStringProperties {
+): Readonly<EventHubConnectionStringProperties> {
   const parsedResult = parseConnectionString<GenericConnectionStringProperties>(connectionString);
 
   const validationResult = validate(parsedResult);

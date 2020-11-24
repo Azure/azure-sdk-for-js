@@ -187,7 +187,7 @@ export interface OperationOptions {
 }
 
 // @public
-export function parseEventHubConnectionString(connectionString: string): EventHubConnectionStringProperties;
+export function parseEventHubConnectionString(connectionString: string): Readonly<EventHubConnectionStringProperties>;
 
 // @public
 export interface PartitionContext {
