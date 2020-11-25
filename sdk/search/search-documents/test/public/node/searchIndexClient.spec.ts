@@ -168,14 +168,14 @@ describe("SearchIndexClient", function () {
           {
             type: "Edm.String",
             name: "id",
-            key: true,
+            key: true
           },
           {
             type: "Edm.Double",
             name: "awesomenessLevel",
             sortable: true,
             filterable: true,
-            facetable: true,
+            facetable: true
           },
           {
             type: "Edm.String",
@@ -190,8 +190,8 @@ describe("SearchIndexClient", function () {
                 type: "Collection(Edm.String)",
                 name: "tags",
                 searchable: true,
-              },
-            ],
+              }
+            ]
           },
           {
             type: "Edm.Int32",
