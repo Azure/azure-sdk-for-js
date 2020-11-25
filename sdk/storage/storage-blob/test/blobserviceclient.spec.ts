@@ -343,6 +343,7 @@ describe("BlobServiceClient", () => {
       enabled: true,
       includeAPIs: true,
       retentionPolicy: {
+        allowPermanentDelete: undefined,
         days: 3,
         enabled: true
       },
