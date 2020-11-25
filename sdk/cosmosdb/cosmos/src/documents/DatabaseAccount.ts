@@ -83,11 +83,10 @@ export class DatabaseAccount {
     if (body[Constants.ReadableLocations] && body.id !== "localhost") {
       this.readableLocations = body[Constants.ReadableLocations] as Location[];
     }
-    if (body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS]) {
-      this.enableMultipleWritableLocations =
-        body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === true ||
-        body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === "true";
-    }
+    this.enableMultipleWritableLocations = body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS]
+      ? body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === true ||
+        body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === "true"
+      : false;
   }
 }
 
