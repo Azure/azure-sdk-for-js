@@ -41,7 +41,7 @@ export interface BackupPollOperationState extends KeyVaultAdminPollOperationStat
 export class BackupPollOperation extends KeyVaultAdminPollOperation<
   BackupPollOperationState,
   string
-  > {
+> {
   constructor(
     public state: BackupPollOperationState,
     private vaultUrl: string,

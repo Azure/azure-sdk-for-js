@@ -295,7 +295,7 @@ export class CertificateClient {
       redirectOptions: pipelineOptions.redirectOptions,
       userAgentOptions: pipelineOptions.userAgentOptions,
       loggingOptions: {
-        logger: logger.info,
+        logger: logger.info
 
         // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
         // logPolicyOptions: {
@@ -305,7 +305,6 @@ export class CertificateClient {
         //     "x-ms-keyvault-service-version"
         //   ]
         // }
-
       }
     };
 
@@ -802,11 +801,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -879,11 +878,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }

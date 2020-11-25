@@ -106,7 +106,7 @@ export class KeyVaultAccessControlClient {
       redirectOptions: pipelineOptions.redirectOptions,
       userAgentOptions: pipelineOptions.userAgentOptions,
       loggingOptions: {
-        logger: logger.info,
+        logger: logger.info
 
         // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
         // logPolicyOptions: {
@@ -116,7 +116,6 @@ export class KeyVaultAccessControlClient {
         //     "x-ms-keyvault-service-version"
         //   ]
         // }
-
       }
     };
 
