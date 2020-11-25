@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
-import { startRecorder, getTokenAuthenticationCredential, CredsAndEndpoint } from "./testHelpers";
+import { AppConfigurationClient } from "../../src";
+import { startRecorder, getTokenAuthenticationCredential, CredsAndEndpoint } from "../utils/testHelpers";
 import * as assert from "assert";
 import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
