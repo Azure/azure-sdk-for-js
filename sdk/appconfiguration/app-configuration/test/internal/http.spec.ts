@@ -15,7 +15,7 @@ import {
   assertThrowsRestError,
   startRecorder
 } from "../utils/testHelpers";
-//import InternalAppConfigurationClientOptions
+
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -108,9 +108,7 @@ describe("http request related tests", function() {
 
     beforeEach(function() {
       recorder = startRecorder(this);
-      client =
-        createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({}) ||
-        this.skip();
+      client = createAppConfigurationClientForTests() || this.skip();
     });
 
     afterEach(async function() {
