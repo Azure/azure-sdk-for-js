@@ -1490,6 +1490,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     encryptionScope?: string;
     metadata?: Metadata;
     sourceConditions?: ModifiedAccessConditions;
+    sourceContentMD5?: Uint8Array;
     tags?: Tags;
     tier?: BlockBlobTier | string;
     timeoutInSeconds?: number;

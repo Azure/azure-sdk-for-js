@@ -3223,20 +3223,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Conditions to meet for the destination Azure Blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobSyncUploadFromURLOptions
-   */
-  conditions?: BlobRequestConditions;
-  /**
-   * HTTP headers to set when uploading to a block blob.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobSyncUploadFromURLOptions
-   */
-  blobHTTPHeaders?: BlobHTTPHeaders;
-  /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
    * destination blob. If one or more name-value pairs are specified, the destination blob is
@@ -3249,13 +3235,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * @memberof BlockBlobSyncUploadFromURLOptions
    */
   metadata?: Metadata;
-  /**
-   * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobSyncUploadFromURLOptions
-   */
-  customerProvidedKey?: CpkInfo;
   /**
    * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
    * encrypt the data provided in the request. If not specified, encryption is performed with the
@@ -3275,6 +3254,12 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    */
   tier?: BlockBlobTier | string;
   /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   * @type {Uint8Array}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
    * Blob tags.
    *
    * @type {Tags}
@@ -3288,6 +3273,27 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * @memberof BlockBlobSyncUploadFromURLOptions
    */
   copySourceBlobProperties?: boolean;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * Conditions to meet for the destination Azure Blob.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  customerProvidedKey?: CpkInfo;
   /**
    * Optional. Conditions to meet for the source Azure Blob.
    *

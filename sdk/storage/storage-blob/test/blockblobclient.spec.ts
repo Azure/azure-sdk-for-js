@@ -407,24 +407,35 @@ describe("BlockBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.skip("syncUploadFromURL with timeout", async () => {
-    let exceptionCaught = false;
+  it("syncUploadFromURL with public source should work", async () => {
+    const metadata = {
+      key1: "val1",
+      key2: "val2"
+    };
+
+    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      conditions: {
+        ifNoneMatch: "*"
+      },
+      metadata
+    });
+
+    const getRes = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(getRes.metadata, metadata);
+
     try {
       await blockBlobClient.syncUploadFromURL(
-        "https://jian.blob.core.windows.net/testcontainer/SpeedTest_256MB.dat?sv=2020-02-10&ss=btqf&srt=sco&spr=https%2Chttp&st=2020-10-13T12%3A33%3A26Z&se=2021-01-21T12%3A38%3A26Z&sp=rwdxftlacup&sig=3mKyirvsZdoRqg0woprlJk5kU8ac8If9SnHTFKLBtd0%3D",
+        "https://azure.github.io/azure-sdk-for-js/index.html",
         {
-          timeoutInSeconds: 1
+          conditions: {
+            ifNoneMatch: "*"
+          },
+          metadata
         }
       );
+      assert.fail();
     } catch (err) {
-      // OperationTimedOut
-      console.log(err);
-      // if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1)
-      {
-        exceptionCaught = true;
-      }
+      assert.deepStrictEqual(err.code, "BlobAlreadyExists");
     }
-
-    assert.ok(exceptionCaught);
   });
 });
