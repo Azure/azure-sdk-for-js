@@ -34,14 +34,14 @@ describe("Authentication", () => {
     if (isPlaybackMode()) {
       this.skip();
     }
-    const client = new AppConfigurationClient(
+    const appConfigClient = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential
     );
 
     // it doesn't matter if any data comes in so long as we were
     // able to connect and call the service
-    await client.addConfigurationSetting({
+    await appConfigClient.addConfigurationSetting({
       key: `token-authentication-test-${Date.now()}`,
       value: "hello"
     });

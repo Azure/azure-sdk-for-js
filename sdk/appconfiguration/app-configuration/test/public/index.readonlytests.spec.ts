@@ -10,7 +10,7 @@ import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
-  let client: AppConfigurationClient;
+  let appConfigClient: AppConfigurationClient;
   let recorder: Recorder;
   const testConfigSetting = {
     key: "",
@@ -21,26 +21,26 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   beforeEach(async function() {
     recorder = startRecorder(this);
     testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
-    client = createAppConfigurationClientForTests() || this.skip();
+    appConfigClient = createAppConfigurationClientForTests() || this.skip();
     // before it's set to read only we can set it all we want
-    await client.setConfigurationSetting(testConfigSetting);
+    await appConfigClient.setConfigurationSetting(testConfigSetting);
   });
 
   afterEach(async function() {
-    await deleteKeyCompletely([testConfigSetting.key], client);
+    await deleteKeyCompletely([testConfigSetting.key], appConfigClient);
     await recorder.stop();
   });
 
   it("basic", async function() {
-    let storedSetting = await client.getConfigurationSetting({
+    let storedSetting = await appConfigClient.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
     assert.ok(!storedSetting.isReadOnly);
 
-    await client.setReadOnly(testConfigSetting, true);
+    await appConfigClient.setReadOnly(testConfigSetting, true);
 
-    storedSetting = await client.getConfigurationSetting({
+    storedSetting = await appConfigClient.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
@@ -48,13 +48,13 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
 
     // any modification related methods throw exceptions
     await assertThrowsRestError(
-      () => client.setConfigurationSetting(testConfigSetting),
+      () => appConfigClient.setConfigurationSetting(testConfigSetting),
       409,
       "Set should fail because the setting is read-only"
     );
     await assertThrowsRestError(
       () =>
-        client.deleteConfigurationSetting({
+        appConfigClient.deleteConfigurationSetting({
           key: testConfigSetting.key,
           label: testConfigSetting.label
         }),
@@ -64,16 +64,16 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   it("accepts operation options", async function() {
-    await client.getConfigurationSetting({
+    await appConfigClient.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
 
     await assertThrowsAbortError(async () => {
-      await client.setReadOnly(testConfigSetting, true, { requestOptions: { timeout: 1 } });
+      await appConfigClient.setReadOnly(testConfigSetting, true, { requestOptions: { timeout: 1 } });
     });
     await assertThrowsAbortError(async () => {
-      await client.setReadOnly(testConfigSetting, false, { requestOptions: { timeout: 1 } });
+      await appConfigClient.setReadOnly(testConfigSetting, false, { requestOptions: { timeout: 1 } });
     });
   });
 });
