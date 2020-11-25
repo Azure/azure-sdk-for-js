@@ -13,13 +13,13 @@ import { Recorder } from "@azure/test-utils-recorder";
 // with other teams simpler. (there's redundancy with other parts of the test suite but
 // that's okay)
 describe("Various error cases", () => {
-  let appConfigClient: AppConfigurationClient;
+  let client: AppConfigurationClient;
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
   beforeEach(function() {
     recorder = startRecorder(this);
-    appConfigClient = createAppConfigurationClientForTests() || this.skip();
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   afterEach(async function() {
@@ -31,7 +31,7 @@ describe("Various error cases", () => {
     let nonExistentKey: string;
 
     beforeEach(async () => {
-      addedSetting = await appConfigClient.addConfigurationSetting({
+      addedSetting = await client.addConfigurationSetting({
         key: recorder.getUniqueName(`etags`),
         value: "world"
       });
@@ -41,25 +41,25 @@ describe("Various error cases", () => {
 
     afterEach(async function() {
       if (!this.currentTest?.isPending()) {
-        await deleteKeyCompletely([addedSetting.key], appConfigClient);
+        await deleteKeyCompletely([addedSetting.key], client);
       }
     });
 
     it("get: Non-existent key throws 404", async () => {
       await assertThrowsRestError(
-        () => appConfigClient.getConfigurationSetting({ key: nonExistentKey }),
+        () => client.getConfigurationSetting({ key: nonExistentKey }),
         404
       );
     });
 
     it("add: Setting already exists throws 412", async () => {
-      await assertThrowsRestError(() => appConfigClient.addConfigurationSetting(addedSetting), 412);
+      await assertThrowsRestError(() => client.addConfigurationSetting(addedSetting), 412);
     });
 
     it("set: Existing key, (onlyIfUnchanged) throws 412", async () => {
       await assertThrowsRestError(
         () =>
-          appConfigClient.setConfigurationSetting(
+          client.setConfigurationSetting(
             {
               ...addedSetting,
               etag: nonMatchingETag // purposefully make the etag not match the server
@@ -71,15 +71,15 @@ describe("Various error cases", () => {
     });
 
     it("set: trying to modify a read-only setting throws 409", async () => {
-      await appConfigClient.setReadOnly(addedSetting, true);
+      await client.setReadOnly(addedSetting, true);
 
-      await assertThrowsRestError(() => appConfigClient.setConfigurationSetting(addedSetting), 409);
+      await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
     });
 
     it("delete: key that is set to read-only throws 409", async () => {
-      await appConfigClient.setReadOnly(addedSetting, true);
-      await assertThrowsRestError(async () => appConfigClient.deleteConfigurationSetting(addedSetting), 409);
-      await appConfigClient.setReadOnly(addedSetting, false);
+      await client.setReadOnly(addedSetting, true);
+      await assertThrowsRestError(async () => client.deleteConfigurationSetting(addedSetting), 409);
+      await client.setReadOnly(addedSetting, false);
     });
   });
 
@@ -92,7 +92,7 @@ describe("Various error cases", () => {
       // key: hello{date}, value: world
 
       // the 'no label' value for 'hello'
-      addedSetting = await appConfigClient.addConfigurationSetting({
+      addedSetting = await client.addConfigurationSetting({
         key: recorder.getUniqueName(`etags`),
         value: "world"
       });
@@ -102,12 +102,12 @@ describe("Various error cases", () => {
 
     afterEach(async function() {
       if (!this.currentTest?.isPending()) {
-        await deleteKeyCompletely([addedSetting.key], appConfigClient);
+        await deleteKeyCompletely([addedSetting.key], client);
       }
     });
 
     it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
-      const response = await appConfigClient.getConfigurationSetting(addedSetting, {
+      const response = await client.getConfigurationSetting(addedSetting, {
         onlyIfChanged: true
       });
 
@@ -116,7 +116,7 @@ describe("Various error cases", () => {
     });
 
     it("delete: non-existent key (no etag)", async () => {
-      await appConfigClient.deleteConfigurationSetting({ key: nonExistentKey });
+      await client.deleteConfigurationSetting({ key: nonExistentKey });
     });
   });
 });
