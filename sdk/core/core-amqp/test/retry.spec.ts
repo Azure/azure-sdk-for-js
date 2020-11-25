@@ -203,6 +203,41 @@ dotenv.config();
       }
     });
 
+    it("should not sleep after final failure if all attempts return a retryable error", async function() {
+      let counter = 0;
+      // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
+      const delayAbortController = new AbortController();
+      try {
+        const config: RetryConfig<any> = {
+          operation: async () => {
+            debug("counter: %d", ++counter);
+            await delay(0);
+            const e = new MessagingError("I would always like to fail, keep retrying.");
+            e.retryable = true;
+            throw e;
+          },
+          connectionId: "connection-1",
+          operationType: RetryOperationType.session,
+          retryOptions: {
+            maxRetries: 0,
+            retryDelayInMs: 60000,
+            mode: mode
+          }
+        };
+        // Since retry should not sleep since maxRetries is 0, `retry` should beat `delay`.
+        await Promise.race([retry(config), delay(10000, delayAbortController.signal)]);
+        // If we get here, `delay` won :-(
+        throw new Error("TestFailure: 'retry' took longer than expected to return.");
+      } catch (err) {
+        should.exist(err);
+        err.message.should.equal("I would always like to fail, keep retrying.");
+        should.equal(true, err instanceof MessagingError);
+        counter.should.equal(1);
+        // Clear delay's setTimeout...we don't need it anymore.
+        delayAbortController.abort();
+      }
+    });
+
     it("should stop retries when aborted", async function() {
       let counter = 0;
       const controller = new AbortController();
