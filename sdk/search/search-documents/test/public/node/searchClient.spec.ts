@@ -49,7 +49,7 @@ describe("SearchClient", function () {
     }
   });
 
-  it("count returns the correct document count", async function () {
+  it("count returns the correct document count", async function() {
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 10);
   });
