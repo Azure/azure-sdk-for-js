@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, AppConfigurationClientOptions } from "../../src";
+import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
@@ -69,9 +69,9 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   };
 }
 
-export function createAppConfigurationClientForTests<Options extends AppConfigurationClientOptions = AppConfigurationClientOptions>(
-  options?: Options
-): AppConfigurationClient | undefined {
+export function createAppConfigurationClientForTests<
+  Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
+>(options?: Options): AppConfigurationClient | undefined {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
