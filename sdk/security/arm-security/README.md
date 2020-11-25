@@ -15,7 +15,7 @@ npm install @azure/arm-security
 
 ### How to use
 
-#### nodejs - client creation and list complianceResults as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list complianceResults as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,10 +26,11 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
-While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
-const { SecurityCenter } = require("@azure/arm-security");
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { SecurityCenter, SecurityCenterModels, SecurityCenterMappers } from "@azure/arm-security";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -97,4 +98,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/security/arm-security/README.png)
