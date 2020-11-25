@@ -11,8 +11,8 @@ import {
   RequestPolicy,
   RestError
 } from "@azure/core-http";
-import { ThrottlingRetryPolicy, getDelayInMs } from "../../src/policies/throttlingRetryPolicy";
-import { assertThrowsRestError } from "../utils/testHelpers";
+import { ThrottlingRetryPolicy, getDelayInMs } from "../../../src/policies/throttlingRetryPolicy";
+import { assertThrowsRestError } from "../../utils/testHelpers";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
