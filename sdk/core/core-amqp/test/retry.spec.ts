@@ -203,7 +203,7 @@ dotenv.config();
       }
     });
 
-    it("should not sleep after final failure if all attempts return a retryable error", async function() {
+    it("should not sleep after final failure if all attempts return a retryable error (no retries)", async function() {
       let counter = 0;
       // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
       const delayAbortController = new AbortController();
@@ -233,6 +233,42 @@ dotenv.config();
         err.message.should.equal("I would always like to fail, keep retrying.");
         should.equal(true, err instanceof MessagingError);
         counter.should.equal(1);
+        // Clear delay's setTimeout...we don't need it anymore.
+        delayAbortController.abort();
+      }
+    });
+
+    it("should not sleep after final failure if all attempts return a retryable error (retries)", async function() {
+      let counter = 0;
+      // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
+      const delayAbortController = new AbortController();
+      try {
+        const config: RetryConfig<any> = {
+          operation: async () => {
+            debug("counter: %d", ++counter);
+            await delay(0);
+            const e = new MessagingError("I would always like to fail, keep retrying.");
+            e.retryable = true;
+            throw e;
+          },
+          connectionId: "connection-1",
+          operationType: RetryOperationType.session,
+          retryOptions: {
+            maxRetries: 1,
+            retryDelayInMs: 1000,
+            mode: mode
+          }
+        };
+        // `retry` should sleep once because `maxRetries` is 1, causing a 1000 ms delay.
+        // `retry` should beat `delay`.
+        await Promise.race([retry(config), delay(1500, delayAbortController.signal)]);
+        // If we get here, `delay` won :-(
+        throw new Error("TestFailure: 'retry' took longer than expected to return.");
+      } catch (err) {
+        should.exist(err);
+        err.message.should.equal("I would always like to fail, keep retrying.");
+        should.equal(true, err instanceof MessagingError);
+        counter.should.equal(2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
       }
