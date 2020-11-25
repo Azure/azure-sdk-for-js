@@ -43,6 +43,26 @@ export const chatThreadId: OperationURLParameter = {
   }
 };
 
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
+  mapper: {
+    serializedName: "maxPageSize",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -75,16 +95,6 @@ export const sendReadReceiptRequest: OperationParameter = {
 export const sendChatMessageRequest: OperationParameter = {
   parameterPath: "sendChatMessageRequest",
   mapper: SendChatMessageRequestMapper
-};
-
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
-  mapper: {
-    serializedName: "maxPageSize",
-    type: {
-      name: "Number"
-    }
-  }
 };
 
 export const startTime: OperationQueryParameter = {
@@ -144,6 +154,16 @@ export const chatParticipantId: OperationURLParameter = {
 export const createChatThreadRequest: OperationParameter = {
   parameterPath: "createChatThreadRequest",
   mapper: CreateChatThreadRequestMapper
+};
+
+export const azureAcsIdempotencyKey: OperationParameter = {
+  parameterPath: ["options", "azureAcsIdempotencyKey"],
+  mapper: {
+    serializedName: "azure-Acs-IdempotencyKey",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const updateChatThreadRequest: OperationParameter = {

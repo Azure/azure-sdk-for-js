@@ -297,6 +297,20 @@ export interface UpdateChatThreadRequest {
 export type ChatMessagePriority = "Normal" | "High";
 
 /**
+ * Optional parameters.
+ */
+export interface ChatApiClientListChatReadReceiptsOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * The maximum number of chat message read receipts to be returned per page.
+   */
+  maxPageSize?: number;
+  /**
+   * Skips chat message read receipts up to a specified position in response.
+   */
+  skip?: number;
+}
+
+/**
  * Contains response data for the listChatReadReceipts operation.
  */
 export type ChatApiClientListChatReadReceiptsResponse = ChatMessageReadReceiptsCollection & {
@@ -391,6 +405,20 @@ export type ChatApiClientGetChatMessageResponse = ChatMessage & {
 };
 
 /**
+ * Optional parameters.
+ */
+export interface ChatApiClientListChatParticipantsOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * The maximum number of participants to be returned per page.
+   */
+  maxPageSize?: number;
+  /**
+   * Skips participants up to a specified position in response.
+   */
+  skip?: number;
+}
+
+/**
  * Contains response data for the listChatParticipants operation.
  */
 export type ChatApiClientListChatParticipantsResponse = ChatParticipantsCollection & {
@@ -409,6 +437,16 @@ export type ChatApiClientListChatParticipantsResponse = ChatParticipantsCollecti
     parsedBody: ChatParticipantsCollection;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface ChatApiClientCreateChatThreadOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * Idempotency key to ensure request retries don't yield different side effects.
+   */
+  azureAcsIdempotencyKey?: string;
+}
 
 /**
  * Contains response data for the createChatThread operation.
@@ -485,6 +523,21 @@ export type ChatApiClientGetChatThreadResponse = ChatThread & {
 };
 
 /**
+ * Optional parameters.
+ */
+export interface ChatApiClientListChatReadReceiptsNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * The maximum number of chat message read receipts to be returned per page.
+   */
+  maxPageSize?: number;
+  /**
+   * Skips chat message read receipts up to a specified position in response.
+   */
+  skip?: number;
+}
+
+/**
  * Contains response data for the listChatReadReceiptsNext operation.
  */
 export type ChatApiClientListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection & {
@@ -537,6 +590,21 @@ export type ChatApiClientListChatMessagesNextResponse = ChatMessagesCollection &
     parsedBody: ChatMessagesCollection;
   };
 };
+
+/**
+ * Optional parameters.
+ */
+export interface ChatApiClientListChatParticipantsNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * The maximum number of participants to be returned per page.
+   */
+  maxPageSize?: number;
+  /**
+   * Skips participants up to a specified position in response.
+   */
+  skip?: number;
+}
 
 /**
  * Contains response data for the listChatParticipantsNext operation.
