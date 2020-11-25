@@ -26,12 +26,18 @@ export function getKeyFromKeyBundle(bundle: KeyBundle | DeletedKeyBundle): KeyVa
     keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
     keyType: keyBundle.key ? keyBundle.key.kty : undefined,
     properties: {
+      tags: keyBundle.tags,
+
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyBundle,
-      ...attributes,
-      ...parsedId,
+      recoverableDays: attributes.recoverableDays,
+      recoveryLevel: attributes.recoveryLevel,
+
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name,
+
       id: keyBundle.key ? keyBundle.key.kid : undefined
     }
   };

@@ -3,6 +3,7 @@
 
 import {
   createPipelineFromOptions,
+  InternalPipelineOptions,
   isTokenCredential,
   signingPolicy,
   TokenCredential
@@ -77,7 +78,6 @@ export class KeyVaultBackupClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -88,26 +88,46 @@ export class KeyVaultBackupClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
-      ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+    const internalPipelineOptions: InternalPipelineOptions = {
+      // coreHttp.PipelineOptions has "serviceVersion", but InternalPipelineOptions doesn't. Is that expected?
+      // serviceVersion: pipelineOptions.serviceVersion,
+
+      httpClient: pipelineOptions.httpClient,
+      retryOptions: pipelineOptions.retryOptions,
+      proxyOptions: pipelineOptions.proxyOptions,
+      keepAliveOptions: pipelineOptions.keepAliveOptions,
+      redirectOptions: pipelineOptions.redirectOptions,
+      userAgentOptions: pipelineOptions.userAgentOptions,
+      loggingOptions: {
+        logger: logger.info,
+
+        // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
+        // logPolicyOptions: {
+        //   allowedHeaderNames: [
+        //     "x-ms-keyvault-region",
+        //     "x-ms-keyvault-network-info",
+        //     "x-ms-keyvault-service-version"
+        //   ]
+        // }
+
       }
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient({
       apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      ...pipeline
+      requestPolicyFactories: pipeline.requestPolicyFactories,
+      httpClient: pipeline.httpClient,
+      httpPipelineLogger: pipeline.httpPipelineLogger,
+      noRetryPolicy: pipeline.noRetryPolicy,
+      rpRegistrationRetryTimeout: pipeline.rpRegistrationRetryTimeout,
+      generateClientRequestIdHeader: pipeline.generateClientRequestIdHeader,
+      withCredentials: pipeline.withCredentials,
+      clientRequestIdHeaderName: pipeline.clientRequestIdHeaderName,
+      deserializationContentTypes: pipeline.deserializationContentTypes,
+      userAgentHeaderName: pipeline.userAgentHeaderName,
+      userAgent: pipeline.userAgent,
+      proxySettings: pipeline.proxySettings
     });
   }
 

@@ -141,7 +141,6 @@ export class SecretClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -153,18 +152,27 @@ export class SecretClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions = {
-      ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      // coreHttp.PipelineOptions has "serviceVersion", but InternalPipelineOptions doesn't. Is that expected?
+      // serviceVersion: pipelineOptions.serviceVersion,
+
+      httpClient: pipelineOptions.httpClient,
+      retryOptions: pipelineOptions.retryOptions,
+      proxyOptions: pipelineOptions.proxyOptions,
+      keepAliveOptions: pipelineOptions.keepAliveOptions,
+      redirectOptions: pipelineOptions.redirectOptions,
+      userAgentOptions: pipelineOptions.userAgentOptions,
+      loggingOptions: {
+        logger: logger.info,
+
+        // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
+        // logPolicyOptions: {
+        //   allowedHeaderNames: [
+        //     "x-ms-keyvault-region",
+        //     "x-ms-keyvault-network-info",
+        //     "x-ms-keyvault-service-version"
+        //   ]
+        // }
+
       }
     };
 

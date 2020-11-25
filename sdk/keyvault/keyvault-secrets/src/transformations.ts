@@ -27,9 +27,15 @@ export function getSecretFromSecretBundle(
       expiresOn: (attributes as any).expires,
       createdOn: (attributes as any).created,
       updatedOn: (attributes as any).updated,
-      ...secretBundle,
-      ...parsedId,
-      ...attributes
+
+      id: secretBundle.id,
+      contentType: secretBundle.contentType,
+      tags: secretBundle.tags,
+      managed: secretBundle.managed,
+
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name
     }
   };
 

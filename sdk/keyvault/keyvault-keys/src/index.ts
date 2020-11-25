@@ -205,7 +205,6 @@ export class KeyClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -217,18 +216,27 @@ export class KeyClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions = {
-      ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      // coreHttp.PipelineOptions has "serviceVersion", but InternalPipelineOptions doesn't. Is that expected?
+      // serviceVersion: pipelineOptions.serviceVersion,
+
+      httpClient: pipelineOptions.httpClient,
+      retryOptions: pipelineOptions.retryOptions,
+      proxyOptions: pipelineOptions.proxyOptions,
+      keepAliveOptions: pipelineOptions.keepAliveOptions,
+      redirectOptions: pipelineOptions.redirectOptions,
+      userAgentOptions: pipelineOptions.userAgentOptions,
+      loggingOptions: {
+        logger: logger.info,
+
+        // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
+        // logPolicyOptions: {
+        //   allowedHeaderNames: [
+        //     "x-ms-keyvault-region",
+        //     "x-ms-keyvault-network-info",
+        //     "x-ms-keyvault-service-version"
+        //   ]
+        // }
+
       }
     };
 
@@ -1071,9 +1079,20 @@ export class KeyClient {
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...keyItem.attributes,
-      ...parsedId,
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name,
+
       id: keyItem.kid
     };
 
@@ -1112,9 +1131,19 @@ export class KeyClient {
     const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...parsedId,
-      ...keyItem.attributes
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name,
     };
 
     delete resultObject.attributes;

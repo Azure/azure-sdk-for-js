@@ -59,12 +59,12 @@ export function toCorePolicy(
     id,
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
-          action: { actionType: action.action },
-          trigger: {
-            lifetimePercentage: action.lifetimePercentage,
-            daysBeforeExpiry: action.daysBeforeExpiry
-          }
-        }))
+        action: { actionType: action.action },
+        trigger: {
+          lifetimePercentage: action.lifetimePercentage,
+          daysBeforeExpiry: action.daysBeforeExpiry
+        }
+      }))
       : undefined,
     keyProperties: {
       keyType: policy.keyType,
@@ -123,10 +123,10 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
   const certificatePolicy: CertificatePolicy = {
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
-          action: action.action ? action.action.actionType : undefined,
-          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
-        }))
+        action: action.action ? action.action.actionType : undefined,
+        daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
+        lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+      }))
       : undefined,
     contentType: policy.secretProperties
       ? (policy.secretProperties.contentType as CertificateContentType)
@@ -179,11 +179,11 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     publicIssuer.organizationId = issuer.organizationDetails.id;
     publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails
       ? issuer.organizationDetails.adminDetails.map((x) => ({
-          email: x.emailAddress,
-          phone: x.phone,
-          firstName: x.firstName,
-          lastName: x.lastName
-        }))
+        email: x.emailAddress,
+        phone: x.phone,
+        firstName: x.firstName,
+        lastName: x.lastName
+      }))
       : undefined;
   }
   return publicIssuer;
@@ -201,10 +201,10 @@ export function getCertificateFromCertificateBundle(
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
     id: certificateBundle.id,
-    name: parsedId.name,
     enabled: attributes.enabled,
     notBefore: attributes.notBefore,
     recoveryLevel: attributes.recoveryLevel,
+    name: parsedId.name,
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
     tags: certificateBundle.tags,
@@ -234,10 +234,10 @@ export function getCertificateWithPolicyFromCertificateBundle(
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
     id: certificateBundle.id,
-    name: parsedId.name,
     enabled: attributes.enabled,
     notBefore: attributes.notBefore,
     recoveryLevel: attributes.recoveryLevel,
+    name: parsedId.name,
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
     tags: certificateBundle.tags,
@@ -263,7 +263,13 @@ export function getDeletedCertificateFromDeletedCertificateBundle(
   );
 
   return {
-    ...certificate,
+    policy: certificate.policy,
+    cer: certificate.cer,
+    id: certificate.id,
+    keyId: certificate.keyId,
+    secretId: certificate.secretId,
+    name: certificate.name,
+    properties: certificate.properties,
     recoveryId: certificateBundle.recoveryId,
     scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
     deletedOn: certificateBundle.deletedDate
@@ -279,9 +285,21 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     createdOn: attributes.created,
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
-    ...parsedId,
-    ...item,
-    ...item.attributes
+
+    sourceId: parsedId.sourceId,
+    vaultUrl: parsedId.vaultUrl,
+    version: parsedId.version,
+    name: parsedId.name,
+
+    deletedOn: item.deletedDate,
+    recoveryId: item.recoveryId,
+    scheduledPurgeDate: item.scheduledPurgeDate,
+    id: item.id,
+    tags: item.tags,
+    x509Thumbprint: item.x509Thumbprint,
+
+    recoverableDays: item.attributes?.recoverableDays,
+    recoveryLevel: item.attributes?.recoveryLevel
   };
 
   if (abstractProperties.deletedDate) {
@@ -333,8 +351,8 @@ export function getCertificateOperationFromCoreOperation(
 export function coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
   return contacts.contactList
     ? contacts.contactList.map(
-        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
-      )
+      (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+    )
     : [];
 }
 

@@ -16,7 +16,8 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  InternalPipelineOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -283,19 +284,28 @@ export class CertificateClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
-      ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+    const internalPipelineOptions: InternalPipelineOptions = {
+      // coreHttp.PipelineOptions has "serviceVersion", but InternalPipelineOptions doesn't. Is that expected?
+      // serviceVersion: pipelineOptions.serviceVersion,
+
+      httpClient: pipelineOptions.httpClient,
+      retryOptions: pipelineOptions.retryOptions,
+      proxyOptions: pipelineOptions.proxyOptions,
+      keepAliveOptions: pipelineOptions.keepAliveOptions,
+      redirectOptions: pipelineOptions.redirectOptions,
+      userAgentOptions: pipelineOptions.userAgentOptions,
+      loggingOptions: {
+        logger: logger.info,
+
+        // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
+        // logPolicyOptions: {
+        //   allowedHeaderNames: [
+        //     "x-ms-keyvault-region",
+        //     "x-ms-keyvault-network-info",
+        //     "x-ms-keyvault-service-version"
+        //   ]
+        // }
+
       }
     };
 
@@ -313,6 +323,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
+        includePending: options.includePending,
         ...options
       };
       const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
@@ -771,6 +782,9 @@ export class CertificateClient {
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions,
+      credentials: requestOptions.credentials,
+      organizationDetails: requestOptions.organizationDetails,
+      attributes: requestOptions.attributes,
       id: properties.id || requestOptions.id,
       provider: properties.provider || requestOptions.provider
     };
@@ -788,11 +802,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }
@@ -845,6 +859,9 @@ export class CertificateClient {
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions,
+      credentials: requestOptions.credentials,
+      organizationDetails: requestOptions.organizationDetails,
+      attributes: requestOptions.attributes,
       id: properties.id || requestOptions.id,
       provider: properties.provider || requestOptions.provider
     };
@@ -862,11 +879,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }
@@ -1506,6 +1523,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
+        includePending: options.includePending,
         ...options
       };
       const currentSetResponse = await this.client.getDeletedCertificates(
