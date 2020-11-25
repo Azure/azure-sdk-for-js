@@ -3,7 +3,7 @@
 
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../../src";
+import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../../../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
