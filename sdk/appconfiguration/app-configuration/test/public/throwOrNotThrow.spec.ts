@@ -4,7 +4,7 @@ import {
   deleteKeyCompletely,
   assertThrowsRestError,
   startRecorder
-} from "../utils/testHelpers";
+} from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 

@@ -14,7 +14,7 @@ import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
   startRecorder
-} from "../utils/testHelpers";
+} from "../public/utils/testHelpers";
 
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";

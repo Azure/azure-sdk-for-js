@@ -6,7 +6,7 @@ import {
   startRecorder,
   getTokenAuthenticationCredential,
   CredsAndEndpoint
-} from "../utils/testHelpers";
+} from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 

@@ -10,7 +10,7 @@ import {
   assertThrowsRestError,
   assertThrowsAbortError,
   startRecorder
-} from "../utils/testHelpers";
+} from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import { delay } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";

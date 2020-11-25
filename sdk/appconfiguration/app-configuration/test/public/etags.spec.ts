@@ -7,7 +7,7 @@ import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
-} from "../utils/testHelpers";
+} from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 
