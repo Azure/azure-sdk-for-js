@@ -39,17 +39,27 @@ export class DnsManagementClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    const defaultPipelines = Array.isArray(options.requestPolicyFactories)
-      ? options.requestPolicyFactories
-      : (coreHttp.createPipelineFromOptions(options)
-          .requestPolicyFactories as coreHttp.RequestPolicyFactory[]);
-
-    options = {
-      ...options,
-      requestPolicyFactories: [lroPolicy(), ...defaultPipelines]
+    const internalPipelineOptions: coreHttp.InternalPipelineOptions = {
+      ...options
     };
 
-    super(credentials, options);
+    const credsPolicy = coreHttp.isTokenCredential(credentials)
+      ? coreHttp.bearerTokenAuthenticationPolicy(
+          credentials,
+          "https://management.azure.com/.default"
+        )
+      : coreHttp.signingPolicy(credentials);
+
+    const pipeline = coreHttp.createPipelineFromOptions(
+      internalPipelineOptions,
+      credsPolicy
+    );
+
+    if (Array.isArray(pipeline.requestPolicyFactories)) {
+      pipeline.requestPolicyFactories.unshift(lroPolicy());
+    }
+
+    super(credentials, pipeline);
 
     this.requestContentType = "application/json; charset=utf-8";
 
