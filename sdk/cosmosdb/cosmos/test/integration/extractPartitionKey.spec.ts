@@ -4,14 +4,6 @@ import assert from "assert";
 import { extractPartitionKey } from "../../src/extractPartitionKey";
 
 describe("extractPartitionKey", function() {
-  describe("With undefined partitionKeyDefinition", function() {
-    it("should return undefined", function() {
-      const document: any = {};
-      const result = extractPartitionKey(document, undefined);
-      assert.equal(result, undefined);
-    });
-  });
-
   describe("With a defined partitionKeyDefinition", function() {
     const partitionKeyDefinition = { paths: ["/a/b"] };
     const migratedPartitionKeyDefinition = { paths: ["/_partitionKey"], isSystemKey: true };
