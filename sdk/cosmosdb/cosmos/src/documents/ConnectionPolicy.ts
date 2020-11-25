@@ -26,11 +26,15 @@ export interface ConnectionPolicy {
 /**
  * @ignore
  */
-export const defaultConnectionPolicy = Object.freeze({
+export const defaultConnectionPolicy: Required<ConnectionPolicy> = Object.freeze({
   connectionMode: ConnectionMode.Gateway,
   requestTimeout: 60000,
   enableEndpointDiscovery: true,
   preferredLocations: [],
-  retryOptions: {},
+  retryOptions: {
+    maxRetryAttemptCount: 9,
+    fixedRetryIntervalInMilliseconds: 1000,
+    maxWaitTimeInSeconds: 30
+  },
   useMultipleWriteLocations: true
 });

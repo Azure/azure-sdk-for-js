@@ -2,29 +2,24 @@
 // Licensed under the MIT license.
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { Location, DatabaseAccount } from "./documents";
+import { Location, DatabaseAccount, defaultConnectionPolicy, ConnectionPolicy } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
 /**
  * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
- * @property {object} client                       - The document client instance.
- * @property {string} defaultEndpoint              - The endpoint used to create the client instance.
  * @property {bool} enableEndpointDiscovery        - Flag to enable/disable automatic redirecting of requests
  *                                                   based on read/write operations.
- * @property {Array} preferredLocations            - List of azure regions to be used as preferred locations
- *                                                   for read requests.
- * @property {bool} isEndpointCacheInitialized     - Flag to determine whether the endpoint cache is initialized or not.
  */
 export class GlobalEndpointManager {
-  private defaultEndpoint: string;
   public enableEndpointDiscovery: boolean;
+
+  private defaultEndpoint: string;
   private isRefreshing: boolean;
-  private options: CosmosClientOptions;
-  private preferredLocations: string[];
-  private writeableLocations: Location[];
-  private readableLocations: Location[];
+  private connectionPolicy: Required<ConnectionPolicy>;
+  private writeableLocations?: Location[];
+  private readableLocations?: Location[];
 
   /**
    * @constructor GlobalEndpointManager
@@ -36,11 +31,10 @@ export class GlobalEndpointManager {
       opts: RequestOptions
     ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
-    this.options = options;
     this.defaultEndpoint = options.endpoint;
-    this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
+    this.connectionPolicy = { ...defaultConnectionPolicy, ...options.connectionPolicy };
+    this.enableEndpointDiscovery = this.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
-    this.preferredLocations = this.options.connectionPolicy.preferredLocations;
   }
 
   /**
@@ -58,16 +52,18 @@ export class GlobalEndpointManager {
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
-    return this.readableLocations.map((loc) => loc.databaseAccountEndpoint);
+    return this.readableLocations?.map((loc) => loc.databaseAccountEndpoint) ?? [];
   }
 
   public async getWriteEndpoints(): Promise<ReadonlyArray<string>> {
-    return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
+    return this.writeableLocations?.map((loc) => loc.databaseAccountEndpoint) ?? [];
   }
 
   public async markCurrentLocationUnavailableForRead(endpoint: string) {
     await this.refreshEndpointList();
-    const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
+    const location = this.readableLocations?.find(
+      (loc) => loc.databaseAccountEndpoint === endpoint
+    );
     if (location) {
       location.unavailable = true;
     }
@@ -75,7 +71,7 @@ export class GlobalEndpointManager {
 
   public async markCurrentLocationUnavailableForWrite(endpoint: string) {
     await this.refreshEndpointList();
-    const location = this.writeableLocations.find(
+    const location = this.writeableLocations?.find(
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
@@ -87,7 +83,7 @@ export class GlobalEndpointManager {
     resourceType?: ResourceType,
     operationType?: OperationType
   ): boolean {
-    let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
+    let canUse = this.connectionPolicy.useMultipleWriteLocations;
 
     if (resourceType) {
       canUse =
@@ -101,7 +97,7 @@ export class GlobalEndpointManager {
 
   public async resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType) {
     // If endpoint discovery is disabled, always use the user provided endpoint
-    if (!this.options.connectionPolicy.enableEndpointDiscovery) {
+    if (!this.connectionPolicy.enableEndpointDiscovery) {
       return this.defaultEndpoint;
     }
 
@@ -114,8 +110,8 @@ export class GlobalEndpointManager {
       const { resource: databaseAccount } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint
       });
-      this.writeableLocations = databaseAccount.writableLocations;
-      this.readableLocations = databaseAccount.readableLocations;
+      this.writeableLocations = databaseAccount?.writableLocations;
+      this.readableLocations = databaseAccount?.readableLocations;
     }
 
     const locations = isReadRequest(operationType)
@@ -124,22 +120,20 @@ export class GlobalEndpointManager {
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
-    if (this.preferredLocations && this.preferredLocations.length > 0) {
-      for (const preferredLocation of this.preferredLocations) {
-        location = locations.find(
-          (loc) =>
-            loc.unavailable !== true &&
-            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
-        );
-        if (location) {
-          break;
-        }
+    for (const preferredLocation of this.connectionPolicy.preferredLocations) {
+      location = locations?.find(
+        (loc) =>
+          loc.unavailable !== true &&
+          normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
+      );
+      if (location) {
+        break;
       }
     }
 
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
-      location = locations.find((loc) => {
+      location = locations?.find((loc) => {
         return loc.unavailable !== true;
       });
     }
@@ -153,7 +147,7 @@ export class GlobalEndpointManager {
    *   We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
-    if (!this.isRefreshing && this.enableEndpointDiscovery) {
+    if (!this.isRefreshing && this.connectionPolicy.enableEndpointDiscovery) {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
@@ -166,14 +160,20 @@ export class GlobalEndpointManager {
 
   private refreshEndpoints(databaseAccount: DatabaseAccount) {
     for (const location of databaseAccount.writableLocations) {
-      const existingLocation = this.writeableLocations.find((loc) => loc.name === location.name);
+      const existingLocation = this.writeableLocations?.find((loc) => loc.name === location.name);
       if (!existingLocation) {
+        if (!this.writeableLocations) {
+          this.writeableLocations = [];
+        }
         this.writeableLocations.push(location);
       }
     }
     for (const location of databaseAccount.writableLocations) {
-      const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
+      const existingLocation = this.readableLocations?.find((loc) => loc.name === location.name);
       if (!existingLocation) {
+        if (!this.readableLocations) {
+          this.readableLocations = [];
+        }
         this.readableLocations.push(location);
       }
     }
@@ -191,7 +191,9 @@ export class GlobalEndpointManager {
     try {
       const options = { urlConnection: this.defaultEndpoint };
       const { resource: databaseAccount } = await this.readDatabaseAccount(options);
-      return databaseAccount;
+      if (databaseAccount) {
+        return databaseAccount;
+      }
       // If for any reason(non - globaldb related), we are not able to get the database
       // account from the above call to readDatabaseAccount,
       // we would try to get this information from any of the preferred locations that the user
@@ -201,24 +203,22 @@ export class GlobalEndpointManager {
     } catch (err) {
       // TODO: Tracing
     }
-
-    if (this.preferredLocations) {
-      for (const location of this.preferredLocations) {
-        try {
-          const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
-            this.defaultEndpoint,
-            location
-          );
-          const options = { urlConnection: locationalEndpoint };
-          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
-          if (databaseAccount) {
-            return databaseAccount;
-          }
-        } catch (err) {
-          // TODO: Tracing
+    for (const location of this.connectionPolicy.preferredLocations) {
+      try {
+        const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
+          this.defaultEndpoint,
+          location
+        );
+        const options = { urlConnection: locationalEndpoint ?? undefined };
+        const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+        if (databaseAccount) {
+          return databaseAccount;
         }
+      } catch (err) {
+        // TODO: Tracing
       }
     }
+    throw new Error("could not find the database account");
   }
 
   /**
