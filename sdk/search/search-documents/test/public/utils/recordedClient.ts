@@ -61,6 +61,6 @@ export function createClients<IndexModel>(indexName: string): Clients<IndexModel
   return {
     searchClient,
     indexClient,
-    indexerClient,
+    indexerClient
   };
 }
