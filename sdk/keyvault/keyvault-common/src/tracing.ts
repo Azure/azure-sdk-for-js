@@ -6,11 +6,11 @@ import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 
 /**
- * Creates a span using the tracer that was set by the user.
+ * Creates a span using the tracer that was set by the user
  * @param {string} methodName The name of the method creating the span.
  * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
  */
-export function createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
+export function createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
   const tracer = getTracer();
   const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
   span.setAttribute("az.namespace", "Microsoft.KeyVault");

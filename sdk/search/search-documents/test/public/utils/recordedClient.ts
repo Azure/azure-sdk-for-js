@@ -11,7 +11,7 @@ import {
   SearchClient,
   SearchIndexerClient,
   SearchIndexClient
-} from "../../src/index";
+} from "../../../src";
 
 if (isNode) {
   dotenv.config();
