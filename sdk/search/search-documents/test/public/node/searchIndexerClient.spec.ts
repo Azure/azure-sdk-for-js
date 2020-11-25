@@ -272,7 +272,7 @@ describe("SearchIndexerClient", function () {
       let skillSet = await indexerClient.getSkillset("my-azureblob-skillset-2");
       skillSet.skills[0].outputs.push({
         name: "organizations",
-        targetName: "organizations",
+        targetName: "organizations"
       });
       await indexerClient.createOrUpdateSkillset(skillSet);
       skillSet = await indexerClient.getSkillset("my-azureblob-skillset-2");
