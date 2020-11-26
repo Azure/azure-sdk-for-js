@@ -1314,6 +1314,198 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
     await serviceClientWithSAS.getAccountInfo();
   });
+
+  it("ContainerClient.generateSasUrl", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sasURL = containerClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: ContainerSASPermissions.parse("racwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+
+    const containerClientWithSAS = new ContainerClient(sasURL);
+    (
+      await containerClientWithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
+
+    try {
+      containerClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+    }
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const sasURL = blobClient.generateSasUrl({
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob snapshot", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const createSnapshotRes = await blobClient.createSnapshot();
+    const blobClientWithSnapshot = blobClient.withSnapshot(createSnapshotRes.snapshot!);
+
+    await blobClient.setHTTPHeaders({
+      blobContentType: "content-type-original1"
+    });
+
+    const sasURL = blobClientWithSnapshot.generateSasUrl({
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+
+    const blobClientWithSnapshotAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobClientWithSnapshotAndSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+    assert.equal(properties.etag, createSnapshotRes.etag);
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob version", async () => {
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+    const blobClientWithVersion = blockBlobClient.withVersion(uploadRes.versionId!);
+
+    // generate SAS
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sasURL = blobClientWithVersion.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwdx")
+    });
+    const blobClientWithVersionIdAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobClientWithVersionIdAndSAS.getProperties();
+    assert.deepStrictEqual(properties.versionId, uploadRes.versionId);
+
+    // delete version
+    await blobClientWithVersionIdAndSAS.delete();
+    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
+    assert.ok(await blockBlobClient.exists());
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob with special namings", async () => {
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container-with-dash");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+    const blobName = recorder.getUniqueName(
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%"
+    );
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const sasURL = blobClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwd")
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.getProperties();
+
+    await containerClient.delete();
+  });
 });
 
 describe("Generation for user delegation SAS Node.js only", () => {

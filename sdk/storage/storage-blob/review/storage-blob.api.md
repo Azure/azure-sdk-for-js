@@ -394,6 +394,7 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
+    generateSasUrl(options: BlobGenerateSasUrlOptions): string;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -616,6 +617,21 @@ export interface BlobFlatListSegment {
 export interface BlobFlatListSegmentModel {
     // (undocumented)
     blobItems: BlobItemInternal[];
+}
+
+// @public
+export interface BlobGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: BlobSASPermissions;
+    protocol?: SASProtocol;
+    startsOn?: Date;
 }
 
 // @public
@@ -1568,6 +1584,7 @@ export class ContainerClient extends StorageClient {
     deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
+    generateSasUrl(options: ContainerGenerateSasUrlOptions): string;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1663,6 +1680,21 @@ export interface ContainerEncryptionScope {
 // @public
 export interface ContainerExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface ContainerGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: ContainerSASPermissions;
+    protocol?: SASProtocol;
+    startsOn?: Date;
 }
 
 // @public

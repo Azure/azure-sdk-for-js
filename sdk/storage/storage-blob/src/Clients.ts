@@ -134,8 +134,10 @@ import {
 import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
+  appendToURLQuery,
   extractConnectionStringParts,
   generateBlockID,
+  getURLParameter,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   setURLParameter,
@@ -151,6 +153,11 @@ import {
   readStreamToLocalFile,
   streamToBuffer
 } from "./utils/utils.node";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -1011,6 +1018,104 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
 }
 
 /**
+ * Options to configure {@link BlobClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface BlobGenerateSasUrlOptions
+ */
+export interface BlobGenerateSasUrlOptions {
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {BlobSASPermissions}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  permissions?: BlobSASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1029,6 +1134,9 @@ export class BlobClient extends StorageClient {
 
   private _name: string;
   private _containerName: string;
+
+  private _versionId?: string;
+  private _snapshot?: string;
 
   /**
    * The name of the blob.
@@ -1188,6 +1296,9 @@ export class BlobClient extends StorageClient {
       containerName: this._containerName
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
+
+    this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
+    this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
   }
 
   /**
@@ -2386,6 +2497,39 @@ export class BlobClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates a Blob Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {BlobGenerateSasUrlOptions} options Optional parameters.
+   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobClient
+   */
+  public generateSasUrl(options: BlobGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        containerName: this._containerName,
+        blobName: this._name,
+        snapshotTime: this._snapshot,
+        versionId: this._versionId,
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }
 
@@ -6908,6 +7052,104 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
 }
 
 /**
+ * Options to configure {@link ContainerClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface ContainerGenerateSasUrlOptions
+ */
+export interface ContainerGenerateSasUrlOptions {
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {ContainerSASPermissions}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  permissions?: ContainerSASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
@@ -8210,5 +8452,35 @@ export class ContainerClient extends StorageClient {
     } catch (error) {
       throw new Error("Unable to extract containerName with provided information.");
     }
+  }
+
+  /**
+   * Only available for ContainerClient constructed with a shared key credential.
+   *
+   * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {ContainerGenerateSasUrlOptions} options Optional parameters.
+   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ContainerClient
+   */
+  public generateSasUrl(options: ContainerGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        containerName: this._containerName,
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }
