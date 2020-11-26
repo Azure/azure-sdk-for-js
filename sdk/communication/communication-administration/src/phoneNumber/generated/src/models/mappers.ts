@@ -31,7 +31,7 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         serializedName: "capabilities",
         type: {
           name: "Composite",
-          className: "SearchCapabilities"
+          className: "CapabilitiesRequest"
         }
       },
       areaCode: {
@@ -51,10 +51,10 @@ export const SearchRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchCapabilities: coreHttp.CompositeMapper = {
+export const CapabilitiesRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SearchCapabilities",
+    className: "CapabilitiesRequest",
     modelProperties: {
       sms: {
         defaultValue: "none",
@@ -425,7 +425,7 @@ export const AcquiredPhoneNumberUpdate: coreHttp.CompositeMapper = {
         serializedName: "capabilities",
         type: {
           name: "Composite",
-          className: "Capabilities"
+          className: "CapabilitiesRequest"
         }
       }
     }

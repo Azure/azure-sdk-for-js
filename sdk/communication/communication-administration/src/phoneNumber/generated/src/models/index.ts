@@ -23,7 +23,7 @@ export interface SearchRequest {
   /**
    * The phone number's capabilities.
    */
-  capabilities: SearchCapabilities;
+  capabilities: CapabilitiesRequest;
   /**
    * The desired area code.
    */
@@ -37,7 +37,7 @@ export interface SearchRequest {
 /**
  * The capabilities of a phone number.
  */
-export interface SearchCapabilities {
+export interface CapabilitiesRequest {
   /**
    * Available Sms capabilities.
    */
@@ -257,7 +257,7 @@ export interface AcquiredPhoneNumberUpdate {
   /**
    * The new set of enabled capabilities.
    */
-  capabilities?: Capabilities;
+  capabilities?: CapabilitiesRequest;
 }
 
 /**

@@ -37,7 +37,7 @@ export interface AcquiredPhoneNumbers {
 export interface AcquiredPhoneNumberUpdate {
     applicationId?: string;
     callbackUrl?: string;
-    capabilities?: Capabilities;
+    capabilities?: CapabilitiesRequest;
 }
 
 // @public
@@ -63,6 +63,12 @@ export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsB
 export interface Capabilities {
     calling: CapabilityValue;
     sms: CapabilityValue;
+}
+
+// @public
+export interface CapabilitiesRequest {
+    calling?: CapabilityValue;
+    sms?: CapabilityValue;
 }
 
 // @public
@@ -147,16 +153,10 @@ export interface PhoneNumberPollerOptionsBase {
 export type PhoneNumberType = "tollFree" | "geographic";
 
 // @public
-export interface SearchCapabilities {
-    calling?: CapabilityValue;
-    sms?: CapabilityValue;
-}
-
-// @public
 export interface SearchRequest {
     areaCode?: string;
     assignmentType: AssignmentType;
-    capabilities: SearchCapabilities;
+    capabilities: CapabilitiesRequest;
     numberType: PhoneNumberType;
     quantity?: number;
 }

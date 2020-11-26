@@ -312,6 +312,6 @@ export {
   SearchRequest,
   SearchResult,
   AcquiredPhoneNumberUpdate,
-  SearchCapabilities,
+  CapabilitiesRequest,
   CapabilityValue
 } from "./generated/src/models";
