@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import { PhoneNumberRestClientOptionalParams } from "./models";
+import { lroPolicy } from "./lro";
 
 const packageName = "azure-communication-administration-phoneNumber";
 const packageVersion = "1.0.0-beta.4";
@@ -35,6 +36,14 @@ export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
       const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
+
+    const defaultPipelines = coreHttp.createPipelineFromOptions(options)
+      .requestPolicyFactories as coreHttp.RequestPolicyFactory[];
+
+    options = {
+      ...options,
+      requestPolicyFactories: [lroPolicy(), ...defaultPipelines]
+    };
 
     super(undefined, options);
 

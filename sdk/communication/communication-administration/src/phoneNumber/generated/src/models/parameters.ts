@@ -7,18 +7,32 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
-  LocationOptionsQueries as LocationOptionsQueriesMapper,
-  UpdateNumberCapabilitiesRequest as UpdateNumberCapabilitiesRequestMapper,
-  NumberConfigurationPhoneNumber as NumberConfigurationPhoneNumberMapper,
-  NumberConfiguration as NumberConfigurationMapper,
-  ReleaseRequest as ReleaseRequestMapper,
-  CreateSearchOptions as CreateSearchOptionsMapper
+  SearchRequest as SearchRequestMapper,
+  PurchaseRequest as PurchaseRequestMapper,
+  AcquiredPhoneNumberUpdate as AcquiredPhoneNumberUpdateMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const search: OperationParameter = {
+  parameterPath: "search",
+  mapper: SearchRequestMapper
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -32,34 +46,13 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const locale: OperationQueryParameter = {
-  parameterPath: ["options", "locale"],
+export const countryCode: OperationURLParameter = {
+  parameterPath: "countryCode",
   mapper: {
-    defaultValue: "en-US",
-    serializedName: "locale",
+    serializedName: "countryCode",
+    required: true,
     type: {
       name: "String"
-    }
-  }
-};
-
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
-  mapper: {
-    serializedName: "skip",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const take: OperationQueryParameter = {
-  parameterPath: ["options", "take"],
-  mapper: {
-    defaultValue: 100,
-    serializedName: "take",
-    type: {
-      name: "Number"
     }
   }
 };
@@ -76,130 +69,6 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: LocationOptionsQueriesMapper
-};
-
-export const locationType: OperationQueryParameter = {
-  parameterPath: "locationType",
-  mapper: {
-    serializedName: "locationType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const countryCode: OperationURLParameter = {
-  parameterPath: "countryCode",
-  mapper: {
-    serializedName: "countryCode",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const phonePlanId: OperationQueryParameter = {
-  parameterPath: "phonePlanId",
-  mapper: {
-    serializedName: "phonePlanId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const capabilitiesUpdateId: OperationURLParameter = {
-  parameterPath: "capabilitiesUpdateId",
-  mapper: {
-    serializedName: "capabilitiesUpdateId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpdateNumberCapabilitiesRequestMapper
-};
-
-export const body2: OperationParameter = {
-  parameterPath: "body",
-  mapper: NumberConfigurationPhoneNumberMapper
-};
-
-export const body3: OperationParameter = {
-  parameterPath: "body",
-  mapper: NumberConfigurationMapper
-};
-
-export const includeRateInformation: OperationQueryParameter = {
-  parameterPath: ["options", "includeRateInformation"],
-  mapper: {
-    serializedName: "includeRateInformation",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const phonePlanGroupId: OperationURLParameter = {
-  parameterPath: "phonePlanGroupId",
-  mapper: {
-    serializedName: "phonePlanGroupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const phonePlanId1: OperationURLParameter = {
-  parameterPath: "phonePlanId",
-  mapper: {
-    serializedName: "phonePlanId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const releaseId: OperationURLParameter = {
-  parameterPath: "releaseId",
-  mapper: {
-    serializedName: "releaseId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body4: OperationParameter = {
-  parameterPath: "body",
-  mapper: ReleaseRequestMapper
-};
-
 export const searchId: OperationURLParameter = {
   parameterPath: "searchId",
   mapper: {
@@ -211,9 +80,48 @@ export const searchId: OperationURLParameter = {
   }
 };
 
-export const body5: OperationParameter = {
-  parameterPath: "body",
-  mapper: CreateSearchOptionsMapper
+export const purchase: OperationParameter = {
+  parameterPath: "purchase",
+  mapper: PurchaseRequestMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumber: OperationURLParameter = {
+  parameterPath: "phoneNumber",
+  mapper: {
+    serializedName: "phoneNumber",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const update: OperationParameter = {
+  parameterPath: "update",
+  mapper: AcquiredPhoneNumberUpdateMapper
 };
 
 export const nextLink: OperationURLParameter = {
