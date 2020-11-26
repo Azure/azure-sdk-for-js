@@ -36,7 +36,7 @@ import {
   SearchRequest,
   SearchResult
 } from "./generated/src/models";
-import { GetPhoneNumberOptions, GetSearchResultOptions, ListPhoneNumbersOptions } from "./models";
+import { GetPhoneNumberOptions, ListPhoneNumbersOptions } from "./models";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -123,18 +123,6 @@ export class PhoneNumberAdministrationClient {
     options?: BeginSearchAvailablePhoneNumbersOptions
   ): Promise<PollerLike<PollOperationState<SearchResult>, SearchResult>> {
     return this.client.searchAvailablePhoneNumbers(countryCode, search, options) as any;
-  }
-
-  /**
-   * Get a search result by its id.
-   * @param searchId The search Id.
-   * @param options The options parameters.
-   */
-  public async getSearchResult(
-    searchId: string,
-    options?: GetSearchResultOptions
-  ): Promise<SearchResult> {
-    return this.getSearchResult(searchId, options);
   }
 
   /**

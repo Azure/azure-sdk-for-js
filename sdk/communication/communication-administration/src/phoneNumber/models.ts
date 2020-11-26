@@ -8,6 +8,4 @@ import { OperationOptions } from "@azure/core-http";
  * Options for listing acquired phone numbers.
  */
 export type ListPhoneNumbersOptions = OperationOptions;
-
-export type GetSearchResultOptions = OperationOptions;
 export type GetPhoneNumberOptions = OperationOptions;

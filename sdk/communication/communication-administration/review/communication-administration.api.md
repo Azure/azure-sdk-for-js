@@ -111,9 +111,6 @@ export type CreateUserResponse = WithResponse<CommunicationUser>;
 // @public (undocumented)
 export type GetPhoneNumberOptions = OperationOptions;
 
-// @public (undocumented)
-export type GetSearchResultOptions = OperationOptions;
-
 // @public
 export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
 
@@ -135,7 +132,6 @@ export class PhoneNumberAdministrationClient {
     beginSearchAvailablePhoneNumbers(countryCode: string, search: SearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<SearchResult>, SearchResult>>;
     beginUpdatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
-    getSearchResult(searchId: string, options?: GetSearchResultOptions): Promise<SearchResult>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     }
 
