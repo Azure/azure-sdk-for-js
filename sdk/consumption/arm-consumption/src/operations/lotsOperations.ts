@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/lotsOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a LotsOperations. */
+export class LotsOperations {
   private readonly client: ConsumptionManagementClientContext;
 
   /**
-   * Create a Operations.
+   * Create a LotsOperations.
    * @param {ConsumptionManagementClientContext} client Reference to the service client.
    */
   constructor(client: ConsumptionManagementClientContext) {
@@ -26,55 +26,63 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available consumption REST API operations.
+   * Lists the lots by billingAccountId and billingProfileId.
+   * @param billingAccountId BillingAccount ID
+   * @param billingProfileId Azure Billing Profile ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.LotsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.LotsListResponse>;
   /**
+   * @param billingAccountId BillingAccount ID
+   * @param billingProfileId Azure Billing Profile ID.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(billingAccountId: string, billingProfileId: string, callback: msRest.ServiceCallback<Models.Lots>): void;
   /**
+   * @param billingAccountId BillingAccount ID
+   * @param billingProfileId Azure Billing Profile ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(billingAccountId: string, billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Lots>): void;
+  list(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Lots>, callback?: msRest.ServiceCallback<Models.Lots>): Promise<Models.LotsListResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountId,
+        billingProfileId,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.LotsListResponse>;
   }
 
   /**
-   * Lists all of the available consumption REST API operations.
+   * Lists the lots by billingAccountId and billingProfileId.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
+   * @returns Promise<Models.LotsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LotsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.Lots>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Lots>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Lots>, callback?: msRest.ServiceCallback<Models.Lots>): Promise<Models.LotsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback) as Promise<Models.LotsListNextResponse>;
   }
 }
 
@@ -82,7 +90,11 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Consumption/operations",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/lots",
+  urlParameters: [
+    Parameters.billingAccountId,
+    Parameters.billingProfileId
+  ],
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -91,7 +103,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.Lots
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -115,7 +127,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.Lots
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
