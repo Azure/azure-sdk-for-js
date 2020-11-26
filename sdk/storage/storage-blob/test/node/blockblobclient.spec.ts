@@ -183,10 +183,10 @@ describe("syncUploadFromURL", () => {
   let sourceBlob: BlockBlobClient;
   let sourceBlobURLWithSAS: string;
   let blockBlobClient: BlockBlobClient;
-  let content: Uint8Array;
   let largeContent: Uint8Array;
   let srcEtag: string | undefined;
 
+  const content = "Hello World";
   const srcHttpHeaders = {
     blobCacheControl: "blobCacheControl",
     blobContentDisposition: "blobContentDisposition",
@@ -196,7 +196,6 @@ describe("syncUploadFromURL", () => {
   };
 
   before(async function() {
-    content = genearteRandomUint8Array(1024);
     largeContent = genearteRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
@@ -210,9 +209,9 @@ describe("syncUploadFromURL", () => {
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     // generate source blob SAS
-    const srcBlobName = recorder.getUniqueName("srcblob");
+    const srcBlobName = recorder.getUniqueName("srcblob/%2+%2F");
     sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
-    const uploadSrcRes = await sourceBlob.upload(content, content.byteLength, {
+    const uploadSrcRes = await sourceBlob.upload(content, content.length, {
       blobHTTPHeaders: srcHttpHeaders
     });
     srcEtag = uploadSrcRes.etag;

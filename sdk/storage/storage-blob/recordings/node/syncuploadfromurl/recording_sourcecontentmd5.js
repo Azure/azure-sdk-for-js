@@ -2,85 +2,89 @@ let nock = require('nock');
 
 module.exports.hash = "76e9c555d4bf488f1c12595f8e98ee8d";
 
-module.exports.testInfo = {"uniqueName":{"container":"container160629841388200919","blockblob":"blockblob160629841415109967","srcblob":"srcblob160629841415108866"},"newDate":{"expiry":"2020-11-25T10:00:14.424Z"}}
+module.exports.testInfo = {"uniqueName":{"container":"container160635998540905788","blockblob":"blockblob160635998570703453","srcblob/%2+%2F":"srcblob/%2+%2F160635998570806714"},"newDate":{"expiry":"2020-11-26T03:06:26.007Z"}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container160629841388200919')
+  .put('/container160635998540905788')
   .query(true)
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Last-Modified',
-  'Wed, 25 Nov 2020 10:00:14 GMT',
+  'Thu, 26 Nov 2020 03:06:25 GMT',
   'ETag',
-  '"0x8D89128E76C132A"',
+  '"0x8D891B842EAA678"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86cf900e-701e-0000-3611-c39c47000000',
+  'fbc81afc-c01e-0085-2fa1-c37820000000',
   'x-ms-client-request-id',
-  '1ae444f6-011e-4790-a81f-3bc155858e08',
+  'fe0064b5-c569-4d51-a7c7-3e354f93013e',
   'x-ms-version',
   '2020-04-08',
   'Date',
-  'Wed, 25 Nov 2020 10:00:13 GMT'
+  'Thu, 26 Nov 2020 03:06:25 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container160629841388200919/srcblob160629841415108866', "ec28a71f9bf23a86401da9545dd4d35395d4bd424a2141a1c717deee10e6dbde5ee429a7fb2d3221ba6aba8f09fa4aaa12ff67ad4b74e2daabf67f215869e6f109df0134073498b16cb58ab38719c2dcc719506d7096440280ca07e2da4727ed7b03654b53ebd2adb387204f64d21e919b4be779794498456f04cd719a77cd0bb62d95e4cc9f4e658bfde70b1117b7dfdcbb8d17390a58e733f863bf126b27857caf1960b84c8f6ca375c41b56eeceee7714951a7ddb66c169c0eade431ce1a4f3ea990cde9b97bea89ee78d550a520deb44ed92d21c59db419a079f81b09e5a6d9fdff596ac4d55d513aa7dfce738ed57fa4af8803c4f9a34015426ae21822fdfac47b0d7e6cee863624a0488d27210c2fa9300be620fe6876d4a2b31da2151658f43f75ffb1ccb58efd10c5f2d4606047c002a13e5b670071fae47755445d728e25eb439dee8214fe51d8ccb40031939653900616092b41ad7cf27a80407bb72223d7f786f10fefe6644233fcfb63f49ae08c35973a22404a685832750af3ea92ad97bbe7a14ac799d763c22ac289b09722bd245598b4e88b312c4c862f88a97cf521ff61b0fb31cc02252e67292ffa9bdcb4003838ddb30d6f8ddb5b53c3c5bf0faae6df70b21ec78d4c36b453b26aa3815477b6226394ca433ed8c977c88b333f39066fcca638670d98eb4d91f0ab9b6a8f5bd5442a631631d00226d6f405e0b13596097a4d3fc185141344652396696b4188840fe68f01312eac90c0e155c658cb2202cb1251ea658e3b5f9c99290dc70174714455c1a83b7432696d49181d2b1720da8e42cb6310bd91fa191e9fe00bcb94ce100ffc0fadd2001e41359c15f5282e5c45806a91755525fb55c0c60c3d13365f0091cc7b5b0b4f73a792cad192b09e9497231f5dda8c0325c29e37cefb1efe4880e933ca0d6c663eb5b8ec6df8e44aa481fbedbaeea553de7eb0b0939ecfebf75ed2157fbe0692d773ec300620b576fcf5c1c3c014f0776f17cd79b76a5ba013246b703b3591ae59927bf6b8fb3b6b33ed203ca2094386a7546cb85a9249c30f13d0aa4f4bd0f086d1820180fa9e9cbf887e14e2659a0226f23ba0d2774f6108157b7dedbbe645c2eb849ec62012f7fe9f5ef8fc6a4cc072fa4658f81eeb83b8828646573256995a1fca05fd409603a50467ee8f346c0d03e91c042e03388d14c95c75ae259fb8f99e2907c14a59301ba1f7a548323bd28523193d679418a1af460c8aa175e215af5a6ebda114397ece69bce953bdb847be14f00b3d6000238e3d66e43ec66901bbd99289067b35f465307fc1a0cb5c2abde4129c199bededd12ab5c23d7fa6ee2479d45c7841587b78ef8921ce4ccc3605977ed488dfdbf95a733a37e2bfb6f9ae8b060e82921d0d4c09d6a3260f58a9d842562cf6f3f94d8bd3294b30c718832a42bd0")
+  .put('/container160635998540905788/srcblob%2F%252%2B%252F160635998570806714', "Hello World")
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Content-MD5',
-  'EmRJ2aBdmFEY5Bx6Rf972g==',
+  'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 25 Nov 2020 10:00:14 GMT',
+  'Thu, 26 Nov 2020 03:06:25 GMT',
   'ETag',
-  '"0x8D89128E795AA84"',
+  '"0x8D891B84318DE46"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86cf9017-701e-0000-3b11-c39c47000000',
+  'fbc81b5b-c01e-0085-07a1-c37820000000',
   'x-ms-client-request-id',
-  '87a432f4-05b8-433f-963d-b9568bda7171',
+  'face31c4-6ce9-4bdf-b1ee-88538e10431a',
   'x-ms-version',
   '2020-04-08',
   'x-ms-content-crc64',
-  'W/nQ33KBlnw=',
+  'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2020-11-26T03:06:25.8638406Z',
   'Date',
-  'Wed, 25 Nov 2020 10:00:13 GMT'
+  'Thu, 26 Nov 2020 03:06:25 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container160629841388200919/blockblob160629841415109967')
+  .put('/container160635998540905788/blockblob160635998570703453')
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Content-MD5',
-  'EmRJ2aBdmFEY5Bx6Rf972g==',
+  'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 25 Nov 2020 10:00:14 GMT',
+  'Thu, 26 Nov 2020 03:06:26 GMT',
   'ETag',
-  '"0x8D89128E7C092E7"',
+  '"0x8D891B84348342D"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86cf901f-701e-0000-4011-c39c47000000',
+  'fbc81bc2-c01e-0085-65a1-c37820000000',
   'x-ms-client-request-id',
-  '9fbcc1ab-6c09-4c1c-a901-c3063b6b2419',
+  'e41de19b-27ad-4389-b4ff-0ef7d092a98c',
   'x-ms-version',
   '2020-04-08',
+  'x-ms-version-id',
+  '2020-11-26T03:06:26.1750603Z',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 25 Nov 2020 10:00:14 GMT'
+  'Thu, 26 Nov 2020 03:06:26 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container160629841388200919/blockblob160629841415109967')
-  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>Md5Mismatch</Code><Message>The MD5 value specified in the request did not match with the MD5 value calculated by the server.\nRequestId:86cf9024-701e-0000-4311-c39c47000000\nTime:2020-11-25T10:00:14.8560129Z</Message><UserSpecifiedMd5>XUFAKrxLKna5cZ2REBfFkg==</UserSpecifiedMd5><ServerCalculatedMd5>EmRJ2aBdmFEY5Bx6Rf972g==</ServerCalculatedMd5></Error>", [
+  .put('/container160635998540905788/blockblob160635998570703453')
+  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>Md5Mismatch</Code><Message>The MD5 value specified in the request did not match with the MD5 value calculated by the server.\nRequestId:fbc81c52-c01e-0085-66a1-c37820000000\nTime:2020-11-26T03:06:26.4825964Z</Message><UserSpecifiedMd5>XUFAKrxLKna5cZ2REBfFkg==</UserSpecifiedMd5><ServerCalculatedMd5>sQqNsWTgdUEFt6mb5y4/5Q==</ServerCalculatedMd5></Error>", [
   'Content-Length',
   '405',
   'Content-Type',
@@ -88,31 +92,31 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86cf9024-701e-0000-4311-c39c47000000',
+  'fbc81c52-c01e-0085-66a1-c37820000000',
   'x-ms-client-request-id',
-  'bd7beefe-1c68-419b-bb61-84608535b1bb',
+  '2fff7f35-cb72-44bb-b879-5677bd5f56d4',
   'x-ms-version',
   '2020-04-08',
   'x-ms-error-code',
   'Md5Mismatch',
   'Date',
-  'Wed, 25 Nov 2020 10:00:14 GMT'
+  'Thu, 26 Nov 2020 03:06:26 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container160629841388200919')
+  .delete('/container160635998540905788')
   .query(true)
   .reply(202, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86cf902d-701e-0000-4811-c39c47000000',
+  'fbc81cc8-c01e-0085-54a1-c37820000000',
   'x-ms-client-request-id',
-  'b282d56f-5440-4cb0-8437-b779f8c8b77e',
+  'c5840440-e413-4296-bb59-f83866dbe964',
   'x-ms-version',
   '2020-04-08',
   'Date',
-  'Wed, 25 Nov 2020 10:00:14 GMT'
+  'Thu, 26 Nov 2020 03:06:26 GMT'
 ]);
