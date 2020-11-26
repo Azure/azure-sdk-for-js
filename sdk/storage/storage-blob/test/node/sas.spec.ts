@@ -1293,6 +1293,27 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       .byPage()
       .next();
   });
+
+  it("generateAccountSasUrl", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sasURL = blobServiceClient.generateAccountSasUrl(
+      AccountSASPermissions.parse("r"),
+      tmr,
+      AccountSASResourceTypes.parse("s").toString(),
+      {
+        protocol: SASProtocol.HttpsAndHttp,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        startsOn: now
+      }
+    );
+    const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    await serviceClientWithSAS.getAccountInfo();
+  });
 });
 
 describe("Generation for user delegation SAS Node.js only", () => {

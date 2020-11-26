@@ -1041,6 +1041,7 @@ export class BlobServiceClient extends StorageClient {
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
+    generateAccountSasUrl(permissions: AccountSASPermissions, expiresOn: Date, resourceTypes: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
     getContainerClient(containerName: string): ContainerClient;
@@ -2700,6 +2701,13 @@ export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceF
         parsedBody: FilterBlobSegment;
     };
 };
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+}
 
 // @public
 export interface ServiceGetAccountInfoHeaders {

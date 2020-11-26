@@ -372,6 +372,28 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
+  return urlParsed.toString();
+}
+
+/**
  * Rounds a date off to seconds.
  *
  * @export
