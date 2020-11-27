@@ -632,6 +632,7 @@ export interface BlobGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
     protocol?: SASProtocol;
     startsOn?: Date;
+    version?: string;
 }
 
 // @public
@@ -1695,6 +1696,7 @@ export interface ContainerGenerateSasUrlOptions {
     permissions?: ContainerSASPermissions;
     protocol?: SASProtocol;
     startsOn?: Date;
+    version?: string;
 }
 
 // @public
@@ -2739,6 +2741,7 @@ export interface ServiceGenerateAccountSasUrlOptions {
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;
+    version?: string;
 }
 
 // @public

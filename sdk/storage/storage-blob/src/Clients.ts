@@ -1025,6 +1025,15 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
  */
 export interface BlobGenerateSasUrlOptions {
   /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    *
    * @type {SASProtocol}
@@ -7058,6 +7067,15 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
  * @interface ContainerGenerateSasUrlOptions
  */
 export interface ContainerGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  version?: string;
+
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    *

@@ -364,6 +364,15 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
  */
 export interface ServiceGenerateAccountSasUrlOptions {
   /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
    * Optional. SAS protocols allowed.
    *
    * @type {SASProtocol}
