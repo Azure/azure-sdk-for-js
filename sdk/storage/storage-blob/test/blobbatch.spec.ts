@@ -5,7 +5,8 @@ import {
   getGenericCredential,
   getTokenCredential,
   SimpleTokenCredential,
-  recorderEnvSetup
+  recorderEnvSetup,
+  getTokenBSU
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { BlobBatch } from "../src";
@@ -671,5 +672,104 @@ describe("BlobBatch", () => {
       }
     }
     assert.ok(exceptionCaught);
+  });
+});
+
+// Won't record this test suite since UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved.
+describe("BlobBatch Token auth", () => {
+  let blobServiceClient: BlobServiceClient;
+  let blobBatchClient: BlobBatchClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  const blockBlobCount = 3;
+  let blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
+  const content = "Hello World";
+
+  beforeEach(async function() {
+    // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
+    try {
+      blobServiceClient = getTokenBSU();
+    } catch (err) {
+      console.log(err);
+      this.skip();
+    }
+
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
+
+    const randomName = Math.random()
+      .toString(36)
+      .slice(2);
+    containerName = "container" + randomName;
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      let tmpBlobName = `blob${i}`;
+      let tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+    let specialBlobName = `å ä ö`;
+    let tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+  });
+
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+    }
+  });
+
+  it("Should work when passing in BlobClient", async function() {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    let batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i]);
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+  });
+
+  it("Should work when passing in url and credential", async function() {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    let batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i].url, blockBlobClients[i].credential);
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
   });
 });
