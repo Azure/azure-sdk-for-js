@@ -137,6 +137,18 @@
       "path": "sdk/storage/storage-queue"
     },
     {
+      "name": "synapse-accesscontrol",
+      "path": "sdk/synapse/synapse-accesscontrol"
+    },
+    {
+      "name": "synapse-artifacts",
+      "path": "sdk/synapse/synapse-artifacts"
+    },
+    {
+      "name": "synapse-spark",
+      "path": "sdk/synapse/synapse-spark"
+    },
+    {
       "name": "tables",
       "path": "sdk/tables/data-tables"
     },
