@@ -167,7 +167,8 @@ if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
   let params = [];
-  switch (action.toLowerCase().split(":")[0]) {
+  const actionComponents = action.toLowerCase().split(":");
+  switch (actionComponents[0]) {
     // case 'build':
     //   params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
     //   spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
@@ -185,6 +186,13 @@ if (serviceDirs.length === 0) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
       }
       break;
+
+    case "build":
+      if (actionComponents[1] === "samples") {
+        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        break;
+      }
+    // Intentional fall-through
 
     default:
       let requiredPackageNames = packageNames;
