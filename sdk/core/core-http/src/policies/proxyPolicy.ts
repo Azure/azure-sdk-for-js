@@ -16,7 +16,7 @@ import { getEnvironmentValue } from "../util/utils";
 
 let noProxyList: string[] = [];
 let isNoProxyInitalized = false;
-let byPassedList = new Map();
+const byPassedList = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
@@ -37,7 +37,7 @@ function isBypassed(uri: string) {
   }
   loadNoProxy();
   let isBypassed = false;
-  let host = URLBuilder.parse(uri).getHost()!;
+  const host = URLBuilder.parse(uri).getHost()!;
   for (const proxyString of noProxyList) {
     if (proxyString[0] === ".") {
       if (uri.endsWith(proxyString)) {
@@ -63,7 +63,7 @@ function loadNoProxy() {
   }
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
   if (noProxy) {
-    let list = noProxy.split(",");
+    const list = noProxy.split(",");
     noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
   }
   isNoProxyInitalized = true;

@@ -66,8 +66,8 @@ describe("ProxyPolicy (node)", function() {
     });
 
     it("should not assign proxy settings to the web request when noProxyList contain request url", async () => {
-      let request = new WebResource();
-      let policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
+      const request = new WebResource();
+      const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       request.url = "http://foo.com";
       await policy.sendRequest(request);
       should().not.exist(request.proxySettings);
