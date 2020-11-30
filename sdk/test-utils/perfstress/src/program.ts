@@ -7,7 +7,7 @@ import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
   defaultPerfStressOptions,
-  DefaultPerfStressOptionNames
+  DefaultPerfStressOptions
 } from "./options";
 import { PerfStressParallel } from "./parallel";
 
@@ -35,9 +35,10 @@ export type TestType = "";
  */
 export class PerfStressProgram {
   private testName: string;
-  private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
+  // TODO: Re-evaluate "Required" for options (maybe come up with parsedOptions)
+  private options: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
   private parallelNumber: number;
-  private tests: PerfStressTest<string>[];
+  private tests: PerfStressTest<DefaultPerfStressOptions>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -47,13 +48,13 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor<string>) {
+  constructor(testClass: PerfStressTestConstructor<DefaultPerfStressOptions>) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
 
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
+    this.tests = new Array<PerfStressTest<DefaultPerfStressOptions>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -108,7 +109,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private runLoopSync(
-    test: PerfStressTest<string>,
+    test: PerfStressTest<DefaultPerfStressOptions>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -149,7 +150,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTest<string>,
+    test: PerfStressTest<DefaultPerfStressOptions>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController

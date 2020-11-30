@@ -4,14 +4,9 @@
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 
 /**
- * Possible values for each PerfStress option
- */
-export type PerfStressOptionValue = string | number | boolean | undefined;
-
-/**
  * The structure of a PerfStress option. They represent command line parameters.
  */
-export interface PerfStressOption {
+export interface OptionDetails<TType> {
   /**
    * Whether the option is required or not.
    */
@@ -30,14 +25,15 @@ export interface PerfStressOption {
   longName?: string;
   /**
    * The default value that is going to be assigned to the option.
+   * Expected: string | number | boolean | undefined
    */
-  defaultValue?: PerfStressOptionValue;
+  defaultValue?: TType;
   /**
    * The value specified by the user from the command line after either the shortName or the longName.
    * If no value was specified, the defaultValue will be used.
    * If the shortName or longName was specified, but no value was provided, "true" will be set.
    */
-  value?: PerfStressOptionValue;
+  value?: TType;
   /**
    * The description of each option. Descriptions of the assigned options will be shown at the beginning of the test call.
    * Descriptions of all the available options will be shown if the user sends either --help or -h.
@@ -45,34 +41,43 @@ export interface PerfStressOption {
   description: string;
 }
 
+// TODO: Add docs
+type PerfStressOptionDictionaryOptional<TOptions extends DefaultPerfStressOptions> = {
+  [longName in keyof TOptions]?: OptionDetails<TOptions[longName]>;
+};
+
 /**
  * A group of options is called PerfStressOptionDictionary,
  * and is shaped as a plain object to make it easier to access them.
+ * // TODO: Update docs
  *
  * TNames defines the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
  * for the options.
  */
-export type PerfStressOptionDictionary<TNames extends string> = {
-  [longName in TNames]: PerfStressOption;
-};
+export type PerfStressOptionDictionary<
+  TOptions extends DefaultPerfStressOptions
+> = PerfStressOptionDictionaryOptional<TOptions> &
+  Pick<
+    Required<PerfStressOptionDictionaryOptional<TOptions>>,
+    keyof Omit<TOptions, keyof DefaultPerfStressOptions>
+  >;
 
-/**
- * These are the default options longNames.
- */
-export type DefaultPerfStressOptionNames =
-  | "help"
-  | "parallel"
-  | "duration"
-  | "warmup"
-  | "iterations"
-  | "no-cleanup"
-  | "milliseconds-to-log"
-  | "sync";
+// TODO: Add docs
+export interface DefaultPerfStressOptions {
+  help: string;
+  parallel: number;
+  duration: number;
+  warmup: number;
+  iterations: number;
+  "no-cleanup": boolean;
+  "milliseconds-to-log": number;
+  sync: boolean;
+}
 
 /**
  * These are the default options in full.
  */
-export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStressOptionNames> = {
+export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStressOptions> = {
   help: {
     description: "Shows all of the available options",
     shortName: "h"
@@ -114,14 +119,17 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
 /**
  * Parses the given options by extracting their values through `minimist`, or setting the default value defined in each option.
  * It also overwrites any present longName with the property name of each option.
+ *
+ * // TODO: parse to the expected type
+ * // TODO: Change T to something else
  * @param options A dictionary of options to parse using minimist.
  * @returns A new options dictionary.
  */
-export function parsePerfStressOption(
-  options: PerfStressOptionDictionary<string>
-): PerfStressOptionDictionary<string> {
+export function parsePerfStressOption<
+  T extends PerfStressOptionDictionary<DefaultPerfStressOptions> | {}
+>(options: T): Required<T> {
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
-  const result: PerfStressOptionDictionary<string> = {};
+  const result = {};
 
   for (const longName of Object.keys(options)) {
     const option = (options as any)[longName];
@@ -139,5 +147,5 @@ export function parsePerfStressOption(
     };
   }
 
-  return result;
+  return result as any;
 }

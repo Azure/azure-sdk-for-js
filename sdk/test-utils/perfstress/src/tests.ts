@@ -3,13 +3,17 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressOptionDictionary, parsePerfStressOption } from "./options";
+import {
+  PerfStressOptionDictionary,
+  parsePerfStressOption,
+  DefaultPerfStressOptions
+} from "./options";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
-export interface PerfStressTestConstructor<TOptionsNames extends string> {
-  new (): PerfStressTest<TOptionsNames>;
+export interface PerfStressTestConstructor<TOptions extends DefaultPerfStressOptions> {
+  new (): PerfStressTest<TOptions>;
 }
 
 /**
@@ -21,11 +25,13 @@ export interface PerfStressTestConstructor<TOptionsNames extends string> {
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfStressTest<TOptionsNames extends string> {
-  public abstract options: PerfStressOptionDictionary<TOptionsNames>;
+export abstract class PerfStressTest<TOptions extends DefaultPerfStressOptions> {
+  public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public parseOptions() {
-    this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptionsNames>;
+    // TODO: remove this casting
+    // TODO: remove the ! workarounds in the tests
+    this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptions>;
   }
 
   // Before and after running a bunch of the same test.
@@ -45,8 +51,8 @@ export abstract class PerfStressTest<TOptionsNames extends string> {
  * @param tests An array of classes that extend PerfStressTest
  */
 export function selectPerfStressTest(
-  tests: PerfStressTestConstructor<string>[]
-): PerfStressTestConstructor<string> {
+  tests: PerfStressTestConstructor<DefaultPerfStressOptions>[]
+): PerfStressTestConstructor<DefaultPerfStressOptions> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];
