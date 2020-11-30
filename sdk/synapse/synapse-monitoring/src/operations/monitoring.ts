@@ -80,12 +80,7 @@ const getSqlJobQueryStringOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.SqlQueryStringDataModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.skip
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.orderby, Parameters.skip],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer

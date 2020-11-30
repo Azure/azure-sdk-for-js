@@ -269,8 +269,7 @@ export type AccessControlClientGetRoleDefinitionsNextResponse = RolesListRespons
 /**
  * Optional parameters.
  */
-export interface AccessControlClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface AccessControlClientOptionalParams extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

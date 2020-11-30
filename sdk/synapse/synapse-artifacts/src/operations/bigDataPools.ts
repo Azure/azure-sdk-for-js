@@ -26,10 +26,9 @@ export class BigDataPools {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<BigDataPoolsListResponse>;
+    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
+      BigDataPoolsListResponse
+    >;
   }
 
   /**
@@ -45,10 +44,9 @@ export class BigDataPools {
       bigDataPoolName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<BigDataPoolsGetResponse>;
+    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
+      BigDataPoolsGetResponse
+    >;
   }
 }
 // Operation Specifications
