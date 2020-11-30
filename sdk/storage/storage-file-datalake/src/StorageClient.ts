@@ -127,10 +127,11 @@ export abstract class StorageClient {
     for (const factory of this.pipeline.factories) {
       if (
         (isNode && factory instanceof StorageSharedKeyCredential) ||
-        factory instanceof AnonymousCredential ||
-        isTokenCredential(factory)
+        factory instanceof AnonymousCredential
       ) {
         this.credential = factory;
+      } else if (isTokenCredential((factory as any).credential)) {
+        this.credential = (factory as any).credential;
       }
     }
 
