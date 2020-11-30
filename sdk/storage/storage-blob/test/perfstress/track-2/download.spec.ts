@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import {
+  PerfStressTest,
+  PerfStressOptionDictionary,
+  DefaultPerfStressOptions
+} from "@azure/test-utils-perfstress";
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 
@@ -9,59 +13,55 @@ import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-type OptionNames = "url";
+interface StorageBlobDownloadTestOptions extends DefaultPerfStressOptions {
+  size: number;
+}
 
-export class StorageBlobDownloadTest extends PerfStressTest<string> {
-  public options: PerfStressOptionDictionary<OptionNames> = {
-    url: {
+const account = process.env.ACCOUNT_NAME || "";
+const accountKey = process.env.ACCOUNT_KEY || "";
+
+const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+
+const blobServiceClient = new BlobServiceClient(
+  // When using AnonymousCredential, following url should include a valid SAS or support public access
+  `https://${account}.blob.core.windows.net`,
+  sharedKeyCredential
+);
+const containerName = `newcontainer${new Date().getTime()}`;
+const blobName = `newblob${new Date().getTime()}`;
+const containerClient = blobServiceClient.getContainerClient(containerName);
+const blockBlobClient = blobServiceClient
+  .getContainerClient(containerName)
+  .getBlockBlobClient(blobName);
+
+export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadTestOptions> {
+  public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
+    size: {
       required: true,
       description: "Required option",
-      shortName: "u",
-      longName: "url",
-      defaultValue: "http://bing.com",
-      value: "http://bing.com"
+      shortName: "sz",
+      longName: "size",
+      defaultValue: 10
     }
   };
-  // Enter your storage account name and shared key
-  account = process.env.ACCOUNT_NAME || "";
-  accountKey = process.env.ACCOUNT_KEY || "";
-
-  sharedKeyCredential = new StorageSharedKeyCredential(this.account, this.accountKey);
-
-  blobServiceClient = new BlobServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${this.account}.blob.core.windows.net`,
-    this.sharedKeyCredential
-  );
-  protected static containerName = `newcontainer${new Date().getTime()}`;
-  protected static blobName = `newblob${new Date().getTime()}`;
 
   public async globalSetup() {
-    const containerClient = this.blobServiceClient.getContainerClient(
-      StorageBlobDownloadTest.containerName
-    );
-
     const createContainerResponse = await containerClient.create();
     console.log(
-      `Create container ${StorageBlobDownloadTest.containerName} successfully`,
+      `Create container ${containerName} successfully`,
       createContainerResponse.requestId
     );
 
     // Create a blob
-    const content = "hello world";
-    const blockBlobClient = containerClient.getBlockBlobClient(StorageBlobDownloadTest.blobName);
-    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
-    console.log(
-      `Upload block blob ${StorageBlobDownloadTest.blobName} successfully`,
-      uploadBlobResponse.requestId
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const uploadBlobResponse = await blockBlobClient.upload(
+      Buffer.alloc(this.options.size.value!),
+      this.options.size.value as number
     );
+    console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
   async runAsync(): Promise<void> {
-    await this.blobServiceClient
-      .getContainerClient(StorageBlobDownloadTest.containerName)
-      .getBlockBlobClient(StorageBlobDownloadTest.blobName)
-      .download(0);
-    console.log("success");
+    await blockBlobClient.download(0);
   }
 }
