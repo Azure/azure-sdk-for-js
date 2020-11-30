@@ -6,25 +6,25 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
-    "content-length": "1329",
+    "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 17:45:23 GMT",
+    "date": "Fri, 20 Nov 2020 00:36:50 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "ec3d1d6f-3081-44d5-bd9a-fe95b2887000"
+    "x-ms-ests-server": "2.1.11251.18 - WUS2 ProdSlices",
+    "x-ms-request-id": "724d195a-2d68-42a5-b5c4-2f1b717b6400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.2/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":121,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "3f136082-58f2-433c-941e-8a8b27fcae85",
+    "apim-request-id": "295faeaa-59f0-48a2-a306-e880dda3db9d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Thu, 17 Sep 2020 17:45:22 GMT",
+    "date": "Fri, 20 Nov 2020 00:36:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "118"
+    "x-envoy-upstream-service-time": "93"
    }
   }
  ],
@@ -47,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "124f1ff9e763230dc62c2836713d0a26"
+ "hash": "1a8e368a55c3dcb3ab8fe4b2651f9782"
 }

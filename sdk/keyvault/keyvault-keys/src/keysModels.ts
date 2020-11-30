@@ -29,34 +29,6 @@ export type KeyOperation =
 export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 /**
- * @internal
- * @ignore
- * An interface representing the KeyClient. For internal use.
- */
-export interface KeyClientInterface {
-  /**
-   * Recovers the deleted key in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault.
-   */
-  recoverDeletedKey(name: string, options?: RecoverDeletedKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
-   * This operation requires the keys/get permission.
-   */
-  getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The delete operation applies to any key stored in Azure Key Vault. Individual versions
-   * of a key can not be deleted, only all versions of a given key at once.
-   */
-  deleteKey(name: string, options?: DeleteKeyOptions): Promise<DeletedKey>;
-  /**
-   * The getDeletedKey method returns the specified deleted key along with its properties.
-   * This operation requires the keys/get permission.
-   */
-  getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
-}
-
-/**
  * The latest supported Key Vault service API version
  */
 export const LATEST_API_VERSION = "7.1";

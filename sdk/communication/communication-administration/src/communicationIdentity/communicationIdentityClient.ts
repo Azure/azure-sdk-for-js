@@ -15,8 +15,7 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
-import { GeneratedCommunicationIdentityClient } from "./generated/src/generatedCommunicationIdentityClient";
-import { CommunicationIdentityOperations } from "./generated/src/operations/communicationIdentityOperations";
+import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
 import { SDK_VERSION } from "./constants";
 import { logger } from "../common/logger";
 import { createSpan } from "../common/tracing";
@@ -40,12 +39,7 @@ export class CommunicationIdentityClient {
   /**
    * A reference to the auto-generated UserToken HTTP client.
    */
-  private readonly client: CommunicationIdentityOperations;
-
-  /**
-   * The base URL to which requests are made
-   */
-  private readonly endpoint: string;
+  private readonly client: CommunicationIdentity;
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
@@ -107,8 +101,7 @@ export class CommunicationIdentityClient {
     const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.endpoint = url;
-    this.client = new GeneratedCommunicationIdentityClient(pipeline).communicationIdentity;
+    this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
   }
 
   /**
@@ -126,10 +119,9 @@ export class CommunicationIdentityClient {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
       const { token, id, expiresOn, _response } = await this.client.issueToken(
-        this.endpoint,
         user.communicationUserId,
-        scopes,
-        { ...operationOptionsToRequestOptionsBase(updatedOptions) }
+        { scopes },
+        operationOptionsToRequestOptionsBase(updatedOptions)
       );
       const results: CommunicationUserToken = {
         token,
@@ -162,10 +154,13 @@ export class CommunicationIdentityClient {
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      const { _response } = await this.client.update(this.endpoint, user.communicationUserId, {
-        tokensValidFrom,
-        ...operationOptionsToRequestOptionsBase(updatedOptions)
-      });
+      const { _response } = await this.client.update(
+        user.communicationUserId,
+        {
+          tokensValidFrom
+        },
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
       return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
@@ -186,9 +181,9 @@ export class CommunicationIdentityClient {
   public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { id, _response } = await this.client.create(this.endpoint, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions)
-      });
+      const { id, _response } = await this.client.create(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
       const user: CommunicationUser = { communicationUserId: id };
       return attachHttpResponse(user, _response);
     } catch (e) {
@@ -214,12 +209,9 @@ export class CommunicationIdentityClient {
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
     try {
-      const { _response } = await this.client.deleteMethod(
-        this.endpoint,
+      const { _response } = await this.client.delete(
         user.communicationUserId,
-        {
-          ...operationOptionsToRequestOptionsBase(updatedOptions)
-        }
+        operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse({}, _response);
     } catch (e) {

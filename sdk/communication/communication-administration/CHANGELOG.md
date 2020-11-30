@@ -2,6 +2,9 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Key bug fixes
+
+- Fixed paging for `listPhoneNumbers`, `listPhonePlanGroups`, `listPhonePlans`, `listReleases`, `listSearches`, `listSupportedCountries`.
 
 ## 1.0.0-beta.3 (2020-11-16)
 

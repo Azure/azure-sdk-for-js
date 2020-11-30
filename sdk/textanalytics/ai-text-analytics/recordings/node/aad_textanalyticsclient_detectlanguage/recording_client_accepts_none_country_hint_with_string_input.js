@@ -1,18 +1,16 @@
 let nock = require('nock');
 
-module.exports.hash = "05434aebc271891cd65b4fe50b254d3f";
+module.exports.hash = "ba0371887441cd2c4621c391abfffc68";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,22 +22,24 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '765482a3-6a7d-4e0c-aeb3-32fe58423600',
+  '6528966b-f943-4146-8aa8-302140b16400',
   'x-ms-ests-server',
-  '2.1.11021.16 - CHI ProdSlices',
+  '2.1.11251.18 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AkhCIa2g2plOj65QGE9uHyrIIHRUAQAAAH-X9dYOAAAA; expires=Sat, 17-Oct-2020 17:44:32 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=At6Igs79E_5FqVG9TpkEkQJz_bg1AQAAAEABSdcOAAAA; expires=Sun, 20-Dec-2020 00:13:52 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 17 Sep 2020 17:44:31 GMT'
+  'Fri, 20 Nov 2020 00:13:52 GMT',
+  'Content-Length',
+  '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.2/languages', {"documents":[{"id":"0","text":"I use Azure Functions to develop my service.","countryHint":""}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
+  .post('/text/analytics/v3.1-preview.3/languages', {"documents":[{"id":"0","text":"I use Azure Functions to develop my service.","countryHint":""}]})
+  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":0.99},"warnings":[]}],"errors":[],"modelVersion":"2020-09-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '23',
+  '8',
   'apim-request-id',
-  '13383a00-cf5b-4ce3-ab72-92727e2c2d81',
+  '10225aeb-0250-46f5-91e8-a013347084aa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 17 Sep 2020 17:44:32 GMT'
+  'Fri, 20 Nov 2020 00:13:52 GMT'
 ]);

@@ -192,7 +192,7 @@ describe("session tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);

@@ -425,7 +425,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly sequenceNumber?: Long;
   /**
-   * @property {string} [deadLetterSource] The name of the queue or subscription that this message
+   * @property The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
    * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
@@ -433,10 +433,10 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
-   * @property {AmqpAnnotatedMessage} _amqpAnnotatedMessage The underlying raw amqp message.
+   * @property The underlying raw amqp message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+  readonly _rawAmqpMessage: AmqpAnnotatedMessage;
 }
 
 /**
@@ -533,7 +533,7 @@ export function fromRheaMessage(
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
+    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -744,10 +744,10 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly delivery: Delivery;
   /**
-   * @property {AmqpMessage} _amqpAnnotatedMessage The underlying raw amqp annotated message.
+   * @property {AmqpMessage} _rawAmqpMessage The underlying raw amqp annotated message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+  readonly _rawAmqpMessage: AmqpAnnotatedMessage;
   /**
    * @property The reason for deadlettering the message.
    * @readonly
@@ -776,8 +776,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = defaultDataTransformer.decode(msg.body);
     }
-    // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
-    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
+    this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
 

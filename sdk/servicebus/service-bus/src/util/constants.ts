@@ -121,14 +121,6 @@ export const ENABLE_SUBSCRIPTION_PARTITIONING = "EnableSubscriptionPartitioning"
 export const FILTER_MESSAGES_BEFORE_PUBLISHING = "FilteringMessagesBeforePublishing";
 
 /**
- * Indicates the default rule description.
- *
- * @internal
- * @ignore
- */
-export const DEFAULT_RULE_DESCRIPTION = "DefaultRuleDescription";
-
-/**
  * The entity's size in bytes.
  *
  * @internal

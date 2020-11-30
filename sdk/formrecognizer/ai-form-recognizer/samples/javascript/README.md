@@ -8,9 +8,11 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [recognizeReceipt.js][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                               |
 | [recognizeReceiptFromUrl.js][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                |
 | [recognizeBusinessCard.js][recognizebusinesscard]                 | Recognize data from a file of a business card using a prebuilt model                                                  |
+| [recognizeInvoice.js][recognizeinvoice]                           | Recognize data from a file of an invoice using a prebuilt model                                                       |
 | [recognizeCustomForm.js][recognizecustomform]                     | Recognize forms with your custom model                                                                                |
 | [trainLabeledModel.js][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                |
 | [trainUnlabeledModel.js][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                              |
+| [createComposedModel.js][createcomposedmodel]                     | Create a composed model from several individual labeled models.                                                       |
 | [customModelManagement.js][custommodelmanagement]                 | Manage the custom models in your account                                                                              |
 | [iteratorModels.js][iteratormodels]                               | List custom models using different ways                                                                               |
 | [getBoundingBoxes.js][getboundingboxes]                           | Get information to to visualize outlines of form content and field.                                                   |
@@ -56,6 +58,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeCustomForm.js
 [trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainLabeledModel.js
 [trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainUnlabeledModel.js
+[createcomposedmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/createComposedModel.js
 [custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/customModelManagement.js
 [iteratormodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
 [getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js

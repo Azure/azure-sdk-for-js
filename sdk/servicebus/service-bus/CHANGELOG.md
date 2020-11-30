@@ -1,13 +1,27 @@
 # Release History
 
-## 7.0.0 (Unreleased)
+## 7.0.0 (2020-11-23)
+
+- This release marks the general availability of the `@azure/service-bus` package.
+- If you are using version 1.1.10 or lower and want to migrate to the latest version
+of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md)
 
 ### Breaking changes
+**Note:** The following breaking changes are with respect to version `7.0.0-preview.8`.
+If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md).
 
 - The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
   The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
-- Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The  "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
+- Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
   [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
+- `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
+  [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
+- `_amqpAnnotatedMessage` under `ServiceBusReceivedMessage` has been renamed to `_rawAmqpMessage`.
+  [PR 12635](https://github.com/Azure/azure-sdk-for-js/pull/12635)
+- `claimValue` property under `AuthorizationRule` has been removed since it is not settable.
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
+- `ServiceBusSender.open()` method has been removed in favor of adding it back in the future with better semantics
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
 
 ## 7.0.0-preview.8 (2020-11-04)
 

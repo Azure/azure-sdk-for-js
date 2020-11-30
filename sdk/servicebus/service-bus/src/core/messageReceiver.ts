@@ -162,7 +162,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
-    this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
+    this.autoComplete =
+      options.autoCompleteMessages === false ? options.autoCompleteMessages : true;
     this._lockRenewer = options.lockRenewer;
   }
 
