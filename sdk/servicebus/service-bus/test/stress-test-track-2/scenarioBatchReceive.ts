@@ -25,6 +25,7 @@ interface ScenarioReceiveBatchOptions {
    * @type {boolean}
    */
   sendAllMessagesBeforeReceiveStarts?: boolean;
+  numberOfParallelSends?: number;
   maxAutoLockRenewalDurationInMs?: number;
   settleMessageOnReceive: boolean;
 }
@@ -45,7 +46,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> 
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
     sendAllMessagesBeforeReceiveStarts: options.sendAllMessagesBeforeReceiveStarts,
     maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
-    settleMessageOnReceive: options.settleMessageOnReceive
+    settleMessageOnReceive: options.settleMessageOnReceive,
+    numberOfParallelSends: options.numberOfParallelSends || 5
   };
 }
 
@@ -62,7 +64,8 @@ export async function scenarioReceiveBatch() {
     totalNumberOfMessagesToSend,
     maxAutoLockRenewalDurationInMs,
     settleMessageOnReceive,
-    sendAllMessagesBeforeReceiveStarts
+    sendAllMessagesBeforeReceiveStarts,
+    numberOfParallelSends
   } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
@@ -94,7 +97,10 @@ export async function scenarioReceiveBatch() {
       elapsedTime < testDurationForSendInMs &&
       stressBase.messagesSent.length < totalNumberOfMessagesToSend
     ) {
-      await stressBase.sendMessages([sender], numberOfMessagesPerSend);
+      await stressBase.sendMessages(
+        new Array(numberOfParallelSends).fill(sender),
+        numberOfMessagesPerSend
+      );
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
       await delay(delayBetweenSendsInMs);
     }
