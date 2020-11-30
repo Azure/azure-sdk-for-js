@@ -39,9 +39,10 @@ export function getSecretFromSecretBundle(
     }
   };
 
-  if (deletedSecretBundle.deletedDate) {
+  if (deletedSecretBundle.recoveryId) {
+    resultObject.properties.recoveryId = deletedSecretBundle.recoveryId;
+    resultObject.properties.scheduledPurgeDate = deletedSecretBundle.scheduledPurgeDate;
     resultObject.properties.deletedOn = deletedSecretBundle.deletedDate;
-    delete (resultObject.properties as any).deletedDate;
   }
 
   if (attributes) {
