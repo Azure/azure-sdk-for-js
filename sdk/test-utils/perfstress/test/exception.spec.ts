@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "../src";
+import { DefaultPerfStressOptions, PerfStressTest } from "../src";
 
 /**
  * Exception is designed to test the response speed of the PerfStress test framework
  * If the option "sync" is passed, errors will be thrown on every test call, where the test being called is simple function.
  * Otherwise, errors thrown on every test call, where the test being called is a function returning a promise (an asynchronous function).
  */
-export class Exception extends PerfStressTest<string> {
+export class Exception extends PerfStressTest<DefaultPerfStressOptions> {
   public options = {};
 
   run(): void {

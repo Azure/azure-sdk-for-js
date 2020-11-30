@@ -2,21 +2,22 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfStressTest, PerfStressOptionDictionary, DefaultPerfStressOptions } from "../src";
 
-type OptionNames =
-  | "non-req"
-  | "non-req-short"
-  | "non-req-default"
-  | "req"
-  | "req-short"
-  | "req-default";
+interface OptionsTestOptions extends DefaultPerfStressOptions {
+  "non-req": string;
+  "non-req-short": string;
+  "non-req-default": number;
+  req: string;
+  "req-short": string;
+  "req-default": number;
+}
 
 /**
  * Showcases and verifies some of the expected behaviors of the PerfStress options
  */
-export class OptionsTest extends PerfStressTest<OptionNames> {
-  public options: PerfStressOptionDictionary<OptionNames> = {
+export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
+  public options: PerfStressOptionDictionary<OptionsTestOptions> = {
     "non-req": {
       description: "Non-required option"
     },
@@ -48,21 +49,22 @@ export class OptionsTest extends PerfStressTest<OptionNames> {
     this.minimistResult = minimist(process.argv);
   }
 
-  compare(longName: OptionNames) {
+  compare(longName: keyof OptionsTestOptions) {
     if (!(this.options[longName] && this.minimistResult[longName])) {
       return;
     }
-    if (this.options[longName].required && !this.options[longName].value) {
+    // TODO: remove !(possibly with parsedOptions)
+    if (this.options[longName]!.required && !this.options[longName]!.value) {
       throw new Error(`The option ${longName} is required. It should have a value.`);
     }
-    if (this.options[longName].defaultValue && !this.options[longName].value) {
+    if (this.options[longName]!.defaultValue && !this.options[longName]!.value) {
       throw new Error(
         `The option ${longName} says it has a default value. It should therefore have a value.`
       );
     }
     if (
-      this.options[longName].value !==
-      (this.minimistResult[longName] || this.options[longName].defaultValue)
+      this.options[longName]!.value !==
+      (this.minimistResult[longName] || this.options[longName]!.defaultValue)
     ) {
       throw new Error(
         `The option ${longName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`
@@ -72,7 +74,7 @@ export class OptionsTest extends PerfStressTest<OptionNames> {
 
   run(): void {
     for (const key in this.options) {
-      this.compare(key as OptionNames);
+      this.compare(key as keyof OptionsTestOptions);
     }
   }
 }

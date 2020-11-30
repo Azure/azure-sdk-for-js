@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfStressTest, PerfStressOptionDictionary, DefaultPerfStressOptions } from "../src";
 
 import fetch from "node-fetch";
 import * as http from "http";
 
-type OptionNames = "url";
+interface NodeFetchOptions extends DefaultPerfStressOptions {
+  url: string;
+}
 
-export class NodeFetchTest extends PerfStressTest<string> {
+export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
   private static fetchOptions = {
     agent: new http.Agent({ keepAlive: true })
   };
 
   private url: string = "";
 
-  public options: PerfStressOptionDictionary<OptionNames> = {
+  public options: PerfStressOptionDictionary<NodeFetchOptions> = {
     url: {
       required: true,
       description: "Required option",
