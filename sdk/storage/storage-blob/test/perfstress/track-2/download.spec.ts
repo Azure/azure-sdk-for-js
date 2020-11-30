@@ -38,7 +38,7 @@ export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadT
   public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
-      description: "Required option",
+      description: "Size in bytes",
       shortName: "sz",
       longName: "size",
       defaultValue: 10
@@ -59,6 +59,14 @@ export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadT
       this.options.size.value as number
     );
     console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  }
+
+  public async globalCleanup() {
+    const deleteContainerResponse = await containerClient.delete();
+    console.log(
+      `Deleted container ${containerName} successfully`,
+      deleteContainerResponse.requestId
+    );
   }
 
   async runAsync(): Promise<void> {
