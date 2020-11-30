@@ -52,6 +52,7 @@
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-spark.js.map'\" -o ./dist/synapse-spark.min.js ./dist/synapse-spark.js",
     "prepack": "npm install && npm run build",
+    "build:test": "echo skip",
     "extract-api": "api-extractor run --local"
   },
   "sideEffects": false,
