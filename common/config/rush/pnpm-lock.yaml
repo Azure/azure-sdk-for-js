@@ -49,6 +49,8 @@ dependencies:
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/synapse-accesscontrol': 'file:projects/synapse-accesscontrol.tgz'
   '@rush-temp/synapse-artifacts': 'file:projects/synapse-artifacts.tgz'
+  '@rush-temp/synapse-managed-endpoints': 'file:projects/synapse-managed-endpoints.tgz'
+  '@rush-temp/synapse-monitoring': 'file:projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:projects/test-utils-perfstress.tgz'
@@ -11620,6 +11622,36 @@ packages:
       integrity: sha512-z1Mzvmykm4QueMmQH8u3rs2Zo3NKDB6DOUDZpbxQd+uBfJkpCLtF3dVeweKusU1kUZh0lwB5CyEIr48QgGm/3w==
       tarball: 'file:projects/synapse-artifacts.tgz'
     version: 0.0.0
+  'file:projects/synapse-managed-endpoints.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.1
+      typescript: 3.9.7
+      uglify-js: 3.10.2
+    dev: false
+    name: '@rush-temp/synapse-managed-endpoints'
+    resolution:
+      integrity: sha512-bF8Y9PRUZY4nG9Xeu/yxWXSabNdd7XJPbFOwzzMyRX+Ti37Kidp3FBI90sxBRdCSVFNXPHUQaDeKXQ1LDvAC8w==
+      tarball: 'file:projects/synapse-managed-endpoints.tgz'
+    version: 0.0.0
+  'file:projects/synapse-monitoring.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.1
+      typescript: 3.9.7
+      uglify-js: 3.10.2
+    dev: false
+    name: '@rush-temp/synapse-monitoring'
+    resolution:
+      integrity: sha512-GMO/9OUshXiUwhVVPygWF0/pFk9qLgckZWYgOhYh4locL6PRqTcMLOFeq4TVjmzqDv0Fd94MMcirJMhE4I8tFA==
+      tarball: 'file:projects/synapse-monitoring.tgz'
+    version: 0.0.0
   'file:projects/synapse-spark.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -11853,6 +11885,8 @@ specifiers:
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/synapse-accesscontrol': 'file:./projects/synapse-accesscontrol.tgz'
   '@rush-temp/synapse-artifacts': 'file:./projects/synapse-artifacts.tgz'
+  '@rush-temp/synapse-managed-endpoints': 'file:./projects/synapse-managed-endpoints.tgz'
+  '@rush-temp/synapse-monitoring': 'file:./projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:./projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:./projects/test-utils-perfstress.tgz'
