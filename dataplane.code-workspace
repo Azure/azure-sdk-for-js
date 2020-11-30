@@ -145,6 +145,14 @@
       "path": "sdk/synapse/synapse-artifacts"
     },
     {
+      "name": "synapse-managed-endpoints",
+      "path": "sdk/synapse/synapse-managed-endpoints"
+    },
+    {
+      "name": "synapse-monitoring",
+      "path": "sdk/synapse/synapse-monitoring"
+    },
+    {
       "name": "synapse-spark",
       "path": "sdk/synapse/synapse-spark"
     },
