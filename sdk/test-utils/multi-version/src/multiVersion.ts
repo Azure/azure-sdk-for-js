@@ -20,7 +20,7 @@ export interface TestFunctionWrapper {
   global: NodeJS.Global;
 }
 
-function lessThanOrEqual(
+export function lessThanOrEqual(
   a: string,
   b: string,
   compareFunc?: (a: string, b: string) => number
@@ -31,10 +31,18 @@ function lessThanOrEqual(
   return a <= b;
 }
 
-function skipReason(
-  currentVersion: string,
-  supported: string[] | { minVer?: string; maxVer?: string }
-): string {
+/**
+ * Specifies service versions that a test/test suite supports. This can be a list of
+ * version strings, or a range of versions denoted by minVer/maxVer.
+ */
+export type SupportedVersions =
+  | string[]
+  | {
+      minVer?: string;
+      maxVer?: string;
+    };
+
+function skipReason(currentVersion: string, supported: SupportedVersions): string {
   if (supported instanceof Array) {
     return `Skipping for version ${currentVersion} as it's not in the list [${supported.join()}]`;
   } else {
@@ -45,7 +53,7 @@ function skipReason(
 
 export function isVersionInSupportedRange(
   currentVersion: string,
-  supported: string[] | { minVer?: string; maxVer?: string },
+  supported: SupportedVersions,
   compareFunc?: (a: string, b: string) => number
 ): { isSupported: boolean; skipReason?: string } {
   let run: boolean;
@@ -122,7 +130,7 @@ export function isVersionInSupportedRange(
  */
 export function supports(
   currentVersion: string,
-  supported: string[] | { minVer?: string; maxVer?: string },
+  supported: SupportedVersions,
   compareFunc?: (a: string, b: string) => number
 ): TestFunctionWrapper {
   const run = isVersionInSupportedRange(currentVersion, supported, compareFunc);
@@ -195,7 +203,8 @@ export interface MultiVersionTestOptions {
  * - For live tests loop through all the versions and run tests for each version.
  * - For record and playback, use the defaultVersion in options if specified, otherwise use the latest version.
  * @param versions list of service versions to run the tests
- * @param options options
+ * @param options Optional settings such as version to use for record/playback, and
+ *                custom string comparison function to determines order of version strings.
  */
 export function versionsToTest(
   versions: string[],

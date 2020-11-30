@@ -9,10 +9,10 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { supports, versionsToTest } from "@azure/test-utils-multi-version";
+import { supports, versionsToTest, SupportedVersions } from "@azure/test-utils-multi-version";
 
 versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
-  const versions = function(versions: string[] | { minVer?: string; maxVer?: string }) {
+  const versions = function(versions: SupportedVersions) {
     return supports(serviceVersion, versions);
   };
 

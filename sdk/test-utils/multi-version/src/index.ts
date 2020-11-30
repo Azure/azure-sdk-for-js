@@ -4,6 +4,7 @@
 export {
   supports,
   versionsToTest,
+  SupportedVersions,
   MultiVersionTestOptions,
   TestFunctionWrapper
 } from "./multiVersion";
