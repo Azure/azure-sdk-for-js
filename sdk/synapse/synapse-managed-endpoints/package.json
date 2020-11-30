@@ -2,7 +2,7 @@
   "name": "@azure/synapse-managed-endpoints",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ManagedPrivateEndpointsClient.",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",

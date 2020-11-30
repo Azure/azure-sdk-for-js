@@ -2,7 +2,7 @@
   "name": "@azure/synapse-artifacts",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ArtifactsClient.",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
