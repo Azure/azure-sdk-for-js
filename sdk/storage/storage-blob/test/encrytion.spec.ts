@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { isNode } from "@azure/core-http";
@@ -21,7 +21,7 @@ describe("Encryption Scope", function() {
   const encryptionScopeEnvVar2 = "ENCRYPTION_SCOPE_2";
   let encryptionScopeName1: string | undefined;
   let encryptionScopeName2: string | undefined;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);

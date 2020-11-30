@@ -35,6 +35,7 @@ import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
 import { toBuffer } from "../util/utils";
 import {
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
@@ -384,7 +385,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(
-    messageCount?: number,
+    messageCount: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -411,7 +412,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async peekMessagesBySession(
     sessionId: string,
-    messageCount?: number,
+    messageCount: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -433,7 +434,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    maxMessageCount?: number,
+    maxMessageCount: number,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
@@ -445,13 +446,20 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterNotLong(connId, "fromSequenceNumber", fromSequenceNumber);
 
     // Checks for maxMessageCount
-    if (maxMessageCount !== undefined) {
-      throwTypeErrorIfParameterTypeMismatch(connId, "maxMessageCount", maxMessageCount, "number");
-      if (maxMessageCount <= 0) {
-        return [];
-      }
-    } else {
-      maxMessageCount = 1;
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
+
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const messageList: ServiceBusReceivedMessage[] = [];

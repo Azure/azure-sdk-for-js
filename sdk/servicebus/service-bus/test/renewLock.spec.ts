@@ -228,7 +228,7 @@ describe("Message Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(msgs[0]).catch((err) => {
-      should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
+      should.equal(err.code, "MessageLockLost", "Error code is different than expected");
       errorWasThrown = true;
     });
 
@@ -301,7 +301,7 @@ describe("Message Lock Renewal", () => {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
     await delay(10000);
@@ -357,7 +357,7 @@ describe("Message Lock Renewal", () => {
         }
       } catch (err) {
         if (options.willCompleteFail) {
-          should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
+          should.equal(err.code, "MessageLockLost", "Error code is different than expected");
         } else {
           throw err;
         }
@@ -387,7 +387,7 @@ describe("Message Lock Renewal", () => {
               processError: async (err) => reject(err)
             },
             {
-              autoComplete: false
+              autoCompleteMessages: false
             }
           );
         });

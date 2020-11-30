@@ -1,5 +1,8 @@
 # Release History
 
+## 12.3.1 (Unreleased)
+
+
 ## 12.3.0 (2020-11-10)
 
 - Removed ability to create a ShareLeaseClient for a Share or Share Snapshot. This feature has been rescheduled for future release.

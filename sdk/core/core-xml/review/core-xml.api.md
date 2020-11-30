@@ -5,14 +5,23 @@
 ```ts
 
 // @public
-export function parseXML(str: string, opts?: {
-    includeRoot?: boolean;
-}): Promise<any>;
+export function parseXML(str: string, opts?: XmlOptions): Promise<any>;
 
 // @public
-export function stringifyXML(obj: any, opts?: {
+export function stringifyXML(obj: any, opts?: XmlOptions): string;
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
+
+// @public
+export interface XmlOptions {
+    includeRoot?: boolean;
     rootName?: string;
-}): string;
+    xmlCharKey?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

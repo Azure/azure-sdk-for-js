@@ -7,6 +7,18 @@
   "license": "MIT",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault"
+  ],
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "main": "./src/index.ts",
   "module": "dist-esm/index.js",
   "types": "./types/index.d.ts",
@@ -45,12 +57,15 @@
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "@azure/core-tracing": "1.0.0-preview.9",
+    "@opentelemetry/api": "^0.10.2"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "eslint": "^6.1.0",
     "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
     "typescript": "~3.9.3"
   }
 }

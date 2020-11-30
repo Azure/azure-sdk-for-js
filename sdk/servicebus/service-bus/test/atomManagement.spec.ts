@@ -10,9 +10,15 @@ import * as dotenv from "dotenv";
 import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
-import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import {
+  CreateSubscriptionOptions,
+  SubscriptionProperties
+} from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
+import {
+  ServiceBusAdministrationClient,
+  WithResponse
+} from "../src/serviceBusAtomManagementClient";
 import { EntityStatus, EntityAvailabilityStatus, isNode } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
@@ -1322,75 +1328,94 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Subscription tests
-[
-  {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
-      forwardDeadLetteredMessagesTo: undefined,
-      enableBatchedOperations: true,
-      forwardTo: undefined,
-      userMetadata: undefined,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      requiresSession: false,
-      status: "Active",
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
-    }
-  },
-  {
-    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
-    input: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus
+describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  const createSubscriptionTestCases: {
+    testCaseTitle: string;
+    input?: CreateSubscriptionOptions;
+    output: SubscriptionProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined subscription options",
+      input: undefined,
+      output: {
+        autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+        deadLetteringOnMessageExpiration: false,
+        deadLetteringOnFilterEvaluationExceptions: true,
+        defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+        forwardDeadLetteredMessagesTo: undefined,
+        enableBatchedOperations: true,
+        forwardTo: undefined,
+        userMetadata: undefined,
+        lockDuration: "PT1M",
+        maxDeliveryCount: 10,
+        requiresSession: false,
+        status: "Active",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     },
-    output: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled",
-
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
+    {
+      testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+      input: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled" as EntityStatus,
+        availabilityStatus: "Available" as EntityAvailabilityStatus
+      },
+      output: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        forwardDeadLetteredMessagesTo: undefined,
+        forwardTo: undefined,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     }
-  }
-].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
-    beforeEach(async () => {
-      await createEntity(EntityType.TOPIC, managementTopic1);
-    });
+  ];
+  createSubscriptionTestCases.push({
+    testCaseTitle: "case-2 with defaultRuleOptions",
+    input: {
+      ...createSubscriptionTestCases[1].input,
+      defaultRuleOptions: {
+        name: "rule",
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'", sqlParameters: undefined }
+      }
+    },
+    output: { ...createSubscriptionTestCases[1].output }
+  });
 
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+  beforeEach(async () => {
+    await createEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+
+  createSubscriptionTestCases.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
+      const response: WithResponse<SubscriptionProperties> = await createEntity(
         EntityType.SUBSCRIPTION,
         managementSubscription1,
         managementTopic1,
@@ -1406,12 +1431,16 @@ describe("Atom management - Authentication", function(): void {
         managementSubscription1,
         "Subscription name mismatch"
       );
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdAt",
-        "modifiedAt",
-        "accessedAt"
-      ]);
+      assert.deepEqual(response, testCase.output);
+
+      if (testCase.input?.defaultRuleOptions) {
+        const ruleResponse = await serviceBusAtomManagementClient.getRule(
+          response.topicName,
+          response.subscriptionName,
+          testCase.input.defaultRuleOptions.name
+        );
+        assert.deepEqual(ruleResponse, testCase.input.defaultRuleOptions);
+      }
     });
   });
 });
@@ -1544,7 +1573,6 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1552,7 +1580,6 @@ describe("Atom management - Authentication", function(): void {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1578,7 +1605,6 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1586,7 +1612,6 @@ describe("Atom management - Authentication", function(): void {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1768,7 +1793,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }
@@ -1788,7 +1815,9 @@ const createRuleTests: {
         applicationProperties: {
           randomState: "WA",
           randomCountry: "US",
-          randomCount: 25,
+          randomInt: 25,
+          randomIntDisguisedAsDouble: 3.0,
+          randomDouble: 12.4,
           randomBool: true,
           randomDate: randomDate
         }
@@ -1849,7 +1878,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1857,7 +1885,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1881,7 +1908,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1889,7 +1915,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1925,7 +1950,6 @@ createRuleTests.forEach((testCase) => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1933,7 +1957,6 @@ createRuleTests.forEach((testCase) => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1992,7 +2015,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2000,7 +2022,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2417,7 +2438,6 @@ async function createEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2647,7 +2667,6 @@ async function updateEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",

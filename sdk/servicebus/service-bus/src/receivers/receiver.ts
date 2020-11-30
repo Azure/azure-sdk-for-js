@@ -15,10 +15,12 @@ import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwErrorIfInvalidOperationOnMessage
+  throwErrorIfInvalidOperationOnMessage,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
@@ -72,7 +74,7 @@ export interface ServiceBusReceiver {
    *
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages.
+   * @throws `ServiceBusError` if the service returns an error while receiving messages.
    */
   getMessageIterator(
     options?: GetMessageIteratorOptions
@@ -85,10 +87,10 @@ export interface ServiceBusReceiver {
    * @param options A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
-   * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
+   * @returns Promise<ServiceBusReceivedMessage[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages.
+   * @throws `ServiceBusError` if the service returns an error while receiving messages.
    */
   receiveMessages(
     maxMessageCount: number,
@@ -103,7 +105,7 @@ export interface ServiceBusReceiver {
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while receiving deferred messages.
+   * @throws `ServiceBusError` if the service returns an error while receiving deferred messages.
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
@@ -130,11 +132,11 @@ export interface ServiceBusReceiver {
    */
   entityPath: string;
   /**
-   * ReceiveMode provided to the client.
+   * The receive mode used to create the receiver.
    */
   receiveMode: "peekLock" | "receiveAndDelete";
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if either the receiver or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -170,11 +172,11 @@ export interface ServiceBusReceiver {
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
    *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws `ServiceBusError` with the code `SessionLockLost` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link is closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws `ServiceBusError` with the code `MessageLockLost` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
@@ -183,7 +185,7 @@ export interface ServiceBusReceiver {
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
@@ -198,11 +200,11 @@ export interface ServiceBusReceiver {
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
    * receive it message again in the future using the `receiveDeferredMessage` method.
    *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws `ServiceBusError` with the code `SessionLockLost` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link is closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws `ServiceBusError` with the code `MessageLockLost` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
@@ -211,7 +213,7 @@ export interface ServiceBusReceiver {
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while deferring the message
@@ -226,11 +228,11 @@ export interface ServiceBusReceiver {
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
    * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
    *
-   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws `ServiceBusError` with the code `SessionLockLost` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link is closed by the library due to network loss or service error.
-   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws `ServiceBusError` with the code `MessageLockLost` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
@@ -239,7 +241,7 @@ export interface ServiceBusReceiver {
    * @throws Error if used in `receiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param options The DeadLetter options that can be provided while
@@ -261,7 +263,7 @@ export interface ServiceBusReceiver {
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
+   * @throws ServiceBusError if the service returns an error while renewing message lock.
    */
   renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
 }
@@ -356,7 +358,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws ServiceBusError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onInitialize: () => Promise<void>,
@@ -423,7 +425,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     options: StreamingReceiverInitArgs
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(this._context);
-    if (options.autoComplete == null) options.autoComplete = true;
+    if (options.autoCompleteMessages == null) options.autoCompleteMessages = true;
 
     // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
     // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
@@ -457,9 +459,20 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const receiveMessages = async () => {
@@ -551,10 +564,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     options: PeekMessagesOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
 
     const managementRequestOptions = {
       ...options,

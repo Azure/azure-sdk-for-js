@@ -36,14 +36,12 @@ describe("shared", () => {
         {
           name: translatedError.name,
           code: translatedError.code,
-          reason: translatedError.reason,
           message: translatedError.message,
           retryable: translatedError.retryable
         },
         {
           name: "ServiceBusError",
-          code: messagingError.code, // the code is always just mirrored verbatim from whatever it was.
-          reason: "MessagingEntityNotFound",
+          code: "MessagingEntityNotFound",
           message: messagingError.message,
           retryable: messagingError.retryable
         } as ServiceBusError,
@@ -62,20 +60,19 @@ describe("shared", () => {
       let messagingError = new MessagingError("hello");
       messagingError.code = unknownCode;
       let translatedError = translateServiceBusError(messagingError) as ServiceBusError;
+      const expectedMessage = unknownCode ? `${unknownCode}: hello` : "hello";
 
       assert.deepEqual(
         {
           name: translatedError.name,
           code: translatedError.code,
-          reason: translatedError.reason,
           message: translatedError.message,
           retryable: translatedError.retryable
         },
         {
           name: "ServiceBusError",
-          code: messagingError.code, // the code is always just mirrored verbatim from whatever it was.
-          reason: "GeneralError",
-          message: messagingError.message,
+          code: "GeneralError",
+          message: expectedMessage,
           retryable: messagingError.retryable
         } as ServiceBusError,
         "The code should be intact and the reason code, since it matches our blessed list, should match."
@@ -98,7 +95,7 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
             entityPath: args.entityPath,
             errorSource: args.errorSource,
-            reason: sbe.reason
+            code: sbe.code
           },
           {
             name: "ServiceBusError",
@@ -106,7 +103,7 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: "fully qualified namespace",
             entityPath: "entity path",
             errorSource: "renewLock",
-            reason: "ServiceCommunicationProblem"
+            code: "ServiceCommunicationProblem"
           }
         );
 
@@ -143,7 +140,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
     [
       {
         body: "hello",
-        _amqpAnnotatedMessage: { body: "hello" }
+        _rawAmqpMessage: { body: "hello" }
       }
     ]
   ];
@@ -175,7 +172,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       [
         {
           body: "hello",
-          _amqpAnnotatedMessage: { body: "hello" }
+          _rawAmqpMessage: { body: "hello" }
         }
       ],
       allReceivedMessages,

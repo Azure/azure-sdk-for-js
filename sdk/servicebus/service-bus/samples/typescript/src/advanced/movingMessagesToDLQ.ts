@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-  
   This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
   the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
   https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
