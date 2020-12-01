@@ -3,7 +3,11 @@
 
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../../../src";
+import {
+  ConfigurationSetting,
+  ListConfigurationSettingPage,
+  ListRevisionsPage
+} from "../../../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
@@ -157,7 +161,7 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
-    if (err.name === RestError) {
+    if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
     }
