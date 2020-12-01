@@ -2482,6 +2482,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
+  /csv-parse/4.14.1:
+    dev: false
+    resolution:
+      integrity: sha512-4wmcO7QbWtDAncGFaBwlWFPhEN4Akr64IbM4zvDwEOFekI8blLc04Nw7XjQjtSNy+3AUAgBgtUa9nWo5Cq89Xg==
   /currently-unhandled/0.4.1:
     dependencies:
       array-find-index: 1.0.2
@@ -8897,6 +8901,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
       chai: 4.2.0
       cross-env: 7.0.2
+      csv-parse: 4.14.1
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -8931,7 +8936,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-im0Az15EfcttIX5T61sj0aRo6KT6NP4dQeWJ3TQFJUR33Oco7W15VRMv+UXT1Eqwe3a/z3rqIvdBPZF5JYsA5A==
+      integrity: sha512-x9L7AxP7505Qji9y5rvSK3iJ6f0bWWq+lpsmZFpCtIcow6rsGF83VS42RuAKfIbSH7TyN/kqh3wkpXGjzbbp1A==
       tarball: 'file:projects/ai-anomaly-detector.tgz'
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
@@ -9100,7 +9105,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-ynAlVrS3nk6apbPNyP3i/xi5+IOi3yfae4LNT6gqoxQ4vxRpQEF79d6qi3ujYZf9UzwLn3Vksdr0WQM26LYVBQ==
+      integrity: sha512-VLKH85eh2Gp7BAGZFRL5CbF8Q5uHXP/hJwkDUGU34MwAi157MMnb9o0+zrpMKUdyYyQ+XhkVpluCbR75GxMGag==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -9222,7 +9227,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-4nL0d0YV/FD5sOQDnYMZE0Xe1gkJOLThAHdlDueC86kQGVP8u6vy+0f8a6dnN/f0tBt+lZ10bFo6rLyRjCoDTg==
+      integrity: sha512-kDZMCkId+dq0dDqs6wzQiKwGBKQ2BgSCEVcX8Ge4asrhN3WzTwl/eoxCNGV3fPgLXuZ7yB1Azpq9jyE/8eOlyg==
       tarball: 'file:projects/communication-administration.tgz'
     version: 0.0.0
   'file:projects/communication-chat.tgz':
@@ -9283,7 +9288,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-6RGSAjt0ptu7Pln9xuVYLm2tog8uJ5YvhQ94pb7HzQ8Ib6XXzmvz71m33sL7eCmtBLOD93sK5PKC4Cr7hj35SA==
+      integrity: sha512-l7iNBZI9fgurymKsHXrPuyXfCZNnYKmxuxs+DU3VGP5bKPDtHTPPKuk59k9cYyTT9FsypPBCkREU/jlsJM6DrA==
       tarball: 'file:projects/communication-chat.tgz'
     version: 0.0.0
   'file:projects/communication-common.tgz':
@@ -9400,7 +9405,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-3gPH+ljkhCJCsOBcdZnxdalmBPPkbDDBaYa9UbfSabstj4pTlIss2T8J6vc758CfaSB4iGVxyHdgz3vUzavH/A==
+      integrity: sha512-CelUWH6TA8Xj5s14bViMKZ+WvmK8DUN0AJKeLe+86CeYIOWHB5JCr8BRQ2hDQIB3n++g6xNUzfrwG9ECMG3uug==
       tarball: 'file:projects/communication-sms.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -10618,6 +10623,8 @@ packages:
     version: 0.0.0
   'file:projects/keyvault-common.tgz':
     dependencies:
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@opentelemetry/api': 0.10.2
       eslint: 6.8.0
       prettier: 1.19.1
       rimraf: 3.0.2
@@ -10626,7 +10633,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-common'
     resolution:
-      integrity: sha512-mZpNkqRpkdZI//n9tH4iIQGAvGEIRCgfDRDRhRMGIodOUgN217ilVuIKK0oLNq7kxZSiSRcHQZmk1F9wNr/6AA==
+      integrity: sha512-/7T6qqZoxK/Itke9OL+yNhFx4Fr5pBTIIfvmD6vGxtoG+eM7e8icWYwhxLVMcN/K1fOdnIzk1x4GvZKmtcICOA==
       tarball: 'file:projects/keyvault-common.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10816,6 +10823,7 @@ packages:
     version: 0.0.0
   'file:projects/opentelemetry-exporter-azure-monitor.tgz':
     dependencies:
+      '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@opentelemetry/core': 0.10.2
       '@opentelemetry/semantic-conventions': 0.10.2
@@ -10838,7 +10846,7 @@ packages:
     dev: false
     name: '@rush-temp/opentelemetry-exporter-azure-monitor'
     resolution:
-      integrity: sha512-xphjre86JoSr3r7lb9hM9tpds8mkwmPeBkH7cqnc8QWqB38q9PLa+UA5NCjzkQvj39cmTIqYr46NsudBRl3RJA==
+      integrity: sha512-xYPlB3UO4LSslU7rnHjR7pwLkPPOmQEGzqtG+gI0/imVB2H0JcGeFQuX1w83J2LzhUp8UNZxVbSGUdPL6BNcFw==
       tarball: 'file:projects/opentelemetry-exporter-azure-monitor.tgz'
     version: 0.0.0
   'file:projects/schema-registry-avro.tgz':
@@ -11413,7 +11421,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-internal-avro'
     resolution:
-      integrity: sha512-0SDBUmCEthTK5dc2YxuJqRPE443HPL0DQV9VtqMAZmged7D0B2eGP2A9u9pYuQa5zP1dtAdzI3Dd3NCiZH4/vw==
+      integrity: sha512-FjiGXPSpm/GMuNQfsKub8ND0na1V9Qi5CS6ugIgZ8auO4XpsJcQ2XTaaSbmlqOnFR5l13GV54sYwm1/JZVPoSw==
       tarball: 'file:projects/storage-internal-avro.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
