@@ -48,8 +48,7 @@ export class SparkClientContext extends coreHttp.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint ||
-      "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
+      options.endpoint || "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
 
     // Parameter assignments
     this.endpoint = endpoint;
