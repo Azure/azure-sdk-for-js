@@ -186,7 +186,7 @@ const dumpRushPackages = (rushPackages, internalPackages, external) => {
 };
 
 const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
-  const yamlKey = `@rush-temp/${packages[pkgId].name.replace("@azure/", "")}`;
+  const yamlKey = `@rush-temp/${packages[pkgId].name.replace(/@[a-z]*\//i, "")}`;
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
 

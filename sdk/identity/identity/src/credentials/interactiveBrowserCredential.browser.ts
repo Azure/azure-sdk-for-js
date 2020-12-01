@@ -48,7 +48,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
       const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
-      logger.info(formatError(error));
+      logger.info(formatError("", error));
       throw error;
     }
 
@@ -102,7 +102,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
             logger.info(`Authentication returned errorCode ${err.errorCode}`);
             break;
           default:
-            logger.info(formatError(`Failed to acquire token: ${err.message}`));
+            logger.info(formatError(authParams.scopes, `Failed to acquire token: ${err.message}`));
             throw err;
         }
       }
@@ -156,10 +156,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
       });
 
       if (authResponse) {
+        const expiresOnTimestamp = authResponse.expiresOn.getTime();
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: authResponse.accessToken,
-          expiresOnTimestamp: authResponse.expiresOn.getTime()
+          expiresOnTimestamp
         };
       } else {
         logger.getToken.info("No response");
@@ -170,7 +171,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

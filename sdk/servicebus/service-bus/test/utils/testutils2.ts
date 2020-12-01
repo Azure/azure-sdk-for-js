@@ -7,9 +7,7 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
-  ServiceBusClientOptions,
-  ServiceBusReceiverOptions,
-  ServiceBusSessionReceiverOptions
+  ServiceBusClientOptions
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -23,6 +21,7 @@ import {
 } from "./managementUtils";
 import chai from "chai";
 import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../src/serviceBusMessage";
+import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../src/models";
 
 dotenv.config();
 const env = getEnvVars();
@@ -438,10 +437,10 @@ export class ServiceBusTestHelpers {
     return this.addToCleanup(
       entityNames.queue
         ? this._serviceBusClient.createReceiver(entityNames.queue, {
-            subQueue: "deadLetter"
+            subQueueType: "deadLetter"
           })
         : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!, {
-            subQueue: "deadLetter"
+            subQueueType: "deadLetter"
           })
     );
   }
@@ -470,7 +469,7 @@ async function purgeForTestClientType(
     receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
     deadLetterReceiver = serviceBusClient.createReceiver(entityPaths.queue, {
       receiveMode: "receiveAndDelete",
-      subQueue: "deadLetter"
+      subQueueType: "deadLetter"
     });
   } else if (entityPaths.topic && entityPaths.subscription) {
     receiver = serviceBusClient.createReceiver(entityPaths.topic, entityPaths.subscription, {
@@ -479,7 +478,7 @@ async function purgeForTestClientType(
     deadLetterReceiver = serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
-      { receiveMode: "receiveAndDelete", subQueue: "deadLetter" }
+      { receiveMode: "receiveAndDelete", subQueueType: "deadLetter" }
     );
   } else {
     throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);

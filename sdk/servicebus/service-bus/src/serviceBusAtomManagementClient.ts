@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants as AMQPConstants,
-  isTokenCredential,
-  parseConnectionString,
-  TokenCredential
-} from "@azure/core-amqp";
+import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -278,7 +274,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
+        `Performing management operation - createQueue() for "${queueName}" with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.putResource(
         queueName,
@@ -408,7 +405,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getQueues() with options: ${options}`);
+      logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -467,7 +464,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
-    logger.verbose(`Performing management operation - listQueues() with options: ${options}`);
+    logger.verbose(`Performing management operation - listQueues() with options: %j`, options);
     const iter = this.listQueuesAll(options);
     return {
       /**
@@ -516,7 +513,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
+        `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
@@ -578,7 +576,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
     logger.verbose(
-      `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
+      `Performing management operation - listQueuesRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
@@ -637,7 +636,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
+        `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
+        queue
       );
 
       if (!isJSONLikeObject(queue) || queue == null) {
@@ -770,7 +770,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
+        `Performing management operation - createTopic() for "${topicName}" with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.putResource(
         topicName,
@@ -900,7 +901,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getTopics() with options: ${options}`);
+      logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -960,7 +961,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    logger.verbose(`Performing management operation - listTopics() with options: ${options}`);
+    logger.verbose(`Performing management operation - listTopics() with options: %j`, options);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1009,7 +1010,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
+        `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
@@ -1072,7 +1074,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
     logger.verbose(
-      `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listTopicsRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
@@ -1131,7 +1134,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
+        `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
+        topic
       );
 
       if (!isJSONLikeObject(topic) || topic == null) {
@@ -1266,7 +1270,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
+        `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
+        options
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
       const response: HttpOperationResponse = await this.putResource(
@@ -1408,7 +1413,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getSubscriptions() with options: ${options}`
+        `Performing management operation - getSubscriptions() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
@@ -1476,7 +1482,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     logger.verbose(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+      `Performing management operation - listSubscriptions() with options: %j`,
+      options
     );
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
@@ -1528,7 +1535,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
+        `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
+        options
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
@@ -1602,7 +1610,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
     logger.verbose(
-      `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listSubscriptionsRuntimeProperties() with options: %j`,
+      options
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
@@ -1659,7 +1668,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
+        subscription
       );
 
       if (!isJSONLikeObject(subscription) || subscription == null) {
@@ -1864,7 +1874,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
+        `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
+        ruleFilter
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.putResource(
@@ -1957,7 +1968,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.verbose(`Performing management operation - getRules() with options: ${options}`);
+      logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
@@ -2023,7 +2034,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    logger.verbose(`Performing management operation - listRules() with options: ${options}`);
+    logger.verbose(`Performing management operation - listRules() with options: %j`, options);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
@@ -2083,7 +2094,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(
-        `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
+        `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
+        rule
       );
 
       if (!isJSONLikeObject(rule) || rule === null) {

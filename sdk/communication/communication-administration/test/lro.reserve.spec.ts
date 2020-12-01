@@ -79,7 +79,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
       }
     });
     areaCode = primaryAreaCodes ? primaryAreaCodes[0] : "";
-  });
+  }).timeout(30000);
 
   it("can wait until a search is completed", async function() {
     if (!includePhoneNumberLiveTests && !isPlaybackMode()) {

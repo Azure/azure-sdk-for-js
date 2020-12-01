@@ -15,7 +15,7 @@ import {
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
+import { InvalidOperationInReceiveAndDeleteMode } from "../src/util/errors";
 import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
@@ -76,6 +76,12 @@ describe("receive and delete", () => {
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
+
+      should.equal(
+        !msgs[0].lockToken,
+        true,
+        "Msgs in receiveAndDelete mode should not have locktoken! We use this assumption to differentiate between the two receive modes."
+      );
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -139,7 +145,7 @@ describe("receive and delete", () => {
             errors.push(args.error.message);
           }
         },
-        { autoComplete: autoCompleteFlag }
+        { autoCompleteMessages: autoCompleteFlag }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -236,9 +242,9 @@ describe("receive and delete", () => {
       return msgs[0];
     }
 
-    const testError = (err: Error, operation: DispositionType): void => {
-      expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
+    const testError = (err: Error): void => {
+      expect(err.message, "ErrorMessage is different than expected").equals(
+        InvalidOperationInReceiveAndDeleteMode
       );
     };
 
@@ -260,7 +266,7 @@ describe("receive and delete", () => {
         }
       } catch (err) {
         errorWasThrown = true;
-        testError(err, operation);
+        testError(err);
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -314,7 +320,7 @@ describe("receive and delete", () => {
       await receiver.renewMessageLock(msg).catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
+          InvalidOperationInReceiveAndDeleteMode,
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;
@@ -447,9 +453,9 @@ describe("receive and delete", () => {
       return deferredMsg;
     }
 
-    const testError = (err: Error, operation: DispositionType): void => {
-      expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
+    const testError = (err: Error): void => {
+      expect(err.message, "ErrorMessage is different than expected").equals(
+        InvalidOperationInReceiveAndDeleteMode
       );
     };
 
@@ -471,7 +477,7 @@ describe("receive and delete", () => {
         }
       } catch (err) {
         errorWasThrown = true;
-        testError(err, operation);
+        testError(err);
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -515,7 +521,7 @@ describe("receive and delete", () => {
       await receiver.renewMessageLock(deferredMsg).catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
+          InvalidOperationInReceiveAndDeleteMode,
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;

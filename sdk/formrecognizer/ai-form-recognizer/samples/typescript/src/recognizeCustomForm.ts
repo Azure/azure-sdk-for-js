@@ -8,7 +8,7 @@
  * trainUnlabeledModel.ts or trainLabeledModel.ts
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, Point2D } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -16,6 +16,18 @@ import * as path from "path";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
+/**
+ * Make a string representing a bounding box.
+ */
+function boundingBoxToString(box: Point2D[]): string {
+  let out = "[";
+  for (const { x, y } of box) {
+    out += `(${x}, ${y}),`;
+  }
+  // Remove the last comma and add the closing bracket
+  return out.slice(0, -1) + "]";
+}
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -41,24 +53,30 @@ export async function main() {
   const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
-  for (const form of forms || []) {
-    console.log(`${form.formType}, page range: ${form.pageRange}`);
-    console.log("Pages:");
-    for (const page of form.pages || []) {
-      console.log(`Page number: ${page.pageNumber}`);
-      console.log("Tables");
-      for (const table of page.tables || []) {
+  for (const form of forms ?? []) {
+    console.log(`- ${form.formType}, page range: ${form.pageRange}`);
+    console.log("  Pages:");
+    for (const page of form.pages ?? []) {
+      console.log(`  - Page number: ${page.pageNumber}`);
+      console.log("    Tables:");
+      for (const table of page.tables ?? []) {
+        console.log(`    - (${table.rowCount} x ${table.columnCount}`);
         for (const cell of table.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+          console.log(`      cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
+      }
+      console.log("    Selection Marks:");
+      for (const mark of page.selectionMarks ?? []) {
+        const box = boundingBoxToString(mark.boundingBox);
+        console.log(`    - ${mark.state} @(${box}) (${mark.confidence} confidence)`);
       }
     }
 
-    console.log("Fields:");
+    console.log("  Fields:");
     for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
       console.log(
-        `Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
+        `  - Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }

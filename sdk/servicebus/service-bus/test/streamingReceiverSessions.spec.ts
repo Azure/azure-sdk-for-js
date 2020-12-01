@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
-import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType } from "../src/serviceBusMessage";
 import {
@@ -209,7 +209,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -253,7 +253,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -304,7 +304,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
@@ -364,7 +364,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
@@ -425,7 +425,7 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => msgCount === 1);
@@ -530,12 +530,8 @@ describe("Streaming with sessions", () => {
         await beforeEachTest();
       });
 
-      const testError = (err: Error, operation: DispositionType): void => {
-        should.equal(
-          err.message,
-          `Failed to ${operation} the message as this message is already settled.`,
-          "ErrorMessage is different than expected"
-        );
+      const testError = (err: Error): void => {
+        should.equal(err.message, MessageAlreadySettled, "ErrorMessage is different than expected");
         errorWasThrown = true;
       };
 
@@ -581,15 +577,13 @@ describe("Streaming with sessions", () => {
         await testPeekMsgsLength(receiver, 0);
 
         if (operation === DispositionType.complete) {
-          await receiver.completeMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+          await receiver.completeMessage(receivedMsgs[0]).catch((err) => testError(err));
         } else if (operation === DispositionType.abandon) {
-          await receiver.abandonMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+          await receiver.abandonMessage(receivedMsgs[0]).catch((err) => testError(err));
         } else if (operation === DispositionType.deadletter) {
-          await receiver
-            .deadLetterMessage(receivedMsgs[0])
-            .catch((err) => testError(err, operation));
+          await receiver.deadLetterMessage(receivedMsgs[0]).catch((err) => testError(err));
         } else if (operation === DispositionType.defer) {
-          await receiver.deferMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+          await receiver.deferMessage(receivedMsgs[0]).catch((err) => testError(err));
         }
 
         should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -770,7 +764,7 @@ describe("Streaming with sessions", () => {
           processError
         },
         {
-          autoComplete: false
+          autoCompleteMessages: false
         }
       );
       await receiver.close();

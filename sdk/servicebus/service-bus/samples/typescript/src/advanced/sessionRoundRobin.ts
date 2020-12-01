@@ -13,7 +13,7 @@ import {
   delay,
   ServiceBusSessionReceiver,
   ServiceBusReceivedMessage,
-  isMessagingError
+  isServiceBusError
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
@@ -88,8 +88,8 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     });
   } catch (err) {
     if (
-      isMessagingError(err) &&
-      (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError")
+      isServiceBusError(err) &&
+      (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {

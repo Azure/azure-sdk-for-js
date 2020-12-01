@@ -4,7 +4,7 @@
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "./serviceBusMessage";
-import { MessagingError } from "@azure/core-amqp";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * Arguments to the `processError` callback.
@@ -13,7 +13,7 @@ export interface ProcessErrorArgs {
   /**
    * The error.
    */
-  error: Error | MessagingError;
+  error: Error | ServiceBusError;
   /**
    * The operation where the error originated.
    *
@@ -67,15 +67,10 @@ export interface InternalMessageHandlers extends MessageHandlers {
 
 /**
  * Represents the possible receive modes for the receiver.
+ * @internal
+ * @ignore
  */
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
-
-/**
- * Represents the sub queue that is applicable for any queue or subscription.
- * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
- * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
- */
-export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 /**
  * Options to use when creating a receiver.
@@ -100,18 +95,17 @@ export interface ServiceBusReceiverOptions {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveMode;
+  receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
    * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
-  subQueue?: SubQueue;
+  subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
    * The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
-   * provided onMessage handler completes ite execution.
+   * by the sdk automatically. This auto renewal stops once the message is settled.
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
@@ -159,12 +153,16 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
+   * @property Indicates whether the message should be settled using the `completeMessage()`
+   * method on the receiver automatically after it executes the user provided message callback.
+   * Doing so removes the message from the queue/subscription.
+   *
+   * This option is ignored if messages are received in the `receiveAndDelete` receive mode or if
+   * the message is already settled in the user provided message callback.
+   *
    * - **Default**: `true`.
    */
-  autoComplete?: boolean;
+  autoCompleteMessages?: boolean;
   /**
    * @property The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
@@ -198,7 +196,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
-  receiveMode?: ReceiveMode;
+  receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.

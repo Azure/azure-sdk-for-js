@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getGenericBSU
 } from "./utils";
-import { record, delay, isLiveMode } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -33,7 +33,7 @@ describe("BlobClient", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -1273,7 +1273,7 @@ describe("BlobClient - Object Replication", () => {
   let destContainerClient: ContainerClient;
   let srcBlobClient: BlobClient;
   let destBlobClient: BlobClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const expectedObjectReplicateSourceProperties = [
     {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import {
   DefaultHttpsClient,
   HttpsClient,
@@ -10,7 +10,8 @@ import {
   Pipeline,
   createPipelineRequest,
   createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions
 } from "@azure/core-https";
 import {
   OperationResponse,
@@ -20,14 +21,18 @@ import {
   OperationResponseMap,
   FullOperationResponse,
   DictionaryMapper,
-  CompositeMapper
+  CompositeMapper,
+  XmlOptions,
+  XML_CHARKEY,
+  XML_ATTRKEY,
+  RequiredSerializerOptions
 } from "./interfaces";
 import { getPathStringFromParameter, isStreamOperation } from "./interfaceHelpers";
 import { MapperTypeNames } from "./serializer";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
-import { deserializationPolicy } from "./deserializationPolicy";
+import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -59,7 +64,12 @@ export interface ServiceClientOptions {
   /**
    * A method that is able to turn an XML object model into a string.
    */
-  stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
+  stringifyXML?: (obj: any, opts?: XmlOptions) => string;
+
+  /**
+   * A method that is able to parse XML.
+   */
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
 }
 
 /**
@@ -81,7 +91,7 @@ export class ServiceClient {
   /**
    * Decoupled method for processing XML into a string.
    */
-  private readonly _stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
+  private readonly _stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 
   /**
    * The HTTP client that will be used to send requests.
@@ -100,10 +110,14 @@ export class ServiceClient {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
+    this._stringifyXML = options.stringifyXML;
     this._pipeline =
       options.pipeline ||
-      createDefaultPipeline({ baseUri: this._baseUri, credential: options.credential });
-    this._stringifyXML = options.stringifyXML;
+      createDefaultPipeline({
+        baseUri: this._baseUri,
+        credential: options.credential,
+        parseXML: options.parseXML
+      });
   }
 
   /**
@@ -239,10 +253,20 @@ export function serializeRequestBody(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec,
-  stringifyXML: (obj: any, opts?: { rootName?: string }) => string = function() {
+  stringifyXML: (obj: any, opts?: XmlOptions) => string = function() {
     throw new Error("XML serialization unsupported!");
   }
 ): void {
+  const serializerOptions = operationArguments.options?.serializerOptions;
+  const updatedOptions: RequiredSerializerOptions = {
+    xml: {
+      rootName: serializerOptions?.xml.rootName ?? "",
+      includeRoot: serializerOptions?.xml.includeRoot ?? false,
+      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY
+    }
+  };
+
+  const xmlCharKey = updatedOptions.xml.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
       operationArguments,
@@ -268,14 +292,21 @@ export function serializeRequestBody(
         request.body = operationSpec.serializer.serialize(
           bodyMapper,
           request.body,
-          requestBodyParameterPathString
+          requestBodyParameterPathString,
+          updatedOptions
         );
 
         const isStream = typeName === MapperTypeNames.Stream;
 
         if (operationSpec.isXML) {
           const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
-          const value = getXmlValueWithNamespace(xmlNamespace, xmlnsKey, typeName, request.body);
+          const value = getXmlValueWithNamespace(
+            xmlNamespace,
+            xmlnsKey,
+            typeName,
+            request.body,
+            updatedOptions
+          );
 
           if (typeName === MapperTypeNames.Sequence) {
             request.body = stringifyXML(
@@ -285,11 +316,12 @@ export function serializeRequestBody(
                 xmlnsKey,
                 xmlNamespace
               ),
-              { rootName: xmlName || serializedName }
+              { rootName: xmlName || serializedName, xmlCharKey }
             );
           } else if (!isStream) {
             request.body = stringifyXML(value, {
-              rootName: xmlName || serializedName
+              rootName: xmlName || serializedName,
+              xmlCharKey
             });
           }
         } else if (
@@ -325,7 +357,8 @@ export function serializeRequestBody(
         request.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
           formDataParameter.mapper,
           formDataParameterValue,
-          getPathStringFromParameter(formDataParameter)
+          getPathStringFromParameter(formDataParameter),
+          updatedOptions
         );
       }
     }
@@ -339,34 +372,72 @@ function getXmlValueWithNamespace(
   xmlNamespace: string | undefined,
   xmlnsKey: string,
   typeName: string,
-  serializedValue: any
+  serializedValue: any,
+  options: RequiredSerializerOptions
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
   if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
-    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+    const result: any = {};
+    result[options.xml.xmlCharKey] = serializedValue;
+    result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
+    return result;
   }
 
   return serializedValue;
 }
 
 function createDefaultPipeline(
-  options: { baseUri?: string; credential?: TokenCredential } = {}
+  options: {
+    baseUri?: string;
+    credential?: TokenCredential;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
+  } = {}
 ): Pipeline {
-  const pipeline = createPipelineFromOptions({});
-
-  const credential = options.credential;
-  if (credential) {
-    if (isTokenCredential(credential)) {
-      pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({ credential, scopes: `${options.baseUri || ""}/.default` })
-      );
-    } else {
-      throw new Error("The credential argument must implement the TokenCredential interface");
+  return createClientPipeline({
+    credentialOptions: options,
+    deserializationOptions: {
+      parseXML: options.parseXML
     }
+  });
+}
+
+/**
+ * Options for creating a Pipeline to use with ServiceClient.
+ * Mostly for customizing the auth policy (if using token auth) or
+ * the deserialization options when using XML.
+ */
+export interface ClientPipelineOptions extends InternalPipelineOptions {
+  /**
+   * Options to customize bearerTokenAuthenticationPolicy.
+   */
+  credentialOptions?: { baseUri?: string; credential?: TokenCredential };
+  /**
+   * Options to customize deserializationPolicy.
+   */
+  deserializationOptions?: DeserializationPolicyOptions;
+}
+
+/**
+ * Creates a new Pipeline for use with a Service Client.
+ * Adds in deserializationPolicy by default.
+ * Also adds in bearerTokenAuthenticationPolicy if passed a TokenCredential.
+ * @param options Options to customize the created pipeline.
+ */
+export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
+  const pipeline = createPipelineFromOptions(options ?? {});
+
+  const credential = options.credentialOptions?.credential;
+  if (credential) {
+    pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: `${options.credentialOptions?.baseUri || ""}/.default`
+      })
+    );
   }
 
-  pipeline.addPolicy(deserializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), { phase: "Serialize" });
 
   return pipeline;
 }
@@ -384,7 +455,9 @@ function prepareXMLRootList(
     return { [elementName]: obj };
   }
 
-  return { [elementName]: obj, $: { [xmlNamespaceKey]: xmlNamespace } };
+  const result = { [elementName]: obj };
+  result[XML_ATTRKEY] = { [xmlNamespaceKey]: xmlNamespace };
+  return result;
 }
 
 function flattenResponse(

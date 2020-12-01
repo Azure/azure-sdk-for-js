@@ -57,16 +57,16 @@ async function main() {
     console.log(`Alert configuration created: ${alertConfig.id}`);
 
     // you can use alert configuration created in above step to query the alert.
-    const alertIds = await queryAlerts(
+    const alerts = await queryAlerts(
       client,
       alertConfig.id,
       new Date(Date.UTC(2020, 8, 1)),
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    if (alertIds.length > 1) {
+    if (alerts.length > 1) {
       // query anomalies using an alert id.
-      await queryAnomaliesByAlert(client, alertConfig.id, alertIds[0]);
+      await queryAnomaliesByAlert(client, alerts[0]);
     } else {
       console.log("No alerts during the time period");
     }
@@ -116,18 +116,16 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@microsoft.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@microsoft.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
   return result;
@@ -136,11 +134,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
 async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  for await (const status of adminClient.listDataFeedIngestionStatus(
-    datafeedId,
-    startTime,
-    endTime
-  )) {
+  const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
+  for await (const status of listIterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }
 }
@@ -162,7 +157,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(dataFeed);
+  return await adminClient.createDetectionConfig(dataFeed);
 }
 
 async function createWebhookHook(adminClient) {
@@ -210,21 +205,17 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlert);
+  return await adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
-  let alertIds = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
-    alertIds.push(alert.id);
+  let alerts = [];
+  const listIterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
+  for await (const alert of listIterator) {
+    alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
     console.log(`      timestamp: ${alert.timestamp}`);
@@ -233,24 +224,25 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   // alternatively we could list results by pages
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
+    .listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.table(result.value.alerts);
+    console.table(result.value);
     result = await iterator.next();
   }
 
-  return alertIds;
+  return alerts;
 }
 
-async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
+async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  const listIterator = client.listAnomalies(alert);
+  for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

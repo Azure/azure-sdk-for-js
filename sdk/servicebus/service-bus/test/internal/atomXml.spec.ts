@@ -204,7 +204,6 @@ describe("ATOM Serializers", () => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -214,7 +213,6 @@ describe("ATOM Serializers", () => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -263,7 +261,6 @@ describe("ATOM Serializers", () => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -273,7 +270,6 @@ describe("ATOM Serializers", () => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },

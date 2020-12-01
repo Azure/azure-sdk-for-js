@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-  
   This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
@@ -35,7 +31,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   try {
     await sendScheduledMessages(sbClient);
@@ -53,7 +49,7 @@ async function sendScheduledMessages(sbClient) {
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
-    label: "Scientist"
+    subject: "Scientist"
   }));
 
   const timeNowUtc = new Date(Date.now());

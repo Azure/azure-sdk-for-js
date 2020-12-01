@@ -7,9 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
 import {
-  MessagingError,
+  isServiceBusError,
   ProcessErrorArgs,
   ServiceBusClient,
+  ServiceBusError,
   ServiceBusSessionReceiver
 } from "../src";
 import { ServiceBusSender } from "../src/sender";
@@ -26,7 +27,6 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { isMessagingError } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -112,20 +112,20 @@ describe("ServiceBusClient live tests", () => {
       return sbClient.close();
     });
 
-    const testError = (err: Error | MessagingError): void => {
-      if (!isMessagingError(err)) {
-        should.equal(true, false, "Error expected to be instance of MessagingError");
+    const testError = (err: Error | ServiceBusError): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
         if (isNode) {
           should.equal(
-            err.code === "ENOTFOUND" || err.code === "EAI_AGAIN",
+            err.code === "GeneralError",
             true,
             `Error code ${err.code} is different than expected`
           );
         } else {
           should.equal(
             err.code,
-            "ServiceCommunicationError",
+            "ServiceCommunicationProblem",
             "Error code is different than expected"
           );
         }
@@ -195,15 +195,11 @@ describe("ServiceBusClient live tests", () => {
       await sbClient.test.after();
     });
 
-    const testError = (err: Error | MessagingError, entityPath: string): void => {
-      if (!isMessagingError(err)) {
-        should.equal(true, false, "Error expected to be instance of MessagingError");
+    const testError = (err: Error | ServiceBusError, entityPath: string): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
-        should.equal(
-          err.code,
-          "MessagingEntityNotFoundError",
-          "Error code is different than expected"
-        );
+        should.equal(err.code, "MessagingEntityNotFound", "Error code is different than expected");
         should.equal(
           err.message.includes(
             `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
@@ -501,9 +497,10 @@ describe("ServiceBusClient live tests", () => {
         caughtError = error;
       }
 
-      const expectedErrorMsg =
-        `Failed to ${operation} the message as the AMQP link with which the message was ` +
-        `received is no longer alive.`;
+      const expectedErrorMsg = getReceiverClosedErrorMsg(
+        receiver.entityPath,
+        receivedMessage.sessionId
+      );
       should.equal(caughtError && caughtError.message, expectedErrorMsg);
     }
 
@@ -730,6 +727,8 @@ describe("ServiceBusClient live tests", () => {
         await beforeEachTest(noSessionTestClientType, entityToClose);
 
         await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
+
+        await testAllDispositions();
       });
 
       it(
@@ -792,7 +791,7 @@ describe("ServiceBusClient live tests", () => {
 
     it("Entity Path on Queue deadletter Receiver", () => {
       const dummyQueueName = "dummy";
-      const receiver = sbClient.createReceiver(dummyQueueName, { subQueue: "deadLetter" });
+      const receiver = sbClient.createReceiver(dummyQueueName, { subQueueType: "deadLetter" });
       should.equal(
         receiver.entityPath,
         `${dummyQueueName}/$DeadLetterQueue`,
@@ -815,7 +814,7 @@ describe("ServiceBusClient live tests", () => {
       const dummyTopicName = "dummyTopicName";
       const dummySubscriptionName = "dummySubscriptionName";
       const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
-        subQueue: "deadLetter"
+        subQueueType: "deadLetter"
       });
       should.equal(
         receiver.entityPath,

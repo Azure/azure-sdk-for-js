@@ -85,7 +85,7 @@ export class ClientCertificateCredential implements TokenCredential {
       const error = new Error(
         "The file at the specified path does not contain a PEM-encoded certificate."
       );
-      logger.info(formatError(error));
+      logger.info(formatError("", error));
       throw error;
     }
 
@@ -187,7 +187,7 @@ export class ClientCertificateCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError("", err));
       throw err;
     } finally {
       span.end();

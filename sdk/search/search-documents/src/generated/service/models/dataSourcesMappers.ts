@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AzureActiveDirectoryApplicationCredentials,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   DataSourceCredentials,
@@ -16,6 +17,7 @@ export {
   SearchError,
   SearchIndexerDataContainer,
   SearchIndexerDataSource,
+  SearchResourceEncryptionKey,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy
 } from "../models/mappers";

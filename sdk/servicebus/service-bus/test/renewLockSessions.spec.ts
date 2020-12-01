@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ProcessErrorArgs } from "../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
@@ -15,7 +15,6 @@ import {
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
-import { isMessagingError } from "@azure/core-amqp";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
@@ -199,7 +198,7 @@ describe("Session Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(msgs[0]).catch((err) => {
-      should.equal(err.code, "SessionLockLostError", "Error code is different than expected");
+      should.equal(err.code, "SessionLockLost", "Reason code is different than expected");
       errorWasThrown = true;
     });
 
@@ -276,7 +275,7 @@ describe("Session Lock Renewal", () => {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
     await delay(10000);
@@ -334,7 +333,7 @@ describe("Session Lock Renewal", () => {
       {
         processMessage,
         async processError(args: ProcessErrorArgs) {
-          if (isMessagingError(args.error) && args.error.code === "SessionLockLostError") {
+          if (isServiceBusError(args.error) && args.error.code === "SessionLockLost") {
             sessionLockLostErrorThrown = true;
           } else {
             uncaughtErrorFromHandlers = args.error;
@@ -342,7 +341,7 @@ describe("Session Lock Renewal", () => {
         }
       },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
 
@@ -359,7 +358,7 @@ describe("Session Lock Renewal", () => {
 
     let errorWasThrown: boolean = false;
     await receiver.completeMessage(messagesReceived[0]).catch((err) => {
-      should.equal(err.code, "SessionLockLostError", "Error code is different than expected");
+      should.equal(err.code, "SessionLockLost", "Error code is different than expected");
       errorWasThrown = true;
     });
 

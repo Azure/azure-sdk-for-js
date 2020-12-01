@@ -11,11 +11,10 @@ import {
   toFormFieldFromKeyValuePairModel,
   toFormFieldFromFieldValueModel,
   toFieldsFromFieldValue,
+  toRecognizedFormArray,
   toFormTable,
-  toRecognizeFormResultResponse,
   toFormModelResponse,
-  toRecognizedForm,
-  toRecognizeFormResultResponseFromReceipt
+  toRecognizedForm
 } from "../../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -403,6 +402,7 @@ describe("Transforms", () => {
     const originalTable: DataTableModel = {
       rows: 3,
       columns: 2,
+      boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
       cells: [
         {
           text: "r0c0",
@@ -447,6 +447,12 @@ describe("Transforms", () => {
 
     const transformed = toFormTable(originalTable, formPages, 1);
 
+    assert.deepStrictEqual(transformed.boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
     assert.equal(transformed.rowCount, originalTable.rows);
     assert.equal(transformed.pageNumber, 1);
     assert.equal(transformed.cells[0].text, originalTable.cells[0].text);
@@ -478,45 +484,61 @@ describe("Transforms", () => {
     assert.deepStrictEqual(transformed.fields, {}, "expected empty fields in recognzied form");
   });
 
-  it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
+  it("toRecognizedFormArray() converts unsupervised response into recognized forms", () => {
     const original: GetAnalyzeFormResultResponse = JSON.parse(unsupervisedResponseString);
-    const transformed = toRecognizeFormResultResponse(original);
+    const forms = toRecognizedFormArray(original);
 
-    assert.ok(transformed.forms, "Expecting non-empty recognized forms");
-    assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
-    const form = transformed.forms![0];
+    assert.ok(forms, "Expecting non-empty recognized forms");
+    assert.ok(forms!.length > 0, "Expecting at least one recognized forms");
+    const form = forms![0];
     const originalReadResult = original.analyzeResult!.readResults![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: originalReadResult.pageNumber,
       lastPageNumber: originalReadResult.pageNumber
     });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.isNotEmpty(form.pages);
     assert.ok(form.fields["field-0"]);
     assert.ok(form.fields["field-1"]);
     assert.ok(form.fields["field-2"]);
+
+    assert.isNotEmpty(form.pages[0].tables);
+    assert.deepStrictEqual(form.pages[0].tables?.[0].boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
   });
 
-  it("toRecognizeFormResultResponse() converts supervised response into recognized forms", () => {
+  it("toRecognizedFormArray() converts supervised response into recognized forms", () => {
     const original: GetAnalyzeFormResultResponse = JSON.parse(supervisedResponseString);
-    const transformed = toRecognizeFormResultResponse(original);
+    const forms = toRecognizedFormArray(original);
 
-    assert.ok(transformed.forms, "Expecting non-empty recognized forms");
-    assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
-    const form = transformed.forms![0];
+    assert.ok(forms, "Expecting non-empty recognized forms");
+    assert.ok(forms!.length > 0, "Expecting at least one recognized forms");
+    const form = forms![0];
     const originalDocument = original.analyzeResult!.documentResults![0];
     assert.equal(form.formType, originalDocument.docType);
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: originalDocument.pageRange[0],
       lastPageNumber: originalDocument.pageRange[1]
     });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.isNotEmpty(form.pages);
     assert.ok(form.fields);
     assert.ok(form.fields["InvoiceCharges"]);
     assert.ok(form.fields["InvoiceDate"]);
     assert.ok(form.fields["InvoiceDueDate"]);
     assert.ok(form.fields["InvoiceNumber"]);
     assert.ok(form.fields["InvoiceVatId"]);
+
+    assert.isNotEmpty(form.pages[0].tables);
+    assert.deepStrictEqual(form.pages[0].tables?.[0].boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
   });
 
   it("toFormModelResponse() converts labeled model response", () => {
@@ -524,11 +546,14 @@ describe("Transforms", () => {
     const transformed = toFormModelResponse(original);
     const models = transformed.submodels;
 
-    assert.deepStrictEqual(
-      transformed.trainingDocuments,
-      original.trainResult!.trainingDocuments,
-      "Expecting same 'trainingDocuments' as original's"
-    );
+    assert.isNotEmpty(transformed.trainingDocuments);
+
+    for (const document of transformed.trainingDocuments!) {
+      assert.equal(document.modelId, original.modelInfo.modelId);
+      assert.isEmpty(document.errors);
+      assert.equal(document.status, "succeeded");
+    }
+
     assert.deepStrictEqual(
       transformed.errors,
       original.trainResult!.errors,
@@ -548,11 +573,14 @@ describe("Transforms", () => {
     const transformed = toFormModelResponse(original);
     const models = transformed.submodels;
 
-    assert.deepStrictEqual(
-      transformed.trainingDocuments,
-      original.trainResult!.trainingDocuments,
-      "Expecting same 'trainingDocuments' as original's"
-    );
+    assert.isNotEmpty(transformed.trainingDocuments);
+
+    for (const document of transformed.trainingDocuments!) {
+      assert.equal(document.modelId, original.modelInfo.modelId);
+      assert.isEmpty(document.errors);
+      assert.equal(document.status, "succeeded");
+    }
+
     assert.deepStrictEqual(
       transformed.errors,
       original.trainResult!.errors,
@@ -563,12 +591,12 @@ describe("Transforms", () => {
     assert.deepStrictEqual(models![0].fields!["field-0"].name, "field-0");
   });
 
-  it("toRecognizeFormResultResponseFromReceipt() converts receipt response", () => {
+  it("toRecognizedFormArray() converts receipt response", () => {
     const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
-    const transformed = toRecognizeFormResultResponseFromReceipt(original);
+    const forms = toRecognizedFormArray(original);
 
-    assert.ok(transformed.forms, "Expecting non-empty recognized receipts");
-    assert.equal(transformed.forms![0].formType, "prebuilt:receipt");
+    assert.ok(forms, "Expecting non-empty recognized receipts");
+    assert.equal(forms![0].formType, "prebuilt:receipt");
   });
 });
 
@@ -595,6 +623,7 @@ const supervisedResponseString = `{
           {
             "rows": 2,
             "columns": 6,
+            "boundingBox": [1, 2, 3, 4, 5, 6, 7, 8],
             "cells": [
               {
                 "rowIndex": 0,
@@ -1169,6 +1198,7 @@ const unsupervisedResponseString = `{
                   {
                       "rows": 2,
                       "columns": 5,
+                      "boundingBox": [1, 2, 3, 4, 5, 6, 7, 8],
                       "cells": [
                           {
                               "text": "Invoice Number",

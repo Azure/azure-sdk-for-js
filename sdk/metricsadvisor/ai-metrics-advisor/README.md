@@ -122,7 +122,7 @@ Please refer to [the Metrics Advisory Glossary][metrics_advisor_glossary] docume
 
 The following section provides several JavaScript code snippets illustrating common patterns used in the Metrics Advisor client libraries.
 
-- [Add a data feed from a sample or data source](#add-a-data-feed-from-a-sample-or-data-source "Add a data feed from a sample or data source")
+- [Add a data feed from a sample data source](#add-a-data-feed-from-a-sample-data-source "Add a data feed from a sample or data source")
 - [Check ingestion status](#check-ingestion-status "Check ingestion status")
 - [Configure anomaly detection configuration](#configure-anomaly-detection-configuration "Configure anomaly detection configuration")
 - [Add hooks for receiving anomaly alerts](#add-hooks-for-receiving-anomaly-alerts "Add hooks for receiving anomaly alerts")
@@ -197,18 +197,16 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       ingestionRetryDelayInSeconds: -1,
       stopRetryAfterInSeconds: -1
     },
-    options: {
-      rollupSettings: {
-        rollupType: "AutoRollup",
-        rollupMethod: "Sum",
-        rollupIdentificationValue: "__CUSTOM_SUM__"
-      },
-      missingDataPointFillSettings: {
-        fillType: "SmartFilling"
-      },
-      accessMode: "Private",
-      adminEmails: ["xyz@example.com"]
-    }
+    rollupSettings: {
+      rollupType: "AutoRollup",
+      rollupMethod: "Sum",
+      rollupIdentificationValue: "__CUSTOM_SUM__"
+    },
+    missingDataPointFillSettings: {
+      fillType: "SmartFilling"
+    },
+    accessMode: "Private",
+    adminEmails: ["xyz@example.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -246,11 +244,8 @@ async function main() {
 async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  for await (const status of adminClient.listDataFeedIngestionStatus(
-    datafeedId,
-    startTime,
-    endTime
-  )) {
+  const iterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
+  for await (const status of iterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }
 }
@@ -298,7 +293,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createMetricAnomalyDetectionConfiguration(anomalyConfig);
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 ```
 
@@ -391,7 +386,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAnomalyAlertConfiguration(anomalyAlertConfig);
+  return await adminClient.createAlertConfig(anomalyAlertConfig);
 }
 ```
 
@@ -412,40 +407,37 @@ async function main() {
 
   const client = new MetricsAdvisorClient(endpoint, credential);
 
-  const alertIds = await queryAlerts(
+  const alerts = await queryAlerts(
     client,
     alertConfigId,
     new Date(Date.UTC(2020, 8, 1)),
     new Date(Date.UTC(2020, 8, 12))
   );
 
-  if (alertIds.length > 1) {
+  if (alerts.length > 1) {
     // query anomalies using an alert id.
-    await queryAnomaliesByAlert(client, alertConfigId, alertIds[0]);
+    await queryAnomaliesByAlert(client, alerts[0]);
   } else {
     console.log("No alerts during the time period");
   }
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
-  let alertIds = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
-    alertIds.push(alert.id);
+  let alerts = [];
+  const iterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
+  for await (const alert of iterator) {
+    alerts.push(alert);
   }
 
-  return alertIds;
+  return alerts;
 }
 
-async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
+async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  const iterator = client.listAnomalies(alert);
+  for await (const anomaly of iterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );

@@ -8,12 +8,20 @@
 
 import * as coreHttp from "@azure/core-http";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
+  GeneratedClientAnalyzeOptionalParams,
+  GeneratedClientAnalyzeResponse,
+  GeneratedClientAnalyzeStatusOptionalParams,
+  GeneratedClientAnalyzeStatusResponse,
+  GeneratedClientHealthStatusOptionalParams,
+  GeneratedClientHealthStatusResponse,
+  GeneratedClientCancelHealthJobResponse,
   MultiLanguageBatchInput,
+  GeneratedClientHealthOptionalParams,
+  GeneratedClientHealthResponse,
   GeneratedClientEntitiesRecognitionGeneralOptionalParams,
   GeneratedClientEntitiesRecognitionGeneralResponse,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
@@ -29,7 +37,7 @@ import {
   GeneratedClientSentimentResponse
 } from "./models";
 
-class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
@@ -38,6 +46,97 @@ class GeneratedClient extends GeneratedClientContext {
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
     super(endpoint, options);
+  }
+
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * @param options The options parameters.
+   */
+  analyze(
+    options?: GeneratedClientAnalyzeOptionalParams
+  ): Promise<GeneratedClientAnalyzeResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { options: operationOptions },
+      analyzeOperationSpec
+    ) as Promise<GeneratedClientAnalyzeResponse>;
+  }
+
+  /**
+   * Get the status of an analysis job.  A job may consist of one or more tasks.  Once all tasks are
+   * completed, the job will transition to the completed state and results will be available for each
+   * task.
+   * @param jobId Job ID for Analyze
+   * @param options The options parameters.
+   */
+  analyzeStatus(
+    jobId: string,
+    options?: GeneratedClientAnalyzeStatusOptionalParams
+  ): Promise<GeneratedClientAnalyzeStatusResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { jobId, options: operationOptions },
+      analyzeStatusOperationSpec
+    ) as Promise<GeneratedClientAnalyzeStatusResponse>;
+  }
+
+  /**
+   * Get details of the healthcare prediction job specified by the jobId.
+   * @param jobId Job ID
+   * @param options The options parameters.
+   */
+  healthStatus(
+    jobId: string,
+    options?: GeneratedClientHealthStatusOptionalParams
+  ): Promise<GeneratedClientHealthStatusResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { jobId, options: operationOptions },
+      healthStatusOperationSpec
+    ) as Promise<GeneratedClientHealthStatusResponse>;
+  }
+
+  /**
+   * Cancel healthcare prediction job.
+   * @param jobId Job ID
+   * @param options The options parameters.
+   */
+  cancelHealthJob(
+    jobId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientCancelHealthJobResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { jobId, options: operationOptions },
+      cancelHealthJobOperationSpec
+    ) as Promise<GeneratedClientCancelHealthJobResponse>;
+  }
+
+  /**
+   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param input Collection of documents to analyze.
+   * @param options The options parameters.
+   */
+  health(
+    input: MultiLanguageBatchInput,
+    options?: GeneratedClientHealthOptionalParams
+  ): Promise<GeneratedClientHealthResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { input, options: operationOptions },
+      healthOperationSpec
+    ) as Promise<GeneratedClientHealthResponse>;
   }
 
   /**
@@ -168,6 +267,121 @@ class GeneratedClient extends GeneratedClientContext {
 
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
+const analyzeOperationSpec: coreHttp.OperationSpec = {
+  path: "/analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientAnalyzeHeaders
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.body,
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const analyzeStatusOperationSpec: coreHttp.OperationSpec = {
+  path: "/analyze/jobs/{jobId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeJobState
+    },
+    404: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [
+    Parameters.includeStatistics,
+    Parameters.top,
+    Parameters.skip
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const healthStatusOperationSpec: coreHttp.OperationSpec = {
+  path: "/entities/health/jobs/{jobId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HealthcareJobState
+    },
+    404: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [
+    Parameters.includeStatistics,
+    Parameters.top,
+    Parameters.skip
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const cancelHealthJobOperationSpec: coreHttp.OperationSpec = {
+  path: "/entities/health/jobs/{jobId}",
+  httpMethod: "DELETE",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientCancelHealthJobHeaders
+    },
+    404: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const healthOperationSpec: coreHttp.OperationSpec = {
+  path: "/entities/health/jobs",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientHealthHeaders
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.input,
+  queryParameters: [Parameters.modelVersion, Parameters.stringIndexType],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
   path: "/entities/recognition/general",
   httpMethod: "POST",
@@ -175,18 +389,23 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntitiesResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
-    Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.modelVersion,
     Parameters.stringIndexType
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -195,21 +414,26 @@ const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PiiEntitiesResult
+      bodyMapper: Mappers.PiiResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
-    Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.modelVersion,
     Parameters.stringIndexType,
     Parameters.domain
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -220,18 +444,23 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntityLinkingResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
-    Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.modelVersion,
     Parameters.stringIndexType
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -242,14 +471,19 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.KeyPhraseResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [Parameters.includeStatistics, Parameters.modelVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -260,14 +494,19 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.LanguageResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input1,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [Parameters.includeStatistics, Parameters.modelVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -278,28 +517,24 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SentimentResponse
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
+    400: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
-    Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.modelVersion,
     Parameters.stringIndexType,
     Parameters.opinionMining
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
-};
-
-// Operation Specifications
-
-export {
-  GeneratedClient,
-  GeneratedClientContext,
-  Models as GeneratedModels,
-  Mappers as GeneratedMappers
 };

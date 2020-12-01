@@ -8,7 +8,7 @@ export function checkTenantId(logger: CredentialLogger, tenantId: string) {
     const error = new Error(
       "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
     );
-    logger.info(formatError(error));
+    logger.info(formatError("", error));
     throw error;
   }
 }
