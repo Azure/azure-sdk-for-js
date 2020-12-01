@@ -633,9 +633,6 @@ export class CryptographyClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions = {
-      // coreHttp.PipelineOptions has "serviceVersion", but InternalPipelineOptions doesn't. Is that expected?
-      // serviceVersion: pipelineOptions.serviceVersion,
-
       httpClient: pipelineOptions.httpClient,
       retryOptions: pipelineOptions.retryOptions,
       proxyOptions: pipelineOptions.proxyOptions,
@@ -643,16 +640,12 @@ export class CryptographyClient {
       redirectOptions: pipelineOptions.redirectOptions,
       userAgentOptions: pipelineOptions.userAgentOptions,
       loggingOptions: {
-        logger: logger.info
-
-        // "logPolicyOptions" is not a valid parameter of "loggingOptions". Is that expected?
-        // logPolicyOptions: {
-        //   allowedHeaderNames: [
-        //     "x-ms-keyvault-region",
-        //     "x-ms-keyvault-network-info",
-        //     "x-ms-keyvault-service-version"
-        //   ]
-        // }
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 

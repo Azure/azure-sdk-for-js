@@ -1,0 +1,78 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import * as assert from "assert";
+import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
+import { logger } from "../../src/log";
+import { CertificateClient } from "../../src";
+import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { ClientSecretCredential } from "@azure/identity";
+import { env } from "@azure/test-utils-recorder";
+
+describe("The keyvault-certificates clients logging options should work", () => {
+  const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+  const headers = new HttpHeaders({
+    "x-ms-keyvault-region": "x-ms-keyvault-region-value",
+    "x-ms-keyvault-network-info": "x-ms-keyvault-network-info-value",
+    "x-ms-keyvault-service-version": "x-ms-keyvault-service-version"
+  });
+
+  function makeHTTPMock(path: string, status = 200): HttpClient {
+    return {
+      async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+        return {
+          status,
+          headers,
+          request: httpRequest,
+          parsedBody: {
+            id: `${env.KEYVAULT_URI || keyVaultUrl}${path}`,
+            attributes: {}
+          }
+        };
+      }
+    };
+  }
+
+  let mockHttpClient: HttpClient;
+  let sandbox: SinonSandbox;
+  let spy: SinonSpy<any[], void>;
+  let credential: ClientSecretCredential;
+
+  beforeEach(async () => {
+    credential = await new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+  });
+
+  afterEach(() => {
+    logger.info.enabled = false;
+    sandbox.restore();
+  });
+
+  describe("CertificateClient", () => {
+    beforeEach(async () => {
+      mockHttpClient = makeHTTPMock("/certificates/certificateName/id");
+      sandbox = createSandbox();
+      logger.info.enabled = true;
+      spy = sandbox.spy(logger, "info");
+    });
+
+    it("it should log as expected", async function () {
+      const client = new CertificateClient(keyVaultUrl, credential, {
+        httpClient: mockHttpClient
+      });
+      await client.getCertificate("certificateName");
+
+      assert.ok(spy.called);
+      const calls = spy.getCalls();
+      assert.ok(calls[0].args[0].match(/method": "GET/));
+      assert.equal(calls[1].args[0], "Response status code: 200");
+      assert.equal(
+        calls[2].args[0].replace(/\s/g, ""),
+        `Headers:{"_headersMap":${headers.toString()}}`
+      );
+    });
+  });
+});
