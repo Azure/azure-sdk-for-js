@@ -10,6 +10,29 @@ import { PipelinePolicy } from "../pipeline";
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 /**
+ * Options for how HTTP connections generate the client request id header
+ * requests.
+ */
+export interface SetClientRequestIdPolicyOptions {
+  /**
+   * The header name to use for the client request id
+   */
+  requestIdHeaderName?: string;
+  /**
+   * Whether or not to include a the generateClientRequestPolicyId pipeline
+   */
+  shouldSetClientRequestId?: boolean;
+}
+
+/**
+ * Default options for ClientRequestId policy
+ */
+export const DefaultSetClientRequestIdPolicyOptions: SetClientRequestIdPolicyOptions = {
+  requestIdHeaderName: "x-ms-client-request-id",
+  shouldSetClientRequestId: true
+};
+
+/**
  * Each PipelineRequest gets a unique id upon creation.
  * This policy passes that unique id along via an HTTP header to enable better
  * telemetry and tracing.

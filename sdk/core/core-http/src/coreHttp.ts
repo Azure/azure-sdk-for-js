@@ -55,7 +55,10 @@ export {
   RequestPolicyOptions,
   RequestPolicyOptionsLike
 } from "./policies/requestPolicy";
-export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
+export {
+  generateClientRequestIdPolicy,
+  ClientRequestIdOptions
+} from "./policies/generateClientRequestIdPolicy";
 export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";

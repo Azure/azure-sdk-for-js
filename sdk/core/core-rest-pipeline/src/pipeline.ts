@@ -16,7 +16,11 @@ import {
   exponentialRetryPolicy
 } from "./policies/exponentialRetryPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
+import {
+  SetClientRequestIdPolicyOptions,
+  setClientRequestIdPolicy,
+  DefaultSetClientRequestIdPolicyOptions
+} from "./policies/setClientRequestIdPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
@@ -413,6 +417,10 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+  /**
+   * Configure the header to use for the client request id
+   */
+  setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
 }
 
 /**
@@ -438,10 +446,20 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
+  const setClientRequestIdPolicyOptions = {
+    ...DefaultSetClientRequestIdPolicyOptions,
+    ...options.setClientRequestIdPolicyOptions
+  };
+
+  if (setClientRequestIdPolicyOptions.shouldSetClientRequestId) {
+    pipeline.addPolicy(
+      setClientRequestIdPolicy(setClientRequestIdPolicyOptions.requestIdHeaderName)
+    );
+  }
+
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });

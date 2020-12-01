@@ -9,6 +9,7 @@ import { ProxyOptions } from "./serviceClient";
 import { UserAgentOptions } from "./policies/userAgentPolicy";
 import { DeserializationOptions } from "./policies/deserializationPolicy";
 import { LogPolicyOptions } from "./policies/logPolicy";
+import { ClientRequestIdOptions } from "./policies/generateClientRequestIdPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -46,6 +47,10 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+  /**
+   * Configure the header to use for the client request id
+   */
+  clientRequestIdOptions?: ClientRequestIdOptions;
 }
 
 /**

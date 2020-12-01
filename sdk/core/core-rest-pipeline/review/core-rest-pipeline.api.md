@@ -147,6 +147,7 @@ export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;
+    setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -271,6 +272,12 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+
+// @public
+export interface SetClientRequestIdPolicyOptions {
+    requestIdHeaderName?: string;
+    shouldSetClientRequestId?: boolean;
+}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

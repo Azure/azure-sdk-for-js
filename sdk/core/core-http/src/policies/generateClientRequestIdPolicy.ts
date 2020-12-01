@@ -10,6 +10,29 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 
+/**
+ * Options for how HTTP connections generate the client request id header
+ * requests.
+ */
+export interface ClientRequestIdOptions {
+  /**
+   * The header name to use for the client request id
+   */
+  requestIdHeaderName?: string;
+  /**
+   * Whether or not to include a the generateClientRequestPolicyId pipeline
+   */
+  shouldGenerateClientRequestId?: boolean;
+}
+
+/**
+ * Default options for ClientRequestId policy
+ */
+export const DefaultClientRequestIdOptions: ClientRequestIdOptions = {
+  requestIdHeaderName: "x-ms-client-request-id",
+  shouldGenerateClientRequestId: true
+};
+
 export function generateClientRequestIdPolicy(
   requestIdHeaderName = "x-ms-client-request-id"
 ): RequestPolicyFactory {

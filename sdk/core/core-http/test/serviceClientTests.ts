@@ -26,7 +26,9 @@ import {
   OperationSpec,
   TokenCredential,
   ServiceClientCredentials,
-  ServiceClientOptions
+  ServiceClientOptions,
+  createPipelineFromOptions,
+  InternalPipelineOptions
 } from "../src/coreHttp";
 import { ParameterPath } from "../src/operationParameter";
 import * as Mappers from "./testMappers";
@@ -253,6 +255,201 @@ describe("ServiceClient", function() {
 
     assert(request!);
     assert.deepEqual(request!.headers.toJson(), expected);
+  });
+
+  it("should generate and add client request id by default when using pipeline", async () => {
+    let request: WebResource;
+    const options: ServiceClientOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(options);
+    const client = new ServiceClient(undefined, pipeline);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isTrue(response._response.request.headers.contains("x-ms-client-request-id"));
+  });
+
+  it("should not generate and add client request id", async () => {
+    let request: WebResource;
+    const options: InternalPipelineOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      clientRequestIdOptions: {
+        shouldGenerateClientRequestId: false
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(options);
+    const client = new ServiceClient(undefined, pipeline);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isFalse(response._response.request.headers.contains("x-ms-client-request-id"));
+  });
+
+  it("should  generate and add client request id with custom header name", async () => {
+    const fooRequestId = "foo-request-id";
+    let request: WebResource;
+    const options: InternalPipelineOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      clientRequestIdOptions: {
+        shouldGenerateClientRequestId: true,
+        requestIdHeaderName: fooRequestId
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(options);
+    const client = new ServiceClient(undefined, pipeline);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isTrue(response._response.request.headers.contains(fooRequestId));
+  });
+
+  it("should  generate and add client request id with custom header name and default shouldGenerateClientRequestId", async () => {
+    const fooRequestId = "foo-request-id";
+    let request: WebResource;
+    const options: InternalPipelineOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      clientRequestIdOptions: {
+        requestIdHeaderName: fooRequestId
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(options);
+    const client = new ServiceClient(undefined, pipeline);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isTrue(response._response.request.headers.contains(fooRequestId));
+  });
+
+  it("should  generate and add client request id when not using pipeline", async () => {
+    const clientRequestId = "x-ms-client-request-id";
+    let request: WebResource;
+    const options: ServiceClientOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      generateClientRequestIdHeader: true
+    };
+
+    const client = new ServiceClient(undefined, options);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isTrue(response._response.request.headers.contains(clientRequestId));
+  });
+
+  it("should  generate and add client request id when not using pipeline, and setting custom header name", async () => {
+    const clientRequestId = "x-ms-foo-request-id";
+    let request: WebResource;
+    const options: ServiceClientOptions = {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      generateClientRequestIdHeader: true,
+      clientRequestIdHeaderName: clientRequestId
+    };
+
+    const client = new ServiceClient(undefined, options);
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert.isTrue(response._response.request.headers.contains(clientRequestId));
   });
 
   it("responses should not show the _response property when serializing", async function() {

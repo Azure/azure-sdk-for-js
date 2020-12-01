@@ -20,7 +20,10 @@ import {
   DefaultDeserializationOptions
 } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
-import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
+import {
+  DefaultClientRequestIdOptions,
+  generateClientRequestIdPolicy
+} from "./policies/generateClientRequestIdPolicy";
 import {
   userAgentPolicy,
   getDefaultUserAgentHeaderName,
@@ -770,6 +773,11 @@ export function createPipelineFromOptions(
     userAgentValue = userAgentInfo.join(" ");
   }
 
+  const clientRequestIdOptions = {
+    ...DefaultClientRequestIdOptions,
+    ...pipelineOptions.clientRequestIdOptions
+  };
+
   const keepAliveOptions = {
     ...DefaultKeepAliveOptions,
     ...pipelineOptions.keepAliveOptions
@@ -789,6 +797,12 @@ export function createPipelineFromOptions(
     requestPolicyFactories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
 
+  if (clientRequestIdOptions.shouldGenerateClientRequestId) {
+    requestPolicyFactories.push(
+      generateClientRequestIdPolicy(pipelineOptions.clientRequestIdOptions?.requestIdHeaderName)
+    );
+  }
+
   const deserializationOptions = {
     ...DefaultDeserializationOptions,
     ...pipelineOptions.deserializationOptions
@@ -802,7 +816,6 @@ export function createPipelineFromOptions(
     tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(keepAliveOptions),
     userAgentPolicy({ value: userAgentValue }),
-    generateClientRequestIdPolicy(),
     deserializationPolicy(deserializationOptions.expectedContentTypes),
     throttlingRetryPolicy(),
     systemErrorRetryPolicy(),

@@ -99,6 +99,12 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
+// @public
+export interface ClientRequestIdOptions {
+    requestIdHeaderName?: string;
+    shouldGenerateClientRequestId?: boolean;
+}
+
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
     // (undocumented)
@@ -347,6 +353,7 @@ export interface HttpResponse {
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
+    clientRequestIdOptions?: ClientRequestIdOptions;
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
