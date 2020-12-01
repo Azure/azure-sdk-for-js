@@ -675,17 +675,19 @@ describe("BlobBatch", () => {
   });
 });
 
-// Won't record this test suite since UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved.
 describe("BlobBatch Token auth", () => {
   let blobServiceClient: BlobServiceClient;
   let blobBatchClient: BlobBatchClient;
-  let containerName: string;
   let containerClient: ContainerClient;
   const blockBlobCount = 3;
   let blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
   const content = "Hello World";
 
+  let recorder: Recorder;
+
   beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
     try {
       blobServiceClient = getTokenBSU();
@@ -696,10 +698,7 @@ describe("BlobBatch Token auth", () => {
 
     blobBatchClient = blobServiceClient.getBlobBatchClient();
 
-    const randomName = Math.random()
-      .toString(36)
-      .slice(2);
-    containerName = "container" + randomName;
+    const containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -716,10 +715,15 @@ describe("BlobBatch Token auth", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
+      await recorder.stop();
     }
   });
 
   it("Should work when passing in BlobClient", async function() {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobClients[i].upload(content, content.length);
@@ -747,6 +751,10 @@ describe("BlobBatch Token auth", () => {
   });
 
   it("Should work when passing in url and credential", async function() {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobClients[i].upload(content, content.length);
