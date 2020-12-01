@@ -56,7 +56,11 @@ export class ManagedPrivateEndpoints {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(managedVirtualNetworkName, continuationToken, options);
+      result = await this._listNext(
+        managedVirtualNetworkName,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -66,7 +70,10 @@ export class ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<ManagedPrivateEndpoint> {
-    for await (const page of this.listPagingPage(managedVirtualNetworkName, options)) {
+    for await (const page of this.listPagingPage(
+      managedVirtualNetworkName,
+      options
+    )) {
       yield* page;
     }
   }
@@ -87,9 +94,10 @@ export class ManagedPrivateEndpoints {
       managedPrivateEndpointName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
-      ManagedPrivateEndpointsGetResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getOperationSpec
+    ) as Promise<ManagedPrivateEndpointsGetResponse>;
   }
 
   /**
@@ -111,9 +119,10 @@ export class ManagedPrivateEndpoints {
       managedPrivateEndpoint,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, createOperationSpec) as Promise<
-      ManagedPrivateEndpointsCreateResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOperationSpec
+    ) as Promise<ManagedPrivateEndpointsCreateResponse>;
   }
 
   /**
@@ -132,9 +141,10 @@ export class ManagedPrivateEndpoints {
       managedPrivateEndpointName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, deleteOperationSpec) as Promise<
-      coreHttp.RestResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -150,9 +160,10 @@ export class ManagedPrivateEndpoints {
       managedVirtualNetworkName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      ManagedPrivateEndpointsListResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listOperationSpec
+    ) as Promise<ManagedPrivateEndpointsListResponse>;
   }
 
   /**
@@ -171,9 +182,10 @@ export class ManagedPrivateEndpoints {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
-      ManagedPrivateEndpointsListNextResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listNextOperationSpec
+    ) as Promise<ManagedPrivateEndpointsListNextResponse>;
   }
 }
 // Operation Specifications
@@ -232,7 +244,8 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const listOperationSpec: coreHttp.OperationSpec = {
-  path: "/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints",
+  path:
+    "/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
@@ -253,7 +266,11 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.managedVirtualNetworkName, Parameters.nextLink],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.managedVirtualNetworkName,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

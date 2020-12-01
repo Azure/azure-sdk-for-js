@@ -14065,55 +14065,6 @@ export const WebHookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynapseNotebookActivity: coreHttp.CompositeMapper = {
-  serializedName: "SynapseNotebook",
-  type: {
-    name: "Composite",
-    className: "SynapseNotebookActivity",
-    uberParent: "Activity",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Activity.type.modelProperties,
-      notebook: {
-        serializedName: "typeProperties.notebook",
-        type: {
-          name: "Composite",
-          className: "SynapseNotebookReference"
-        }
-      },
-      parameters: {
-        serializedName: "typeProperties.parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const SynapseSparkJobDefinitionActivity: coreHttp.CompositeMapper = {
-  serializedName: "SparkJob",
-  type: {
-    name: "Composite",
-    className: "SynapseSparkJobDefinitionActivity",
-    uberParent: "Activity",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Activity.type.modelProperties,
-      sparkJob: {
-        serializedName: "typeProperties.sparkJob",
-        type: {
-          name: "Composite",
-          className: "SynapseSparkJobReference"
-        }
-      }
-    }
-  }
-};
-
 export const SqlPoolStoredProcedureActivity: coreHttp.CompositeMapper = {
   serializedName: "SqlPoolStoredProcedure",
   type: {
@@ -14802,7 +14753,8 @@ export const TextFormat: coreHttp.CompositeMapper = {
     className: "TextFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       columnDelimiter: {
@@ -14870,7 +14822,8 @@ export const JsonFormat: coreHttp.CompositeMapper = {
     className: "JsonFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       filePattern: {
@@ -14914,7 +14867,8 @@ export const AvroFormat: coreHttp.CompositeMapper = {
     className: "AvroFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -14928,7 +14882,8 @@ export const OrcFormat: coreHttp.CompositeMapper = {
     className: "OrcFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -14942,7 +14897,8 @@ export const ParquetFormat: coreHttp.CompositeMapper = {
     className: "ParquetFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -15029,7 +14985,8 @@ export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebAnonymousAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties
     }
@@ -15042,7 +14999,8 @@ export const WebBasicAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebBasicAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       username: {
@@ -15069,7 +15027,8 @@ export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebClientCertificateAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       pfx: {
@@ -17683,7 +17642,9 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       ...DependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp("((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -17695,7 +17656,9 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       },
       size: {
         constraints: {
-          Pattern: new RegExp("((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -17714,7 +17677,8 @@ export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper 
     name: "Composite",
     className: "LinkedIntegrationRuntimeKeyAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       key: {
@@ -17734,7 +17698,8 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper
     name: "Composite",
     className: "LinkedIntegrationRuntimeRbacAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       resourceId: {
@@ -19573,6 +19538,55 @@ export const ExecuteDataFlowActivity: coreHttp.CompositeMapper = {
   }
 };
 
+export const SynapseNotebookActivity: coreHttp.CompositeMapper = {
+  serializedName: "SynapseNotebook",
+  type: {
+    name: "Composite",
+    className: "SynapseNotebookActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      notebook: {
+        serializedName: "typeProperties.notebook",
+        type: {
+          name: "Composite",
+          className: "SynapseNotebookReference"
+        }
+      },
+      parameters: {
+        serializedName: "typeProperties.parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const SynapseSparkJobDefinitionActivity: coreHttp.CompositeMapper = {
+  serializedName: "SparkJob",
+  type: {
+    name: "Composite",
+    className: "SynapseSparkJobDefinitionActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      sparkJob: {
+        serializedName: "typeProperties.sparkJob",
+        type: {
+          name: "Composite",
+          className: "SynapseSparkJobReference"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTrigger: coreHttp.CompositeMapper = {
   serializedName: "ScheduleTrigger",
   type: {
@@ -21040,7 +21054,9 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       ...TriggerDependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp("((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -21051,7 +21067,9 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       },
       size: {
         constraints: {
-          Pattern: new RegExp("((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((d+).)?(dd):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -21304,8 +21322,6 @@ export let discriminators = {
   "Activity.SetVariable": SetVariableActivity,
   "Activity.AppendVariable": AppendVariableActivity,
   "Activity.WebHook": WebHookActivity,
-  "Activity.SynapseNotebook": SynapseNotebookActivity,
-  "Activity.SparkJob": SynapseSparkJobDefinitionActivity,
   "Activity.SqlPoolStoredProcedure": SqlPoolStoredProcedureActivity,
   "Trigger.RerunTumblingWindowTrigger": RerunTumblingWindowTrigger,
   "Trigger.MultiplePipelineTrigger": MultiplePipelineTrigger,
@@ -21451,6 +21467,8 @@ export let discriminators = {
   "Activity.DatabricksSparkPython": DatabricksSparkPythonActivity,
   "Activity.AzureFunctionActivity": AzureFunctionActivity,
   "Activity.ExecuteDataFlow": ExecuteDataFlowActivity,
+  "Activity.SynapseNotebook": SynapseNotebookActivity,
+  "Activity.SparkJob": SynapseSparkJobDefinitionActivity,
   "Trigger.ScheduleTrigger": ScheduleTrigger,
   "Trigger.BlobTrigger": BlobTrigger,
   "Trigger.BlobEventsTrigger": BlobEventsTrigger,

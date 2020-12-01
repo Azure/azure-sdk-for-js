@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "./dist/synapse-artifacts.js",
   "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "types": "./types/synapse-artifacts.d.ts",
   "devDependencies": {
     "typescript": "~3.9.3",
     "rollup": "^1.16.3",
@@ -54,6 +54,7 @@
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-artifacts.js.map'\" -o ./dist/synapse-artifacts.min.js ./dist/synapse-artifacts.js",
     "prepack": "npm install && npm run build",
+    "pack": "npm pack 2>&1",
     "build:test": "echo skip",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",

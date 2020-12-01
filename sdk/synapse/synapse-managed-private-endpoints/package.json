@@ -18,7 +18,7 @@
   "license": "MIT",
   "main": "./dist/synapse-managed-private-endpoints.js",
   "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "types": "./types/synapse-managed-private-endpoints.d.ts",
   "devDependencies": {
     "typescript": "~3.9.3",
     "rollup": "^1.16.3",
@@ -54,6 +54,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-managed-private-endpoints.js.map'\" -o ./dist/synapse-managed-private-endpoints.min.js ./dist/synapse-managed-private-endpoints.js",
     "prepack": "npm install && npm run build",
     "build:test": "echo skip",
+    "pack": "npm pack 2>&1",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

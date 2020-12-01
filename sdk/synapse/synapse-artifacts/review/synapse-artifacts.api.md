@@ -66,7 +66,7 @@ export interface ActivityRunsQueryResponse {
 }
 
 // @public (undocumented)
-export type ActivityUnion = ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity | SqlPoolStoredProcedureActivity;
+export type ActivityUnion = ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SqlPoolStoredProcedureActivity;
 
 // @public
 export interface AddDataFlowToDebugSessionResponse {
@@ -859,12 +859,12 @@ export type BlobEventsTrigger = MultiplePipelineTrigger & {
     blobPathBeginsWith?: string;
     blobPathEndsWith?: string;
     ignoreEmptyBlobs?: boolean;
-    events: BlobEventTypes[];
+    events: BlobEventType[];
     scope: string;
 };
 
 // @public
-export type BlobEventTypes = string;
+export type BlobEventType = string;
 
 // @public
 export type BlobSink = CopySink & {
@@ -1988,7 +1988,7 @@ export type ExecutionActivity = Activity & {
 };
 
 // @public (undocumented)
-export type ExecutionActivityUnion = CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
+export type ExecutionActivityUnion = CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
 
 // @public
 export interface ExposureControlRequest {
@@ -2807,7 +2807,7 @@ export const enum KnownBigDataPoolReferenceType {
 }
 
 // @public
-export const enum KnownBlobEventTypes {
+export const enum KnownBlobEventType {
     // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
     // (undocumented)
@@ -6057,7 +6057,7 @@ export type SybaseTableDataset = Dataset & {
 };
 
 // @public
-export type SynapseNotebookActivity = Activity & {
+export type SynapseNotebookActivity = ExecutionActivity & {
     notebook: SynapseNotebookReference;
     parameters?: {
         [propertyName: string]: any;
@@ -6071,7 +6071,7 @@ export interface SynapseNotebookReference {
 }
 
 // @public
-export type SynapseSparkJobDefinitionActivity = Activity & {
+export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
     sparkJob: SynapseSparkJobReference;
 };
 
@@ -6612,7 +6612,7 @@ export type ZohoSource = TabularSource & {
 
 // Warnings were encountered during analysis:
 //
-// src/models/index.ts:15186:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
+// src/models/index.ts:15209:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

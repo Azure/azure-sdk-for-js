@@ -59,7 +59,10 @@ export class SparkJobDefinition {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
+      result = await this._getSparkJobDefinitionsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -68,7 +71,9 @@ export class SparkJobDefinition {
   private async *getSparkJobDefinitionsByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
-    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
+    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -162,7 +167,10 @@ export class SparkJobDefinition {
       sparkJobDefinitionName,
       options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         SparkJobDefinitionExecuteSparkJobDefinitionResponse
       >;
@@ -197,8 +205,13 @@ export class SparkJobDefinition {
       request,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -226,7 +239,10 @@ export class SparkJobDefinition {
       sparkJobDefinitionAzureResource,
       options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         SparkJobDefinitionDebugSparkJobDefinitionResponse
       >;
@@ -262,7 +278,9 @@ export class SparkJobDefinition {
     return this.client.sendOperationRequest(
       operationArguments,
       getSparkJobDefinitionsByWorkspaceNextOperationSpec
-    ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse>;
+    ) as Promise<
+      SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
+    >;
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
@@ -311,7 +329,11 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sparkJobDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };
