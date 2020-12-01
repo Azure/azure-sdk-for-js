@@ -45,6 +45,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
+    "types/synapse-accesscontrol.d.ts",
     "README.md",
     "rollup.config.js",
     "tsconfig.json"

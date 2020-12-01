@@ -43,6 +43,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
+    "types/synapse-spark.d.ts",
     "src/**/*.ts",
     "README.md",
     "rollup.config.js",
