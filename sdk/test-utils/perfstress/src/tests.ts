@@ -13,7 +13,7 @@ import {
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
-export interface PerfStressTestConstructor<TOptions extends DefaultPerfStressOptions> {
+export interface PerfStressTestConstructor<TOptions> {
   new (): PerfStressTest<TOptions>;
 }
 
@@ -29,8 +29,15 @@ export interface PerfStressTestConstructor<TOptions extends DefaultPerfStressOpt
 export abstract class PerfStressTest<TOptions> {
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
-  public get parsedOptions() {
-    return parsePerfStressOption({ ...this.options, ...defaultPerfStressOptions });
+  public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
+    // This cast is needed because TS thinks
+    //   PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>
+    //   is different from
+    //   PerfStressOptionDictionary<TOptions> & PerfStressOptionDictionary<DefaultPerfStressOptions>
+    return parsePerfStressOption({
+      ...this.options,
+      ...defaultPerfStressOptions
+    }) as PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>;
   }
 
   // Before and after running a bunch of the same test.
@@ -50,8 +57,8 @@ export abstract class PerfStressTest<TOptions> {
  * @param tests An array of classes that extend PerfStressTest
  */
 export function selectPerfStressTest(
-  tests: PerfStressTestConstructor<DefaultPerfStressOptions>[]
-): PerfStressTestConstructor<DefaultPerfStressOptions> {
+  tests: PerfStressTestConstructor<{}>[]
+): PerfStressTestConstructor<{}> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

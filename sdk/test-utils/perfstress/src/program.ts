@@ -37,7 +37,7 @@ export class PerfStressProgram {
   private testName: string;
   private parsedDefaultOptions: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
   private parallelNumber: number;
-  private tests: PerfStressTest<DefaultPerfStressOptions>[];
+  private tests: PerfStressTest<{}>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -47,7 +47,7 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor<DefaultPerfStressOptions>) {
+  constructor(testClass: PerfStressTestConstructor<{}>) {
     this.testName = testClass.name;
     this.parsedDefaultOptions = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
@@ -107,7 +107,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private runLoopSync(
-    test: PerfStressTest<DefaultPerfStressOptions>,
+    test: PerfStressTest<{}>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -148,7 +148,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTest<DefaultPerfStressOptions>,
+    test: PerfStressTest<{}>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -280,16 +280,13 @@ export class PerfStressProgram {
     // --help, or -h
     if (this.parsedDefaultOptions.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      console.table(this.tests[0].options);
+      console.table(this.tests[0].parsedOptions);
       return;
     }
 
-    const options = this.parsedDefaultOptions;
+    const options = this.tests[0].parsedOptions;
     console.log("=== Parsed options ===");
-    console.table({
-      ...options,
-      ...this.tests[0].options
-    });
+    console.table(options);
 
     if (this.tests[0].globalSetup) {
       console.log(

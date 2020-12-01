@@ -139,6 +139,6 @@ export function parsePerfStressOption<TOptions>(
       value
     };
   }
-
+  
   return result as Required<PerfStressOptionDictionary<TOptions>>;
 }
