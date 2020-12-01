@@ -12,7 +12,7 @@ import {
   TimeSeriesPoint,
   TimeGranularity
 } from "@azure/ai-anomaly-detector";
-import { AzureKeyCredential } from "@azure/core-auth";
+import {AzureKeyCredential} from "@azure/core-auth";
 
 import * as fs from "fs";
 import parse from "csv-parse/lib/sync";
@@ -29,14 +29,14 @@ const timeSeriesDataPath = "../example-data/request-data.csv";
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   let result = Array<TimeSeriesPoint>();
   let input = fs.readFileSync(path).toString();
-  let parsed = parse(input, { skip_empty_lines: true });
-  parsed.forEach(function(e: Array<string>) {
-    result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
+  let parsed = parse(input, {skip_empty_lines: true});
+  parsed.forEach(function (e: Array<string>) {
+    result.push({timestamp: new Date(e[0]), value: Number(e[1])});
   });
   return result;
 }
 
-async function main() {
+export async function main() {
   // create client
   const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
 
@@ -50,12 +50,12 @@ async function main() {
   const result: DetectChangePointResponse = await client.detectChangePoint(request);
 
   if (
-    result.isChangePoint.some(function(changePoint) {
+    result.isChangePoint.some(function (changePoint) {
       return changePoint === true;
     })
   ) {
     console.log("Change points were detected from the series at index:");
-    result.isChangePoint.forEach(function(changePoint, index) {
+    result.isChangePoint.forEach(function (changePoint, index) {
       if (changePoint === true) console.log(index);
     });
   } else {
