@@ -46,6 +46,9 @@ export type BeginDeleteCertificateOptions = CertificatePollerOptions;
 export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
 
 // @public
+export type CancelCertificateOperationOptions = coreHttp.OperationOptions;
+
+// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: CertificateClientOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
@@ -138,8 +141,7 @@ export interface CertificateOperationError {
 }
 
 // @public
-export interface CertificateOperationState extends PollOperationState<KeyVaultCertificateWithPolicy> {
-    certificateName: string;
+export interface CertificateOperationState extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
     certificateOperation?: CertificateOperation;
 }
 
@@ -209,7 +211,7 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
@@ -230,7 +232,7 @@ export const DefaultCertificatePolicy: {
 export type DeleteCertificateOperationOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
+export type DeleteCertificateState = KeyVaultCertificatePollOperationState<DeletedCertificate>;
 
 // @public
 export type DeleteContactsOptions = coreHttp.OperationOptions;
@@ -336,6 +338,11 @@ export interface KeyVaultCertificateId {
 }
 
 // @public
+export interface KeyVaultCertificatePollOperationState<TResult> extends PollOperationState<TResult> {
+    certificateName: string;
+}
+
+// @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
 }
@@ -389,7 +396,7 @@ export { PollerLike }
 export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
 export type RequireAtLeastOne<T> = {

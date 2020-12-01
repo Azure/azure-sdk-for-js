@@ -16,13 +16,6 @@ Resources for the v7.0.0 of `@azure/service-bus`:
 [Product documentation](https://azure.microsoft.com/services/service-bus/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
-Samples for v1 and documentation are still available here:
-
-[Source code or Readme for v1.1.10](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.10/sdk/servicebus/service-bus) |
-[Package for v1.1.10 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.10) |
-[API Reference Documentation for v1.1.10](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
-[Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
-
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
 
@@ -240,8 +233,7 @@ for await (let message of receiver.getMessageIterator()) {
 
 ### Settle a message
 
-Once you receive a message you can call `complete()`, `abandon()`, `defer()` or `deadletter()` on it
-based on how you want to settle the message.
+Once you receive a message you can call `completeMessage()`, `abandonMessage()`, `deferMessage()` or `deadletterMessage()` on the receiver based on how you want to settle the message.
 
 To learn more, please read [Settling Received Messages](https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
 

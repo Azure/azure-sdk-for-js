@@ -402,6 +402,7 @@ describe("Transforms", () => {
     const originalTable: DataTableModel = {
       rows: 3,
       columns: 2,
+      boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
       cells: [
         {
           text: "r0c0",
@@ -446,6 +447,12 @@ describe("Transforms", () => {
 
     const transformed = toFormTable(originalTable, formPages, 1);
 
+    assert.deepStrictEqual(transformed.boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
     assert.equal(transformed.rowCount, originalTable.rows);
     assert.equal(transformed.pageNumber, 1);
     assert.equal(transformed.cells[0].text, originalTable.cells[0].text);
@@ -490,10 +497,18 @@ describe("Transforms", () => {
       firstPageNumber: originalReadResult.pageNumber,
       lastPageNumber: originalReadResult.pageNumber
     });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.isNotEmpty(form.pages);
     assert.ok(form.fields["field-0"]);
     assert.ok(form.fields["field-1"]);
     assert.ok(form.fields["field-2"]);
+
+    assert.isNotEmpty(form.pages[0].tables);
+    assert.deepStrictEqual(form.pages[0].tables?.[0].boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
   });
 
   it("toRecognizedFormArray() converts supervised response into recognized forms", () => {
@@ -509,13 +524,21 @@ describe("Transforms", () => {
       firstPageNumber: originalDocument.pageRange[0],
       lastPageNumber: originalDocument.pageRange[1]
     });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.isNotEmpty(form.pages);
     assert.ok(form.fields);
     assert.ok(form.fields["InvoiceCharges"]);
     assert.ok(form.fields["InvoiceDate"]);
     assert.ok(form.fields["InvoiceDueDate"]);
     assert.ok(form.fields["InvoiceNumber"]);
     assert.ok(form.fields["InvoiceVatId"]);
+
+    assert.isNotEmpty(form.pages[0].tables);
+    assert.deepStrictEqual(form.pages[0].tables?.[0].boundingBox, [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+      { x: 7, y: 8 }
+    ]);
   });
 
   it("toFormModelResponse() converts labeled model response", () => {
@@ -600,6 +623,7 @@ const supervisedResponseString = `{
           {
             "rows": 2,
             "columns": 6,
+            "boundingBox": [1, 2, 3, 4, 5, 6, 7, 8],
             "cells": [
               {
                 "rowIndex": 0,
@@ -1174,6 +1198,7 @@ const unsupervisedResponseString = `{
                   {
                       "rows": 2,
                       "columns": 5,
+                      "boundingBox": [1, 2, 3, 4, 5, 6, 7, 8],
                       "cells": [
                           {
                               "text": "Invoice Number",

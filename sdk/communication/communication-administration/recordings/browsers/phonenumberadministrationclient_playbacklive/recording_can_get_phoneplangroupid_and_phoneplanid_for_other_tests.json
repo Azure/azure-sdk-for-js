@@ -5,8 +5,6 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
       "query": {
         "locale": "en-US",
-        "includeRateInformation": "false",
-        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
@@ -22,7 +20,6 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans",
       "query": {
         "locale": "en-US",
-        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
@@ -38,5 +35,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "6b833b3df860aa09fa8c96312c3a9c9c"
+  "hash": "bf46afe6e2f657a6b3de4193a865d29e"
 }
