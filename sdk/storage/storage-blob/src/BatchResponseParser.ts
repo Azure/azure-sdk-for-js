@@ -79,8 +79,7 @@ export class BatchResponseParser {
     // Parse sub subResponses.
     for (let index = 0; index < subResponseCount; index++) {
       const subResponse = subResponses[index];
-      deserializedSubResponses[index] = {} as BatchSubResponse;
-      let deserializedSubResponse = deserializedSubResponses[index];
+      let deserializedSubResponse = {} as BatchSubResponse;
       deserializedSubResponse.headers = new HttpHeaders();
 
       let responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
@@ -146,6 +145,9 @@ export class BatchResponseParser {
 
       if (contentId != NOT_FOUND) {
         deserializedSubResponse._request = this.subRequests.get(contentId)!;
+        deserializedSubResponses[contentId] = deserializedSubResponse;
+      } else {
+        throw new Error(`Content-ID not found in batch subResponse`);
       }
 
       if (subRespFailed) {
