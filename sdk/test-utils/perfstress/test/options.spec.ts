@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressTest, PerfStressOptionDictionary, DefaultPerfStressOptions } from "../src";
+import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 
-interface OptionsTestOptions extends DefaultPerfStressOptions {
+interface OptionsTestOptions {
   "non-req": string;
   "non-req-short": string;
   "non-req-default": number;
@@ -53,18 +53,17 @@ export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
     if (!(this.options[longName] && this.minimistResult[longName])) {
       return;
     }
-    // TODO: remove !(possibly with parsedOptions)
-    if (this.options[longName]!.required && !this.options[longName]!.value) {
+    if (this.options[longName].required && !this.options[longName].value) {
       throw new Error(`The option ${longName} is required. It should have a value.`);
     }
-    if (this.options[longName]!.defaultValue && !this.options[longName]!.value) {
+    if (this.options[longName].defaultValue && !this.options[longName].value) {
       throw new Error(
         `The option ${longName} says it has a default value. It should therefore have a value.`
       );
     }
     if (
-      this.options[longName]!.value !==
-      (this.minimistResult[longName] || this.options[longName]!.defaultValue)
+      this.options[longName].value !==
+      (this.minimistResult[longName] || this.options[longName].defaultValue)
     ) {
       throw new Error(
         `The option ${longName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`

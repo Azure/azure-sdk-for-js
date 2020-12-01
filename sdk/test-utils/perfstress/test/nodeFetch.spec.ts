@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary, DefaultPerfStressOptions } from "../src";
+import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 
 import fetch from "node-fetch";
 import * as http from "http";
 
-interface NodeFetchOptions extends DefaultPerfStressOptions {
+interface NodeFetchOptions {
   url: string;
 }
 

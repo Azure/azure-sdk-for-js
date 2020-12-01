@@ -41,28 +41,22 @@ export interface OptionDetails<TType> {
   description: string;
 }
 
-// TODO: Add docs
-type PerfStressOptionDictionaryOptional<TOptions extends DefaultPerfStressOptions> = {
-  [longName in keyof TOptions]?: OptionDetails<TOptions[longName]>;
-};
-
 /**
  * A group of options is called PerfStressOptionDictionary,
  * and is shaped as a plain object to make it easier to access them.
- * // TODO: Update docs
  *
- * TNames defines the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
- * for the options.
+ * `keyof TOptions` provides the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
+ * for the options and parsedOptions.
  */
-export type PerfStressOptionDictionary<
-  TOptions extends DefaultPerfStressOptions
-> = PerfStressOptionDictionaryOptional<TOptions> &
-  Pick<
-    Required<PerfStressOptionDictionaryOptional<TOptions>>,
-    keyof Omit<TOptions, keyof DefaultPerfStressOptions>
-  >;
+export type PerfStressOptionDictionary<TOptions> = {
+  [longName in keyof TOptions]: OptionDetails<TOptions[longName]>;
+};
 
-// TODO: Add docs
+/**
+ * These represent the default options the tests can assume.
+ *
+ * @interface DefaultPerfStressOptions
+ */
 export interface DefaultPerfStressOptions {
   help: string;
   parallel: number;
@@ -120,18 +114,17 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
  * Parses the given options by extracting their values through `minimist`, or setting the default value defined in each option.
  * It also overwrites any present longName with the property name of each option.
  *
- * // TODO: parse to the expected type
- * // TODO: Change T to something else
  * @param options A dictionary of options to parse using minimist.
  * @returns A new options dictionary.
  */
-export function parsePerfStressOption<
-  T extends PerfStressOptionDictionary<DefaultPerfStressOptions> | {}
->(options: T): Required<T> {
+export function parsePerfStressOption<TOptions>(
+  options: PerfStressOptionDictionary<TOptions>
+): Required<PerfStressOptionDictionary<TOptions>> {
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const result = {};
 
   for (const longName of Object.keys(options)) {
+    // This cast is needed since we're picking up options from process.argv
     const option = (options as any)[longName];
     const { shortName, defaultValue, required } = option;
     const value =
@@ -147,5 +140,5 @@ export function parsePerfStressOption<
     };
   }
 
-  return result as any;
+  return result as Required<PerfStressOptionDictionary<TOptions>>;
 }

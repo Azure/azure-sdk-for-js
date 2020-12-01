@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import * as url from "url";
-import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
-  PerfStressPolicy,
-  DefaultPerfStressOptions
-} from "../src";
+import { PerfStressTest, PerfStressOptionDictionary, PerfStressPolicy } from "../src";
 import {
   WebResource,
   HttpOperationResponse,
@@ -15,7 +10,7 @@ import {
   RequestPolicyOptions
 } from "@azure/core-http";
 
-interface PerfStressPolicyOptions extends DefaultPerfStressOptions {
+interface PerfStressPolicyOptions {
   url: string;
 }
 

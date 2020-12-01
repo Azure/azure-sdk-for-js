@@ -6,7 +6,8 @@ import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist"
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
-  DefaultPerfStressOptions
+  DefaultPerfStressOptions,
+  defaultPerfStressOptions
 } from "./options";
 
 /**
@@ -25,13 +26,11 @@ export interface PerfStressTestConstructor<TOptions extends DefaultPerfStressOpt
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfStressTest<TOptions extends DefaultPerfStressOptions> {
+export abstract class PerfStressTest<TOptions> {
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
-  public parseOptions() {
-    // TODO: remove this casting
-    // TODO: remove the ! workarounds in the tests
-    this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptions>;
+  public get parsedOptions() {
+    return parsePerfStressOption({ ...this.options, ...defaultPerfStressOptions });
   }
 
   // Before and after running a bunch of the same test.
