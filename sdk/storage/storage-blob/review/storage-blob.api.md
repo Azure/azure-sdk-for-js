@@ -2708,6 +2708,7 @@ export interface ServiceGetAccountInfoHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
+    isHnsEnabled?: boolean;
     requestId?: string;
     skuName?: SkuName;
     version?: string;
