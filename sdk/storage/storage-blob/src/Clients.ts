@@ -8055,7 +8055,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *   entity = await iter.next();
    * }
-   * ```js
+   * ```
    *
    * Example using `byPage()`:
    *
