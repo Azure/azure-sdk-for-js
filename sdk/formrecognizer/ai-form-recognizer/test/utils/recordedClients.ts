@@ -14,6 +14,7 @@ import {
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 
 dotenv.config();
 
@@ -35,6 +36,8 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
+  FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
+    "https://storageaccount/selectionmark?sastoken",
   FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
   // fake resource id
   FORM_RECOGNIZER_TARGET_RESOURCE_ID:
@@ -74,11 +77,26 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       return recording
         .replace(/\?sv[^"]*"/, `?sastoken"`)
-        .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
+        .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`)
+        .replace(/\?sp[^"]*"/, `?sastoken"`)
+        .replace(/\?sp[^\\"]*\\"/, `?sastoken\\"`);
     }
   ],
   queryParametersToSkip: []
 };
+
+export function createRecorder(context: Context): Recorder {
+  return record(context, environmentSetup);
+}
+
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
+export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCredential {
+  return useAad
+    ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    : new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY);
+}
 
 export function createRecordedTrainingClient(
   context: Context,

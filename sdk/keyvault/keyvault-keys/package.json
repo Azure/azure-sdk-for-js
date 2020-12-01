@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.2",
+  "version": "4.2.0-beta.3",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
@@ -28,7 +28,6 @@
   "files": [
     "types/keyvault-keys.d.ts",
     "dist/",
-    "dist-browser/",
     "dist-esm/keyvault-keys/src",
     "dist-esm/keyvault-common/src",
     "README.md",
@@ -78,7 +77,7 @@
         "prefix": "packageVersion"
       },
       {
-        "path": "src/generated/utils/constants.ts",
+        "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]

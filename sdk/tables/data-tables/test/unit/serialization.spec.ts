@@ -175,11 +175,11 @@ describe("Deserializer", () => {
 
   it("should deserialize a Date value", () => {
     const dateValue = new Date();
-    const deserialized: Entity = deserialize<Entity>({
+    const deserialized = deserialize<{ dateProp: Edm<"DateTime"> }>({
       dateProp: dateValue.toJSON(),
       "dateProp@odata.type": "Edm.DateTime"
     });
-    assert.deepEqual(deserialized.dateProp, dateValue);
+    assert.deepEqual(deserialized.dateProp, { type: "DateTime", value: dateValue.toISOString() });
   });
 
   it("should deserialize a Guid value", () => {

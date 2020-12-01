@@ -8,7 +8,8 @@ import {
   ReceiverEvents,
   ReceiverOptions
 } from "rhea-promise";
-import { DefaultDataTransformer, AccessToken, Constants } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
@@ -87,7 +88,6 @@ export function createConnectionContextForTests(
       },
       async close(): Promise<void> {}
     },
-    dataTransformer: new DefaultDataTransformer(),
     tokenCredential: {
       getToken() {
         return {

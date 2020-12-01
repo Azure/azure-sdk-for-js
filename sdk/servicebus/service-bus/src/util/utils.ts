@@ -320,6 +320,8 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
 
 /**
  * Represents type of message count details in ATOM based management operations.
+ * @internal
+ * @ignore
  */
 export type MessageCountDetails = {
   activeMessageCount: number;
@@ -332,14 +334,28 @@ export type MessageCountDetails = {
 /**
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
-export type AuthorizationRule = {
+export interface AuthorizationRule {
+  /**
+   * The claim type.
+   */
   claimType: string;
-  claimValue: string;
+  /**
+   * The list of rights("Manage" | "Send" | "Listen").
+   */
   accessRights?: ("Manage" | "Send" | "Listen")[];
+  /**
+   * The authorization rule key name.
+   */
   keyName: string;
+  /**
+   * The primary key for the authorization rule.
+   */
   primaryKey?: string;
+  /**
+   * The secondary key for the authorization rule.
+   */
   secondaryKey?: string;
-};
+}
 
 /**
  * @internal
@@ -385,7 +401,6 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
 
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
-    claimValue: value["ClaimValue"],
     accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
@@ -446,7 +461,8 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
   const rawAuthorizationRule: any = {
     ClaimType: authorizationRule.claimType,
-    ClaimValue: authorizationRule.claimValue,
+    // ClaimValue is not settable by the users, but service expects the value for PUT requests
+    ClaimValue: "None",
     Rights: {
       AccessRights: authorizationRule.accessRights
     },

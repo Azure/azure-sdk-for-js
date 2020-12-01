@@ -158,9 +158,9 @@ const listOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [
-    Parameters.traceparent20,
-    Parameters.tracestate20,
-    Parameters.maxItemsPerPage2
+    Parameters.traceparent,
+    Parameters.tracestate,
+    Parameters.maxItemsPerPage
   ],
   serializer
 };
@@ -177,7 +177,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent21, Parameters.tracestate21],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const addOperationSpec: coreHttp.OperationSpec = {
@@ -194,8 +194,8 @@ const addOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent22,
-    Parameters.tracestate22
+    Parameters.traceparent,
+    Parameters.tracestate
   ],
   mediaType: "json",
   serializer
@@ -211,7 +211,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent23, Parameters.tracestate23],
+  headerParameters: [Parameters.traceparent, Parameters.tracestate],
   serializer
 };
 const listNextOperationSpec: coreHttp.OperationSpec = {
@@ -228,9 +228,9 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [
-    Parameters.traceparent20,
-    Parameters.tracestate20,
-    Parameters.maxItemsPerPage2
+    Parameters.traceparent,
+    Parameters.tracestate,
+    Parameters.maxItemsPerPage
   ],
   serializer
 };

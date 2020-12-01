@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/338de821-5f3d-4d79-aace-77a014b43270",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/0659e6c6-1da2-4f18-be8b-75dd20abea36",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"338de821-5f3d-4d79-aace-77a014b43270\",\"name\":\"js-alert-config-160106256631200999\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"219280dc-3e1a-4f0c-b700-00fdb08a0771\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"219280dc-3e1a-4f0c-b700-00fdb08a0771\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"0659e6c6-1da2-4f18-be8b-75dd20abea36\",\"name\":\"js-alert-config-160530503791501050\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"ddb2a0f8-14a1-48ca-a608-5c74a51045c8\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"ddb2a0f8-14a1-48ca-a608-5c74a51045c8\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
    "responseHeaders": {
-    "apim-request-id": "4ffc9410-f73f-4997-94f1-6c8e4ab66e45",
+    "apim-request-id": "8d3612a6-c2c2-4baa-83df-5e726cd1d26a",
     "content-length": "488",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Sep 2020 19:36:05 GMT",
+    "date": "Fri, 13 Nov 2020 22:03:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "74",
-    "x-request-id": "4ffc9410-f73f-4997-94f1-6c8e4ab66e45"
+    "x-envoy-upstream-service-time": "87",
+    "x-request-id": "8d3612a6-c2c2-4baa-83df-5e726cd1d26a"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b23ccd83c5836a18d21cb79e15ec6a50"
+ "hash": "d8eb2d8a56545359ed633e9ee0fc4f6b"
 }

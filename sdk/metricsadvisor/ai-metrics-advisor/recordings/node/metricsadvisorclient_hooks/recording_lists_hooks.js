@@ -1,27 +1,27 @@
 let nock = require('nock');
 
-module.exports.hash = "77f8bd80ceb5fdbaaefbbe0295803305";
+module.exports.hash = "70edbaf8153517593b6c88256917bae3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"76b262e1-c8b8-49f0-8e6f-4a7a6bfabd70","hookName":"js-test-emailHook-160073143932207624","hookType":"Email","externalLink":"","description":"description","admins":["yumeng@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"],"ccList":null,"bccList":null}},{"hookId":"d082f519-d49c-48f8-824c-8579952c6270","hookName":"js-test-webHook-160073143932209816","hookType":"Webhook","externalLink":"","description":"description","admins":["yumeng@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}],"@nextLink":null}, [
+  .reply(200, {"value":[{"hookId":"8ee27014-a775-4e18-b846-8ce3acea698d","hookName":"js-test-emailHook-160530501380902015","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}},{"hookId":"7fac001b-9aa9-43c9-9d7f-4d79a3b6f2ac","hookName":"js-test-webHook-160530501380909561","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}],"@nextLink":null}, [
   'Content-Length',
-  '678',
+  '651',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '759d1bb0-bb07-440b-be07-4cf1540c7085',
+  'e1635262-5b4b-4ff9-bb98-31f4661bdc6c',
   'x-envoy-upstream-service-time',
-  '82',
+  '199',
   'apim-request-id',
-  '759d1bb0-bb07-440b-be07-4cf1540c7085',
+  'e1635262-5b4b-4ff9-bb98-31f4661bdc6c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 21 Sep 2020 23:37:26 GMT'
+  'Fri, 13 Nov 2020 22:03:37 GMT'
 ]);

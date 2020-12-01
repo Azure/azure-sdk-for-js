@@ -25,6 +25,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @ignore
@@ -177,6 +178,13 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
+   * Indicates if the receiver has been closed.
+   */
+  get isClosed(): boolean {
+    return this._isClosed;
+  }
+
+  /**
    * @property The last enqueued event information. This property will only
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
    * @readonly
@@ -223,7 +231,7 @@ export class EventHubReceiver extends LinkEntity {
 
     const data: EventDataInternal = fromRheaMessage(context.message);
     const receivedEventData: ReceivedEventData = {
-      body: this._context.dataTransformer.decode(context.message.body),
+      body: defaultDataTransformer.decode(context.message.body),
       properties: data.properties,
       offset: data.offset!,
       sequenceNumber: data.sequenceNumber!,

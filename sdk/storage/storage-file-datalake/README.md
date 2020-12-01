@@ -75,6 +75,11 @@ There are differences between Node.js and browsers runtime. When getting started
 - Shared Access Signature(SAS) generation
   - `generateAccountSASQueryParameters()`
   - `generateDataLakeSASQueryParameters()`
+- Parallel uploading and downloading. Note that `DataLakeFileClient.upload()` is available in both Node.js and browsers.
+  - `DataLakeFileClient.uploadFile()`
+  - `DataLakeFileClient.uploadStream()`
+  - `DataLakeFileClient.readToBuffer()`
+  - `DataLakeFileClient.readToFile()`
 
 ##### Features, interfaces, classes or functions only available in browsers
 
@@ -83,18 +88,6 @@ There are differences between Node.js and browsers runtime. When getting started
 ### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
-
-#### Special bundling notes for IE11
-
-Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
-
-If `Parcel` is used then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
-
-Assuming `bundled-output.js` is the result from `Rollup`:
-
-```bash
-tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
-```
 
 ### CORS
 

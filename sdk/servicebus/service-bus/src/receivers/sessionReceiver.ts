@@ -8,12 +8,23 @@ import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong
+  throwTypeErrorIfParameterNotLong,
+  throwErrorIfInvalidOperationOnMessage,
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
-import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
+import {
+  abandonMessage,
+  assertValidMessageHandlers,
+  completeMessage,
+  deadLetterMessage,
+  deferMessage,
+  getMessageIterator,
+  wrapProcessErrorHandler
+} from "./shared";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
@@ -23,14 +34,14 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  ErrorNameConditionMapper,
-  translate
+  ErrorNameConditionMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
+import { translateServiceBusError } from "../serviceBusError";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -80,7 +91,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<any>} The state of that session
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while retrieving session state.
+   * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
   getSessionState(options?: OperationOptionsBase): Promise<any>;
 
@@ -90,7 +101,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while setting the session state.
+   * @throws `ServiceBusError` if the service returns an error while setting the session state.
    *
    * @param {*} state
    * @returns {Promise<void>}
@@ -146,7 +157,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         condition: ErrorNameConditionMapper.SessionLockLostError,
         description: `The session lock has expired on the session with id ${this.sessionId}`
       };
-      throw translate(amqpError);
+      throw translateServiceBusError(amqpError);
     }
   }
 
@@ -197,7 +208,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing session lock.
+   * @throws `ServiceBusError` if the service returns an error while renewing session lock.
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
@@ -228,7 +239,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while setting the session state.
+   * @throws `ServiceBusError` if the service returns an error while setting the session state.
    */
   async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
@@ -260,7 +271,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<any> The state of that session
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while retrieving session state.
+   * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
@@ -288,10 +299,6 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     options: PeekMessagesOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
-    }
 
     const managementRequestOptions = {
       ...options,
@@ -372,9 +379,20 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount
+    );
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "maxMessageCount",
+      maxMessageCount,
+      "number"
+    );
 
-    if (maxMessageCount == undefined) {
-      maxMessageCount = 1;
+    if (isNaN(maxMessageCount) || maxMessageCount < 1) {
+      throw new TypeError(InvalidMaxMessageCountError);
     }
 
     const receiveBatchOperationPromise = async () => {
@@ -394,7 +412,9 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ServiceBusReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
+      throw translateServiceBusError(err);
+    });
   }
 
   subscribe(
@@ -446,7 +466,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws `ServiceBusError` if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onMessage: OnMessage,
@@ -484,32 +504,40 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.complete();
+    return completeMessage(msgImpl, this._context, this.entityPath);
   }
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.abandon(propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
     propertiesToModify?: { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.defer(propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
   }
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
     options?: DeadLetterOptions & { [key: string]: any }
   ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return msgImpl.deadLetter(options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
   async renewMessageLock(): Promise<Date> {

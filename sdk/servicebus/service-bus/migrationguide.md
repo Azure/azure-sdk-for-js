@@ -1,33 +1,94 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.7
+# Guide to migrate from @azure/service-bus v1 to v7
 
-This document is intended for users that would like to try out preview 7
-for @azure/service-bus. As the package is in preview, these details might
-change as the package is developed before its final release.
+This guide is intended to assist in the migration from version 1 of the Service Bus client library `@azure/service-bus` to version 7 of the same library. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-## General changes
+Familiarity with the version 1 of the `@azure/service-bus` library is assumed. For those new to the Service Bus client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/README.md) and [Service Bus samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples) for the `@azure/service-bus` library rather than this guide.
 
-Version 7 of `@azure/service-bus` provides some "under-the-hood" changes
-by standardizing on common infrastructure with `@azure/event-hubs`. This change
-brings this package in line with the [Azure SDK Design Guidelines for Typescript](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles).
+## Migration benefits
 
-## API changes from V1 to V7
+A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
 
-### Creating ServiceBusClient
+There were several areas of consistent feedback expressed across the Azure client library ecosystem. One of the most important is that the client libraries for different Azure services have not had a consistent approach to organization, naming, and API structure. Additionally, many developers have felt that the learning curve was difficult, and the APIs did not offer a good, approachable, and consistent onboarding story for those learning Azure or exploring a specific Azure service.
 
-- `ServiceBusClient` can now be constructed using new(). The static methods to
-  construct it have been removed.
+To try and improve the development experience across Azure services, including Service Bus, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript specific guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that these libraries have a natural and idiomatic feel. Further details are available in the guidelines for those interested.
 
-  In V1:
+The new version 7 of the Service Bus library provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as using the new `@azure/identity` library to share a single authentication between clients and a unified diagnostics pipeline offering a common view of the activities across each of the client libraries.
 
-  ```typescript
-  const serviceBusClient = ServiceBusClient.fromConnectionString("connection string");
-  ```
+## Changes in version 7 of the Service Bus library
 
-  In V7:
+### Client hierarchy
 
-  ```typescript
-  const serviceBusClient = new ServiceBusClient("connection string");
-  ```
+In the interest of simplifying the API surface we've made a single top level client called `ServiceBusClient`, rather than one for each of queue, topic, and subscription. This acts as the single entry point in contrast with multiple entry points from before. You can create senders and receivers from this client to the queue/topic/subscription/session of your choice and start sending/receiving messages.
+
+#### Approachability
+
+By having a single entry point, the `ServiceBusClient` helps with the discoverability of the API as you can explore all available features through methods from a single client, as opposed to searching through documentation or exploring namespace for the types that you can instantiate. Whether sending or receiving, using sessions or not, you will start your applications by constructing the same client.
+
+#### Consistency
+
+We now have methods with similar names, signature and location to create senders and receivers. This provides consistency and predictability on the various features of the library.
+
+### New features
+
+We have a variety of new features in the version 7 of the Service Bus library.
+
+- A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resource Manager APIs but had the drawback of not supporting connection strings.
+- Ability to create a batch of messages with the smarter `ServiceBusSender.createBatch()` and `ServiceBusMessageBatch.tryAddMessage()` APIs. This will help you manage the messages to be sent in the most optimal way.
+- Ability to configure the retry policy used by the operations on the client, sender and receivers.
+- Ability to cancel async operations on the client, sender and receivers and the management operations using the abort signal from `@azure/abort-controller`.
+- Authentication with AAD credentials using `@azure/identity`.
+  Refer to the [Changelog.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/CHANGELOG.md) for more new features, changes and bug fixes.
+
+### Performance Improvements
+
+Notable performance improvements:
+
+- Number of messages that can be sent in a certain duration using a single sender has been improved 4-5 times from v1.x (excluding the effects of batch message API).
+- Memory usage for message lock renewals, session lock renewals and peeking has been made more efficient.
+
+### Client constructors
+
+While previously, you would use the static method `createFromConnectionString` on the client to create it using connection string, now you can use the client constructor directly.
+
+In V1:
+
+```javascript
+const serviceBusClient = ServiceBusClient.createFromConnectionString("connection string");
+```
+
+In V7:
+
+```javascript
+const serviceBusClient = new ServiceBusClient("connection string");
+```
+
+While previously, you would use the static method `createFromAadTokenCredentials` on the client to create it using Azure Active Directory, now you can use the new [@azure/identity](https://www.npmjs.com/package/@azure/identity) library to share a single authentication solution between clients of different Azure services.
+
+In V1:
+
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
+
+const credential = await interactiveLogin({
+  tokenAudience: "https://servicebus.azure.net/"
+});
+
+const serviceBusClient = ServiceBusClient.createFromAadTokenCredentials(
+  "my-namespace.servicebus.windows.net",
+  credential
+);
+```
+
+In V7:
+
+```javascript
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.net", credential);
+```
 
 ### Creating senders and receivers
 
@@ -37,7 +98,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   In V1:
 
   ```typescript
-  const serviceBusClient = ServiceBusClient.fromConnectionString("connection string");
+  const serviceBusClient = ServiceBusClient.createFromConnectionString("connection string");
 
   // for queues
   const queueClient = serviceBusClient.createQueueClient("queue");
@@ -73,9 +134,9 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription");
   ```
 
-- `createSessionReceiver()` method is now split into two async methods `acceptSession()` and `acceptNextSession()`
+- The `createReceiver()` overload that took session options is replaced by two async methods `acceptSession()` and `acceptNextSession()`
   - The promise returned by these methods is resolved when a receiver link has been initialized with a session in the service.
-  - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
+  - Prior to v7, `createReceiver()` worked using lazy-initialization, where the
     receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`
     were first called.
 
@@ -108,6 +169,13 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   });
   ```
 
+### Settling messages
+
+Previously, the methods to settle messages (`complete()`, `abandon()`, `defer()` and `deadLetter()`) were on the messages themselves.
+These have been moved to the receiver in the new version, take the message as input and have the `Message` suffix in their name.
+The idea is to have the message represents just the data and not have the responsibility of any operation on the service side.
+Additionally, since a message cannot be settled if the receiver that was used to receive it is not alive, tying these operations to the receiver drives the message home better.
+
 ### Rule management
 
 - The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusAdministrationClient` class which will be supporting
@@ -129,5 +197,11 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   await serviceBusAdministrationClient.getRules();
   await serviceBusAdministrationClient.deleteRule();
   ```
+
+### Upcoming features
+
+- [Transactions](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transactions-in-service-bus) to group two or more operations together into an execution scope to ensure that all operations belonging to a given group of operations either succeed or fail jointly.
+- Optional [prefetch](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-prefetch) support to speed up the message flow by having a message readily available for local retrieval when and before the application asks for one.
+- An optional method on `ServiceBusSender` to allow pre-initializing the sender link to remove the upfront cost from the first send operation.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)

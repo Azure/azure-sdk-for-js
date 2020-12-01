@@ -39,9 +39,21 @@ describe("MetricsAdvisorAdministrationClient", () => {
   describe("Ingestion", function() {
     it("lists ingestion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 1)),
         new Date(Date.UTC(2020, 8, 1))
+      );
+      let result = await iterator.next();
+      assert.ok(result.value.status, "Expecting first status");
+      result = await iterator.next();
+      assert.ok(result.value.status, "Expecting second status");
+    });
+
+    it("lists ingestion status with datetime strings", async function() {
+      const iterator = client.listDataFeedIngestionStatus(
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+        "2020-08-01T00:00:00.000Z",
+        "2020-09-01T00:00:00.000Z"
       );
       let result = await iterator.next();
       assert.ok(result.value.status, "Expecting first status");
@@ -52,20 +64,20 @@ describe("MetricsAdvisorAdministrationClient", () => {
     it("lists ingestion status by page", async function() {
       const iterator = client
         .listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 1)),
           new Date(Date.UTC(2020, 8, 1))
         )
         .byPage({ maxPageSize: 2 });
       let result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in first page");
+      assert.equal(result.value.length, 2, "Expecting two entries in first page");
       result = await iterator.next();
-      assert.equal(result.value.statusList.length, 2, "Expecting two entries in second page");
+      assert.equal(result.value.length, 2, "Expecting two entries in second page");
     });
 
     it("gets ingestion progress", async function() {
       const result = await client.getDataFeedIngestionProgress(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
       );
 
       assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
@@ -74,7 +86,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("refreshes ingesetion status", async function() {
       const iterator = client.listDataFeedIngestionStatus(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
         new Date(Date.UTC(2020, 7, 22)),
         new Date(Date.UTC(2020, 7, 23))
       );
@@ -82,13 +94,13 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
       if (result.value.status === "Succeeded") {
         await client.refreshDataFeedIngestion(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
 
         const iterator2 = client.listDataFeedIngestionStatus(
-          testEnv.METRICS_ADVISOR_AZURE_BLOB_DATAFEED_ID,
+          testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
           new Date(Date.UTC(2020, 7, 22)),
           new Date(Date.UTC(2020, 7, 23))
         );
@@ -111,7 +123,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
       const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
         name: expectedDetectionConfigName,
         description: "fresh detection",
-        metricId: testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1,
+        metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
         wholeSeriesDetectionCondition: {
           conditionOperator: "AND",
           changeThresholdCondition: {
@@ -131,9 +143,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         seriesDetectionConditions: []
       };
 
-      const actual = await client.createMetricAnomalyDetectionConfiguration(expected);
+      const actual = await client.createDetectionConfig(expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);
@@ -171,7 +183,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         },
         seriesGroupDetectionConditions: [
           {
-            group: { Dim1: "Common Lime" },
+            group: { city: "Mumbai" },
             hardThresholdCondition: {
               anomalyDetectorDirection: "Up",
               upperBound: 400,
@@ -181,7 +193,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ],
         seriesDetectionConditions: [
           {
-            series: { Dim1: "Common Beech", Dim2: "Ant" },
+            series: { city: "Kolkata", category: "Handmade" },
             changeThresholdCondition: {
               anomalyDetectorDirection: "Both",
               shiftPoint: 1,
@@ -193,12 +205,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         ]
       };
 
-      const actual = await client.updateMetricAnomalyDetectionConfiguration(
-        createdDetectionConfigId,
-        expected
-      );
+      const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
 
-      assert.ok(actual.id, "Expecting valid detecion config");
+      assert.ok(actual.id, "Expecting valid detection config");
       createdDetectionConfigId = actual.id!;
 
       assert.equal(actual.name, expected.name);
@@ -232,15 +241,15 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("retrieves a detection configuration", async function() {
-      const result = await client.getMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+      const result = await client.getDetectionConfig(createdDetectionConfigId);
 
       assert.equal(result.name, "new Name");
       assert.equal(result.description, "new description");
     });
 
     it("lists detection configurations", async function() {
-      const iterator = client.listMetricAnomalyDetectionConfigurations(
-        testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1
+      const iterator = client.listDetectionConfigs(
+        testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
       );
       let result = await iterator.next();
 
@@ -251,13 +260,10 @@ describe("MetricsAdvisorAdministrationClient", () => {
 
     it("lists detection configurations by page", async function() {
       const iterator = client
-        .listMetricAnomalyDetectionConfigurations(testEnv.METRICS_ADVISOR_AZURE_BLOB_METRIC_ID_1)
+        .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
         .byPage();
       const result = await iterator.next();
-      assert.ok(
-        result.value.detectionConfigurations.length > 1,
-        "Expecting more than one entries in page"
-      );
+      assert.ok(result.value.length > 1, "Expecting more than one entries in page");
     });
 
     let expectedAlertConfigName: string;
@@ -277,7 +283,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         hookIds: []
       };
 
-      const actual = await client.createAnomalyAlertConfiguration(expectedAlertConfig);
+      const actual = await client.createAlertConfig(expectedAlertConfig);
 
       assert.ok(actual.id, "Expecting valid alert config");
       createdAlertConfigId = actual.id;
@@ -292,7 +298,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
     });
 
     it("retrieves an alert configuration", async function() {
-      const actual = await client.getAnomalyAlertConfiguration(createdAlertConfigId);
+      const actual = await client.getAlertConfig(createdAlertConfigId);
 
       assert.ok(actual.id, "Expecting valid alert config");
       createdAlertConfigId = actual.id;
@@ -318,7 +324,7 @@ describe("MetricsAdvisorAdministrationClient", () => {
         metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
       };
 
-      const actual = await client.updateAnomalyAlertConfiguration(createdAlertConfigId, patch);
+      const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
 
       assert.ok(actual.id, "Expecting valid alerting config");
       assert.equal(actual.name, "new alert config name");
@@ -343,30 +349,25 @@ describe("MetricsAdvisorAdministrationClient", () => {
           scopeType: "All"
         }
       };
-      const secondAlertConfig = await client.createAnomalyAlertConfiguration({
+      const secondAlertConfig = await client.createAlertConfig({
         name: secondAlertConfigName,
         crossMetricsOperator: "OR",
         metricAlertConfigurations: [metricAlertConfig],
         hookIds: []
       });
       try {
-        const iterator = client.listAnomalyAlertConfigurations(createdDetectionConfigId);
+        const iterator = client.listAlertConfigs(createdDetectionConfigId);
         let result = await iterator.next();
 
         assert.ok(result.value.id, "Expecting first alert config");
         result = await iterator.next();
         assert.ok(result.value.id, "Expecting second alert config");
 
-        const pageIterator = client
-          .listAnomalyAlertConfigurations(createdDetectionConfigId)
-          .byPage();
+        const pageIterator = client.listAlertConfigs(createdDetectionConfigId).byPage();
         const pageResult = await pageIterator.next();
-        assert.isTrue(
-          pageResult.value.alertConfigurations.length > 1,
-          "Expecting more than one entries in page"
-        );
+        assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");
       } finally {
-        await client.deleteAnomalyAlertConfiguration(secondAlertConfig.id);
+        await client.deleteAlertConfig(secondAlertConfig.id);
       }
     });
 
@@ -376,9 +377,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         this.skip();
       }
 
-      await client.deleteAnomalyAlertConfiguration(createdAlertConfigId);
+      await client.deleteAlertConfig(createdAlertConfigId);
       try {
-        await client.getAnomalyAlertConfiguration(createdAlertConfigId);
+        await client.getAlertConfig(createdAlertConfigId);
         assert.fail("Expecting error getting alert config");
       } catch (error) {
         assert.equal((error as any).code, "Not Found");
@@ -391,9 +392,9 @@ describe("MetricsAdvisorAdministrationClient", () => {
         this.skip();
       }
 
-      await client.deleteMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+      await client.deleteDetectionConfig(createdDetectionConfigId);
       try {
-        await client.getMetricAnomalyDetectionConfiguration(createdDetectionConfigId);
+        await client.getDetectionConfig(createdDetectionConfigId);
         assert.fail("Expecting error getting detection config");
       } catch (error) {
         assert.equal((error as any).code, "Not Found");

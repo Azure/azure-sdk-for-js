@@ -60,10 +60,10 @@ export interface AmqpMessageProperties {
    * content and purpose.
    */
   subject?: string;
-  /**
-   * @property {string} [userId] The identity of the user responsible for producing the message.
-   */
-  userId?: string;
+  // /**
+  //  * @property {string} [userId] The identity of the user responsible for producing the message.
+  //  */
+  // userId?: string;
 }
 
 /**
@@ -114,9 +114,9 @@ export const AmqpMessageProperties = {
     if (props.to != undefined) {
       amqpProperties.to = props.to;
     }
-    if (props.userId != undefined) {
-      amqpProperties.user_id = props.userId;
-    }
+    // if (props.userId != undefined) {
+    //   amqpProperties.user_id = props.userId;
+    // }
 
     logger.verbose("To RheaMessageProperties: %O", amqpProperties);
     return amqpProperties;
@@ -165,9 +165,9 @@ export const AmqpMessageProperties = {
     if (props.to != undefined) {
       msgProperties.to = props.to;
     }
-    if (props.user_id != undefined) {
-      msgProperties.userId = props.user_id;
-    }
+    // if (props.user_id != undefined) {
+    //   msgProperties.userId = props.user_id;
+    // }
 
     logger.verbose("From RheaMessageProperties: %O", msgProperties);
     return msgProperties;

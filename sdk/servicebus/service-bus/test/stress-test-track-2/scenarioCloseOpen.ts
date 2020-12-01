@@ -19,19 +19,23 @@ interface ScenarioCloseOptions {
   shouldCreateNewClientEachTime?: boolean;
 }
 
-function sanitizeOptions(options: ScenarioCloseOptions): Required<ScenarioCloseOptions> {
+function sanitizeOptions(args: string[]): Required<ScenarioCloseOptions> {
+  const options = parsedArgs<ScenarioCloseOptions>(args, {
+    boolean: ["shouldCreateNewClientEachTime"],
+    default: { shouldCreateNewClientEachTime: true }
+  });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBeforeCallingCloseInMs: options.delayBeforeCallingCloseInMs || 100,
-    shouldCreateNewClientEachTime: options.shouldCreateNewClientEachTime || true
+    shouldCreateNewClientEachTime: options.shouldCreateNewClientEachTime
   };
 }
 
 export async function scenarioClose() {
-  const testOptions = sanitizeOptions(parsedArgs<ScenarioCloseOptions>(process.argv));
+  const testOptions = sanitizeOptions(process.argv);
 
   const {
     testDurationInMs,

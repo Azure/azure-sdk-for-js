@@ -17,24 +17,28 @@ describe("Mock tests", function() {
   describe("FormTrainingClient", function() {
     const modelInfo1: CustomFormModelInfo = {
       modelId: "id1",
+      modelName: "mn1",
       status: "ready",
       trainingStartedOn: new Date("2020/01/01"),
       trainingCompletedOn: new Date("2020/01/02")
     };
     const modelInfo2: CustomFormModelInfo = {
       modelId: "id2",
+      modelName: "mn2",
       status: "ready",
       trainingStartedOn: new Date("2020/02/01"),
       trainingCompletedOn: new Date("2020/02/02")
     };
     const modelInfo3: CustomFormModelInfo = {
       modelId: "id3",
+      modelName: "mn3",
       status: "ready",
       trainingStartedOn: new Date("2020/03/01"),
       trainingCompletedOn: new Date("2020/03/02")
     };
     const modelInfo4: CustomFormModelInfo = {
       modelId: "id4",
+      modelName: "mn4",
       status: "ready",
       trainingStartedOn: new Date("2020/04/01"),
       trainingCompletedOn: new Date("2020/04/02")
@@ -78,6 +82,8 @@ describe("Mock tests", function() {
       assert.equal(result.length, 2, "Expecting two models");
       assert.equal(result[0].modelId, "id1");
       assert.equal(result[1].modelId, "id2");
+      assert.equal(result[0].modelName, "mn1");
+      assert.equal(result[1].modelName, "mn2");
     });
 
     it("should list models when there are more than one page of results", async function() {
@@ -103,6 +109,10 @@ describe("Mock tests", function() {
       assert.equal(result[1].modelId, "id2");
       assert.equal(result[2].modelId, "id3");
       assert.equal(result[3].modelId, "id4");
+      assert.equal(result[0].modelName, "mn1");
+      assert.equal(result[1].modelName, "mn2");
+      assert.equal(result[2].modelName, "mn3");
+      assert.equal(result[3].modelName, "mn4");
     });
 
     it("should return the page from continuation token", async function() {
@@ -128,6 +138,8 @@ describe("Mock tests", function() {
       assert.equal(result.length, 2, "Expecting two models from second page");
       assert.equal(result[0].modelId, "id3");
       assert.equal(result[1].modelId, "id4");
+      assert.equal(result[0].modelName, "mn3");
+      assert.equal(result[1].modelName, "mn4");
     });
   });
 });

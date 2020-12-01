@@ -28,7 +28,6 @@
   "files": [
     "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-browser/",
     "dist-esm/keyvault-certificates/src",
     "dist-esm/keyvault-common/src",
     "README.md",
@@ -76,7 +75,7 @@
         "prefix": "packageVersion"
       },
       {
-        "path": "src/generated/utils/constants.ts",
+        "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]

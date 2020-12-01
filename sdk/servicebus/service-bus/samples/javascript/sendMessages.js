@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-  
   This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
   Queue/Topic. You can send all messages at once with risk of the operation failing if they don't fit
   in a batch or you can use one or batch objects directly to safely send all your messages.
@@ -36,7 +32,7 @@ const messages = [
   { body: "Nikolaus Kopernikus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // createSender() can also be used to create a sender for a topic.

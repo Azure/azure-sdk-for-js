@@ -8,7 +8,9 @@ Configuration for generating QnAMaker SDK.
 add-credentials: true
 openapi-type: data-plane
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/QnAMaker/stable/v4.0/QnAMaker.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/QnAMaker/preview/v5.0-preview.1/QnAMaker.json
+use-extension:
+  "@microsoft.azure/autorest.typescript": "4.4.4"
 ```
 
 ## TypeScript
@@ -17,7 +19,7 @@ These settings apply only when `--typescript` is specified on the command line.
 
 ```yaml $(typescript)
 typescript:
-  package-version: 3.1.0
+  package-version: 3.2.0
   package-name: "@azure/cognitiveservices-qnamaker"
   output-folder: ..
   azure-arm: false

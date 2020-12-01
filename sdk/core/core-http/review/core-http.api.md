@@ -10,6 +10,7 @@ import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/api';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -156,6 +157,12 @@ export const Constants: {
 // @public (undocumented)
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
+// @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+    span: Span;
+    updatedOptions: T;
+};
+
 // Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
 //
 // @public (undocumented)
@@ -187,10 +194,10 @@ export interface DeserializationOptions {
 }
 
 // @public
-export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory;
+export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes, parsingOptions?: SerializerOptions): RequestPolicyFactory;
 
 // @public (undocumented)
-export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse): Promise<HttpOperationResponse>;
+export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: SerializerOptions): Promise<HttpOperationResponse>;
 
 // @public (undocumented)
 export interface DictionaryMapper extends BaseMapper {
@@ -514,9 +521,7 @@ export interface ParameterValue {
 }
 
 // @public
-export function parseXML(str: string, opts?: {
-    includeRoot?: boolean;
-}): Promise<any>;
+export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 
 // @public
 export interface PipelineOptions {
@@ -599,6 +604,7 @@ export interface RequestOptionsBase {
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    serializerOptions?: SerializerOptions;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
     timeout?: number;
@@ -728,16 +734,23 @@ export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
     }, isXML?: boolean | undefined);
-    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML?: boolean | undefined;
     // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+}
+
+// @public
+export interface SerializerOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
 }
 
 // @public
@@ -785,9 +798,13 @@ export interface SimpleMapperType {
 }
 
 // @public
-export function stringifyXML(obj: any, opts?: {
-    rootName?: string;
-}): string;
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
+}
+
+// @public
+export function stringifyXML(obj: any, opts?: SerializerOptions): string;
 
 // @public
 export function stripRequest(request: WebResourceLike): WebResourceLike;
@@ -953,6 +970,12 @@ export interface WebResourceLike {
     validateRequestProperties(): void;
     withCredentials: boolean;
 }
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
 
 
 // (No @packageDocumentation comment for this package)

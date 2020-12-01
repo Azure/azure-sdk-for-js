@@ -33,7 +33,7 @@ import {
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
-import { createSpan, setParentSpan } from "./tracing";
+import { createSpan, setParentSpan } from "../../keyvault-common/src";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 

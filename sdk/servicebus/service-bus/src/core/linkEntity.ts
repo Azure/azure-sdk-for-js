@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AccessToken,
-  Constants,
-  SharedKeyCredential,
-  TokenType,
-  defaultLock,
-  RequestResponseLink,
-  MessagingError
-} from "@azure/core-amqp";
+import { Constants, TokenType, defaultLock, RequestResponseLink } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
   AwaitableSender,
@@ -22,6 +15,8 @@ import {
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
+import { ServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
@@ -444,7 +439,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       this.checkIfConnectionReady();
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
     });
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",
@@ -471,7 +466,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Connection is reopening, aborting link initialization.`
     );
-    const err = new MessagingError("Connection is reopening, aborting link initialization.");
+    const err = new ServiceBusError(
+      "Connection is reopening, aborting link initialization.",
+      "GeneralError"
+    );
     err.retryable = true;
     throw err;
   }

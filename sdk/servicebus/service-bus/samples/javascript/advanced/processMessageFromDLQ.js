@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
 
@@ -24,7 +20,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -34,7 +30,7 @@ export async function main() {
 
 async function processDeadletterMessageQueue() {
   // If connecting to a subscription's dead letter queue you can use the createReceiver(topicName, subscriptionName) overload
-  const receiver = sbClient.createReceiver(queueName, { subQueue: "deadLetter" });
+  const receiver = sbClient.createReceiver(queueName, { subQueueType: "deadLetter" });
 
   const messages = await receiver.receiveMessages(1);
 
