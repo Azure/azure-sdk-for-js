@@ -49,7 +49,7 @@ dependencies:
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/synapse-accesscontrol': 'file:projects/synapse-accesscontrol.tgz'
   '@rush-temp/synapse-artifacts': 'file:projects/synapse-artifacts.tgz'
-  '@rush-temp/synapse-managed-endpoints': 'file:projects/synapse-managed-endpoints.tgz'
+  '@rush-temp/synapse-managed-private-endpoints': 'file:projects/synapse-managed-private-endpoints.tgz'
   '@rush-temp/synapse-monitoring': 'file:projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
@@ -8764,7 +8764,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-VLKH85eh2Gp7BAGZFRL5CbF8Q5uHXP/hJwkDUGU34MwAi157MMnb9o0+zrpMKUdyYyQ+XhkVpluCbR75GxMGag==
+      integrity: sha512-XOI2yx/SP/BU3sS09tB73xNR6qjbtGD5AYwruw6X1DHIl+z9JkFAHCF5UcQFd76yYUEfZcL9eeLfX+iJJvKl2w==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -10919,7 +10919,7 @@ packages:
       integrity: sha512-z1Mzvmykm4QueMmQH8u3rs2Zo3NKDB6DOUDZpbxQd+uBfJkpCLtF3dVeweKusU1kUZh0lwB5CyEIr48QgGm/3w==
       tarball: 'file:projects/synapse-artifacts.tgz'
     version: 0.0.0
-  'file:projects/synapse-managed-endpoints.tgz':
+  'file:projects/synapse-managed-private-endpoints.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       rollup: 1.32.1
@@ -10929,10 +10929,10 @@ packages:
       typescript: 3.9.7
       uglify-js: 3.12.0
     dev: false
-    name: '@rush-temp/synapse-managed-endpoints'
+    name: '@rush-temp/synapse-managed-private-endpoints'
     resolution:
-      integrity: sha512-bF8Y9PRUZY4nG9Xeu/yxWXSabNdd7XJPbFOwzzMyRX+Ti37Kidp3FBI90sxBRdCSVFNXPHUQaDeKXQ1LDvAC8w==
-      tarball: 'file:projects/synapse-managed-endpoints.tgz'
+      integrity: sha512-6aMZRNXwJ7g27eg3aeMp937no7JUghoBSJZ2WnGYJ28mOGii4nNGuTXVad6wVcJc9o5uCsp6hhbjSmzxFszwZQ==
+      tarball: 'file:projects/synapse-managed-private-endpoints.tgz'
     version: 0.0.0
   'file:projects/synapse-monitoring.tgz':
     dependencies:
@@ -11106,6 +11106,7 @@ packages:
       integrity: sha512-uZaBXfZM1ISycMx+p8kUd/Yqui/KgjgUm/CyAzxK2wkOmqKF66JuLD5lbkH4tXBi+F5rL59UaMhjjxskb6qbzA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-anomaly-detector': 'file:./projects/ai-anomaly-detector.tgz'
@@ -11157,7 +11158,7 @@ specifiers:
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/synapse-accesscontrol': 'file:./projects/synapse-accesscontrol.tgz'
   '@rush-temp/synapse-artifacts': 'file:./projects/synapse-artifacts.tgz'
-  '@rush-temp/synapse-managed-endpoints': 'file:./projects/synapse-managed-endpoints.tgz'
+  '@rush-temp/synapse-managed-private-endpoints': 'file:./projects/synapse-managed-private-endpoints.tgz'
   '@rush-temp/synapse-monitoring': 'file:./projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:./projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
