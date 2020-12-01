@@ -14,7 +14,7 @@ import * as assert from "assert";
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
-import { RestError } from "@azure/core-http";
+
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 dotenv.config();
 
