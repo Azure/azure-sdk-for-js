@@ -13,7 +13,7 @@ import {
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
-export interface PerfStressTestConstructor<TOptions> {
+export interface PerfStressTestConstructor<TOptions extends {} = {}> {
   new (): PerfStressTest<TOptions>;
 }
 
@@ -26,7 +26,7 @@ export interface PerfStressTestConstructor<TOptions> {
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfStressTest<TOptions> {
+export abstract class PerfStressTest<TOptions = {}> {
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -57,8 +57,8 @@ export abstract class PerfStressTest<TOptions> {
  * @param tests An array of classes that extend PerfStressTest
  */
 export function selectPerfStressTest(
-  tests: PerfStressTestConstructor<{}>[]
-): PerfStressTestConstructor<{}> {
+  tests: PerfStressTestConstructor[]
+): PerfStressTestConstructor {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

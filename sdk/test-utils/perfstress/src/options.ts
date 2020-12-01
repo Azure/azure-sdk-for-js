@@ -48,7 +48,7 @@ export interface OptionDetails<TType> {
  * `keyof TOptions` provides the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
  * for the options and parsedOptions.
  */
-export type PerfStressOptionDictionary<TOptions> = {
+export type PerfStressOptionDictionary<TOptions = {}> = {
   [longName in keyof TOptions]: OptionDetails<TOptions[longName]>;
 };
 

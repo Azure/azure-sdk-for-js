@@ -7,8 +7,8 @@ import { PerfStressTest, PerfStressOptionDictionary } from "../src";
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
  * of the PerfStressTest class.
  */
-export class SetupCleanupTest extends PerfStressTest<{}> {
-  public options: PerfStressOptionDictionary<{}> = {};
+export class SetupCleanupTest extends PerfStressTest {
+  public options: PerfStressOptionDictionary = {};
 
   public state = {
     globalSetup: 0,

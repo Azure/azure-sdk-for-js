@@ -37,7 +37,7 @@ export class PerfStressProgram {
   private testName: string;
   private parsedDefaultOptions: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
   private parallelNumber: number;
-  private tests: PerfStressTest<{}>[];
+  private tests: PerfStressTest[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -47,7 +47,7 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor<{}>) {
+  constructor(testClass: PerfStressTestConstructor) {
     this.testName = testClass.name;
     this.parsedDefaultOptions = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
@@ -107,7 +107,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private runLoopSync(
-    test: PerfStressTest<{}>,
+    test: PerfStressTest,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -148,7 +148,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTest<{}>,
+    test: PerfStressTest,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
