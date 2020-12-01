@@ -9,9 +9,9 @@ const config = {
   input: "./esm/managedPrivateEndpointsClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-managed-endpoints.js",
+    file: "./dist/synapse-managed-private-endpoints.js",
     format: "umd",
-    name: "Azure.SynapseManagedEndpoints",
+    name: "Azure.SynapseManagedPrivateEndpoints",
     sourcemap: true,
     globals: {
       "@azure/core-http": "coreHttp",

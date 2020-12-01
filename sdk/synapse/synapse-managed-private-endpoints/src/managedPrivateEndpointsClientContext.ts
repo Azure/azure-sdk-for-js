@@ -1,7 +1,7 @@
 import * as coreHttp from "@azure/core-http";
 import { ManagedPrivateEndpointsClientOptionalParams } from "./models";
 
-const packageName = "@azure/synapse-managed-endpoints";
+const packageName = "@azure/synapse-managed-private-endpoints";
 const packageVersion = "1.0.0";
 
 export class ManagedPrivateEndpointsClientContext extends coreHttp.ServiceClient {

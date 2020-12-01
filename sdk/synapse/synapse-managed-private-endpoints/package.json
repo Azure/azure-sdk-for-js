@@ -1,5 +1,5 @@
 {
-  "name": "@azure/synapse-managed-endpoints",
+  "name": "@azure/synapse-managed-private-endpoints",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ManagedPrivateEndpointsClient.",
   "version": "1.0.0-beta.1",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/synapse-managed-endpoints.js",
+  "main": "./dist/synapse-managed-private-endpoints.js",
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "devDependencies": {
@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-managed-endpoints.js.map'\" -o ./dist/synapse-managed-endpoints.min.js ./dist/synapse-managed-endpoints.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-managed-private-endpoints.js.map'\" -o ./dist/synapse-managed-private-endpoints.min.js ./dist/synapse-managed-private-endpoints.js",
     "prepack": "npm install && npm run build",
     "build:test": "echo skip",
     "unit-test:browser": "echo skipped",

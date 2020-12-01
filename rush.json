@@ -563,8 +563,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/synapse-managed-endpoints",
-      "projectFolder": "sdk/synapse/synapse-managed-endpoints",
+      "packageName": "@azure/synapse-managed-private-endpoints",
+      "projectFolder": "sdk/synapse/synapse-managed-private-endpoints",
       "versionPolicyName": "client"
     },
     {

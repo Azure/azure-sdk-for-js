@@ -7,7 +7,7 @@ This package contains an isomorphic SDK for SparkClient.
 ### Install the package
 
 ```bash
-npm install @azure/synapse-managed-endpoints
+npm install @azure/synapse-managed-private-endpoints
 ```
 
 ### Currently supported environments
