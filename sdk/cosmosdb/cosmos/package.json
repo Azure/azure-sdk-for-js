@@ -48,6 +48,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "node prep-samples.js && tsc -b samples",
+    "check:src:strict": "tsc --pretty --project src/tsconfig.strict.json",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
@@ -58,7 +59,7 @@
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --excludePrivate --mode file --out ./dist/docs ./src",
     "execute:samples": " cd samples && npm run all-samples",
-    "extract-api": "npm run build:src && api-extractor run --local",
+    "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/common/setup.ts \"./test/**/*.spec.ts\" --timeout 100000",
