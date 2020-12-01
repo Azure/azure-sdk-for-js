@@ -189,7 +189,9 @@ if (serviceDirs.length === 0) {
 
     case "build":
       if (actionComponents[1] === "samples") {
-        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        for (const packageDir of packageDirs) {
+          spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        }
         break;
       }
     // Intentional fall-through
