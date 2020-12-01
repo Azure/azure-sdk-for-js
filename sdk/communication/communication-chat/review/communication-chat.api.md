@@ -144,10 +144,10 @@ export interface ListPageSettings {
 }
 
 // @public
-export type ListParticipantsOptions = OperationOptions;
+export type ListParticipantsOptions = RestListChatParticipantsOptions;
 
 // @public
-export type ListReadReceiptsOptions = OperationOptions;
+export type ListReadReceiptsOptions = RestListChatReadReceiptsOptions;
 
 // @public
 export interface OperationResponse {
@@ -204,6 +204,18 @@ export interface RestChatThread {
 export interface RestCreateChatThreadRequest {
     participants: RestChatParticipant[];
     topic: string;
+}
+
+// @public
+export interface RestListChatParticipantsOptions extends coreHttp.OperationOptions {
+    maxPageSize?: number;
+    skip?: number;
+}
+
+// @public
+export interface RestListChatReadReceiptsOptions extends coreHttp.OperationOptions {
+    maxPageSize?: number;
+    skip?: number;
 }
 
 // @public
