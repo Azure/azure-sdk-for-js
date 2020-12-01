@@ -33,8 +33,8 @@ export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions
     }
   };
   async runAsync(): Promise<void> {
-    const targetUrl = url.parse(this.options.url.value! as string);
-    const differentUrl = url.parse(this.options.url.value! as string);
+    const targetUrl = url.parse(this.parsedOptions.url.value!);
+    const differentUrl = url.parse(this.parsedOptions.url.value!);
     differentUrl.host = `not-${differentUrl.host}`;
 
     const request = new WebResource(url.format(differentUrl));
