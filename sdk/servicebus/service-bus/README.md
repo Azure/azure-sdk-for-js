@@ -244,20 +244,20 @@ The dead letter queue is a **sub-queue**. Each queue or subscription has its own
 messages that have been explicitly dead lettered (via [`receiver.deadLetterMessage()`][receiver_deadletter]), or messages that have exceeded
 their maximum delivery count.
 
-Dead letter queues are opened similarly to receivers for subscriptions or queues:
+Creating a receiver for a dead letter sub-queue is similar to receiving from subscriptions or queues:
 
 ```javascript
-// to open a queue's dead letter sub-queue
+// To receive from a queue's dead letter sub-queue
 const deadLetterReceiverForQueue = serviceBusClient.createReceiver("queue", {
   subQueueType: "deadLetter"
 });
 
-// to open a subscription's dead letter sub-queue
-const deadLetterReceiverForSubscription = serviceBusClient.createReceiver("queue", {
+// To receive from a subscription's dead letter sub-queue
+const deadLetterReceiverForSubscription = serviceBusClient.createReceiver("topic", "subscription", {
   subQueueType: "deadLetter"
 });
 
-// dead letter receivers work like any other receiver connected to a queue
+// Dead letter receivers work like any other receiver connected to a queue
 // ex:
 await deadLetterReceiverForQueue.receiveMessages(5);
 ```
