@@ -10,7 +10,7 @@ import TestClient from "./testClient";
 import { Context } from "mocha";
 
 // Adding this to the source would change the public API.
-type ApIVersions = "7.0" | "7.1";
+type ApiVersions = "7.0" | "7.1";
 
 export async function authenticate(that: Context, version?: string): Promise<any> {
   const keySuffix = uniqueString();
@@ -39,7 +39,7 @@ export async function authenticate(that: Context, version?: string): Promise<any
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential, {
-    serviceVersion: version as ApIVersions
+    serviceVersion: version as ApiVersions
   });
   const testClient = new TestClient(client);
 

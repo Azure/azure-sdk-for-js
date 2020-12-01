@@ -8,6 +8,8 @@ This non-shipping library `@azure/test-utils-multi-version` attempts to add test
 libraries that supports multiple service API versions. It is supposed to be added only as a
 devDependency and should be used only for the tests of an SDK library.
 
+The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.com/package/mocha-tags).
+
 ## Key concepts
 
 - Our guideline recommends service client supporting multiple service API version takes an API
@@ -17,9 +19,9 @@ devDependency and should be used only for the tests of an SDK library.
   - Testing of multi-service-version support is only done in `live` test mode. For other test modes
     (`record`, `soft-record`, and `playback`), tests are only running for the latest version, or a
     chosen version specified via options in case the latest version is not the latest stable version.
-- a list or range of versions can be specified for a nested `describe()` test suite or `it()` test
-  case. If the version being tested is not in the range of versions supported by this test
-  suite/case then the test suite/case is skipped.
+- Optionally a list or range of versions can be specified for a nested `describe()` test suite or
+  `it()` test case. If the version being tested is not in the range of versions supported by this
+  test suite/case then the test suite/case is skipped.
 
 ## Get started
 
@@ -111,7 +113,7 @@ versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
 current `TEST_MODE` then either runs tests for all supported versions in `live` mode, or runs tests
 for just one version (default version if specified in options, or latest version in the list). The
 test suite, and its nested test suites/test cases all have access to the current version being
-tested - `serviceVersion` so they can verify different behavior/expectation if any for different
+tested - `serviceVersion` - so they can verify different behavior/expectation if any for different
 service API versions.
 
 The code to construct clients for testing also needs update to pass the `serviceVersion` to client
@@ -121,6 +123,8 @@ constructors.
 const authentication = await authenticate(this, serviceVersion);
 ```
 
+If all your tests can run across all supported service API versions then this is all you need to do.
+
 ### Override supported versions for tests
 
 By default, a test suite or test case is executed against each `serviceVersion`. Optionally one can
@@ -128,28 +132,28 @@ also specify a list (`string[]`) or a range (`{minVer?: string, maxVer?: string 
 versions for test suites or test cases:
 
 ```javascript
-supports(serviceVersion, ["7.0", "7.1"]).describe(
-  "Keys client - list keys in various ways",
-  async function() {
-    supports(serviceVersion, ["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
-      // ...
-    });
-
-    supports(serviceVersion, { minVer: "7.1" }).it(
-      "runs on version 7.1 or later",
-      async function() {
+  supports(serviceVersion, ["7.0", "7.1"]).describe(
+    "Keys client - list keys in various ways",
+    async function() {
+      supports(serviceVersion, ["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
         // ...
-      }
-    );
+      });
 
-    supports(serviceVersion, { maxVer: "7.1" }).it(
-      "runs on version 7.1 or older",
-      async function() {
-        // ...
-      }
-    );
-  }
-);
+      supports(serviceVersion, { minVer: "7.1" }).it(
+        "runs on version 7.1 or later",
+        async function() {
+          // ...
+        }
+      );
+
+      supports(serviceVersion, { maxVer: "7.1" }).it(
+        "runs on version 7.1 or older",
+        async function() {
+          // ...
+        }
+      );
+    }
+  );
 ```
 
 Having to pass `serviceVersion` is a bit excessive and affects readability. We could improve this by
@@ -168,19 +172,19 @@ versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
 Then the code becomes
 
 ```javascript
-versions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", async function() {
-  versions(["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
-    // ...
-  });
+  versions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", async function() {
+    versions(["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
+      // ...
+    });
 
-  versions({ minVer: "7.1" }).it("runs on version 7.1 or later", async function() {
-    // ...
-  });
+    versions({ minVer: "7.1" }).it("runs on version 7.1 or later", async function() {
+      // ...
+    });
 
-  versions({ maxVer: "7.1" }).it("runs on version 7.1 or older", async function() {
-    // ...
+    versions({ maxVer: "7.1" }).it("runs on version 7.1 or older", async function() {
+      // ...
+    });
   });
-});
 ```
 
 When running in the `live` test mode,
@@ -189,7 +193,7 @@ When running in the `live` test mode,
   check the current `serviceVersion` against the supported versions of the test suite/test case. If
   a test case is skipped, the skip reason is also appended to the title of that test suite or test
   case.tests will be executed or skipped accordingly.
-- without `versions(...).`, original Mocha `describe()` and `it()` methods.
+- without `versions(...).`, original Mocha `describe()` and `it()` methods are used.
 
 Here's some sample output:
 
@@ -247,23 +251,13 @@ versionsToTest(["7.0", "7.1", "7.2-preview"], { versionForRecording: "7.1" }).fo
 ### Provide a custom version string comparison method
 
 By default, the version strings are sorted using built-in string comparison. This sorting order may
-not work for some services. It is supported to override the string comparison via `MultiVersionTestOptions` property `compareFunc`:
+not work for some services. It is supported to override the string comparison via
+`MultiVersionTestOptions` property `compareFunc`, for example:
 
 ```javascript
-const func = function(a: string, b: string): number {
-  if (a === b) {
-    return 0;
-  }
-  if (a.startsWith(b)) {
-    return -1;
-  } else if (b.startsWith(a)) {
-    return 1;
-  }
+const semverCompare = require('semver/functions/compare')
 
-  return a < b ? -1 : 1;
-};
-
-versionsToTest(["7.0", "7.1", "7.1-preview"], { compareFunc: func }).forEach((serviceVersion) => {
+versionsToTest(["7.0", "7.1", "7.1-preview"], { compareFunc: semverCompare }).forEach((serviceVersion) => {
   // ...
 });
 ```
