@@ -157,7 +157,7 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
-    if (err instanceof RestError) {
+    if (err.name === RestError) {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
     }
