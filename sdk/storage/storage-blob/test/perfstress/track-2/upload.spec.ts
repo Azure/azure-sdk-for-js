@@ -58,8 +58,8 @@ export class StorageBlobUploadTest extends PerfStressTest<StorageBlobUploadTestO
 
   async runAsync(): Promise<void> {
     await blockBlobClient.upload(
-      Buffer.alloc(this.options.size.value!),
-      this.options.size.value as number
+      Buffer.alloc(this.parsedOptions.size.value!),
+      this.parsedOptions.size.value!
     );
   }
 }

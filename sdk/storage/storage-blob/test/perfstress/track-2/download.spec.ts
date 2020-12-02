@@ -50,8 +50,8 @@ export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadT
 
     // Create a blob
     const uploadBlobResponse = await blockBlobClient.upload(
-      Buffer.alloc(this.options.size.value!),
-      this.options.size.value as number
+      Buffer.alloc(this.parsedOptions.size.value!),
+      this.parsedOptions.size.value!
     );
     console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }

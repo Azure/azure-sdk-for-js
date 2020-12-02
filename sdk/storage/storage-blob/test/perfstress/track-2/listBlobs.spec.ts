@@ -53,10 +53,10 @@ export class StorageBlobListTest extends PerfStressTest<StorageBlobListTestOptio
       createContainerResponse.requestId
     );
 
-    for (let i = 0; i < this.options.count.value!; i++) {
+    for (let i = 0; i < this.parsedOptions.count.value!; i++) {
       await blockBlobClient.upload(
-        Buffer.alloc(this.options.size.value!),
-        this.options.size.value!
+        Buffer.alloc(this.parsedOptions.size.value!),
+        this.parsedOptions.size.value!
       );
     }
   }

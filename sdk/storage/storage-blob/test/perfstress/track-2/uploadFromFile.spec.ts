@@ -55,7 +55,7 @@ export class StorageBlobUploadFileTest extends PerfStressTest<StorageBlobUploadT
       createContainerResponse.requestId
     );
     if (!(await fileExists(dirName))) await mkdir(dirName);
-    await writeFile(fileName, Buffer.alloc(this.options.size.value!));
+    await writeFile(fileName, Buffer.alloc(this.parsedOptions.size.value!));
   }
 
   public async globalCleanup() {
