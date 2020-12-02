@@ -26,8 +26,216 @@ import { serializeRequestBody } from "../src/serviceClient";
 import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { Mappers } from "./testMappers";
+import { TokenCredential } from "@azure/core-auth";
 
 describe("ServiceClient", function() {
+  describe("Auth scopes", () => {
+    it("should use default scope", async function() {
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, "/.default");
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential
+      });
+
+      await client.sendOperationRequest(
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          },
+          unrelated: 42
+        },
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          headerParameters: [
+            {
+              parameterPath: "metadata",
+              mapper: {
+                serializedName: "metadata",
+                type: {
+                  name: "Dictionary",
+                  value: {
+                    type: {
+                      name: "String"
+                    }
+                  }
+                },
+                headerCollectionPrefix: "foo-bar-"
+              } as DictionaryMapper
+            },
+            {
+              parameterPath: "unrelated",
+              mapper: {
+                serializedName: "unrelated",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          ],
+          responses: {
+            200: {}
+          }
+        }
+      );
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use baseUrl to build scope", async function() {
+      const baseUri = "https://microsoft.com/baseuri";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, `${baseUri}/.default`);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential,
+        baseUri
+      });
+
+      await client.sendOperationRequest(
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          },
+          unrelated: 42
+        },
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          headerParameters: [
+            {
+              parameterPath: "metadata",
+              mapper: {
+                serializedName: "metadata",
+                type: {
+                  name: "Dictionary",
+                  value: {
+                    type: {
+                      name: "String"
+                    }
+                  }
+                },
+                headerCollectionPrefix: "foo-bar-"
+              } as DictionaryMapper
+            },
+            {
+              parameterPath: "unrelated",
+              mapper: {
+                serializedName: "unrelated",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          ],
+          responses: {
+            200: {}
+          }
+        }
+      );
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use the provided scope", async function() {
+      const authScope = "https://microsoft.com/baseuri/.default";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, authScope);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential,
+        authScope
+      });
+
+      await client.sendOperationRequest(
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          },
+          unrelated: 42
+        },
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          headerParameters: [
+            {
+              parameterPath: "metadata",
+              mapper: {
+                serializedName: "metadata",
+                type: {
+                  name: "Dictionary",
+                  value: {
+                    type: {
+                      name: "String"
+                    }
+                  }
+                },
+                headerCollectionPrefix: "foo-bar-"
+              } as DictionaryMapper
+            },
+            {
+              parameterPath: "unrelated",
+              mapper: {
+                serializedName: "unrelated",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          ],
+          responses: {
+            200: {}
+          }
+        }
+      );
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+  });
+
   it("should serialize headerCollectionPrefix", async function() {
     const expected = {
       "foo-bar-alpha": "hello",

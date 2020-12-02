@@ -38,7 +38,7 @@ export interface BaseMapper {
 // @public
 export interface ClientPipelineOptions extends InternalPipelineOptions {
     credentialOptions?: {
-        baseUri?: string;
+        scope?: string;
         credential?: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
@@ -339,6 +339,7 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions {
+    authScope?: string;
     baseUri?: string;
     credential?: TokenCredential;
     httpsClient?: HttpsClient;

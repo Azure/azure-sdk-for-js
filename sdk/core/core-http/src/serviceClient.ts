@@ -150,6 +150,10 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * If specified, will be used to build the BearerTokenAuthenticationPolicy.
+   */
+  authScope?: string;
 }
 
 /**
@@ -217,13 +221,12 @@ export class ServiceClient {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
           // eslint-disable-next-line @typescript-eslint/no-this-alias
           const serviceClient = this;
+          let scope = options?.authScope;
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
               if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
-                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
-                  credentials,
-                  `${serviceClient.baseUri || ""}/.default`
-                );
+                scope = scope || `${serviceClient.baseUri || ""}/.default`;
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(credentials, scope);
               }
 
               return bearerTokenPolicyFactory.create(nextPolicy, options);

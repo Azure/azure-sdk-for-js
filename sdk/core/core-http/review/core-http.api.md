@@ -774,6 +774,7 @@ export interface ServiceClientCredentials {
 
 // @public
 export interface ServiceClientOptions {
+    authScope?: string;
     clientRequestIdHeaderName?: string;
     deserializationContentTypes?: DeserializationContentTypes;
     generateClientRequestIdHeader?: boolean;

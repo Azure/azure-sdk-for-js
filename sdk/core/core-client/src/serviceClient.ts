@@ -44,6 +44,10 @@ export interface ServiceClientOptions {
    */
   baseUri?: string;
   /**
+   * If specified, will be used to build the BearerTokenAuthenticationPolicy.
+   */
+  authScope?: string;
+  /**
    * The default request content type for the service.
    * Used if no requestContentType is present on an OperationSpec.
    */
@@ -114,7 +118,7 @@ export class ServiceClient {
     this._pipeline =
       options.pipeline ||
       createDefaultPipeline({
-        baseUri: this._baseUri,
+        scope: options.authScope || `${this._baseUri || ""}/.default`,
         credential: options.credential,
         parseXML: options.parseXML
       });
@@ -389,7 +393,7 @@ function getXmlValueWithNamespace(
 
 function createDefaultPipeline(
   options: {
-    baseUri?: string;
+    scope?: string;
     credential?: TokenCredential;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
   } = {}
@@ -411,7 +415,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize bearerTokenAuthenticationPolicy.
    */
-  credentialOptions?: { baseUri?: string; credential?: TokenCredential };
+  credentialOptions?: { scope?: string; credential?: TokenCredential };
   /**
    * Options to customize deserializationPolicy.
    */
@@ -426,13 +430,13 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
  */
 export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});
-
   const credential = options.credentialOptions?.credential;
+  const scopes = options.credentialOptions?.scope || `/.default`;
   if (credential) {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.credentialOptions?.baseUri || ""}/.default`
+        scopes
       })
     );
   }
