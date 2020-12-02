@@ -72,6 +72,7 @@ export class StorageFileShareUploadTest extends PerfStressTest<StorageFileShareU
       Aborter.none,
       Buffer.alloc(this.parsedOptions.size.value!),
       0,
-      this.parsedOptions.size.value!);
+      this.parsedOptions.size.value!
+    );
   }
 }
