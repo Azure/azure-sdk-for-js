@@ -4,7 +4,6 @@
 import {
   PerfStressTest,
   PerfStressOptionDictionary,
-  DefaultPerfStressOptions
 } from "@azure/test-utils-perfstress";
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
@@ -19,7 +18,7 @@ const deleteFile = util.promisify(fs.unlink);
 import * as dotenv from "dotenv";
 dotenv.config();
 
-interface StorageBlobUploadTestOptions extends DefaultPerfStressOptions {
+interface StorageBlobUploadTestOptions {
   size: number;
 }
 

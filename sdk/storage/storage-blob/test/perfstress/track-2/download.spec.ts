@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
-  DefaultPerfStressOptions
-} from "@azure/test-utils-perfstress";
+import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 
@@ -13,7 +9,7 @@ import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-interface StorageBlobDownloadTestOptions extends DefaultPerfStressOptions {
+interface StorageBlobDownloadTestOptions {
   size: number;
 }
 
