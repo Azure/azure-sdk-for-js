@@ -383,11 +383,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-arm",
-      "projectFolder": "sdk/core/core-arm",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-asynciterator-polyfill",
       "projectFolder": "sdk/core/core-asynciterator-polyfill",
       "versionPolicyName": "core"
