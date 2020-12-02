@@ -4,7 +4,7 @@ import { Aggregator } from "./Aggregator";
 
 /** @hidden */
 export class SumAggregator implements Aggregator {
-  public sum: number;
+  public sum?: number;
   /**
    * Add the provided item to aggregation result.
    * @memberof SumAggregator
@@ -12,9 +12,6 @@ export class SumAggregator implements Aggregator {
    * @param other
    */
   public aggregate(other: number) {
-    if (other === undefined) {
-      return;
-    }
     if (this.sum === undefined) {
       this.sum = other;
     } else {

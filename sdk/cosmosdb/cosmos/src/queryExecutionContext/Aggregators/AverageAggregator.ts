@@ -10,8 +10,8 @@ export interface AverageAggregateResult {
 
 /** @hidden */
 export class AverageAggregator implements Aggregator {
-  public sum: number;
-  public count: number;
+  public sum?: number;
+  public count?: number;
   /**
    * Add the provided item to aggregation result.
    * @memberof AverageAggregator
@@ -19,10 +19,7 @@ export class AverageAggregator implements Aggregator {
    * @param other
    */
   public aggregate(other: AverageAggregateResult) {
-    if (other == null || other.sum == null) {
-      return;
-    }
-    if (this.sum == null) {
+    if (!this.sum || !this.count) {
       this.sum = 0.0;
       this.count = 0;
     }
@@ -36,7 +33,7 @@ export class AverageAggregator implements Aggregator {
    * @instance
    */
   public getResult() {
-    if (this.sum == null || this.count <= 0) {
+    if (!this.sum || !this.count || this.count <= 0) {
       return undefined;
     }
     return this.sum / this.count;
