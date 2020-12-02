@@ -285,12 +285,7 @@ export class CertificateClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      httpClient: pipelineOptions.httpClient,
-      retryOptions: pipelineOptions.retryOptions,
-      proxyOptions: pipelineOptions.proxyOptions,
-      keepAliveOptions: pipelineOptions.keepAliveOptions,
-      redirectOptions: pipelineOptions.redirectOptions,
-      userAgentOptions: pipelineOptions.userAgentOptions,
+      ...pipelineOptions,
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: [
@@ -794,11 +789,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }
@@ -871,11 +866,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }

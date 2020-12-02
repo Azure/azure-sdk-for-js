@@ -633,12 +633,7 @@ export class CryptographyClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions = {
-      httpClient: pipelineOptions.httpClient,
-      retryOptions: pipelineOptions.retryOptions,
-      proxyOptions: pipelineOptions.proxyOptions,
-      keepAliveOptions: pipelineOptions.keepAliveOptions,
-      redirectOptions: pipelineOptions.redirectOptions,
-      userAgentOptions: pipelineOptions.userAgentOptions,
+      ...pipelineOptions,
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: [
