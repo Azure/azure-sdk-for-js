@@ -12,7 +12,8 @@ import {
   mockThread,
   generateHttpClient,
   createChatClient,
-  mockThreadInfo
+  mockThreadInfo,
+  mockCreateThreadResult
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -29,7 +30,7 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("makes successful create thread request", async () => {
-    const mockHttpClient = generateHttpClient(201, mockThread);
+    const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
 
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -41,10 +42,11 @@ describe("[Mocked] ChatClient", async () => {
 
     const sendOptions = {};
 
-    const chatThreadClient = await chatClient.createChatThread(sendRequest, sendOptions);
+    const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
     sinon.assert.calledOnce(spy);
-    assert.equal(chatThreadClient.threadId, mockThread.id);
+    assert.isDefined(createThreadResult.chatThread);
+    assert.equal(createThreadResult.chatThread?.id, mockThread.id);
 
     const request = spy.getCall(0).args[0];
 
@@ -58,23 +60,15 @@ describe("[Mocked] ChatClient", async () => {
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const {
-      createdBy: responseUser,
-      _response,
-      participants: responseParticipants,
-      ...response
-    } = await chatClient.getChatThread(mockThread.id!);
-    const { createdBy: expectedId, participants: expectedParticipants, ...expected } = mockThread;
+    const { createdBy: responseUser, _response, ...response } = await chatClient.getChatThread(
+      mockThread.id!
+    );
+    const { createdBy: expectedId, ...expected } = mockThread;
 
     sinon.assert.calledOnce(spy);
 
     assert.deepEqual(response, expected);
     assert.equal(responseUser?.communicationUserId, expectedId);
-    assert.equal(responseParticipants?.length, expectedParticipants?.length);
-    const { user, ...responseParticipant } = responseParticipants![0];
-    const { id, ...expectedParticipant } = expectedParticipants![0];
-    assert.equal(user.communicationUserId, id);
-    assert.deepEqual(responseParticipant, expectedParticipant);
 
     const request = spy.getCall(0).args[0];
 

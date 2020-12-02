@@ -8,14 +8,10 @@
   "paths": {
     "/chat/threads/{chatThreadId}/readReceipts": {
       "get": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Gets chat message read receipts for a thread.",
         "operationId": "ChatThread_ListChatReadReceipts",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -89,17 +85,11 @@
         }
       },
       "post": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Sends a read receipt event to a thread, on behalf of a user.",
         "operationId": "ChatThread_SendChatReadReceipt",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -163,17 +153,11 @@
     },
     "/chat/threads/{chatThreadId}/messages": {
       "post": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Sends a message to a thread.",
         "operationId": "ChatThread_SendChatMessage",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -238,14 +222,10 @@
         }
       },
       "get": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Gets a list of messages from a thread.",
         "operationId": "ChatThread_ListChatMessages",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -321,14 +301,10 @@
     },
     "/chat/threads/{chatThreadId}/messages/{chatMessageId}": {
       "get": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Gets a message by id.",
         "operationId": "ChatThread_GetChatMessage",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -391,17 +367,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Updates a message.",
         "operationId": "ChatThread_UpdateChatMessage",
-        "consumes": [
-          "application/merge-patch+json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/merge-patch+json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -470,14 +440,10 @@
         }
       },
       "delete": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Deletes a message.",
         "operationId": "ChatThread_DeleteChatMessage",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -539,14 +505,10 @@
     },
     "/chat/threads/{chatThreadId}/typing": {
       "post": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "summary": "Posts a typing event to a thread, on behalf of a user.",
         "operationId": "ChatThread_SendTypingNotification",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -601,14 +563,10 @@
     },
     "/chat/threads/{chatThreadId}/participants": {
       "get": {
-        "tags": [
-          "Participants"
-        ],
+        "tags": ["Participants"],
         "summary": "Gets the participants of a thread.",
         "operationId": "ChatThread_ListChatParticipants",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -682,17 +640,11 @@
         }
       },
       "post": {
-        "tags": [
-          "Participants"
-        ],
+        "tags": ["Participants"],
         "summary": "Adds thread participants to a thread. If participants already exist, no change occurs.",
         "operationId": "ChatThread_AddChatParticipants",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -759,14 +711,10 @@
     },
     "/chat/threads/{chatThreadId}/participants/{chatParticipantId}": {
       "delete": {
-        "tags": [
-          "Participants"
-        ],
+        "tags": ["Participants"],
         "summary": "Remove a participant from a thread.",
         "operationId": "ChatThread_RemoveChatParticipant",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -828,17 +776,11 @@
     },
     "/chat/threads": {
       "post": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Creates a chat thread.",
         "operationId": "Chat_CreateChatThread",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "header",
@@ -905,14 +847,10 @@
         }
       },
       "get": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Gets the list of chat threads of a user.",
         "operationId": "Chat_ListChatThreads",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "query",
@@ -981,17 +919,11 @@
     },
     "/chat/threads/{chatThreadId}": {
       "patch": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Updates a thread's properties.",
         "operationId": "ChatThread_UpdateChatThread",
-        "consumes": [
-          "application/merge-patch+json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/merge-patch+json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -1053,14 +985,10 @@
         }
       },
       "get": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Gets a chat thread.",
         "operationId": "Chat_GetChatThread",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -1116,14 +1044,10 @@
         }
       },
       "delete": {
-        "tags": [
-          "Threads"
-        ],
+        "tags": ["Threads"],
         "summary": "Deletes a thread.",
         "operationId": "Chat_DeleteChatThread",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "path",
@@ -1253,9 +1177,7 @@
     },
     "SendReadReceiptRequest": {
       "description": "Request payload for sending a read receipt.",
-      "required": [
-        "chatMessageId"
-      ],
+      "required": ["chatMessageId"],
       "type": "object",
       "properties": {
         "chatMessageId": {
@@ -1267,10 +1189,7 @@
     },
     "ChatMessagePriority": {
       "description": "The chat message priority.",
-      "enum": [
-        "Normal",
-        "High"
-      ],
+      "enum": ["Normal", "High"],
       "type": "string",
       "x-ms-enum": {
         "name": "ChatMessagePriority",
@@ -1279,9 +1198,7 @@
     },
     "SendChatMessageRequest": {
       "description": "Details of the message to send.",
-      "required": [
-        "content"
-      ],
+      "required": ["content"],
       "type": "object",
       "properties": {
         "priority": {
@@ -1406,9 +1323,7 @@
     },
     "ChatParticipant": {
       "description": "A participant of the chat thread.",
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "type": "object",
       "properties": {
         "id": {
@@ -1449,9 +1364,7 @@
     },
     "AddChatParticipantsRequest": {
       "description": "Participants to be added to the thread.",
-      "required": [
-        "participants"
-      ],
+      "required": ["participants"],
       "type": "object",
       "properties": {
         "participants": {
@@ -1488,10 +1401,7 @@
     },
     "CreateChatThreadRequest": {
       "description": "Request payload for creating a chat thread.",
-      "required": [
-        "participants",
-        "topic"
-      ],
+      "required": ["participants", "topic"],
       "type": "object",
       "properties": {
         "topic": {
@@ -1660,7 +1570,7 @@
   },
   "security": [
     {
-      "Authorization": [ ]
+      "Authorization": []
     }
   ],
   "x-ms-parameterized-host": {
