@@ -7,10 +7,7 @@ import { StorageFileShareUploadTest } from "./upload.spec";
 console.log("=== Starting the perfStress test ===");
 
 const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
-    StorageFileShareDownloadTest,
-    StorageFileShareUploadTest
-  ])
+  selectPerfStressTest([StorageFileShareDownloadTest, StorageFileShareUploadTest])
 );
 
 perfStressProgram.run();
