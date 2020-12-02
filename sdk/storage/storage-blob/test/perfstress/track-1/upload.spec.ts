@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Aborter, BlobURL, BlockBlobURL, ContainerURL, ServiceURL, SharedKeyCredential, StorageURL } from "@azure/storage-blob";
+import {
+  Aborter,
+  BlobURL,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  SharedKeyCredential,
+  StorageURL
+} from "@azure/storage-blob";
 import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
@@ -56,7 +64,8 @@ export class StorageBlobUploadTest extends PerfStressTest<StorageBlobUploadTestO
   }
 
   async runAsync(): Promise<void> {
-    await blockBlobClient.upload(Aborter.none,
+    await blockBlobClient.upload(
+      Aborter.none,
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );

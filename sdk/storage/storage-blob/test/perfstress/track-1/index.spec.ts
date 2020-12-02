@@ -9,11 +9,7 @@ import { StorageBlobListTest } from "./listBlobs.spec";
 console.log("=== Starting the perfStress test ===");
 
 const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
-    StorageBlobDownloadTest,
-    StorageBlobUploadTest,
-    StorageBlobListTest
-  ])
+  selectPerfStressTest([StorageBlobDownloadTest, StorageBlobUploadTest, StorageBlobListTest])
 );
 
 perfStressProgram.run();
