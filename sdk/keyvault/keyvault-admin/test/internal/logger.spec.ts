@@ -7,7 +7,6 @@ import { logger } from "../../src/log";
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure/test-utils-recorder";
 
 describe("The keyvault-admin clients logging options should work", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -59,7 +58,7 @@ describe("The keyvault-admin clients logging options should work", () => {
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should log as expected", async function() {
+    it("it should log as expected", async function () {
       const client = new KeyVaultAccessControlClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });
@@ -84,7 +83,7 @@ describe("The keyvault-admin clients logging options should work", () => {
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should default to the latest API version", async function() {
+    it("it should default to the latest API version", async function () {
       const client = new KeyVaultBackupClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });

@@ -14,6 +14,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
+  KeyVaultClientOptionalParams,
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteResponse,
   RoleAssignmentsListForScopeOptionalParams
@@ -107,22 +108,12 @@ export class KeyVaultAccessControlClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient({
-      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      requestPolicyFactories: pipeline.requestPolicyFactories,
-      httpClient: pipeline.httpClient,
-      httpPipelineLogger: pipeline.httpPipelineLogger,
-      noRetryPolicy: pipeline.noRetryPolicy,
-      rpRegistrationRetryTimeout: pipeline.rpRegistrationRetryTimeout,
-      generateClientRequestIdHeader: pipeline.generateClientRequestIdHeader,
-      withCredentials: pipeline.withCredentials,
-      clientRequestIdHeaderName: pipeline.clientRequestIdHeaderName,
-      deserializationContentTypes: pipeline.deserializationContentTypes,
-      userAgentHeaderName: pipeline.userAgentHeaderName,
-      userAgent: pipeline.userAgent,
-      proxySettings: pipeline.proxySettings
-    });
+    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
+      internalPipelineOptions,
+      authPolicy
+    );
+    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    this.client = new KeyVaultClient(params);
   }
 
   /**

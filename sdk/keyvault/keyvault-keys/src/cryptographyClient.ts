@@ -644,10 +644,9 @@ export class CryptographyClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
 
     let parsed;

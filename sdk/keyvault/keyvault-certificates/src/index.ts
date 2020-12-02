@@ -296,10 +296,9 @@ export class CertificateClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
 
@@ -789,11 +788,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -866,11 +865,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
