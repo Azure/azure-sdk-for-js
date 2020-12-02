@@ -16,6 +16,13 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/acces
 import { AccessTokenRefresher } from "../credentials/accessTokenRefresher";
 
 /**
+ * The automated token refresh will only start to happen at the
+ * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+ * which is by default 30 seconds.
+ */
+const timeBetweenRefreshAttemptsInMs = 30000;
+
+/**
  * Creates a new BearerTokenAuthenticationPolicy factory.
  *
  * @param credential The TokenCredential implementation that can supply the bearer token.
@@ -38,13 +45,6 @@ export function bearerTokenAuthenticationPolicy(
     }
   };
 }
-
-/**
- * The automated token refresh will only start to happen at the
- * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
- * which is by default 30 seconds.
- */
-const timeBetweenRefreshAttemptsInMs = 30000;
 
 /**
  *

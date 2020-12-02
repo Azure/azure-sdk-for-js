@@ -280,8 +280,7 @@ export function toFieldsFromFieldValue(
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (const key in original) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (original.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(original, key)) {
       if (!original[key]) {
         result[key] = { name: key };
         continue;

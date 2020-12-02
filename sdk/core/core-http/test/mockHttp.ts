@@ -49,8 +49,7 @@ class FetchHttpMock implements HttpMockFacade {
 
   // returns the locally mocked fetch instance
   getFetch(): typeof node_fetch {
-    /// @ts-ignore
-    return this._fetch as typeof node_fetch;
+    return (this._fetch as unknown) as typeof node_fetch;
   }
 
   setup(): void {
