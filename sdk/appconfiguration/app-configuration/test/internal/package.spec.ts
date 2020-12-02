@@ -4,7 +4,7 @@ import { isNode } from "@azure/core-http";
 
 import { packageVersion } from "../../src/appConfigurationClient";
 
-describe("packagejson related tests", () => {
+describe.only("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
   it("user agent string matches the package version", function() {
@@ -18,6 +18,7 @@ describe("packagejson related tests", () => {
 
     try {
       // For integration tests
+      console.log(__dirname);
       const packageJsonFilePath = join(__dirname, "../../../package.json");
       packageJsonContents = require(packageJsonFilePath);
     } catch (e) {
