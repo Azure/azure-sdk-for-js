@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
-} from "@azure/test-utils-perfstress";
+import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
 
