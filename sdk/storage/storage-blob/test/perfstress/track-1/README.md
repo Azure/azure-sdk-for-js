@@ -1,6 +1,6 @@
 ### Guide
 
-1. Navigate to `test-utils\perf` folder `cd sdk\test-utils\perfstress\`
+1. Navigate to `test-utils\perfstress` folder `cd sdk\test-utils\perfstress\`
 2. Build the package `rush update && rush build -t test-utils-perfstress`
 3. Pack the perf package `rushx pack`
 4. Navigate to `storage-blob\perfstress\track-1` folder `cd sdk\storage\storage-blob\perfstress\track-1`.
