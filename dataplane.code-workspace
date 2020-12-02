@@ -17,10 +17,6 @@
       "path": "sdk/core/core-amqp"
     },
     {
-      "name": "core-arm",
-      "path": "sdk/core/core-arm"
-    },
-    {
       "name": "core-asynciterator-polyfill",
       "path": "sdk/core/core-asynciterator-polyfill"
     },
