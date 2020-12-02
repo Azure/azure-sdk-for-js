@@ -6,119 +6,102 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
-    "content-length": "1500",
+    "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:22:57 GMT",
+    "date": "Fri, 20 Nov 2020 23:04:27 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11198.13 - NCUS ProdSlices",
-    "x-ms-request-id": "3beb3174-0928-4f80-8769-247c2862a800"
+    "x-ms-ests-server": "2.1.11251.20 - EUS ProdSlices",
+    "x-ms-request-id": "37186339-9deb-427a-8c4b-ab5c90cc2400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyze",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyze",
    "query": {},
    "requestBody": "{\"source\":\"https://storageaccount/testingdata/Form_1.jpg?sastoken\"}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "d93d0827-12ec-4e77-9f2c-dc841c913d93",
+    "apim-request-id": "4377fc83-d7d2-49fc-b667-b107cd47789b",
     "content-length": "0",
-    "date": "Mon, 02 Nov 2020 18:22:57 GMT",
-    "operation-location": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeresults/01b7a9dc-e583-44c7-b880-f638c219adcb",
+    "date": "Fri, 20 Nov 2020 23:04:27 GMT",
+    "operation-location": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyzeresults/42b3d4f1-18b4-4699-b868-11775582bb50",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "84"
+    "x-envoy-upstream-service-time": "167"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeResults/01b7a9dc-e583-44c7-b880-f638c219adcb",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyzeResults/42b3d4f1-18b4-4699-b868-11775582bb50",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"createdDateTime\":\"2020-11-02T18:22:57Z\",\"lastUpdatedDateTime\":\"2020-11-02T18:22:57Z\"}",
+   "response": "{\"status\":\"notStarted\",\"createdDateTime\":\"2020-11-20T23:04:28Z\",\"lastUpdatedDateTime\":\"2020-11-20T23:04:28Z\"}",
    "responseHeaders": {
-    "apim-request-id": "d8497003-45d7-4ce1-aa5d-52570486d9e3",
+    "apim-request-id": "a006adbc-1e0b-4434-8c1e-cac44e485777",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:22:57 GMT",
+    "date": "Fri, 20 Nov 2020 23:04:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
+    "x-envoy-upstream-service-time": "26"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeResults/01b7a9dc-e583-44c7-b880-f638c219adcb",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyzeResults/42b3d4f1-18b4-4699-b868-11775582bb50",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"createdDateTime\":\"2020-11-02T18:22:57Z\",\"lastUpdatedDateTime\":\"2020-11-02T18:22:57Z\"}",
+   "response": "{\"status\":\"notStarted\",\"createdDateTime\":\"2020-11-20T23:04:28Z\",\"lastUpdatedDateTime\":\"2020-11-20T23:04:28Z\"}",
    "responseHeaders": {
-    "apim-request-id": "82ce5132-786b-4889-9eed-f7e0bebe86f8",
+    "apim-request-id": "54ceb9cd-3253-4ee3-955e-c8c3275092ad",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:22:57 GMT",
+    "date": "Fri, 20 Nov 2020 23:04:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "29"
+    "x-envoy-upstream-service-time": "37"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeResults/01b7a9dc-e583-44c7-b880-f638c219adcb",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyzeResults/42b3d4f1-18b4-4699-b868-11775582bb50",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\": \"running\", \"createdDateTime\": \"2020-11-02T18:22:57Z\", \"lastUpdatedDateTime\": \"2020-11-02T18:22:58Z\", \"analyzeResult\": null}",
+   "response": "{\"status\": \"running\", \"createdDateTime\": \"2020-11-20T23:04:28Z\", \"lastUpdatedDateTime\": \"2020-11-20T23:04:29Z\", \"analyzeResult\": null}",
    "responseHeaders": {
-    "apim-request-id": "c3c2a176-feaf-4757-aaec-a3e125695e78",
+    "apim-request-id": "b77cf789-cd6f-4820-848e-a96333d12bbe",
     "content-length": "134",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:23:02 GMT",
+    "date": "Fri, 20 Nov 2020 23:04:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "22"
+    "x-envoy-upstream-service-time": "102"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeResults/01b7a9dc-e583-44c7-b880-f638c219adcb",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models/0fa25f01-0530-4354-854d-9947a40b263a/analyzeResults/42b3d4f1-18b4-4699-b868-11775582bb50",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\": \"running\", \"createdDateTime\": \"2020-11-02T18:22:57Z\", \"lastUpdatedDateTime\": \"2020-11-02T18:22:58Z\", \"analyzeResult\": null}",
+   "response": "{\"status\": \"succeeded\", \"createdDateTime\": \"2020-11-20T23:04:28Z\", \"lastUpdatedDateTime\": \"2020-11-20T23:04:34Z\", \"analyzeResult\": {\"version\": null, \"readResults\": [{\"page\": 1, \"angle\": 0, \"width\": 1700, \"height\": 2200, \"unit\": \"pixel\", \"lines\": []}], \"pageResults\": [{\"page\": 1, \"keyValuePairs\": [{\"key\": {\"text\": \"Company Phone:\", \"boundingBox\": [163, 352, 359, 352, 359, 378, 163, 378], \"elements\": null}, \"value\": {\"text\": \"555-348-6512\", \"boundingBox\": [364, 351, 528, 351, 528, 378, 364, 378], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Website:\", \"boundingBox\": [167, 394, 269, 394, 269, 417, 167, 417], \"elements\": null}, \"value\": {\"text\": \"www.herolimited.com\", \"boundingBox\": [273, 393, 531, 393, 531, 418, 273, 418], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Email:\", \"boundingBox\": [165, 435, 237, 435, 237, 460, 165, 460], \"elements\": null}, \"value\": {\"text\": \"accounts@herolimited.com\", \"boundingBox\": [164, 481, 479, 481, 479, 503, 164, 503], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Dated As:\", \"boundingBox\": [1025, 421, 1160, 421, 1160, 448, 1025, 448], \"elements\": null}, \"value\": {\"text\": \"12/20/2020\", \"boundingBox\": [1165, 420, 1317, 420, 1317, 448, 1165, 448], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Purchase Order #:\", \"boundingBox\": [1023, 461, 1272, 461, 1272, 488, 1023, 488], \"elements\": null}, \"value\": {\"text\": \"948284\", \"boundingBox\": [1277, 461, 1376, 461, 1376, 489, 1277, 489], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Vendor Name:\", \"boundingBox\": [160, 611, 344, 611, 344, 637, 160, 637], \"elements\": null}, \"value\": {\"text\": \"Hillary Swank\", \"boundingBox\": [350, 609, 521, 609, 521, 639, 350, 639], \"elements\": null}, \"confidence\": 0.62}, {\"key\": {\"text\": \"Company Name:\", \"boundingBox\": [160, 648, 370, 648, 370, 677, 160, 677], \"elements\": null}, \"value\": {\"text\": \"Higgly Wiggly Books\", \"boundingBox\": [375, 646, 630, 646, 630, 679, 375, 679], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Address:\", \"boundingBox\": [161, 685, 269, 685, 269, 711, 161, 711], \"elements\": null}, \"value\": {\"text\": \"938 NE Burner Road Boulder City, CO 92848\", \"boundingBox\": [274, 685, 565, 685, 565, 751, 274, 751], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Phone:\", \"boundingBox\": [613, 722, 702, 722, 702, 749, 613, 749], \"elements\": null}, \"value\": {\"text\": \"938-294-2949\", \"boundingBox\": [708, 722, 885, 722, 885, 749, 708, 749], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Name:\", \"boundingBox\": [166, 853, 250, 853, 250, 879, 166, 879], \"elements\": null}, \"value\": {\"text\": \"Bernie Sanders\", \"boundingBox\": [255, 852, 446, 852, 446, 880, 255, 880], \"elements\": null}, \"confidence\": 0.48}, {\"key\": {\"text\": \"Company Name:\", \"boundingBox\": [164, 890, 374, 890, 374, 919, 164, 919], \"elements\": null}, \"value\": {\"text\": \"Jupiter Book Supply\", \"boundingBox\": [380, 889, 629, 889, 629, 919, 380, 919], \"elements\": null}, \"confidence\": 0.48}, {\"key\": {\"text\": \"Address:\", \"boundingBox\": [166, 926, 273, 926, 273, 953, 166, 953], \"elements\": null}, \"value\": {\"text\": \"383 N Kinnick Road Seattle, WA 38383\", \"boundingBox\": [279, 926, 521, 926, 521, 991, 279, 991], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Phone:\", \"boundingBox\": [760, 964, 849, 964, 849, 990, 760, 990], \"elements\": null}, \"value\": {\"text\": \"932-299-0292\", \"boundingBox\": [855, 964, 1033, 964, 1033, 990, 855, 990], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"SUBTOTAL\", \"boundingBox\": [1147, 1575, 1296, 1575, 1296, 1600, 1147, 1600], \"elements\": null}, \"value\": {\"text\": \"$140.00\", \"boundingBox\": [1426, 1571, 1529, 1571, 1529, 1599, 1426, 1599], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"TAX\", \"boundingBox\": [1238, 1618, 1296, 1618, 1296, 1643, 1238, 1643], \"elements\": null}, \"value\": {\"text\": \"$4.00\", \"boundingBox\": [1458, 1615, 1529, 1615, 1529, 1643, 1458, 1643], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"TOTAL\", \"boundingBox\": [1204, 1674, 1297, 1674, 1297, 1699, 1204, 1699], \"elements\": null}, \"value\": {\"text\": \"$144.00\", \"boundingBox\": [1427, 1671, 1529, 1671, 1529, 1698, 1427, 1698], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Additional Notes:\", \"boundingBox\": [173, 1796, 479, 1796, 479, 1831, 173, 1831], \"elements\": null}, \"value\": {\"text\": \"Do not Jostle Box. Unpack carefully. Enjoy. Jupiter Book Supply will refund you 50% per book if returned within 60 days of reading and offer you 25% off you next total purchase.\", \"boundingBox\": [169, 1880, 1511, 1880, 1511, 1992, 169, 1992], \"elements\": null}, \"confidence\": 0.48}], \"tables\": [{\"rows\": 5, \"columns\": 4, \"cells\": [{\"text\": \"Details\", \"rowIndex\": 0, \"columnIndex\": 0, \"boundingBox\": [447, 1048, 558, 1048, 558, 1078, 447, 1078], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Quantity\", \"rowIndex\": 0, \"columnIndex\": 1, \"boundingBox\": [886, 1048, 1034, 1048, 1034, 1084, 886, 1084], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Unit Price\", \"rowIndex\": 0, \"columnIndex\": 2, \"boundingBox\": [1111, 1047, 1269, 1047, 1269, 1078, 1111, 1078], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Total\", \"rowIndex\": 0, \"columnIndex\": 3, \"boundingBox\": [1383, 1047, 1467, 1047, 1467, 1077, 1383, 1077], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Bindings\", \"rowIndex\": 1, \"columnIndex\": 0, \"boundingBox\": [172, 1094, 280, 1094, 280, 1122, 172, 1122], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 1, \"columnIndex\": 1, \"boundingBox\": [861, 1094, 892, 1094, 892, 1119, 861, 1119], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"1.00\", \"rowIndex\": 1, \"columnIndex\": 2, \"boundingBox\": [1241, 1095, 1293, 1095, 1293, 1118, 1241, 1118], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20.00\", \"rowIndex\": 1, \"columnIndex\": 3, \"boundingBox\": [1458, 1096, 1531, 1096, 1531, 1119, 1458, 1119], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Covers Small\", \"rowIndex\": 2, \"columnIndex\": 0, \"boundingBox\": [170, 1136, 333, 1136, 333, 1161, 170, 1161], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 2, \"columnIndex\": 1, \"boundingBox\": [861, 1135, 892, 1135, 892, 1160, 861, 1160], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"1.00\", \"rowIndex\": 2, \"columnIndex\": 2, \"boundingBox\": [1240, 1135, 1294, 1135, 1294, 1160, 1240, 1160], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20.00\", \"rowIndex\": 2, \"columnIndex\": 3, \"boundingBox\": [1458, 1135, 1529, 1135, 1529, 1160, 1458, 1160], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Feather Bookmark\", \"rowIndex\": 3, \"columnIndex\": 0, \"boundingBox\": [173, 1179, 402, 1179, 402, 1206, 173, 1206], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 3, \"columnIndex\": 1, \"boundingBox\": [863, 1179, 892, 1179, 892, 1204, 863, 1204], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"5.00\", \"rowIndex\": 3, \"columnIndex\": 2, \"boundingBox\": [1239, 1179, 1294, 1179, 1294, 1204, 1239, 1204], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"100.00\", \"rowIndex\": 3, \"columnIndex\": 3, \"boundingBox\": [1443, 1181, 1529, 1181, 1529, 1205, 1443, 1205], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Copper Swirl Marker\", \"rowIndex\": 4, \"columnIndex\": 0, \"boundingBox\": [170, 1222, 429, 1222, 429, 1252, 170, 1252], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 4, \"columnIndex\": 1, \"boundingBox\": [860, 1223, 892, 1223, 892, 1247, 860, 1247], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"5.00\", \"rowIndex\": 4, \"columnIndex\": 2, \"boundingBox\": [1239, 1221, 1293, 1221, 1293, 1247, 1239, 1247], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"100.00\", \"rowIndex\": 4, \"columnIndex\": 3, \"boundingBox\": [1444, 1224, 1530, 1224, 1530, 1248, 1444, 1248], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}]}], \"clusterId\": 0}], \"documentResults\": [], \"errors\": []}}",
    "responseHeaders": {
-    "apim-request-id": "13bfa0e1-882b-472f-b0a7-ec58dc250a1b",
-    "content-length": "134",
+    "apim-request-id": "f05a5e84-df2a-44ef-9d41-c8902e749ae7",
+    "content-length": "9179",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:23:07 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "22"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models/b9f29436-0002-4866-9ea1-0e540ba5b03a/analyzeResults/01b7a9dc-e583-44c7-b880-f638c219adcb",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"status\": \"succeeded\", \"createdDateTime\": \"2020-11-02T18:22:57Z\", \"lastUpdatedDateTime\": \"2020-11-02T18:23:08Z\", \"analyzeResult\": {\"version\": \"2.1.0\", \"readResults\": [{\"page\": 1, \"angle\": 0, \"width\": 1700, \"height\": 2200, \"unit\": \"pixel\", \"lines\": []}], \"pageResults\": [{\"page\": 1, \"keyValuePairs\": [{\"key\": {\"text\": \"Company Phone:\", \"boundingBox\": [163.0, 352.0, 359.0, 352.0, 359.0, 378.0, 163.0, 378.0], \"elements\": null}, \"value\": {\"text\": \"555-348-6512\", \"boundingBox\": [364.0, 351.0, 528.0, 351.0, 528.0, 378.0, 364.0, 378.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Website:\", \"boundingBox\": [167.0, 394.0, 269.0, 394.0, 269.0, 417.0, 167.0, 417.0], \"elements\": null}, \"value\": {\"text\": \"www.herolimited.com\", \"boundingBox\": [273.0, 393.0, 531.0, 393.0, 531.0, 418.0, 273.0, 418.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Email:\", \"boundingBox\": [165.0, 435.0, 237.0, 435.0, 237.0, 460.0, 165.0, 460.0], \"elements\": null}, \"value\": {\"text\": \"accounts@herolimited.com\", \"boundingBox\": [164.0, 481.0, 479.0, 481.0, 479.0, 503.0, 164.0, 503.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Dated As:\", \"boundingBox\": [1025.0, 421.0, 1160.0, 421.0, 1160.0, 448.0, 1025.0, 448.0], \"elements\": null}, \"value\": {\"text\": \"12/20/2020\", \"boundingBox\": [1165.0, 420.0, 1317.0, 420.0, 1317.0, 448.0, 1165.0, 448.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Purchase Order #:\", \"boundingBox\": [1023.0, 461.0, 1272.0, 461.0, 1272.0, 488.0, 1023.0, 488.0], \"elements\": null}, \"value\": {\"text\": \"948284\", \"boundingBox\": [1277.0, 461.0, 1376.0, 461.0, 1376.0, 489.0, 1277.0, 489.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Vendor Name:\", \"boundingBox\": [160.0, 611.0, 344.0, 611.0, 344.0, 637.0, 160.0, 637.0], \"elements\": null}, \"value\": {\"text\": \"Hillary Swank\", \"boundingBox\": [350.0, 609.0, 521.0, 609.0, 521.0, 639.0, 350.0, 639.0], \"elements\": null}, \"confidence\": 0.62}, {\"key\": {\"text\": \"Company Name:\", \"boundingBox\": [160.0, 648.0, 370.0, 648.0, 370.0, 677.0, 160.0, 677.0], \"elements\": null}, \"value\": {\"text\": \"Higgly Wiggly Books\", \"boundingBox\": [375.0, 646.0, 630.0, 646.0, 630.0, 679.0, 375.0, 679.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Address:\", \"boundingBox\": [161.0, 685.0, 269.0, 685.0, 269.0, 711.0, 161.0, 711.0], \"elements\": null}, \"value\": {\"text\": \"938 NE Burner Road Boulder City, CO 92848\", \"boundingBox\": [274.0, 685.0, 565.0, 685.0, 565.0, 751.0, 274.0, 751.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Phone:\", \"boundingBox\": [613.0, 722.0, 702.0, 722.0, 702.0, 749.0, 613.0, 749.0], \"elements\": null}, \"value\": {\"text\": \"938-294-2949\", \"boundingBox\": [708.0, 722.0, 885.0, 722.0, 885.0, 749.0, 708.0, 749.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Name:\", \"boundingBox\": [166.0, 853.0, 250.0, 853.0, 250.0, 879.0, 166.0, 879.0], \"elements\": null}, \"value\": {\"text\": \"Bernie Sanders\", \"boundingBox\": [255.0, 852.0, 446.0, 852.0, 446.0, 880.0, 255.0, 880.0], \"elements\": null}, \"confidence\": 0.48}, {\"key\": {\"text\": \"Company Name:\", \"boundingBox\": [164.0, 890.0, 374.0, 890.0, 374.0, 919.0, 164.0, 919.0], \"elements\": null}, \"value\": {\"text\": \"Jupiter Book Supply\", \"boundingBox\": [380.0, 889.0, 629.0, 889.0, 629.0, 919.0, 380.0, 919.0], \"elements\": null}, \"confidence\": 0.48}, {\"key\": {\"text\": \"Address:\", \"boundingBox\": [166.0, 926.0, 273.0, 926.0, 273.0, 953.0, 166.0, 953.0], \"elements\": null}, \"value\": {\"text\": \"383 N Kinnick Road Seattle, WA 38383\", \"boundingBox\": [279.0, 926.0, 521.0, 926.0, 521.0, 991.0, 279.0, 991.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Phone:\", \"boundingBox\": [760.0, 964.0, 849.0, 964.0, 849.0, 990.0, 760.0, 990.0], \"elements\": null}, \"value\": {\"text\": \"932-299-0292\", \"boundingBox\": [855.0, 964.0, 1033.0, 964.0, 1033.0, 990.0, 855.0, 990.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"SUBTOTAL\", \"boundingBox\": [1147.0, 1575.0, 1296.0, 1575.0, 1296.0, 1600.0, 1147.0, 1600.0], \"elements\": null}, \"value\": {\"text\": \"$140.00\", \"boundingBox\": [1426.0, 1571.0, 1529.0, 1571.0, 1529.0, 1599.0, 1426.0, 1599.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"TAX\", \"boundingBox\": [1238.0, 1618.0, 1296.0, 1618.0, 1296.0, 1643.0, 1238.0, 1643.0], \"elements\": null}, \"value\": {\"text\": \"$4.00\", \"boundingBox\": [1458.0, 1615.0, 1529.0, 1615.0, 1529.0, 1643.0, 1458.0, 1643.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"TOTAL\", \"boundingBox\": [1204.0, 1674.0, 1297.0, 1674.0, 1297.0, 1699.0, 1204.0, 1699.0], \"elements\": null}, \"value\": {\"text\": \"$144.00\", \"boundingBox\": [1427.0, 1671.0, 1529.0, 1671.0, 1529.0, 1698.0, 1427.0, 1698.0], \"elements\": null}, \"confidence\": 1.0}, {\"key\": {\"text\": \"Additional Notes:\", \"boundingBox\": [173.0, 1796.0, 479.0, 1796.0, 479.0, 1831.0, 173.0, 1831.0], \"elements\": null}, \"value\": {\"text\": \"Do not Jostle Box. Unpack carefully. Enjoy. Jupiter Book Supply will refund you 50% per book if returned within 60 days of reading and offer you 25% off you next total purchase.\", \"boundingBox\": [169.0, 1880.0, 1511.0, 1880.0, 1511.0, 1992.0, 169.0, 1992.0], \"elements\": null}, \"confidence\": 0.48}], \"tables\": [{\"rows\": 5, \"columns\": 4, \"cells\": [{\"text\": \"Details\", \"rowIndex\": 0, \"columnIndex\": 0, \"boundingBox\": [447.0, 1048.0, 558.0, 1048.0, 558.0, 1078.0, 447.0, 1078.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Quantity\", \"rowIndex\": 0, \"columnIndex\": 1, \"boundingBox\": [886.0, 1048.0, 1034.0, 1048.0, 1034.0, 1084.0, 886.0, 1084.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Unit Price\", \"rowIndex\": 0, \"columnIndex\": 2, \"boundingBox\": [1111.0, 1047.0, 1269.0, 1047.0, 1269.0, 1078.0, 1111.0, 1078.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Total\", \"rowIndex\": 0, \"columnIndex\": 3, \"boundingBox\": [1383.0, 1047.0, 1467.0, 1047.0, 1467.0, 1077.0, 1383.0, 1077.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": true, \"isFooter\": false}, {\"text\": \"Bindings\", \"rowIndex\": 1, \"columnIndex\": 0, \"boundingBox\": [172.0, 1094.0, 280.0, 1094.0, 280.0, 1122.0, 172.0, 1122.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 1, \"columnIndex\": 1, \"boundingBox\": [861.0, 1094.0, 892.0, 1094.0, 892.0, 1119.0, 861.0, 1119.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"1.00\", \"rowIndex\": 1, \"columnIndex\": 2, \"boundingBox\": [1241.0, 1095.0, 1293.0, 1095.0, 1293.0, 1118.0, 1241.0, 1118.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20.00\", \"rowIndex\": 1, \"columnIndex\": 3, \"boundingBox\": [1458.0, 1096.0, 1531.0, 1096.0, 1531.0, 1119.0, 1458.0, 1119.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Covers Small\", \"rowIndex\": 2, \"columnIndex\": 0, \"boundingBox\": [170.0, 1136.0, 333.0, 1136.0, 333.0, 1161.0, 170.0, 1161.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 2, \"columnIndex\": 1, \"boundingBox\": [861.0, 1135.0, 892.0, 1135.0, 892.0, 1160.0, 861.0, 1160.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"1.00\", \"rowIndex\": 2, \"columnIndex\": 2, \"boundingBox\": [1240.0, 1135.0, 1294.0, 1135.0, 1294.0, 1160.0, 1240.0, 1160.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20.00\", \"rowIndex\": 2, \"columnIndex\": 3, \"boundingBox\": [1458.0, 1135.0, 1529.0, 1135.0, 1529.0, 1160.0, 1458.0, 1160.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Feather Bookmark\", \"rowIndex\": 3, \"columnIndex\": 0, \"boundingBox\": [173.0, 1179.0, 402.0, 1179.0, 402.0, 1206.0, 173.0, 1206.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 3, \"columnIndex\": 1, \"boundingBox\": [863.0, 1179.0, 892.0, 1179.0, 892.0, 1204.0, 863.0, 1204.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"5.00\", \"rowIndex\": 3, \"columnIndex\": 2, \"boundingBox\": [1239.0, 1179.0, 1294.0, 1179.0, 1294.0, 1204.0, 1239.0, 1204.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"100.00\", \"rowIndex\": 3, \"columnIndex\": 3, \"boundingBox\": [1443.0, 1181.0, 1529.0, 1181.0, 1529.0, 1205.0, 1443.0, 1205.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"Copper Swirl Marker\", \"rowIndex\": 4, \"columnIndex\": 0, \"boundingBox\": [170.0, 1222.0, 429.0, 1222.0, 429.0, 1252.0, 170.0, 1252.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"20\", \"rowIndex\": 4, \"columnIndex\": 1, \"boundingBox\": [860.0, 1223.0, 892.0, 1223.0, 892.0, 1247.0, 860.0, 1247.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"5.00\", \"rowIndex\": 4, \"columnIndex\": 2, \"boundingBox\": [1239.0, 1221.0, 1293.0, 1221.0, 1293.0, 1247.0, 1239.0, 1247.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}, {\"text\": \"100.00\", \"rowIndex\": 4, \"columnIndex\": 3, \"boundingBox\": [1444.0, 1224.0, 1530.0, 1224.0, 1530.0, 1248.0, 1444.0, 1248.0], \"confidence\": 1.0, \"rowSpan\": 1, \"columnSpan\": 1, \"elements\": null, \"isHeader\": false, \"isFooter\": false}]}], \"clusterId\": 0}], \"documentResults\": [], \"errors\": []}}",
-   "responseHeaders": {
-    "apim-request-id": "026c68d6-9a8d-49ca-ba52-0108ab280463",
-    "content-length": "10046",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:23:12 GMT",
+    "date": "Fri, 20 Nov 2020 23:04:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "27"
@@ -129,5 +112,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "3252495180fd33cfbaa984a71262ec15"
+ "hash": "c24603ac14647b0d79233781214960e0"
 }

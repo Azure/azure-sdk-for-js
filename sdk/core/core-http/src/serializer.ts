@@ -589,7 +589,9 @@ function serializeDictionaryType(
   if (isXml && mapper.xmlNamespace) {
     const xmlnsKey = mapper.xmlNamespacePrefix ? `xmlns:${mapper.xmlNamespacePrefix}` : "xmlns";
 
-    return { ...tempDictionary, $: { [xmlnsKey]: mapper.xmlNamespace } };
+    const result = tempDictionary;
+    result[XML_ATTRKEY] = { [xmlnsKey]: mapper.xmlNamespace };
+    return result;
   }
 
   return tempDictionary;
@@ -1186,23 +1188,23 @@ export interface BaseMapper {
    */
   xmlElementName?: string;
   /**
-   * Whether or not the current propery should have a wrapping XML element
+   * Whether or not the current property should have a wrapping XML element
    */
   xmlIsWrapped?: boolean;
   /**
-   * Whether or not the current propery is readonly
+   * Whether or not the current property is readonly
    */
   readOnly?: boolean;
   /**
-   * Whether or not the current propery is a constant
+   * Whether or not the current property is a constant
    */
   isConstant?: boolean;
   /**
-   * Whether or not the current propery is required
+   * Whether or not the current property is required
    */
   required?: boolean;
   /**
-   * Whether or not the current propery allows mull as a value
+   * Whether or not the current property allows mull as a value
    */
   nullable?: boolean;
   /**

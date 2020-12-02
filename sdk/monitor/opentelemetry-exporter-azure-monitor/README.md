@@ -38,7 +38,6 @@ provider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
-  logger: provider.logger,
   instrumentationKey: "ikey"
 });
 
@@ -61,7 +60,7 @@ Coming Soon
 
 ## Examples
 
-Coming soon // TODO: Update this with link to samples when we have some
+For complete samples of a few champion scenarios, see the [`samples/`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor/samples/) folder.
 
 ## Key concepts
 

@@ -3,6 +3,8 @@
 
 ## 4.2.0-beta.3 (Unreleased)
 
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 
 ## 4.2.0-beta.2 (2020-10-06)
 

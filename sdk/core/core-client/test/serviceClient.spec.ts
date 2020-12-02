@@ -943,6 +943,54 @@ describe("ServiceClient", function() {
       assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
 
+    it("should serialize an XML request body with custom xml char key", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          requestBody: {
+            "#": "pound value"
+          },
+          options: {
+            serializerOptions: {
+              xml: {
+                xmlCharKey: "#"
+              }
+            }
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "requestBody",
+            mapper: {
+              serializedName: "Body",
+              xmlName: "entry",
+              type: {
+                name: "Composite",
+                className: "Body",
+                modelProperties: {
+                  "#": {
+                    serializedName: "#",
+                    xmlName: "#",
+                    type: { name: "String" }
+                  }
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer(undefined, true /** isXML */),
+          isXML: true
+        },
+        stringifyXML
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`
+      );
+    });
+
     it("should serialize a string send to a text/plain endpoint as just a string", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(

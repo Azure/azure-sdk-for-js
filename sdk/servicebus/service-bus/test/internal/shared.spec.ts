@@ -140,7 +140,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
     [
       {
         body: "hello",
-        _amqpAnnotatedMessage: { body: "hello" }
+        _rawAmqpMessage: { body: "hello" }
       }
     ]
   ];
@@ -172,7 +172,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       [
         {
           body: "hello",
-          _amqpAnnotatedMessage: { body: "hello" }
+          _rawAmqpMessage: { body: "hello" }
         }
       ],
       allReceivedMessages,

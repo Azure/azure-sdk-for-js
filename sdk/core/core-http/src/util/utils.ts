@@ -6,6 +6,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResourceLike } from "../webResource";
 import { Constants } from "./constants";
+import { XML_ATTRKEY } from "./serializer.common";
 
 const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
 
@@ -203,7 +204,9 @@ export function prepareXMLRootList(
     return { [elementName]: obj };
   }
 
-  return { [elementName]: obj, $: { [xmlNamespaceKey]: xmlNamespace } };
+  const result = { [elementName]: obj };
+  result[XML_ATTRKEY] = { [xmlNamespaceKey]: xmlNamespace };
+  return result;
 }
 
 /**

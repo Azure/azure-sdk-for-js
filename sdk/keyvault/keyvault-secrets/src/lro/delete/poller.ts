@@ -1,31 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
-import { DeleteSecretPollOperationState, makeDeleteSecretPollOperation } from "./operation";
-import { DeletedSecret, SecretClientInterface } from "../../secretsModels";
-
-export interface DeleteSecretPollerOptions {
-  client: SecretClientInterface;
-  name: string;
-  requestOptions?: RequestOptionsBase;
-  intervalInMs?: number;
-  resumeFrom?: string;
-}
+import { DeleteSecretPollOperation, DeleteSecretPollOperationState } from "./operation";
+import { DeletedSecret } from "../../secretsModels";
+import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
 
 /**
- * Class that deletes a poller that waits until a secret finishes being deleted
+ * Class that creates a poller that waits until a secret finishes being deleted.
  */
-export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, DeletedSecret> {
-  /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof DeleteSecretPoller
-   */
-  public intervalInMs: number;
-
-  constructor(options: DeleteSecretPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+export class DeleteSecretPoller extends KeyVaultSecretPoller<
+  DeleteSecretPollOperationState,
+  DeletedSecret
+> {
+  constructor(options: KeyVaultSecretPollerOptions) {
+    const { vaultUrl, client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteSecretPollOperationState | undefined;
 
@@ -33,23 +21,18 @@ export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, D
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeDeleteSecretPollOperation({
-      ...state,
-      name,
-      requestOptions,
-      client
-    });
+    const operation = new DeleteSecretPollOperation(
+      {
+        ...state,
+        name
+      },
+      vaultUrl,
+      client,
+      requestOptions
+    );
 
     super(operation);
 
     this.intervalInMs = intervalInMs;
-  }
-
-  /**
-   * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
   }
 }
