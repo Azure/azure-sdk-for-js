@@ -27,7 +27,7 @@ const storageConnectionString = "";
 const containerName = "";
 const consumerGroup = "";
 
-async function main() {
+export async function main() {
   // this client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
@@ -74,7 +74,7 @@ async function main() {
       );
     },
     processError: async (err, context) => {
-      console.log(`Error : ${err}`);
+      console.log(`Error on partition "${context.partitionId}": ${err}`);
     }
   });
 
