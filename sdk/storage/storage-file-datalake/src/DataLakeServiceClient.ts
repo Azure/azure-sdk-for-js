@@ -5,13 +5,14 @@ import "@azure/core-paging";
 
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BlobServiceClient, ServiceGenerateAccountSasUrlOptions } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {
   FileSystemItem,
+  ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse
 } from "./models";

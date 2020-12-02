@@ -296,7 +296,6 @@ export interface DataLakeSASSignatureValues {
     ipRange?: SasIPRange;
     isDirectory?: boolean;
     pathName?: string;
-    // Warning: (ae-forgotten-export) The symbol "DirectorySASPermissions" needs to be exported by the entry point index.d.ts
     permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
@@ -347,6 +346,22 @@ export interface DirectoryGenerateSasUrlOptions {
     protocol?: SASProtocol;
     startsOn?: Date;
     version?: string;
+}
+
+// @public
+export class DirectorySASPermissions {
+    add: boolean;
+    create: boolean;
+    delete: boolean;
+    execute: boolean;
+    list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
+    static parse(permissions: string): DirectorySASPermissions;
+    read: boolean;
+    toString(): string;
+    write: boolean;
 }
 
 // @public (undocumented)
