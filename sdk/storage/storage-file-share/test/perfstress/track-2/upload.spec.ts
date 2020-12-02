@@ -30,9 +30,7 @@ const shareClient = shareServiceClient.getShareClient(shareName);
 const directoryClient = shareClient.getDirectoryClient(directoryName);
 const fileClient = directoryClient.getFileClient(fileName);
 
-export class StorageFileShareUploadTest extends PerfStressTest<
-  StorageFileShareUploadTestOptions
-> {
+export class StorageFileShareUploadTest extends PerfStressTest<StorageFileShareUploadTestOptions> {
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
       required: true,

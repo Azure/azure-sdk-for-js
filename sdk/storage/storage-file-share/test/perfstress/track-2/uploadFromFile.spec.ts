@@ -39,7 +39,9 @@ const fileClient = directoryClient.getFileClient(fileName);
 const localDirName = "temp";
 const localFileName = `${localDirName}/upload-from-test-temp-file.txt`;
 
-export class StorageFileShareUploadFromFileTest extends PerfStressTest<StorageFileShareUploadFromFileTestOptions> {
+export class StorageFileShareUploadFromFileTest extends PerfStressTest<
+  StorageFileShareUploadFromFileTestOptions
+> {
   public options: PerfStressOptionDictionary<StorageFileShareUploadFromFileTestOptions> = {
     size: {
       required: true,

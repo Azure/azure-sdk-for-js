@@ -73,7 +73,7 @@ export class StorageFileShareDownloadToFileTest extends PerfStressTest<
   }
 
   async runAsync(): Promise<void> {
-    const downloadResponse = await fileClient.downloadToFile(`${localDirName}/${fileName}`,0);
+    const downloadResponse = await fileClient.downloadToFile(`${localDirName}/${fileName}`, 0);
     console.log(`Downloaded file ${fileName} successfully`, downloadResponse.requestId);
   }
 }
