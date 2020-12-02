@@ -26,6 +26,11 @@ import {
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathList as PathListModel
 } from "./generated/src/models";
+import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
+import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
+import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { SASProtocol } from "./sas/SASQueryParameters";
 import { CommonOptions } from "./StorageClient";
 
 export {
@@ -151,6 +156,46 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
       parsedBody: ListFileSystemsSegmentResponse;
     };
   };
+
+/**
+ * Options to configure {@link DataLakeServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+}
 
 /****************************************************************/
 /** DataLakeFileSystemClient option and response related models */
@@ -389,6 +434,113 @@ export interface FileSystemDeleteIfExistsResponse extends FileSystemDeleteRespon
    * @memberof FileSystemDeleteIfExistsResponse
    */
   succeeded: boolean;
+}
+
+/**
+ * Options to configure {@link DataLakeFileSystemClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface FileSystemGenerateSasUrlOptions
+ */
+export interface FileSystemGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {FileSystemSASPermissions}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  permissions?: FileSystemSASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileSystemGenerateSasUrlOptions
+   */
+  contentType?: string;
 }
 
 /**********************************************************/
@@ -949,6 +1101,113 @@ export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
 
+/**
+ * Options to configure {@link DataLakeDirectoryClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface DirectoryGenerateSasUrlOptions
+ */
+export interface DirectoryGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {DirectorySASPermissions}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  permissions?: DirectorySASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof DirectoryGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
 /***********************************************************/
@@ -1415,6 +1674,114 @@ export interface FileSetExpiryOptions extends CommonOptions {
    */
   timeToExpireInMs?: number;
 }
+
+/**
+ * Options to configure {@link DataLakeFileClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface FileGenerateSasUrlOptions
+ */
+export interface FileGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {DataLakeSASPermissions}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  permissions?: DataLakeSASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */
 /***********************************************************/

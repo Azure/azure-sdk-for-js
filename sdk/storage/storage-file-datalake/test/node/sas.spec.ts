@@ -21,6 +21,7 @@ import {
   SASQueryParameters
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
+import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
 import {
   getDataLakeServiceClient,
@@ -816,7 +817,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         directoryDepth: 1,
         expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: DataLakeSASPermissions.parse("racwdmeop"),
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2020-02-10"
