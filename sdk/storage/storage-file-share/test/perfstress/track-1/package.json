@@ -1,0 +1,16 @@
+{
+  "name": "track-1",
+  "version": "1.0.0",
+  "description": "1. Navigate to `test-utils\\perfstress` folder `cd sdk\\test-utils\\perfstress\\`\r 2. Build the package `rush update && rush build -t test-utils-perfstress`\r 3. Pack the perf package `rushx pack`\r 4. Navigate to `storage-file-share\\test\\perfstress\\track-1` folder `cd sdk\\storage\\storage-file-share\\test\\perfstress\\track-1`.\r 5. Install the perf package `npm i ..\\..\\..\\..\\..\\test-utils\\perfstress\\azure-test-utils-perfstress-1.0.0.tgz`\r 6. Run `npm install` to get `storage-file-share V10`.\r 7. Create a storage account and populate the .env file with `ACCOUNT_NAME` and `ACCOUNT_KEY` variables.\r 8. Run the tests as follows\r    - download\r      - `npm run perfstress-test:node -- StorageFileShareDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2`\r    - download to file\r      - `npm run perfstress-test:node -- StorageFileShareDownloadToFileTest --warmup 2 --duration 7 --iterations 2 --parallel 2`\r    - upload\r      - `npm run perfstress-test:node -- StorageFileShareUploadTest --warmup 2 --duration 7 --iterations 2 --parallel 2`\r    - upload from file\r      - `npm run perfstress-test:node -- StorageFileShareUploadFromFileTest --warmup 2 --duration 7 --iterations 2 --parallel 2`",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/storage-file": "^10.3.0",
+    "@azure/test-utils-perfstress": "file:../../../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz"
+  },
+  "scripts": {
+    "perfstress-test:node": "ts-node index.spec.ts"
+  }
+}
