@@ -25,7 +25,7 @@ describe("The keyvault-secrets clients logging options should work", () => {
           headers,
           request: httpRequest,
           parsedBody: {
-            id: `${env.KEYVAULT_URI || keyVaultUrl}${path}`,
+            id: `${keyVaultUrl}${path}`,
             attributes: {}
           }
         };
@@ -40,9 +40,9 @@ describe("The keyvault-secrets clients logging options should work", () => {
 
   beforeEach(async () => {
     credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
+      "<tenant-id>",
+      "<client-id>",
+      "<azure-client-secret>"
     );
   });
 
@@ -59,7 +59,7 @@ describe("The keyvault-secrets clients logging options should work", () => {
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should log as expected", async function () {
+    it("it should log as expected", async function() {
       const client = new SecretClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });
@@ -70,8 +70,8 @@ describe("The keyvault-secrets clients logging options should work", () => {
       assert.ok(calls[0].args[0].match(/method": "PUT/));
       assert.equal(calls[1].args[0], "Response status code: 200");
       assert.equal(
-        calls[2].args[0].replace(/\s/g, ""),
-        `Headers:{"_headersMap":${headers.toString()}}`
+        calls[2].args[0],
+        `Headers: ${JSON.stringify({ _headersMap: headers.toJson() }, null, 2)}`
       );
     });
   });

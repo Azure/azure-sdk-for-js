@@ -25,7 +25,7 @@ describe("The keyvault-admin clients logging options should work", () => {
           headers,
           request: httpRequest,
           parsedBody: {
-            id: `${env.KEYVAULT_URI || keyVaultUrl}${path}`,
+            id: `${keyVaultUrl}${path}`,
             attributes: {}
           }
         };
@@ -40,9 +40,9 @@ describe("The keyvault-admin clients logging options should work", () => {
 
   beforeEach(async () => {
     credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
+      "<tenant-id>",
+      "<client-id>",
+      "<azure-client-secret>"
     );
   });
 
@@ -70,8 +70,8 @@ describe("The keyvault-admin clients logging options should work", () => {
       assert.ok(calls[0].args[0].match(/method": "GET/));
       assert.equal(calls[1].args[0], "Response status code: 200");
       assert.equal(
-        calls[2].args[0].replace(/\s/g, ""),
-        `Headers:{"_headersMap":${headers.toString()}}`
+        calls[2].args[0],
+        `Headers: ${JSON.stringify({ _headersMap: headers.toJson() }, null, 2)}`
       );
     });
   });
@@ -95,8 +95,8 @@ describe("The keyvault-admin clients logging options should work", () => {
       assert.ok(calls[0].args[0].match(/method": "POST/));
       assert.equal(calls[1].args[0], "Response status code: 202");
       assert.equal(
-        calls[2].args[0].replace(/\s/g, ""),
-        `Headers:{"_headersMap":${headers.toString()}}`
+        calls[2].args[0],
+        `Headers: ${JSON.stringify({ _headersMap: headers.toJson() }, null, 2)}`
       );
     });
   });
