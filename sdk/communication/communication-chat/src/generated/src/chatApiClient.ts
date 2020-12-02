@@ -30,10 +30,5 @@ class ChatApiClient extends ChatApiClientContext {
 
 // Operation Specifications
 
-export {
-  ChatApiClient,
-  ChatApiClientContext,
-  Models as ChatApiModels,
-  Mappers as ChatApiMappers
-};
+export { ChatApiClient, ChatApiClientContext, Models as ChatApiModels, Mappers as ChatApiMappers };
 export * from "./operations";

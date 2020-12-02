@@ -71,7 +71,7 @@ export class Chat {
 
   /**
    * Gets a chat thread.
-   * @param chatThreadId Thread id to get.
+   * @param chatThreadId Id of the thread.
    * @param options The options parameters.
    */
   getChatThread(
@@ -89,7 +89,7 @@ export class Chat {
 
   /**
    * Deletes a thread.
-   * @param chatThreadId Thread id to delete.
+   * @param chatThreadId Id of the thread to be deleted.
    * @param options The options parameters.
    */
   deleteChatThread(
@@ -174,11 +174,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.maxPageSize],
   urlParameters: [Parameters.endpoint],
   serializer
 };
@@ -248,11 +244,7 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.maxPageSize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   serializer
 };

@@ -43,10 +43,10 @@ export const chatThreadId: OperationURLParameter = {
   }
 };
 
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
-    serializedName: "maxPageSize",
+    serializedName: "$maxpagesize",
     type: {
       name: "Number"
     }
@@ -179,6 +179,16 @@ export const repeatabilityRequestID: OperationParameter = {
     serializedName: "repeatability-Request-ID",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
+  mapper: {
+    serializedName: "maxPageSize",
+    type: {
+      name: "Number"
     }
   }
 };
