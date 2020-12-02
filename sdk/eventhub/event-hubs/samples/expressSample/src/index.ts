@@ -27,7 +27,6 @@ app.post("/ingest", async (req, res) => {
 });
 
 // enable timeTrigger for eventHub.
-eventProducer.timeScan();
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
