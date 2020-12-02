@@ -53,7 +53,7 @@ export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadT
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
-    console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+    console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
   public async globalCleanup() {
