@@ -137,7 +137,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 function Get-javascript-GithubIoDocIndex()
 {
   # Update the main.js and docfx.json language content
-  UpdateDocIndexFiles -appTitleLang JavaScript -lang $Language -packageRegex "/\@(.*)\//i" -regexReplacement "`$1-"
+  UpdateDocIndexFiles -appTitleLang JavaScript -packageRegex "/\@(.*)\//i" -regexReplacement "`$1-"
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
