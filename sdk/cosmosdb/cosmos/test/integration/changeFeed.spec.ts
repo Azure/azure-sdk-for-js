@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { RequestOptions } from "../../src";
-import { Container, ContainerDefinition } from "../../src/client";
+import { Container, ContainerDefinition } from "../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Change Feed Iterator", function() {

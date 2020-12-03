@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 
-import { CosmosClient } from "../../src/CosmosClient";
+import { CosmosClient } from "../../src";
 import { masterKey } from "../common/_testConfig";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../src";
 

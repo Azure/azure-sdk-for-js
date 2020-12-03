@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { extractPartitionKey } from "../../src/extractPartitionKey";
+import { extractPartitionKey } from "../../src";
 
 describe("extractPartitionKey", function() {
   describe("With undefined partitionKeyDefinition", function() {

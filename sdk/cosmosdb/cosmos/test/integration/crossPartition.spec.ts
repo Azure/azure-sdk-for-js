@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import * as util from "util";
-import { Container, ContainerDefinition } from "../../src/client";
-import { DataType, IndexKind } from "../../src/documents";
-import { SqlQuerySpec } from "../../src/queryExecutionContext";
-import { QueryIterator } from "../../src/queryIterator";
+import { Container, ContainerDefinition } from "../../src";
+import { DataType, IndexKind } from "../../src";
+import { SqlQuerySpec } from "../../src";
+import { QueryIterator } from "../../src";
 import {
   bulkInsertItems,
   getTestContainer,

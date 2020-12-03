@@ -7,7 +7,7 @@ import {
   QueryPreparationTimes,
   RuntimeExecutionTimes,
   TimeSpan
-} from "../../src/queryMetrics";
+} from "../../src";
 
 describe("QueryMetrics", function() {
   // Properties

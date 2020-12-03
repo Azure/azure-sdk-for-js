@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition } from "../../src/client";
-import { DataType, IndexKind } from "../../src/documents";
-import { QueryIterator } from "../../src/index";
-import { SqlQuerySpec } from "../../src/queryExecutionContext";
-import { FeedOptions } from "../../src/request";
+import { Container, ContainerDefinition } from "../../src";
+import { DataType, IndexKind } from "../../src";
+import { QueryIterator } from "../../src";
+import { SqlQuerySpec } from "../../src";
+import { FeedOptions } from "../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 

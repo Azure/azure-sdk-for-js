@@ -4,13 +4,7 @@ import assert from "assert";
 import { Constants } from "../../src";
 import { ContainerDefinition, Database, Container } from "../../src/client";
 import { ContainerRequest } from "../../src/client/Container/ContainerRequest";
-import {
-  DataType,
-  IndexedPath,
-  IndexingMode,
-  IndexingPolicy,
-  IndexKind
-} from "../../src";
+import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../src";
 import {
   getTestDatabase,
   removeAllDatabases,
