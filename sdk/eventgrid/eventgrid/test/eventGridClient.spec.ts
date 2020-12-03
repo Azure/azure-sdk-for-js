@@ -166,7 +166,7 @@ describe("EventGridPublisherClient", function() {
 
       rootSpan.end();
 
-      const parsedBody = JSON.parse(res._response.request.body);
+      const parsedBody = JSON.parse(res._response.request.body as string);
 
       assert.isArray(parsedBody);
       assert.equal(parsedBody[0].traceparent, "00-1-3-00");

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import {
+  OperationOptions,
+  OperationResponse,
+  OperationSpec,
+  createSerializer
+} from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
-import {
-  GeneratedClientOptionalParams,
-  EventGridEvent,
-  CloudEvent
-} from "./models";
+import { GeneratedClientOptionalParams, EventGridEvent, CloudEvent } from "./models";
 
 class GeneratedClient extends GeneratedClientContext {
   /**
@@ -35,15 +36,12 @@ class GeneratedClient extends GeneratedClientContext {
   publishEvents(
     topicHostname: string,
     events: EventGridEvent[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    options?: OperationOptions
+  ): Promise<OperationResponse> {
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      { topicHostname, events, options },
       publishEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    ) as Promise<OperationResponse>;
   }
 
   /**
@@ -55,15 +53,12 @@ class GeneratedClient extends GeneratedClientContext {
   publishCloudEventEvents(
     topicHostname: string,
     events: CloudEvent[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    options?: OperationOptions
+  ): Promise<OperationResponse> {
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      { topicHostname, events, options },
       publishCloudEventEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    ) as Promise<OperationResponse>;
   }
 
   /**
@@ -75,22 +70,19 @@ class GeneratedClient extends GeneratedClientContext {
   publishCustomEventEvents(
     topicHostname: string,
     events: any[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    options?: OperationOptions
+  ): Promise<OperationResponse> {
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      { topicHostname, events, options },
       publishCustomEventEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    ) as Promise<OperationResponse>;
   }
 }
 // Operation Specifications
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = createSerializer(Mappers, /* isXml */ false);
 
-const publishEventsOperationSpec: coreHttp.OperationSpec = {
+const publishEventsOperationSpec: OperationSpec = {
   path: "/api/events",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
@@ -101,7 +93,7 @@ const publishEventsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const publishCloudEventEventsOperationSpec: coreHttp.OperationSpec = {
+const publishCloudEventEventsOperationSpec: OperationSpec = {
   path: "/api/events",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
@@ -112,7 +104,7 @@ const publishCloudEventEventsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const publishCustomEventEventsOperationSpec: coreHttp.OperationSpec = {
+const publishCustomEventEventsOperationSpec: OperationSpec = {
   path: "/api/events",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },

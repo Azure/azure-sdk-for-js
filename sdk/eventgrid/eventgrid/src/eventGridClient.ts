@@ -2,17 +2,10 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  generateUuid,
-  HttpResponse,
-  RequestPolicyFactory,
-  RestResponse
-} from "@azure/core-http";
+import { PipelineOptions, PipelineResponse } from "@azure/core-https";
+import { OperationOptions, OperationResponse, createClientPipeline } from "@azure/core-client";
 
-import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
+import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
 import {
@@ -28,6 +21,7 @@ import {
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Options for the Event Grid Client.
@@ -53,7 +47,7 @@ export type SendCustomSchemaEventsOptions = OperationOptions;
  * The response when sending events to the Event Grid service.
  */
 export interface SendEventsResponse {
-  _response: HttpResponse;
+  _response: PipelineResponse;
 }
 
 /**
@@ -112,14 +106,12 @@ export class EventGridPublisherClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = createEventGridCredentialPolicy(credential);
-    const pipeline = createPipelineFromOptions(options, authPolicy);
+    const pipeline = createClientPipeline(pipelineOptions);
+    const authPolicy = eventGridCredentialPolicy(credential);
+    pipeline.addPolicy(authPolicy);
+    pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy());
 
-    (pipeline.requestPolicyFactories as RequestPolicyFactory[]).push(
-      cloudEventDistributedTracingEnricherPolicy()
-    );
-
-    this.client = new GeneratedClient(pipeline);
+    this.client = new GeneratedClient({ pipeline });
     this.apiVersion = this.client.apiVersion;
   }
 
@@ -211,7 +203,7 @@ export class EventGridPublisherClient {
   }
 }
 
-function buildResponse(r: RestResponse): SendEventsResponse {
+function buildResponse(r: OperationResponse): SendEventsResponse {
   const ret = { _response: r._response };
 
   Object.defineProperty(ret, "_response", {
@@ -230,7 +222,7 @@ export function convertEventGridEventToModelType(
   return {
     eventType: event.eventType,
     eventTime: event.eventTime ?? new Date(),
-    id: event.id ?? generateUuid(),
+    id: event.id ?? uuidv4(),
     subject: event.subject,
     topic: event.topic,
     data: event.data,
@@ -260,7 +252,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
     specversion: "1.0",
     type: event.type,
     source: event.source,
-    id: event.id ?? generateUuid(),
+    id: event.id ?? uuidv4(),
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,

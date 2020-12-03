@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClientOptions } from "@azure/core-client";
 
 export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
 
@@ -3385,12 +3385,7 @@ export type MediaJobErrorCode =
 /**
  * Defines values for MediaJobErrorCategory.
  */
-export type MediaJobErrorCategory =
-  | "Service"
-  | "Download"
-  | "Upload"
-  | "Configuration"
-  | "Content";
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
 /**
  * Defines values for MediaJobRetry.
  */
@@ -3399,8 +3394,7 @@ export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 /**
  * Optional parameters.
  */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends ServiceClientOptions {
   /**
    * Api Version
    */
