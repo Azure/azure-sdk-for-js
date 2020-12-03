@@ -2,6 +2,9 @@
 
 ## 5.3.2 (Unreleased)
 
+- Updates documentation for `EventData` to call out that the `body` field
+  must be converted to a byte array or `Buffer` when cross-language
+  compatibility while receiving events is required.
 
 ## 5.3.1 (2020-11-12)
 

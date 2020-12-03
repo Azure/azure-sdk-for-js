@@ -1,7 +1,10 @@
 # Release History
 
-## 7.0.1 (TBD)
+## 7.0.1 (Unreleased)
 
+- Updates documentation for `ServiceBusMessage` to call out that the `body` field
+  must be converted to a byte array or `Buffer` when cross-language
+  compatibility while receiving events is required.
 - Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
   [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
 

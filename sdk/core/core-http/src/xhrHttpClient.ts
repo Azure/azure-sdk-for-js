@@ -43,8 +43,11 @@ export class XhrHttpClient implements HttpClient {
       const formData = request.formData;
       const requestForm = new FormData();
       const appendFormValue = (key: string, value: any): void => {
-        // eslint-disable-next-line no-prototype-builtins
-        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+        if (
+          value &&
+          Object.prototype.hasOwnProperty.call(value, "value") &&
+          Object.prototype.hasOwnProperty.call(value, "options")
+        ) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
