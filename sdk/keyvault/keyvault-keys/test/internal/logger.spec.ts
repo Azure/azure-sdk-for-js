@@ -13,6 +13,7 @@ import {
 } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { logger } from "../../src/log";
+import { setLogLevel } from "@azure/logger";
 
 describe("The keyvault-keys clients logging options should work", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -50,10 +51,11 @@ describe("The keyvault-keys clients logging options should work", () => {
       "<client-id>",
       "<azure-client-secret>"
     );
+    setLogLevel("info");
   });
 
   afterEach(() => {
-    logger.info.enabled = false;
+    setLogLevel("error");
     sandbox.restore();
   });
 
@@ -61,11 +63,10 @@ describe("The keyvault-keys clients logging options should work", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/keys/keyName/id");
       sandbox = createSandbox();
-      logger.info.enabled = true;
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should log as expected", async function () {
+    it("it should log as expected", async function() {
       const client = new KeyClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });
@@ -86,11 +87,10 @@ describe("The keyvault-keys clients logging options should work", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/keys/key-name/sign");
       sandbox = createSandbox();
-      logger.info.enabled = true;
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should log as expected", async function () {
+    it("it should log as expected", async function() {
       // Cryptography isn't currently working in the browser
       if (!isNode) {
         this.skip();

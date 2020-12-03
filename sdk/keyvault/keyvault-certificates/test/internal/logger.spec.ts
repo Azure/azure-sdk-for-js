@@ -7,6 +7,7 @@ import { logger } from "../../src/log";
 import { CertificateClient } from "../../src";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
+import { setLogLevel } from "@azure/logger";
 
 describe("The keyvault-certificates clients logging options should work", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -43,10 +44,11 @@ describe("The keyvault-certificates clients logging options should work", () => 
       "<client-id>",
       "<azure-client-secret>"
     );
+    setLogLevel("info");
   });
 
   afterEach(() => {
-    logger.info.enabled = false;
+    setLogLevel("error");
     sandbox.restore();
   });
 
@@ -54,7 +56,6 @@ describe("The keyvault-certificates clients logging options should work", () => 
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/certificates/certificateName/id");
       sandbox = createSandbox();
-      logger.info.enabled = true;
       spy = sandbox.spy(logger, "info");
     });
 

@@ -7,6 +7,7 @@ import { logger } from "../../src/log";
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
+import { setLogLevel } from "@azure/logger";
 
 describe("The keyvault-admin clients logging options should work", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -43,10 +44,11 @@ describe("The keyvault-admin clients logging options should work", () => {
       "<client-id>",
       "<azure-client-secret>"
     );
+    setLogLevel("info");
   });
 
   afterEach(() => {
-    logger.info.enabled = false;
+    setLogLevel("error");
     sandbox.restore();
   });
 
@@ -54,11 +56,10 @@ describe("The keyvault-admin clients logging options should work", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
       sandbox = createSandbox();
-      logger.info.enabled = true;
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should log as expected", async function () {
+    it("it should log as expected", async function() {
       const client = new KeyVaultAccessControlClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });
@@ -79,11 +80,10 @@ describe("The keyvault-admin clients logging options should work", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/backup", 202);
       sandbox = createSandbox();
-      logger.info.enabled = true;
       spy = sandbox.spy(logger, "info");
     });
 
-    it("it should default to the latest API version", async function () {
+    it("it should default to the latest API version", async function() {
       const client = new KeyVaultBackupClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });

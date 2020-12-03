@@ -281,19 +281,15 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
 
   const attributes: any = item.attributes || {};
 
-  const abstractProperties: any = {
+  const abstractProperties: CertificateProperties = {
     createdOn: attributes.created,
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
 
-    sourceId: parsedId.sourceId,
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
     name: parsedId.name,
 
-    deletedOn: item.deletedDate,
-    recoveryId: item.recoveryId,
-    scheduledPurgeDate: item.scheduledPurgeDate,
     id: item.id,
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
@@ -302,21 +298,10 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     recoveryLevel: item.attributes?.recoveryLevel
   };
 
-  if (abstractProperties.deletedDate) {
-    delete abstractProperties.deletedDate;
-  }
-
-  if (abstractProperties.expires) {
-    delete abstractProperties.expires;
-  }
-  if (abstractProperties.created) {
-    delete abstractProperties.created;
-  }
-  if (abstractProperties.updated) {
-    delete abstractProperties.updated;
-  }
-
   return {
+    deletedOn: item.deletedDate,
+    recoveryId: item.recoveryId,
+    scheduledPurgeDate: item.scheduledPurgeDate,
     name: parsedId.name,
     properties: abstractProperties
   };

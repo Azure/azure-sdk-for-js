@@ -320,9 +320,7 @@ export class KeyVaultAccessControlClient {
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
     const span = createSpan("listRoleAssignments", options);
     const updatedOptions: ListRoleAssignmentsOptions = {
-      abortSignal: options.abortSignal,
-      requestOptions: options.requestOptions,
-      tracingOptions: options.tracingOptions,
+      ...options,
       ...setParentSpan(span, options)
     };
 
@@ -418,9 +416,7 @@ export class KeyVaultAccessControlClient {
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
     const span = createSpan("listRoleDefinitions", options);
     const updatedOptions: ListRoleDefinitionsOptions = {
-      abortSignal: options.abortSignal,
-      requestOptions: options.requestOptions,
-      tracingOptions: options.tracingOptions,
+      ...options,
       ...setParentSpan(span, options)
     };
 
