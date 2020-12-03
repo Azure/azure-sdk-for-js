@@ -562,7 +562,38 @@ export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string 
 }
 
 /**
+ * Meant for node recordings only!
+ *
+ * Masks access tokens in the json response from nock fixtures.
+ * For example, the following part of the nock fixture/recording would be updated.
+ * from `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
+ * to   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"access_token"}, [`
+ *
+ * @param {string} fixture
+ */
+export function maskAccessTokenInNockFixture(fixture: string): string {
+  // Replaces only if the content-type is json
+  if (!isBrowser() && isContentTypeInNockFixture(fixture, jsonContentTypes)) {
+    // Matches the nock's reply from the fixture
+    const matches = fixture.match(/\.reply\((.*), (.*), .*/);
+    if (matches && matches[2]) {
+      // TODO: Only replace if the "token_type" is "Bearer"??
+      const accessToken = JSON.parse(matches[2])["access_token"];
+      const updatedFixture = fixture.replace(accessToken, "access_token");
+      return updatedFixture;
+    }
+  }
+  return fixture;
+}
+
+/**
  * List of binary content types.
  * Currently, "avro/binary" is the only one present.
  */
 export const binaryContentTypes = ["avro/binary"];
+
+/**
+ * List of json content types.
+ * // TODO: Add anything else to the list??
+ */
+export const jsonContentTypes = ["application/json;charset=utf-8"];
