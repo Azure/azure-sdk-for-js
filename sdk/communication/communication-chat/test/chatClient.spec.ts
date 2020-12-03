@@ -6,7 +6,6 @@ import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 import { CommunicationUser } from "@azure/communication-common";
-import { CreateChatThreadResult } from "../src/generated/src/models";
 
 describe("ChatClient", function() {
   let threadId: string;
@@ -14,7 +13,6 @@ describe("ChatClient", function() {
   let recorder: Recorder;
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
-  let chatThreadResult: CreateChatThreadResult;
 
   let testUser: CommunicationUser;
   let testUser2: CommunicationUser;
@@ -52,15 +50,23 @@ describe("ChatClient", function() {
       participants: [{ user: testUser }, { user: testUser2 }]
     };
 
-    chatThreadResult = await chatClient.createChatThread(request);
+    const chatThreadResult = await chatClient.createChatThread(request);
+
     const chatThread = chatThreadResult.chatThread;
+    if (chatThread) {
+      threadId = chatThread.id!;
+    }
 
     assert.isDefined(chatThread);
     assert.isDefined(chatThread?.id);
   }).timeout(8000);
 
+  /**
+   * Make sure this is the SECOND test!
+   * This creates the chatThreadClient used by other tests.
+   */
   it("successfully retrieves a thread client", async function() {
-    const chatThreadClient = await chatClient.getChatThreadClient(threadId);
+    chatThreadClient = await chatClient.getChatThreadClient(threadId);
     assert.isNotNull(chatThreadClient);
     assert.equal(chatThreadClient.threadId, threadId);
   });
