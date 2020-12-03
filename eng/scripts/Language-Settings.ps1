@@ -241,3 +241,19 @@ function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $
   node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
   Pop-Location
 }
+
+# PackageName: Pass full pacjkage name e.g. @azure/abort-controller
+# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+function GetExistingPackageVersions ($PackageName, $GroupId = $null)
+{
+  try
+  {
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
+    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
+  }
+  catch
+  {
+    LogError "Failed to retieve package versions. `n$_"
+    return $null
+  }
+}
