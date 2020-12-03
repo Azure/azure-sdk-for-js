@@ -1,10 +1,10 @@
-import { AppConfigurationClient, ConfigurationSetting } from "../src";
+import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError,
   startRecorder
-} from "./testHelpers";
+} from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 

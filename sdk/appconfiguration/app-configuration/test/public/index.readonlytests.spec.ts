@@ -4,8 +4,8 @@ import {
   deleteKeyCompletely,
   assertThrowsAbortError,
   startRecorder
-} from "./testHelpers";
-import { AppConfigurationClient } from "../src";
+} from "./utils/testHelpers";
+import { AppConfigurationClient } from "../../src";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 
