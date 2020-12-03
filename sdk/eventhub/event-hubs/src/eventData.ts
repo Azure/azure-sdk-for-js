@@ -230,8 +230,8 @@ export interface EventData {
   /**
    * @property The message body that needs to be sent.
    * If the application reading the events is not using this SDK,
-   * consider setting the `body` to a `Buffer` for better cross-language
-   * compatibility.
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
