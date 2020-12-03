@@ -86,7 +86,13 @@ import {
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
 import { createSpan } from "./utils/tracing";
-import { appendToURLPath, setURLPath } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  encodeURLPathQueries,
+  getURLQueryString,
+  setURLPath,
+  setURLQueries
+} from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
@@ -877,7 +883,8 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file"
+   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file".
+   *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
    * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
    * @returns {Promise<PathMoveResponse>}
    * @memberof DataLakePathClient
@@ -891,6 +898,7 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param {string} destinationFileSystem Destination file system like "filesystem".
    * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file"
+   *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
    * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
    * @returns {Promise<PathMoveResponse>}
    * @memberof DataLakePathClient
@@ -924,10 +932,22 @@ export class DataLakePathClient extends StorageClient {
 
     // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
     // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
-    const renameSource = `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
-    const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
+    const sourceSas = getURLQueryString(this.dfsEndpointUrl);
+    const renameSource = !!sourceSas ?
+      encodeURLPathQueries(`/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`)
+      : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
 
-    const destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+    const split: string[] = destinationPath.split("?");
+    let destinationUrl: string;
+    if (split.length === 2) {
+      const renameDestination = `/${destinationFileSystem}/${split[0]}`;
+      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+      destinationUrl = setURLQueries(destinationUrl, split[1]);
+    } else {
+      const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
+      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+    }
+
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
 
     try {
