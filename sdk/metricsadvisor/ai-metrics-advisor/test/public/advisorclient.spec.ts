@@ -13,7 +13,7 @@ import {
   MetricPeriodFeedback,
   MetricsAdvisorClient,
   MetricsAdvisorKeyCredential
-} from "../src";
+} from "../../src";
 import { createRecordedAdvisorClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 
