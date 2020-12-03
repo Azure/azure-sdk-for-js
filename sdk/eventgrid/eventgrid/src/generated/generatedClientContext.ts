@@ -26,7 +26,7 @@ export class GeneratedClientContext extends ServiceClient {
     const optionsWithDefaults: GeneratedClientOptionalParams = {
       ...defaults,
       ...restOptions,
-      baseUri: endpoint || "https://{topicHostname}"
+      baseUri: endpoint || "{topicHostname}"
     };
 
     super(optionsWithDefaults);
