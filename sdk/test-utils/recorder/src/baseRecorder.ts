@@ -16,7 +16,8 @@ import {
   generateTestRecordingFilePath,
   nodeRequireRecordingIfExists,
   windowLens,
-  decodeHexEncodingIfExistsInNockFixture
+  decodeHexEncodingIfExistsInNockFixture,
+  maskAccessTokenInNockFixture
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -67,7 +68,9 @@ export abstract class BaseRecorder {
   private defaultCustomizationsOnRecordings = !isBrowser()
     ? [
         // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture
+        decodeHexEncodingIfExistsInNockFixture,
+        // Masks access tokens in the json response from the recorded fixture if any exists.
+        maskAccessTokenInNockFixture
       ]
     : [];
 
