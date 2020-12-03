@@ -2,6 +2,7 @@
 
 ## 12.3.1 (Unreleased)
 
+- Blob Batch operations now reorder the subresponses in the client side to perserve the original input order. See `BlobBatchClient.submitBatch()` and [12335](https://github.com/Azure/azure-sdk-for-js/issues/12335).
 
 ## 12.3.0 (2020-11-10)
 
