@@ -17,7 +17,7 @@ import {
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
 import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
-import { ChatApiClient } from "./generated/src/chatApiClient";
+import { Chat, ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -35,7 +35,12 @@ import {
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import { GetChatThreadResponse, ListPageSettings, OperationResponse } from "./models/models";
+import {
+  CreateChatThreadResponse,
+  GetChatThreadResponse,
+  ListPageSettings,
+  OperationResponse
+} from "./models/models";
 import {
   mapToChatThreadSdkModel,
   attachHttpResponse,
@@ -52,7 +57,7 @@ export { ChatThreadInfo } from "./generated/src/models";
 export class ChatClient {
   private readonly tokenCredential: CommunicationUserCredential;
   private readonly clientOptions: ChatClientOptions;
-  private readonly api: ChatApiClient;
+  private readonly api: Chat;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
   private isRealtimeNotificationsStarted: boolean = false;
@@ -97,7 +102,8 @@ export class ChatClient {
     const authPolicy = createCommunicationUserCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.api = new ChatApiClient(this.url, pipeline);
+    const client = new ChatApiClient(this.url, pipeline);
+    this.api = client.chat;
 
     this.signalingClient = getSignalingClient(credential, logger);
   }
@@ -119,11 +125,11 @@ export class ChatClient {
   public async createChatThread(
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
-  ): Promise<ChatThreadClient> {
+  ): Promise<CreateChatThreadResponse> {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      const response = await this.api.createChatThread(
+      return await this.api.createChatThread(
         {
           topic: request.topic,
           participants: request.participants?.map((participant) =>
@@ -132,12 +138,6 @@ export class ChatClient {
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-
-      if (response.id) {
-        return this.getChatThreadClient(response.id);
-      }
-
-      throw new Error("Chat thread creation failed.");
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -8,7 +8,9 @@ import {
   ChatMessage as RestChatMessage,
   ChatThread as RestChatThread,
   ChatParticipant as RestChatParticipant,
-  ChatMessageReadReceipt as RestChatMessageReadReceipt
+  ChatMessageReadReceipt as RestChatMessageReadReceipt,
+  CreateChatThreadResult,
+  AddChatParticipantsResult
 } from "../generated/src/models";
 
 export {
@@ -32,15 +34,11 @@ export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
 /**
  * An interface representing a chat thread.
  */
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "participants"> {
+export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
   /**
    * The CommunicationUser that identifies this chat thread owner.
    */
   readonly createdBy?: CommunicationUser;
-  /**
-   * Chat participants.
-   */
-  participants?: ChatParticipant[];
 }
 
 /**
@@ -103,3 +101,13 @@ export type GetChatThreadResponse = WithResponse<ChatThread>;
  * Represents the response from sending a chat message
  */
 export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
+
+/**
+ * Represents the response from creating a chat thread
+ */
+export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
+
+/**
+ * Represents the response from adding chat participants
+ */
+export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;

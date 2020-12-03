@@ -75,10 +75,7 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
     createdOn: chatThread.createdOn,
     createdBy: {
       communicationUserId: chatThread.createdBy!
-    },
-    participants: chatThread.participants?.map((participant) =>
-      mapToChatParticipantSdkModel(participant)
-    )!
+    }
   };
 };
 

@@ -5,8 +5,11 @@ import {
   SendChatMessageRequest as RestSendMessageOptions,
   UpdateChatMessageRequest as RestUpdateMessageOptions,
   UpdateChatThreadRequest as RestUpdateThreadOptions,
-  ChatApiClientListChatMessagesOptionalParams as RestListMessagesOptions,
-  ChatApiClientListChatThreadsOptionalParams as RestListChatThreadsOptions
+  ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
+  ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
+  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
+  ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
+  ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions
 } from "../generated/src/models";
 
 export {
@@ -57,7 +60,7 @@ export type ListMessagesOptions = RestListMessagesOptions;
 /**
  * Options to create a chat thread.
  */
-export type CreateChatThreadOptions = OperationOptions;
+export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 /**
  * Options to get a chat thread.
@@ -87,7 +90,7 @@ export type AddParticipantsOptions = OperationOptions;
 /**
  * Options to list chat participants.
  */
-export type ListParticipantsOptions = OperationOptions;
+export type ListParticipantsOptions = RestListParticipantsOptions;
 
 /**
  * Options to remove a chat participant.
@@ -107,4 +110,4 @@ export type SendReadReceiptOptions = OperationOptions;
 /**
  * Options to list read receipts.
  */
-export type ListReadReceiptsOptions = OperationOptions;
+export type ListReadReceiptsOptions = RestListReadReceiptsOptions;

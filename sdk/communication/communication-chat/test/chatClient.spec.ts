@@ -50,14 +50,23 @@ describe("ChatClient", function() {
       participants: [{ user: testUser }, { user: testUser2 }]
     };
 
-    chatThreadClient = await chatClient.createChatThread(request);
-    threadId = chatThreadClient.threadId;
+    const chatThreadResult = await chatClient.createChatThread(request);
 
-    assert.isNotNull(threadId);
+    const chatThread = chatThreadResult.chatThread;
+    if (chatThread) {
+      threadId = chatThread.id!;
+    }
+
+    assert.isDefined(chatThread);
+    assert.isDefined(chatThread?.id);
   }).timeout(8000);
 
+  /**
+   * Make sure this is the SECOND test!
+   * This creates the chatThreadClient used by other tests.
+   */
   it("successfully retrieves a thread client", async function() {
-    const chatThreadClient = await chatClient.getChatThreadClient(threadId);
+    chatThreadClient = await chatClient.getChatThreadClient(threadId);
     assert.isNotNull(chatThreadClient);
     assert.equal(chatThreadClient.threadId, threadId);
   });

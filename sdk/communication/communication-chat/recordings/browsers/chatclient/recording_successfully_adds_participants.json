@@ -8,35 +8,35 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-7358-2d91-557d-5a3a0d00014f\"}",
+   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/identities/8%3Aacs%3A9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-7358-2d91-557d-5a3a0d00014f/token",
+   "url": "https://endpoint/identities/8%3Aacs%3A9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc/token",
    "query": {
     "api-version": "2020-07-20-preview2"
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-7358-2d91-557d-5a3a0d00014f\",\"token\":\"token\",\"expiresOn\":\"2020-11-17T23:49:21.8997306+00:00\"}",
+   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\",\"token\":\"token\",\"expiresOn\":\"2020-12-04T04:27:58.9486526+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A6e2cba1131334802a1ad58e3b8814d2c%40thread.v2/participants",
+   "url": "https://endpoint/chat/threads/19%3A9f4e9b341e084b90916308d8082c1f22%40thread.v2/participants",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"participants\":[{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-7358-2d91-557d-5a3a0d00014f\"}]}",
+   "requestBody": "{\"participants\":[{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\"}]}",
    "status": 201,
-   "response": "",
+   "response": "{}",
    "responseHeaders": {
-    "content-length": "0"
+    "content-type": "application/json; charset=utf-8"
    }
   }
  ],
