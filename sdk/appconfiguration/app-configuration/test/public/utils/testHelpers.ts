@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
+import {
+  ConfigurationSetting,
+  ListConfigurationSettingPage,
+  ListRevisionsPage
+} from "../../../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
-import { RestError } from "@azure/core-http";
+
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { InternalAppConfigurationClientOptions } from "../src/appConfigurationClient";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
@@ -70,9 +73,9 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   };
 }
 
-export function createAppConfigurationClientForTests(
-  options?: InternalAppConfigurationClientOptions
-): AppConfigurationClient | undefined {
+export function createAppConfigurationClientForTests<
+  Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
+>(options?: Options): AppConfigurationClient | undefined {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
@@ -158,7 +161,7 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
-    if (err instanceof RestError) {
+    if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
     }

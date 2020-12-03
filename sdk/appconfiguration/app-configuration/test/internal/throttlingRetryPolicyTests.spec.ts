@@ -12,7 +12,7 @@ import {
   RestError
 } from "@azure/core-http";
 import { ThrottlingRetryPolicy, getDelayInMs } from "../../src/policies/throttlingRetryPolicy";
-import { assertThrowsRestError } from "../testHelpers";
+import { assertThrowsRestError } from "../public/utils/testHelpers";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
