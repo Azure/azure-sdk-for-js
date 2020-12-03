@@ -379,9 +379,9 @@ export function getURLQueryString(url: string): string | undefined {
 
 /**
  * Set URL query string.
- * 
- * @param {string} url 
- * @param {string} queryString 
+ *
+ * @param {string} url
+ * @param {string} queryString
  */
 export function setURLQueries(url: string, queryString: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -393,7 +393,7 @@ export function setURLQueries(url: string, queryString: string): string {
  * Encode URL path query values from an URL string.
  *
  * @example {filesystem}/{file}?{sasToken}
- * 
+ *
  * @export
  * @param {string} urlPath
  * @returns {string}
