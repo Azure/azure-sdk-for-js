@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../src";
-import { Container } from "../../src/client";
+import { Container } from "../../src/";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 

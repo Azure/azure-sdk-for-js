@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Constants } from "../../src";
-import { Container, StoredProcedureDefinition } from "../../src/client";
+import { Container, StoredProcedureDefinition } from "../../src/";
 import {
   bulkInsertItems,
   getTestContainer,

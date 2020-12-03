@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Container } from "../../src";
-import { ItemDefinition } from "../../src/client";
+import { ItemDefinition } from "../../src";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -16,7 +16,7 @@ import {
   addEntropy,
   getTestContainer
 } from "../common/TestHelpers";
-import { BulkOperationType, OperationInput } from "../../src/utils/batch";
+import { BulkOperationType, OperationInput } from "../../src";
 
 /**
  * @ignore

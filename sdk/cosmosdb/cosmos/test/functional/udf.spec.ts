@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { UserDefinedFunctionDefinition, Container } from "../../src/client";
+import { UserDefinedFunctionDefinition, Container } from "../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
 describe("User Defined Function", function() {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition, Database } from "../../src/client";
+import { Container, ContainerDefinition, Database } from "../../src";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../src";
 

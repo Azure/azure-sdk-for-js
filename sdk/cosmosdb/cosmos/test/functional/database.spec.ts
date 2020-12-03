@@ -9,7 +9,7 @@ import {
   getTestDatabase,
   assertThrowsAsync
 } from "../common/TestHelpers";
-import { DatabaseRequest } from "../../dist-esm/client/Database/DatabaseRequest";
+import { DatabaseRequest } from "../../src";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 

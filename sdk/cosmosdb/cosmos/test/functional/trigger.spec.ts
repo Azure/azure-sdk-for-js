@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { TriggerOperation, TriggerType } from "../../src";
-import { TriggerDefinition, Container } from "../../src/client";
+import { TriggerDefinition, Container } from "../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const notFoundErrorCode = 404;

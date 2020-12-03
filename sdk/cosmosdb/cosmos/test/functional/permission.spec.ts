@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { PermissionMode } from "../../src";
-import { PermissionDefinition } from "../../src/client";
+import { PermissionDefinition } from "../../src";
 import {
   createOrUpsertPermission,
   getTestContainer,

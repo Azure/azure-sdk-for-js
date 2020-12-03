@@ -10,15 +10,15 @@ import {
   IndexingMode,
   IndexingPolicy,
   IndexKind
-} from "../../dist-esm/documents";
+} from "../../src";
 import {
   getTestDatabase,
   removeAllDatabases,
   getTestContainer,
   assertThrowsAsync
 } from "../common/TestHelpers";
-import { SpatialType } from "../../src/documents/IndexingPolicy";
-import { GeospatialType } from "../../src/documents/GeospatialType";
+import { SpatialType } from "../../src";
+import { GeospatialType } from "../../src";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

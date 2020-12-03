@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { DatabaseAccount, ResourceResponse, RequestOptions } from "../../src";
 import { masterKey } from "../common/_testConfig";
-import { GlobalEndpointManager } from "../../src/globalEndpointManager";
-import { OperationType, ResourceType } from "../../src/common";
+import { GlobalEndpointManager } from "../../src";
+import { OperationType, ResourceType } from "../../src";
 
 import assert from "assert";
 
