@@ -13,14 +13,7 @@
   to learn about Event Processor Host.
 */
 
-import {
-  EventProcessorHost,
-  OnReceivedError,
-  OnReceivedMessage,
-  EventData,
-  PartitionContext,
-  delay
-} from "@azure/event-processor-host";
+const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 // Define storage connection string and Event Hubs connection string and related entity name here
 const ehConnectionString = "";
@@ -33,7 +26,7 @@ const storageConnectionString = "";
 const storageContainerName = EventProcessorHost.createHostName("test-container");
 const ephName = "my-eph";
 
-async function main(): Promise<void> {
+async function main() {
   // Start eph.
   const eph = await startEph(ephName);
   // Sleeeping for 90 seconds. This will give time for eph to receive messages.
@@ -51,23 +44,23 @@ main().catch((err) => {
  * @param ephName The name of the EPH.
  * @returns {Promise<EventProcessorHost>} Promise<EventProcessorHost>
  */
-async function startEph(ephName: string): Promise<EventProcessorHost> {
-  // Create the Event Processo Host
+async function startEph(ephName) {
+  // Create the Event Processor Host
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName(ephName),
-    storageConnectionString!,
+    storageConnectionString,
     storageContainerName,
-    ehConnectionString!,
+    ehConnectionString,
     {
       eventHubPath: eventHubsName,
-      onEphError: (error: any) => {
+      onEphError: (error) => {
         console.log("[%s] Error: %O", ephName, error);
       }
     }
   );
   // Message handler
-  const partionCount: { [x: string]: number } = {};
-  const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => {
+  const partionCount = {};
+  const onMessage = async (context, event) => {
     !partionCount[context.partitionId]
       ? (partionCount[context.partitionId] = 1)
       : partionCount[context.partitionId]++;
@@ -103,7 +96,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   };
   // Error handler
-  const onError: OnReceivedError = (error: any) => {
+  const onError = (error) => {
     console.log("[%s] Received Error: %O", ephName, error);
   };
   console.log("Starting the EPH - %s", ephName);
@@ -116,7 +109,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
  * @param eph The event processor host.
  * @returns {Promise<void>} Promise<void>
  */
-async function stopEph(eph: EventProcessorHost): Promise<void> {
+async function stopEph(eph) {
   console.log("Stopping the EPH - '%s'.", eph.hostName);
   await eph.stop();
   console.log("Successfully stopped the EPH - '%s'.", eph.hostName);

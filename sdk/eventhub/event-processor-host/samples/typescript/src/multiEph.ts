@@ -2,9 +2,15 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how to use Event Processor Host to receive events from all partitions
-  of an IoTHub instance. It also shows how to checkpoint metadata for received events at regular
-  intervals in an Azure Storage Blob.
+  This sample demonstrates how to use multiple instances of Event Processor Host in the same process
+  to receive events from all partitions. It also shows how to checkpoint metadata for received events
+  at regular intervals in an Azure Storage Blob.
+
+  If your Event Hubs instance doesn't have any events, then please run "sendBatch.ts" sample
+  to populate Event Hubs before running this sample.
+
+  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host
+  to learn about Event Processor Host.
 */
 
 import {
@@ -16,26 +22,29 @@ import {
   delay
 } from "@azure/event-processor-host";
 
-// Define IoT Hub and storage connection strings here
-const iotConnectionString = "";
+// Define Storage and Event Hubs connection strings and related Event Hubs entity name here
+const ehConnectionString = "";
+const eventHubsName = "";
 const storageConnectionString = "";
+const ephName1 = "eph-1";
+const ephName2 = "eph-2";
 
 // Use `createHostName` to create a unique name based on given prefix to use different storage containers on each run if needed.
-const storageContainerName = EventProcessorHost.createHostName("iothub-container");
-const ephName = "my-iothub-eph";
+const storageContainerName = EventProcessorHost.createHostName("test-container");
 
-async function main(): Promise<void> {
-  // Start eph.
-  const eph = await startEph(ephName);
-  // Sleeeping for 90 seconds. This will give time for eph to receive messages.
+export async function main(): Promise<void> {
+  // Start eph-1.
+  const eph1 = await startEph(ephName1);
+  await delay(20000);
+  // After 20 seconds start eph-2.
+  const eph2 = await startEph(ephName2);
   await delay(90000);
-  // After 90 seconds stop eph.
-  await stopEph(eph);
+  // Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.
+  await stopEph(eph1);
+  await delay(40000);
+  // Now, eph-1 will regain access to all the partitions and will close after 40 seconds.
+  await stopEph(eph2);
 }
-
-main().catch((err) => {
-  console.log("Exiting from main() due to an error: %O.", err);
-});
 
 /**
  * Creates an EPH with the given name and starts the EPH.
@@ -43,13 +52,17 @@ main().catch((err) => {
  * @returns {Promise<EventProcessorHost>} Promise<EventProcessorHost>
  */
 async function startEph(ephName: string): Promise<EventProcessorHost> {
-  // Create an Event Processor Host from an IotHub ConnectionString
-  const eph = await EventProcessorHost.createFromIotHubConnectionString(
+  // Create the Event Processor Host
+  const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageConnectionString!,
     storageContainerName,
-    iotConnectionString!,
+    ehConnectionString!,
     {
+      eventHubPath: eventHubsName,
+      // This method will provide errors that occur during lease and partition management. The
+      // errors that occur while receiving messages will be provided in the onError handler
+      // provided in the eph.start() method.
       onEphError: (error: any) => {
         console.log("[%s] Error: %O", ephName, error);
       }
@@ -68,7 +81,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       context.partitionId,
       event.offset
     );
-    // Checkpointing every 100th event received for a given partition.
+    // Checkpointing every 100th event
     if (partionCount[context.partitionId] % 100 === 0) {
       try {
         console.log(
@@ -111,3 +124,7 @@ async function stopEph(eph: EventProcessorHost): Promise<void> {
   await eph.stop();
   console.log("Successfully stopped the EPH - '%s'.", eph.hostName);
 }
+
+main().catch((err) => {
+  console.log("Error occurred: ", err);
+});

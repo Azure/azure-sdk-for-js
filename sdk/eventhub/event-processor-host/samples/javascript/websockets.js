@@ -10,8 +10,8 @@
   - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
 */
 
-import { EventProcessorHost } from "@azure/event-processor-host";
-import WebSocket from "ws";
+const { EventProcessorHost } = require("@azure/event-processor-host");
+const WebSocket = require("ws");
 const url = require("url");
 const httpsProxyAgent = require("https-proxy-agent");
 
@@ -33,7 +33,7 @@ const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
 const proxyAgent = new httpsProxyAgent(urlParts);
 
-async function main(): Promise<void> {
+async function main() {
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName(ephName),
     storageConnectionString,
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
     ehConnectionString,
     {
       eventHubPath: eventHubsName,
-      onEphError: (error: any) => {
+      onEphError: (error) => {
         console.log("[%s] Error: %O", ephName, error);
       },
       webSocket: WebSocket,
