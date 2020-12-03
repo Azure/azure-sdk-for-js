@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Spanner } from "../src/internal/tracingHelpers";
+import { Spanner } from "../../src/internal/tracingHelpers";
 import { RestError } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
 import { SpanKind, CanonicalCode } from "@opentelemetry/api";

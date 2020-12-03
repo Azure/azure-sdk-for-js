@@ -234,7 +234,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
       }
 
-      if (lastError && lastError.retryable) {
+      if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,

@@ -2,7 +2,7 @@ import { join } from "path";
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 
-import { packageVersion } from "../src/appConfigurationClient";
+import { packageVersion } from "../../src/appConfigurationClient";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
@@ -18,7 +18,7 @@ describe("packagejson related tests", () => {
 
     try {
       // For integration tests
-      const packageJsonFilePath = join(__dirname, "../../package.json");
+      const packageJsonFilePath = join(__dirname, "../../../package.json");
       packageJsonContents = require(packageJsonFilePath);
     } catch (e) {
       // For unit tests

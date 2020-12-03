@@ -10,9 +10,9 @@ import {
   transformKeyValue,
   transformKeyValueResponseWithStatusCode,
   transformKeyValueResponse
-} from "../src/internal/helpers";
+} from "../../src/internal/helpers";
 import * as assert from "assert";
-import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from "../src";
+import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from "../../src";
 import { HttpHeaders } from "@azure/core-http";
 
 describe("helper methods", () => {
