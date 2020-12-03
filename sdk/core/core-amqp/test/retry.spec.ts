@@ -210,8 +210,7 @@ dotenv.config();
       try {
         const config: RetryConfig<any> = {
           operation: async () => {
-            debug("counter: %d", ++counter);
-            await delay(0);
+            counter++;
             const e = new MessagingError("I would always like to fail, keep retrying.");
             e.retryable = true;
             throw e;
@@ -245,8 +244,7 @@ dotenv.config();
       try {
         const config: RetryConfig<any> = {
           operation: async () => {
-            debug("counter: %d", ++counter);
-            await delay(0);
+            counter++;
             const e = new MessagingError("I would always like to fail, keep retrying.");
             e.retryable = true;
             throw e;
