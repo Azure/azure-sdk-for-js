@@ -8,13 +8,10 @@
 
 export {
   BaseResource,
+  CloudError,
   ContainerAccount,
-  DefaultErrorResponse,
-  DefaultErrorResponseError,
-  DefaultErrorResponseErrorDetailsItem,
   DomainSecuritySettings,
   DomainService,
-  DomainServiceListResult,
   ForestTrust,
   HealthAlert,
   HealthMonitor,
@@ -23,6 +20,7 @@ export {
   MigrationProperties,
   NotificationSettings,
   OuContainer,
+  OuContainerListResult,
   Resource,
   ResourceForestSettings
 } from "../models/mappers";
