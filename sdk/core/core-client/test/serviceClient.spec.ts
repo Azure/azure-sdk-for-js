@@ -72,6 +72,32 @@ describe("ServiceClient", function() {
       }
     };
 
+    it("should throw if scopes contain an invalid url", async function() {
+      const credential: TokenCredential = {
+        getToken: async (_scopes) => {
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpsClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+            }
+          },
+          credential,
+          credentialScopes: ["https://microsoft.com", "lalala"]
+        });
+
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error) {
+        assert.include(error.message, `Invalid URL`);
+      }
+    });
+
     it("should throw is no scope or baseUri are defined", async function() {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {

@@ -1051,7 +1051,10 @@ function getCredentialScopes(
   baseUri?: string
 ): string | string[] | undefined {
   if (options?.credentialScopes) {
-    return options.credentialScopes;
+    const scopes = options.credentialScopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
   }
 
   if (baseUri) {

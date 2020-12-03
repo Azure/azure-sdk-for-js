@@ -543,7 +543,10 @@ function flattenResponse(
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {
   if (options.credentialScopes) {
-    return options.credentialScopes;
+    const scopes = options.credentialScopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
   }
 
   if (options.baseUri) {
