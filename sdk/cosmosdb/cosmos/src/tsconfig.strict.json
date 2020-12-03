@@ -89,7 +89,6 @@
     "routing/smartRoutingMapProvider.ts",
     "session/sessionContainer.ts",
     "session/SessionContext.ts",
-    "session/VectorSessionToken.ts",
     "utils/atob.browser.ts",
     "utils/batch.ts",
     "utils/digest.browser.ts",
