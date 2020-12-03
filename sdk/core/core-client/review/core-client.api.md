@@ -38,8 +38,8 @@ export interface BaseMapper {
 // @public
 export interface ClientPipelineOptions extends InternalPipelineOptions {
     credentialOptions?: {
-        credentialScopes?: string | string[];
-        credential?: TokenCredential;
+        credentialScopes: string | string[];
+        credential: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
 }

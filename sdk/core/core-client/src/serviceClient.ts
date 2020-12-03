@@ -400,8 +400,13 @@ function createDefaultPipeline(
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
   } = {}
 ): Pipeline {
+  const credentialOptions =
+    options.credential && options.credentialScopes
+      ? { credentialScopes: options.credentialScopes, credential: options.credential }
+      : undefined;
+
   return createClientPipeline({
-    credentialOptions: options,
+    credentialOptions,
     deserializationOptions: {
       parseXML: options.parseXML
     }
@@ -417,7 +422,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize bearerTokenAuthenticationPolicy.
    */
-  credentialOptions?: { credentialScopes?: string | string[]; credential?: TokenCredential };
+  credentialOptions?: { credentialScopes: string | string[]; credential: TokenCredential };
   /**
    * Options to customize deserializationPolicy.
    */
@@ -432,13 +437,11 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
  */
 export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});
-  const credential = options.credentialOptions?.credential;
-  const scopes = options.credentialOptions?.credentialScopes;
-  if (credential && scopes) {
+  if (options.credentialOptions) {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
-        credential,
-        scopes
+        credential: options.credentialOptions.credential,
+        scopes: options.credentialOptions.credentialScopes
       })
     );
   }
