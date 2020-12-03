@@ -90,8 +90,6 @@
     "session/sessionContainer.ts",
     "session/SessionContext.ts",
     "session/VectorSessionToken.ts",
-    "utils/hashing/v1.ts",
-    "utils/hashing/v2.ts",
     "utils/atob.browser.ts",
     "utils/batch.ts",
     "utils/digest.browser.ts",
