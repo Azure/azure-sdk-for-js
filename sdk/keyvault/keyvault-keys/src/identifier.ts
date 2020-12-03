@@ -50,12 +50,9 @@ export interface KeyVaultKeyId {
 export function parseKeyVaultKeyId(id: string): KeyVaultKeyId {
   const urlParts = id.split("/");
   const collection = urlParts[3];
-  const parsed = parseKeyvaultIdentifier(collection, id);
 
   return {
     sourceId: id,
-    vaultUrl: parsed.vaultUrl,
-    version: parsed.version,
-    name: parsed.name
+    ...parseKeyvaultIdentifier(collection, id)
   };
 }
