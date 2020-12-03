@@ -33,6 +33,7 @@ import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
+import { URL } from "./url";
 
 /**
  * Options to be provided while creating the client.

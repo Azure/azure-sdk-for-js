@@ -61,6 +61,7 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
+import { URL } from "./util/url";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
