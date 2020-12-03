@@ -4,7 +4,7 @@ import { isNode } from "@azure/core-http";
 
 import { packageVersion } from "../../src/appConfigurationClient";
 
-describe.only("packagejson related tests", () => {
+describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
   it("user agent string matches the package version", function() {
