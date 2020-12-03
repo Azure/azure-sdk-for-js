@@ -46,7 +46,7 @@ export interface ServiceClientOptions {
   /**
    * If specified, will be used to build the BearerTokenAuthenticationPolicy.
    */
-  authScope?: string;
+  credentialScopes?: string | string[];
   /**
    * The default request content type for the service.
    * Used if no requestContentType is present on an OperationSpec.
@@ -115,10 +115,11 @@ export class ServiceClient {
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
     this._stringifyXML = options.stringifyXML;
+    const credentialScopes = getCredentialScopes(options);
     this._pipeline =
       options.pipeline ||
       createDefaultPipeline({
-        scope: options.authScope || `${this._baseUri || ""}/.default`,
+        credentialScopes,
         credential: options.credential,
         parseXML: options.parseXML
       });
@@ -393,7 +394,7 @@ function getXmlValueWithNamespace(
 
 function createDefaultPipeline(
   options: {
-    scope?: string;
+    credentialScopes?: string | string[];
     credential?: TokenCredential;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
   } = {}
@@ -415,7 +416,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize bearerTokenAuthenticationPolicy.
    */
-  credentialOptions?: { scope?: string; credential?: TokenCredential };
+  credentialOptions?: { credentialScopes?: string | string[]; credential?: TokenCredential };
   /**
    * Options to customize deserializationPolicy.
    */
@@ -431,8 +432,8 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
 export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});
   const credential = options.credentialOptions?.credential;
-  const scopes = options.credentialOptions?.scope || `/.default`;
-  if (credential) {
+  const scopes = options.credentialOptions?.credentialScopes;
+  if (credential && scopes) {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
@@ -538,4 +539,22 @@ function flattenResponse(
     ...parsedHeaders,
     ...fullResponse.parsedBody
   });
+}
+
+function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {
+  if (options.credentialScopes) {
+    return options.credentialScopes;
+  }
+
+  if (options.baseUri) {
+    return `${options.baseUri}/.default`;
+  }
+
+  if (options.credential && !options.credentialScopes) {
+    throw new Error(
+      `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+    );
+  }
+
+  return undefined;
 }

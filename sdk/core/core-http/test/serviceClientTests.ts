@@ -33,75 +33,74 @@ import * as Mappers from "./testMappers";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
-    it("should use default scope", async () => {
+    const testArgs = {
+      metadata: {
+        alpha: "hello",
+        beta: "world"
+      },
+      unrelated: 42
+    };
+
+    const testOperationSpec: OperationSpec = {
+      httpMethod: "GET",
+      baseUrl: "httpbin.org",
+      serializer: new Serializer(),
+      headerParameters: [
+        {
+          parameterPath: "metadata",
+          mapper: {
+            serializedName: "metadata",
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            },
+            headerCollectionPrefix: "foo-bar-"
+          } as DictionaryMapper
+        },
+        {
+          parameterPath: "unrelated",
+          mapper: {
+            serializedName: "unrelated",
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      ],
+      responses: {
+        200: {}
+      }
+    };
+
+    it("should throw when there is no credentialScopes or baseUri", async () => {
       const cred: TokenCredential = {
-        getToken: async (scopes) => {
-          assert.equal(scopes, "/.default");
+        getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
       };
-      const expected = {
-        "foo-bar-alpha": "hello",
-        "foo-bar-beta": "world",
-        unrelated: "42",
-        authorization: "Bearer testToken",
-        "user-agent": "core-http/1.2.1 Node/v12.18.2 OS/(x64-Linux-5.4.0-1031-azure)"
-      };
       let request: WebResource;
-      const client = new ServiceClient(cred, {
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-          }
-        }
-      });
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "httpbin.org",
-          serializer: new Serializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
+      try {
+        const client = new ServiceClient(cred, {
+          httpClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
             }
-          ],
-          responses: {
-            200: {}
           }
-        }
-      );
+        });
 
-      assert(request!);
-      assert.deepEqual(request!.headers.toJson(), expected);
+        await client.sendOperationRequest(testArgs, testOperationSpec);
+        assert.fail("Expected to throw");
+      } catch (error) {
+        assert.equal(
+          error.message,
+          `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
+        );
+      }
     });
 
     it("should use the provided scope", async () => {
@@ -112,13 +111,6 @@ describe("ServiceClient", function() {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
       };
-      const expected = {
-        "foo-bar-alpha": "hello",
-        "foo-bar-beta": "world",
-        unrelated: "42",
-        authorization: "Bearer testToken",
-        "user-agent": "core-http/1.2.1 Node/v12.18.2 OS/(x64-Linux-5.4.0-1031-azure)"
-      };
       let request: WebResource;
       const client = new ServiceClient(cred, {
         httpClient: {
@@ -127,54 +119,13 @@ describe("ServiceClient", function() {
             return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
           }
         },
-        authScope: scope
+        credentialScopes: scope
       });
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "httpbin.org",
-          serializer: new Serializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
-            }
-          ],
-          responses: {
-            200: {}
-          }
-        }
-      );
+
+      await client.sendOperationRequest(testArgs, testOperationSpec);
 
       assert(request!);
-      assert.deepEqual(request!.headers.toJson(), expected);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
 
     it("should use the baseUri to build scope", async () => {
@@ -197,13 +148,6 @@ describe("ServiceClient", function() {
         }
       };
 
-      const expected = {
-        "foo-bar-alpha": "hello",
-        "foo-bar-beta": "world",
-        unrelated: "42",
-        authorization: "Bearer testToken",
-        "user-agent": "core-http/1.2.1 Node/v12.18.2 OS/(x64-Linux-5.4.0-1031-azure)"
-      };
       let request: WebResource;
       const client = new MockService(cred, {
         httpClient: {
@@ -213,52 +157,11 @@ describe("ServiceClient", function() {
           }
         }
       });
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "httpbin.org",
-          serializer: new Serializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
-            }
-          ],
-          responses: {
-            200: {}
-          }
-        }
-      );
+
+      await client.sendOperationRequest(testArgs, testOperationSpec);
 
       assert(request!);
-      assert.deepEqual(request!.headers.toJson(), expected);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
     });
   });
 

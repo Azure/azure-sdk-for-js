@@ -153,7 +153,7 @@ export interface ServiceClientOptions {
   /**
    * If specified, will be used to build the BearerTokenAuthenticationPolicy.
    */
-  authScope?: string;
+  credentialScopes?: string | string[];
 }
 
 /**
@@ -221,12 +221,25 @@ export class ServiceClient {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
           // eslint-disable-next-line @typescript-eslint/no-this-alias
           const serviceClient = this;
-          let scope = options?.authScope;
+          const serviceClientOptions = options;
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
+              const credentialScopes = getCredentialScopes(
+                serviceClientOptions,
+                serviceClient.baseUri
+              );
+
+              if (!credentialScopes) {
+                throw new Error(
+                  `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
+                );
+              }
+
               if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
-                scope = scope || `${serviceClient.baseUri || ""}/.default`;
-                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(credentials, scope);
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
+                  credentials,
+                  credentialScopes
+                );
               }
 
               return bearerTokenPolicyFactory.create(nextPolicy, options);
@@ -1031,4 +1044,18 @@ export function flattenResponse(
     ...parsedHeaders,
     ..._response.parsedBody
   });
+}
+
+function getCredentialScopes(
+  options?: ServiceClientOptions,
+  baseUri?: string
+): string | string[] | undefined {
+  if (options?.credentialScopes) {
+    return options.credentialScopes;
+  }
+
+  if (baseUri) {
+    return `${baseUri}/.default`;
+  }
+  return undefined;
 }

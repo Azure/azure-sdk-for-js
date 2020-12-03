@@ -30,71 +30,74 @@ import { TokenCredential } from "@azure/core-auth";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
-    it("should use default scope", async function() {
+    const testOperationArgs = {
+      metadata: {
+        alpha: "hello",
+        beta: "world"
+      },
+      unrelated: 42
+    };
+    const testOperationSpec: OperationSpec = {
+      httpMethod: "GET",
+      baseUrl: "https://example.com",
+      serializer: createSerializer(),
+      headerParameters: [
+        {
+          parameterPath: "metadata",
+          mapper: {
+            serializedName: "metadata",
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            },
+            headerCollectionPrefix: "foo-bar-"
+          } as DictionaryMapper
+        },
+        {
+          parameterPath: "unrelated",
+          mapper: {
+            serializedName: "unrelated",
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      ],
+      responses: {
+        200: {}
+      }
+    };
+
+    it("should throw is no scope or baseUri are defined", async function() {
       const credential: TokenCredential = {
-        getToken: async (scopes) => {
-          assert.equal(scopes, "/.default");
+        getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
       };
-
-      let request: OperationRequest;
-      const client = new ServiceClient({
-        httpsClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-          }
-        },
-        credential
-      });
-
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "https://example.com",
-          serializer: createSerializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpsClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
             }
-          ],
-          responses: {
-            200: {}
-          }
-        }
-      );
+          },
+          credential
+        });
 
-      assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error) {
+        assert.equal(
+          error.message,
+          `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+        );
+      }
     });
 
     it("should use baseUrl to build scope", async function() {
@@ -118,49 +121,7 @@ describe("ServiceClient", function() {
         baseUri
       });
 
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "https://example.com",
-          serializer: createSerializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
-            }
-          ],
-          responses: {
-            200: {}
-          }
-        }
-      );
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
       assert(request!);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
@@ -184,52 +145,10 @@ describe("ServiceClient", function() {
           }
         },
         credential,
-        authScope
+        credentialScopes: authScope
       });
 
-      await client.sendOperationRequest(
-        {
-          metadata: {
-            alpha: "hello",
-            beta: "world"
-          },
-          unrelated: 42
-        },
-        {
-          httpMethod: "GET",
-          baseUrl: "https://example.com",
-          serializer: createSerializer(),
-          headerParameters: [
-            {
-              parameterPath: "metadata",
-              mapper: {
-                serializedName: "metadata",
-                type: {
-                  name: "Dictionary",
-                  value: {
-                    type: {
-                      name: "String"
-                    }
-                  }
-                },
-                headerCollectionPrefix: "foo-bar-"
-              } as DictionaryMapper
-            },
-            {
-              parameterPath: "unrelated",
-              mapper: {
-                serializedName: "unrelated",
-                type: {
-                  name: "Number"
-                }
-              }
-            }
-          ],
-          responses: {
-            200: {}
-          }
-        }
-      );
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
 
       assert(request!);
       assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
