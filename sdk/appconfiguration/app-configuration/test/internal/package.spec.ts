@@ -18,12 +18,11 @@ describe.only("packagejson related tests", () => {
 
     try {
       // For integration tests
-      console.log(__dirname);
       const packageJsonFilePath = join(__dirname, "../../../package.json");
       packageJsonContents = require(packageJsonFilePath);
     } catch (e) {
       // For unit tests
-      const packageJsonFilePath = join(__dirname, "../../package.json");
+      const packageJsonFilePath = join(__dirname, "../package.json");
       packageJsonContents = require(packageJsonFilePath);
     }
 
