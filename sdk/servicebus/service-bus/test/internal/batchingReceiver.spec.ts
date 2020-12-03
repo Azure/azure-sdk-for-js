@@ -267,7 +267,8 @@ describe("BatchingReceiver unit tests", () => {
           closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
-            receiver
+            receiver,
+            clock
           );
 
           const receivePromise = receiver.receive(3, bigTimeout, littleTimeout, {});
@@ -373,7 +374,8 @@ describe("BatchingReceiver unit tests", () => {
           closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
-            receiver
+            receiver,
+            clock
           );
 
           let wasCalled = false;
@@ -420,7 +422,8 @@ describe("BatchingReceiver unit tests", () => {
       );
 
       function setupBatchingReceiver(
-        batchingReceiver: BatchingReceiver
+        batchingReceiver: BatchingReceiver,
+        clock?: ReturnType<typeof sinon.useFakeTimers>
       ): {
         receiveIsReady: Promise<void>;
         emitter: EventEmitter;
@@ -431,7 +434,7 @@ describe("BatchingReceiver unit tests", () => {
           emitter,
           remainingRegisteredListeners,
           receiveIsReady
-        } = createFakeReceiver();
+        } = createFakeReceiver(clock);
 
         batchingReceiver["_link"] = fakeRheaReceiver;
 
@@ -450,7 +453,9 @@ describe("BatchingReceiver unit tests", () => {
     });
   });
 
-  function createFakeReceiver(): {
+  function createFakeReceiver(
+    clock?: ReturnType<typeof sinon.useFakeTimers>
+  ): {
     receiveIsReady: Promise<void>;
     emitter: EventEmitter;
     remainingRegisteredListeners: Set<string>;
@@ -500,6 +505,7 @@ describe("BatchingReceiver unit tests", () => {
         if (_credits === 1 && fakeRheaReceiver.drain === true) {
           // special case - if we're draining we should initiate a drain
           emitter.emit(ReceiverEvents.receiverDrained, undefined);
+          clock?.runAll();
         } else {
           credits += _credits;
         }
