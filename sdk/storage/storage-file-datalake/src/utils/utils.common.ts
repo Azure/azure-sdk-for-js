@@ -372,6 +372,11 @@ export function getURLQueries(url: string): { [key: string]: string } {
   return queries;
 }
 
+/**
+ * Get URL query string.
+ *
+ * @param {string} url
+ */
 export function getURLQueryString(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
   return urlParsed.getQuery();
