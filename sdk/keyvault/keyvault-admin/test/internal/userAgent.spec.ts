@@ -8,7 +8,7 @@ import { isNode } from "@azure/core-http";
 import path from "path";
 import fs from "fs";
 
-describe("Secrets Admin's user agent (only in Node, because of fs)", () => {
+describe("Key Vault Admin's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and packageVersion should match", async function() {
     assert.equal(SDK_VERSION, packageVersion);
   });

@@ -13,12 +13,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> { }
+export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> {}
 
 export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   DeleteKeyPollOperationState,
   DeletedKey
-  > {
+> {
   constructor(
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
