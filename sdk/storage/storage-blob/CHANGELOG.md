@@ -4,6 +4,7 @@
 
 - Fixed a bug where the `credential` property of the `StorageClient` is not set correctly when using a Token credential. Fixed bug [12219](https://github.com/Azure/azure-sdk-for-js/issues/12219).
 - Blob Batch operations now reorder the subresponses in the client side to perserve the original input order. See `BlobBatchClient.submitBatch()` and [12335](https://github.com/Azure/azure-sdk-for-js/issues/12335).
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
 - Added `isHierarchicalNamespaceEnabled` to the response of `BlobServiceClient.getAccountInfo()`.
 
 ## 12.3.0 (2020-11-10)
