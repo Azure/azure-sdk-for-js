@@ -24,7 +24,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     const connectionString = StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING");
     const accountName = getValueInConnString(connectionString, "AccountName");
     const accountKey = getValueInConnString(connectionString, "AccountKey");
-    
+
     const sharedKeyCredential = new SharedKeyCredential(accountName, accountKey);
     this.blobServiceClient = new ServiceURL(
       `https://${accountName}.blob.core.windows.net`,
