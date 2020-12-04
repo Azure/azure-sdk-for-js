@@ -3506,6 +3506,10 @@ export interface ServiceGetAccountInfoHeaders {
    * 'FileStorage', 'BlockBlobStorage'
    */
   accountKind?: AccountKind;
+  /**
+   * Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled.
+   */
+  isHierarchicalNamespaceEnabled?: boolean;
   errorCode?: string;
 }
 

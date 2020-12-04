@@ -2506,6 +2506,12 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {

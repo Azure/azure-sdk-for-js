@@ -4,23 +4,28 @@
    "method": "GET",
    "url": "https://fakestorageaccount.blob.core.windows.net/",
    "query": {
-    "comp": "properties",
-    "restype": "account"
+    "restype": "account",
+    "comp": "properties"
    },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
+    "content-length": "0",
+    "date": "Tue, 01 Dec 2020 08:16:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-account-kind": "StorageV2",
-    "x-ms-request-id": "215f3c9e-201e-0080-6140-7993dc000000",
+    "x-ms-client-request-id": "f1bbd26b-0dd9-4344-971e-ef41b6f3099f",
+    "x-ms-is-hns-enabled": "false",
+    "x-ms-request-id": "e0841bc3-a01e-0093-18ba-c78ef7000000",
     "x-ms-sku-name": "Standard_RAGRS",
-    "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "1f0dd046-80c1-41a8-8bf9-5080f96e766f",
-    "content-length": "0"
+    "x-ms-version": "2020-02-10"
    }
   }
  ],
- "uniqueTestInfo": {}
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "79d58c3dd1c1ace867744477a4f4997d"
 }
