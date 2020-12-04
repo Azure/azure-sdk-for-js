@@ -38,8 +38,8 @@ export interface BaseMapper {
 // @public
 export interface ClientPipelineOptions extends InternalPipelineOptions {
     credentialOptions?: {
-        baseUri?: string;
-        credential?: TokenCredential;
+        credentialScopes: string | string[];
+        credential: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
 }
@@ -341,6 +341,7 @@ export class ServiceClient {
 export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
+    credentialScopes?: string | string[];
     httpsClient?: HttpsClient;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
