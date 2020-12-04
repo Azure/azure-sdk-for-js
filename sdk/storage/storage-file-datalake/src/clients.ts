@@ -935,8 +935,8 @@ export class DataLakePathClient extends StorageClient {
     const sourceSas = getURLQueryString(this.dfsEndpointUrl);
     const renameSource = !!sourceSas
       ? encodeURLPathQueries(
-          `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
-        )
+        `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
+      )
       : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
 
     const split: string[] = destinationPath.split("?");
@@ -948,6 +948,10 @@ export class DataLakePathClient extends StorageClient {
     } else {
       const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
       destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+      // If the source is authenticating using SAS while the destination doesn't have a SAS, fallback to use the source's SAS on the destination
+      if (!!sourceSas) {
+        destinationUrl = setURLQueries(destinationUrl, sourceSas);
+      }
     }
 
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
@@ -1721,7 +1725,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
