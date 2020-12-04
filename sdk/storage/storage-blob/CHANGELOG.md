@@ -2,6 +2,7 @@
 
 ## 12.3.1 (Unreleased)
 
+- Fixed a bug where the `credential` property of the `StorageClient` is not set correctly when using a Token credential. Fixed bug [12219](https://github.com/Azure/azure-sdk-for-js/issues/12219).
 
 ## 12.3.0 (2020-11-10)
 
