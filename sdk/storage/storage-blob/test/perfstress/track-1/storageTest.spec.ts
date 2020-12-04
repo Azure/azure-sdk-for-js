@@ -36,10 +36,12 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     );
   }
 
-  public async globalSetup() {await this.containerClient.create(Aborter.none);
+  public async globalSetup() {
+    await this.containerClient.create(Aborter.none);
   }
 
-  public async globalCleanup() {await this.containerClient.delete(Aborter.none);
+  public async globalCleanup() {
+    await this.containerClient.delete(Aborter.none);
   }
 
   static getEnvVar(name: string) {

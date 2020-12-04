@@ -22,10 +22,12 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 
-  public async globalSetup() {await this.containerClient.create();
+  public async globalSetup() {
+    await this.containerClient.create();
   }
 
-  public async globalCleanup() {await this.containerClient.delete();
+  public async globalCleanup() {
+    await this.containerClient.delete();
   }
 
   static getEnvVar(name: string) {
