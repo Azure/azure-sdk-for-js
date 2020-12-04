@@ -79,8 +79,8 @@ describe("ExponentialRetryPolicy", () => {
 
       const policy = createDefaultExponentialRetryPolicy();
       const response = await policy.sendRequest(request);
-      delete response.request.requestId;
-      delete request.requestId;
+      delete (response.request as any).requestId;
+      delete (request as any).requestId;
 
       assert.deepEqual(response.request, request);
     });
@@ -104,8 +104,8 @@ describe("ExponentialRetryPolicy", () => {
         );
 
         const response = await policy.sendRequest(request);
-        delete request.requestId;
-        delete response.request.requestId;
+        delete (request as any).requestId;
+        delete (response.request as any).requestId;
         assert.deepEqual(response, mockResponse, "Expecting response matches after retrying");
         assert.ok(faultyPolicy.count > 1, "Retry should have happened");
       });

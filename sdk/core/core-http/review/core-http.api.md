@@ -180,7 +180,7 @@ export class DefaultHttpClient extends FetchHttpClient {
     }
 
 // @public
-export function delay<T>(t: number, value?: T): Promise<T>;
+export function delay<T>(t: number, value?: T): Promise<T | void>;
 
 // @public
 export interface DeserializationContentTypes {

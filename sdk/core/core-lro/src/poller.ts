@@ -163,7 +163,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
-  private resolve?: (value?: TResult) => void;
+  private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<void>;
@@ -243,9 +243,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    */
   constructor(operation: PollOperation<TState, TResult>) {
     this.operation = operation;
-    this.promise = new Promise(
+    this.promise = new Promise<TResult>(
       (
-        resolve: (result?: TResult) => void,
+        resolve: (result: TResult) => void,
         reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
       ) => {
         this.resolve = resolve;
@@ -281,7 +281,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * ```
    *
    */
-  protected abstract async delay(): Promise<void>;
+  protected abstract delay(): Promise<void>;
 
   /**
    * @internal
@@ -317,7 +317,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           abortSignal: options.abortSignal,
           fireProgress: this.fireProgress.bind(this)
         });
-        if (this.isDone() && this.resolve) {
+        if (this.isDone() && this.resolve && state.result) {
           this.resolve(state.result);
         }
       }

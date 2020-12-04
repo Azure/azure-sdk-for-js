@@ -406,7 +406,7 @@ export class EventProcessor {
     let cancelLoopResolver;
     // This provides a mechanism for exiting the loop early
     // if the subscription has had `close` called.
-    const cancelLoopPromise = new Promise((resolve) => {
+    const cancelLoopPromise = new Promise<void>((resolve) => {
       cancelLoopResolver = resolve;
       if (abortSignal.aborted) {
         return resolve();

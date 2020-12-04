@@ -205,9 +205,9 @@ export abstract class FetchHttpClient implements HttpClient {
     }
   }
 
-  abstract async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-  abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
+  abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+  abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+  abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
 function isReadableStream(body: any): body is Readable {

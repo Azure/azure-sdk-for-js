@@ -117,7 +117,7 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   public abstract playback(environmentSetup: RecorderEnvironmentSetup, filePath: string): void;
-  public abstract async stop(): Promise<void>;
+  public abstract stop(): Promise<void>;
 }
 
 export class NockRecorder extends BaseRecorder {

@@ -124,7 +124,7 @@ export function executePromisesSequentially(
  * @param {T} value The value to be resolved with after a timeout of t milliseconds.
  * @returns {Promise<T>} Resolved promise
  */
-export function delay<T>(t: number, value?: T): Promise<T> {
+export function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
