@@ -12,6 +12,8 @@ trigger:
       - eng/
       - common/config/rush/
       - rush.json
+    exclude:
+      - eng/pipelines/templates/stages/cosmos-sdk-client.yml
 
 pr:
   branches:
@@ -28,6 +30,7 @@ pr:
       - rush.json
     exclude:
       - common/smoke-test/
+      - eng/pipelines/templates/stages/cosmos-sdk-client.yml
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
