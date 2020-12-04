@@ -3,7 +3,7 @@
 
 import { PerfStressTest } from "@azure/test-utils-perfstress";
 
-import { BlobServiceClient, StorageSharedKeyCredential, ContainerClient } from "../../../src";
+import { BlobServiceClient, ContainerClient } from "../../../src";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
@@ -16,12 +16,8 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
 
   constructor() {
     super();
-    const account = StorageBlobTest.getEnvVar("ACCOUNT_NAME");
-    const accountKey = StorageBlobTest.getEnvVar("ACCOUNT_KEY");
-    const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-    this.blobServiceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net`,
-      sharedKeyCredential
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(
+      StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING")
     );
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
