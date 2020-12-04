@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-
-import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
+import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { StorageBlobTest } from "./storageTest.spec";
 dotenv.config();
 
 interface StorageBlobListTestOptions {
@@ -14,23 +13,7 @@ interface StorageBlobListTestOptions {
   size: number;
 }
 
-const account = process.env.ACCOUNT_NAME || "";
-const accountKey = process.env.ACCOUNT_KEY || "";
-
-const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-const blobServiceClient = new BlobServiceClient(
-  `https://${account}.blob.core.windows.net`,
-  sharedKeyCredential
-);
-const containerName = `newcontainer${new Date().getTime()}`;
-const blobName = `newblob${new Date().getTime()}`;
-const containerClient = blobServiceClient.getContainerClient(containerName);
-const blockBlobClient = blobServiceClient
-  .getContainerClient(containerName)
-  .getBlockBlobClient(blobName);
-
-export class StorageBlobListTest extends PerfStressTest<StorageBlobListTestOptions> {
+export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOptions> {
   public options: PerfStressOptionDictionary<StorageBlobListTestOptions> = {
     count: {
       required: true,
@@ -47,13 +30,9 @@ export class StorageBlobListTest extends PerfStressTest<StorageBlobListTestOptio
   };
 
   public async globalSetup() {
-    const createContainerResponse = await containerClient.create();
-    console.log(
-      `Create container ${containerName} successfully`,
-      createContainerResponse.requestId
-    );
-
+    await super.globalSetup();
     for (let i = 0; i < this.parsedOptions.count.value!; i++) {
+    const blockBlobClient = StorageBlobListTest.containerClient.getBlockBlobClient(`blob-${i}`);
       await blockBlobClient.upload(
         Buffer.alloc(this.parsedOptions.size.value!),
         this.parsedOptions.size.value!
@@ -61,16 +40,8 @@ export class StorageBlobListTest extends PerfStressTest<StorageBlobListTestOptio
     }
   }
 
-  public async globalCleanup() {
-    const deleteContainerResponse = await containerClient.delete();
-    console.log(
-      `Deleted container ${containerName} successfully`,
-      deleteContainerResponse.requestId
-    );
-  }
-
   async runAsync(): Promise<void> {
-    for await (const _ of containerClient.listBlobsFlat()) {
+    for await (const _ of StorageBlobListTest.containerClient.listBlobsFlat()) {
     }
   }
 }
