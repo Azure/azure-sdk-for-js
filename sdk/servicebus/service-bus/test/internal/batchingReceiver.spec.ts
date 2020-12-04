@@ -32,6 +32,7 @@ import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
 import { ReceiveMode } from "../../src/models";
+import { Constants } from "@azure/core-amqp";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -663,5 +664,79 @@ describe("BatchingReceiver unit tests", () => {
       // TODO: let's have a few messages in here.
       assert.isEmpty(results);
     });
+  });
+
+  it("drain doesn't resolve before message callbacks have completed", async () => {
+    const { fakeRheaReceiver, emitter, receiveIsReady } = createFakeReceiver();
+
+    const receiver = new BatchingReceiverLite(
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      async () => {
+        return fakeRheaReceiver;
+      },
+      "peekLock"
+    );
+
+    const receiveMessagesPromise = receiver
+      .receiveMessages({
+        maxMessageCount: 3,
+        maxTimeAfterFirstMessageInMs: 5000,
+        maxWaitTimeInMs: 5000
+      })
+      .then((messages) => {
+        console.log(`===> then running, messages: ${messages.map((m) => m.body).join(", ")}`);
+        return [...messages];
+      });
+
+    await receiveIsReady;
+
+    // We've had an issue in the past where it seemed that drain was
+    // causing us to potentially not return messages that should have
+    // existed. In our tests this is very hard to reproduce because it
+    // requires us to control more of how the stream of events are
+    // returned in Service Bus.
+
+    // Our suspicion has been that it's possible we're receiving messages _after_ a
+    // drain has occurred but we've never seen it in the wild or in any of our testing.
+
+    // However, in rhea-promise there is an odd mismatch of dispatching that can cause this
+    // sequence of events to occur:
+    // 1. rhea-promise: receive message A
+    //    rhea-promise then calls: setTimeout(emit(messageA))
+    // 2. us: decide to drain (timeout expired)
+    // 3. rhea-promise: sends drain
+    // 4. rhea-promise: receives message B (Service Bus has not yet processed the drain request)
+    //    rhea-promise then calls: setTimeout(emit(messageB))
+    //
+    // Now at this point we have the setTimeout(emit(messageB)) in the task queue. It'll be
+    // executed at the next turn of the event loop.
+    //
+    // The problem then comes in when rhea-promise receives the receiver_drained event:
+    // 4. rhea-promise: receives receiver_drain event
+    //    emit(drain)     // note it does _not_ use setTimeout()
+    //
+    // This causes the drain event to fire immediately. When it resolves the underlying promise
+    // it resolves it prior to emit(messageB) firing, resulting in lost messages.
+    //
+    // To fix this when we get receive_drained we setTimeout(resolve) instead of just immediately resolving. This allows
+    // us to enter into the same task queue as all the message callbacks, and makes it so everything occurs in the
+    // right order.
+    setTimeout(() => {
+      emitter.emit(ReceiverEvents.message, {
+        message: {
+          body: "the first message",
+          message_annotations: {
+            [Constants.enqueuedTime]: 0
+          }
+        } as RheaMessage
+      } as EventContext);
+    });
+
+    emitter.emit(ReceiverEvents.receiverDrained, {} as EventContext);
+
+    const results = await receiveMessagesPromise;
+
+    assert.equal(1, results.length);
   });
 });
