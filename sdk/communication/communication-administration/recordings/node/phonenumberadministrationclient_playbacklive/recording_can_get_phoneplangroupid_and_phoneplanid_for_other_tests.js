@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "1a4ba6af0469e1a931c49a965aadd8cd";
+module.exports.hash = "49dc918822aecfcd2a5b63198b917b34";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -38,13 +38,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "A8oNtBci20aKVLyOBVGTLQ.0",
+      "chQ2ac17VkOTug5T1zsfuw.0",
       "X-Processing-Time",
-      "235ms",
+      "251ms",
       "X-Azure-Ref",
-      "0fil+XwAAAABtktZ5+9zFS5PjMS1QpDkuWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0/Iy4XwAAAABVPhUhRfEtRoR141TnlSqyWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:57 GMT"
+      "Sat, 21 Nov 2020 03:43:56 GMT"
     ]
   );
 
@@ -80,12 +80,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "mpWK1YyYfUuzIsGu4ysbwA.0",
+      "mCmyBprAPkaplV2z/zI9eQ.0",
       "X-Processing-Time",
-      "228ms",
+      "232ms",
       "X-Azure-Ref",
-      "0fil+XwAAAACyHjEArDXBSY28rLMYbOu4WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0/Iy4XwAAAABrWlnJLOQkSapZ1enaKyH3WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:58 GMT"
+      "Sat, 21 Nov 2020 03:43:57 GMT"
     ]
   );

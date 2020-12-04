@@ -32,7 +32,11 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import {
+  challengeBasedAuthenticationPolicy,
+  createSpan,
+  setParentSpan
+} from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -92,7 +96,6 @@ import {
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
-import { createSpan, setParentSpan } from "./tracing";
 import { getKeyFromKeyBundle } from "./transformations";
 
 export {

@@ -26,8 +26,161 @@ import { serializeRequestBody } from "../src/serviceClient";
 import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { Mappers } from "./testMappers";
+import { TokenCredential } from "@azure/core-auth";
 
 describe("ServiceClient", function() {
+  describe("Auth scopes", () => {
+    const testOperationArgs = {
+      metadata: {
+        alpha: "hello",
+        beta: "world"
+      },
+      unrelated: 42
+    };
+    const testOperationSpec: OperationSpec = {
+      httpMethod: "GET",
+      baseUrl: "https://example.com",
+      serializer: createSerializer(),
+      headerParameters: [
+        {
+          parameterPath: "metadata",
+          mapper: {
+            serializedName: "metadata",
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            },
+            headerCollectionPrefix: "foo-bar-"
+          } as DictionaryMapper
+        },
+        {
+          parameterPath: "unrelated",
+          mapper: {
+            serializedName: "unrelated",
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      ],
+      responses: {
+        200: {}
+      }
+    };
+
+    it("should throw if scopes contain an invalid url", async function() {
+      const credential: TokenCredential = {
+        getToken: async (_scopes) => {
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpsClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+            }
+          },
+          credential,
+          credentialScopes: ["https://microsoft.com", "lalala"]
+        });
+
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error) {
+        assert.include(error.message, `Invalid URL`);
+      }
+    });
+
+    it("should throw is no scope or baseUri are defined", async function() {
+      const credential: TokenCredential = {
+        getToken: async (_scopes) => {
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+      try {
+        let request: OperationRequest;
+        const client = new ServiceClient({
+          httpsClient: {
+            sendRequest: (req) => {
+              request = req;
+              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+            }
+          },
+          credential
+        });
+
+        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+        assert.fail();
+      } catch (error) {
+        assert.equal(
+          error.message,
+          `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+        );
+      }
+    });
+
+    it("should use baseUrl to build scope", async function() {
+      const baseUri = "https://microsoft.com/baseuri";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, `${baseUri}/.default`);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential,
+        baseUri
+      });
+
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use the provided scope", async function() {
+      const authScope = "https://microsoft.com/baseuri/.default";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, authScope);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential,
+        credentialScopes: authScope
+      });
+
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+  });
+
   it("should serialize headerCollectionPrefix", async function() {
     const expected = {
       "foo-bar-alpha": "hello",
@@ -941,6 +1094,54 @@ describe("ServiceClient", function() {
         stringifyXML
       );
       assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
+    });
+
+    it("should serialize an XML request body with custom xml char key", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          requestBody: {
+            "#": "pound value"
+          },
+          options: {
+            serializerOptions: {
+              xml: {
+                xmlCharKey: "#"
+              }
+            }
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "requestBody",
+            mapper: {
+              serializedName: "Body",
+              xmlName: "entry",
+              type: {
+                name: "Composite",
+                className: "Body",
+                modelProperties: {
+                  "#": {
+                    serializedName: "#",
+                    xmlName: "#",
+                    type: { name: "String" }
+                  }
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer(undefined, true /** isXML */),
+          isXML: true
+        },
+        stringifyXML
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`
+      );
     });
 
     it("should serialize a string send to a text/plain endpoint as just a string", () => {

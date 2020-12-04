@@ -19,9 +19,15 @@ import { RestorePoller } from "./lro/restore/poller";
 import { SelectiveRestorePoller } from "./lro/selectiveRestore/poller";
 import { BackupOperationState } from "./lro/backup/operation";
 import { RestoreOperationState } from "./lro/restore/operation";
+import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
 
-export { BackupOperationState, RestoreOperationState, SelectiveRestoreOperationState };
+export {
+  BackupOperationState,
+  RestoreOperationState,
+  SelectiveRestoreOperationState,
+  KeyVaultAdminPollOperationState
+};
 
 /**
  * The KeyVaultBackupClient provides methods to generate backups

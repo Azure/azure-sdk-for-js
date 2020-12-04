@@ -28,7 +28,6 @@
   "files": [
     "types/keyvault-keys.d.ts",
     "dist/",
-    "dist-browser/",
     "dist-esm/keyvault-keys/src",
     "dist-esm/keyvault-common/src",
     "README.md",

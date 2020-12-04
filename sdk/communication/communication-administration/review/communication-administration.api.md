@@ -88,14 +88,14 @@ export class CommunicationIdentityClient {
 export interface CommunicationIdentityOptions extends PipelineOptions {
 }
 
-// @public
+// @public (undocumented)
 export interface CommunicationIdentityToken {
     expiresOn: Date;
     id: string;
     token: string;
 }
 
-// @public
+// @public (undocumented)
 export interface CommunicationTokenRequest {
     scopes: string[];
 }
@@ -142,9 +142,6 @@ export interface CreateReservationResponse {
 
 // @public
 export type CreateUserResponse = WithResponse<CommunicationUser>;
-
-// @public
-export type CurrencyType = "USD";
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;
@@ -253,7 +250,6 @@ export interface LocationOptionsQuery {
 
 // @public
 export interface LocationOptionsResponse {
-    // (undocumented)
     locationOptions?: LocationOptions;
 }
 
@@ -263,13 +259,11 @@ export type LocationType = "CivicAddress" | "NotRequired" | "Selection";
 // @public
 export interface NumberConfiguration {
     phoneNumber: string;
-    // (undocumented)
     pstnConfiguration: PstnConfiguration;
 }
 
 // @public
 export interface NumberConfigurationResponse {
-    // (undocumented)
     pstnConfiguration: PstnConfiguration;
 }
 
@@ -416,7 +410,7 @@ export interface PhoneNumberRelease {
     status?: ReleaseStatus;
 }
 
-// @public
+// @public (undocumented)
 export interface PhoneNumberReleaseDetails {
     errorCode?: number;
     status?: PhoneNumberReleaseStatus;
@@ -456,13 +450,11 @@ export interface PhonePlan {
 
 // @public
 export interface PhonePlanGroup {
-    // (undocumented)
     carrierDetails?: CarrierDetails;
     localizedDescription: string;
     localizedName: string;
     phoneNumberType?: PhoneNumberType;
     phonePlanGroupId: string;
-    // (undocumented)
     rateInformation?: RateInformation;
 }
 
@@ -489,7 +481,7 @@ export type PurchaseReservationOptions = OperationOptions;
 
 // @public
 export interface RateInformation {
-    currencyType?: CurrencyType;
+    currencyType?: "USD";
     monthlyRate?: number;
     rateErrorMessage?: string;
 }

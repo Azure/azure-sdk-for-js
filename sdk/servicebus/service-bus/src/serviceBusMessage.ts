@@ -104,6 +104,9 @@ export interface DeadLetterOptions {
 export interface ServiceBusMessage {
   /**
    * @property The message body that needs to be sent or is received.
+   * If the application receiving the message is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
@@ -436,7 +439,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * @property The underlying raw amqp message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+  readonly _rawAmqpMessage: AmqpAnnotatedMessage;
 }
 
 /**
@@ -533,7 +536,7 @@ export function fromRheaMessage(
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _amqpAnnotatedMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
+    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -744,10 +747,10 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly delivery: Delivery;
   /**
-   * @property {AmqpMessage} _amqpAnnotatedMessage The underlying raw amqp annotated message.
+   * @property {AmqpMessage} _rawAmqpMessage The underlying raw amqp annotated message.
    * @readonly
    */
-  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+  readonly _rawAmqpMessage: AmqpAnnotatedMessage;
   /**
    * @property The reason for deadlettering the message.
    * @readonly
@@ -776,8 +779,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (msg.body) {
       this.body = defaultDataTransformer.decode(msg.body);
     }
-    // TODO: _amqpAnnotatedMessage is already being populated in fromRheaMessage(), no need to do it twice
-    this._amqpAnnotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
+    this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
     this.delivery = delivery;
   }
 
