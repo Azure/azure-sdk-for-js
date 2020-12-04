@@ -6,6 +6,7 @@ import { StorageBlobTest } from "./storageTest.spec";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { BlockBlobClient } from "../../../src";
 dotenv.config();
 
 interface StorageBlobDownloadTestOptions {
@@ -24,15 +25,20 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   };
 
   static blobName = `newblob${new Date().getTime()}`;
-  static blockBlobClient = StorageBlobDownloadTest.containerClient.getBlockBlobClient(
-    StorageBlobDownloadTest.blobName
-  );
+  blockBlobClient: BlockBlobClient;
+  
+  constructor() {
+    super();
+    this.blockBlobClient = this.containerClient.getBlockBlobClient(
+      StorageBlobDownloadTest.blobName
+    );
+  }
 
   public async globalSetup() {
     await super.globalSetup();
 
     // Create a blob
-    const uploadBlobResponse = await StorageBlobDownloadTest.blockBlobClient.upload(
+    const uploadBlobResponse = await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
@@ -43,6 +49,6 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   }
 
   async runAsync(): Promise<void> {
-    await StorageBlobDownloadTest.blockBlobClient.download();
+    await this.blockBlobClient.download();
   }
 }
