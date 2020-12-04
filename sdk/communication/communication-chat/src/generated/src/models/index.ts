@@ -658,13 +658,13 @@ export type ChatCreateChatThreadResponse = CreateChatThreadResult & {
  */
 export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOptions {
   /**
+   * The maximum number of chat threads returned per page.
+   */
+  maxpagesize?: number;
+  /**
    * The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
   startTime?: Date;
-  /**
-   * The maximum number of chat threads returned per page.
-   */
-  maxPageSize?: number;
 }
 
 /**
@@ -712,13 +712,13 @@ export type ChatGetChatThreadResponse = ChatThread & {
  */
 export interface ChatListChatThreadsNextOptionalParams extends coreHttp.OperationOptions {
   /**
+   * The maximum number of chat threads returned per page.
+   */
+  maxpagesize?: number;
+  /**
    * The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
   startTime?: Date;
-  /**
-   * The maximum number of chat threads returned per page.
-   */
-  maxPageSize?: number;
 }
 
 /**
