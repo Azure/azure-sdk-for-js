@@ -2,6 +2,7 @@
 
 ## 12.2.1 (Unreleased)
 
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
 
 ## 12.2.0 (2020-11-10)
 
