@@ -882,7 +882,11 @@ export class BlobServiceClient extends StorageClient {
         ...response,
         _response: response._response, // _response is made non-enumerable
         blobs: response.blobs.map((blob) => {
-          return { ...blob, tags: toTags(blob.tags) };
+          let tagValue = undefined;
+          if (blob.tags?.blobTagSet.length === 1) {
+            tagValue = blob.tags.blobTagSet[0].value;
+          }
+          return { ...blob, tags: toTags(blob.tags), tagValue };
         })
       };
       return wrappedResponse;
