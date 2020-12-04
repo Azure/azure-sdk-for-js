@@ -131,6 +131,8 @@ export abstract class StorageClient {
       ) {
         this.credential = factory;
       } else if (isTokenCredential((factory as any).credential)) {
+        // Only works if the factory has been attached a "credential" property.
+        // We do that in newPipeline() when using TokenCredential.
         this.credential = (factory as any).credential;
       }
     }
