@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
 
 import {
   BlobQueryArrowConfiguration,
@@ -740,4 +740,17 @@ export function parseObjectReplicationRecord(
     }
   }
   return orProperties;
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @export
+ * @param {T} thing
+ * @param {TokenCredential} credential
+ * @returns {T}
+ */
+export function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }
