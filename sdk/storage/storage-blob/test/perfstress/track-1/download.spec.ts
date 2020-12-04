@@ -4,74 +4,73 @@
 import {
   Aborter,
   BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
-  SharedKeyCredential,
-  StorageURL
+  BlockBlobURL
 } from "@azure/storage-blob";
-import { PerfStressOptionDictionary, PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { StorageBlobTest } from "./storageTest.spec";
 dotenv.config({ path: "../../../.env" });
 
 interface StorageBlobDownloadTestOptions {
   size: number;
 }
 
-const account = process.env.ACCOUNT_NAME || "";
-const accountKey = process.env.ACCOUNT_KEY || "";
-
-const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-const blobServiceClient = new ServiceURL(
-  // When using AnonymousCredential, following url should include a valid SAS or support public access
-  `https://${account}.blob.core.windows.net`,
-  StorageURL.newPipeline(sharedKeyCredential)
-);
-const containerName = `newcontainer${new Date().getTime()}`;
-const blobName = `newblob${new Date().getTime()}`;
-const containerClient = ContainerURL.fromServiceURL(blobServiceClient, containerName);
-const blobClient = BlobURL.fromContainerURL(containerClient, blobName);
-const blockBlobClient = BlockBlobURL.fromBlobURL(blobClient);
-
-export class StorageBlobDownloadTest extends PerfStressTest<StorageBlobDownloadTestOptions> {
+export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownloadTestOptions> {
   public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10
+      defaultValue: 1024
     }
   };
 
-  public async globalSetup() {
-    const createContainerResponse = await containerClient.create(Aborter.none);
-    console.log(
-      `Create container ${containerName} successfully`,
-      createContainerResponse.requestId
-    );
+  static blobName = `newblob${new Date().getTime()}`;
+  blockBlobClient: BlockBlobURL;
 
+  constructor() {
+    super();
+    this.blockBlobClient = BlockBlobURL.fromBlobURL(
+      BlobURL.fromContainerURL(this.containerClient, StorageBlobDownloadTest.blobName)
+    );
+  }
+
+  public async globalSetup() {
+    await super.globalSetup();
     // Create a blob
-    const uploadBlobResponse = await blockBlobClient.upload(
+    const uploadBlobResponse = await this.blockBlobClient.upload(
       Aborter.none,
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
-    console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-  }
-
-  public async globalCleanup() {
-    const deleteContainerResponse = await containerClient.delete(Aborter.none);
-    console.log(
-      `Deleted container ${containerName} successfully`,
-      deleteContainerResponse.requestId
-    );
+    console.log(`Uploaded block blob ${StorageBlobDownloadTest.blobName} successfully`, uploadBlobResponse.requestId);
   }
 
   async runAsync(): Promise<void> {
-    await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await this.blockBlobClient.download(Aborter.none, 0);
+    await streamToBuffer3(downloadResponse.readableStreamBody!);
   }
+}
+
+/**
+ * Reads a readable stream into a buffer.
+ *
+ * @export
+ * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
+ * @returns {Promise<Buffer>} with the count of bytes read.
+ */
+export async function streamToBuffer3(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+    });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream.on("error", reject);
+  });
 }
