@@ -88,7 +88,6 @@ import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedErr
 import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
-  encodeURLPathQueries,
   getURLQueryString,
   setURLPath,
   setURLQueries
@@ -934,9 +933,7 @@ export class DataLakePathClient extends StorageClient {
     // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
     const sourceSas = getURLQueryString(this.dfsEndpointUrl);
     const renameSource = !!sourceSas
-      ? encodeURLPathQueries(
-          `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
-        )
+      ? `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
       : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
 
     const split: string[] = destinationPath.split("?");

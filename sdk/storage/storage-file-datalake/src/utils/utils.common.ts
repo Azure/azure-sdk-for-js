@@ -395,40 +395,6 @@ export function setURLQueries(url: string, queryString: string): string {
 }
 
 /**
- * Encode URL path query values from an URL string.
- *
- * @example {filesystem}/{file}?{sasToken}
- *
- * @export
- * @param {string} urlPath
- * @returns {string}
- */
-export function encodeURLPathQueries(urlPath: string): string {
-  const split = urlPath.split("?");
-  if (split.length === 2) {
-    let queryString = split[1];
-    queryString = queryString.trim();
-
-    let querySubStrings: string[] = queryString.split("&");
-    querySubStrings = querySubStrings.filter((value: string) => {
-      const indexOfEqual = value.indexOf("=");
-      const lastIndexOfEqual = value.lastIndexOf("=");
-      return (
-        indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual && lastIndexOfEqual < value.length - 1
-      );
-    });
-    querySubStrings = querySubStrings.map((value: string) => {
-      const [queryKey, queryValue] = value.split("=");
-      return `${queryKey}=${encodeURIComponent(queryValue)}`;
-    });
-    const encodedQueryString = querySubStrings.join("&");
-    return `${split[0]}?${encodedQueryString}`;
-  } else {
-    return urlPath;
-  }
-}
-
-/**
  * Rounds a date off to seconds.
  *
  * @export
