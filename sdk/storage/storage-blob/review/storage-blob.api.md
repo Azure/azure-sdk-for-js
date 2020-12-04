@@ -394,7 +394,7 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
-    generateSasUrl(options: BlobGenerateSasUrlOptions): string;
+    generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -620,19 +620,8 @@ export interface BlobFlatListSegmentModel {
 }
 
 // @public
-export interface BlobGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
+export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public
@@ -1058,7 +1047,7 @@ export class BlobServiceClient extends StorageClient {
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
-    generateAccountSasUrl(permissions: AccountSASPermissions, expiresOn: Date, resourceTypes: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
     getContainerClient(containerName: string): ContainerClient;
@@ -1543,6 +1532,21 @@ export interface BlockList {
 export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
     tracingOptions?: OperationTracingOptions;
 }
@@ -1585,7 +1589,7 @@ export class ContainerClient extends StorageClient {
     deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
-    generateSasUrl(options: ContainerGenerateSasUrlOptions): string;
+    generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1684,19 +1688,8 @@ export interface ContainerExistsOptions extends CommonOptions {
 }
 
 // @public
-export interface ContainerGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
+export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: ContainerSASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public

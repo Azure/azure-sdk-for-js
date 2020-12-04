@@ -1302,8 +1302,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     const sasURL = blobServiceClient.generateAccountSasUrl(
-      AccountSASPermissions.parse("r"),
       tmr,
+      AccountSASPermissions.parse("r"),
       AccountSASResourceTypes.parse("s").toString(),
       {
         protocol: SASProtocol.HttpsAndHttp,
@@ -1313,6 +1313,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
     await serviceClientWithSAS.getAccountInfo();
+
+    const defaultSasURL = blobServiceClient.generateAccountSasUrl();
+    const serviceClientWithDefaultSAS = new BlobServiceClient(defaultSasURL);
+    await serviceClientWithDefaultSAS.getProperties();
   });
 
   it("ContainerClient.generateSasUrl", async () => {
@@ -1326,7 +1330,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const sasURL = containerClient.generateSasUrl({
+    const sasURL = await containerClient.generateSasUrl({
       expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: ContainerSASPermissions.parse("racwdl"),
@@ -1343,7 +1347,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).value;
 
     try {
-      containerClientWithSAS.generateSasUrl({});
+      await containerClientWithSAS.generateSasUrl({});
     } catch (err) {
       assert.ok(err instanceof RangeError);
     }
@@ -1370,7 +1374,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     });
 
-    const sasURL = blobClient.generateSasUrl({
+    const sasURL = await blobClient.generateSasUrl({
       cacheControl: "cache-control-override",
       contentDisposition: "content-disposition-override",
       contentEncoding: "content-encoding-override",
@@ -1419,7 +1423,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       blobContentType: "content-type-original1"
     });
 
-    const sasURL = blobClientWithSnapshot.generateSasUrl({
+    const sasURL = await blobClientWithSnapshot.generateSasUrl({
       cacheControl: "cache-control-override",
       contentDisposition: "content-disposition-override",
       contentEncoding: "content-encoding-override",
@@ -1463,7 +1467,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // generate SAS
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const sasURL = blobClientWithVersion.generateSasUrl({
+    const sasURL = await blobClientWithVersion.generateSasUrl({
       expiresOn: tmr,
       permissions: BlobSASPermissions.parse("racwdx")
     });
@@ -1497,7 +1501,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
-    const sasURL = blobClient.generateSasUrl({
+    const sasURL = await blobClient.generateSasUrl({
       expiresOn: tmr,
       permissions: BlobSASPermissions.parse("racwd")
     });
