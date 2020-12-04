@@ -24,10 +24,11 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
 
   public async globalSetup() {
     await super.globalSetup();
+    const tasks = [];
     for (let i = 0; i < this.parsedOptions.count.value!; i++) {
-      const blockBlobClient = this.containerClient.getBlockBlobClient(`blob-${i}`);
-      await blockBlobClient.upload(Buffer.alloc(0), 0);
+      tasks.push(this.containerClient.uploadBlockBlob(`blob-${i}`, Buffer.alloc(0), 0));
     }
+    await Promise.all(tasks);
   }
 
   async runAsync(): Promise<void> {

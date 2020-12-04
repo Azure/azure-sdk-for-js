@@ -7,6 +7,7 @@ import { StorageBlobTest } from "./storageTest.spec";
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
 import { BlockBlobClient } from "../../../src";
+import { streamToBuffer3 } from "../../../src/utils/utils.node";
 dotenv.config();
 
 interface StorageBlobDownloadTestOptions {
@@ -49,6 +50,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   }
 
   async runAsync(): Promise<void> {
-    await this.blockBlobClient.download();
+    const downloadResponse = await this.blockBlobClient.download();
+    await streamToBuffer3(downloadResponse.readableStreamBody!);
   }
 }
