@@ -104,6 +104,9 @@ export interface DeadLetterOptions {
 export interface ServiceBusMessage {
   /**
    * @property The message body that needs to be sent or is received.
+   * If the application receiving the message is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
