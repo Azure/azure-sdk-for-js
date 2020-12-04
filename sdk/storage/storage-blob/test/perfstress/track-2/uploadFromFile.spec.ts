@@ -28,6 +28,9 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
   }
 
   async runAsync(): Promise<void> {
-    await this.blockBlobClient.uploadFile(fileName);
+    const blockBlobClient = this.containerClient.getBlockBlobClient(
+      `newblob${new Date().getTime()}`
+    );
+    await blockBlobClient.uploadFile(fileName);
   }
 }
