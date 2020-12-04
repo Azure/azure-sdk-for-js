@@ -22,20 +22,10 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 
-  public async globalSetup() {
-    const createContainerResponse = await this.containerClient.create();
-    console.log(
-      `Create container ${StorageBlobTest.containerName} successfully`,
-      createContainerResponse.requestId
-    );
+  public async globalSetup() {await this.containerClient.create();
   }
 
-  public async globalCleanup() {
-    const deleteContainerResponse = await this.containerClient.delete();
-    console.log(
-      `Deleted container ${StorageBlobTest.containerName} successfully`,
-      deleteContainerResponse.requestId
-    );
+  public async globalCleanup() {await this.containerClient.delete();
   }
 
   static getEnvVar(name: string) {

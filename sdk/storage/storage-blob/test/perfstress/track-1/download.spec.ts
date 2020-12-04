@@ -42,10 +42,6 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
-    console.log(
-      `Uploaded block blob ${StorageBlobDownloadTest.blobName} successfully`,
-      uploadBlobResponse.requestId
-    );
   }
 
   async runAsync(): Promise<void> {

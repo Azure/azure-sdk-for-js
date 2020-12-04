@@ -39,13 +39,9 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     await super.globalSetup();
 
     // Create a blob
-    const uploadBlobResponse = await this.blockBlobClient.upload(
+     await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
-    );
-    console.log(
-      `Uploaded block blob ${StorageBlobDownloadTest.blobName} successfully`,
-      uploadBlobResponse.requestId
     );
   }
 
