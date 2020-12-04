@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-
-import { BlobServiceClient, StorageSharedKeyCredential } from "../../../src";
+import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { StorageBlobTest } from "./storageTest.spec";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
@@ -13,23 +12,7 @@ interface StorageBlobUploadTestOptions {
   size: number;
 }
 
-const account = process.env.ACCOUNT_NAME || "";
-const accountKey = process.env.ACCOUNT_KEY || "";
-
-const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-const blobServiceClient = new BlobServiceClient(
-  `https://${account}.blob.core.windows.net`,
-  sharedKeyCredential
-);
-const containerName = `newcontainer${new Date().getTime()}`;
-const blobName = `newblob${new Date().getTime()}`;
-const containerClient = blobServiceClient.getContainerClient(containerName);
-const blockBlobClient = blobServiceClient
-  .getContainerClient(containerName)
-  .getBlockBlobClient(blobName);
-
-export class StorageBlobUploadTest extends PerfStressTest<StorageBlobUploadTestOptions> {
+export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
   public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
       required: true,
@@ -40,24 +23,12 @@ export class StorageBlobUploadTest extends PerfStressTest<StorageBlobUploadTestO
     }
   };
 
-  public async globalSetup() {
-    const createContainerResponse = await containerClient.create();
-    console.log(
-      `Create container ${containerName} successfully`,
-      createContainerResponse.requestId
-    );
-  }
-
-  public async globalCleanup() {
-    const deleteContainerResponse = await containerClient.delete();
-    console.log(
-      `Deleted container ${containerName} successfully`,
-      deleteContainerResponse.requestId
-    );
-  }
+  static blobName = `newblob${new Date().getTime()}`;
+  static blockBlobClient = StorageBlobUploadTest.containerClient
+    .getBlockBlobClient(StorageBlobUploadTest.blobName);
 
   async runAsync(): Promise<void> {
-    await blockBlobClient.upload(
+    await StorageBlobUploadTest.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
