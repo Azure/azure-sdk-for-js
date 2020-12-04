@@ -8055,7 +8055,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *   entity = await iter.next();
    * }
-   * ```js
+   * ```
    *
    * Example using `byPage()`:
    *
@@ -8100,8 +8100,7 @@ export class ContainerClient extends StorageClient {
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
    * @returns {(PagedAsyncIterableIterator<
    *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
-   *     ContainerListBlobHierarchySegmentResponse
-   *   >)}
+   *     ContainerListBlobHierarchySegmentResponse>)}
    * @memberof ContainerClient
    */
   public listBlobsByHierarchy(
