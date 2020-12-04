@@ -24,8 +24,9 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
   };
 
   static blobName = `newblob${new Date().getTime()}`;
-  static blockBlobClient = StorageBlobUploadTest.containerClient
-    .getBlockBlobClient(StorageBlobUploadTest.blobName);
+  static blockBlobClient = StorageBlobUploadTest.containerClient.getBlockBlobClient(
+    StorageBlobUploadTest.blobName
+  );
 
   async runAsync(): Promise<void> {
     await StorageBlobUploadTest.blockBlobClient.upload(
