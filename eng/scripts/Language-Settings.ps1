@@ -258,11 +258,14 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
   }
 }
 
-function SetPackageVersion ($PackageName, $Version, $ServiceName, $ReleaseDate) {
-  if($null -eq $ReleaseDate)
+function SetPackageVersion ($PackageName, $Version, $ServiceName = $null, $ReleaseDate, $BuildType = $null, $GroupName = $null)
+{
+  if ($null -eq $ReleaseDate)
   {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  pip install -r "$EngDir/versioning/requirements.txt" -q -I
-  python "$EngDir/versioning/version_set.py" --package-name $PackageName --new-version $Version --service $ServiceName --release-date $ReleaseDate
+  Push-Location "$EngDir/tools/versioning"
+  npm install
+  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  Pop-Location
 }
