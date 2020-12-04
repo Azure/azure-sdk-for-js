@@ -935,8 +935,8 @@ export class DataLakePathClient extends StorageClient {
     const sourceSas = getURLQueryString(this.dfsEndpointUrl);
     const renameSource = !!sourceSas
       ? encodeURLPathQueries(
-        `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
-      )
+          `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
+        )
       : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
 
     const split: string[] = destinationPath.split("?");
@@ -1725,7 +1725,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
