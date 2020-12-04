@@ -17,7 +17,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     StorageBlobTest.account,
     StorageBlobTest.accountKey
   );
-  
+
   static blobServiceClient = new BlobServiceClient(
     `https://${StorageBlobTest.account}.blob.core.windows.net`,
     StorageBlobTest.sharedKeyCredential
