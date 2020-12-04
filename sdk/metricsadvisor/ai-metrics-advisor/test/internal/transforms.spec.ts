@@ -13,14 +13,14 @@ import {
   CommentFeedback as ServiceCommentFeedback,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration
-} from "../src/generated/models";
-import { DataFeedGranularity, MetricDetectionCondition } from "../src/models";
+} from "../../src/generated/models";
+import { DataFeedGranularity, MetricDetectionCondition } from "../../src/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceMetricFeedbackUnion,
   toServiceGranularity
-} from "../src/transforms";
+} from "../../src/transforms";
 
 describe("Transforms", () => {
   it("fromServiceWholeMetricConfiguration()", () => {
