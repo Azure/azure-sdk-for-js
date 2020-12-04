@@ -10,7 +10,6 @@ dotenv.config();
 
 interface StorageBlobListTestOptions {
   count: number;
-  size: number;
 }
 
 export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOptions> {
@@ -20,12 +19,6 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
       description: "Number of blobs to be listed",
       longName: "count",
       defaultValue: 10
-    },
-    size: {
-      required: true,
-      description: "Size of each blob in bytes",
-      longName: "size",
-      defaultValue: 10
     }
   };
 
@@ -33,10 +26,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     await super.globalSetup();
     for (let i = 0; i < this.parsedOptions.count.value!; i++) {
       const blockBlobClient = this.containerClient.getBlockBlobClient(`blob-${i}`);
-      await blockBlobClient.upload(
-        Buffer.alloc(this.parsedOptions.size.value!),
-        this.parsedOptions.size.value!
-      );
+      await blockBlobClient.upload(Buffer.alloc(0), 0);
     }
   }
 
