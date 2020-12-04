@@ -21,13 +21,13 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
 
   constructor() {
     super();
-    const account = StorageBlobTest.getEnvVar("ACCOUNT_NAME");
-    const accountKey = StorageBlobTest.getEnvVar("ACCOUNT_KEY");
-
-    const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
+    const connectionString = StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = getValueInConnString(connectionString, "AccountKey");
+    
+    const sharedKeyCredential = new SharedKeyCredential(accountName, accountKey);
     this.blobServiceClient = new ServiceURL(
-      `https://${account}.blob.core.windows.net`,
+      `https://${accountName}.blob.core.windows.net`,
       StorageURL.newPipeline(sharedKeyCredential)
     );
     this.containerClient = ContainerURL.fromServiceURL(
@@ -51,4 +51,17 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
     }
     return val;
   }
+}
+
+export function getValueInConnString(
+  connectionString: string,
+  argument: "AccountName" | "AccountKey"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
 }
