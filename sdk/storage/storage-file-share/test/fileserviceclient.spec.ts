@@ -506,6 +506,11 @@ describe("FileServiceClient Premium", () => {
   });
 
   it("Share Enable Protocol & Share Squash Root", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as this feature is not available in our test account's region yet.
+      this.skip();
+    }
+
     const shareName = recorder.getUniqueName("share");
     const shareClient = serviceClient.getShareClient(shareName);
 
