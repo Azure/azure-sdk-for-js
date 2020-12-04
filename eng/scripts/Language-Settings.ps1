@@ -257,3 +257,12 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
     return $null
   }
 }
+
+function SetPackageVersion ($PackageName, $Version, $ServiceName, $ReleaseDate) {
+  if($null -eq $ReleaseDate)
+  {
+    $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
+  }
+  pip install -r "$EngDir/versioning/requirements.txt" -q -I
+  python "$EngDir/versioning/version_set.py" --package-name $PackageName --new-version $Version --service $ServiceName --release-date $ReleaseDate
+}
