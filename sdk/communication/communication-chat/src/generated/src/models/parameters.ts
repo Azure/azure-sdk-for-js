@@ -182,13 +182,3 @@ export const repeatabilityRequestID: OperationParameter = {
     }
   }
 };
-
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
-  mapper: {
-    serializedName: "maxPageSize",
-    type: {
-      name: "Number"
-    }
-  }
-};

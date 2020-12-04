@@ -222,7 +222,7 @@ export interface RestCreateChatThreadRequest {
 
 // @public
 export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
-    maxPageSize?: number;
+    maxpagesize?: number;
     startTime?: Date;
 }
 
