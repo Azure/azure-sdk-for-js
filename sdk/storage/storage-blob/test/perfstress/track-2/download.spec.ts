@@ -26,7 +26,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
   static blobName = `newblob${new Date().getTime()}`;
   blockBlobClient: BlockBlobClient;
-  
+
   constructor() {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(
