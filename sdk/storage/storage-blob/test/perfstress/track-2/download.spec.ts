@@ -24,8 +24,9 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   };
 
   static blobName = `newblob${new Date().getTime()}`;
-  static blockBlobClient = StorageBlobDownloadTest.containerClient
-    .getBlockBlobClient(StorageBlobDownloadTest.blobName);
+  static blockBlobClient = StorageBlobDownloadTest.containerClient.getBlockBlobClient(
+    StorageBlobDownloadTest.blobName
+  );
 
   public async globalSetup() {
     await super.globalSetup();
