@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Aborter,
-  BlobURL,
-  BlockBlobURL
-} from "@azure/storage-blob";
+import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
@@ -46,7 +42,10 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!
     );
-    console.log(`Uploaded block blob ${StorageBlobDownloadTest.blobName} successfully`, uploadBlobResponse.requestId);
+    console.log(
+      `Uploaded block blob ${StorageBlobDownloadTest.blobName} successfully`,
+      uploadBlobResponse.requestId
+    );
   }
 
   async runAsync(): Promise<void> {

@@ -30,7 +30,10 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
       `https://${account}.blob.core.windows.net`,
       StorageURL.newPipeline(sharedKeyCredential)
     );
-    this.containerClient = ContainerURL.fromServiceURL(this.blobServiceClient, StorageBlobTest.containerName);
+    this.containerClient = ContainerURL.fromServiceURL(
+      this.blobServiceClient,
+      StorageBlobTest.containerName
+    );
   }
 
   public async globalSetup() {
