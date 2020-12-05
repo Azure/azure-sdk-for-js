@@ -65,7 +65,8 @@ import {
   setURLParameter,
   truncatedISO8061Date,
   extractConnectionStringParts,
-  getShareNameAndPathFromUrl
+  getShareNameAndPathFromUrl,
+  appendToURLQuery
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -101,6 +102,11 @@ import {
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
+import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
+import { ShareSASPermissions } from "./ShareSASPermissions";
+import { SASProtocol } from "./SASQueryParameters";
+import { SasIPRange } from "./SasIPRange";
+import { FileSASPermissions } from "./FileSASPermissions";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -543,6 +549,121 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
    * @memberof ShareDeleteIfExistsResponse
    */
   succeeded: boolean;
+}
+
+/**
+ * Common options of the {@link ShareGenerateSasUrlOptions} and {@link FileGenerateSasUrlOptions}.
+ *
+ * @export
+ * @interface CommonGenerateSasUrlOptions
+ */
+export interface CommonGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the share this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
+/**
+ * Options to configure {@link ShareClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface ShareGenerateSasUrlOptions
+ */
+export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {ShareSASPermissions}
+   * @memberof ShareGenerateSasUrlOptions
+   */
+  permissions?: ShareSASPermissions;
 }
 
 /**
@@ -1419,6 +1540,36 @@ export class ShareClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for ShareClient constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {ShareGenerateSasUrlOptions} options Optional parameters.
+   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ShareClient
+   */
+  public generateSasUrl(options: ShareGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.name,
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }
 
@@ -3810,6 +3961,22 @@ export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
 }
 
 /**
+ * Options to configure {@link ShareFileClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface FileGenerateSasUrlOptions
+ */
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {FileSASPermissions}
+   * @memberof FileGenerateSasUrlOptions
+   */
+  permissions?: FileSASPermissions;
+}
+
+/**
  * A ShareFileClient represents a URL to an Azure Storage file.
  *
  * @export
@@ -5656,6 +5823,37 @@ export class ShareFileClient extends StorageClient {
    */
   public getShareLeaseClient(proposeLeaseId?: string) {
     return new ShareLeaseClient(this, proposeLeaseId);
+  }
+
+  /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {FileGenerateSasUrlOptions} options Optional parameters.
+   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ShareFileClient
+   */
+  public generateSasUrl(options: FileGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.shareName,
+        filePath: this.path,
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }
 

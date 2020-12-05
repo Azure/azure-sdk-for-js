@@ -2,6 +2,8 @@
 
 ## 12.3.1 (Unreleased)
 
+- Added `generateSasUrl` to `ShareClient` and `ShareFileClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `ShareServiceClient` to generate an account-level SAS URI for the client.
 - Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
 
 ## 12.3.0 (2020-11-10)
