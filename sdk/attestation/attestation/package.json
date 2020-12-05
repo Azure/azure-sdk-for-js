@@ -2,7 +2,7 @@
   "name": "@azure/attestation",
   "author": "Microsoft Corporation",
   "description": "Describes the interface for the per-tenant enclave service.",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "tslib": "^2.0.0"
