@@ -275,23 +275,28 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
-   * @param {AccountSASPermissions} permissions Specifies the list of permissions to be associated with the SAS.
-   * @param {Date} expiresOn The time at which the shared access signature becomes invalid.
-   * @param {string} resourceTypes Specifies the resource types associated with the shared access signature.
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
    * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
    * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeServiceClient
    */
   public generateAccountSasUrl(
-    permissions: AccountSASPermissions,
-    expiresOn: Date,
-    resourceTypes: string,
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
     options: ServiceGenerateAccountSasUrlOptions = {}
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
         "Can only generate the account SAS when the client is initialized with a shared key credential"
       );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
     }
 
     const sas = generateAccountSASQueryParameters(

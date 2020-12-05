@@ -745,6 +745,48 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
     );
   });
+
+  it("DataLakeServiceClient.generateAccountSasUrl() should work with all parameters set", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = serviceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacup"),
+      AccountSASResourceTypes.parse("sco").toString(),
+      {
+        version: "2016-05-31",
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" }
+      }
+    );
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    await serviceClientWithSAS.listFileSystems().next();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      serviceClientWithSAS.generateAccountSasUrl();
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("DataLakeServiceClient.generateAccountSasUrl() should work with default parameters", async () => {
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const sasURL = serviceClient.generateAccountSasUrl();
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    await serviceClientWithSAS.getFileSystemClient(fileSystemName).getProperties();
+  });
 });
 
 describe("SAS generation Node.js only for directory SAS", () => {
