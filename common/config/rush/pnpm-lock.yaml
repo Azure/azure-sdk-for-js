@@ -5,6 +5,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': 'file:projects/ai-metrics-advisor.tgz'
   '@rush-temp/ai-text-analytics': 'file:projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
+  '@rush-temp/attestation': 'file:projects/attestation.tgz'
   '@rush-temp/communication-administration': 'file:projects/communication-administration.tgz'
   '@rush-temp/communication-chat': 'file:projects/communication-chat.tgz'
   '@rush-temp/communication-common': 'file:projects/communication-common.tgz'
@@ -8310,6 +8311,21 @@ packages:
       integrity: sha512-EOU48HtJCLa8SNSj2mpIixMGvQIz14kM3dBUBRAsyimecbxT68mVkOf3kqBaOej+tLb/vS6Fd48qHhJZMG1fWQ==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
+  'file:projects/attestation.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 4.1.2
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/attestation'
+    resolution:
+      integrity: sha512-sgyRR7Jrua2HxQ6O5z2sG42ZPaFejLn9jXmZL2fVexfxH2jc14r7g7TcXDQDvkYGnNHibBYw7RKNpU7HULUHGQ==
+      tarball: 'file:projects/attestation.tgz'
+    version: 0.0.0
   'file:projects/communication-administration.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
@@ -8633,7 +8649,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-nbqHULaXmyV0E0HM5thpSI9sJ7NUK6UaeeU6sTbpvvT8n0FxlkP2Fex95beZcpg1Hrwr2MHQ2yI54L+ocLrhvQ==
+      integrity: sha512-LlK88pmOWEZ1ooCPUEBN2PDHxGJOPH7X9AzIrBxo++/gNzKU0qMPdpbz8KeXuIekeAyFvzUQvsnCSfOw5zAGAw==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-client.tgz':
@@ -9359,7 +9375,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-JhMUPit7XVAdzsKK2AoDCLaKKwYY35seJsvnKT7j8Z0X0Rhlx6mjUo9aVOjxKgRX2wauc0JToBahKyr3p+H9Yg==
+      integrity: sha512-WH5wOuS+811eiLiZ9ieot/Uyv/C2Gs1Tk9G7Ac77fsGPSr+07v/8n49vCtaV3pyt8EfitAMoOOWbi9/BYgPA1Q==
       tarball: 'file:projects/eventgrid.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -10549,12 +10565,13 @@ packages:
       mocha: 7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.0.3
       typescript: 4.1.2
     dev: false
     name: '@rush-temp/test-utils-multi-version'
     resolution:
-      integrity: sha512-btb6eYPabccPwA2T5tmUQ/jC1FNcpPjaqq8pWeB457Rpaw49U+ybmQckfNHc7Gh/8Vnvk8ucisb0ldqfw+iKhw==
+      integrity: sha512-U0DDGv+oz4TBx12RGZuOsCVtW5RjjA34eFywEa71wxiRJrjWwcKWJutCLh6OlTAjVFWftdrlCwmtpnk4/7tAXg==
       tarball: 'file:projects/test-utils-multi-version.tgz'
     version: 0.0.0
   'file:projects/test-utils-perfstress.tgz':
@@ -10670,6 +10687,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': 'file:./projects/ai-metrics-advisor.tgz'
   '@rush-temp/ai-text-analytics': 'file:./projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
+  '@rush-temp/attestation': 'file:./projects/attestation.tgz'
   '@rush-temp/communication-administration': 'file:./projects/communication-administration.tgz'
   '@rush-temp/communication-chat': 'file:./projects/communication-chat.tgz'
   '@rush-temp/communication-common': 'file:./projects/communication-common.tgz'
