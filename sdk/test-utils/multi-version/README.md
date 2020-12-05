@@ -91,6 +91,8 @@ rush update && rush install
 
 And you're ready to test your library for multiple service API versions!
 
+## Examples
+
 ### Import functions
 
 ```javascript
@@ -241,6 +243,11 @@ versionsToTest(["7.0", "7.1", "7.2-preview"], { versionForRecording: "7.1" }).fo
   }
 );
 ```
+## Troubleshooting
+
+Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
+up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to
+handle it as soon as we find the time.
 
 ## Contributing
 
