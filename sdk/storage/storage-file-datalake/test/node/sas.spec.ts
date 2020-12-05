@@ -786,6 +786,49 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = serviceClient.generateAccountSasUrl();
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
     await serviceClientWithSAS.getFileSystemClient(fileSystemName).getProperties();
+
+    await fileSystemClient.delete();
+  });
+
+  it("DataLakeFileSystemClient.generateSasUrl() should work", async () => {
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = await fileSystemClient.generateSasUrl({
+      version: "2016-05-31",
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      expiresOn: tmr,
+      permissions: FileSystemSASPermissions.parse("racwdl"),
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override"
+    });
+
+    const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
+    await fileSystemClientWithSAS.listPaths().next();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await fileSystemClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    await fileSystemClient.delete();
   });
 });
 
@@ -840,9 +883,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    sharedKeyCredential = factories[factories.length - 1];
+    sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
   });
 
   afterEach(async function() {
@@ -886,7 +927,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         pathName: directoryName,
         isDirectory: true,
         expiresOn: tmr,
-        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2020-02-10"
@@ -977,6 +1018,69 @@ describe("SAS generation Node.js only for directory SAS", () => {
 
     // p
     await directoryClientwithSAS.setPermissions(permissions);
+  });
+
+  it("DataLakeDirectoryClient.generateSasUrl() should work", async () => {
+    const sasURL = await directoryClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DirectorySASPermissions.parse("racwdlmeop")
+    });
+
+    const sas = generateDataLakeSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
+        fileSystemName: fileSystemClient.name,
+        pathName: directoryClient.name,
+        isDirectory: true
+      },
+      sharedKeyCredential
+    ).toString();
+    assert.deepStrictEqual(sasURL, directoryClient.url + "?" + sas);
+
+    const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
+    await directoryClientWithSAS.getAccessControl();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await directoryClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("DataLakeFileClient.generateSasUrl() should work", async () => {
+    const sasURL = await fileClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DataLakeSASPermissions.parse("racwdmeop")
+    });
+
+    const sas = generateDataLakeSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdmeop"),
+        fileSystemName: fileSystemClient.name,
+        pathName: fileClient.name
+      },
+      sharedKeyCredential
+    ).toString();
+    assert.deepStrictEqual(sasURL, fileClient.url + "?" + sas);
+
+    const fileClientWithSAS = new DataLakeFileClient(sasURL);
+    await fileClientWithSAS.getAccessControl();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await fileClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 });
 

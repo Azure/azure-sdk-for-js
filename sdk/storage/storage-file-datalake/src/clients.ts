@@ -1129,7 +1129,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   }
 
   /**
-   * Only available for client constructed with a shared key credential.
+   * Only available for clients constructed with a shared key credential.
    *
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
@@ -1137,27 +1137,29 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param {DirectoryGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeDirectoryClient
    */
-  public generateSasUrl(options: DirectoryGenerateSasUrlOptions): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
-      );
-    }
+  public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
 
-    const sas = generateDataLakeSASQueryParameters(
-      {
-        fileSystemName: this.fileSystemName,
-        pathName: this.name,
-        isDirectory: true,
-        ...options
-      },
-      this.credential
-    ).toString();
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          isDirectory: true,
+          ...options
+        },
+        this.credential
+      ).toString();
 
-    return appendToURLQuery(this.url, sas);
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }
 
@@ -2131,7 +2133,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   }
 
   /**
-   * Only available for client constructed with a shared key credential.
+   * Only available for clients constructed with a shared key credential.
    *
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
@@ -2139,25 +2141,27 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param {FileGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeFileClient
    */
-  public generateSasUrl(options: FileGenerateSasUrlOptions): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
-      );
-    }
+  public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
 
-    const sas = generateDataLakeSASQueryParameters(
-      {
-        fileSystemName: this.fileSystemName,
-        pathName: this.name,
-        ...options
-      },
-      this.credential
-    ).toString();
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          ...options
+        },
+        this.credential
+      ).toString();
 
-    return appendToURLQuery(this.url, sas);
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

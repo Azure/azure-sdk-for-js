@@ -676,24 +676,26 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param {FileSystemGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeFileSystemClient
    */
-  public generateSasUrl(options: FileSystemGenerateSasUrlOptions): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
-      );
-    }
+  public generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
 
-    const sas = generateDataLakeSASQueryParameters(
-      {
-        fileSystemName: this.name,
-        ...options
-      },
-      this.credential
-    ).toString();
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.name,
+          ...options
+        },
+        this.credential
+      ).toString();
 
-    return appendToURLQuery(this.url, sas);
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

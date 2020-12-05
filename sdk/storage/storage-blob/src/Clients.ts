@@ -1018,7 +1018,7 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
 }
 
 /**
- * Common options for {@link BlobClient.generateSasUrl} and {@link ContainerClient.generateSasUrl}.
+ * Common options of {@link BlobGenerateSasUrlOptions} and {@link ContainerGenerateSasUrlOptions}.
  *
  * @export
  * @interface CommonGenerateSasUrlOptions

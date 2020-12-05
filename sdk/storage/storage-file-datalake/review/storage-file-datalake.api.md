@@ -131,6 +131,21 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
     tracingOptions?: OperationTracingOptions;
 }
@@ -165,7 +180,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
-    generateSasUrl(options: DirectoryGenerateSasUrlOptions): string;
+    generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
@@ -180,7 +195,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
-    generateSasUrl(options: FileGenerateSasUrlOptions): string;
+    generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
@@ -203,7 +218,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
     deleteIfExists(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteIfExistsResponse>;
     exists(options?: FileSystemExistsOptions): Promise<boolean>;
-    generateSasUrl(options: FileSystemGenerateSasUrlOptions): string;
+    generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
@@ -333,19 +348,8 @@ export interface DirectoryCreateResponse extends PathCreateResponse {
 }
 
 // @public
-export interface DirectoryGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
+export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: DirectorySASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public
@@ -417,19 +421,8 @@ export interface FileFlushOptions extends CommonOptions {
 }
 
 // @public
-export interface FileGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: DataLakeSASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public
@@ -683,19 +676,8 @@ export interface FileSystemExistsOptions extends CommonOptions {
 }
 
 // @public
-export interface FileSystemGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
+export interface FileSystemGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: FileSystemSASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public (undocumented)
