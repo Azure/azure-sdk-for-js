@@ -52,6 +52,17 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
+    it.only("fails to read databases with AAD authentication", async function() {
+      try {
+        const client = new CosmosClient({
+          endpoint,
+          aadToken: "faketoken"
+        });
+        await client.databases.readAll().fetchAll();
+      } catch (e) {
+        assert.equal(e.code, 401);
+      }
+    });
   });
   describe("Validate user passed AbortController.signal", function() {
     it("should throw exception if aborted during the request", async function() {

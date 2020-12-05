@@ -28,6 +28,8 @@ export interface CosmosClientOptions {
    * Allows users to generating their own auth tokens, potentially using a separate service
    */
   tokenProvider?: TokenProvider;
+  /** AAD token from @azure/identity */
+  aadToken?: string;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
