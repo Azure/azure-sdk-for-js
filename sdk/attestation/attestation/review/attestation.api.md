@@ -32,7 +32,7 @@ export type AttestationAttestTpmResponse = TpmAttestationResponse & {
 
 // @public
 export interface AttestationCertificateManagementBody {
-    policyCertificate?: JsonWebKey_2;
+    policyCertificate?: JsonWebKey;
 }
 
 // @public (undocumented)
@@ -89,7 +89,7 @@ export interface AttestationResult {
     deprecatedMrEnclave?: string;
     deprecatedMrSigner?: string;
     deprecatedPolicyHash?: Uint8Array;
-    deprecatedPolicySigner?: JsonWebKey_2;
+    deprecatedPolicySigner?: JsonWebKey;
     deprecatedProductId?: number;
     deprecatedRpData?: string;
     deprecatedSgxCollateral?: any;
@@ -109,7 +109,7 @@ export interface AttestationResult {
     nonce?: string;
     policyClaims?: any;
     policyHash?: Uint8Array;
-    policySigner?: JsonWebKey_2;
+    policySigner?: JsonWebKey;
     productId?: number;
     runtimeClaims?: any;
     sgxCollateral?: any;
@@ -161,7 +161,7 @@ export interface InitTimeData {
 }
 
 // @public (undocumented)
-interface JsonWebKey_2 {
+export interface JsonWebKey {
     alg: string;
     crv?: string;
     d?: string;
@@ -181,11 +181,9 @@ interface JsonWebKey_2 {
     y?: string;
 }
 
-export { JsonWebKey_2 as JsonWebKey }
-
 // @public (undocumented)
 export interface JsonWebKeySet {
-    keys?: JsonWebKey_2[];
+    keys?: JsonWebKey[];
 }
 
 // @public
@@ -295,7 +293,7 @@ export interface PolicyResponse {
 export interface PolicyResult {
     policy?: string;
     policyResolution?: PolicyModification;
-    policySigner?: JsonWebKey_2;
+    policySigner?: JsonWebKey;
     policyTokenHash?: Uint8Array;
 }
 
